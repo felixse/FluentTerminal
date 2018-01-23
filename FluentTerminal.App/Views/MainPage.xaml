@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="FluentTerminal.App.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    RequestedTheme="Dark"
+    mc:Ignorable="d">
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            Height="{Binding CoreTitleBarHeight, Mode=OneWay}"
+            Canvas.ZIndex="3">
+            <Rectangle x:Name="TitleBar" Fill="Transparent" />
+            <Grid Padding="{Binding CoreTitleBarPadding, Mode=OneWay}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Canvas.ZIndex="9"
+                        Style="{StaticResource WindowTitleTextBlockStyle}"
+                        Text="Fluent Terminal" />
+                    <!--<Button
+                        Grid.Column="2"
+                        Click="OnSettingsButtonClick"
+                        Style="{StaticResource TitleBarButtonStyle}">
+                        <Viewbox Width="16" Height="16">
+                            <SymbolIcon Symbol="Setting" />
+                        </Viewbox>
+                    </Button>-->
+                </Grid>
+            </Grid>
+        </Grid>
+        <Frame x:Name="RootFrame" Grid.Row="1" />
+    </Grid>
+</Page>

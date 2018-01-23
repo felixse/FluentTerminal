@@ -1,0 +1,31 @@
+<!--
+    Diese Datei enthält von .NET Native verwendete Laufzeitdirektiven. Die hier gezeigten Standardwerte sind für die meisten
+    Entwickler geeignet. Sie können diese Parameter aber ändern, um das Verhalten des .NET Native-
+    Optimierers anzupassen.
+
+    Laufzeitdirektiven sind hier dokumentiert: https://go.microsoft.com/fwlink/?LinkID=391919
+
+    Vollständige Aktivierung der Reflektion von "App1.MyClass" und allen zugehörigen öffentlichen/privaten Membern:
+    <Type Name="App1.MyClass" Dynamic="Required All"/>
+
+    Aktivierung der dynamischen Erstellung der spezifischen Instanziierung von "AppClass<T>" über "System.Int32":
+    <TypeInstantiation Name="App1.AppClass" Arguments="System.Int32" Activate="Required Public" />
+
+    Verwendung der Namespacedirektive zum Anwenden der Reflektionsrichtlinie auf alle Typen in einem bestimmten Namespace:
+    <Namespace Name="DataClasses.ViewModels" Serialize="All" />
+-->
+
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
+  <Application>
+    <!--
+      Ein Assemblyelement mit Name="*Application*" gilt für alle Assemblys im
+      Anwendungspaket. Die Sternchen sind keine Platzhalter.
+    -->
+    <Assembly Name="*Application*" Dynamic="Required All" />
+    
+    
+    <!-- Fügen Sie hier Ihre anwendungsspezifischen Laufzeitdirektiven ein. -->
+
+
+  </Application>
+</Directives>

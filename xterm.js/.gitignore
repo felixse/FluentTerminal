@@ -1,0 +1,28 @@
+node_modules/
+*.swp
+.lock-wscript
+lib/
+Makefile.gyp
+*.Makefile
+*.target.gyp.mk
+*.node
+example/*.log
+docs/
+npm-debug.log
+/.idea/
+.env
+build/
+.vscode/
+.DS_Store
+fixtures/typings-test/*.js
+
+# Directories needed for code coverage
+/coverage/
+
+# Keep legacy files out of the repo, this can be removed when we merge v3 into master
+dist/
+src/utils/TestUtils.ts
+src/xterm.js
+
+# Keep the demo builds out of Git
+demo/dist/

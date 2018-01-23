@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{41020100-3414-4E0A-9A8E-92D3C4179DF8}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentTerminal.App</RootNamespace>
+    <AssemblyName>FluentTerminal.App</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <PackageCertificateKeyFile>FluentTerminal.App_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>8FA8EF727E767FAE5409DDD1694C1CEE054A2962</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TerminalPage.xaml.cs">
+      <DependentUpon>TerminalPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="FluentTerminal.App_StoreKey.pfx" />
+    <None Include="FluentTerminal.App_TemporaryKey.pfx" />
+    <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-200.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-400.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-100.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-125.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-100.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-125.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-150.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-200.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-100.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-125.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-150.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-200.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Win32\Client\bundle.js" />
+    <Content Include="Win32\Client\index.html" />
+    <Content Include="Win32\Client\style.css" />
+    <Content Include="Win32\Client\xterm.css" />
+    <Content Include="Win32\CommonServiceLocator.dll" />
+    <Content Include="Win32\CommonServiceLocator.pdb" />
+    <Content Include="Win32\Fleck.dll" />
+    <Content Include="Win32\FluentTerminal.SystemTray.exe" />
+    <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
+    <Content Include="Win32\Microsoft.Owin.dll" />
+    <Content Include="Win32\Microsoft.Owin.FileSystems.dll" />
+    <Content Include="Win32\Microsoft.Owin.Host.HttpListener.dll" />
+    <Content Include="Win32\Microsoft.Owin.Hosting.dll" />
+    <Content Include="Win32\Microsoft.Owin.StaticFiles.dll" />
+    <Content Include="Win32\Newtonsoft.Json.dll" />
+    <Content Include="Win32\Owin.dll" />
+    <Content Include="Win32\System.Net.Http.Formatting.dll" />
+    <Content Include="Win32\System.Web.Http.dll" />
+    <Content Include="Win32\System.Web.Http.Owin.dll" />
+    <Content Include="Win32\Unity.Abstractions.dll" />
+    <Content Include="Win32\Unity.Abstractions.pdb" />
+    <Content Include="Win32\Unity.Configuration.dll" />
+    <Content Include="Win32\Unity.Configuration.pdb" />
+    <Content Include="Win32\Unity.Container.dll" />
+    <Content Include="Win32\Unity.Container.pdb" />
+    <Content Include="Win32\Unity.Interception.Configuration.dll" />
+    <Content Include="Win32\Unity.Interception.Configuration.pdb" />
+    <Content Include="Win32\Unity.Interception.dll" />
+    <Content Include="Win32\Unity.Interception.pdb" />
+    <Content Include="Win32\Unity.RegistrationByConvention.dll" />
+    <Content Include="Win32\Unity.RegistrationByConvention.pdb" />
+    <Content Include="Win32\Unity.ServiceLocation.dll" />
+    <Content Include="Win32\Unity.ServiceLocation.pdb" />
+    <Content Include="Win32\Unity.WebApi.dll" />
+    <Content Include="Win32\winpty-agent.exe" />
+    <Content Include="Win32\winpty-debugserver.exe" />
+    <Content Include="Win32\winpty.dll" />
+    <Content Include="Win32\winpty.NET.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Custom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TerminalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.6</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.16299.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)\FluentTerminal.App\bin\$(PlatformName)\$(ConfigurationName)\AppX\Win32" 2&gt; NULL
+xcopy /y /s "$(SolutionDir)FluentTerminal.SystemTray\bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)\FluentTerminal.App\bin\$(PlatformName)\$(ConfigurationName)\AppX\Win32"
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
