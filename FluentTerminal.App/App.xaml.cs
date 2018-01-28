@@ -17,18 +17,73 @@ namespace FluentTerminal.App
 {
     sealed partial class App : Application
     {
+        public static BackgroundTaskDeferral AppServiceDeferral = null;
+
+        public static AppServiceConnection Connection = null;
+
+        public static App Instance;
+
+        private int? _settingsWindowId;
+
+        private List<int> _windowIds = new List<int>();
+
         public App()
         {
             InitializeComponent();
             Instance = this;
         }
 
-        public static BackgroundTaskDeferral AppServiceDeferral = null;
-        public static AppServiceConnection Connection = null;
-        public static App Instance;
-        int? _settingsWindowId;
-        int idCreate = 0;
-        List<int> idSaved = new List<int>();
+        public async Task<int> CreateNewWindow(Type pageType, bool ExtendViewIntoTitleBar)
+        {
+            var newView = CoreApplication.CreateNewView();
+            int windowId = 0;
+            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
+                var frame = new Frame();
+                frame.Navigate(pageType, null);
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+
+                windowId = ApplicationView.GetForCurrentView().Id;
+            });
+
+            for (int i = _windowIds.Count - 1; i >= 0; i--)
+                if (await ApplicationViewSwitcher.TryShowAsStandaloneAsync(
+                        windowId, ViewSizePreference.Default,
+                        _windowIds[i], ViewSizePreference.Default)
+                   ) break;
+
+            _windowIds.Add(windowId);
+            return windowId;
+        }
+
+        public async Task ShowNew()
+        {
+            var id = await CreateNewWindow(typeof(MainPage), true);
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
+        }
+
+        public async Task ShowSettings()
+        {
+            if (_settingsWindowId == null)
+            {
+                _settingsWindowId = await CreateNewWindow(typeof(Views.SettingsPage), false);
+            }
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+        }
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails details)
+            {
+                AppServiceDeferral = args.TaskInstance.GetDeferral();
+                args.TaskInstance.Canceled += OnTaskCanceled;
+                Connection = details.AppServiceConnection;
+                Connection.RequestReceived += OnRequestReceived;
+            }
+        }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
@@ -49,7 +104,7 @@ namespace FluentTerminal.App
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                idSaved.Add(ApplicationView.GetForCurrentView().Id);
+                _windowIds.Add(ApplicationView.GetForCurrentView().Id);
             }
             else if (false) //todo: add option to create new windows on launch
             {
@@ -58,17 +113,9 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            // connection established from the fulltrust process
-            base.OnBackgroundActivated(args);
-            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails details)
-            {
-                AppServiceDeferral = args.TaskInstance.GetDeferral();
-                args.TaskInstance.Canceled += OnTaskCanceled;
-                Connection = details.AppServiceConnection;
-                Connection.RequestReceived += OnRequestReceived;
-            }
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
@@ -85,50 +132,6 @@ namespace FluentTerminal.App
             {
                 AppServiceDeferral.Complete();
             }
-        }
-
-        public async Task<int> CreateNewWindow(Type pageType, bool ExtendViewIntoTitleBar)
-        {
-            var create = CoreApplication.CreateNewView();
-            await create.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
-                var frame = new Frame();
-                frame.Navigate(pageType, null);
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-
-                idCreate = ApplicationView.GetForCurrentView().Id;
-            });
-
-            for (int i = idSaved.Count - 1; i >= 0; i--)
-                if (await ApplicationViewSwitcher.TryShowAsStandaloneAsync(
-                        idCreate, ViewSizePreference.Default,
-                        idSaved[i], ViewSizePreference.Default)
-                   ) break;
-
-            idSaved.Add(idCreate);
-            return idCreate;
-        }
-
-        public async Task ShowNew()
-        {
-            var id = await CreateNewWindow(typeof(MainPage), true);
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
-        }
-
-        public async Task ShowSettings()
-        {
-            if (_settingsWindowId == null)
-            {
-                _settingsWindowId = await CreateNewWindow(typeof(Views.SettingsPage), false);
-            }
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
-        }
-
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
     }
 }
