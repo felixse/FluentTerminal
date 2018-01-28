@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.SystemTray.DataTransferObjects;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -18,6 +19,18 @@ namespace FluentTerminal.SystemTray.Services
             terminal.ConnectionClosed += OnTerminalConnectionClosed;
             _terminals.Add(terminal.Id, terminal);
             return terminal.WebSocketUrl;
+        }
+
+        public void ResizeTerminal(int id, int cols, int rows)
+        {
+            if (_terminals.TryGetValue(id, out Terminal terminal))
+            {
+                terminal.Resize(cols, rows);
+            }
+            else
+            {
+                Debug.WriteLine($"ResizeTerminal: terminal with id '{id}' was not found");
+            }
         }
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)

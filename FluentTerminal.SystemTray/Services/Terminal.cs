@@ -102,6 +102,23 @@ namespace FluentTerminal.SystemTray.Services
             ListenToStdOut();
         }
 
+        public void Resize(int cols, int rows)
+        {
+            var errorHandle = IntPtr.Zero;
+            try
+            {
+                winpty_set_size(_handle, cols, rows, out errorHandle);
+                if (errorHandle != IntPtr.Zero)
+                {
+                    throw new Exception(winpty_error_code(errorHandle).ToString());
+                }
+            }
+            finally
+            {
+                winpty_error_free(errorHandle);
+            }
+        }
+
         private Stream CreatePipe(string pipeName, PipeDirection direction)
         {
             string serverName = ".";

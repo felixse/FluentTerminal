@@ -30,9 +30,10 @@ function createTerminal() {
     if (!socketURL) {
       return;
     }
+    var id = socketURL.split(':')[2];
     var cols = size.cols,
         rows = size.rows,
-        url = 'http://localhost:9000/terminals/' + pid + '/size?cols=' + cols + '&rows=' + rows;
+        url = 'http://localhost:9000/terminals/' + id + '/size?cols=' + cols + '&rows=' + rows;
     fetch(url, {method: 'POST'});
   });
   protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
@@ -41,6 +42,12 @@ function createTerminal() {
   term.winptyCompatInit();
   term.fit();
   term.focus();
+
+  var resizeTimeout;
+  window.onresize = function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(term.fit(), 100);
+  }
 
   fetch('http://localhost:9000/terminals?cols=' + term.cols + '&rows=' + term.rows, {method: 'POST'}).then(function (res) {
       console.log("got response");

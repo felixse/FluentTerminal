@@ -17,8 +17,18 @@ namespace FluentTerminal.SystemTray.Controllers
         }
 
         [HttpPost]
+        [Route("terminals/{id}/size")]
+        public void Resize(int id)
+        {
+            var cols = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "cols").Value);
+            var rows = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "rows").Value);
+
+            _terminalsManager.ResizeTerminal(id, cols, rows);
+        }
+
+        [HttpPost]
         [Route("terminals")]
-        public string Post()
+        public string Create()
         {
             var cols = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "cols").Value);
             var rows = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "rows").Value);

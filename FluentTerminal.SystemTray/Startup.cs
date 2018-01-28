@@ -2,6 +2,7 @@
 using Owin;
 using System.Web.Http;
 using Unity;
+using Unity.Lifetime;
 
 namespace FluentTerminal.SystemTray
 {
@@ -13,11 +14,10 @@ namespace FluentTerminal.SystemTray
             config.MapHttpAttributeRoutes();
 
             var container = new UnityContainer();
-            container.RegisterType<TerminalsManager>();
+            container.RegisterType<TerminalsManager>(new ContainerControlledLifetimeManager());
 
             config.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
-            //appBuilder.UseFileServer()
             appBuilder.UseStaticFiles("/Client");
             appBuilder.UseWebApi(config);
         }
