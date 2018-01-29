@@ -86,36 +86,29 @@ __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPO
 __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_2__xterm_js_build_addons_fit_fit__);
 __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_3__xterm_js_build_addons_winptyCompat_winptyCompat__);
 
-var term, protocol, socketURL, socket;
+var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-createTerminal();
-
-function createTerminal() {
+function start() {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
+
   term = new __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__({
     cursorBlink: true,
     fontFamily: 'consolas',
     fontSize: 13,
     allowTransparency: true,
     theme: {
-      background: "transparent" 
+      background: "transparent"
     }
   });
-  window.term = term;  // Expose `term` to window for debugging purposes
+
+  window.term = term;
+
   term.on('resize', function (size) {
-    if (!socketURL) {
-      return;
-    }
-    var id = socketURL.split(':')[2];
-    var cols = size.cols,
-        rows = size.rows,
-        url = 'http://localhost:9000/terminals/' + id + '/size?cols=' + cols + '&rows=' + rows;
-    fetch(url, {method: 'POST'});
+    terminalBridge.notifySizeChanged(term.cols, term.rows);
   });
-  protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 
   term.open(terminalContainer);
   term.winptyCompatInit();
@@ -123,25 +116,34 @@ function createTerminal() {
   term.focus();
 
   var resizeTimeout;
-  window.onresize = function() {
+  window.onresize = function () {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(term.fit(), 100);
   }
 
-  fetch('http://localhost:9000/terminals?cols=' + term.cols + '&rows=' + term.rows, {method: 'POST'}).then(function (res) {
-      console.log("got response");
-      res.text().then(function (url) {
-        socketURL = JSON.parse(url);
-        socket = new WebSocket(socketURL);
-        socket.onopen = runRealTerminal;
-      });
-    });
+  return JSON.stringify({
+    rows: term.rows,
+    columns: term.cols
+  });
 }
 
 function runRealTerminal() {
   term.attach(socket);
   term._initialized = true;
 }
+
+function createTerminal(configuration) {
+  return start();
+}
+
+function connectToWebSocket(url) {
+  url = JSON.parse(url);
+  socket = new WebSocket(url);
+  socket.onopen = runRealTerminal;
+}
+
+window.createTerminal = createTerminal;
+window.connectToWebSocket = connectToWebSocket;
 
 
 /***/ }),

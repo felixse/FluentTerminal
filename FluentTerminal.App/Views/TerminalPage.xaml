@@ -5,5 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid x:Name="WebViewContainer" Margin="12" />
+    <Grid>
+        <Grid x:Name="WebViewContainer" Margin="12" />
+        <Grid
+            Margin="12"
+            Padding="6"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}">
+            <TextBlock Foreground="White" Text="130 x 23" />
+        </Grid>
+    </Grid>
 </Page>
