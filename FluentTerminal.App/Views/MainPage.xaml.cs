@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using FluentTerminal.App.ViewModels;
+using System.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
@@ -31,8 +32,11 @@ namespace FluentTerminal.App.Views
             }
         }
 
+        public MainViewModel ViewModel { get; }
+
         public MainPage()
         {
+            ViewModel = new MainViewModel(); // todo, call resolve method on app singleton here
             InitializeComponent();
             Root.DataContext = this;
             SetTitleBarColors();
@@ -44,7 +48,7 @@ namespace FluentTerminal.App.Views
 
         private async void OnWindowActivated(object sender, WindowActivatedEventArgs e)
         {
-            if (e.WindowActivationState != CoreWindowActivationState.Deactivated && RootFrame.Content is TerminalPage terminal)
+            if (e.WindowActivationState != CoreWindowActivationState.Deactivated && TerminalContainer.Content is TerminalView terminal)
             {
                 await terminal.FocusWebView();
             }
@@ -59,7 +63,6 @@ namespace FluentTerminal.App.Views
         {
             coreTitleBar.LayoutMetricsChanged += OnLayoutMetricsChanged;
             UpdateLayoutMetrics();
-            RootFrame.Navigate(typeof(TerminalPage));
         }
 
         private void OnLayoutMetricsChanged(CoreApplicationViewTitleBar sender, object e)

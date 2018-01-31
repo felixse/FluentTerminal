@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Models;
 using FluentTerminal.App.Views;
+using GalaSoft.MvvmLight;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -7,12 +8,20 @@ using Windows.Web.Http;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class TerminalViewModel
+    public class TerminalViewModel : ViewModelBase
     {
         private static HttpClient _httpClient;
         private ITerminalView _terminalView;
 
+        private string _title;
+
         public int Id { get; private set; }
+
+        public string Title
+        {
+            get => _title;
+            set => Set(ref _title, value);
+        }
 
         static TerminalViewModel()
         {
@@ -36,7 +45,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnTerminalTitleChanged(object sender, string e)
         {
-            
+            Title = e;   
         }
 
         private async void OnTerminalSizeChanged(object sender, TerminalSize e)

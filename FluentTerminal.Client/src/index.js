@@ -31,6 +31,10 @@ function start() {
     terminalBridge.notifySizeChanged(term.cols, term.rows);
   });
 
+  term.on('title', function (title) {
+    terminalBridge.notifyTitleChanged(title);
+  });
+
   term.open(terminalContainer);
   term.winptyCompatInit();
   term.fit();
@@ -39,7 +43,7 @@ function start() {
   var resizeTimeout;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(term.fit(), 100);
+    resizeTimeout = setTimeout(term.fit(), 500);
   }
 
   return JSON.stringify({

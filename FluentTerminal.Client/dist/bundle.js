@@ -110,6 +110,10 @@ function start() {
     terminalBridge.notifySizeChanged(term.cols, term.rows);
   });
 
+  term.on('title', function (title) {
+    terminalBridge.notifyTitleChanged(title);
+  });
+
   term.open(terminalContainer);
   term.winptyCompatInit();
   term.fit();

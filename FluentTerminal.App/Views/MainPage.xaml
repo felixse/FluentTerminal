@@ -2,11 +2,15 @@
     x:Class="FluentTerminal.App.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     RequestedTheme="Dark"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
+    </Page.Resources>
     <Grid x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -28,7 +32,7 @@
                         Grid.Column="0"
                         Canvas.ZIndex="9"
                         Style="{StaticResource WindowTitleTextBlockStyle}"
-                        Text="Fluent Terminal" />
+                        Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
                     <!--<Button
                         Grid.Column="2"
                         Click="OnSettingsButtonClick"
@@ -40,6 +44,11 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Frame x:Name="RootFrame" Grid.Row="1" />
+        <ContentControl
+            x:Name="TerminalContainer"
+            Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
     </Grid>
 </Page>
