@@ -132,7 +132,7 @@ namespace FluentTerminal.App.Views
 
         public void OnTerminalResized(int columns, int rows)
         {
-            TerminalSizeChanged?.Invoke(this, new TerminalSize(columns, rows));
+            _dispatcherJobs.Add(() => TerminalSizeChanged?.Invoke(this, new TerminalSize(columns, rows)));
         }
 
         public void OnTitleChanged(string title)

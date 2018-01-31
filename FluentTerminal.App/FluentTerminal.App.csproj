@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
+    <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Models\TerminalConfiguration.cs" />
     <Compile Include="Models\TerminalSize.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -111,9 +112,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TerminalPage.xaml.cs">
-      <DependentUpon>TerminalPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
@@ -236,10 +234,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TerminalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
