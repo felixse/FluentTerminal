@@ -36,7 +36,7 @@ namespace FluentTerminal.App.Views
 
         public MainPage()
         {
-            ViewModel = new MainViewModel(); // todo, call resolve method on app singleton here
+            ViewModel = App.Instance.Resolve<MainViewModel>();
             InitializeComponent();
             Root.DataContext = this;
             SetTitleBarColors();

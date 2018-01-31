@@ -1,4 +1,6 @@
-﻿using FluentTerminal.App.Views;
+﻿using Autofac;
+using FluentTerminal.App.ViewModels;
+using FluentTerminal.App.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,26 +13,27 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App
 {
     sealed partial class App : Application
     {
         public static BackgroundTaskDeferral AppServiceDeferral = null;
-
         public static AppServiceConnection Connection = null;
-
         public static App Instance;
-
+        private IContainer _container;
         private int? _settingsWindowId;
-
         private List<int> _windowIds = new List<int>();
 
         public App()
         {
             InitializeComponent();
             Instance = this;
+
+            var builder = new ContainerBuilder();
+            builder.RegisterType<MainViewModel>().InstancePerDependency();
+
+            _container = builder.Build();
         }
 
         public async Task<int> CreateNewWindow(Type pageType, bool ExtendViewIntoTitleBar)
@@ -56,6 +59,11 @@ namespace FluentTerminal.App
 
             _windowIds.Add(windowId);
             return windowId;
+        }
+
+        public T Resolve<T>()
+        {
+            return _container.Resolve<T>();
         }
 
         public async Task ShowNew()
@@ -96,7 +104,6 @@ namespace FluentTerminal.App
             if (rootFrame == null)
             {
                 rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
                 Window.Current.Content = rootFrame;
             }
 
@@ -111,11 +118,6 @@ namespace FluentTerminal.App
                 await CreateNewWindow(typeof(MainPage), true);
             }
             Window.Current.Activate();
-        }
-
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
