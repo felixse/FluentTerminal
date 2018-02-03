@@ -38,7 +38,7 @@ namespace FluentTerminal.SystemTray.Services
                 }
 
                 string exe = GetShellLocation(request.Configuration);
-                string args = $"{exe} {request.Configuration.Arguments}";
+                string args = $"\"{exe}\" {request.Configuration.Arguments}";
                 string cwd = GetWorkingDirectory(request.Configuration);
                 spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, exe, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
