@@ -69,22 +69,23 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__xterm_js_build_addons_attach_attach__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__xterm_js_build_addons_attach_attach___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__xterm_js_build_addons_attach_attach__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__xterm_js_build_addons_fit_fit__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__xterm_js_build_addons_fit_fit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__xterm_js_build_addons_fit_fit__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__xterm_js_build_addons_winptyCompat_winptyCompat__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__xterm_js_build_addons_winptyCompat_winptyCompat___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__xterm_js_build_addons_winptyCompat_winptyCompat__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_xterm_build_addons_attach_attach__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_xterm_build_addons_attach_attach___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_xterm_build_addons_attach_attach__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_xterm_build_addons_fit_fit__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_xterm_build_addons_fit_fit___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__node_modules_xterm_build_addons_fit_fit__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_xterm_build_addons_winptyCompat_winptyCompat__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_xterm_build_addons_winptyCompat_winptyCompat___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__node_modules_xterm_build_addons_winptyCompat_winptyCompat__);
 
 
 
 
 
-__WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_1__xterm_js_build_addons_attach_attach__);
-__WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_2__xterm_js_build_addons_fit_fit__);
-__WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_3__xterm_js_build_addons_winptyCompat_winptyCompat__);
+
+__WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_1__node_modules_xterm_build_addons_attach_attach__);
+__WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_2__node_modules_xterm_build_addons_fit_fit__);
+__WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__["applyAddon"](__WEBPACK_IMPORTED_MODULE_3__node_modules_xterm_build_addons_winptyCompat_winptyCompat__);
 
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
@@ -94,7 +95,7 @@ function start() {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
 
-  term = new __WEBPACK_IMPORTED_MODULE_0__xterm_js_build_xterm__({
+  term = new __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__({
     cursorBlink: true,
     fontFamily: 'consolas',
     fontSize: 13,
@@ -225,9 +226,6 @@ var Buffer = (function () {
             if (this._terminal.cols < newCols) {
                 var ch = [this._terminal.defAttr, ' ', 1, 32];
                 for (var i = 0; i < this._lines.length; i++) {
-                    if (this._lines.get(i) === undefined) {
-                        this._lines.set(i, this._terminal.blankLine(undefined, undefined, newCols));
-                    }
                     while (this._lines.get(i).length < newCols) {
                         this._lines.get(i).push(ch);
                     }
@@ -414,14 +412,26 @@ var BufferSet = (function (_super) {
         configurable: true
     });
     BufferSet.prototype.activateNormalBuffer = function () {
+        if (this._activeBuffer === this._normal) {
+            return;
+        }
         this._alt.clear();
         this._activeBuffer = this._normal;
-        this.emit('activate', this._normal);
+        this.emit('activate', {
+            activeBuffer: this._normal,
+            inactiveBuffer: this._alt
+        });
     };
     BufferSet.prototype.activateAltBuffer = function () {
+        if (this._activeBuffer === this._alt) {
+            return;
+        }
         this._alt.fillViewportRows();
         this._activeBuffer = this._alt;
-        this.emit('activate', this._alt);
+        this.emit('activate', {
+            activeBuffer: this._alt,
+            inactiveBuffer: this._normal
+        });
     };
     BufferSet.prototype.resize = function (newCols, newRows) {
         this._normal.resize(newCols, newRows);
@@ -855,12 +865,10 @@ var CompositionHelper = (function () {
             setTimeout(function () { return _this.updateCompositionElements(true); }, 0);
         }
     };
-    ;
     CompositionHelper.prototype.clearTextareaPosition = function () {
         this.textarea.style.left = '';
         this.textarea.style.top = '';
     };
-    ;
     return CompositionHelper;
 }());
 exports.CompositionHelper = CompositionHelper;
@@ -907,7 +915,6 @@ var C0;
     C0.SP = '\x20';
     C0.DEL = '\x7f';
 })(C0 = exports.C0 || (exports.C0 = {}));
-;
 
 
 
@@ -988,12 +995,12 @@ var InputHandler = (function () {
     }
     InputHandler.prototype.addChar = function (char, code) {
         if (char >= ' ') {
-            var ch_width = CharWidth_1.wcwidth(code);
+            var chWidth = CharWidth_1.wcwidth(code);
             if (this._terminal.charset && this._terminal.charset[char]) {
                 char = this._terminal.charset[char];
             }
             var row = this._terminal.buffer.y + this._terminal.buffer.ybase;
-            if (!ch_width && this._terminal.buffer.x) {
+            if (!chWidth && this._terminal.buffer.x) {
                 if (this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 1]) {
                     if (!this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 1][Buffer_1.CHAR_DATA_WIDTH_INDEX]) {
                         if (this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 2]) {
@@ -1009,7 +1016,7 @@ var InputHandler = (function () {
                 }
                 return;
             }
-            if (this._terminal.buffer.x + ch_width - 1 >= this._terminal.cols) {
+            if (this._terminal.buffer.x + chWidth - 1 >= this._terminal.cols) {
                 if (this._terminal.wraparoundMode) {
                     this._terminal.buffer.x = 0;
                     this._terminal.buffer.y++;
@@ -1022,13 +1029,13 @@ var InputHandler = (function () {
                     }
                 }
                 else {
-                    if (ch_width === 2)
+                    if (chWidth === 2)
                         return;
                 }
             }
             row = this._terminal.buffer.y + this._terminal.buffer.ybase;
             if (this._terminal.insertMode) {
-                for (var moves = 0; moves < ch_width; ++moves) {
+                for (var moves = 0; moves < chWidth; ++moves) {
                     var removed = this._terminal.buffer.lines.get(this._terminal.buffer.y + this._terminal.buffer.ybase).pop();
                     if (removed[Buffer_1.CHAR_DATA_WIDTH_INDEX] === 0
                         && this._terminal.buffer.lines.get(row)[this._terminal.cols - 2]
@@ -1038,10 +1045,10 @@ var InputHandler = (function () {
                     this._terminal.buffer.lines.get(row).splice(this._terminal.buffer.x, 0, [this._terminal.curAttr, ' ', 1, ' '.charCodeAt(0)]);
                 }
             }
-            this._terminal.buffer.lines.get(row)[this._terminal.buffer.x] = [this._terminal.curAttr, char, ch_width, char.charCodeAt(0)];
+            this._terminal.buffer.lines.get(row)[this._terminal.buffer.x] = [this._terminal.curAttr, char, chWidth, char.charCodeAt(0)];
             this._terminal.buffer.x++;
             this._terminal.updateRange(this._terminal.buffer.y);
-            if (ch_width === 2) {
+            if (chWidth === 2) {
                 this._terminal.buffer.lines.get(row)[this._terminal.buffer.x] = [this._terminal.curAttr, '', 0, undefined];
                 this._terminal.buffer.x++;
             }
@@ -1500,7 +1507,6 @@ var InputHandler = (function () {
                 case 47:
                 case 1047:
                     this._terminal.buffers.activateAltBuffer();
-                    this._terminal.selectionManager.setBuffer(this._terminal.buffer);
                     this._terminal.viewport.syncScrollArea();
                     this._terminal.showCursor();
                     break;
@@ -1580,7 +1586,6 @@ var InputHandler = (function () {
                 case 47:
                 case 1047:
                     this._terminal.buffers.activateNormalBuffer();
-                    this._terminal.selectionManager.setBuffer(this._terminal.buffer);
                     this._terminal.refresh(0, this._terminal.rows - 1);
                     this._terminal.viewport.syncScrollArea();
                     this._terminal.showCursor();
@@ -2526,10 +2531,9 @@ var SelectionMode;
 })(SelectionMode || (SelectionMode = {}));
 var SelectionManager = (function (_super) {
     __extends(SelectionManager, _super);
-    function SelectionManager(_terminal, _buffer, _charMeasure) {
+    function SelectionManager(_terminal, _charMeasure) {
         var _this = _super.call(this) || this;
         _this._terminal = _terminal;
-        _this._buffer = _buffer;
         _this._charMeasure = _charMeasure;
         _this._enabled = true;
         _this._initListeners();
@@ -2538,11 +2542,24 @@ var SelectionManager = (function (_super) {
         _this._activeSelectionMode = SelectionMode.NORMAL;
         return _this;
     }
+    Object.defineProperty(SelectionManager.prototype, "_buffer", {
+        get: function () {
+            return this._terminal.buffers.active;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SelectionManager.prototype._initListeners = function () {
         var _this = this;
         this._mouseMoveListener = function (event) { return _this._onMouseMove(event); };
         this._mouseUpListener = function (event) { return _this._onMouseUp(event); };
-        this._buffer.lines.on('trim', function (amount) { return _this._onTrim(amount); });
+        this._trimListener = function (amount) { return _this._onTrim(amount); };
+        this.initBuffersListeners();
+    };
+    SelectionManager.prototype.initBuffersListeners = function () {
+        var _this = this;
+        this._terminal.buffer.lines.on('trim', this._trimListener);
+        this._terminal.buffers.on('activate', function (e) { return _this._onBufferActivate(e); });
     };
     SelectionManager.prototype.disable = function () {
         this.clearSelection();
@@ -2550,10 +2567,6 @@ var SelectionManager = (function (_super) {
     };
     SelectionManager.prototype.enable = function () {
         this._enabled = true;
-    };
-    SelectionManager.prototype.setBuffer = function (buffer) {
-        this._buffer = buffer;
-        this.clearSelection();
     };
     Object.defineProperty(SelectionManager.prototype, "selectionStart", {
         get: function () { return this._model.finalSelectionStart; },
@@ -2812,6 +2825,11 @@ var SelectionManager = (function (_super) {
         if (this.hasSelection)
             this._terminal.emit('selection');
     };
+    SelectionManager.prototype._onBufferActivate = function (e) {
+        this.clearSelection();
+        e.inactiveBuffer.lines.off('trim', this._trimListener);
+        e.activeBuffer.lines.on('trim', this._trimListener);
+    };
     SelectionManager.prototype._convertViewportColToCharacterIndex = function (bufferLine, coords) {
         var charIndex = coords[0];
         for (var i = 0; coords[0] >= i; i++) {
@@ -3057,7 +3075,7 @@ var DEFAULT_OPTIONS = {
     termName: 'xterm',
     cursorBlink: false,
     cursorStyle: 'block',
-    bellSound: Sounds_1.BellSound,
+    bellSound: Sounds_1.BELL_SOUND,
     bellStyle: 'none',
     enableBold: true,
     fontFamily: 'courier-new, courier, monospace',
@@ -3067,6 +3085,7 @@ var DEFAULT_OPTIONS = {
     scrollback: 1000,
     screenKeys: false,
     debug: false,
+    macOptionIsMeta: false,
     cancelEvents: false,
     disableStdin: false,
     useFlowControl: false,
@@ -3124,7 +3143,7 @@ var Terminal = (function (_super) {
         this.writeInProgress = false;
         this.xoffSentToCatchUp = false;
         this.writeStopped = false;
-        this.surrogate_high = '';
+        this.surrogateHigh = '';
         this.userScrolling = false;
         this.inputHandler = new InputHandler_1.InputHandler(this);
         this.parser = new Parser_1.Parser(this.inputHandler, this);
@@ -3133,14 +3152,18 @@ var Terminal = (function (_super) {
         this.linkifier = this.linkifier || new Linkifier_1.Linkifier(this);
         this._mouseZoneManager = this._mouseZoneManager || null;
         this.buffers = new BufferSet_1.BufferSet(this);
-        this.buffer = this.buffers.active;
-        this.buffers.on('activate', function (buffer) {
-            _this.buffer = buffer;
-        });
         if (this.selectionManager) {
-            this.selectionManager.setBuffer(this.buffer);
+            this.selectionManager.clearSelection();
+            this.selectionManager.initBuffersListeners();
         }
     };
+    Object.defineProperty(Terminal.prototype, "buffer", {
+        get: function () {
+            return this.buffers.active;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Terminal.prototype.eraseAttr = function () {
         return (this.defAttr & ~0x1ff) | (this.curAttr & 0x1ff);
     };
@@ -3256,7 +3279,6 @@ var Terminal = (function (_super) {
         this.showCursor();
         this.emit('focus');
     };
-    ;
     Terminal.prototype.blur = function () {
         return this.textarea.blur();
     };
@@ -3391,7 +3413,7 @@ var Terminal = (function (_super) {
         this.on('focus', function () { return _this.renderer.onFocus(); });
         this.charMeasure.on('charsizechanged', function () { return _this.renderer.onResize(_this.cols, _this.rows, true); });
         this.renderer.on('resize', function (dimensions) { return _this.viewport.syncScrollArea(); });
-        this.selectionManager = new SelectionManager_1.SelectionManager(this, this.buffer, this.charMeasure);
+        this.selectionManager = new SelectionManager_1.SelectionManager(this, this.charMeasure);
         this.element.addEventListener('mousedown', function (e) { return _this.selectionManager.onMouseDown(e); });
         this.selectionManager.on('refresh', function (data) { return _this.renderer.onSelectionChanged(data.start, data.end); });
         this.selectionManager.on('newselection', function (text) {
@@ -3845,7 +3867,7 @@ var Terminal = (function (_super) {
             this.scrollLines(result.scrollLines);
             return this.cancel(ev, true);
         }
-        if (isThirdLevelShift(this.browser, ev)) {
+        if (this._isThirdLevelShift(this.browser, ev)) {
             return true;
         }
         if (result.cancel) {
@@ -3859,6 +3881,14 @@ var Terminal = (function (_super) {
         this.showCursor();
         this.handler(result.key);
         return this.cancel(ev, true);
+    };
+    Terminal.prototype._isThirdLevelShift = function (browser, ev) {
+        var thirdLevelKey = (browser.isMac && !this.options.macOptionIsMeta && ev.altKey && !ev.ctrlKey && !ev.metaKey) ||
+            (browser.isMSWindows && ev.altKey && ev.ctrlKey && !ev.metaKey);
+        if (ev.type === 'keypress') {
+            return thirdLevelKey;
+        }
+        return thirdLevelKey && (!ev.keyCode || ev.keyCode > 47);
     };
     Terminal.prototype._evaluateKeyEscapeSequence = function (ev) {
         var result = {
@@ -4018,6 +4048,9 @@ var Terminal = (function (_super) {
                 if (ev.shiftKey) {
                     result.scrollLines = -(this.rows - 1);
                 }
+                else if (modifiers) {
+                    result.key = EscapeSequences_1.C0.ESC + '[5;' + (modifiers + 1) + '~';
+                }
                 else {
                     result.key = EscapeSequences_1.C0.ESC + '[5~';
                 }
@@ -4025,6 +4058,9 @@ var Terminal = (function (_super) {
             case 34:
                 if (ev.shiftKey) {
                     result.scrollLines = this.rows - 1;
+                }
+                else if (modifiers) {
+                    result.key = EscapeSequences_1.C0.ESC + '[6;' + (modifiers + 1) + '~';
                 }
                 else {
                     result.key = EscapeSequences_1.C0.ESC + '[6~';
@@ -4150,7 +4186,7 @@ var Terminal = (function (_super) {
                         result.key = String.fromCharCode(29);
                     }
                 }
-                else if (!this.browser.isMac && ev.altKey && !ev.ctrlKey && !ev.metaKey) {
+                else if ((!this.browser.isMac || this.options.macOptionIsMeta) && ev.altKey && !ev.ctrlKey && !ev.metaKey) {
                     if (ev.keyCode >= 65 && ev.keyCode <= 90) {
                         result.key = EscapeSequences_1.C0.ESC + String.fromCharCode(ev.keyCode + 32);
                     }
@@ -4198,7 +4234,7 @@ var Terminal = (function (_super) {
         else {
             return false;
         }
-        if (!key || ((ev.altKey || ev.ctrlKey || ev.metaKey) && !isThirdLevelShift(this.browser, ev))) {
+        if (!key || ((ev.altKey || ev.ctrlKey || ev.metaKey) && !this._isThirdLevelShift(this.browser, ev))) {
             return false;
         }
         key = String.fromCharCode(key);
@@ -4382,11 +4418,9 @@ var Terminal = (function (_super) {
         this.options.cols = this.cols;
         var customKeyEventHandler = this.customKeyEventHandler;
         var inputHandler = this.inputHandler;
-        var buffers = this.buffers;
         this.setup();
         this.customKeyEventHandler = customKeyEventHandler;
         this.inputHandler = inputHandler;
-        this.buffers = buffers;
         this.refresh(0, this.rows - 1);
         this.viewport.syncScrollArea();
     };
@@ -4445,14 +4479,6 @@ function off(el, type, handler, capture) {
     if (capture === void 0) { capture = false; }
     el.removeEventListener(type, handler, capture);
 }
-function isThirdLevelShift(browser, ev) {
-    var thirdLevelKey = (browser.isMac && ev.altKey && !ev.ctrlKey && !ev.metaKey) ||
-        (browser.isMSWindows && ev.altKey && ev.ctrlKey && !ev.metaKey);
-    if (ev.type === 'keypress') {
-        return thirdLevelKey;
-    }
-    return thirdLevelKey && (!ev.keyCode || ev.keyCode > 47);
-}
 function wasMondifierKeyOnlyEvent(ev) {
     return ev.keyCode === 16 ||
         ev.keyCode === 17 ||
@@ -4488,7 +4514,6 @@ function matchColorDistance(r1, g1, b1, r2, g2, b2) {
         + Math.pow(59 * (g1 - g2), 2)
         + Math.pow(11 * (b1 - b2), 2);
 }
-;
 function matchColor_(r1, g1, b1) {
     var hash = (r1 << 16) | (g1 << 8) | b1;
     if (matchColorCache[hash] != null) {
@@ -4531,7 +4556,6 @@ var LinkHoverEventTypes;
     LinkHoverEventTypes["TOOLTIP"] = "linktooltip";
     LinkHoverEventTypes["LEAVE"] = "linkleave";
 })(LinkHoverEventTypes = exports.LinkHoverEventTypes || (exports.LinkHoverEventTypes = {}));
-;
 
 
 
@@ -4606,11 +4630,9 @@ var Viewport = (function () {
         this.viewportElement.scrollTop += ev.deltaY * multiplier;
         ev.preventDefault();
     };
-    ;
     Viewport.prototype.onTouchStart = function (ev) {
         this.lastTouchY = ev.touches[0].pageY;
     };
-    ;
     Viewport.prototype.onTouchMove = function (ev) {
         var deltaY = this.lastTouchY - ev.touches[0].pageY;
         this.lastTouchY = ev.touches[0].pageY;
@@ -4620,7 +4642,6 @@ var Viewport = (function () {
         this.viewportElement.scrollTop += deltaY;
         ev.preventDefault();
     };
-    ;
     return Viewport;
 }());
 exports.Viewport = Viewport;
@@ -4829,7 +4850,6 @@ var MouseZoneManager = (function () {
                 return zone;
             }
         }
-        ;
         return null;
     };
     return MouseZoneManager;
@@ -5362,6 +5382,9 @@ var CursorRenderLayer = (function (_super) {
         if (!this._cursorBlinkStateManager || this._cursorBlinkStateManager.isPaused) {
             this._render(terminal, false);
         }
+        else {
+            this._cursorBlinkStateManager.restartBlinkAnimation(terminal);
+        }
     };
     CursorRenderLayer.prototype._render = function (terminal, triggeredByAnimationFrame) {
         if (!terminal.cursorState || terminal.cursorHidden) {
@@ -5694,6 +5717,7 @@ var Renderer = (function (_super) {
         };
         _this._devicePixelRatio = window.devicePixelRatio;
         _this._updateDimensions();
+        _this.onOptionsChanged();
         _this._screenDprMonitor = new ScreenDprMonitor_1.ScreenDprMonitor();
         _this._screenDprMonitor.setListener(function () { return _this.onWindowResize(window.devicePixelRatio); });
         if ('IntersectionObserver' in window) {
@@ -6081,7 +6105,6 @@ var FLAGS;
     FLAGS[FLAGS["INVISIBLE"] = 16] = "INVISIBLE";
     FLAGS[FLAGS["DIM"] = 32] = "DIM";
 })(FLAGS = exports.FLAGS || (exports.FLAGS = {}));
-;
 
 
 
@@ -6342,7 +6365,6 @@ function contains(arr, el) {
     return arr.indexOf(el) >= 0;
 }
 exports.contains = contains;
-;
 
 
 
@@ -6444,7 +6466,7 @@ exports.ScreenDprMonitor = ScreenDprMonitor;
 },{}],34:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BellSound = 'data:audio/wav;base64,UklGRigBAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQBAADpAFgCwAMlBZoG/wdmCcoKRAypDQ8PbRDBEQQTOxRtFYcWlBePGIUZXhoiG88bcBz7HHIdzh0WHlMeZx51HmkeUx4WHs8dah0AHXwc3hs9G4saxRnyGBIYGBcQFv8U4RPAEoYRQBACD70NWwwHC6gJOwjWBloF7gOBAhABkf8b/qv8R/ve+Xf4Ife79W/0JfPZ8Z/wde9N7ijtE+wU6xvqM+lb6H7nw+YX5mrlxuQz5Mzje+Ma49fioeKD4nXiYeJy4pHitOL04j/jn+MN5IPkFOWs5U3mDefM55/ogOl36m7rdOyE7abuyu8D8Unyj/Pg9D/2qfcb+Yn6/vuK/Qj/lAAlAg==';
+exports.BELL_SOUND = 'data:audio/wav;base64,UklGRigBAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQBAADpAFgCwAMlBZoG/wdmCcoKRAypDQ8PbRDBEQQTOxRtFYcWlBePGIUZXhoiG88bcBz7HHIdzh0WHlMeZx51HmkeUx4WHs8dah0AHXwc3hs9G4saxRnyGBIYGBcQFv8U4RPAEoYRQBACD70NWwwHC6gJOwjWBloF7gOBAhABkf8b/qv8R/ve+Xf4Ife79W/0JfPZ8Z/wde9N7ijtE+wU6xvqM+lb6H7nw+YX5mrlxuQz5Mzje+Ma49fioeKD4nXiYeJy4pHitOL04j/jn+MN5IPkFOWs5U3mDefM55/ogOl36m7rdOyE7abuyu8D8Unyj/Pg9D/2qfcb+Yn6/vuK/Qj/lAAlAg==';
 
 
 
@@ -6465,29 +6487,30 @@ module.exports = Terminal_1.Terminal;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var require;var require;(function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.attach = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 function attach(term, socket, bidirectional, buffered) {
-    bidirectional = (typeof bidirectional == 'undefined') ? true : bidirectional;
-    term.socket = socket;
-    term._flushBuffer = function () {
-        term.write(term._attachSocketBuffer);
-        term._attachSocketBuffer = null;
+    var addonTerminal = term;
+    bidirectional = (typeof bidirectional === 'undefined') ? true : bidirectional;
+    addonTerminal.__socket = socket;
+    addonTerminal.__flushBuffer = function () {
+        addonTerminal.write(addonTerminal.__attachSocketBuffer);
+        addonTerminal.__attachSocketBuffer = null;
     };
-    term._pushToBuffer = function (data) {
-        if (term._attachSocketBuffer) {
-            term._attachSocketBuffer += data;
+    addonTerminal.__pushToBuffer = function (data) {
+        if (addonTerminal.__attachSocketBuffer) {
+            addonTerminal.__attachSocketBuffer += data;
         }
         else {
-            term._attachSocketBuffer = data;
-            setTimeout(term._flushBuffer, 10);
+            addonTerminal.__attachSocketBuffer = data;
+            setTimeout(addonTerminal.__flushBuffer, 10);
         }
     };
     var myTextDecoder;
-    term._getMessage = function (ev) {
+    addonTerminal.__getMessage = function (ev) {
         var str;
-        if (typeof ev.data === "object") {
+        if (typeof ev.data === 'object') {
             if (ev.data instanceof ArrayBuffer) {
                 if (!myTextDecoder) {
                     myTextDecoder = new TextDecoder();
@@ -6495,51 +6518,54 @@ function attach(term, socket, bidirectional, buffered) {
                 str = myTextDecoder.decode(ev.data);
             }
             else {
-                throw "TODO: handle Blob?";
+                throw 'TODO: handle Blob?';
             }
         }
         if (buffered) {
-            term._pushToBuffer(str || ev.data);
+            addonTerminal.__pushToBuffer(str || ev.data);
         }
         else {
-            term.write(str || ev.data);
+            addonTerminal.write(str || ev.data);
         }
     };
-    term._sendData = function (data) {
+    addonTerminal.__sendData = function (data) {
         if (socket.readyState !== 1) {
             return;
         }
         socket.send(data);
     };
-    socket.addEventListener('message', term._getMessage);
+    socket.addEventListener('message', addonTerminal.__getMessage);
     if (bidirectional) {
-        term.on('data', term._sendData);
+        addonTerminal.on('data', addonTerminal.__sendData);
     }
-    socket.addEventListener('close', term.detach.bind(term, socket));
-    socket.addEventListener('error', term.detach.bind(term, socket));
+    socket.addEventListener('close', function () { return detach(addonTerminal, socket); });
+    socket.addEventListener('error', function () { return detach(addonTerminal, socket); });
 }
 exports.attach = attach;
-;
 function detach(term, socket) {
-    term.off('data', term._sendData);
-    socket = (typeof socket == 'undefined') ? term.socket : socket;
+    var addonTerminal = term;
+    addonTerminal.off('data', addonTerminal.__sendData);
+    socket = (typeof socket === 'undefined') ? addonTerminal.__socket : socket;
     if (socket) {
-        socket.removeEventListener('message', term._getMessage);
+        socket.removeEventListener('message', addonTerminal.__getMessage);
     }
-    delete term.socket;
+    delete addonTerminal.__socket;
 }
 exports.detach = detach;
-;
 function apply(terminalConstructor) {
     terminalConstructor.prototype.attach = function (socket, bidirectional, buffered) {
-        return attach(this, socket, bidirectional, buffered);
+        attach(this, socket, bidirectional, buffered);
     };
     terminalConstructor.prototype.detach = function (socket) {
-        return detach(this, socket);
+        detach(this, socket);
     };
 }
 exports.apply = apply;
 
+
+
+},{}]},{},[1])(1)
+});
 //# sourceMappingURL=attach.js.map
 
 
@@ -6547,8 +6573,8 @@ exports.apply = apply;
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var require;var require;(function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.fit = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 function proposeGeometry(term) {
     if (!term.element.parentElement) {
@@ -6569,7 +6595,6 @@ function proposeGeometry(term) {
     return geometry;
 }
 exports.proposeGeometry = proposeGeometry;
-;
 function fit(term) {
     var geometry = proposeGeometry(term);
     if (geometry) {
@@ -6580,17 +6605,20 @@ function fit(term) {
     }
 }
 exports.fit = fit;
-;
 function apply(terminalConstructor) {
     terminalConstructor.prototype.proposeGeometry = function () {
         return proposeGeometry(this);
     };
     terminalConstructor.prototype.fit = function () {
-        return fit(this);
+        fit(this);
     };
 }
 exports.apply = apply;
 
+
+
+},{}]},{},[1])(1)
+});
 //# sourceMappingURL=fit.js.map
 
 
@@ -6598,19 +6626,20 @@ exports.apply = apply;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var require;var require;(function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.winptyCompat = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 function winptyCompatInit(terminal) {
+    var addonTerminal = terminal;
     var isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].indexOf(navigator.platform) >= 0;
     if (!isWindows) {
         return;
     }
-    terminal.on('linefeed', function () {
-        var line = terminal.buffer.lines.get(terminal.buffer.ybase + terminal.buffer.y - 1);
-        var lastChar = line[terminal.cols - 1];
+    addonTerminal.on('linefeed', function () {
+        var line = addonTerminal.buffer.lines.get(addonTerminal.buffer.ybase + addonTerminal.buffer.y - 1);
+        var lastChar = line[addonTerminal.cols - 1];
         if (lastChar[3] !== 32) {
-            var nextLine = terminal.buffer.lines.get(terminal.buffer.ybase + terminal.buffer.y);
+            var nextLine = addonTerminal.buffer.lines.get(addonTerminal.buffer.ybase + addonTerminal.buffer.y);
             nextLine.isWrapped = true;
         }
     });
@@ -6623,6 +6652,10 @@ function apply(terminalConstructor) {
 }
 exports.apply = apply;
 
+
+
+},{}]},{},[1])(1)
+});
 //# sourceMappingURL=winptyCompat.js.map
 
 
