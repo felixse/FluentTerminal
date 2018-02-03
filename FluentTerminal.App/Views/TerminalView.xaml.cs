@@ -1,5 +1,5 @@
-﻿using FluentTerminal.App.Models;
-using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
@@ -119,7 +119,7 @@ namespace FluentTerminal.App.Views
             _webView.AddWebAllowedObject("terminalBridge", bridge);
         }
 
-        public async Task<TerminalSize> CreateTerminal(TerminalConfiguration configuration)
+        public async Task<TerminalSize> CreateTerminal()
         {
             var size = await ExecuteScriptAsync($"createTerminal()");
             return JsonConvert.DeserializeObject<TerminalSize>(size);
@@ -132,7 +132,7 @@ namespace FluentTerminal.App.Views
 
         public void OnTerminalResized(int columns, int rows)
         {
-            _dispatcherJobs.Add(() => TerminalSizeChanged?.Invoke(this, new TerminalSize(columns, rows)));
+            _dispatcherJobs.Add(() => TerminalSizeChanged?.Invoke(this, new TerminalSize { Columns = columns, Rows = rows }));
         }
 
         public void OnTitleChanged(string title)

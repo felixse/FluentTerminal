@@ -122,7 +122,7 @@ function start() {
   var resizeTimeout;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(term.fit(), 100);
+    resizeTimeout = setTimeout(term.fit(), 500);
   }
 
   return JSON.stringify({
@@ -141,7 +141,6 @@ function createTerminal(configuration) {
 }
 
 function connectToWebSocket(url) {
-  url = JSON.parse(url);
   socket = new WebSocket(url);
   socket.onopen = runRealTerminal;
 }

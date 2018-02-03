@@ -113,11 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\TerminalsController.cs" />
-    <Compile Include="DataTransferObjects\TerminalOptions.cs" />
     <Compile Include="LoopbackEnabler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Terminal.cs" />
+    <Compile Include="Services\TerminalSession.cs" />
     <Compile Include="Services\TerminalsManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="SystemTrayApplicationContext.cs" />
@@ -186,7 +185,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
+      <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>
+      <Name>FluentTerminal.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(ProjectDir)BinaryDependencies\$(PlatformName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)"

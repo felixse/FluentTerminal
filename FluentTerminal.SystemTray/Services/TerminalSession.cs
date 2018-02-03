@@ -1,5 +1,6 @@
 ﻿using Fleck;
-using FluentTerminal.SystemTray.DataTransferObjects;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -10,23 +11,16 @@ using static winpty.WinPty;
 
 namespace FluentTerminal.SystemTray.Services
 {
-    public class Terminal : IDisposable
+    public class TerminalSession : IDisposable
     {
+        private ManualResetEventSlim _connectedEvent;
+        private bool _disposedValue;
         private IntPtr _handle;
         private Stream _stdin;
         private Stream _stdout;
-        private bool _disposedValue;
-        private ManualResetEventSlim _connectedEvent;
-
         private IWebSocketConnection _webSocket;
 
-        public int Id { get; }
-
-        public string WebSocketUrl { get; }
-
-        public event EventHandler ConnectionClosed;
-
-        public Terminal(TerminalOptions options)
+        public TerminalSession(CreateTerminalRequest request)
         {
             var configHandle = IntPtr.Zero;
             var spawnConfigHandle = IntPtr.Zero;
@@ -35,21 +29,21 @@ namespace FluentTerminal.SystemTray.Services
             try
             {
                 configHandle = winpty_config_new(WINPTY_FLAG_COLOR_ESCAPES, out errorHandle);
-                winpty_config_set_initial_size(configHandle, options.Columns, options.Rows);
+                winpty_config_set_initial_size(configHandle, request.Size.Columns, request.Size.Rows);
 
                 _handle = winpty_open(configHandle, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_code(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle).ToString());
                 }
 
-                string exe = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe";
-                string args = "";
-                string cwd = @"C:\";
+                string exe = GetShellLocation(request.Configuration);
+                string args = $"\"{request.Configuration.Arguments}\"";
+                string cwd = GetWorkingDirectory(request.Configuration);
                 spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, exe, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_code(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle).ToString());
                 }
 
                 _stdin = CreatePipe(winpty_conin_name(_handle), PipeDirection.Out);
@@ -57,7 +51,7 @@ namespace FluentTerminal.SystemTray.Services
 
                 if (!winpty_spawn(_handle, spawnConfigHandle, out IntPtr process, out IntPtr thread, out int procError, out errorHandle))
                 {
-                    throw new Exception(winpty_error_code(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle).ToString());
                 }
             }
             finally
@@ -101,20 +95,76 @@ namespace FluentTerminal.SystemTray.Services
             ListenToStdOut();
         }
 
-        public void Resize(int cols, int rows)
+        ~TerminalSession()
+        {
+            Dispose(false);
+        }
+
+        private string GetShellLocation(ShellConfiguration configuration)
+        {
+            switch (configuration.Shell)
+            {
+                case ShellType.CMD:
+                    return @"C:\Windows\System32\cmd.exe";
+                case ShellType.PowerShell:
+                    return @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe";
+                case ShellType.Custom:
+                    return configuration.CustomShellLocation;
+                default:
+                    return null;
+            }
+        }
+
+        private string GetWorkingDirectory(ShellConfiguration configuration)
+        {
+            if (string.IsNullOrWhiteSpace(configuration.WorkingDirectory) || !Directory.Exists(configuration.WorkingDirectory))
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            }
+            return configuration.WorkingDirectory;
+        }
+
+        public event EventHandler ConnectionClosed;
+
+        public int Id { get; }
+        public string WebSocketUrl { get; }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Resize(TerminalSize size)
         {
             var errorHandle = IntPtr.Zero;
             try
             {
-                winpty_set_size(_handle, cols, rows, out errorHandle);
+                winpty_set_size(_handle, size.Columns, size.Rows, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_code(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle).ToString());
                 }
             }
             finally
             {
                 winpty_error_free(errorHandle);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _stdin?.Dispose();
+                    _stdout?.Dispose();
+                }
+
+                winpty_free(_handle);
+
+                _disposedValue = true;
             }
         }
 
@@ -158,33 +208,6 @@ namespace FluentTerminal.SystemTray.Services
                 }
                 while (!reader.EndOfStream);
             });
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    _stdin?.Dispose();
-                    _stdout?.Dispose();
-                }
-
-                winpty_free(_handle);
-
-                _disposedValue = true;
-            }
-        }
-
-        ~Terminal()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

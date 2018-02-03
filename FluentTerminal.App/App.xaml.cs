@@ -1,8 +1,9 @@
 ﻿using Autofac;
+using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -21,9 +22,10 @@ namespace FluentTerminal.App
         public static BackgroundTaskDeferral AppServiceDeferral = null;
         public static AppServiceConnection Connection = null;
         public static App Instance;
+        private bool _alreadyLaunched;
         private IContainer _container;
+        private int _openTerminalWindows;
         private int? _settingsWindowId;
-        private List<int> _windowIds = new List<int>();
 
         public App()
         {
@@ -31,54 +33,68 @@ namespace FluentTerminal.App
             Instance = this;
 
             var builder = new ContainerBuilder();
+            builder.RegisterType<SettingsService>().As<ISettingsService>().InstancePerDependency();
+            builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
+            builder.RegisterType<TerminalService>().As<ITerminalService>().SingleInstance();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
+            builder.RegisterType<SettingsViewModel>().InstancePerDependency();
 
             _container = builder.Build();
         }
 
-        public async Task<int> CreateNewWindow(Type pageType, bool ExtendViewIntoTitleBar)
+        public async Task CreateNewTerminalWindow()
         {
-            var newView = CoreApplication.CreateNewView();
-            int windowId = 0;
-            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
-                var frame = new Frame();
-                frame.Navigate(pageType, null);
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-
-                windowId = ApplicationView.GetForCurrentView().Id;
-            });
-
-            for (int i = _windowIds.Count - 1; i >= 0; i--)
-                if (await ApplicationViewSwitcher.TryShowAsStandaloneAsync(
-                        windowId, ViewSizePreference.Default,
-                        _windowIds[i], ViewSizePreference.Default)
-                   ) break;
-
-            _windowIds.Add(windowId);
-            return windowId;
+            var id = await CreateSecondaryView(typeof(MainPage), true);
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
-        public T Resolve<T>()
+        public void SettingsWindowClosed()
         {
-            return _container.Resolve<T>();
-        }
-
-        public async Task ShowNew()
-        {
-            var id = await CreateNewWindow(typeof(MainPage), true);
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
+            _settingsWindowId = null;
         }
 
         public async Task ShowSettings()
         {
             if (_settingsWindowId == null)
             {
-                _settingsWindowId = await CreateNewWindow(typeof(Views.SettingsPage), false);
+                _settingsWindowId = await CreateSecondaryView(typeof(SettingsPage), true);
             }
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+        }
+
+        public void TerminalWindowClosed()
+        {
+            _openTerminalWindows--;
+        }
+
+        protected override async void OnActivated(IActivatedEventArgs args)
+        {
+            if (args is CommandLineActivatedEventArgs commandLineActivated)
+            {
+                var argument = commandLineActivated.Operation.Arguments.Trim();
+                if (_alreadyLaunched)
+                {
+                    if (argument == "settings")
+                    {
+                        await ShowSettings();
+                    }
+                    else if (argument == "new")
+                    {
+                        await CreateNewTerminalWindow();
+                    }
+                }
+                else
+                {
+                    if (argument == "settings")
+                    {
+                        CreateMainView(typeof(SettingsPage), true);
+                    }
+                    else if (argument == "new")
+                    {
+                        CreateMainView(typeof(MainPage), true);
+                    }
+                }
+            }
         }
 
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -97,9 +113,21 @@ namespace FluentTerminal.App
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
             var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-
             await Task.WhenAll(launch, clearCache);
 
+            if (!_alreadyLaunched)
+            {
+                CreateMainView(typeof(MainPage), true);
+                Window.Current.Activate();
+            }
+            else if (_openTerminalWindows == 0)
+            {
+                await CreateSecondaryView(typeof(MainPage), true);
+            }
+        }
+
+        private void CreateMainView(Type pageType, bool extendViewIntoTitleBar)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
             {
@@ -109,15 +137,51 @@ namespace FluentTerminal.App
 
             if (rootFrame.Content == null)
             {
-                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                _windowIds.Add(ApplicationView.GetForCurrentView().Id);
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = extendViewIntoTitleBar;
+                rootFrame.Navigate(pageType, GetViewModelForPageType(pageType));
+
+                if (pageType == typeof(MainPage))
+                {
+                    _openTerminalWindows++;
+                }
             }
-            else if (false) //todo: add option to create new windows on launch
-            {
-                await CreateNewWindow(typeof(MainPage), true);
-            }
+            _alreadyLaunched = true;
             Window.Current.Activate();
+        }
+
+        private async Task<int> CreateSecondaryView(Type pageType, bool ExtendViewIntoTitleBar)
+        {
+            int windowId = 0;
+            await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
+                var frame = new Frame();
+                frame.Navigate(pageType, GetViewModelForPageType(pageType));
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+
+                windowId = ApplicationView.GetForCurrentView().Id;
+            });
+
+            if (pageType == typeof(MainPage))
+            {
+                _openTerminalWindows++;
+            }
+
+            return windowId;
+        }
+
+        private object GetViewModelForPageType(Type pageType)
+        {
+            if (pageType == typeof(MainPage))
+            {
+                return _container.Resolve<MainViewModel>();
+            }
+            else if (pageType == typeof(SettingsPage))
+            {
+                return _container.Resolve<SettingsViewModel>();
+            }
+            throw new Exception("No ViewModel defined for Page: " + pageType.Name);
         }
 
         private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)

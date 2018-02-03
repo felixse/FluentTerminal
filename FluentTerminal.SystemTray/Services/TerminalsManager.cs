@@ -1,4 +1,5 @@
-﻿using FluentTerminal.SystemTray.DataTransferObjects;
+﻿using FluentTerminal.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -6,26 +7,41 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalsManager
     {
-        private Dictionary<int, Terminal> _terminals = new Dictionary<int, Terminal>();
+        private Dictionary<int, TerminalSession> _terminals = new Dictionary<int, TerminalSession>();
 
         public TerminalsManager()
         {
 
         }
 
-        public string CreateTerminal(TerminalOptions options)
+        public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
-            var terminal = new Terminal(options);
+            TerminalSession terminal;
+            try
+            {
+                terminal = new TerminalSession(request);
+            }
+            catch (Exception e)
+            {
+                return new CreateTerminalResponse { Error = e.Message };
+            }
+            
             terminal.ConnectionClosed += OnTerminalConnectionClosed;
             _terminals.Add(terminal.Id, terminal);
-            return terminal.WebSocketUrl;
+
+            return new CreateTerminalResponse
+            {
+                Success = true,
+                Id = terminal.Id,
+                WebSocketUrl = terminal.WebSocketUrl
+            };
         }
 
-        public void ResizeTerminal(int id, int cols, int rows)
+        public void ResizeTerminal(int id, TerminalSize size)
         {
-            if (_terminals.TryGetValue(id, out Terminal terminal))
+            if (_terminals.TryGetValue(id, out TerminalSession terminal))
             {
-                terminal.Resize(cols, rows);
+                terminal.Resize(size);
             }
             else
             {
@@ -35,7 +51,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
         {
-            if (sender is Terminal terminal)
+            if (sender is TerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();

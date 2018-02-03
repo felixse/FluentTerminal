@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +19,9 @@ namespace FluentTerminal.SystemTray
         public SystemTrayApplicationContext()
 
         {
-            var openMenuItem = new MenuItem("Open App", new EventHandler(OpenApp));
+            var openMenuItem = new MenuItem("Open", new EventHandler(OpenApp));
+            var newWindowItem = new MenuItem("New Window", new EventHandler(NewWindow));
+            var settingsMenuItem = new MenuItem("Show Settings", new EventHandler(ShowSettings));
             var exitMenuItem = new MenuItem("Exit", new EventHandler(Exit));
 
             openMenuItem.DefaultItem = true;
@@ -27,7 +30,7 @@ namespace FluentTerminal.SystemTray
             notifyIcon.DoubleClick += OpenApp;
             notifyIcon.Text = "Fluent Terminal";
             notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
-            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, exitMenuItem });
+            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });
             notifyIcon.Visible = true;
         }
 
@@ -37,8 +40,17 @@ namespace FluentTerminal.SystemTray
             await appListEntries.First().LaunchAsync();
         }
 
-        private async void Exit(object sender, EventArgs e)
+        private void ShowSettings(object sender, EventArgs e)
+        {
+            Process.Start("flute.exe", "settings");
+        }
 
+        private void NewWindow(object sender, EventArgs e)
+        {
+            Process.Start("flute.exe", "new");
+        }
+
+        private async void Exit(object sender, EventArgs e)
         {
             var message = new ValueSet
             {

@@ -3,9 +3,11 @@ using System.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App.Views
 {
@@ -32,11 +34,10 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        public MainViewModel ViewModel { get; }
+        public MainViewModel ViewModel { get; private set; }
 
         public MainPage()
         {
-            ViewModel = App.Instance.Resolve<MainViewModel>();
             InitializeComponent();
             Root.DataContext = this;
             SetTitleBarColors();
@@ -44,6 +45,20 @@ namespace FluentTerminal.App.Views
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             Window.Current.Activated += OnWindowActivated;
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is MainViewModel viewModel)
+            {
+                ViewModel = viewModel;
+            }
+        }
+
+        private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        {
+            App.Instance.TerminalWindowClosed();
         }
 
         private async void OnWindowActivated(object sender, WindowActivatedEventArgs e)
@@ -90,11 +105,6 @@ namespace FluentTerminal.App.Views
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarHeight)));
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarPadding)));
             }
-        }
-
-        private async void OnSettingsButtonClick(object sender, RoutedEventArgs e)
-        {
-            await App.Instance.ShowSettings();
         }
     }
 }

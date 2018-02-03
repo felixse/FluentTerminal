@@ -1,8 +1,6 @@
-﻿using FluentTerminal.SystemTray.DataTransferObjects;
+﻿using FluentTerminal.Models;
 using FluentTerminal.SystemTray.Services;
 using System;
-using System.Linq;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace FluentTerminal.SystemTray.Controllers
@@ -17,27 +15,17 @@ namespace FluentTerminal.SystemTray.Controllers
         }
 
         [HttpPost]
-        [Route("terminals/{id}/size")]
-        public void Resize(int id)
+        [Route("terminals/{id}/resize")]
+        public void Resize(int id, [FromBody]TerminalSize size)
         {
-            var cols = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "cols").Value);
-            var rows = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "rows").Value);
-
-            _terminalsManager.ResizeTerminal(id, cols, rows);
+            _terminalsManager.ResizeTerminal(id, size);
         }
 
         [HttpPost]
         [Route("terminals")]
-        public string Create()
+        public CreateTerminalResponse Create([FromBody]CreateTerminalRequest request)
         {
-            var cols = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "cols").Value);
-            var rows = int.Parse(this.Request.GetQueryNameValuePairs().SingleOrDefault(q => q.Key == "rows").Value);
-            var options = new TerminalOptions
-            {
-                Columns = cols,
-                Rows = rows
-            };
-            return _terminalsManager.CreateTerminal(options);
+            return _terminalsManager.CreateTerminal(request);
         }
     }
 }

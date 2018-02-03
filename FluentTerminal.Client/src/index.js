@@ -62,7 +62,6 @@ function createTerminal(configuration) {
 }
 
 function connectToWebSocket(url) {
-  url = JSON.parse(url);
   socket = new WebSocket(url);
   socket.onopen = runRealTerminal;
 }

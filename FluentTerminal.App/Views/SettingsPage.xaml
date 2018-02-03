@@ -2,12 +2,95 @@
     x:Class="FluentTerminal.App.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:FluentTerminal.App.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Settings" />
+    <Page.Resources>
+        <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
+        <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
+    </Page.Resources>
+    <Grid x:Name="Root" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock
+            x:Name="AppTitle"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="False"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            Text="Settings"
+            Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}" />
+        <NavigationView
+            x:Name="NavigationView"
+            Canvas.ZIndex="0"
+            CompactModeThresholdWidth="560"
+            ExpandedModeThresholdWidth="560"
+            IsSettingsVisible="False"
+            Loaded="NavigationView_Loaded"
+            OpenPaneLength="280"
+            SelectionChanged="NavigationView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="General"
+                    Icon="Setting"
+                    Tag="general" />
+                <NavigationViewItem
+                    Content="Key Bindings"
+                    Icon="Setting"
+                    Tag="keyBindings" />
+                <NavigationViewItem
+                    Content="Shell"
+                    Icon="Setting"
+                    Tag="shell" />
+                <NavigationViewItem
+                    Content="Font"
+                    Icon="Setting"
+                    Tag="font" />
+                <NavigationViewItem
+                    Content="Colors"
+                    Icon="Setting"
+                    Tag="colors" />
+            </NavigationView.MenuItems>
+            <NavigationView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Margin="24,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{Binding CoreTitleBarHeight}" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,-2,0,0"
+                            IsHitTestVisible="False"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="Settings"
+                            Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource FalseToVisibleConverter}}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="28"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding SelectedItem.Content, ElementName=NavigationView}" />
+                        <CommandBar
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                            DefaultLabelPosition="Right">
+                            <AppBarButton
+                                Command="{Binding ViewModel.RestoreDefaultsCommand}"
+                                CommandParameter="{Binding SelectedItem.Tag, ElementName=NavigationView}"
+                                Icon="Undo"
+                                Label="Restore Defaults" />
+                        </CommandBar>
+                    </Grid>
+                </DataTemplate>
+            </NavigationView.HeaderTemplate>
+            <Frame x:Name="ContentFrame" Margin="24" />
+        </NavigationView>
     </Grid>
 </Page>

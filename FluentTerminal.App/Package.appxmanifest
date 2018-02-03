@@ -30,6 +30,11 @@
           <uap:AppService Name="FluentTerminalAppService" />
         </uap:Extension>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe" />
+        <uap5:Extension Category="windows.appExecutionAlias" Executable="FluentTerminal.App.exe" EntryPoint="FluentTerminal.App.App">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="flute.exe" />
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
       </Extensions>
     </Application>
   </Applications>

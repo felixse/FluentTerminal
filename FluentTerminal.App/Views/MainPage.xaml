@@ -31,16 +31,17 @@
                     <TextBlock
                         Grid.Column="0"
                         Canvas.ZIndex="9"
+                        IsHitTestVisible="False"
                         Style="{StaticResource WindowTitleTextBlockStyle}"
                         Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
-                    <!--<Button
+                    <Button
                         Grid.Column="2"
-                        Click="OnSettingsButtonClick"
+                        Command="{x:Bind ViewModel.ShowSettingsCommand}"
                         Style="{StaticResource TitleBarButtonStyle}">
                         <Viewbox Width="16" Height="16">
                             <SymbolIcon Symbol="Setting" />
                         </Viewbox>
-                    </Button>-->
+                    </Button>
                 </Grid>
             </Grid>
         </Grid>
