@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-xterm": "cd node_modules\\xterm && npm install && npm run build",
-    "build": "xcopy /y /s node_modules\\xterm\\build\\xterm.css dist\\ && npx webpack --config webpack.config.js"
+    "build": "xcopy /y /s node_modules\\xterm\\build\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
   },
   "author": "FS Apps",
   "license": "GPL-3.0",
