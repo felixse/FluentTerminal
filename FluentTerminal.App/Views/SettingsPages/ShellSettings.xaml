@@ -18,6 +18,7 @@
                 Width="400"
                 Header="Custom Shell Location"
                 IsEnabled="{x:Bind ViewModel.CustomShellIsSelected, Mode=OneWay}"
+                IsSpellCheckEnabled="False"
                 Text="{x:Bind ViewModel.CustomShellLocation, Mode=TwoWay}" />
             <Button
                 Margin="6,0,0,0"
@@ -32,6 +33,7 @@
             <TextBox
                 Width="400"
                 Header="Working Directory"
+                IsSpellCheckEnabled="False"
                 Text="{x:Bind ViewModel.WorkingDirectory, Mode=TwoWay}" />
             <Button
                 Margin="6,0,0,0"
@@ -46,6 +48,7 @@
             Margin="0,24,0,0"
             HorizontalAlignment="Left"
             Header="Arguments"
+            IsSpellCheckEnabled="False"
             Text="{x:Bind ViewModel.Arguments, Mode=TwoWay}" />
 
     </StackPanel>
