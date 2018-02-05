@@ -11,13 +11,14 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
         private TerminalViewModel _selectedTerminal;
+        private const string FallbackTitle = "Fluent Terminal";
         private string _title;
 
         public MainViewModel(ISettingsService settingsService, ITerminalService terminalService)
         {
             _settingsService = settingsService;
             _terminalService = terminalService;
-            Title = "Fluent Terminal";
+            Title = FallbackTitle;
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
@@ -47,7 +48,14 @@ namespace FluentTerminal.App.ViewModels
             {
                 if (e.PropertyName == nameof(TerminalViewModel.Title) && Terminals.Count == 1)
                 {
-                    Title = terminal.Title;
+                    if (string.IsNullOrWhiteSpace(terminal.Title))
+                    {
+                        Title = FallbackTitle;
+                    }
+                    else
+                    {
+                        Title = terminal.Title;
+                    }
                 }
             };
             Terminals.Add(terminal);
