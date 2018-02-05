@@ -19,6 +19,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
         private int _terminalId;
+        private string _startupDirectory;
 
         public int Id { get; private set; }
 
@@ -53,10 +54,11 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _resizeOverlayContent, value);
         }
 
-        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService)
+        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, string startupDirectory)
         {
             _settingsService = settingsService;
             _terminalService = terminalService;
+            _startupDirectory = startupDirectory;
             _resizeOverlayTimer = new DispatcherTimer();
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
@@ -74,6 +76,11 @@ namespace FluentTerminal.App.ViewModels
 
             var size = await _terminalView.CreateTerminal();
             var configuration = _settingsService.GetShellConfiguration();
+
+            if (!string.IsNullOrWhiteSpace(_startupDirectory))
+            {
+                configuration.WorkingDirectory = _startupDirectory;
+            }
 
             var response = await _terminalService.CreateTerminal(size, configuration);
 

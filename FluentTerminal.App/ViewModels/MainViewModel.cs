@@ -19,10 +19,8 @@ namespace FluentTerminal.App.ViewModels
             _terminalService = terminalService;
             Title = "Fluent Terminal";
 
-            AddTerminalCommand = new RelayCommand(AddTerminal);
+            AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
-
-            AddTerminal();
         }
 
         public RelayCommand AddTerminalCommand { get; }
@@ -42,9 +40,9 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _title, value);
         }
 
-        private void AddTerminal()
+        public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(_settingsService, _terminalService);
+            var terminal = new TerminalViewModel(_settingsService, _terminalService, startupDirectory);
             terminal.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(TerminalViewModel.Title) && Terminals.Count == 1)
