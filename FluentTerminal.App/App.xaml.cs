@@ -81,7 +81,7 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                var arguments = commandLineActivated.Operation.Arguments.Split(' ');
+                var arguments = commandLineActivated.Operation.Arguments.Split(' ', 2);
                 var command = arguments[0];
                 var parameter = arguments.Length > 1 ? arguments[1] : string.Empty;
 
