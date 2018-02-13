@@ -6,50 +6,81 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="24,00,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,10,0,0"
+                VerticalAlignment="Center"
+                FontSize="28"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Shell" />
+            <CommandBar
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                DefaultLabelPosition="Right">
+                <AppBarButton
+                    Command="{Binding ViewModel.RestoreDefaultsCommand}"
+                    CommandParameter="shell"
+                    Icon="Undo"
+                    Label="Restore Defaults" />
+            </CommandBar>
+        </Grid>
+        <StackPanel Grid.Row="2" Margin="24,0,0,0">
 
-        <TextBlock Margin="0,0,0,8" Text="Shell Type" />
-        <RadioButton Content="PowerShell" IsChecked="{Binding ViewModel.PoweShellIsSelected, Mode=TwoWay}" />
-        <RadioButton Content="CMD" IsChecked="{Binding ViewModel.CMDIsSelected, Mode=TwoWay}" />
-        <RadioButton Content="Custom" IsChecked="{Binding ViewModel.CustomShellIsSelected, Mode=TwoWay}" />
+            <TextBlock Margin="0,0,0,8" Text="Type" />
+            <RadioButton Content="PowerShell" IsChecked="{Binding ViewModel.PoweShellIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="CMD" IsChecked="{Binding ViewModel.CMDIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Custom" IsChecked="{Binding ViewModel.CustomShellIsSelected, Mode=TwoWay}" />
 
-        <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
+            <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
+                <TextBox
+                    Width="400"
+                    Header="Custom Shell Location"
+                    IsEnabled="{x:Bind ViewModel.CustomShellIsSelected, Mode=OneWay}"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.CustomShellLocation, Mode=TwoWay}" />
+                <Button
+                    Margin="6,0,0,0"
+                    VerticalAlignment="Bottom"
+                    Command="{x:Bind ViewModel.BrowseForCustomShellCommand}"
+                    Content="..."
+                    IsEnabled="{x:Bind ViewModel.CustomShellIsSelected, Mode=OneWay}"
+                    Style="{StaticResource ButtonRevealStyle}" />
+            </StackPanel>
+
+            <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
+                <TextBox
+                    Width="400"
+                    Header="Working Directory"
+                    IsSpellCheckEnabled="False"
+                    Text="{x:Bind ViewModel.WorkingDirectory, Mode=TwoWay}" />
+                <Button
+                    Margin="6,0,0,0"
+                    VerticalAlignment="Bottom"
+                    Command="{x:Bind ViewModel.BrowseForWorkingDirectoryCommand}"
+                    Content="..."
+                    Style="{StaticResource ButtonRevealStyle}" />
+            </StackPanel>
+
             <TextBox
                 Width="400"
-                Header="Custom Shell Location"
-                IsEnabled="{x:Bind ViewModel.CustomShellIsSelected, Mode=OneWay}"
+                Margin="0,24,0,0"
+                HorizontalAlignment="Left"
+                Header="Arguments"
                 IsSpellCheckEnabled="False"
-                Text="{x:Bind ViewModel.CustomShellLocation, Mode=TwoWay}" />
-            <Button
-                Margin="6,0,0,0"
-                VerticalAlignment="Bottom"
-                Command="{x:Bind ViewModel.BrowseForCustomShellCommand}"
-                Content="..."
-                IsEnabled="{x:Bind ViewModel.CustomShellIsSelected, Mode=OneWay}"
-                Style="{StaticResource ButtonRevealStyle}" />
+                Text="{x:Bind ViewModel.Arguments, Mode=TwoWay}" />
+
         </StackPanel>
-
-        <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
-            <TextBox
-                Width="400"
-                Header="Working Directory"
-                IsSpellCheckEnabled="False"
-                Text="{x:Bind ViewModel.WorkingDirectory, Mode=TwoWay}" />
-            <Button
-                Margin="6,0,0,0"
-                VerticalAlignment="Bottom"
-                Command="{x:Bind ViewModel.BrowseForWorkingDirectoryCommand}"
-                Content="..."
-                Style="{StaticResource ButtonRevealStyle}" />
-        </StackPanel>
-
-        <TextBox
-            Width="400"
-            Margin="0,24,0,0"
-            HorizontalAlignment="Left"
-            Header="Arguments"
-            IsSpellCheckEnabled="False"
-            Text="{x:Bind ViewModel.Arguments, Mode=TwoWay}" />
-
-    </StackPanel>
+    </Grid>
 </Page>

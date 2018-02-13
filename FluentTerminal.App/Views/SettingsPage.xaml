@@ -20,12 +20,13 @@
             Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}" />
         <NavigationView
             x:Name="NavigationView"
+            AlwaysShowHeader="False"
             Canvas.ZIndex="0"
             CompactModeThresholdWidth="560"
             ExpandedModeThresholdWidth="560"
             IsSettingsVisible="False"
             Loaded="NavigationView_Loaded"
-            OpenPaneLength="280"
+            OpenPaneLength="200"
             SelectionChanged="NavigationView_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem
@@ -45,9 +46,9 @@
                     Icon="Setting"
                     Tag="font" />
                 <NavigationViewItem
-                    Content="Colors"
+                    Content="Themes"
                     Icon="Setting"
-                    Tag="colors" />
+                    Tag="themes" />
             </NavigationView.MenuItems>
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
@@ -90,7 +91,7 @@
                     </Grid>
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
-            <Frame x:Name="ContentFrame" Margin="24" />
+            <Frame x:Name="ContentFrame" />
         </NavigationView>
     </Grid>
 </Page>

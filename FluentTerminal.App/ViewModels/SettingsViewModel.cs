@@ -4,6 +4,8 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
@@ -15,6 +17,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly IDefaultValueProvider _defaultValueProvider;
         private ShellConfiguration _shellConfiguration;
+        private ThemeViewModel _selectedTheme;
 
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider)
         {
@@ -24,14 +27,93 @@ namespace FluentTerminal.App.ViewModels
             BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell());
             BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory());
             RestoreDefaultsCommand = new RelayCommand<string>(async (area) => await RestoreDefaults(area));
+            CreateThemeCommand = new RelayCommand(CreateTheme);
 
             _shellConfiguration = _settingsService.GetShellConfiguration();
             ShellType = _shellConfiguration.Shell;
+
+            var activeThemeId = _settingsService.GetCurrentThemeId();
+            foreach (var theme in _settingsService.GetThemes())
+            {
+                var viewModel = new ThemeViewModel(theme, _settingsService);
+                viewModel.Activated += OnThemeActivated;
+                viewModel.Deleted += OnThemeDeleted;
+
+                if (theme.Id == activeThemeId)
+                {
+                    viewModel.IsActive = true;
+                }
+                Themes.Add(viewModel);
+            }
+
+            SelectedTheme = Themes.First();
+        }
+
+        private void OnThemeActivated(object sender, EventArgs e)
+        {
+            if (sender is ThemeViewModel activatedTheme)
+            {
+                _settingsService.SaveCurrentThemeId(activatedTheme.Id);
+
+                foreach (var theme in Themes)
+                {
+                    theme.IsActive = theme.Id == activatedTheme.Id;
+                }
+            }
+        }
+
+        private void CreateTheme()
+        {
+            var defaultColors = _settingsService.GetThemeColors(_defaultValueProvider.GetDefaultThemeId());
+            var theme = new TerminalTheme
+            {
+                Id = Guid.NewGuid(),
+                PreInstalled = false,
+                Name = "New Theme",
+                Colors = new TerminalColors(defaultColors)
+            };
+
+            _settingsService.SaveTheme(theme);
+
+            var viewModel = new ThemeViewModel(theme, _settingsService);
+            viewModel.Activated += OnThemeActivated;
+            viewModel.Deleted += OnThemeDeleted;
+            Themes.Add(viewModel);
+            SelectedTheme = viewModel;
+        }
+
+        private void OnThemeDeleted(object sender, EventArgs e)
+        {
+            if (sender is ThemeViewModel theme)
+            {
+                if (SelectedTheme == theme)
+                {
+                    SelectedTheme = Themes.First();
+                }
+                Themes.Remove(theme);
+
+                if (theme.IsActive)
+                {
+                    Themes.First().IsActive = true;
+                    _settingsService.SaveCurrentThemeId(Themes.First().Id);
+                }
+                _settingsService.DeleteTheme(theme.Id);   
+
+            }
         }
 
         public RelayCommand BrowseForCustomShellCommand { get; }
         public RelayCommand BrowseForWorkingDirectoryCommand { get; }
         public RelayCommand<string> RestoreDefaultsCommand { get; }
+        public RelayCommand CreateThemeCommand { get; set; }
+
+        public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
+
+        public ThemeViewModel SelectedTheme
+        {
+            get => _selectedTheme;
+            set => Set(ref _selectedTheme, value);
+        }
 
         public bool CMDIsSelected
         {

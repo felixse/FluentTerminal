@@ -13,12 +13,14 @@ namespace FluentTerminal.App.ViewModels
         private TerminalViewModel _selectedTerminal;
         private const string FallbackTitle = "Fluent Terminal";
         private string _title;
+        private string _background;
 
         public MainViewModel(ISettingsService settingsService, ITerminalService terminalService)
         {
             _settingsService = settingsService;
             _terminalService = terminalService;
             Title = FallbackTitle;
+            Background = _settingsService.GetCurrentThemeColors().Background;
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
@@ -39,6 +41,12 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _title;
             set => Set(ref _title, value);
+        }
+
+        public string Background
+        {
+            get => _background;
+            set => Set(ref _background, value);
         }
 
         public void AddTerminal(string startupDirectory)

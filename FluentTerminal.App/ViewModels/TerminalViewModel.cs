@@ -74,7 +74,9 @@ namespace FluentTerminal.App.ViewModels
         {
             _terminalView = terminalView;
 
-            var size = await _terminalView.CreateTerminal();
+            var theme = _settingsService.GetCurrentThemeColors();
+
+            var size = await _terminalView.CreateTerminal(theme);
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))

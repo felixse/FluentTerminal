@@ -90,19 +90,20 @@ __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__["applyAddon"](__WE
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function start() {
+function createTerminal(theme) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
+
+  theme = JSON.parse(theme);
+  theme.background = 'transparent';
 
   term = new __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_build_xterm__({
     cursorBlink: true,
     fontFamily: 'consolas',
     fontSize: 13,
     allowTransparency: true,
-    theme: {
-      background: "transparent"
-    }
+    theme: theme
   });
 
   window.term = term;
@@ -132,23 +133,18 @@ function start() {
   });
 }
 
-function runRealTerminal() {
+function attachTerminal() {
   term.attach(socket);
   term._initialized = true;
 }
 
-function createTerminal(configuration) {
-  return start();
-}
-
 function connectToWebSocket(url) {
   socket = new WebSocket(url);
-  socket.onopen = runRealTerminal;
+  socket.onopen = attachTerminal;
 }
 
 window.createTerminal = createTerminal;
 window.connectToWebSocket = connectToWebSocket;
-
 
 /***/ }),
 /* 1 */

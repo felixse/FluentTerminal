@@ -1,5 +1,9 @@
-﻿using FluentTerminal.App.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
+using Newtonsoft.Json;
 using Windows.Storage;
 
 namespace FluentTerminal.App.Services.Implementation
@@ -8,6 +12,7 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly IDefaultValueProvider _defaultValueProvider;
         private ApplicationDataContainer _localSettings;
+        private ApplicationDataContainer _themes;
         private ApplicationDataContainer _roamingSettings;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
@@ -15,6 +20,14 @@ namespace FluentTerminal.App.Services.Implementation
             _defaultValueProvider = defaultValueProvider;
             _localSettings = ApplicationData.Current.LocalSettings;
             _roamingSettings = ApplicationData.Current.RoamingSettings;
+
+            _themes = _roamingSettings.CreateContainer("Themes", ApplicationDataCreateDisposition.Always);
+
+            foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
+            {
+                _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+            }
+
             ApplicationData.Current.DataChanged += OnDataChanged;
         }
 
@@ -33,6 +46,46 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.WriteValueAsJson(nameof(ShellConfiguration), spawnConfiguration);
         }
 
-        
+        public TerminalColors GetCurrentThemeColors()
+        {
+            var id = GetCurrentThemeId();
+            return GetThemeColors(id);
+        }
+
+        public Guid GetCurrentThemeId()
+        {
+            if (_roamingSettings.Values.TryGetValue("CurrentTheme", out object value))
+            {
+                return (Guid)value;
+            }
+            return _defaultValueProvider.GetDefaultThemeId();
+        }
+
+        public void SaveCurrentThemeId(Guid id)
+        {
+            _roamingSettings.Values["CurrentTheme"] = id;
+        }
+
+        public void SaveTheme(TerminalTheme theme)
+        {
+            _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+        }
+
+        public void DeleteTheme(Guid id)
+        {
+            _themes.Values.Remove(id.ToString());
+        }
+
+        public IEnumerable<TerminalTheme> GetThemes()
+        {
+            return _themes.Values.Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x.Value)).ToList();
+        }
+
+        public TerminalColors GetThemeColors(Guid id)
+        {
+            var theme = _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
+
+            return theme.Colors;
+        }
     }
 }

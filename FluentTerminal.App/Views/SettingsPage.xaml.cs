@@ -27,7 +27,11 @@ namespace FluentTerminal.App.Views
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
 
+            ApplicationView.PreferredLaunchViewSize = new Windows.Foundation.Size(1024, 768);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
             ApplicationView.GetForCurrentView().Title = "Settings";
+            
 
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
@@ -71,8 +75,8 @@ namespace FluentTerminal.App.Views
                     case "shell":
                         ContentFrame.Navigate(typeof(ShellSettings), ViewModel);
                         break;
-                    case "colors":
-                        ContentFrame.Navigate(typeof(ColorSettings), ViewModel);
+                    case "themes":
+                        ContentFrame.Navigate(typeof(ThemeSettings), ViewModel);
                         break;
                     case "font":
                         ContentFrame.Navigate(typeof(FontSettings), ViewModel);

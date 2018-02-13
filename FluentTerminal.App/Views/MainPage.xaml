@@ -5,13 +5,19 @@
     xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     RequestedTheme="Dark"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
     </Page.Resources>
     <Grid x:Name="Root">
+        <Grid.Background>
+            <AcrylicBrush
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{Binding ViewModel.Background, Mode=OneWay}"
+                TintColor="{Binding ViewModel.Background, Mode=OneWay}"
+                TintOpacity="0.8" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

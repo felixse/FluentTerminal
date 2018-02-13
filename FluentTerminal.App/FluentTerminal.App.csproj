@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
+    <Compile Include="Converters\NegateConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Utilities\ApplicationDataContainerExtensions.cs" />
@@ -109,11 +110,14 @@
     <Compile Include="Services\Implementation\TerminalService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ITerminalService.cs" />
+    <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\HttpJsonContent.cs" />
     <Compile Include="Utilities\IHttpContentExtensions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\TerminalViewModel.cs" />
+    <Compile Include="Views\BindableColorsTitleBar.cs" />
     <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -122,8 +126,8 @@
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\ColorSettings.xaml.cs">
-      <DependentUpon>ColorSettings.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPages\ThemeSettings.xaml.cs">
+      <DependentUpon>ThemeSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\FontSettings.xaml.cs">
       <DependentUpon>FontSettings.xaml</DependentUpon>
@@ -136,6 +140,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\ShellSettings.xaml.cs">
       <DependentUpon>ShellSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TerminalColorPicker.xaml.cs">
+      <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
@@ -352,7 +359,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\ColorSettings.xaml">
+    <Page Include="Views\SettingsPages\ThemeSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,6 +379,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TerminalColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -383,6 +394,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.3.0</Version>

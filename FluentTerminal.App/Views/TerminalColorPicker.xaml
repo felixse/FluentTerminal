@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="FluentTerminal.App.Views.TerminalColorPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="24"
+    d:DesignWidth="24"
+    mc:Ignorable="d">
+    <Button
+        x:Name="Root"
+        IsEnabled="{x:Bind EnableEditing, Mode=OneWay}"
+        Style="{StaticResource ColorPreviewButtonStyle}"
+        ToolTipService.ToolTip="{x:Bind ColorName}">
+        <Button.Background>
+            <SolidColorBrush Color="{x:Bind SelectedColor, Mode=OneWay}" />
+        </Button.Background>
+        <Button.Flyout>
+            <Flyout>
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="{x:Bind ColorName}" />
+                    <ColorPicker
+                        x:Name="colorPicker"
+                        ColorChanged="ColorPicker_ColorChanged"
+                        IsAlphaEnabled="{x:Bind IsAlphaEnabled, Mode=OneWay}"
+                        IsColorChannelTextInputVisible="False" />
+                </StackPanel>
+            </Flyout>
+        </Button.Flyout>
+    </Button>
+</UserControl>

@@ -3,6 +3,7 @@ using FluentTerminal.Models;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -52,7 +53,7 @@ namespace FluentTerminal.App.Views
 
         private void OnCloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
         {
-            _webView.Navigate(new Uri("about:blank"));
+            _webView?.Navigate(new Uri("about:blank"));
             _webView = null;
         }
 
@@ -119,9 +120,12 @@ namespace FluentTerminal.App.Views
             _webView.AddWebAllowedObject("terminalBridge", bridge);
         }
 
-        public async Task<TerminalSize> CreateTerminal()
+        public async Task<TerminalSize> CreateTerminal(TerminalColors theme)
         {
-            var size = await ExecuteScriptAsync($"createTerminal()");
+            var serialized = JsonConvert.SerializeObject(theme, new JsonSerializerSettings {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            var size = await ExecuteScriptAsync($"createTerminal('{serialized}')");
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 

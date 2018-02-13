@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using Windows.Storage;
 
 namespace FluentTerminal.App.Utilities
@@ -9,6 +10,11 @@ namespace FluentTerminal.App.Utilities
         {
             if (container.Values.TryGetValue(name, out object value))
             {
+                if (fallbackValue == null)
+                {
+                    fallbackValue = Activator.CreateInstance<T>();
+                }
+
                 JsonConvert.PopulateObject((string)value, fallbackValue);
             }
             return fallbackValue;
