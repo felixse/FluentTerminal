@@ -15,6 +15,8 @@ namespace FluentTerminal.App.Services.Implementation
         private ApplicationDataContainer _themes;
         private ApplicationDataContainer _roamingSettings;
 
+        public event EventHandler CurrentThemeChanged;
+
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
             _defaultValueProvider = defaultValueProvider;
@@ -64,11 +66,18 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveCurrentThemeId(Guid id)
         {
             _roamingSettings.Values["CurrentTheme"] = id;
+
+            CurrentThemeChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void SaveTheme(TerminalTheme theme)
         {
             _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+
+            if (theme.Id == GetCurrentThemeId())
+            {
+                CurrentThemeChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void DeleteTheme(Guid id)

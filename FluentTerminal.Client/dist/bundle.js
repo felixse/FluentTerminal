@@ -143,8 +143,16 @@ function connectToWebSocket(url) {
   socket.onopen = attachTerminal;
 }
 
+function changeTheme(theme) {
+  theme = JSON.parse(theme);
+  theme.background = 'transparent';
+
+  term.setOption('theme', theme);
+}
+
 window.createTerminal = createTerminal;
 window.connectToWebSocket = connectToWebSocket;
+window.changeTheme = changeTheme;
 
 /***/ }),
 /* 1 */

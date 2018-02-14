@@ -143,5 +143,14 @@ namespace FluentTerminal.App.Views
         {
             _dispatcherJobs.Add(() => TerminalTitleChanged?.Invoke(this, title));
         }
+
+        public Task ChangeTheme(TerminalColors theme)
+        {
+            var serialized = JsonConvert.SerializeObject(theme, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            return ExecuteScriptAsync($"changeTheme('{serialized}')");
+        }
     }
 }

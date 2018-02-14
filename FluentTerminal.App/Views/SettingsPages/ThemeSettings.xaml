@@ -88,7 +88,6 @@
                     Command="{x:Bind ViewModel.SelectedTheme.SaveChangesCommand, Mode=OneWay}"
                     Foreground="White"
                     Icon="Save"
-                    IsEnabled="{x:Bind ViewModel.SelectedTheme.IsActive, Mode=OneWay, Converter={StaticResource NegateConverter}}"
                     Label="Save"
                     Style="{StaticResource ThemeAppBarButtonStyle}" />
                 <AppBarButton

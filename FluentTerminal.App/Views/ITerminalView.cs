@@ -9,6 +9,7 @@ namespace FluentTerminal.App.Views
         event EventHandler<TerminalSize> TerminalSizeChanged;
         event EventHandler<string> TerminalTitleChanged;
 
+        Task ChangeTheme(TerminalColors theme);
         Task<TerminalSize> CreateTerminal(TerminalColors theme);
         Task ConnectToSocket(string url);
     }

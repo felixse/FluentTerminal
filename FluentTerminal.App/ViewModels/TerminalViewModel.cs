@@ -4,6 +4,8 @@ using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
@@ -11,24 +13,38 @@ namespace FluentTerminal.App.ViewModels
 {
     public class TerminalViewModel : ViewModelBase
     {
-        private ITerminalView _terminalView;
-        private string _title;
-        private string _resizeOverlayContent;
-        private bool _showResizeOverlay;
-        private DispatcherTimer _resizeOverlayTimer;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
-        private int _terminalId;
+        private CoreDispatcher _dispatcher;
+        private string _resizeOverlayContent;
+        private DispatcherTimer _resizeOverlayTimer;
+        private bool _showResizeOverlay;
         private string _startupDirectory;
+        private int _terminalId;
+        private ITerminalView _terminalView;
+        private string _title;
+
+        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, string startupDirectory)
+        {
+            _settingsService = settingsService;
+            _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
+            _terminalService = terminalService;
+            _startupDirectory = startupDirectory;
+            _resizeOverlayTimer = new DispatcherTimer();
+            _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
+            _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
+
+            _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
+        }
 
         public int Id { get; private set; }
 
         public bool Initialized { get; private set; }
 
-        public string Title
+        public string ResizeOverlayContent
         {
-            get => _title;
-            set => Set(ref _title, value);
+            get => _resizeOverlayContent;
+            set => Set(ref _resizeOverlayContent, value);
         }
 
         public bool ShowResizeOverlay
@@ -48,26 +64,10 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public string ResizeOverlayContent
+        public string Title
         {
-            get => _resizeOverlayContent;
-            set => Set(ref _resizeOverlayContent, value);
-        }
-
-        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, string startupDirectory)
-        {
-            _settingsService = settingsService;
-            _terminalService = terminalService;
-            _startupDirectory = startupDirectory;
-            _resizeOverlayTimer = new DispatcherTimer();
-            _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
-            _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
-        }
-
-        private void OnResizeOverlayTimerFinished(object sender, object e)
-        {
-            _resizeOverlayTimer.Stop();
-            ShowResizeOverlay = false;
+            get => _title;
+            set => Set(ref _title, value);
         }
 
         public async Task OnViewIsReady(ITerminalView terminalView)
@@ -102,9 +102,19 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private void OnTerminalTitleChanged(object sender, string e)
+        private async void OnCurrentThemeChanged(object sender, EventArgs e)
         {
-            Title = e;   
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                var currentColors = _settingsService.GetCurrentThemeColors();
+                await _terminalView.ChangeTheme(currentColors);
+            });
+        }
+
+        private void OnResizeOverlayTimerFinished(object sender, object e)
+        {
+            _resizeOverlayTimer.Stop();
+            ShowResizeOverlay = false;
         }
 
         private async void OnTerminalSizeChanged(object sender, TerminalSize e)
@@ -116,6 +126,11 @@ namespace FluentTerminal.App.ViewModels
             ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
             ShowResizeOverlay = true;
             await _terminalService.ResizeTerminal(_terminalId, e);
+        }
+
+        private void OnTerminalTitleChanged(object sender, string e)
+        {
+            Title = e;
         }
     }
 }

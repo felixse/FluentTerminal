@@ -6,6 +6,8 @@ namespace FluentTerminal.App.Services
 {
     public interface ISettingsService
     {
+        event EventHandler CurrentThemeChanged;
+
         ShellConfiguration GetShellConfiguration();
         void SaveShellConfiguration(ShellConfiguration spawnConfiguration);
 

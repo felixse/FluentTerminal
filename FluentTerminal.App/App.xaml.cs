@@ -35,7 +35,7 @@ namespace FluentTerminal.App
             Instance = this;
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<SettingsService>().As<ISettingsService>().InstancePerDependency();
+            builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
             builder.RegisterType<TerminalService>().As<ITerminalService>().SingleInstance();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
