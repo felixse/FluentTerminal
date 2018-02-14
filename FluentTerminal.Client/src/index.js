@@ -1,7 +1,7 @@
-import * as Terminal from '../node_modules/xterm/build/xterm';
-import * as attach from '../node_modules/xterm/build/addons/attach/attach';
-import * as fit from '../node_modules/xterm/build/addons/fit/fit';
-import * as winptyCompat from '../node_modules/xterm/build/addons/winptyCompat/winptyCompat';
+import * as Terminal from '../node_modules/xterm/dist/xterm';
+import * as attach from '../node_modules/xterm/dist/addons/attach/attach';
+import * as fit from '../node_modules/xterm/dist/addons/fit/fit';
+import * as winptyCompat from '../node_modules/xterm/dist/addons/winptyCompat/winptyCompat';
 
 
 Terminal.applyAddon(attach);
