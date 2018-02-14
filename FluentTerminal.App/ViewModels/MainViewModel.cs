@@ -14,16 +14,18 @@ namespace FluentTerminal.App.ViewModels
         private const string FallbackTitle = "Fluent Terminal";
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
+        private readonly IDialogService _dialogService;
         private string _background;
         private CoreDispatcher _dispatcher;
         private TerminalViewModel _selectedTerminal;
         private string _title;
 
-        public MainViewModel(ISettingsService settingsService, ITerminalService terminalService)
+        public MainViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _terminalService = terminalService;
+            _dialogService = dialogService;
             Title = FallbackTitle;
             Background = _settingsService.GetCurrentThemeColors().Background;
 
@@ -59,7 +61,7 @@ namespace FluentTerminal.App.ViewModels
 
         public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(_settingsService, _terminalService, startupDirectory);
+            var terminal = new TerminalViewModel(_settingsService, _terminalService, _dialogService, startupDirectory);
             terminal.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(TerminalViewModel.Title) && Terminals.Count == 1)

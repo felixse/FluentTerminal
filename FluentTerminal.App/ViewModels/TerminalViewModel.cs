@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.ViewModels
@@ -15,6 +14,7 @@ namespace FluentTerminal.App.ViewModels
     {
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
+        private readonly IDialogService _dialogService;
         private CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
         private DispatcherTimer _resizeOverlayTimer;
@@ -24,11 +24,12 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
 
-        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, string startupDirectory)
+        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, string startupDirectory)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _terminalService = terminalService;
+            _dialogService = dialogService;
             _startupDirectory = startupDirectory;
             _resizeOverlayTimer = new DispatcherTimer();
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
@@ -97,8 +98,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                var dialog = new MessageDialog(response.Error, "Error");
-                await dialog.ShowAsync();
+                await _dialogService.ShowDialogAsnyc("Error", response.Error, DialogButton.OK);
             }
         }
 

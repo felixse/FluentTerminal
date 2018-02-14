@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -16,14 +15,15 @@ namespace FluentTerminal.App.ViewModels
     {
         private readonly ISettingsService _settingsService;
         private readonly IDefaultValueProvider _defaultValueProvider;
+        private readonly IDialogService _dialogService;
         private ShellConfiguration _shellConfiguration;
         private ThemeViewModel _selectedTheme;
 
-        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider)
+        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService)
         {
             _settingsService = settingsService;
             _defaultValueProvider = defaultValueProvider;
-
+            _dialogService = dialogService;
             BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell());
             BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory());
             RestoreDefaultsCommand = new RelayCommand<string>(async (area) => await RestoreDefaults(area));
@@ -35,7 +35,7 @@ namespace FluentTerminal.App.ViewModels
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
             {
-                var viewModel = new ThemeViewModel(theme, _settingsService);
+                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
                 viewModel.Activated += OnThemeActivated;
                 viewModel.Deleted += OnThemeDeleted;
 
@@ -75,7 +75,7 @@ namespace FluentTerminal.App.ViewModels
 
             _settingsService.SaveTheme(theme);
 
-            var viewModel = new ThemeViewModel(theme, _settingsService);
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
             viewModel.Activated += OnThemeActivated;
             viewModel.Deleted += OnThemeDeleted;
             Themes.Add(viewModel);
@@ -220,13 +220,9 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task RestoreDefaults(string area)
         {
-            var dialog = new MessageDialog("Are you sure you want to restore default values for this page?", "Please confirm");
-            dialog.Commands.Add(new UICommand("OK"));
-            dialog.Commands.Add(new UICommand("Cancel"));
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore default values for this page?", DialogButton.OK, DialogButton.Cancel);
 
-            var result = await dialog.ShowAsync();
-
-            if (result.Label == "OK" && area == "shell")
+            if (result == DialogButton.OK && area == "shell")
             {
                 var defaults = _defaultValueProvider.GetDefaultShellConfiguration();
                 ShellType = defaults.Shell;

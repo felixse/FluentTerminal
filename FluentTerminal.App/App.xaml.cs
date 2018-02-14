@@ -38,6 +38,7 @@ namespace FluentTerminal.App
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
             builder.RegisterType<TerminalService>().As<ITerminalService>().SingleInstance();
+            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
 

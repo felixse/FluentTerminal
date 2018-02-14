@@ -7,13 +7,13 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.UI;
-using Windows.UI.Popups;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class ThemeViewModel : ViewModelBase
     {
         private readonly ISettingsService _settingsService;
+        private readonly IDialogService _dialogService;
         private string _author;
         private Color _background;
         private Color _black;
@@ -44,10 +44,11 @@ namespace FluentTerminal.App.ViewModels
         private Color _white;
         private Color _yellow;
 
-        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService)
+        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService)
         {
             _theme = theme;
             _settingsService = settingsService;
+            _dialogService = dialogService;
             Name = _theme.Name;
             Author = _theme.Author;
             Id = _theme.Id;
@@ -283,13 +284,9 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            var dialog = new MessageDialog("Are you sure you want to discard all changes?", "Please confirm");
-            dialog.Commands.Add(new UICommand("OK"));
-            dialog.Commands.Add(new UICommand("Cancel"));
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel);
 
-            var result = await dialog.ShowAsync();
-
-            if (result.Label == "OK")
+            if (result == DialogButton.OK)
             {
                 Black = _fallBackColors.Black.ToColor();
                 Red = _fallBackColors.Red.ToColor();
@@ -334,13 +331,9 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var dialog = new MessageDialog("Are you sure you want to delete this theme?", "Please confirm");
-            dialog.Commands.Add(new UICommand("OK"));
-            dialog.Commands.Add(new UICommand("Cancel"));
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel);
 
-            var result = await dialog.ShowAsync();
-
-            if (result.Label == "OK")
+            if (result == DialogButton.OK)
             {
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
