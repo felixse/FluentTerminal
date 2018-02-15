@@ -18,6 +18,18 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
+        public TerminalOptions GetDefaultTerminalOptions()
+        {
+            return new TerminalOptions
+            {
+                BellStyle = BellStyle.None,
+                CursorBlink = true,
+                CursorStyle = CursorStyle.Block,
+                FontFamily = "Consolas",
+                FontSize = 13
+            };
+        }
+
         public Guid GetDefaultThemeId()
         {
             return Guid.Parse("281e4352-bb50-47b7-a691-2b13830df95e");

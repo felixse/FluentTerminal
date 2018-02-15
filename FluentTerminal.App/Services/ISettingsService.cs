@@ -7,9 +7,13 @@ namespace FluentTerminal.App.Services
     public interface ISettingsService
     {
         event EventHandler CurrentThemeChanged;
+        event EventHandler TerminalOptionsChanged;
 
         ShellConfiguration GetShellConfiguration();
-        void SaveShellConfiguration(ShellConfiguration spawnConfiguration);
+        void SaveShellConfiguration(ShellConfiguration shellConfiguration);
+
+        TerminalOptions GetTerminalOptions();
+        void SaveTerminalOptions(TerminalOptions terminalOptions);
 
         TerminalColors GetCurrentThemeColors();
         Guid GetCurrentThemeId();

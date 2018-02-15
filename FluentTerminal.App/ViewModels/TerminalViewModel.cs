@@ -28,6 +28,7 @@ namespace FluentTerminal.App.ViewModels
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
+            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
             _startupDirectory = startupDirectory;
@@ -75,9 +76,10 @@ namespace FluentTerminal.App.ViewModels
         {
             _terminalView = terminalView;
 
+            var options = _settingsService.GetTerminalOptions();
             var theme = _settingsService.GetCurrentThemeColors();
 
-            var size = await _terminalView.CreateTerminal(theme);
+            var size = await _terminalView.CreateTerminal(options, theme);
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
@@ -108,6 +110,15 @@ namespace FluentTerminal.App.ViewModels
             {
                 var currentColors = _settingsService.GetCurrentThemeColors();
                 await _terminalView.ChangeTheme(currentColors);
+            });
+        }
+
+        private async void OnTerminalOptionsChanged(object sender, EventArgs e)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                var options = _settingsService.GetTerminalOptions();
+                await _terminalView.ChangeOptions(options);
             });
         }
 

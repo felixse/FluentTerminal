@@ -3,7 +3,9 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Graphics.Canvas.Text;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private ShellConfiguration _shellConfiguration;
+        private TerminalOptions _terminalOptions;
         private ThemeViewModel _selectedTheme;
 
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService)
@@ -30,6 +33,7 @@ namespace FluentTerminal.App.ViewModels
             CreateThemeCommand = new RelayCommand(CreateTheme);
 
             _shellConfiguration = _settingsService.GetShellConfiguration();
+            _terminalOptions = _settingsService.GetTerminalOptions();
             ShellType = _shellConfiguration.Shell;
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
@@ -47,6 +51,10 @@ namespace FluentTerminal.App.ViewModels
             }
 
             SelectedTheme = Themes.First();
+
+            Fonts = CanvasTextFormat.GetSystemFontFamilies().OrderBy(s => s);
+
+            Sizes = Enumerable.Range(1, 72);
         }
 
         private void OnThemeActivated(object sender, EventArgs e)
@@ -109,10 +117,91 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
 
+        public IEnumerable<string> Fonts { get; }
+
+        public IEnumerable<int> Sizes { get; }
+
         public ThemeViewModel SelectedTheme
         {
             get => _selectedTheme;
             set => Set(ref _selectedTheme, value);
+        }
+
+        private CursorStyle CursorStyle
+        {
+            get => _terminalOptions.CursorStyle;
+            set
+            {
+                if (_terminalOptions.CursorStyle != value)
+                {
+                    _terminalOptions.CursorStyle = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(BlockIsSelected));
+                    RaisePropertyChanged(nameof(BarIsSelected));
+                    RaisePropertyChanged(nameof(UnderlineIsSelected));
+                }
+            }
+        }
+
+        public bool CursorBlink
+        {
+            get => _terminalOptions.CursorBlink;
+            set
+            {
+                if (_terminalOptions.CursorBlink != value)
+                {
+                    _terminalOptions.CursorBlink = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public int FontSize
+        {
+            get => _terminalOptions.FontSize;
+            set
+            {
+                if (_terminalOptions.FontSize != value)
+                {
+                    _terminalOptions.FontSize = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public string FontFamily
+        {
+            get => _terminalOptions.FontFamily;
+            set
+            {
+                if (_terminalOptions.FontFamily != value)
+                {
+                    _terminalOptions.FontFamily = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool BlockIsSelected
+        {
+            get => CursorStyle == CursorStyle.Block;
+            set => CursorStyle = CursorStyle.Block;
+        }
+
+        public bool BarIsSelected
+        {
+            get => CursorStyle == CursorStyle.Bar;
+            set => CursorStyle = CursorStyle.Bar;
+        }
+
+        public bool UnderlineIsSelected
+        {
+            get => CursorStyle == CursorStyle.Underline;
+            set => CursorStyle = CursorStyle.Underline;
         }
 
         public bool CMDIsSelected
@@ -229,6 +318,14 @@ namespace FluentTerminal.App.ViewModels
                 CustomShellLocation = defaults.CustomShellLocation;
                 WorkingDirectory = defaults.WorkingDirectory;
                 Arguments = defaults.Arguments;
+            }
+            else if(result == DialogButton.OK && area == "terminal")
+            {
+                var defaults = _defaultValueProvider.GetDefaultTerminalOptions();
+                CursorBlink = defaults.CursorBlink;
+                CursorStyle = defaults.CursorStyle;
+                FontFamily = defaults.FontFamily;
+                FontSize = defaults.FontSize;
             }
         }
     }

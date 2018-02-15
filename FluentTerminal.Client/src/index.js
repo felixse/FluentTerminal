@@ -11,7 +11,7 @@ Terminal.applyAddon(winptyCompat);
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(theme) {
+function createTerminal(options, theme) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -19,13 +19,19 @@ function createTerminal(theme) {
   theme = JSON.parse(theme);
   theme.background = 'transparent';
 
-  term = new Terminal({
-    cursorBlink: true,
-    fontFamily: 'consolas',
-    fontSize: 13,
+  options = JSON.parse(options);
+
+  var terminalOptions = {
+    fontFamily: options.fontFamily,
+    fontSize: options.fontSize,
+    cursorStyle: options.cursorStyle,
+    cursorBlink: options.cursorBlink,
+    bellStyle: options.bellStyle,
     allowTransparency: true,
     theme: theme
-  });
+  };
+
+  term = new Terminal(terminalOptions);
 
   window.term = term;
 
@@ -71,6 +77,17 @@ function changeTheme(theme) {
   term.setOption('theme', theme);
 }
 
+function changeOptions(options) {
+  options = JSON.parse(options);
+
+  term.setOption('bellStyle', options.bellStyle);
+  term.setOption('cursorBlink', options.cursorBlink);
+  term.setOption('cursorStyle', options.cursorStyle);
+  term.setOption('fontFamily', options.fontFamily);
+  term.setOption('fontSize', options.fontSize);
+}
+
 window.createTerminal = createTerminal;
 window.connectToWebSocket = connectToWebSocket;
 window.changeTheme = changeTheme;
+window.changeOptions = changeOptions;

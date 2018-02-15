@@ -3,6 +3,7 @@ using FluentTerminal.Models;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Concurrent;
@@ -38,6 +39,16 @@ namespace FluentTerminal.App.Views
             Loaded += OnLoaded;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequested; //todo move to mainpage
             _loaded = new SemaphoreSlim(0, 1);
+
+            JsonConvert.DefaultSettings = () => {
+                var settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                };
+                settings.Converters.Add(new StringEnumConverter(true));
+
+                return settings;
+            };
 
             StartMediatorTask();
         }
@@ -120,12 +131,11 @@ namespace FluentTerminal.App.Views
             _webView.AddWebAllowedObject("terminalBridge", bridge);
         }
 
-        public async Task<TerminalSize> CreateTerminal(TerminalColors theme)
+        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme)
         {
-            var serialized = JsonConvert.SerializeObject(theme, new JsonSerializerSettings {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
-            var size = await ExecuteScriptAsync($"createTerminal('{serialized}')");
+            var serializedOptions = JsonConvert.SerializeObject(options);
+            var serializedTheme = JsonConvert.SerializeObject(theme);
+            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}')");
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 
@@ -146,11 +156,14 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeTheme(TerminalColors theme)
         {
-            var serialized = JsonConvert.SerializeObject(theme, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+            var serialized = JsonConvert.SerializeObject(theme);
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
+        }
+
+        public Task ChangeOptions(TerminalOptions options)
+        {
+            var serialized = JsonConvert.SerializeObject(options);
+            return ExecuteScriptAsync($"changeOptions('{serialized}')");
         }
     }
 }

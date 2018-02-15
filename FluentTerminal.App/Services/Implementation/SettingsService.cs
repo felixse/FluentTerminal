@@ -16,6 +16,7 @@ namespace FluentTerminal.App.Services.Implementation
         private ApplicationDataContainer _roamingSettings;
 
         public event EventHandler CurrentThemeChanged;
+        public event EventHandler TerminalOptionsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
@@ -43,9 +44,9 @@ namespace FluentTerminal.App.Services.Implementation
             return _localSettings.ReadValueFromJson(nameof(ShellConfiguration), _defaultValueProvider.GetDefaultShellConfiguration());
         }
 
-        public void SaveShellConfiguration(ShellConfiguration spawnConfiguration)
+        public void SaveShellConfiguration(ShellConfiguration shellConfiguration)
         {
-            _localSettings.WriteValueAsJson(nameof(ShellConfiguration), spawnConfiguration);
+            _localSettings.WriteValueAsJson(nameof(ShellConfiguration), shellConfiguration);
         }
 
         public TerminalColors GetCurrentThemeColors()
@@ -95,6 +96,17 @@ namespace FluentTerminal.App.Services.Implementation
             var theme = _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
 
             return theme.Colors;
+        }
+
+        public TerminalOptions GetTerminalOptions()
+        {
+            return _localSettings.ReadValueFromJson(nameof(TerminalOptions), _defaultValueProvider.GetDefaultTerminalOptions());
+        }
+
+        public void SaveTerminalOptions(TerminalOptions terminalOptions)
+        {
+            _localSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
+            TerminalOptionsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

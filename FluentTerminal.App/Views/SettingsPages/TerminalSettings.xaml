@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="FluentTerminal.App.Views.SettingsPages.TerminalSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="24,00,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,10,0,0"
+                VerticalAlignment="Center"
+                FontSize="28"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Terminal" />
+            <CommandBar
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                DefaultLabelPosition="Right">
+                <AppBarButton
+                    Command="{Binding ViewModel.RestoreDefaultsCommand}"
+                    CommandParameter="terminal"
+                    Icon="Undo"
+                    Label="Restore Defaults" />
+            </CommandBar>
+        </Grid>
+        <StackPanel Grid.Row="2" Margin="24,0,0,0">
+            <ComboBox
+                Width="200"
+                Margin="0,0,0,24"
+                Header="Font Family"
+                ItemsSource="{x:Bind ViewModel.Fonts}"
+                SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
+            <ComboBox
+                Width="200"
+                Margin="0,0,0,24"
+                Header="Font Size"
+                ItemsSource="{x:Bind ViewModel.Sizes}"
+                SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
+            <ToggleSwitch
+                Margin="0,0,0,24"
+                Header="Blinking Cursor"
+                IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
+            <TextBlock Margin="0,0,0,8" Text="Cursor Style" />
+            <RadioButton Content="Block" IsChecked="{Binding ViewModel.BlockIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Underline" IsChecked="{Binding ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Bar" IsChecked="{Binding ViewModel.BarIsSelected, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</Page>

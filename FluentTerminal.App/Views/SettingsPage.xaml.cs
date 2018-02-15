@@ -78,8 +78,8 @@ namespace FluentTerminal.App.Views
                     case "themes":
                         ContentFrame.Navigate(typeof(ThemeSettings), ViewModel);
                         break;
-                    case "font":
-                        ContentFrame.Navigate(typeof(FontSettings), ViewModel);
+                    case "terminal":
+                        ContentFrame.Navigate(typeof(TerminalSettings), ViewModel);
                         break;
                     case "keyBindings":
                         ContentFrame.Navigate(typeof(KeyBindingSettings), ViewModel);

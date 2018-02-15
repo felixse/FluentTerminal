@@ -34,17 +34,17 @@
                     Icon="Setting"
                     Tag="general" />
                 <NavigationViewItem
-                    Content="Key Bindings"
+                    Content="Terminal"
                     Icon="Setting"
-                    Tag="keyBindings" />
+                    Tag="terminal" />
                 <NavigationViewItem
                     Content="Shell"
                     Icon="Setting"
                     Tag="shell" />
                 <NavigationViewItem
-                    Content="Font"
+                    Content="Key Bindings"
                     Icon="Setting"
-                    Tag="font" />
+                    Tag="keyBindings" />
                 <NavigationViewItem
                     Content="Themes"
                     Icon="Setting"

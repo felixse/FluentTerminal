@@ -131,8 +131,8 @@
     <Compile Include="Views\SettingsPages\ThemeSettings.xaml.cs">
       <DependentUpon>ThemeSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\FontSettings.xaml.cs">
-      <DependentUpon>FontSettings.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPages\TerminalSettings.xaml.cs">
+      <DependentUpon>TerminalSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\GeneralSettings.xaml.cs">
       <DependentUpon>GeneralSettings.xaml</DependentUpon>
@@ -365,7 +365,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\FontSettings.xaml">
+    <Page Include="Views\SettingsPages\TerminalSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -408,6 +408,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Win2D.uwp">
+      <Version>1.21.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

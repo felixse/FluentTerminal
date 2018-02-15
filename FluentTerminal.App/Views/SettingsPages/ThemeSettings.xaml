@@ -128,6 +128,7 @@
                 Height="48"
                 Margin="0,12,0,0"
                 HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
                 Background="Transparent"
                 Command="{x:Bind ViewModel.CreateThemeCommand}"
                 Style="{StaticResource ButtonRevealStyle}">
