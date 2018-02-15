@@ -50,48 +50,15 @@
                     Icon="Setting"
                     Tag="themes" />
             </NavigationView.MenuItems>
-            <NavigationView.HeaderTemplate>
-                <DataTemplate>
-                    <Grid Margin="24,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="{Binding CoreTitleBarHeight}" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Margin="0,-2,0,0"
-                            IsHitTestVisible="False"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="Settings"
-                            Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource FalseToVisibleConverter}}" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            FontSize="28"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{Binding SelectedItem.Content, ElementName=NavigationView}" />
-                        <CommandBar
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                            DefaultLabelPosition="Right">
-                            <AppBarButton
-                                Command="{Binding ViewModel.RestoreDefaultsCommand}"
-                                CommandParameter="{Binding SelectedItem.Tag, ElementName=NavigationView}"
-                                Icon="Undo"
-                                Label="Restore Defaults" />
-                        </CommandBar>
-                    </Grid>
-                </DataTemplate>
-            </NavigationView.HeaderTemplate>
-            <Frame x:Name="ContentFrame" />
+            <Grid>
+                <Frame x:Name="ContentFrame" />
+                <TextBlock
+                    Margin="12,8,0,0"
+                    IsHitTestVisible="False"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="Settings"
+                    Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource FalseToVisibleConverter}}" />
+            </Grid>
         </NavigationView>
     </Grid>
 </Page>
