@@ -16,6 +16,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ITerminalService _terminalService;
         private readonly IDialogService _dialogService;
         private string _background;
+        private double _backgroundOpacity;
         private CoreDispatcher _dispatcher;
         private TerminalViewModel _selectedTerminal;
         private string _title;
@@ -27,7 +28,10 @@ namespace FluentTerminal.App.ViewModels
             _terminalService = terminalService;
             _dialogService = dialogService;
             Title = FallbackTitle;
-            Background = _settingsService.GetCurrentThemeColors().Background;
+
+            var currentTheme = _settingsService.GetCurrentTheme();
+            Background = currentTheme.Colors.Background;
+            BackgroundOpacity = currentTheme.BackgroundOpacity;
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
@@ -36,6 +40,12 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public RelayCommand AddTerminalCommand { get; }
+
+        public double BackgroundOpacity
+        {
+            get => _backgroundOpacity;
+            set => Set(ref _backgroundOpacity, value);
+        }
 
         public string Background
         {
@@ -85,7 +95,9 @@ namespace FluentTerminal.App.ViewModels
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
              {
-                 Background = _settingsService.GetCurrentThemeColors().Background;
+                 var currentTheme = _settingsService.GetCurrentTheme();
+                 Background = currentTheme.Colors.Background;
+                 BackgroundOpacity = currentTheme.BackgroundOpacity;
              });
         }
 

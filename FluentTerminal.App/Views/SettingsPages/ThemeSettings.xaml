@@ -20,7 +20,7 @@
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
                 TintColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
-                TintOpacity="0.8" />
+                TintOpacity="{x:Bind ViewModel.SelectedTheme.BackgroundOpacity, Mode=OneWay}" />
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
@@ -289,6 +289,15 @@
                                 Text="Click on a color to edit"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                         </Grid>
+                        <Slider
+                            Margin="0,24,0,0"
+                            Header="Background Opacity"
+                            Maximum="1"
+                            Minimum="0"
+                            RequestedTheme="Dark"
+                            StepFrequency="0.01"
+                            Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+                            Value="{x:Bind BackgroundOpacity, Mode=TwoWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ContentControl.ContentTemplate>

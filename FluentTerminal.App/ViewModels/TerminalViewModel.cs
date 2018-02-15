@@ -77,9 +77,9 @@ namespace FluentTerminal.App.ViewModels
             _terminalView = terminalView;
 
             var options = _settingsService.GetTerminalOptions();
-            var theme = _settingsService.GetCurrentThemeColors();
+            var theme = _settingsService.GetCurrentTheme();
 
-            var size = await _terminalView.CreateTerminal(options, theme);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors);
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
@@ -108,8 +108,8 @@ namespace FluentTerminal.App.ViewModels
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var currentColors = _settingsService.GetCurrentThemeColors();
-                await _terminalView.ChangeTheme(currentColors);
+                var currentTheme = _settingsService.GetCurrentTheme();
+                await _terminalView.ChangeTheme(currentTheme.Colors);
             });
         }
 

@@ -49,10 +49,10 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.WriteValueAsJson(nameof(ShellConfiguration), shellConfiguration);
         }
 
-        public TerminalColors GetCurrentThemeColors()
+        public TerminalTheme GetCurrentTheme()
         {
             var id = GetCurrentThemeId();
-            return GetThemeColors(id);
+            return GetTheme(id);
         }
 
         public Guid GetCurrentThemeId()
@@ -91,11 +91,9 @@ namespace FluentTerminal.App.Services.Implementation
             return _themes.Values.Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x.Value)).ToList();
         }
 
-        public TerminalColors GetThemeColors(Guid id)
+        public TerminalTheme GetTheme(Guid id)
         {
-            var theme = _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
-
-            return theme.Colors;
+            return _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
         }
 
         public TerminalOptions GetTerminalOptions()

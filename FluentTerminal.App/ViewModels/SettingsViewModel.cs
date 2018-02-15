@@ -72,13 +72,14 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateTheme()
         {
-            var defaultColors = _settingsService.GetThemeColors(_defaultValueProvider.GetDefaultThemeId());
+            var defaultTheme = _settingsService.GetTheme(_defaultValueProvider.GetDefaultThemeId());
             var theme = new TerminalTheme
             {
                 Id = Guid.NewGuid(),
                 PreInstalled = false,
                 Name = "New Theme",
-                Colors = new TerminalColors(defaultColors)
+                BackgroundOpacity = defaultTheme.BackgroundOpacity,
+                Colors = new TerminalColors(defaultTheme.Colors)
             };
 
             _settingsService.SaveTheme(theme);

@@ -14,9 +14,9 @@
         <Grid.Background>
             <AcrylicBrush
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{Binding ViewModel.Background, Mode=OneWay}"
-                TintColor="{Binding ViewModel.Background, Mode=OneWay}"
-                TintOpacity="0.8" />
+                FallbackColor="{x:Bind ViewModel.Background, Mode=OneWay}"
+                TintColor="{x:Bind ViewModel.Background, Mode=OneWay}"
+                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}" />
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
