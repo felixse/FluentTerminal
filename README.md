@@ -8,8 +8,9 @@ A Terminal Emulator based on UWP and web technologies. This is far from finished
 - Resizing
 - Configuration of the startup shell
 - Multiple windows
+- Theming
+- Appearance Configuration
 
 ## Up Next:
-- Appearance configuration
 - Tabs
 - Key bindings
