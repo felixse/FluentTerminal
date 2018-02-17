@@ -2,7 +2,9 @@
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -12,9 +14,10 @@ namespace FluentTerminal.App.ViewModels
 {
     public class TerminalViewModel : ViewModelBase
     {
+        private const string DefaultTitle = "Fluent Terminal";
+        private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
-        private readonly IDialogService _dialogService;
         private CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
         private DispatcherTimer _resizeOverlayTimer;
@@ -24,8 +27,11 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
 
-        public TerminalViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, string startupDirectory)
+        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, string startupDirectory)
         {
+            Id = id;
+            Title = DefaultTitle;
+
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
@@ -36,8 +42,16 @@ namespace FluentTerminal.App.ViewModels
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
+            CloseCommand = new RelayCommand(InvokeCloseRequested);
+
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
         }
+
+        public event EventHandler CloseRequested;
+
+        public event EventHandler<string> TitleChanged;
+
+        public RelayCommand CloseCommand { get; }
 
         public int Id { get; private set; }
 
@@ -69,7 +83,25 @@ namespace FluentTerminal.App.ViewModels
         public string Title
         {
             get => _title;
-            set => Set(ref _title, value);
+            set
+            {
+                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle : value;
+
+                if (Set(ref _title, value))
+                {
+                    TitleChanged?.Invoke(this, Title);
+                }
+            }
+        }
+
+        public void CloseView()
+        {
+            _terminalView.Close();
+        }
+
+        public Task FocusTerminal()
+        {
+            return _terminalView?.FocusTerminal();
         }
 
         public async Task OnViewIsReady(ITerminalView terminalView)
@@ -102,6 +134,13 @@ namespace FluentTerminal.App.ViewModels
             {
                 await _dialogService.ShowDialogAsnyc("Error", response.Error, DialogButton.OK);
             }
+
+            await FocusTerminal();
+        }
+
+        private void InvokeCloseRequested()
+        {
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private async void OnCurrentThemeChanged(object sender, EventArgs e)
@@ -113,6 +152,12 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
+        private void OnResizeOverlayTimerFinished(object sender, object e)
+        {
+            _resizeOverlayTimer.Stop();
+            ShowResizeOverlay = false;
+        }
+
         private async void OnTerminalOptionsChanged(object sender, EventArgs e)
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -120,12 +165,6 @@ namespace FluentTerminal.App.ViewModels
                 var options = _settingsService.GetTerminalOptions();
                 await _terminalView.ChangeOptions(options);
             });
-        }
-
-        private void OnResizeOverlayTimerFinished(object sender, object e)
-        {
-            _resizeOverlayTimer.Stop();
-            ShowResizeOverlay = false;
         }
 
         private async void OnTerminalSizeChanged(object sender, TerminalSize e)

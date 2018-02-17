@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -11,15 +12,14 @@ namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private const string FallbackTitle = "Fluent Terminal";
+        private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
-        private readonly IDialogService _dialogService;
         private string _background;
         private double _backgroundOpacity;
         private CoreDispatcher _dispatcher;
+        private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
-        private string _title;
 
         public MainViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService)
         {
@@ -27,7 +27,6 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
-            Title = FallbackTitle;
 
             var currentTheme = _settingsService.GetCurrentTheme();
             Background = currentTheme.Colors.Background;
@@ -41,54 +40,54 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand AddTerminalCommand { get; }
 
-        public double BackgroundOpacity
-        {
-            get => _backgroundOpacity;
-            set => Set(ref _backgroundOpacity, value);
-        }
-
         public string Background
         {
             get => _background;
             set => Set(ref _background, value);
         }
 
+        public double BackgroundOpacity
+        {
+            get => _backgroundOpacity;
+            set => Set(ref _backgroundOpacity, value);
+        }
+
         public TerminalViewModel SelectedTerminal
         {
             get => _selectedTerminal;
-            set => Set(ref _selectedTerminal, value);
+            set
+            {
+                if (Set(ref _selectedTerminal, value))
+                {
+                    SelectedTerminal?.FocusTerminal();
+                }
+            }
         }
 
         public RelayCommand ShowSettingsCommand { get; }
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
-        public string Title
-        {
-            get => _title;
-            set => Set(ref _title, value);
-        }
-
         public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(_settingsService, _terminalService, _dialogService, startupDirectory);
-            terminal.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(TerminalViewModel.Title) && Terminals.Count == 1)
-                {
-                    if (string.IsNullOrWhiteSpace(terminal.Title))
-                    {
-                        Title = FallbackTitle;
-                    }
-                    else
-                    {
-                        Title = terminal.Title;
-                    }
-                }
-            };
+            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, startupDirectory);
+            terminal.CloseRequested += OnTerminalCloseRequested;
             Terminals.Add(terminal);
 
             SelectedTerminal = terminal;
+        }
+
+        public void CloseAllTerminals()
+        {
+            foreach (var terminal in Terminals)
+            {
+                terminal.CloseView();
+            }
+        }
+
+        private int GetNextTerminalId()
+        {
+            return _nextTerminalId++;
         }
 
         private async void OnCurrentThemeChanged(object sender, System.EventArgs e)
@@ -99,6 +98,19 @@ namespace FluentTerminal.App.ViewModels
                  Background = currentTheme.Colors.Background;
                  BackgroundOpacity = currentTheme.BackgroundOpacity;
              });
+        }
+
+        private void OnTerminalCloseRequested(object sender, EventArgs e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                terminal.CloseView();
+                if (SelectedTerminal == terminal)
+                {
+                    SelectedTerminal = Terminals.FirstOrDefault(t => t != terminal);
+                }
+                Terminals.Remove(terminal);
+            }
         }
 
         private Task ShowSettings()

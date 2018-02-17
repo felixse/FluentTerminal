@@ -13,5 +13,7 @@ namespace FluentTerminal.App.Views
         Task ChangeOptions(TerminalOptions options);
         Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme);
         Task ConnectToSocket(string url);
+        void Close();
+        Task FocusTerminal();
     }
 }

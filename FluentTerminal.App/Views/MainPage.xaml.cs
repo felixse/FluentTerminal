@@ -61,6 +61,7 @@ namespace FluentTerminal.App.Views
 
         private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
         {
+            ViewModel.CloseAllTerminals();
             App.Instance.TerminalWindowClosed();
         }
 
@@ -107,6 +108,14 @@ namespace FluentTerminal.App.Views
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarHeight)));
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarPadding)));
+            }
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is Grid grid)
+            {
+                Tabs.MaxWidth = grid.ActualWidth - grid.ColumnDefinitions[2].ActualWidth;
             }
         }
     }

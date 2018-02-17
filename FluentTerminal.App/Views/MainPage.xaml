@@ -5,10 +5,21 @@
     xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     RequestedTheme="Dark"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
+        <converters:IntToVisibilityConverter
+            x:Key="OneToVisibleConverter"
+            Else="Collapsed"
+            If="1"
+            Then="Visible" />
+        <converters:IntToVisibilityConverter
+            x:Key="OneToCollapsedConverter"
+            Else="Visible"
+            If="1"
+            Then="Collapsed" />
     </Page.Resources>
     <Grid x:Name="Root">
         <Grid.Background>
@@ -22,34 +33,99 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <Grid
             Grid.Row="0"
             Height="{Binding CoreTitleBarHeight, Mode=OneWay}"
-            Canvas.ZIndex="3">
-            <Rectangle x:Name="TitleBar" Fill="Transparent" />
-            <Grid Padding="{Binding CoreTitleBarPadding, Mode=OneWay}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="0"
-                        Canvas.ZIndex="9"
-                        IsHitTestVisible="False"
-                        Style="{StaticResource WindowTitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
-                    <Button
-                        Grid.Column="2"
-                        Command="{x:Bind ViewModel.ShowSettingsCommand}"
-                        Style="{StaticResource TitleBarButtonStyle}">
-                        <Viewbox Width="16" Height="16">
-                            <SymbolIcon Symbol="Setting" />
-                        </Viewbox>
-                    </Button>
-                </Grid>
-            </Grid>
+            Margin="{Binding CoreTitleBarPadding, Mode=OneWay}"
+            SizeChanged="Grid_SizeChanged">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                IsHitTestVisible="False"
+                Style="{StaticResource WindowTitleTextBlockStyle}"
+                Text="{x:Bind ViewModel.Terminals[0].Title, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.Terminals.Count, Mode=OneWay, Converter={StaticResource OneToVisibleConverter}}" />
+            <ListView
+                x:Name="Tabs"
+                Grid.Column="0"
+                AllowDrop="True"
+                CanDragItems="True"
+                CanReorderItems="True"
+                ItemsSource="{x:Bind ViewModel.Terminals}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollMode="Auto"
+                SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
+                Visibility="{x:Bind ViewModel.Terminals.Count, Mode=OneWay, Converter={StaticResource OneToCollapsedConverter}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:TerminalViewModel">
+                        <Grid
+                            Height="32"
+                            Margin="0"
+                            VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="12,8,0,0"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{x:Bind Title, Mode=OneWay}" />
+                            <Button
+                                Grid.Column="2"
+                                Width="32"
+                                Command="{x:Bind CloseCommand}"
+                                Style="{StaticResource TitleBarButtonStyle}"
+                                ToolTipService.ToolTip="Close">
+                                <Viewbox Width="12" Height="12">
+                                    <SymbolIcon Symbol="Cancel" />
+                                </Viewbox>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="MinWidth" Value="24" />
+                        <Setter Property="MinHeight" Value="32" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <StackPanel
+                x:Name="TitleBarButtons"
+                Grid.Column="2"
+                Orientation="Horizontal">
+                <Button
+                    Command="{x:Bind ViewModel.AddTerminalCommand}"
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    ToolTipService.ToolTip="New Tab">
+                    <Viewbox Width="16" Height="16">
+                        <SymbolIcon Symbol="Add" />
+                    </Viewbox>
+                </Button>
+                <Button
+                    HorizontalAlignment="Right"
+                    Command="{x:Bind ViewModel.ShowSettingsCommand}"
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    ToolTipService.ToolTip="Settings">
+                    <Viewbox Width="16" Height="16">
+                        <SymbolIcon Symbol="Setting" />
+                    </Viewbox>
+                </Button>
+            </StackPanel>
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"

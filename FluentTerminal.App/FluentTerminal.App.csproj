@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
+    <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\NegateConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
