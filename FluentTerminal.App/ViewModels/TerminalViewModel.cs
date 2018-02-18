@@ -1,12 +1,13 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -16,6 +17,7 @@ namespace FluentTerminal.App.ViewModels
     {
         private const string DefaultTitle = "Fluent Terminal";
         private readonly IDialogService _dialogService;
+        private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
         private CoreDispatcher _dispatcher;
@@ -27,7 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
 
-        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, string startupDirectory)
+        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, string startupDirectory)
         {
             Id = id;
             Title = DefaultTitle;
@@ -37,6 +39,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
+            _keyboardCommandService = keyboardCommandService;
             _startupDirectory = startupDirectory;
             _resizeOverlayTimer = new DispatcherTimer();
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
@@ -110,8 +113,9 @@ namespace FluentTerminal.App.ViewModels
 
             var options = _settingsService.GetTerminalOptions();
             var theme = _settingsService.GetCurrentTheme();
+            var keyBindings = _settingsService.GetKeyBindings();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, keyBindings);
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
@@ -126,6 +130,7 @@ namespace FluentTerminal.App.ViewModels
                 _terminalId = response.Id;
                 _terminalView.TerminalSizeChanged += OnTerminalSizeChanged;
                 _terminalView.TerminalTitleChanged += OnTerminalTitleChanged;
+                _terminalView.KeyboardCommandReceived += OnKeyboardCommandReceived;
 
                 await _terminalView.ConnectToSocket(response.WebSocketUrl);
                 Initialized = true;
@@ -150,6 +155,30 @@ namespace FluentTerminal.App.ViewModels
                 var currentTheme = _settingsService.GetCurrentTheme();
                 await _terminalView.ChangeTheme(currentTheme.Colors);
             });
+        }
+
+        private async void OnKeyboardCommandReceived(object sender, Command e)
+        {
+            if (e == Command.Copy)
+            {
+                var selection = await _terminalView.GetSelection();
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(selection);
+                Clipboard.SetContent(dataPackage);
+            }
+            else if (e == Command.Paste)
+            {
+                var content = Clipboard.GetContent();
+                if (content.Contains(StandardDataFormats.Text))
+                {
+                    var text = await content.GetTextAsync();
+                    await _terminalView.Write(text);
+                }
+            }
+            else
+            {
+                _keyboardCommandService.SendCommand(e);
+            }
         }
 
         private void OnResizeOverlayTimerFinished(object sender, object e)

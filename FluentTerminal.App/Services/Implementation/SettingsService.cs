@@ -98,13 +98,18 @@ namespace FluentTerminal.App.Services.Implementation
 
         public TerminalOptions GetTerminalOptions()
         {
-            return _localSettings.ReadValueFromJson(nameof(TerminalOptions), _defaultValueProvider.GetDefaultTerminalOptions());
+            return _roamingSettings.ReadValueFromJson(nameof(TerminalOptions), _defaultValueProvider.GetDefaultTerminalOptions());
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)
         {
-            _localSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
+            _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
             TerminalOptionsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public IEnumerable<KeyBinding> GetKeyBindings()
+        {
+            return _roamingSettings.ReadValueFromJson("KeyBindings", _defaultValueProvider.GetDefaultKeyBindings());
         }
     }
 }

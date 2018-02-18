@@ -2,6 +2,7 @@
 using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
+using Windows.System;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -104,6 +105,85 @@ namespace FluentTerminal.App.Services.Implementation
             };
 
             return new[] { defaultXterm, powerShell };
+        }
+
+        public IEnumerable<KeyBinding> GetDefaultKeyBindings()
+        {
+            return new[]
+            {
+                new KeyBinding
+                {
+                    Command = Command.NewTab,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = (int)VirtualKey.T
+                },
+                new KeyBinding
+                {
+                    Command = Command.CloseTab,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = (int)VirtualKey.W
+                },
+                new KeyBinding
+                {
+                    Command = Command.NextTab,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = (int)VirtualKey.Tab
+                },
+                new KeyBinding
+                {
+                    Command = Command.PreviousTab,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = true,
+                    Key = (int)VirtualKey.Tab
+                },
+                new KeyBinding
+                {
+                    Command = Command.NewWindow,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = (int)VirtualKey.N
+                },
+                new KeyBinding
+                {
+                    Command = Command.ShowSettings,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = 188 // comma
+                },
+                new KeyBinding
+                {
+                    Command = Command.Copy,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = true,
+                    Key = (int)VirtualKey.C
+                },
+                new KeyBinding
+                {
+                    Command = Command.Paste,
+                    Ctrl = true,
+                    Alt = false,
+                    Meta = false,
+                    Shift = false,
+                    Key = (int)VirtualKey.V
+                }
+            };
         }
     }
 }

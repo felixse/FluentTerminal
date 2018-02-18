@@ -22,5 +22,15 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
         {
             _terminalEventListener.OnTitleChanged(title);
         }
+
+        public void InvokeCommand(string command)
+        {
+            _terminalEventListener.OnKeyboardCommand(command);
+        }
+
+        public void NotifyRightClick(int x, int y, bool hasSelection)
+        {
+            _terminalEventListener.OnRightClick(x, y, hasSelection);
+        }
     }
 }

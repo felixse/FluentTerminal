@@ -87,7 +87,7 @@ namespace FluentTerminal.SystemTray.Services
                 };
                 socket.OnMessage = message =>
                 {
-                    var bytes = Encoding.ASCII.GetBytes(message);
+                    var bytes = Encoding.UTF8.GetBytes(message);
                     _stdin.Write(bytes, 0, bytes.Length);
                 };
             });

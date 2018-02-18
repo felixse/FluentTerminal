@@ -15,6 +15,8 @@ namespace FluentTerminal.App.Services
         TerminalOptions GetTerminalOptions();
         void SaveTerminalOptions(TerminalOptions terminalOptions);
 
+        IEnumerable<KeyBinding> GetKeyBindings();
+
         TerminalTheme GetCurrentTheme();
         Guid GetCurrentThemeId();
         TerminalTheme GetTheme(Guid id);

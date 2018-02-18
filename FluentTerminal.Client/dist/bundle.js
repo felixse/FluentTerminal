@@ -90,13 +90,15 @@ __WEBPACK_IMPORTED_MODULE_0__node_modules_xterm_dist_xterm__["applyAddon"](__WEB
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme) {
+function createTerminal(options, theme, keyBindings) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
 
   theme = JSON.parse(theme);
   theme.background = 'transparent';
+
+  window.keyBindings = JSON.parse(keyBindings);
 
   options = JSON.parse(options);
 
@@ -133,6 +135,30 @@ function createTerminal(options, theme) {
     resizeTimeout = setTimeout(term.fit(), 500);
   }
 
+  window.onmouseup = function(e) {
+    if (e.button == 2) {
+      terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
+    }
+  }
+
+  term.attachCustomKeyEventHandler(function(e) {
+    for (var i = 0; i< window.keyBindings.length; i++) {
+      var keyBinding = window.keyBindings[i];
+      if (keyBinding.ctrl == e.ctrlKey
+        && keyBinding.alt == e.altKey
+        && keyBinding.meta == e.metaKey
+        && keyBinding.shift == e.shiftKey
+        && keyBinding.key == e.keyCode) {
+          if (document.visibilityState == 'visible') {
+            e.preventDefault();
+            terminalBridge.invokeCommand(keyBinding.command);
+          }
+          return false;
+        }
+    }
+    return true;
+  });
+  
   return JSON.stringify({
     rows: term.rows,
     columns: term.cols
@@ -166,10 +192,22 @@ function changeOptions(options) {
   term.setOption('fontSize', options.fontSize);
 }
 
+function paste(content) {
+  content = b64DecodeUnicode(content);
+  term.send(content);
+}
+
+function b64DecodeUnicode(str) {
+  return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  }).join(''))
+}
+
 window.createTerminal = createTerminal;
 window.connectToWebSocket = connectToWebSocket;
 window.changeTheme = changeTheme;
 window.changeOptions = changeOptions;
+window.paste = paste;
 
 /***/ }),
 /* 1 */

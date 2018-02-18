@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -13,6 +14,7 @@ namespace FluentTerminal.App.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
+        private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
         private string _background;
@@ -21,13 +23,19 @@ namespace FluentTerminal.App.ViewModels
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
 
-        public MainViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService)
+        public MainViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
-
+            _keyboardCommandService = keyboardCommandService;
+            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null));
+            _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, async () => await NewWindow());
+            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, async () => await ShowSettings());
             var currentTheme = _settingsService.GetCurrentTheme();
             Background = currentTheme.Colors.Background;
             BackgroundOpacity = currentTheme.BackgroundOpacity;
@@ -70,7 +78,7 @@ namespace FluentTerminal.App.ViewModels
 
         public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, startupDirectory);
+            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, _keyboardCommandService, startupDirectory);
             terminal.CloseRequested += OnTerminalCloseRequested;
             Terminals.Add(terminal);
 
@@ -85,9 +93,19 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        private void CloseCurrentTab()
+        {
+            SelectedTerminal?.CloseCommand.Execute(null);
+        }
+
         private int GetNextTerminalId()
         {
             return _nextTerminalId++;
+        }
+
+        private Task NewWindow()
+        {
+            return App.Instance.CreateNewTerminalWindow(null);
         }
 
         private async void OnCurrentThemeChanged(object sender, System.EventArgs e)
@@ -102,15 +120,34 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnTerminalCloseRequested(object sender, EventArgs e)
         {
+            if (Terminals.Count == 1)
+            {
+                return;
+            }
+
             if (sender is TerminalViewModel terminal)
             {
                 terminal.CloseView();
                 if (SelectedTerminal == terminal)
                 {
-                    SelectedTerminal = Terminals.FirstOrDefault(t => t != terminal);
+                    SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
                 Terminals.Remove(terminal);
             }
+        }
+
+        private void SelectNextTab()
+        {
+            var currentIndex = Terminals.IndexOf(SelectedTerminal);
+            var nextIndex = (currentIndex + 1) % Terminals.Count;
+            SelectedTerminal = Terminals[nextIndex];
+        }
+
+        private void SelectPreviousTab()
+        {
+            var currentIndex = Terminals.IndexOf(SelectedTerminal);
+            var previousIndex = (currentIndex - 1 + Terminals.Count) % Terminals.Count;
+            SelectedTerminal = Terminals[previousIndex];
         }
 
         private Task ShowSettings()

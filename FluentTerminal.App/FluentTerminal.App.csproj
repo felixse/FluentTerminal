@@ -106,6 +106,8 @@
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\Implementation\DialogService.cs" />
+    <Compile Include="Services\Implementation\KeyboardCommandService.cs" />
+    <Compile Include="Services\IKeyboardCommandService.cs" />
     <Compile Include="Utilities\ApplicationDataContainerExtensions.cs" />
     <Compile Include="Services\IDefaultValueProvider.cs" />
     <Compile Include="Services\Implementation\DefaultValueProvider.cs" />
