@@ -199,7 +199,7 @@ namespace FluentTerminal.App.Views
             await ViewModel.OnViewIsReady(this);
         }
 
-        private void OnRightClick(int x, int y, bool hasSelection)
+        public void OnRightClick(int x, int y, bool hasSelection)
         {
             _dispatcherJobs.Add(() =>
             {

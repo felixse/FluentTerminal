@@ -220,6 +220,7 @@
     <Content Include="Win32\Fleck.dll" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
+    <Content Include="Win32\GlobalHotKey.dll" />
     <Content Include="Win32\Microsoft.Owin.dll" />
     <Content Include="Win32\Microsoft.Owin.FileSystems.dll" />
     <Content Include="Win32\Microsoft.Owin.Host.HttpListener.dll" />
