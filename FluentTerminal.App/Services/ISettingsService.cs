@@ -8,12 +8,16 @@ namespace FluentTerminal.App.Services
     {
         event EventHandler CurrentThemeChanged;
         event EventHandler TerminalOptionsChanged;
+        event EventHandler ApplicationSettingsChanged;
 
         ShellConfiguration GetShellConfiguration();
         void SaveShellConfiguration(ShellConfiguration shellConfiguration);
 
         TerminalOptions GetTerminalOptions();
         void SaveTerminalOptions(TerminalOptions terminalOptions);
+
+        ApplicationSettings GetApplicationSettings();
+        void SaveApplicationSettings(ApplicationSettings applicationSettings);
 
         IEnumerable<KeyBinding> GetKeyBindings();
 

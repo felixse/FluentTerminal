@@ -6,5 +6,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="24,00,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,10,0,0"
+                VerticalAlignment="Center"
+                FontSize="28"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="General" />
+            <CommandBar
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                DefaultLabelPosition="Right">
+                <AppBarButton
+                    Command="{Binding ViewModel.RestoreDefaultsCommand}"
+                    CommandParameter="general"
+                    Icon="Undo"
+                    Label="Restore Defaults" />
+            </CommandBar>
+        </Grid>
+        <StackPanel Grid.Row="2" Margin="24,0,0,0">
+
+            <ToggleSwitch
+                Margin="0,0,0,24"
+                Header="Ask before closing windows"
+                IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
+            <ToggleSwitch Header="Ask before closing tabs" IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
+
+        </StackPanel>
+    </Grid>
 </Page>

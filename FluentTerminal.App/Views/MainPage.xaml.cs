@@ -45,7 +45,6 @@ namespace FluentTerminal.App.Views
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             Window.Current.Activated += OnWindowActivated;
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
 
             ApplicationView.PreferredLaunchViewSize = new Windows.Foundation.Size(800, 600);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
@@ -57,12 +56,6 @@ namespace FluentTerminal.App.Views
             {
                 ViewModel = viewModel;
             }
-        }
-
-        private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
-        {
-            ViewModel.CloseAllTerminals();
-            App.Instance.TerminalWindowClosed();
         }
 
         private async void OnWindowActivated(object sender, WindowActivatedEventArgs e)

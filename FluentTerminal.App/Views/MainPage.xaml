@@ -88,9 +88,9 @@
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind Title, Mode=OneWay}" />
                             <Button
-                                x:Name="CloseButton"
                                 Grid.Column="2"
                                 Width="32"
+                                Command="{x:Bind CloseCommand}"
                                 Style="{StaticResource TitleBarButtonStyle}"
                                 ToolTipService.ToolTip="Close">
                                 <Viewbox Width="12" Height="12">

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Core.Preview;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -17,6 +19,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
+        private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
         private CoreDispatcher _dispatcher;
@@ -27,6 +30,7 @@ namespace FluentTerminal.App.ViewModels
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
+            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
@@ -39,11 +43,13 @@ namespace FluentTerminal.App.ViewModels
             var currentTheme = _settingsService.GetCurrentTheme();
             Background = currentTheme.Colors.Background;
             BackgroundOpacity = currentTheme.BackgroundOpacity;
+            _applicationSettings = _settingsService.GetApplicationSettings();
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
         }
 
         public RelayCommand AddTerminalCommand { get; }
@@ -78,7 +84,7 @@ namespace FluentTerminal.App.ViewModels
 
         public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, _keyboardCommandService, startupDirectory);
+            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
             terminal.CloseRequested += OnTerminalCloseRequested;
             Terminals.Add(terminal);
 
@@ -106,6 +112,35 @@ namespace FluentTerminal.App.ViewModels
         private Task NewWindow()
         {
             return App.Instance.CreateNewTerminalWindow(null);
+        }
+
+        private async void OnApplicationSettingsChanged(object sender, EventArgs e)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                _applicationSettings = _settingsService.GetApplicationSettings();
+            });
+        }
+
+        private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            if (_applicationSettings.ConfirmClosingWindows)
+            {
+                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel);
+
+                if (result == DialogButton.OK)
+                {
+                    CloseAllTerminals();
+                    App.Instance.TerminalWindowClosed();
+                }
+                else
+                {
+                    e.Handled = true;
+                }
+            }
+            deferral.Complete();
         }
 
         private async void OnCurrentThemeChanged(object sender, System.EventArgs e)

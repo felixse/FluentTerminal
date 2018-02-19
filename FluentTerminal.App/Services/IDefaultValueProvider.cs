@@ -9,6 +9,7 @@ namespace FluentTerminal.App.Services
         ShellConfiguration GetDefaultShellConfiguration();
         TerminalOptions GetDefaultTerminalOptions();
         IEnumerable<KeyBinding> GetDefaultKeyBindings();
+        ApplicationSettings GetDefaultApplicationSettings();
         Guid GetDefaultThemeId();
         IEnumerable<TerminalTheme> GetPreInstalledThemes();
     }

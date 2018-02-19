@@ -20,6 +20,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITerminalService _terminalService;
+        private ApplicationSettings _applicationSettings;
         private CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
         private DispatcherTimer _resizeOverlayTimer;
@@ -29,7 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
 
-        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, string startupDirectory)
+        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory)
         {
             Id = id;
             Title = DefaultTitle;
@@ -37,15 +38,17 @@ namespace FluentTerminal.App.ViewModels
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
+            _applicationSettings = applicationSettings;
             _startupDirectory = startupDirectory;
             _resizeOverlayTimer = new DispatcherTimer();
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
-            CloseCommand = new RelayCommand(InvokeCloseRequested);
+            CloseCommand = new RelayCommand(async () => await InvokeCloseRequested());
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
         }
@@ -143,9 +146,27 @@ namespace FluentTerminal.App.ViewModels
             await FocusTerminal();
         }
 
-        private void InvokeCloseRequested()
+        private async Task InvokeCloseRequested()
         {
+            if (_applicationSettings.ConfirmClosingTabs)
+            {
+                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel);
+
+                if (result == DialogButton.Cancel)
+                {
+                    return;
+                }
+            }
+
             CloseRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async void OnApplicationSettingsChanged(object sender, EventArgs e)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                _applicationSettings = _settingsService.GetApplicationSettings();
+            });
         }
 
         private async void OnCurrentThemeChanged(object sender, EventArgs e)

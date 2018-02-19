@@ -17,6 +17,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public event EventHandler CurrentThemeChanged;
         public event EventHandler TerminalOptionsChanged;
+        public event EventHandler ApplicationSettingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
@@ -105,6 +106,17 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
             TerminalOptionsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public ApplicationSettings GetApplicationSettings()
+        {
+            return _roamingSettings.ReadValueFromJson(nameof(ApplicationSettings), _defaultValueProvider.GetDefaultApplicationSettings());
+        }
+
+        public void SaveApplicationSettings(ApplicationSettings applicationSettings)
+        {
+            _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
+            ApplicationSettingsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public IEnumerable<KeyBinding> GetKeyBindings()

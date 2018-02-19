@@ -185,5 +185,14 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
         }
+
+        public ApplicationSettings GetDefaultApplicationSettings()
+        {
+            return new ApplicationSettings
+            {
+                ConfirmClosingTabs = false,
+                ConfirmClosingWindows = false
+            };
+        }
     }
 }

@@ -15,12 +15,13 @@ namespace FluentTerminal.App.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
-        private readonly ISettingsService _settingsService;
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
+        private readonly ISettingsService _settingsService;
+        private ApplicationSettings _applicationSettings;
+        private ThemeViewModel _selectedTheme;
         private ShellConfiguration _shellConfiguration;
         private TerminalOptions _terminalOptions;
-        private ThemeViewModel _selectedTheme;
 
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService)
         {
@@ -34,6 +35,7 @@ namespace FluentTerminal.App.ViewModels
 
             _shellConfiguration = _settingsService.GetShellConfiguration();
             _terminalOptions = _settingsService.GetTerminalOptions();
+            _applicationSettings = _settingsService.GetApplicationSettings();
             ShellType = _shellConfiguration.Shell;
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
@@ -57,93 +59,71 @@ namespace FluentTerminal.App.ViewModels
             Sizes = Enumerable.Range(1, 72);
         }
 
-        private void OnThemeActivated(object sender, EventArgs e)
+        public string Arguments
         {
-            if (sender is ThemeViewModel activatedTheme)
+            get => _shellConfiguration.Arguments;
+            set
             {
-                _settingsService.SaveCurrentThemeId(activatedTheme.Id);
-
-                foreach (var theme in Themes)
+                if (_shellConfiguration.Arguments != value)
                 {
-                    theme.IsActive = theme.Id == activatedTheme.Id;
+                    _shellConfiguration.Arguments = value;
+                    _settingsService.SaveShellConfiguration(_shellConfiguration);
+                    RaisePropertyChanged();
                 }
             }
         }
 
-        private void CreateTheme()
+        public bool BarIsSelected
         {
-            var defaultTheme = _settingsService.GetTheme(_defaultValueProvider.GetDefaultThemeId());
-            var theme = new TerminalTheme
-            {
-                Id = Guid.NewGuid(),
-                PreInstalled = false,
-                Name = "New Theme",
-                BackgroundOpacity = defaultTheme.BackgroundOpacity,
-                Colors = new TerminalColors(defaultTheme.Colors)
-            };
-
-            _settingsService.SaveTheme(theme);
-
-            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
-            viewModel.Activated += OnThemeActivated;
-            viewModel.Deleted += OnThemeDeleted;
-            Themes.Add(viewModel);
-            SelectedTheme = viewModel;
+            get => CursorStyle == CursorStyle.Bar;
+            set => CursorStyle = CursorStyle.Bar;
         }
 
-        private void OnThemeDeleted(object sender, EventArgs e)
+        public bool BlockIsSelected
         {
-            if (sender is ThemeViewModel theme)
-            {
-                if (SelectedTheme == theme)
-                {
-                    SelectedTheme = Themes.First();
-                }
-                Themes.Remove(theme);
-
-                if (theme.IsActive)
-                {
-                    Themes.First().IsActive = true;
-                    _settingsService.SaveCurrentThemeId(Themes.First().Id);
-                }
-                _settingsService.DeleteTheme(theme.Id);   
-
-            }
+            get => CursorStyle == CursorStyle.Block;
+            set => CursorStyle = CursorStyle.Block;
         }
 
         public RelayCommand BrowseForCustomShellCommand { get; }
+
         public RelayCommand BrowseForWorkingDirectoryCommand { get; }
-        public RelayCommand<string> RestoreDefaultsCommand { get; }
-        public RelayCommand CreateThemeCommand { get; set; }
 
-        public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
-
-        public IEnumerable<string> Fonts { get; }
-
-        public IEnumerable<int> Sizes { get; }
-
-        public ThemeViewModel SelectedTheme
+        public bool CMDIsSelected
         {
-            get => _selectedTheme;
-            set => Set(ref _selectedTheme, value);
+            get => ShellType == ShellType.CMD;
+            set => ShellType = ShellType.CMD;
         }
 
-        private CursorStyle CursorStyle
+        public bool ConfirmClosingTabs
         {
-            get => _terminalOptions.CursorStyle;
+            get => _applicationSettings.ConfirmClosingTabs;
             set
             {
-                if (_terminalOptions.CursorStyle != value)
+                if (_applicationSettings.ConfirmClosingTabs != value)
                 {
-                    _terminalOptions.CursorStyle = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    _applicationSettings.ConfirmClosingTabs = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(BlockIsSelected));
-                    RaisePropertyChanged(nameof(BarIsSelected));
-                    RaisePropertyChanged(nameof(UnderlineIsSelected));
                 }
             }
         }
+
+        public bool ConfirmClosingWindows
+        {
+            get => _applicationSettings.ConfirmClosingWindows;
+            set
+            {
+                if (_applicationSettings.ConfirmClosingWindows != value)
+                {
+                    _applicationSettings.ConfirmClosingWindows = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public RelayCommand CreateThemeCommand { get; set; }
 
         public bool CursorBlink
         {
@@ -157,58 +137,6 @@ namespace FluentTerminal.App.ViewModels
                     RaisePropertyChanged();
                 }
             }
-        }
-
-        public int FontSize
-        {
-            get => _terminalOptions.FontSize;
-            set
-            {
-                if (_terminalOptions.FontSize != value)
-                {
-                    _terminalOptions.FontSize = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public string FontFamily
-        {
-            get => _terminalOptions.FontFamily;
-            set
-            {
-                if (_terminalOptions.FontFamily != value)
-                {
-                    _terminalOptions.FontFamily = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public bool BlockIsSelected
-        {
-            get => CursorStyle == CursorStyle.Block;
-            set => CursorStyle = CursorStyle.Block;
-        }
-
-        public bool BarIsSelected
-        {
-            get => CursorStyle == CursorStyle.Bar;
-            set => CursorStyle = CursorStyle.Bar;
-        }
-
-        public bool UnderlineIsSelected
-        {
-            get => CursorStyle == CursorStyle.Underline;
-            set => CursorStyle = CursorStyle.Underline;
-        }
-
-        public bool CMDIsSelected
-        {
-            get => ShellType == ShellType.CMD;
-            set => ShellType = ShellType.CMD;
         }
 
         public bool CustomShellIsSelected
@@ -231,29 +159,31 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public string WorkingDirectory
+        public string FontFamily
         {
-            get => _shellConfiguration.WorkingDirectory;
+            get => _terminalOptions.FontFamily;
             set
             {
-                if (_shellConfiguration.WorkingDirectory != value)
+                if (_terminalOptions.FontFamily != value)
                 {
-                    _shellConfiguration.WorkingDirectory = value;
-                    _settingsService.SaveShellConfiguration(_shellConfiguration);
+                    _terminalOptions.FontFamily = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
                     RaisePropertyChanged();
                 }
             }
         }
 
-        public string Arguments
+        public IEnumerable<string> Fonts { get; }
+
+        public int FontSize
         {
-            get => _shellConfiguration.Arguments;
+            get => _terminalOptions.FontSize;
             set
             {
-                if (_shellConfiguration.Arguments != value)
+                if (_terminalOptions.FontSize != value)
                 {
-                    _shellConfiguration.Arguments = value;
-                    _settingsService.SaveShellConfiguration(_shellConfiguration);
+                    _terminalOptions.FontSize = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
                     RaisePropertyChanged();
                 }
             }
@@ -263,6 +193,14 @@ namespace FluentTerminal.App.ViewModels
         {
             get => ShellType == ShellType.PowerShell;
             set => ShellType = ShellType.PowerShell;
+        }
+
+        public RelayCommand<string> RestoreDefaultsCommand { get; }
+
+        public ThemeViewModel SelectedTheme
+        {
+            get => _selectedTheme;
+            set => Set(ref _selectedTheme, value);
         }
 
         public ShellType ShellType
@@ -278,6 +216,47 @@ namespace FluentTerminal.App.ViewModels
                     RaisePropertyChanged(nameof(CustomShellIsSelected));
                     RaisePropertyChanged(nameof(PoweShellIsSelected));
                     RaisePropertyChanged(nameof(CMDIsSelected));
+                }
+            }
+        }
+
+        public IEnumerable<int> Sizes { get; }
+
+        public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
+
+        public bool UnderlineIsSelected
+        {
+            get => CursorStyle == CursorStyle.Underline;
+            set => CursorStyle = CursorStyle.Underline;
+        }
+
+        public string WorkingDirectory
+        {
+            get => _shellConfiguration.WorkingDirectory;
+            set
+            {
+                if (_shellConfiguration.WorkingDirectory != value)
+                {
+                    _shellConfiguration.WorkingDirectory = value;
+                    _settingsService.SaveShellConfiguration(_shellConfiguration);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private CursorStyle CursorStyle
+        {
+            get => _terminalOptions.CursorStyle;
+            set
+            {
+                if (_terminalOptions.CursorStyle != value)
+                {
+                    _terminalOptions.CursorStyle = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(BlockIsSelected));
+                    RaisePropertyChanged(nameof(BarIsSelected));
+                    RaisePropertyChanged(nameof(UnderlineIsSelected));
                 }
             }
         }
@@ -308,6 +287,59 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        private void CreateTheme()
+        {
+            var defaultTheme = _settingsService.GetTheme(_defaultValueProvider.GetDefaultThemeId());
+            var theme = new TerminalTheme
+            {
+                Id = Guid.NewGuid(),
+                PreInstalled = false,
+                Name = "New Theme",
+                BackgroundOpacity = defaultTheme.BackgroundOpacity,
+                Colors = new TerminalColors(defaultTheme.Colors)
+            };
+
+            _settingsService.SaveTheme(theme);
+
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
+            viewModel.Activated += OnThemeActivated;
+            viewModel.Deleted += OnThemeDeleted;
+            Themes.Add(viewModel);
+            SelectedTheme = viewModel;
+        }
+
+        private void OnThemeActivated(object sender, EventArgs e)
+        {
+            if (sender is ThemeViewModel activatedTheme)
+            {
+                _settingsService.SaveCurrentThemeId(activatedTheme.Id);
+
+                foreach (var theme in Themes)
+                {
+                    theme.IsActive = theme.Id == activatedTheme.Id;
+                }
+            }
+        }
+
+        private void OnThemeDeleted(object sender, EventArgs e)
+        {
+            if (sender is ThemeViewModel theme)
+            {
+                if (SelectedTheme == theme)
+                {
+                    SelectedTheme = Themes.First();
+                }
+                Themes.Remove(theme);
+
+                if (theme.IsActive)
+                {
+                    Themes.First().IsActive = true;
+                    _settingsService.SaveCurrentThemeId(Themes.First().Id);
+                }
+                _settingsService.DeleteTheme(theme.Id);
+            }
+        }
+
         private async Task RestoreDefaults(string area)
         {
             var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore default values for this page?", DialogButton.OK, DialogButton.Cancel);
@@ -320,13 +352,19 @@ namespace FluentTerminal.App.ViewModels
                 WorkingDirectory = defaults.WorkingDirectory;
                 Arguments = defaults.Arguments;
             }
-            else if(result == DialogButton.OK && area == "terminal")
+            else if (result == DialogButton.OK && area == "terminal")
             {
                 var defaults = _defaultValueProvider.GetDefaultTerminalOptions();
                 CursorBlink = defaults.CursorBlink;
                 CursorStyle = defaults.CursorStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
+            }
+            else if (result == DialogButton.OK && area == "general")
+            {
+                var defaults = _defaultValueProvider.GetDefaultApplicationSettings();
+                ConfirmClosingWindows = defaults.ConfirmClosingWindows;
+                ConfirmClosingTabs = defaults.ConfirmClosingTabs;
             }
         }
     }
