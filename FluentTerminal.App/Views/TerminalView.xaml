@@ -19,8 +19,10 @@
             Padding="6"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Background="{ThemeResource SystemControlAccentAcrylicWindowAccentMediumHighBrush}"
             Visibility="{x:Bind ViewModel.ShowResizeOverlay, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+            <Grid.Background>
+                <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+            </Grid.Background>
             <TextBlock Foreground="White" Text="{x:Bind ViewModel.ResizeOverlayContent, Mode=OneWay}" />
         </Grid>
     </Grid>
