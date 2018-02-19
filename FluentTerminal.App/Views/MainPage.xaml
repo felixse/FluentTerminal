@@ -2,7 +2,10 @@
     x:Class="FluentTerminal.App.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:FluentTerminal.App.Behaviors"
     xmlns:converters="using:FluentTerminal.App.Converters"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
@@ -72,15 +75,22 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <Interactivity:Interaction.Behaviors>
+                                <behaviors:MiddleClickBehavior>
+                                    <behaviors:MiddleClickBehavior.Actions>
+                                        <core:InvokeCommandAction Command="{x:Bind CloseCommand}" />
+                                    </behaviors:MiddleClickBehavior.Actions>
+                                </behaviors:MiddleClickBehavior>
+                            </Interactivity:Interaction.Behaviors>
                             <TextBlock
                                 Grid.Column="0"
                                 Margin="12,8,0,0"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind Title, Mode=OneWay}" />
                             <Button
+                                x:Name="CloseButton"
                                 Grid.Column="2"
                                 Width="32"
-                                Command="{x:Bind CloseCommand}"
                                 Style="{StaticResource TitleBarButtonStyle}"
                                 ToolTipService.ToolTip="Close">
                                 <Viewbox Width="12" Height="12">
