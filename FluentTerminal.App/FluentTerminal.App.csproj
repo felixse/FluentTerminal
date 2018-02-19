@@ -158,6 +158,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\settingsicons.ttf" />
     <None Include="FluentTerminal.App_StoreKey.pfx" />
     <None Include="FluentTerminal.App_TemporaryKey.pfx" />
     <Content Include="Win32\FluentTerminal.Models.dll" />

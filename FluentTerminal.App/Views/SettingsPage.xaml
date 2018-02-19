@@ -29,26 +29,46 @@
             OpenPaneLength="200"
             SelectionChanged="NavigationView_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem
-                    Content="General"
-                    Icon="Setting"
-                    Tag="general" />
-                <NavigationViewItem
-                    Content="Terminal"
-                    Icon="Setting"
-                    Tag="terminal" />
-                <NavigationViewItem
-                    Content="Shell"
-                    Icon="Setting"
-                    Tag="shell" />
-                <NavigationViewItem
-                    Content="Key Bindings"
-                    Icon="Setting"
-                    Tag="keyBindings" />
-                <NavigationViewItem
-                    Content="Themes"
-                    Icon="Setting"
-                    Tag="themes" />
+                <NavigationViewItem Content="General" Tag="general">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="e"
+                            ToolTipService.ToolTip="General" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Terminal" Tag="terminal">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="d"
+                            ToolTipService.ToolTip="Terminal" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Shell" Tag="shell">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="a"
+                            ToolTipService.ToolTip="Shell" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Keybindings" Tag="keyBindings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="b"
+                            ToolTipService.ToolTip="Keybindings" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Themes" Tag="themes">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="c"
+                            ToolTipService.ToolTip="Themes" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Grid>
                 <Frame x:Name="ContentFrame" />
