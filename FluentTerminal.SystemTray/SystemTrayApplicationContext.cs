@@ -23,7 +23,7 @@ namespace FluentTerminal.SystemTray
         public SystemTrayApplicationContext()
 
         {
-            var openMenuItem = new MenuItem("Open", new EventHandler(OpenApp));
+            var openMenuItem = new MenuItem("Show", new EventHandler(OpenApp));
             var newWindowItem = new MenuItem("New Window", new EventHandler(NewWindow));
             var settingsMenuItem = new MenuItem("Show Settings", new EventHandler(ShowSettings));
             var exitMenuItem = new MenuItem("Exit", new EventHandler(Exit));
