@@ -112,7 +112,7 @@
                     Command="{x:Bind ViewModel.AddTerminalCommand}"
                     Style="{StaticResource TitleBarButtonStyle}"
                     ToolTipService.ToolTip="New Tab">
-                    <Viewbox Width="16" Height="16">
+                    <Viewbox Width="12" Height="12">
                         <SymbolIcon Symbol="Add" />
                     </Viewbox>
                 </Button>
@@ -121,7 +121,7 @@
                     Command="{x:Bind ViewModel.ShowSettingsCommand}"
                     Style="{StaticResource TitleBarButtonStyle}"
                     ToolTipService.ToolTip="Settings">
-                    <Viewbox Width="16" Height="16">
+                    <Viewbox Width="12" Height="12">
                         <SymbolIcon Symbol="Setting" />
                     </Viewbox>
                 </Button>
