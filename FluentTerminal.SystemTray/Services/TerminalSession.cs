@@ -51,7 +51,7 @@ namespace FluentTerminal.SystemTray.Services
 
                 if (!winpty_spawn(_handle, spawnConfigHandle, out IntPtr process, out IntPtr thread, out int procError, out errorHandle))
                 {
-                    throw new Exception(winpty_error_msg(errorHandle).ToString());
+                    throw new Exception($"Failed to start the shell process. Please check your shell settings.\nTried to start: {args}");
                 }
             }
             finally
