@@ -33,7 +33,8 @@ namespace FluentTerminal.SystemTray.Services
             {
                 Success = true,
                 Id = terminal.Id,
-                WebSocketUrl = terminal.WebSocketUrl
+                WebSocketUrl = terminal.WebSocketUrl,
+                ShellExecutableName = terminal.ShellExecutableName
             };
         }
 

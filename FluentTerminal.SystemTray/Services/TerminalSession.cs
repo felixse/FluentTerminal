@@ -53,6 +53,8 @@ namespace FluentTerminal.SystemTray.Services
                 {
                     throw new Exception($"Failed to start the shell process. Please check your shell settings.\nTried to start: {args}");
                 }
+
+                ShellExecutableName = Path.GetFileNameWithoutExtension(exe);
             }
             finally
             {
@@ -128,6 +130,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public int Id { get; }
         public string WebSocketUrl { get; }
+        public string ShellExecutableName { get; }
 
         public void Dispose()
         {

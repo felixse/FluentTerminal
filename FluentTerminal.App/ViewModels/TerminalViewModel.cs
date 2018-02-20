@@ -15,7 +15,6 @@ namespace FluentTerminal.App.ViewModels
 {
     public class TerminalViewModel : ViewModelBase
     {
-        private const string DefaultTitle = "Fluent Terminal";
         private readonly IDialogService _dialogService;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
@@ -63,6 +62,8 @@ namespace FluentTerminal.App.ViewModels
 
         public bool Initialized { get; private set; }
 
+        public string DefaultTitle { get; private set; } = "FluentTerminal";
+
         public string ResizeOverlayContent
         {
             get => _resizeOverlayContent;
@@ -91,7 +92,7 @@ namespace FluentTerminal.App.ViewModels
             get => _title;
             set
             {
-                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle : value;
+                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle: value;
 
                 if (Set(ref _title, value))
                 {
@@ -134,6 +135,9 @@ namespace FluentTerminal.App.ViewModels
                 _terminalView.TerminalSizeChanged += OnTerminalSizeChanged;
                 _terminalView.TerminalTitleChanged += OnTerminalTitleChanged;
                 _terminalView.KeyboardCommandReceived += OnKeyboardCommandReceived;
+
+                DefaultTitle = response.ShellExecutableName;
+                Title = DefaultTitle;
 
                 await _terminalView.ConnectToSocket(response.WebSocketUrl);
                 Initialized = true;
