@@ -10,7 +10,9 @@ using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 
 namespace FluentTerminal.SystemTray
 {
@@ -38,8 +40,15 @@ namespace FluentTerminal.SystemTray
             notifyIcon.Visible = true;
 
             hotKeyManager = new HotKeyManager();
-            hotKeyManager.Register(Key.Scroll, ModifierKeys.None);
-            hotKeyManager.KeyPressed += HotkeyManager_KeyPressed;
+            try
+            {
+                hotKeyManager.Register(Key.Scroll, ModifierKeys.None);
+                hotKeyManager.KeyPressed += HotkeyManager_KeyPressed;
+            }
+            catch (Exception)
+            {
+                ShowNotification("Fluent Terminal", "Unable to register hotkey for toggle window command");
+            }
         }
 
         [DllImport("user32.dll")]
@@ -131,6 +140,24 @@ namespace FluentTerminal.SystemTray
                 }
             }
             await connection.SendMessageAsync(message);
+        }
+
+        private void ShowNotification(string title, string content)
+        {
+            string xml = $@"<toast>
+                            <visual>
+                                <binding template='ToastGeneric'>
+                                    <text>{title}</text>
+                                    <text>{content}</text>
+                                </binding>
+                            </visual>
+                        </toast>";
+
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var toast = new ToastNotification(doc);
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
 
         private void ShowSettings(object sender, EventArgs e)
