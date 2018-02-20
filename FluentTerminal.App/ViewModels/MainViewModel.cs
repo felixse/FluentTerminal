@@ -140,6 +140,11 @@ namespace FluentTerminal.App.ViewModels
                     e.Handled = true;
                 }
             }
+            else
+            {
+                CloseAllTerminals();
+                App.Instance.TerminalWindowClosed();
+            }
             deferral.Complete();
         }
 
