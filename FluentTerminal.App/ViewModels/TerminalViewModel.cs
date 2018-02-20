@@ -62,7 +62,7 @@ namespace FluentTerminal.App.ViewModels
 
         public bool Initialized { get; private set; }
 
-        public string DefaultTitle { get; private set; } = "FluentTerminal";
+        public string DefaultTitle { get; private set; } = "Fluent Terminal";
 
         public string ResizeOverlayContent
         {
