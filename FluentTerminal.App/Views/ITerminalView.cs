@@ -14,6 +14,7 @@ namespace FluentTerminal.App.Views
 
         Task ChangeTheme(TerminalColors theme);
         Task ChangeOptions(TerminalOptions options);
+        Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings);
         Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings);
         Task ConnectToSocket(string url);
         void Close();

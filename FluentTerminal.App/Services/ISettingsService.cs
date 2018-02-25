@@ -9,6 +9,7 @@ namespace FluentTerminal.App.Services
         event EventHandler CurrentThemeChanged;
         event EventHandler TerminalOptionsChanged;
         event EventHandler ApplicationSettingsChanged;
+        event EventHandler KeyBindingsChanged;
 
         ShellConfiguration GetShellConfiguration();
         void SaveShellConfiguration(ShellConfiguration shellConfiguration);

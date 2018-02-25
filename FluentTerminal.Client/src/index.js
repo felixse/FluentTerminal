@@ -112,6 +112,11 @@ function changeOptions(options) {
   term.setOption('fontSize', options.fontSize);
 }
 
+function changeKeyBindings(keyBindings) {
+  keyBindings = JSON.parse(keyBindings);
+  window.keyBindings = keyBindings;
+}
+
 function paste(content) {
   content = b64DecodeUnicode(content);
   term.send(content);
@@ -131,4 +136,5 @@ window.createTerminal = createTerminal;
 window.connectToWebSocket = connectToWebSocket;
 window.changeTheme = changeTheme;
 window.changeOptions = changeOptions;
+window.changeKeyBindings = changeKeyBindings;
 window.paste = paste;

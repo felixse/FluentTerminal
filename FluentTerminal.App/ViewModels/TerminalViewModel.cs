@@ -39,6 +39,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+            _settingsService.KeyBindingsChanged += OnKeyBindingsChanged;
             _terminalService = terminalService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
@@ -51,6 +52,15 @@ namespace FluentTerminal.App.ViewModels
             CloseCommand = new RelayCommand(async () => await InvokeCloseRequested());
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
+        }
+
+        private async void OnKeyBindingsChanged(object sender, EventArgs e)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                var keyBindings = _settingsService.GetKeyBindings();
+                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(keyBindings));
+            });
         }
 
         public event EventHandler CloseRequested;

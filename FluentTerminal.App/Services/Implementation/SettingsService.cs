@@ -18,6 +18,7 @@ namespace FluentTerminal.App.Services.Implementation
         public event EventHandler CurrentThemeChanged;
         public event EventHandler TerminalOptionsChanged;
         public event EventHandler ApplicationSettingsChanged;
+        public event EventHandler KeyBindingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
@@ -127,6 +128,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveKeyBindings(KeyBindings keyBindings)
         {
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
+            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

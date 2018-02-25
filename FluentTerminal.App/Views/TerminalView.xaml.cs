@@ -70,6 +70,12 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
+        public Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings)
+        {
+            var serialized = JsonConvert.SerializeObject(keyBindings);
+            return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
+        }
+
         public void Close()
         {
             _webView?.Navigate(new Uri("about:blank"));
