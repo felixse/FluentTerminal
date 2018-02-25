@@ -10,7 +10,7 @@
         <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
         <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
     </Page.Resources>
-    <Grid x:Name="Root" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="Root">
         <TextBlock
             x:Name="AppTitle"
             Canvas.ZIndex="1"
@@ -70,7 +70,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            <Grid>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
                 <TextBlock
                     Margin="12,8,0,0"

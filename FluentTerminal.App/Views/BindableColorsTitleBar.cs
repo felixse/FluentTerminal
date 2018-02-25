@@ -1,13 +1,19 @@
 ﻿using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System;
 
 namespace FluentTerminal.App.Views
 {
     public sealed class BindableColorsTitleBar : Control
     {
-        private ApplicationViewTitleBar _titleBar;
+        private readonly ApplicationViewTitleBar _titleBar;
+        private readonly UISettings _uiSettings;
+        private readonly CoreDispatcher _dispatcher;
+
+        private bool _customValues;
 
         private Color? _buttonForeground;
         private Color? _buttonHoverBackground;
@@ -18,10 +24,30 @@ namespace FluentTerminal.App.Views
 
         public BindableColorsTitleBar()
         {
-            DefaultStyleKey = typeof(BindableColorsTitleBar);
+            _uiSettings = new UISettings();
+            _uiSettings.ColorValuesChanged += OnColorValuesChanged;
             _titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            _titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            _titleBar.ButtonBackgroundColor = Colors.Transparent;
+            _titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            _titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
+
+            _dispatcher = Window.Current.Dispatcher;
+
             _buttonHoverBackground = _titleBar.ButtonHoverBackgroundColor = Color.FromArgb(24, 255, 255, 255);
             _buttonPressedBackground = _titleBar.ButtonPressedBackgroundColor = Color.FromArgb(48, 255, 255, 255);
+        }
+
+        private async void OnColorValuesChanged(UISettings sender, object args)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (!_customValues)
+                {
+                    _titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
+                }
+            });
         }
 
         public Color TitleBarForeground
@@ -55,6 +81,8 @@ namespace FluentTerminal.App.Views
             _titleBar.ButtonPressedForegroundColor = _buttonPressedForeground;
             _titleBar.ButtonHoverForegroundColor = _buttonHoverForeground;
             _titleBar.InactiveForegroundColor = _inactiveForeground;
+
+            _customValues = true;
         }
 
         public void ResetTitleBar()
@@ -65,6 +93,8 @@ namespace FluentTerminal.App.Views
             _titleBar.ButtonPressedForegroundColor = null;
             _titleBar.ButtonHoverForegroundColor = null;
             _titleBar.InactiveForegroundColor = null;
+
+            _customValues = false;
         }
     }
 }

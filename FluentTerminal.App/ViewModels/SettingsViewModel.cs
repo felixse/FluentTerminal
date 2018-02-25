@@ -57,7 +57,7 @@ namespace FluentTerminal.App.ViewModels
                 Themes.Add(viewModel);
             }
 
-            SelectedTheme = Themes.First();
+            SelectedTheme = Themes.First(t => t.IsActive);
 
             Fonts = CanvasTextFormat.GetSystemFontFamilies().OrderBy(s => s);
 
