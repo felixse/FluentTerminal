@@ -8,6 +8,113 @@ namespace FluentTerminal.App.Services.Implementation
 {
     internal class DefaultValueProvider : IDefaultValueProvider
     {
+        public ApplicationSettings GetDefaultApplicationSettings()
+        {
+            return new ApplicationSettings
+            {
+                ConfirmClosingTabs = false,
+                ConfirmClosingWindows = false
+            };
+        }
+
+        public KeyBindings GetDefaultKeyBindings()
+        {
+            return new KeyBindings
+            {
+                NewTab = new[]
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.NewTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.T
+                    }
+                },
+                CloseTab = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.CloseTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.W
+                    }
+                },
+                NextTab = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.NextTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.Tab
+                    }
+                },
+                PreviousTab = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.PreviousTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)VirtualKey.Tab
+                    }
+                },
+                NewWindow = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.NewWindow,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.N
+                    }
+                },
+                ShowSettings = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.ShowSettings,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = 188 // comma
+                    }
+                },
+                Copy = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.Copy,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)VirtualKey.C
+                    }
+                },
+                Paste = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.Paste,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.V
+                    }
+                },
+                ToggleWindow = new[] {
+                    new KeyBinding
+                    {
+                        Command = Command.ToggleWindow,
+                        Ctrl = false,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.Scroll
+                    }
+                }
+            };
+        }
+
         public ShellConfiguration GetDefaultShellConfiguration()
         {
             return new ShellConfiguration
@@ -105,94 +212,6 @@ namespace FluentTerminal.App.Services.Implementation
             };
 
             return new[] { defaultXterm, powerShell };
-        }
-
-        public IEnumerable<KeyBinding> GetDefaultKeyBindings()
-        {
-            return new[]
-            {
-                new KeyBinding
-                {
-                    Command = Command.NewTab,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = (int)VirtualKey.T
-                },
-                new KeyBinding
-                {
-                    Command = Command.CloseTab,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = (int)VirtualKey.W
-                },
-                new KeyBinding
-                {
-                    Command = Command.NextTab,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = (int)VirtualKey.Tab
-                },
-                new KeyBinding
-                {
-                    Command = Command.PreviousTab,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = true,
-                    Key = (int)VirtualKey.Tab
-                },
-                new KeyBinding
-                {
-                    Command = Command.NewWindow,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = (int)VirtualKey.N
-                },
-                new KeyBinding
-                {
-                    Command = Command.ShowSettings,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = 188 // comma
-                },
-                new KeyBinding
-                {
-                    Command = Command.Copy,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = true,
-                    Key = (int)VirtualKey.C
-                },
-                new KeyBinding
-                {
-                    Command = Command.Paste,
-                    Ctrl = true,
-                    Alt = false,
-                    Meta = false,
-                    Shift = false,
-                    Key = (int)VirtualKey.V
-                }
-            };
-        }
-
-        public ApplicationSettings GetDefaultApplicationSettings()
-        {
-            return new ApplicationSettings
-            {
-                ConfirmClosingTabs = false,
-                ConfirmClosingWindows = false
-            };
         }
     }
 }

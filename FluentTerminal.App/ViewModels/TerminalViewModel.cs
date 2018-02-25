@@ -5,6 +5,7 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -119,7 +120,7 @@ namespace FluentTerminal.App.ViewModels
             var theme = _settingsService.GetCurrentTheme();
             var keyBindings = _settingsService.GetKeyBindings();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, keyBindings);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings));
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
@@ -235,6 +236,21 @@ namespace FluentTerminal.App.ViewModels
         private void OnTerminalTitleChanged(object sender, string e)
         {
             Title = e;
+        }
+
+        private IEnumerable<KeyBinding> GetKeyBindingsCollection(KeyBindings keyBindings)
+        {
+            var list = new List<KeyBinding>();
+            list.AddRange(keyBindings.CloseTab);
+            list.AddRange(keyBindings.Copy);
+            list.AddRange(keyBindings.NewTab);
+            list.AddRange(keyBindings.NewWindow);
+            list.AddRange(keyBindings.NextTab);
+            list.AddRange(keyBindings.Paste);
+            list.AddRange(keyBindings.PreviousTab);
+            list.AddRange(keyBindings.ShowSettings);
+
+            return list;
         }
     }
 }

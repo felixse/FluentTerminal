@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -23,6 +24,8 @@ namespace FluentTerminal.App.ViewModels
         private ShellConfiguration _shellConfiguration;
         private TerminalOptions _terminalOptions;
 
+        public KeyBindingsPageViewModel KeyBindings { get; }
+
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService)
         {
             _settingsService = settingsService;
@@ -37,6 +40,8 @@ namespace FluentTerminal.App.ViewModels
             _terminalOptions = _settingsService.GetTerminalOptions();
             _applicationSettings = _settingsService.GetApplicationSettings();
             ShellType = _shellConfiguration.Shell;
+
+            KeyBindings = new KeyBindingsPageViewModel(_settingsService, dialogService, _defaultValueProvider);
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())

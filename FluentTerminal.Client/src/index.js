@@ -67,7 +67,6 @@ function createTerminal(options, theme, keyBindings) {
       var keyBinding = window.keyBindings[i];
       if (keyBinding.ctrl == e.ctrlKey
         && keyBinding.alt == e.altKey
-        && keyBinding.meta == e.metaKey
         && keyBinding.shift == e.shiftKey
         && keyBinding.key == e.keyCode) {
         if (document.visibilityState == 'visible') {

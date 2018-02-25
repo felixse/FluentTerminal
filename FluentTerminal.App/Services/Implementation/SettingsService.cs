@@ -119,9 +119,14 @@ namespace FluentTerminal.App.Services.Implementation
             ApplicationSettingsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public IEnumerable<KeyBinding> GetKeyBindings()
+        public KeyBindings GetKeyBindings()
         {
-            return _roamingSettings.ReadValueFromJson("KeyBindings", _defaultValueProvider.GetDefaultKeyBindings());
+            return _roamingSettings.ReadValueFromJson(nameof(KeyBindings), _defaultValueProvider.GetDefaultKeyBindings());
+        }
+
+        public void SaveKeyBindings(KeyBindings keyBindings)
+        {
+            _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
         }
     }
 }

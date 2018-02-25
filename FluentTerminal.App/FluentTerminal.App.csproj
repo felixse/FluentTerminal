@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
+    <Compile Include="Converters\IntToExtendedVirtualKeyConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\NegateConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
@@ -121,14 +122,23 @@
     <Compile Include="Utilities\IHttpContentExtensions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\TerminalViewModel.cs" />
     <Compile Include="Views\BindableColorsTitleBar.cs" />
     <Compile Include="Views\ITerminalView.cs" />
+    <Compile Include="Views\KeyBindingsView.xaml.cs">
+      <DependentUpon>KeyBindingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\CreateKeyBindingDialog.xaml.cs">
+      <DependentUpon>CreateKeyBindingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -354,6 +364,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\KeyBindingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -362,6 +376,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\CreateKeyBindingDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>

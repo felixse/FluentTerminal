@@ -19,7 +19,8 @@ namespace FluentTerminal.App.Services
         ApplicationSettings GetApplicationSettings();
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
 
-        IEnumerable<KeyBinding> GetKeyBindings();
+        KeyBindings GetKeyBindings();
+        void SaveKeyBindings(KeyBindings keyBindings);
 
         TerminalTheme GetCurrentTheme();
         Guid GetCurrentThemeId();

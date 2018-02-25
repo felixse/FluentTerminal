@@ -82,7 +82,7 @@ namespace FluentTerminal.App.Views
                         ContentFrame.Navigate(typeof(TerminalSettings), ViewModel);
                         break;
                     case "keyBindings":
-                        ContentFrame.Navigate(typeof(KeyBindingSettings), ViewModel);
+                        ContentFrame.Navigate(typeof(KeyBindingSettings), ViewModel.KeyBindings);
                         break;
                 }
             }            
