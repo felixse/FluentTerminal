@@ -178,7 +178,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, EventArgs e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 _applicationSettings = _settingsService.GetApplicationSettings();
             });

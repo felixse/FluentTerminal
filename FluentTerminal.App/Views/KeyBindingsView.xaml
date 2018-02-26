@@ -80,10 +80,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <HyperlinkButton
-            Grid.Row="1"
-            Margin="6,0,0,0"
-            Command="{x:Bind ViewModel.AddCommand}"
-            Content="Add" />
     </Grid>
 </UserControl>

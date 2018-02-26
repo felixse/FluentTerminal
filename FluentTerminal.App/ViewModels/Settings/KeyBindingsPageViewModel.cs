@@ -22,6 +22,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
 
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
+            AddCommand = new RelayCommand<Command>(async command => await Add(command));
 
             Initialize(_settingsService.GetKeyBindings());
         }
@@ -64,6 +65,34 @@ namespace FluentTerminal.App.ViewModels.Settings
         public KeyBindingsViewModel Paste { get; private set; }
 
         public RelayCommand RestoreDefaultsCommand { get; }
+        public RelayCommand<Command> AddCommand { get; }
+
+        private Task Add(Command command)
+        {
+            switch (command)
+            {
+                case Command.ToggleWindow:
+                    return ToggleWindow.Add();
+                case Command.NextTab:
+                    return NextTab.Add();
+                case Command.PreviousTab:
+                    return PreviousTab.Add();
+                case Command.NewTab:
+                    return NewTab.Add();
+                case Command.CloseTab:
+                    return CloseTab.Add();
+                case Command.NewWindow:
+                    return NewWindow.Add();
+                case Command.ShowSettings:
+                    return ShowSettings.Add();
+                case Command.Copy:
+                    return Copy.Add();
+                case Command.Paste:
+                    return Paste.Add();
+            }
+
+            return Task.CompletedTask;
+        }
 
         private async Task RestoreDefaults()
         {

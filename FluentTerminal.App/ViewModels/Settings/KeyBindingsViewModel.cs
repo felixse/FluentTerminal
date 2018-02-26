@@ -21,7 +21,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             _command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
-            AddCommand = new RelayCommand(async () => await Add());
 
             foreach (var binding in keyBindings)
             {
@@ -34,11 +33,9 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public event EventHandler Edited;
 
-        public RelayCommand AddCommand { get; }
-
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
-        private async Task Add()
+        public async Task Add()
         {
             var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = _command }, _dialogService);
 
