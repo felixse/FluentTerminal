@@ -19,7 +19,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
-        private readonly ITerminalService _terminalService;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private ApplicationSettings _applicationSettings;
         private CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
@@ -30,7 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
 
-        public TerminalViewModel(int id, ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory)
+        public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory)
         {
             Id = id;
             Title = DefaultTitle;
@@ -40,7 +40,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.KeyBindingsChanged += OnKeyBindingsChanged;
-            _terminalService = terminalService;
+            _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
             _applicationSettings = applicationSettings;
@@ -138,7 +138,7 @@ namespace FluentTerminal.App.ViewModels
                 configuration.WorkingDirectory = _startupDirectory;
             }
 
-            var response = await _terminalService.CreateTerminal(size, configuration);
+            var response = await _trayProcessCommunicationService.CreateTerminal(size, configuration);
 
             if (response.Success)
             {
@@ -240,7 +240,7 @@ namespace FluentTerminal.App.ViewModels
             }
             ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
             ShowResizeOverlay = true;
-            await _terminalService.ResizeTerminal(_terminalId, e);
+            await _trayProcessCommunicationService.ResizeTerminal(_terminalId, e);
         }
 
         private void OnTerminalTitleChanged(object sender, string e)

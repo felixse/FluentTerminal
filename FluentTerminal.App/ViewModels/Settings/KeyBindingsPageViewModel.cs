@@ -14,13 +14,14 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
-        public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
+        public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
-
+            _trayProcessCommunicationService = trayProcessCommunicationService;
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
             AddCommand = new RelayCommand<Command>(async command => await Add(command));
 
@@ -116,6 +117,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void OnEdited(object sender, System.EventArgs e)
         {
             _settingsService.SaveKeyBindings(_keyBindings);
+            _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
         }
     }
 }

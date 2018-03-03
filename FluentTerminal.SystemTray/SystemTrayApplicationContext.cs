@@ -1,26 +1,20 @@
-﻿using GlobalHotKey;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
-using Windows.Data.Xml.Dom;
 using Windows.Foundation.Collections;
-using Windows.UI.Notifications;
 
 namespace FluentTerminal.SystemTray
 {
     public class SystemTrayApplicationContext : ApplicationContext
     {
-        private AppServiceConnection connection = null;
-        private HotKeyManager hotKeyManager = null;
-        private NotifyIcon notifyIcon = null;
+        private AppServiceConnection _connection;
+        private readonly NotifyIcon _notifyIcon;
 
         public SystemTrayApplicationContext()
 
@@ -32,41 +26,18 @@ namespace FluentTerminal.SystemTray
 
             openMenuItem.DefaultItem = true;
 
-            notifyIcon = new NotifyIcon();
-            notifyIcon.DoubleClick += OpenApp;
-            notifyIcon.Text = "Fluent Terminal";
-            notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
-            notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });
-            notifyIcon.Visible = true;
-
-            hotKeyManager = new HotKeyManager();
-            try
-            {
-                hotKeyManager.Register(Key.Scroll, ModifierKeys.None);
-                hotKeyManager.KeyPressed += HotkeyManager_KeyPressed;
-            }
-            catch (Exception)
-            {
-                ShowNotification("Fluent Terminal", "Unable to register hotkey for the toggle window command.");
-            }
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.DoubleClick += OpenApp;
+            _notifyIcon.Text = "Fluent Terminal";
+            _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
+            _notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });
+            _notifyIcon.Visible = true;
         }
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
-
-        protected override void Dispose(bool disposing)
-        {
-            hotKeyManager.Dispose();
-            base.Dispose(disposing);
-        }
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
 
         private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
-            connection.ServiceClosed -= Connection_ServiceClosed;
-            connection = null;
+            _connection.ServiceClosed -= Connection_ServiceClosed;
+            _connection = null;
         }
 
         private async void Exit(object sender, EventArgs e)
@@ -77,36 +48,6 @@ namespace FluentTerminal.SystemTray
             };
             await SendMessage(message);
             Application.Exit();
-        }
-
-        private string GetActiveProcessFileName()
-        {
-            try
-            {
-                IntPtr hwnd = GetForegroundWindow();
-                GetWindowThreadProcessId(hwnd, out uint pid);
-                Process p = Process.GetProcessById((int)pid);
-                return p.MainWindowTitle;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        private void HotkeyManager_KeyPressed(object sender, KeyPressedEventArgs e)
-        {
-            if (e.HotKey.Key == Key.Scroll)
-            {
-                if (GetActiveProcessFileName() == "Fluent Terminal")
-                {
-                    SendKeys.Send("%{Tab}");
-                }
-                else
-                {
-                    OpenApp(this, EventArgs.Empty);
-                }
-            }
         }
 
         private void NewWindow(object sender, EventArgs e)
@@ -123,15 +64,15 @@ namespace FluentTerminal.SystemTray
         private async Task SendMessage(ValueSet message)
 
         {
-            if (connection == null)
+            if (_connection == null)
             {
-                connection = new AppServiceConnection
+                _connection = new AppServiceConnection
                 {
                     PackageFamilyName = Package.Current.Id.FamilyName,
                     AppServiceName = "FluentTerminalAppService"
                 };
-                connection.ServiceClosed += Connection_ServiceClosed;
-                AppServiceConnectionStatus connectionStatus = await connection.OpenAsync();
+                _connection.ServiceClosed += Connection_ServiceClosed;
+                AppServiceConnectionStatus connectionStatus = await _connection.OpenAsync();
 
                 if (connectionStatus != AppServiceConnectionStatus.Success)
                 {
@@ -139,25 +80,7 @@ namespace FluentTerminal.SystemTray
                     return;
                 }
             }
-            await connection.SendMessageAsync(message);
-        }
-
-        private void ShowNotification(string title, string content)
-        {
-            string xml = $@"<toast>
-                            <visual>
-                                <binding template='ToastGeneric'>
-                                    <text>{title}</text>
-                                    <text>{content}</text>
-                                </binding>
-                            </visual>
-                        </toast>";
-
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
-
-            var toast = new ToastNotification(doc);
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+            await _connection.SendMessageAsync(message);
         }
 
         private void ShowSettings(object sender, EventArgs e)

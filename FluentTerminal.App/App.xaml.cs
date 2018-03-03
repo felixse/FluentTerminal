@@ -37,7 +37,7 @@ namespace FluentTerminal.App
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
-            builder.RegisterType<TerminalService>().As<ITerminalService>().SingleInstance();
+            builder.RegisterType<TrayProcessCommunicationService>().As<ITrayProcessCommunicationService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();

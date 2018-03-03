@@ -114,9 +114,9 @@
     <Compile Include="Services\IDefaultValueProvider.cs" />
     <Compile Include="Services\Implementation\DefaultValueProvider.cs" />
     <Compile Include="Services\Implementation\SettingsService.cs" />
-    <Compile Include="Services\Implementation\TerminalService.cs" />
+    <Compile Include="Services\Implementation\TrayProcessCommunicationService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
-    <Compile Include="Services\ITerminalService.cs" />
+    <Compile Include="Services\ITrayProcessCommunicationService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\HttpJsonContent.cs" />
     <Compile Include="Utilities\IHttpContentExtensions.cs" />

@@ -18,6 +18,7 @@ namespace FluentTerminal.App.ViewModels
     {
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ISettingsService _settingsService;
         private ApplicationSettings _applicationSettings;
         private ThemeViewModel _selectedTheme;
@@ -26,11 +27,12 @@ namespace FluentTerminal.App.ViewModels
 
         public KeyBindingsPageViewModel KeyBindings { get; }
 
-        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService)
+        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _defaultValueProvider = defaultValueProvider;
             _dialogService = dialogService;
+            _trayProcessCommunicationService = trayProcessCommunicationService;
             BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell());
             BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory());
             RestoreDefaultsCommand = new RelayCommand<string>(async (area) => await RestoreDefaults(area));
@@ -41,7 +43,7 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             ShellType = _shellConfiguration.Shell;
 
-            KeyBindings = new KeyBindingsPageViewModel(_settingsService, dialogService, _defaultValueProvider);
+            KeyBindings = new KeyBindingsPageViewModel(_settingsService, dialogService, _defaultValueProvider, _trayProcessCommunicationService);
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())

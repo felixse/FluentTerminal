@@ -112,10 +112,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\KeyBindingsController.cs" />
     <Compile Include="Controllers\TerminalsController.cs" />
     <Compile Include="LoopbackEnabler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ToggleWindowService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\TerminalSession.cs" />
     <Compile Include="Services\TerminalsManager.cs" />
     <Compile Include="Startup.cs" />

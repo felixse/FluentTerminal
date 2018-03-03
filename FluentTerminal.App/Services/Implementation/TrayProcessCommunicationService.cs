@@ -6,13 +6,23 @@ using Windows.Web.Http;
 
 namespace FluentTerminal.App.Services.Implementation
 {
-    internal class TerminalService : ITerminalService
+    internal class TrayProcessCommunicationService : ITrayProcessCommunicationService
     {
         private readonly HttpClient _httpClient;
+        private readonly ISettingsService _settingsService;
 
-        public TerminalService()
+        public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _httpClient = new HttpClient();
+            _settingsService = settingsService;
+
+            UpdateToggleWindowKeyBindings();
+        }
+
+        public Task UpdateToggleWindowKeyBindings()
+        {
+            var keyBindings = _settingsService.GetKeyBindings().ToggleWindow;
+            return _httpClient.PostAsync(new Uri($"http://localhost:9000/keybindings/togglewindow"), HttpJsonContent.From(keyBindings)).AsTask();
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellConfiguration shellConfiguration)

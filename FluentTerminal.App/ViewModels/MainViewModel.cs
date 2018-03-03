@@ -18,7 +18,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
-        private readonly ITerminalService _terminalService;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -26,12 +26,12 @@ namespace FluentTerminal.App.ViewModels
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
 
-        public MainViewModel(ISettingsService settingsService, ITerminalService terminalService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
+        public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
-            _terminalService = terminalService;
+            _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null));
@@ -84,7 +84,7 @@ namespace FluentTerminal.App.ViewModels
 
         public void AddTerminal(string startupDirectory)
         {
-            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _terminalService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
+            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
             terminal.CloseRequested += OnTerminalCloseRequested;
             Terminals.Add(terminal);
 

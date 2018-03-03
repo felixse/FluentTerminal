@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services
 {
-    public interface ITerminalService
+    public interface ITrayProcessCommunicationService
     {
         Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellConfiguration shellConfiguration);
         Task ResizeTerminal(int id, TerminalSize size);
+        Task UpdateToggleWindowKeyBindings();
     }
 }
