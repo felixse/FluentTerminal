@@ -2,7 +2,6 @@
     x:Class="FluentTerminal.App.Views.CreateKeyBindingDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
@@ -10,15 +9,6 @@
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
-    <ContentDialog.Resources>
-        <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
-        <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
-        <converters:IntToVisibilityConverter
-            x:Key="ZeroToCollapsedConverter"
-            Else="Visible"
-            If="0"
-            Then="Collapsed" />
-    </ContentDialog.Resources>
     <StackPanel>
         <TextBlock Margin="0,0,0,24" Text="Enter your keybinding now" />
         <StackPanel x:Name="Root" Orientation="Horizontal">

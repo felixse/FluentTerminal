@@ -18,6 +18,15 @@
                 Else="Visible"
                 If="1"
                 Then="Collapsed" />
+            <converters:NegateConverter x:Key="NegateConverter" />
+            <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
+            <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
+            <converters:IntToVisibilityConverter
+                x:Key="ZeroToCollapsedConverter"
+                Else="Visible"
+                If="0"
+                Then="Collapsed" />
+            <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
