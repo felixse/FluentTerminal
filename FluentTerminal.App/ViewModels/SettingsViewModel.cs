@@ -20,12 +20,12 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ISettingsService _settingsService;
-        private ApplicationSettings _applicationSettings;
         private ThemeViewModel _selectedTheme;
         private ShellConfiguration _shellConfiguration;
         private TerminalOptions _terminalOptions;
 
         public KeyBindingsPageViewModel KeyBindings { get; }
+        public GeneralPageViewModel General { get; }
 
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -40,10 +40,10 @@ namespace FluentTerminal.App.ViewModels
 
             _shellConfiguration = _settingsService.GetShellConfiguration();
             _terminalOptions = _settingsService.GetTerminalOptions();
-            _applicationSettings = _settingsService.GetApplicationSettings();
             ShellType = _shellConfiguration.Shell;
 
             KeyBindings = new KeyBindingsPageViewModel(_settingsService, dialogService, _defaultValueProvider, _trayProcessCommunicationService);
+            General = new GeneralPageViewModel(_settingsService, dialogService, _defaultValueProvider);
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
@@ -100,34 +100,6 @@ namespace FluentTerminal.App.ViewModels
         {
             get => ShellType == ShellType.CMD;
             set => ShellType = ShellType.CMD;
-        }
-
-        public bool ConfirmClosingTabs
-        {
-            get => _applicationSettings.ConfirmClosingTabs;
-            set
-            {
-                if (_applicationSettings.ConfirmClosingTabs != value)
-                {
-                    _applicationSettings.ConfirmClosingTabs = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public bool ConfirmClosingWindows
-        {
-            get => _applicationSettings.ConfirmClosingWindows;
-            set
-            {
-                if (_applicationSettings.ConfirmClosingWindows != value)
-                {
-                    _applicationSettings.ConfirmClosingWindows = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
         }
 
         public RelayCommand CreateThemeCommand { get; set; }
@@ -366,12 +338,6 @@ namespace FluentTerminal.App.ViewModels
                 CursorStyle = defaults.CursorStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
-            }
-            else if (result == DialogButton.OK && area == "general")
-            {
-                var defaults = _defaultValueProvider.GetDefaultApplicationSettings();
-                ConfirmClosingWindows = defaults.ConfirmClosingWindows;
-                ConfirmClosingTabs = defaults.ConfirmClosingTabs;
             }
         }
     }

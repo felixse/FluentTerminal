@@ -52,7 +52,7 @@ namespace FluentTerminal.App.Views
                 switch (item.Tag)
                 {
                     case "general":
-                        ContentFrame.Navigate(typeof(GeneralSettings), ViewModel);
+                        ContentFrame.Navigate(typeof(GeneralSettings), ViewModel.General);
                         break;
 
                     case "shell":

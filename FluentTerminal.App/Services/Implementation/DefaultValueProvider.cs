@@ -13,7 +13,8 @@ namespace FluentTerminal.App.Services.Implementation
             return new ApplicationSettings
             {
                 ConfirmClosingTabs = false,
-                ConfirmClosingWindows = false
+                ConfirmClosingWindows = false,
+                NewTerminalLocation = NewTerminalLocation.Tab
             };
         }
 

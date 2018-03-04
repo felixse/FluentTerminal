@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -30,14 +29,18 @@
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
-                    Command="{Binding ViewModel.RestoreDefaultsCommand}"
-                    CommandParameter="general"
+                    Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
         <StackPanel Grid.Row="2" Margin="24,0,0,0">
-
+            <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
+            <RadioButton Content="Tab" IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
+            <RadioButton
+                Margin="0,0,0,24"
+                Content="Window"
+                IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
             <ToggleSwitch
                 Margin="0,0,0,24"
                 Header="Ask before closing windows"

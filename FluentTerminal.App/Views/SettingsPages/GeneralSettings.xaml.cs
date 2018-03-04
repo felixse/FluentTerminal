@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.ViewModels.Settings;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -6,7 +6,7 @@ namespace FluentTerminal.App.Views.SettingsPages
 {
     public sealed partial class GeneralSettings : Page
     {
-        public SettingsViewModel ViewModel { get; private set; }
+        public GeneralPageViewModel ViewModel { get; private set; }
 
         public GeneralSettings()
         {
@@ -15,7 +15,7 @@ namespace FluentTerminal.App.Views.SettingsPages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is SettingsViewModel viewModel)
+            if (e.Parameter is GeneralPageViewModel viewModel)
             {
                 ViewModel = viewModel;
             }

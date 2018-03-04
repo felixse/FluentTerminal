@@ -3,8 +3,12 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -26,11 +30,16 @@ namespace FluentTerminal.App
         public static App Instance;
         private bool _alreadyLaunched;
         private IContainer _container;
-        private int _openTerminalWindows;
         private int? _settingsWindowId;
+        private readonly ISettingsService _settingsService;
+        private ApplicationSettings _applicationSettings;
+
+        private List<MainViewModel> _mainViewModels;
 
         public App()
         {
+            _mainViewModels = new List<MainViewModel>();
+
             InitializeComponent();
             Instance = this;
 
@@ -44,13 +53,21 @@ namespace FluentTerminal.App
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
 
             _container = builder.Build();
+
+            _settingsService = _container.Resolve<ISettingsService>();
+            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+
+            _applicationSettings = _settingsService.GetApplicationSettings();
+        }
+
+        private void OnApplicationSettingsChanged(object sender, EventArgs e)
+        {
+            _applicationSettings = _settingsService.GetApplicationSettings();
         }
 
         public async Task CreateNewTerminalWindow(string startupDirectory)
         {
-            var viewModel = _container.Resolve<MainViewModel>();
-            viewModel.AddTerminal(startupDirectory);
-            var id = await CreateSecondaryView(typeof(MainPage), viewModel, true);
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory);
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
@@ -63,15 +80,14 @@ namespace FluentTerminal.App
         {
             if (_settingsWindowId == null)
             {
-                var viewModel = _container.Resolve<SettingsViewModel>();
-                _settingsWindowId = await CreateSecondaryView(typeof(SettingsPage), viewModel, true);
+                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null);
             }
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
         }
 
-        public void TerminalWindowClosed()
+        public void TerminalWindowClosed(MainViewModel viewModel)
         {
-            _openTerminalWindows--;
+            _mainViewModels.Remove(viewModel);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -95,7 +111,15 @@ namespace FluentTerminal.App
                     }
                     else if (command == "new")
                     {
-                        await CreateNewTerminalWindow(parameter);
+                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Any())
+                        {
+                            await _mainViewModels.Last().AddTerminal(parameter);
+                        }
+                        else
+                        {
+                            await CreateNewTerminalWindow(parameter);
+                        }
+
                     }
                 }
                 else
@@ -107,9 +131,16 @@ namespace FluentTerminal.App
                     }
                     else if (command == "new")
                     {
-                        var viewModel = _container.Resolve<MainViewModel>();
-                        viewModel.AddTerminal(parameter);
-                        await CreateMainView(typeof(MainPage), viewModel, true);
+                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Any())
+                        {
+                            await _mainViewModels.Last().AddTerminal(parameter);
+                        }
+                        else
+                        {
+                            var viewModel = _container.Resolve<MainViewModel>();
+                            await viewModel.AddTerminal(parameter);
+                            await CreateMainView(typeof(MainPage), viewModel, true);
+                        }
                     }
                 }
             }
@@ -132,15 +163,13 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal(null);
+                await viewModel.AddTerminal(null);
                 await CreateMainView(typeof(MainPage), viewModel, true);
                 Window.Current.Activate();
             }
-            else if (_openTerminalWindows == 0)
+            else if (_mainViewModels.Any() == false)
             {
-                var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal(null);
-                await CreateSecondaryView(typeof(MainPage), viewModel, true);
+                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty);
             }
         }
 
@@ -161,9 +190,9 @@ namespace FluentTerminal.App
             {
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = extendViewIntoTitleBar;
 
-                if (pageType == typeof(MainPage))
+                if (viewModel is MainViewModel mainViewModel)
                 {
-                    _openTerminalWindows++;
+                    _mainViewModels.Add(mainViewModel);
                 }
 
                 rootFrame.Navigate(pageType, viewModel);
@@ -172,11 +201,14 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        private async Task<int> CreateSecondaryView(Type pageType, INotifyPropertyChanged viewModel, bool ExtendViewIntoTitleBar)
+        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter)
         {
             int windowId = 0;
+            TViewModel viewModel = default;
             await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                viewModel = _container.Resolve<TViewModel>();
+                
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
                 var frame = new Frame();
                 frame.Navigate(pageType, viewModel);
@@ -186,9 +218,10 @@ namespace FluentTerminal.App
                 windowId = ApplicationView.GetForCurrentView().Id;
             });
 
-            if (pageType == typeof(MainPage))
+            if (viewModel is MainViewModel mainViewModel && parameter is string directory)
             {
-                _openTerminalWindows++;
+                _mainViewModels.Add(mainViewModel);
+                await mainViewModel.AddTerminal(directory);
             }
 
             return windowId;

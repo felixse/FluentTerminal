@@ -25,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private CoreDispatcher _dispatcher;
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
+        private string _title;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
         {
@@ -47,6 +48,10 @@ namespace FluentTerminal.App.ViewModels
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
             ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
+
+            Terminals.CollectionChanged += OnTerminalsCollectionChanged;
+
+            Title = "Fluent Terminal";
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
@@ -82,13 +87,23 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
-        public void AddTerminal(string startupDirectory)
+        public string Title
         {
-            var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
-            terminal.CloseRequested += OnTerminalCloseRequested;
-            Terminals.Add(terminal);
+            get => _title;
+            set => Set(ref _title, value);
+        }
 
-            SelectedTerminal = terminal;
+        public Task AddTerminal(string startupDirectory)
+        {
+            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
+                terminal.CloseRequested += OnTerminalCloseRequested;
+                terminal.TitleChanged += OnTitleChanged;
+                Terminals.Add(terminal);
+
+                SelectedTerminal = terminal;
+            }).AsTask();
         }
 
         public void CloseAllTerminals()
@@ -111,7 +126,7 @@ namespace FluentTerminal.App.ViewModels
 
         private Task NewWindow()
         {
-            return App.Instance.CreateNewTerminalWindow(null);
+            return App.Instance.CreateNewTerminalWindow(string.Empty);
         }
 
         private async void OnApplicationSettingsChanged(object sender, EventArgs e)
@@ -133,7 +148,7 @@ namespace FluentTerminal.App.ViewModels
                 if (result == DialogButton.OK)
                 {
                     CloseAllTerminals();
-                    App.Instance.TerminalWindowClosed();
+                    App.Instance.TerminalWindowClosed(this);
                 }
                 else
                 {
@@ -143,7 +158,7 @@ namespace FluentTerminal.App.ViewModels
             else
             {
                 CloseAllTerminals();
-                App.Instance.TerminalWindowClosed();
+                App.Instance.TerminalWindowClosed(this);
             }
             deferral.Complete();
         }
@@ -173,6 +188,22 @@ namespace FluentTerminal.App.ViewModels
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
                 Terminals.Remove(terminal);
+            }
+        }
+
+        private void OnTerminalsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (Terminals.Any())
+            {
+                Title = Terminals.First().Title;
+            }
+        }
+
+        private void OnTitleChanged(object sender, string e)
+        {
+            if (sender is TerminalViewModel terminal && Terminals.First() == terminal)
+            {
+                Title = e;
             }
         }
 

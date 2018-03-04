@@ -79,6 +79,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -122,6 +123,7 @@
     <Compile Include="Utilities\IHttpContentExtensions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
