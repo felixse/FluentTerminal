@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.ViewModels.Settings;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -11,11 +11,11 @@ namespace FluentTerminal.App.Views.SettingsPages
             InitializeComponent();
         }
 
-        public SettingsViewModel ViewModel { get; private set; }
+        public TerminalPageViewModel ViewModel { get; private set; }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is SettingsViewModel viewModel)
+            if (e.Parameter is TerminalPageViewModel viewModel)
             {
                 ViewModel = viewModel;
             }

@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -30,8 +29,7 @@
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
-                    Command="{Binding ViewModel.RestoreDefaultsCommand}"
-                    CommandParameter="terminal"
+                    Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
                     Label="Restore Defaults" />
             </CommandBar>
@@ -54,9 +52,9 @@
                 Header="Blinking Cursor"
                 IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
             <TextBlock Margin="0,0,0,8" Text="Cursor Style" />
-            <RadioButton Content="Block" IsChecked="{Binding ViewModel.BlockIsSelected, Mode=TwoWay}" />
-            <RadioButton Content="Underline" IsChecked="{Binding ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
-            <RadioButton Content="Bar" IsChecked="{Binding ViewModel.BarIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Block" IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Underline" IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
+            <RadioButton Content="Bar" IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </Page>

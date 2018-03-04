@@ -6,7 +6,6 @@
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:FluentTerminal.App.Views"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>

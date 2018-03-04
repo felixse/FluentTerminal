@@ -127,6 +127,9 @@
     <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ShellPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\TerminalPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ThemesPageViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\TerminalViewModel.cs" />
     <Compile Include="Views\BindableColorsTitleBar.cs" />

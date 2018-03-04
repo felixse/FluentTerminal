@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.ViewModels.Settings;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -6,7 +6,7 @@ namespace FluentTerminal.App.Views.SettingsPages
 {
     public sealed partial class ThemeSettings : Page
     {
-        public SettingsViewModel ViewModel { get; private set; }
+        public ThemesPageViewModel ViewModel { get; private set; }
 
         public ThemeSettings()
         {
@@ -16,7 +16,7 @@ namespace FluentTerminal.App.Views.SettingsPages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is SettingsViewModel viewModel)
+            if (e.Parameter is ThemesPageViewModel viewModel)
             {
                 ViewModel = viewModel;
             }
@@ -27,6 +27,5 @@ namespace FluentTerminal.App.Views.SettingsPages
         {
             TitleBar.ResetTitleBar();
         }
-
     }
 }

@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid x:Name="Root">
         <Grid.Background>

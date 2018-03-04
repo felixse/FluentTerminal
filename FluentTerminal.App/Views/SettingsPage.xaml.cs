@@ -56,15 +56,15 @@ namespace FluentTerminal.App.Views
                         break;
 
                     case "shell":
-                        ContentFrame.Navigate(typeof(ShellSettings), ViewModel);
+                        ContentFrame.Navigate(typeof(ShellSettings), ViewModel.Shell);
                         break;
 
                     case "themes":
-                        ContentFrame.Navigate(typeof(ThemeSettings), ViewModel);
+                        ContentFrame.Navigate(typeof(ThemeSettings), ViewModel.Themes);
                         break;
 
                     case "terminal":
-                        ContentFrame.Navigate(typeof(TerminalSettings), ViewModel);
+                        ContentFrame.Navigate(typeof(TerminalSettings), ViewModel.Terminal);
                         break;
 
                     case "keyBindings":
