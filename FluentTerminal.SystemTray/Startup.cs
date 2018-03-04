@@ -24,7 +24,6 @@ namespace FluentTerminal.SystemTray
 
             config.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
-            appBuilder.UseStaticFiles("/Client");
             appBuilder.UseWebApi(config);
         }
     }

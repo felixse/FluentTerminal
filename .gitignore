@@ -1,6 +1,6 @@
 # Project specific
 FluentTerminal.App/Win32
-FluentTerminal.SystemTray/Client
+FluentTerminal.App/Client/
 FluentTerminal.Client/dist
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -291,4 +291,3 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-FluentTerminal.Client/dist/bundle.js

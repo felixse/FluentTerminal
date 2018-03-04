@@ -196,7 +196,7 @@ namespace FluentTerminal.App.Views
                 Items = { _copyMenuItem, _pasteMenuItem }
             };
 
-            _webView.Navigate(new Uri("http://localhost:9000/Client/index.html"));
+            _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
 
             await _loaded.WaitAsync();
 

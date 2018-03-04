@@ -174,75 +174,17 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\settingsicons.ttf" />
-    <None Include="FluentTerminal.App_StoreKey.pfx" />
-    <None Include="FluentTerminal.App_TemporaryKey.pfx" />
-    <Content Include="Win32\FluentTerminal.Models.dll" />
-    <Content Include="Win32\FluentTerminal.Models.pdb" />
-    <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-200.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-400.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-100.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-125.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-24.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-100.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-125.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-150.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-200.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Win32\Client\bundle.js" />
-    <Content Include="Win32\Client\index.html" />
-    <Content Include="Win32\Client\style.css" />
-    <Content Include="Win32\Client\xterm.css" />
     <Content Include="Win32\CommonServiceLocator.dll" />
     <Content Include="Win32\CommonServiceLocator.pdb" />
     <Content Include="Win32\Fleck.dll" />
+    <Content Include="Win32\FluentTerminal.Models.dll" />
+    <Content Include="Win32\FluentTerminal.Models.pdb" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
     <Content Include="Win32\Microsoft.Owin.dll" />
-    <Content Include="Win32\Microsoft.Owin.FileSystems.dll" />
     <Content Include="Win32\Microsoft.Owin.Host.HttpListener.dll" />
     <Content Include="Win32\Microsoft.Owin.Hosting.dll" />
-    <Content Include="Win32\Microsoft.Owin.StaticFiles.dll" />
     <Content Include="Win32\Microsoft.Win32.Primitives.dll" />
     <Content Include="Win32\netstandard.dll" />
     <Content Include="Win32\Newtonsoft.Json.dll" />
@@ -363,6 +305,62 @@
     <Content Include="Win32\winpty-debugserver.exe" />
     <Content Include="Win32\winpty.dll" />
     <Content Include="Win32\winpty.NET.dll" />
+    <None Include="FluentTerminal.App_StoreKey.pfx" />
+    <None Include="FluentTerminal.App_TemporaryKey.pfx" />
+    <Content Include="Client\bundle.js" />
+    <Content Include="Client\index.html" />
+    <Content Include="Client\style.css" />
+    <Content Include="Client\xterm.css" />
+    <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-200.png" />
+    <Content Include="Assets\AppIcons\LargeTile.scale-400.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-100.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-125.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
+    <Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-100.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-125.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-150.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-200.png" />
+    <Content Include="Assets\AppIcons\SplashScreen.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-100.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-125.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-150.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-200.png" />
+    <Content Include="Assets\AppIcons\StoreLogo.scale-400.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -460,6 +458,7 @@
       <Name>FluentTerminal.RuntimeComponent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -467,6 +466,9 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /y "$(SolutionDir)FluentTerminal.Client\dist" "$(ProjectDir)Client"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

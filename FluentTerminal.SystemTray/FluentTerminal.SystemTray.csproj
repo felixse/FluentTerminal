@@ -159,10 +159,7 @@
       <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost">
-      <Version>5.2.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Owin.StaticFiles">
-      <Version>3.1.0</Version>
+      <Version>5.2.4</Version>
     </PackageReference>
     <PackageReference Include="Unity.WebAPI">
       <Version>5.3.0</Version>
@@ -178,18 +175,6 @@
     <Content Include="BinaryDependencies\x86\winpty-agent.exe" />
     <Content Include="BinaryDependencies\x86\winpty-debugserver.exe" />
     <Content Include="BinaryDependencies\x86\winpty.dll" />
-    <Content Include="Client\bundle.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Client\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Client\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Client\xterm.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
@@ -204,6 +189,7 @@ xcopy /y /s "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionD
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /y "$(SolutionDir)FluentTerminal.Client\dist" "$(ProjectDir)Client"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>
