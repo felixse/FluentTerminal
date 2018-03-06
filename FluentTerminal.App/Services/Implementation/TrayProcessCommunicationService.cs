@@ -10,19 +10,24 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly HttpClient _httpClient;
         private readonly ISettingsService _settingsService;
+        private string _baseAddress;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _httpClient = new HttpClient();
             _settingsService = settingsService;
+        }
 
-            UpdateToggleWindowKeyBindings();
+        public Task Initialize(TrayProcessStatus trayProcessStatus)
+        {
+            _baseAddress = $"http://localhost:{trayProcessStatus.Port}";
+            return UpdateToggleWindowKeyBindings();
         }
 
         public Task UpdateToggleWindowKeyBindings()
         {
             var keyBindings = _settingsService.GetKeyBindings().ToggleWindow;
-            return _httpClient.PostAsync(new Uri($"http://localhost:9000/keybindings/togglewindow"), HttpJsonContent.From(keyBindings)).AsTask();
+            return _httpClient.PostAsync(new Uri($"{_baseAddress}/keybindings/togglewindow"), HttpJsonContent.From(keyBindings)).AsTask();
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellConfiguration shellConfiguration)
@@ -33,7 +38,7 @@ namespace FluentTerminal.App.Services.Implementation
                 Configuration = shellConfiguration
             };
 
-            var response = await _httpClient.PostAsync(new Uri($"http://localhost:9000/terminals"), HttpJsonContent.From(request));
+            var response = await _httpClient.PostAsync(new Uri($"{_baseAddress}/terminals"), HttpJsonContent.From(request));
             var createTerminalResponse = await response.Content.ReadAs<CreateTerminalResponse>();
 
             return createTerminalResponse;
@@ -41,7 +46,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task ResizeTerminal(int id, TerminalSize size)
         {
-            return _httpClient.PostAsync(new Uri($"http://localhost:9000/terminals/{id}/resize"), HttpJsonContent.From(size)).AsTask();
+            return _httpClient.PostAsync(new Uri($"{_baseAddress}/terminals/{id}/resize"), HttpJsonContent.From(size)).AsTask();
         }
     }
 }

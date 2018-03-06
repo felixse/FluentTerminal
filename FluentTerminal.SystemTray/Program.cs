@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using FluentTerminal.Models;
 using Microsoft.Owin.Hosting;
+using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace FluentTerminal.SystemTray
 {
@@ -23,7 +27,14 @@ namespace FluentTerminal.SystemTray
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                string baseAddress = "http://localhost:9000/";
+                var trayProcessStatus = new TrayProcessStatus
+                {
+                    Port = Utilities.GetAvailablePort().Value
+                };
+
+                string baseAddress = $"http://localhost:{trayProcessStatus.Port}/";
+
+                Task.Run(async () => await WriteStatus(trayProcessStatus)).Wait();
 
                 using (WebApp.Start<Startup>(url: baseAddress))
                 {
@@ -31,6 +42,12 @@ namespace FluentTerminal.SystemTray
                 }
                 mutex.Close();
             }
+        }
+
+        private static async Task WriteStatus(TrayProcessStatus trayProcessStatus)
+        {
+            var file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync($"{nameof(TrayProcessStatus)}.json", CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(trayProcessStatus));
         }
     }
 }

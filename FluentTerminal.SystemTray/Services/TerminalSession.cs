@@ -63,7 +63,7 @@ namespace FluentTerminal.SystemTray.Services
                 winpty_error_free(errorHandle);
             }
 
-            var port = Utilities.GetAvailablePort(49151);
+            var port = Utilities.GetAvailablePort();
 
             if (port == null)
             {

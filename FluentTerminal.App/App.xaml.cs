@@ -5,6 +5,7 @@ using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -32,6 +34,7 @@ namespace FluentTerminal.App
         private IContainer _container;
         private int? _settingsWindowId;
         private readonly ISettingsService _settingsService;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private ApplicationSettings _applicationSettings;
 
         private List<MainViewModel> _mainViewModels;
@@ -56,6 +59,8 @@ namespace FluentTerminal.App
 
             _settingsService = _container.Resolve<ISettingsService>();
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+
+            _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
         }
@@ -127,7 +132,7 @@ namespace FluentTerminal.App
                     if (command == "settings")
                     {
                         var viewModel = _container.Resolve<SettingsViewModel>();
-                        await CreateMainView(typeof(SettingsPage), viewModel, true);
+                        CreateMainView(typeof(SettingsPage), viewModel, true);
                     }
                     else if (command == "new")
                     {
@@ -139,7 +144,7 @@ namespace FluentTerminal.App
                         {
                             var viewModel = _container.Resolve<MainViewModel>();
                             await viewModel.AddTerminal(parameter);
-                            await CreateMainView(typeof(MainPage), viewModel, true);
+                            CreateMainView(typeof(MainPage), viewModel, true);
                         }
                     }
                 }
@@ -162,9 +167,19 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
+                var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
+                var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
+                await Task.WhenAll(launch, clearCache);
+
+                var trayProcessStatusFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync($"{nameof(TrayProcessStatus)}.json");
+                var trayProcessStatus = JsonConvert.DeserializeObject<TrayProcessStatus>(await FileIO.ReadTextAsync(trayProcessStatusFile));
+
+                await _trayProcessCommunicationService.Initialize(trayProcessStatus);
+
+
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null);
-                await CreateMainView(typeof(MainPage), viewModel, true);
+                CreateMainView(typeof(MainPage), viewModel, true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Any() == false)
@@ -173,12 +188,8 @@ namespace FluentTerminal.App
             }
         }
 
-        private async Task CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
+        private void CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
         {
-            var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
-            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache);
-
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
             {
