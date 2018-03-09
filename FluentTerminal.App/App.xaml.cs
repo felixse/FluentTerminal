@@ -13,8 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -27,8 +25,6 @@ namespace FluentTerminal.App
 {
     sealed partial class App : Application
     {
-        public static BackgroundTaskDeferral AppServiceDeferral = null;
-        public static AppServiceConnection Connection = null;
         public static App Instance;
         private bool _alreadyLaunched;
         private IContainer _container;
@@ -108,6 +104,11 @@ namespace FluentTerminal.App
                 var command = arguments[0];
                 var parameter = arguments.Length > 1 ? arguments[1] : string.Empty;
 
+                if (command == "close")
+                {
+                    App.Current.Exit();
+                }
+
                 if (_alreadyLaunched)
                 {
                     if (command == "settings")
@@ -148,18 +149,6 @@ namespace FluentTerminal.App
                         }
                     }
                 }
-            }
-        }
-
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
-        {
-            base.OnBackgroundActivated(args);
-            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails details)
-            {
-                AppServiceDeferral = args.TaskInstance.GetDeferral();
-                args.TaskInstance.Canceled += OnTaskCanceled;
-                Connection = details.AppServiceConnection;
-                Connection.RequestReceived += OnRequestReceived;
             }
         }
 
@@ -236,22 +225,6 @@ namespace FluentTerminal.App
             }
 
             return windowId;
-        }
-
-        private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            if (args.Request.Message.ContainsKey("exit"))
-            {
-                App.Current.Exit();
-            }
-        }
-
-        private void OnTaskCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
-        {
-            if (AppServiceDeferral != null)
-            {
-                AppServiceDeferral.Complete();
-            }
         }
     }
 }
