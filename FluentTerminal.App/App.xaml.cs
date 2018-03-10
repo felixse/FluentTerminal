@@ -25,22 +25,20 @@ namespace FluentTerminal.App
 {
     sealed partial class App : Application
     {
-        public static App Instance;
-        private bool _alreadyLaunched;
-        private IContainer _container;
-        private int? _settingsWindowId;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
-
+        private IContainer _container;
         private List<MainViewModel> _mainViewModels;
+        private SettingsViewModel _settingsViewModel;
+        private int? _settingsWindowId;
 
         public App()
         {
             _mainViewModels = new List<MainViewModel>();
 
             InitializeComponent();
-            Instance = this;
 
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
@@ -59,36 +57,6 @@ namespace FluentTerminal.App
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
-        }
-
-        private void OnApplicationSettingsChanged(object sender, EventArgs e)
-        {
-            _applicationSettings = _settingsService.GetApplicationSettings();
-        }
-
-        public async Task CreateNewTerminalWindow(string startupDirectory)
-        {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory);
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
-        }
-
-        public void SettingsWindowClosed()
-        {
-            _settingsWindowId = null;
-        }
-
-        public async Task ShowSettings()
-        {
-            if (_settingsWindowId == null)
-            {
-                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null);
-            }
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
-        }
-
-        public void TerminalWindowClosed(MainViewModel viewModel)
-        {
-            _mainViewModels.Remove(viewModel);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -192,6 +160,9 @@ namespace FluentTerminal.App
 
                 if (viewModel is MainViewModel mainViewModel)
                 {
+                    mainViewModel.Closed += OnMainViewModelClosed;
+                    mainViewModel.NewWindowRequested += OnNewWindowRequested;
+                    mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -201,6 +172,12 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
+        private async Task CreateNewTerminalWindow(string startupDirectory)
+        {
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory);
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
+        }
+
         private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter)
         {
             int windowId = 0;
@@ -208,7 +185,7 @@ namespace FluentTerminal.App
             await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 viewModel = _container.Resolve<TViewModel>();
-                
+
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = ExtendViewIntoTitleBar;
                 var frame = new Frame();
                 frame.Navigate(pageType, viewModel);
@@ -220,11 +197,62 @@ namespace FluentTerminal.App
 
             if (viewModel is MainViewModel mainViewModel && parameter is string directory)
             {
+                mainViewModel.Closed += OnMainViewModelClosed;
+                mainViewModel.NewWindowRequested += OnNewWindowRequested;
+                mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 _mainViewModels.Add(mainViewModel);
                 await mainViewModel.AddTerminal(directory);
             }
 
+            if (viewModel is SettingsViewModel settingsViewModel)
+            {
+                _settingsViewModel = settingsViewModel;
+                _settingsViewModel.Closed += OnSettingsClosed;
+            }
+
             return windowId;
+        }
+
+        private void OnSettingsClosed(object sender, EventArgs e)
+        {
+            _settingsViewModel.Closed -= OnSettingsClosed;
+            _settingsViewModel = null;
+            _settingsWindowId = null;
+        }
+
+        private void OnApplicationSettingsChanged(object sender, EventArgs e)
+        {
+            _applicationSettings = _settingsService.GetApplicationSettings();
+        }
+        private void OnMainViewModelClosed(object sender, EventArgs e)
+        {
+            if (sender is MainViewModel viewModel)
+            {
+                viewModel.Closed -= OnMainViewModelClosed;
+                viewModel.NewWindowRequested -= OnNewWindowRequested;
+                viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
+
+                _mainViewModels.Remove(viewModel);
+            }
+        }
+
+        private async void OnNewWindowRequested(object sender, EventArgs e)
+        {
+            await CreateNewTerminalWindow(string.Empty);
+        }
+
+        private async void OnShowSettingsRequested(object sender, EventArgs e)
+        {
+            await ShowSettings().ConfigureAwait(false);
+        }
+
+        private async Task ShowSettings()
+        {
+            if (_settingsViewModel == null)
+            {
+                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null);
+            }
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
         }
     }
 }

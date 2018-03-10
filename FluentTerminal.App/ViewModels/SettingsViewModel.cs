@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Settings;
 using GalaSoft.MvvmLight;
+using System;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -15,10 +16,17 @@ namespace FluentTerminal.App.ViewModels
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider);
         }
 
+        public event EventHandler Closed;
+
         public GeneralPageViewModel General { get; }
         public KeyBindingsPageViewModel KeyBindings { get; }
-        public TerminalPageViewModel Terminal { get; }
         public ShellPageViewModel Shell { get; }
+        public TerminalPageViewModel Terminal { get; }
         public ThemesPageViewModel Themes { get; }
+
+        public void Close()
+        {
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

@@ -27,6 +27,10 @@ namespace FluentTerminal.App.ViewModels
         private TerminalViewModel _selectedTerminal;
         private string _title;
 
+        public event EventHandler Closed;
+        public event EventHandler NewWindowRequested;
+        public event EventHandler ShowSettingsRequested;
+
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
         {
             _settingsService = settingsService;
@@ -39,15 +43,15 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
-            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, async () => await NewWindow());
-            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, async () => await ShowSettings());
+            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
             var currentTheme = _settingsService.GetCurrentTheme();
             Background = currentTheme.Colors.Background;
             BackgroundOpacity = currentTheme.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
-            ShowSettingsCommand = new RelayCommand(async () => await ShowSettings());
+            ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
 
@@ -124,9 +128,9 @@ namespace FluentTerminal.App.ViewModels
             return _nextTerminalId++;
         }
 
-        private Task NewWindow()
+        private void NewWindow()
         {
-            return App.Instance.CreateNewTerminalWindow(string.Empty);
+            NewWindowRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private async void OnApplicationSettingsChanged(object sender, EventArgs e)
@@ -148,7 +152,7 @@ namespace FluentTerminal.App.ViewModels
                 if (result == DialogButton.OK)
                 {
                     CloseAllTerminals();
-                    App.Instance.TerminalWindowClosed(this);
+                    Closed?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
@@ -158,7 +162,7 @@ namespace FluentTerminal.App.ViewModels
             else
             {
                 CloseAllTerminals();
-                App.Instance.TerminalWindowClosed(this);
+                Closed?.Invoke(this, EventArgs.Empty);
             }
             deferral.Complete();
         }
@@ -221,9 +225,9 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal = Terminals[previousIndex];
         }
 
-        private Task ShowSettings()
+        private void ShowSettings()
         {
-            return App.Instance.ShowSettings();
+            ShowSettingsRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

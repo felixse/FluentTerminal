@@ -32,6 +32,7 @@ namespace FluentTerminal.App.Views
         public double CoreTitleBarHeight { get; }
 
         public SettingsViewModel ViewModel { get; private set; }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is SettingsViewModel viewModel)
@@ -76,7 +77,7 @@ namespace FluentTerminal.App.Views
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
         {
-            App.Instance.SettingsWindowClosed();
+            ViewModel.Close();
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
