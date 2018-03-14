@@ -16,7 +16,7 @@ namespace FluentTerminal.SystemTray
 
         {
             var openMenuItem = new MenuItem("Show", new EventHandler(OpenApp));
-            var newWindowItem = new MenuItem("New window", new EventHandler(NewWindow));
+            var newWindowItem = new MenuItem("New terminal", new EventHandler(NewWindow));
             var settingsMenuItem = new MenuItem("Show settings", new EventHandler(ShowSettings));
             var exitMenuItem = new MenuItem("Exit", new EventHandler(Exit));
 
