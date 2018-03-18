@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -106,16 +105,12 @@ namespace FluentTerminal.App
                     }
                     else if (command == "new")
                     {
-                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Any())
-                        {
-                            await _mainViewModels.Last().AddTerminal(parameter);
-                        }
-                        else
-                        {
-                            var viewModel = _container.Resolve<MainViewModel>();
-                            await viewModel.AddTerminal(parameter);
-                            CreateMainView(typeof(MainPage), viewModel, true);
-                        }
+                        var port = await GetPort();
+                        await _trayProcessCommunicationService.Initialize(port);
+
+                        var viewModel = _container.Resolve<MainViewModel>();
+                        await viewModel.AddTerminal(parameter);
+                        CreateMainView(typeof(MainPage), viewModel, true);
                     }
                 }
             }
