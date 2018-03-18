@@ -13,7 +13,6 @@ namespace FluentTerminal.SystemTray
         private readonly NotifyIcon _notifyIcon;
 
         public SystemTrayApplicationContext()
-
         {
             var openMenuItem = new MenuItem("Show", new EventHandler(OpenApp));
             var newWindowItem = new MenuItem("New terminal", new EventHandler(NewWindow));

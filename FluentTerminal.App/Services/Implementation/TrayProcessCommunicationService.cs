@@ -18,9 +18,9 @@ namespace FluentTerminal.App.Services.Implementation
             _settingsService = settingsService;
         }
 
-        public Task Initialize(TrayProcessStatus trayProcessStatus)
+        public Task Initialize(int port)
         {
-            _baseAddress = $"http://localhost:{trayProcessStatus.Port}";
+            _baseAddress = $"http://localhost:{port}";
             return UpdateToggleWindowKeyBindings();
         }
 

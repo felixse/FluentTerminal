@@ -5,7 +5,6 @@ using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -33,6 +33,7 @@ namespace FluentTerminal.App
         private List<MainViewModel> _mainViewModels;
         private SettingsViewModel _settingsViewModel;
         private int? _settingsWindowId;
+        public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
 
         public App()
         {
@@ -124,15 +125,14 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
+                ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = false;
+
                 var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
                 var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
                 await Task.WhenAll(launch, clearCache);
 
-                var trayProcessStatusFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync($"{nameof(TrayProcessStatus)}.json");
-                var trayProcessStatus = JsonConvert.DeserializeObject<TrayProcessStatus>(await FileIO.ReadTextAsync(trayProcessStatusFile));
-
-                await _trayProcessCommunicationService.Initialize(trayProcessStatus);
-
+                var port = await GetPort();
+                await _trayProcessCommunicationService.Initialize(port);
 
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null);
@@ -143,6 +143,17 @@ namespace FluentTerminal.App
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty);
             }
+        }
+
+        private async Task<int> GetPort()
+        {
+            return await Task.Run(() => {
+                while(!ApplicationData.Current.LocalSettings.Values.TryGetValue("SystemTrayReady", out object ready) && (bool)ready != true)
+                {
+                    Task.Delay(50);
+                }
+                return (int)ApplicationData.Current.LocalSettings.Values["Port"];
+            });
         }
 
         private void CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
