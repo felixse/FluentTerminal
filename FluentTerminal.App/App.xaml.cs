@@ -24,6 +24,7 @@ namespace FluentTerminal.App
 {
     sealed partial class App : Application
     {
+        public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private bool _alreadyLaunched;
@@ -32,8 +33,6 @@ namespace FluentTerminal.App
         private List<MainViewModel> _mainViewModels;
         private SettingsViewModel _settingsViewModel;
         private int? _settingsWindowId;
-        public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
-
         public App()
         {
             _mainViewModels = new List<MainViewModel>();
@@ -93,7 +92,6 @@ namespace FluentTerminal.App
                         {
                             await CreateNewTerminalWindow(parameter);
                         }
-
                     }
                 }
                 else
@@ -101,16 +99,13 @@ namespace FluentTerminal.App
                     if (command == "settings")
                     {
                         var viewModel = _container.Resolve<SettingsViewModel>();
-                        CreateMainView(typeof(SettingsPage), viewModel, true);
+                        await CreateMainView(typeof(SettingsPage), viewModel, true);
                     }
                     else if (command == "new")
                     {
-                        var port = await GetPort();
-                        await _trayProcessCommunicationService.Initialize(port);
-
                         var viewModel = _container.Resolve<MainViewModel>();
                         await viewModel.AddTerminal(parameter);
-                        CreateMainView(typeof(MainPage), viewModel, true);
+                        await CreateMainView(typeof(MainPage), viewModel, true);
                     }
                 }
             }
@@ -120,18 +115,9 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
-                ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = false;
-
-                var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
-                var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-                await Task.WhenAll(launch, clearCache);
-
-                var port = await GetPort();
-                await _trayProcessCommunicationService.Initialize(port);
-
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null);
-                CreateMainView(typeof(MainPage), viewModel, true);
+                await CreateMainView(typeof(MainPage), viewModel, true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Any() == false)
@@ -140,19 +126,10 @@ namespace FluentTerminal.App
             }
         }
 
-        private async Task<int> GetPort()
+        private async Task CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
         {
-            return await Task.Run(() => {
-                while(!ApplicationData.Current.LocalSettings.Values.TryGetValue("SystemTrayReady", out object ready) && (bool)ready != true)
-                {
-                    Task.Delay(50);
-                }
-                return (int)ApplicationData.Current.LocalSettings.Values["Port"];
-            });
-        }
+            await StartSystemTray();
 
-        private void CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
-        {
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
             {
@@ -219,17 +196,23 @@ namespace FluentTerminal.App
             return windowId;
         }
 
-        private void OnSettingsClosed(object sender, EventArgs e)
+        private async Task<int> GetPort()
         {
-            _settingsViewModel.Closed -= OnSettingsClosed;
-            _settingsViewModel = null;
-            _settingsWindowId = null;
+            return await Task.Run(() =>
+            {
+                while (!ApplicationData.Current.LocalSettings.Values.TryGetValue("SystemTrayReady", out object ready) && (bool)ready != true)
+                {
+                    Task.Delay(50);
+                }
+                return (int)ApplicationData.Current.LocalSettings.Values["Port"];
+            });
         }
 
         private void OnApplicationSettingsChanged(object sender, EventArgs e)
         {
             _applicationSettings = _settingsService.GetApplicationSettings();
         }
+
         private void OnMainViewModelClosed(object sender, EventArgs e)
         {
             if (sender is MainViewModel viewModel)
@@ -247,6 +230,13 @@ namespace FluentTerminal.App
             await CreateNewTerminalWindow(string.Empty);
         }
 
+        private void OnSettingsClosed(object sender, EventArgs e)
+        {
+            _settingsViewModel.Closed -= OnSettingsClosed;
+            _settingsViewModel = null;
+            _settingsWindowId = null;
+        }
+
         private async void OnShowSettingsRequested(object sender, EventArgs e)
         {
             await ShowSettings().ConfigureAwait(false);
@@ -259,6 +249,18 @@ namespace FluentTerminal.App
                 _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null);
             }
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+        }
+
+        private async Task StartSystemTray()
+        {
+            ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = false;
+
+            var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
+            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
+            await Task.WhenAll(launch, clearCache);
+
+            var port = await GetPort();
+            await _trayProcessCommunicationService.Initialize(port);
         }
     }
 }
