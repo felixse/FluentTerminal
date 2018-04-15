@@ -10,7 +10,6 @@ namespace FluentTerminal.SystemTray
     public static class Program
     {
         private const string MutexName = "FluentTerminalMutex";
-        private static int _port;
 
         [STAThread]
         public static void Main()
