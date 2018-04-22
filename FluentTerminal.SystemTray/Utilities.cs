@@ -322,6 +322,14 @@ namespace FluentTerminal.SystemTray
                     return Key.OemMinus;
                 case ExtendedVirtualKey.Period:
                     return Key.OemPeriod;
+                case ExtendedVirtualKey.NumberSign:
+                    return Key.OemQuestion;
+                case ExtendedVirtualKey.OpenBrackets:
+                    return Key.OemOpenBrackets;
+                case ExtendedVirtualKey.Circumflex:
+                    return Key.Oem5;
+                case ExtendedVirtualKey.AcuteAccent:
+                    return Key.Oem6;
                 default:
                     return Key.None;
             }
