@@ -89,7 +89,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Command = Command.Copy,
                         Ctrl = true,
                         Alt = false,
-                        Shift = true,
+                        Shift = false,
                         Key = (int)VirtualKey.C
                     }
                 },

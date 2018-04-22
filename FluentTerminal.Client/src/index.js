@@ -71,6 +71,10 @@ function createTerminal(options, theme, keyBindings) {
         && keyBinding.shift == e.shiftKey
         && keyBinding.key == e.keyCode) {
         if (document.visibilityState == 'visible') {
+          if (keyBinding.command == 'copy' && term.getSelection() == '') {
+            return true;
+          }
+
           e.preventDefault();
           terminalBridge.invokeCommand(keyBinding.command);
         }
