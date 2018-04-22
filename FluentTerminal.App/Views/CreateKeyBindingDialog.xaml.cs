@@ -52,12 +52,17 @@ namespace FluentTerminal.App.Views
                 case VirtualKey.Menu:
                     KeyBinding.Alt = true;
                     break;
-
+                case VirtualKey.LeftWindows:
+                case VirtualKey.RightWindows:
+                    KeyBinding.Meta = true;
+                    break;
                 default:
                     KeyBinding.Key = (int)e.Key;
                     break;
             }
+
             ResetButton.Visibility = Visibility.Visible;
+            e.Handled = true;
         }
 
         private void Reset()

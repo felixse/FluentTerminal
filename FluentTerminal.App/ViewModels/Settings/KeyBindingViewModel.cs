@@ -25,6 +25,19 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public event EventHandler Edited;
 
+        public bool Meta
+        {
+            get => Model.Meta;
+            set
+            {
+                if (Model.Meta != value)
+                {
+                    Model.Meta = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool Alt
         {
             get => Model.Alt;
@@ -92,6 +105,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 Alt = dialog.KeyBinding.Alt;
                 Ctrl = dialog.KeyBinding.Ctrl;
                 Shift = dialog.KeyBinding.Shift;
+                Meta = dialog.KeyBinding.Meta;
                 Key = dialog.KeyBinding.Key;
 
                 Edited?.Invoke(this, EventArgs.Empty);

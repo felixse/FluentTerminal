@@ -65,7 +65,8 @@ function createTerminal(options, theme, keyBindings) {
   term.attachCustomKeyEventHandler(function (e) {
     for (var i = 0; i < window.keyBindings.length; i++) {
       var keyBinding = window.keyBindings[i];
-      if (keyBinding.ctrl == e.ctrlKey
+        if (keyBinding.ctrl == e.ctrlKey
+        && keyBinding.meta == e.metaKey
         && keyBinding.alt == e.altKey
         && keyBinding.shift == e.shiftKey
         && keyBinding.key == e.keyCode) {

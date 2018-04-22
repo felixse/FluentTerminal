@@ -66,6 +66,10 @@ namespace FluentTerminal.SystemTray.Services
                     {
                         modifiers |= ModifierKeys.Shift;
                     }
+                    if (keyBinding.Meta)
+                    {
+                        modifiers |= ModifierKeys.Windows;
+                    }
 
                     var hotKey = new HotKey(key, modifiers);
 

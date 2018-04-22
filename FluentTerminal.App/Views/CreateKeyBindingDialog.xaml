@@ -28,6 +28,18 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                Visibility="{x:Bind KeyBinding.Meta, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                <FontIcon
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                    Glyph="f" />
+            </Grid>
+            <Grid
+                Width="48"
+                Height="32"
+                Margin="0,0,6,0"
+                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
                 Visibility="{x:Bind KeyBinding.Alt, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
