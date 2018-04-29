@@ -12,8 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -33,6 +34,9 @@ namespace FluentTerminal.App
         private List<MainViewModel> _mainViewModels;
         private SettingsViewModel _settingsViewModel;
         private int? _settingsWindowId;
+        private AppServiceConnection _appServiceConnection;
+        private BackgroundTaskDeferral _appServiceDeferral;
+
         public App()
         {
             _mainViewModels = new List<MainViewModel>();
@@ -70,11 +74,6 @@ namespace FluentTerminal.App
                 var arguments = commandLineActivated.Operation.Arguments.Split(' ', 2);
                 var command = arguments[0];
                 var parameter = arguments.Length > 1 ? arguments[1] : string.Empty;
-
-                if (command == "close")
-                {
-                    App.Current.Exit();
-                }
 
                 if (_alreadyLaunched)
                 {
@@ -124,6 +123,33 @@ namespace FluentTerminal.App
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty);
             }
+        }
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            if (args.TaskInstance.TriggerDetails is AppServiceTriggerDetails details)
+            {
+                if (details.CallerPackageFamilyName == Package.Current.Id.FamilyName)
+                {
+                    _appServiceDeferral = args.TaskInstance.GetDeferral();
+                    args.TaskInstance.Canceled += OnTaskCanceled;
+
+                    _appServiceConnection = details.AppServiceConnection;
+
+                    _trayReady.SetResult(0);
+                }
+            }
+        }
+
+        private void OnTaskCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            _appServiceDeferral?.Complete();
+            _appServiceDeferral = null;
+            _appServiceConnection = null;
+
+            Application.Current.Exit();
         }
 
         private async Task CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
@@ -196,18 +222,6 @@ namespace FluentTerminal.App
             return windowId;
         }
 
-        private async Task<int> GetPort()
-        {
-            return await Task.Run(() =>
-            {
-                while (!ApplicationData.Current.LocalSettings.Values.TryGetValue("SystemTrayReady", out object ready) && (bool)ready != true)
-                {
-                    Task.Delay(50);
-                }
-                return (int)ApplicationData.Current.LocalSettings.Values["Port"];
-            });
-        }
-
         private void OnApplicationSettingsChanged(object sender, EventArgs e)
         {
             _applicationSettings = _settingsService.GetApplicationSettings();
@@ -253,14 +267,10 @@ namespace FluentTerminal.App
 
         private async Task StartSystemTray()
         {
-            ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = false;
-
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
             var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache);
-
-            var port = await GetPort();
-            await _trayProcessCommunicationService.Initialize(port);
+            await Task.WhenAll(launch, clearCache, _trayReady.Task);
+            await _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }
 }

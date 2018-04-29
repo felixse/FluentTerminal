@@ -26,6 +26,9 @@
         <uap:SplashScreen Image="Assets\AppIcons\SplashScreen.png" uap5:Optional="true" />
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="FluentTerminalAppService" />
+        </uap:Extension>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe" />
         <uap5:Extension Category="windows.appExecutionAlias" Executable="FluentTerminal.App.exe" EntryPoint="FluentTerminal.App.App">
           <uap5:AppExecutionAlias>

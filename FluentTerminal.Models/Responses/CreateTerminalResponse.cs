@@ -1,4 +1,4 @@
-﻿namespace FluentTerminal.Models
+﻿namespace FluentTerminal.Models.Responses
 {
     public class CreateTerminalResponse
     {

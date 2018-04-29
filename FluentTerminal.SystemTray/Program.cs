@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using FluentTerminal.SystemTray.Services;
+using GlobalHotKey;
+using System;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Owin.Hosting;
+using System.Windows.Threading;
 using Windows.ApplicationModel;
-using Windows.Storage;
 
 namespace FluentTerminal.SystemTray
 {
@@ -24,21 +26,29 @@ namespace FluentTerminal.SystemTray
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                var port = Utilities.GetAvailablePort();
-                ApplicationData.Current.LocalSettings.Values["Port"] = port.Value;
-                ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = true;
+                var containerBuilder = new ContainerBuilder();
 
-                string baseAddress = $"http://localhost:{port.Value}/";
+                containerBuilder.RegisterType<NotificationService>().SingleInstance();
+                containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
+                containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
+                containerBuilder.RegisterType<HotKeyManager>().SingleInstance();
+                containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
+                containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
+                containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
-                using (WebApp.Start<Startup>(url: baseAddress))
-                {
-                    Application.Run(new SystemTrayApplicationContext());
-                }
+                var container = containerBuilder.Build();
+
+                var appCommunicationService = container.Resolve<AppCommunicationService>();
+                appCommunicationService.StartAppServiceConnection();
+
+                Application.Run(container.Resolve<SystemTrayApplicationContext>());
+
                 mutex.Close();
             }
             else
             {
-                ApplicationData.Current.LocalSettings.Values["SystemTrayReady"] = true;
+                var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
+                eventWaitHandle.Set();
             }
         }
     }

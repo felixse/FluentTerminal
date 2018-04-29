@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
-using Windows.Web.Http;
+using FluentTerminal.Models.Requests;
+using FluentTerminal.Models.Responses;
+using Newtonsoft.Json;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 
 namespace FluentTerminal.App.Services.Implementation
 {
     internal class TrayProcessCommunicationService : ITrayProcessCommunicationService
     {
-        private readonly HttpClient _httpClient;
         private readonly ISettingsService _settingsService;
-        private string _baseAddress;
+        private AppServiceConnection _appServiceConnection;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
-            _httpClient = new HttpClient();
             _settingsService = settingsService;
-        }
-
-        public Task Initialize(int port)
-        {
-            _baseAddress = $"http://localhost:{port}";
-            return UpdateToggleWindowKeyBindings();
-        }
-
-        public Task UpdateToggleWindowKeyBindings()
-        {
-            var keyBindings = _settingsService.GetKeyBindings().ToggleWindow;
-            return _httpClient.PostAsync(new Uri($"{_baseAddress}/keybindings/togglewindow"), HttpJsonContent.From(keyBindings)).AsTask();
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellConfiguration shellConfiguration)
@@ -38,15 +27,56 @@ namespace FluentTerminal.App.Services.Implementation
                 Configuration = shellConfiguration
             };
 
-            var response = await _httpClient.PostAsync(new Uri($"{_baseAddress}/terminals"), HttpJsonContent.From(request));
-            var createTerminalResponse = await response.Content.ReadAs<CreateTerminalResponse>();
+            var message = new ValueSet
+            {
+                { MessageKeys.Type, MessageTypes.CreateTerminalRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
+            };
 
-            return createTerminalResponse;
+            var responseMessage = await _appServiceConnection.SendMessageAsync(message);
+
+            return JsonConvert.DeserializeObject<CreateTerminalResponse>((string)responseMessage.Message[MessageKeys.Content]);
+        }
+
+        public Task Initialize(AppServiceConnection appServiceConnection)
+        {
+            _appServiceConnection = appServiceConnection;
+            return UpdateToggleWindowKeyBindings();
         }
 
         public Task ResizeTerminal(int id, TerminalSize size)
         {
-            return _httpClient.PostAsync(new Uri($"{_baseAddress}/terminals/{id}/resize"), HttpJsonContent.From(size)).AsTask();
+            var request = new ResizeTerminalRequest
+            {
+                TerminalId = id,
+                NewSize = size
+            };
+
+            var message = new ValueSet
+            {
+                { MessageKeys.Type, MessageTypes.ResizeTerminalRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
+            };
+
+            return _appServiceConnection.SendMessageAsync(message).AsTask();
+        }
+
+        public Task UpdateToggleWindowKeyBindings()
+        {
+            var keyBindings = _settingsService.GetKeyBindings().ToggleWindow;
+
+            var request = new SetToggleWindowKeyBindingsRequest
+            {
+                KeyBindings = keyBindings
+            };
+
+            var message = new ValueSet
+            {
+                { MessageKeys.Type, MessageTypes.SetToggleWindowKeyBindingsRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
+            };
+
+            return _appServiceConnection.SendMessageAsync(message).AsTask();
         }
     }
 }

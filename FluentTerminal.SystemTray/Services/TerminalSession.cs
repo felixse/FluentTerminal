@@ -1,6 +1,7 @@
 ﻿using Fleck;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
 using System.IO.Pipes;

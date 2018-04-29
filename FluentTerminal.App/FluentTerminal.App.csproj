@@ -176,133 +176,26 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\settingsicons.ttf" />
-    <Content Include="Win32\CommonServiceLocator.dll" />
-    <Content Include="Win32\CommonServiceLocator.pdb" />
+    <Content Include="Win32\Autofac.dll" />
     <Content Include="Win32\Fleck.dll" />
     <Content Include="Win32\FluentTerminal.Models.dll" />
     <Content Include="Win32\FluentTerminal.Models.pdb" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
-    <Content Include="Win32\Microsoft.Owin.dll" />
-    <Content Include="Win32\Microsoft.Owin.Host.HttpListener.dll" />
-    <Content Include="Win32\Microsoft.Owin.Hosting.dll" />
-    <Content Include="Win32\Microsoft.Win32.Primitives.dll" />
-    <Content Include="Win32\netstandard.dll" />
     <Content Include="Win32\Newtonsoft.Json.dll" />
-    <Content Include="Win32\Owin.dll" />
-    <Content Include="Win32\System.AppContext.dll" />
-    <Content Include="Win32\System.Collections.Concurrent.dll" />
-    <Content Include="Win32\System.Collections.dll" />
-    <Content Include="Win32\System.Collections.NonGeneric.dll" />
-    <Content Include="Win32\System.Collections.Specialized.dll" />
-    <Content Include="Win32\System.ComponentModel.dll" />
-    <Content Include="Win32\System.ComponentModel.EventBasedAsync.dll" />
-    <Content Include="Win32\System.ComponentModel.Primitives.dll" />
-    <Content Include="Win32\System.ComponentModel.TypeConverter.dll" />
-    <Content Include="Win32\System.Console.dll" />
     <Content Include="Win32\System.Data.Common.dll" />
-    <Content Include="Win32\System.Diagnostics.Contracts.dll" />
-    <Content Include="Win32\System.Diagnostics.Debug.dll" />
-    <Content Include="Win32\System.Diagnostics.FileVersionInfo.dll" />
-    <Content Include="Win32\System.Diagnostics.Process.dll" />
     <Content Include="Win32\System.Diagnostics.StackTrace.dll" />
-    <Content Include="Win32\System.Diagnostics.TextWriterTraceListener.dll" />
-    <Content Include="Win32\System.Diagnostics.Tools.dll" />
-    <Content Include="Win32\System.Diagnostics.TraceSource.dll" />
     <Content Include="Win32\System.Diagnostics.Tracing.dll" />
-    <Content Include="Win32\System.Drawing.Primitives.dll" />
-    <Content Include="Win32\System.Dynamic.Runtime.dll" />
-    <Content Include="Win32\System.Globalization.Calendars.dll" />
-    <Content Include="Win32\System.Globalization.dll" />
     <Content Include="Win32\System.Globalization.Extensions.dll" />
     <Content Include="Win32\System.IO.Compression.dll" />
-    <Content Include="Win32\System.IO.Compression.ZipFile.dll" />
-    <Content Include="Win32\System.IO.dll" />
-    <Content Include="Win32\System.IO.FileSystem.dll" />
-    <Content Include="Win32\System.IO.FileSystem.DriveInfo.dll" />
-    <Content Include="Win32\System.IO.FileSystem.Primitives.dll" />
-    <Content Include="Win32\System.IO.FileSystem.Watcher.dll" />
-    <Content Include="Win32\System.IO.IsolatedStorage.dll" />
-    <Content Include="Win32\System.IO.MemoryMappedFiles.dll" />
-    <Content Include="Win32\System.IO.Pipes.dll" />
-    <Content Include="Win32\System.IO.UnmanagedMemoryStream.dll" />
-    <Content Include="Win32\System.Linq.dll" />
-    <Content Include="Win32\System.Linq.Expressions.dll" />
-    <Content Include="Win32\System.Linq.Parallel.dll" />
-    <Content Include="Win32\System.Linq.Queryable.dll" />
     <Content Include="Win32\System.Net.Http.dll" />
-    <Content Include="Win32\System.Net.Http.Formatting.dll" />
-    <Content Include="Win32\System.Net.NameResolution.dll" />
-    <Content Include="Win32\System.Net.NetworkInformation.dll" />
-    <Content Include="Win32\System.Net.Ping.dll" />
-    <Content Include="Win32\System.Net.Primitives.dll" />
-    <Content Include="Win32\System.Net.Requests.dll" />
-    <Content Include="Win32\System.Net.Security.dll" />
     <Content Include="Win32\System.Net.Sockets.dll" />
-    <Content Include="Win32\System.Net.WebHeaderCollection.dll" />
-    <Content Include="Win32\System.Net.WebSockets.Client.dll" />
-    <Content Include="Win32\System.Net.WebSockets.dll" />
-    <Content Include="Win32\System.ObjectModel.dll" />
-    <Content Include="Win32\System.Reflection.dll" />
-    <Content Include="Win32\System.Reflection.Extensions.dll" />
-    <Content Include="Win32\System.Reflection.Primitives.dll" />
-    <Content Include="Win32\System.Resources.Reader.dll" />
-    <Content Include="Win32\System.Resources.ResourceManager.dll" />
-    <Content Include="Win32\System.Resources.Writer.dll" />
-    <Content Include="Win32\System.Runtime.CompilerServices.VisualC.dll" />
-    <Content Include="Win32\System.Runtime.dll" />
-    <Content Include="Win32\System.Runtime.Extensions.dll" />
-    <Content Include="Win32\System.Runtime.Handles.dll" />
-    <Content Include="Win32\System.Runtime.InteropServices.dll" />
-    <Content Include="Win32\System.Runtime.InteropServices.RuntimeInformation.dll" />
-    <Content Include="Win32\System.Runtime.Numerics.dll" />
-    <Content Include="Win32\System.Runtime.Serialization.Formatters.dll" />
-    <Content Include="Win32\System.Runtime.Serialization.Json.dll" />
     <Content Include="Win32\System.Runtime.Serialization.Primitives.dll" />
-    <Content Include="Win32\System.Runtime.Serialization.Xml.dll" />
-    <Content Include="Win32\System.Security.Claims.dll" />
     <Content Include="Win32\System.Security.Cryptography.Algorithms.dll" />
-    <Content Include="Win32\System.Security.Cryptography.Csp.dll" />
-    <Content Include="Win32\System.Security.Cryptography.Encoding.dll" />
-    <Content Include="Win32\System.Security.Cryptography.Primitives.dll" />
-    <Content Include="Win32\System.Security.Cryptography.X509Certificates.dll" />
-    <Content Include="Win32\System.Security.Principal.dll" />
     <Content Include="Win32\System.Security.SecureString.dll" />
-    <Content Include="Win32\System.Text.Encoding.dll" />
-    <Content Include="Win32\System.Text.Encoding.Extensions.dll" />
-    <Content Include="Win32\System.Text.RegularExpressions.dll" />
-    <Content Include="Win32\System.Threading.dll" />
     <Content Include="Win32\System.Threading.Overlapped.dll" />
-    <Content Include="Win32\System.Threading.Tasks.dll" />
-    <Content Include="Win32\System.Threading.Tasks.Parallel.dll" />
-    <Content Include="Win32\System.Threading.Thread.dll" />
-    <Content Include="Win32\System.Threading.ThreadPool.dll" />
-    <Content Include="Win32\System.Threading.Timer.dll" />
-    <Content Include="Win32\System.ValueTuple.dll" />
-    <Content Include="Win32\System.Web.Http.dll" />
-    <Content Include="Win32\System.Web.Http.Owin.dll" />
-    <Content Include="Win32\System.Xml.ReaderWriter.dll" />
-    <Content Include="Win32\System.Xml.XDocument.dll" />
-    <Content Include="Win32\System.Xml.XmlDocument.dll" />
-    <Content Include="Win32\System.Xml.XmlSerializer.dll" />
-    <Content Include="Win32\System.Xml.XPath.dll" />
     <Content Include="Win32\System.Xml.XPath.XDocument.dll" />
-    <Content Include="Win32\Unity.Abstractions.dll" />
-    <Content Include="Win32\Unity.Abstractions.pdb" />
-    <Content Include="Win32\Unity.Configuration.dll" />
-    <Content Include="Win32\Unity.Configuration.pdb" />
-    <Content Include="Win32\Unity.Container.dll" />
-    <Content Include="Win32\Unity.Container.pdb" />
-    <Content Include="Win32\Unity.Interception.Configuration.dll" />
-    <Content Include="Win32\Unity.Interception.Configuration.pdb" />
-    <Content Include="Win32\Unity.Interception.dll" />
-    <Content Include="Win32\Unity.Interception.pdb" />
-    <Content Include="Win32\Unity.RegistrationByConvention.dll" />
-    <Content Include="Win32\Unity.RegistrationByConvention.pdb" />
-    <Content Include="Win32\Unity.ServiceLocation.dll" />
-    <Content Include="Win32\Unity.ServiceLocation.pdb" />
-    <Content Include="Win32\Unity.WebApi.dll" />
     <Content Include="Win32\winpty-agent.exe" />
     <Content Include="Win32\winpty-debugserver.exe" />
     <Content Include="Win32\winpty.dll" />
@@ -421,7 +314,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac">
-      <Version>4.6.2</Version>
+      <Version>4.8.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.6</Version>
@@ -439,7 +332,7 @@
       <Version>5.3.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

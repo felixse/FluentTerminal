@@ -26,12 +26,11 @@ namespace FluentTerminal.SystemTray
             _notifyIcon.Text = "Fluent Terminal";
             _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
             _notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });
-            _notifyIcon.Visible = true;
+            _notifyIcon.Visible = true;         
         }
 
         private void Exit(object sender, EventArgs e)
         {
-            Process.Start("flute.exe", "close");
             Application.Exit();
         }
 

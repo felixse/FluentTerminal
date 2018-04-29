@@ -1,4 +1,4 @@
-﻿namespace FluentTerminal.Models
+﻿namespace FluentTerminal.Models.Requests
 {
     public class CreateTerminalRequest
     {

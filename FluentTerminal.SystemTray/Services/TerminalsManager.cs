@@ -1,4 +1,6 @@
 ﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Requests;
+using FluentTerminal.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
