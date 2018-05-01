@@ -11,9 +11,9 @@ namespace FluentTerminal.App.Services.Implementation
     internal class SettingsService : ISettingsService
     {
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private ApplicationDataContainer _localSettings;
-        private ApplicationDataContainer _themes;
-        private ApplicationDataContainer _roamingSettings;
+        private readonly ApplicationDataContainer _localSettings;
+        private readonly ApplicationDataContainer _themes;
+        private readonly ApplicationDataContainer _roamingSettings;
 
         public event EventHandler CurrentThemeChanged;
         public event EventHandler TerminalOptionsChanged;
@@ -32,13 +32,6 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 _themes.WriteValueAsJson(theme.Id.ToString(), theme);
             }
-
-            ApplicationData.Current.DataChanged += OnDataChanged;
-        }
-
-        private void OnDataChanged(ApplicationData sender, object args)
-        {
-            //todo handle data changed for roaming settings
         }
 
         public ShellConfiguration GetShellConfiguration()
@@ -122,7 +115,9 @@ namespace FluentTerminal.App.Services.Implementation
 
         public KeyBindings GetKeyBindings()
         {
-            return _roamingSettings.ReadValueFromJson(nameof(KeyBindings), _defaultValueProvider.GetDefaultKeyBindings());
+            var keyBindings = _roamingSettings.ReadValueFromJson<KeyBindings>(nameof(KeyBindings), null);
+
+            return keyBindings ?? _defaultValueProvider.GetDefaultKeyBindings();
         }
 
         public void SaveKeyBindings(KeyBindings keyBindings)

@@ -22,7 +22,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             return new KeyBindings
             {
-                NewTab = new[]
+                NewTab = new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -33,7 +33,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.T
                     }
                 },
-                CloseTab = new[] {
+                CloseTab = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.CloseTab,
@@ -43,7 +44,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.W
                     }
                 },
-                NextTab = new[] {
+                NextTab = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.NextTab,
@@ -53,7 +55,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.Tab
                     }
                 },
-                PreviousTab = new[] {
+                PreviousTab = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.PreviousTab,
@@ -63,7 +66,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.Tab
                     }
                 },
-                NewWindow = new[] {
+                NewWindow = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.NewWindow,
@@ -73,7 +77,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.N
                     }
                 },
-                ShowSettings = new[] {
+                ShowSettings = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.ShowSettings,
@@ -83,7 +88,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = 188 // comma
                     }
                 },
-                Copy = new[] {
+                Copy = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.Copy,
@@ -93,7 +99,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.C
                     }
                 },
-                Paste = new[] {
+                Paste = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.Paste,
@@ -103,7 +110,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.V
                     }
                 },
-                ToggleWindow = new[] {
+                ToggleWindow = new List<KeyBinding>
+                {
                     new KeyBinding
                     {
                         Command = Command.ToggleWindow,
