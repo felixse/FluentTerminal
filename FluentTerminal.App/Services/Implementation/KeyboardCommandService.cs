@@ -10,7 +10,12 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void RegisterCommandHandler(Command command, Action handler)
         {
-            _commandHandlers[command] = handler;
+            if (_commandHandlers.ContainsKey(command))
+            {
+                throw new InvalidOperationException("command already registered");
+            }
+
+            _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
         public void SendCommand(Command command)
@@ -20,7 +25,7 @@ namespace FluentTerminal.App.Services.Implementation
                 handler.Invoke();
                 return;
             }
-            throw new Exception($"No handler registered for command: {command}");
+            throw new KeyNotFoundException($"No handler registered for command: {command}");
         }
     }
 }

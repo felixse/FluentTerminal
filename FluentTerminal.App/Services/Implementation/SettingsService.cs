@@ -10,6 +10,9 @@ namespace FluentTerminal.App.Services.Implementation
 {
     internal class SettingsService : ISettingsService
     {
+        public const string ThemesContainerName = "Themes";
+        public const string CurrentThemeKey = "CurrentTheme";
+
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ApplicationDataContainer _localSettings;
         private readonly ApplicationDataContainer _themes;
@@ -26,7 +29,7 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings = ApplicationData.Current.LocalSettings;
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            _themes = _roamingSettings.CreateContainer("Themes", ApplicationDataCreateDisposition.Always);
+            _themes = _roamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always);
 
             foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
             {
@@ -52,7 +55,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetCurrentThemeId()
         {
-            if (_roamingSettings.Values.TryGetValue("CurrentTheme", out object value))
+            if (_roamingSettings.Values.TryGetValue(CurrentThemeKey, out object value))
             {
                 return (Guid)value;
             }
@@ -61,7 +64,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void SaveCurrentThemeId(Guid id)
         {
-            _roamingSettings.Values["CurrentTheme"] = id;
+            _roamingSettings.Values[CurrentThemeKey] = id;
 
             CurrentThemeChanged?.Invoke(this, EventArgs.Empty);
         }
