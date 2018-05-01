@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using Windows.Storage;
 
 namespace FluentTerminal.App.Utilities
@@ -10,7 +11,7 @@ namespace FluentTerminal.App.Utilities
         {
             if (container.Values.TryGetValue(name, out object value))
             {
-                if (fallbackValue == null)
+                if (EqualityComparer<T>.Default.Equals(fallbackValue, default))
                 {
                     fallbackValue = Activator.CreateInstance<T>();
                 }
@@ -22,8 +23,7 @@ namespace FluentTerminal.App.Utilities
 
         public static void WriteValueAsJson<T>(this ApplicationDataContainer container, string name, T value)
         {
-            var serialized = JsonConvert.SerializeObject(value);
-            container.Values[name] = serialized;
+            container.Values[name] = JsonConvert.SerializeObject(value);
         }
     }
 }

@@ -23,15 +23,15 @@ using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
 {
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
-        private IContainer _container;
-        private List<MainViewModel> _mainViewModels;
+        private readonly IContainer _container;
+        private readonly List<MainViewModel> _mainViewModels;
         private SettingsViewModel _settingsViewModel;
         private int? _settingsWindowId;
         private AppServiceConnection _appServiceConnection;
@@ -79,17 +79,17 @@ namespace FluentTerminal.App
                 {
                     if (command == "settings")
                     {
-                        await ShowSettings();
+                        await ShowSettings().ConfigureAwait(true);
                     }
                     else if (command == "new")
                     {
-                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Any())
+                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
                         {
-                            await _mainViewModels.Last().AddTerminal(parameter);
+                            await _mainViewModels.Last().AddTerminal(parameter).ConfigureAwait(true);
                         }
                         else
                         {
-                            await CreateNewTerminalWindow(parameter);
+                            await CreateNewTerminalWindow(parameter).ConfigureAwait(true);
                         }
                     }
                 }
@@ -98,30 +98,30 @@ namespace FluentTerminal.App
                     if (command == "settings")
                     {
                         var viewModel = _container.Resolve<SettingsViewModel>();
-                        await CreateMainView(typeof(SettingsPage), viewModel, true);
+                        await CreateMainView(typeof(SettingsPage), viewModel, true).ConfigureAwait(true);
                     }
                     else if (command == "new")
                     {
                         var viewModel = _container.Resolve<MainViewModel>();
-                        await viewModel.AddTerminal(parameter);
-                        await CreateMainView(typeof(MainPage), viewModel, true);
+                        await viewModel.AddTerminal(parameter).ConfigureAwait(true);
+                        await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                     }
                 }
             }
         }
 
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminal(null);
-                await CreateMainView(typeof(MainPage), viewModel, true);
+                await viewModel.AddTerminal(null).ConfigureAwait(true);
+                await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
-            else if (_mainViewModels.Any() == false)
+            else if (_mainViewModels.Count == 0)
             {
-                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty);
+                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty).ConfigureAwait(true);
             }
         }
 
@@ -154,7 +154,7 @@ namespace FluentTerminal.App
 
         private async Task CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
         {
-            await StartSystemTray();
+            await StartSystemTray().ConfigureAwait(true);
 
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
@@ -183,7 +183,7 @@ namespace FluentTerminal.App
 
         private async Task CreateNewTerminalWindow(string startupDirectory)
         {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory);
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory).ConfigureAwait(true);
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
@@ -210,7 +210,7 @@ namespace FluentTerminal.App
                 mainViewModel.NewWindowRequested += OnNewWindowRequested;
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory);
+                await mainViewModel.AddTerminal(directory).ConfigureAwait(true);
             }
 
             if (viewModel is SettingsViewModel settingsViewModel)
@@ -241,7 +241,7 @@ namespace FluentTerminal.App
 
         private async void OnNewWindowRequested(object sender, EventArgs e)
         {
-            await CreateNewTerminalWindow(string.Empty);
+            await CreateNewTerminalWindow(string.Empty).ConfigureAwait(true);
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)
@@ -253,14 +253,14 @@ namespace FluentTerminal.App
 
         private async void OnShowSettingsRequested(object sender, EventArgs e)
         {
-            await ShowSettings().ConfigureAwait(false);
+            await ShowSettings().ConfigureAwait(true);
         }
 
         private async Task ShowSettings()
         {
             if (_settingsViewModel == null)
             {
-                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null);
+                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null).ConfigureAwait(true);
             }
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
         }
@@ -269,8 +269,8 @@ namespace FluentTerminal.App
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
             var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache, _trayReady.Task);
-            await _trayProcessCommunicationService.Initialize(_appServiceConnection);
+            await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
+            await _trayProcessCommunicationService.Initialize(_appServiceConnection).ConfigureAwait(true);
         }
     }
 }

@@ -17,8 +17,8 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             Model = keyBinding;
             _dialogService = dialogService;
-            EditCommand = new RelayCommand(async () => await Edit());
-            DeleteCommand = new RelayCommand(async () => await Delete());
+            EditCommand = new RelayCommand(async () => await Edit().ConfigureAwait(false));
+            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false));
         }
 
         public event EventHandler Deleted;
@@ -118,7 +118,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to delete this keybinding?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to delete this keybinding?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

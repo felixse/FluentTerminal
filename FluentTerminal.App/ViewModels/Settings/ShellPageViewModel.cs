@@ -14,7 +14,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
-        private ShellConfiguration _shellConfiguration;
+        private readonly ShellConfiguration _shellConfiguration;
         private bool _editingShellType;
 
         public ShellPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
@@ -23,9 +23,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
-            BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell());
-            BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory());
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+            BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell().ConfigureAwait(false));
+            BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory().ConfigureAwait(false));
 
             _shellConfiguration = _settingsService.GetShellConfiguration();
         }
@@ -117,11 +117,13 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task BrowseForCustomShell()
         {
-            var picker = new FileOpenPicker();
-            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder
+            };
             picker.FileTypeFilter.Add(".exe");
 
-            var file = await picker.PickSingleFileAsync().AsTask();
+            var file = await picker.PickSingleFileAsync();
             if (file != null)
             {
                 CustomShellLocation = file.Path;
@@ -143,7 +145,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default shell configuration?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default shell configuration?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

@@ -44,11 +44,9 @@ namespace FluentTerminal.App.Views
                 case VirtualKey.Control:
                     KeyBinding.Ctrl = true;
                     break;
-
                 case VirtualKey.Shift:
                     KeyBinding.Shift = true;
                     break;
-
                 case VirtualKey.Menu:
                     KeyBinding.Alt = true;
                     break;

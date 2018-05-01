@@ -31,7 +31,7 @@ namespace FluentTerminal.App.Views
             _titleBar = ApplicationView.GetForCurrentView().TitleBar;
             _titleBar.ButtonBackgroundColor = Colors.Transparent;
             _titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            _titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
+            _titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
 
             _dispatcher = Window.Current.Dispatcher;
 
@@ -45,7 +45,7 @@ namespace FluentTerminal.App.Views
             {
                 if (!_customValues)
                 {
-                    _titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
+                    _titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
                 }
             });
         }
@@ -87,7 +87,7 @@ namespace FluentTerminal.App.Views
 
         public void ResetTitleBar()
         {
-            _titleBar.ButtonForegroundColor = (Color)this.Resources["SystemBaseHighColor"];
+            _titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
             _titleBar.ButtonHoverBackgroundColor = null;
             _titleBar.ButtonPressedBackgroundColor = null;
             _titleBar.ButtonPressedForegroundColor = null;

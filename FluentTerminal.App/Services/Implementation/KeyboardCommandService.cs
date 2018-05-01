@@ -6,7 +6,7 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class KeyboardCommandService : IKeyboardCommandService
     {
-        private Dictionary<Command, Action> _commandHandlers = new Dictionary<Command, Action>();
+        private readonly Dictionary<Command, Action> _commandHandlers = new Dictionary<Command, Action>();
 
         public void RegisterCommandHandler(Command command, Action handler)
         {

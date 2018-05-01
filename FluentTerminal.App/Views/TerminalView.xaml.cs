@@ -27,7 +27,7 @@ namespace FluentTerminal.App.Views
     {
         private MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
-        private SemaphoreSlim _loaded;
+        private readonly SemaphoreSlim _loaded;
         private MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
 
@@ -92,7 +92,7 @@ namespace FluentTerminal.App.Views
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);
             var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
-            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')");
+            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')").ConfigureAwait(true);
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 
@@ -114,7 +114,7 @@ namespace FluentTerminal.App.Views
             if (_webView != null)
             {
                 _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();");
+                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
             }
         }
 
@@ -123,14 +123,11 @@ namespace FluentTerminal.App.Views
             if (_webView != null)
             {
                 _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();");
+                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
             }
         }
 
-        public Task<string> GetSelection()
-        {
-            return ExecuteScriptAsync("term.getSelection()");
-        }
+        public Task<string> GetSelection() => ExecuteScriptAsync("term.getSelection()");
 
         public void OnKeyboardCommand(string command)
         {
@@ -166,7 +163,7 @@ namespace FluentTerminal.App.Views
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(Command.Copy.ToString());
+            OnKeyboardCommand(nameof(Command.Copy));
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -198,11 +195,11 @@ namespace FluentTerminal.App.Views
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
 
-            await _loaded.WaitAsync();
+            await _loaded.WaitAsync().ConfigureAwait(true);
 
             _webView.Focus(FocusState.Programmatic);
 
-            await ViewModel.OnViewIsReady(this);
+            await ViewModel.OnViewIsReady(this).ConfigureAwait(true);
         }
 
         public void OnRightClick(int x, int y, bool hasSelection)
@@ -217,7 +214,7 @@ namespace FluentTerminal.App.Views
 
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(Command.Paste.ToString());
+            OnKeyboardCommand(nameof(Command.Paste));
         }
 
         private void StartMediatorTask()

@@ -17,12 +17,12 @@ namespace FluentTerminal.App.Views
 
         public static readonly DependencyProperty SelectedColorProperty =
                     DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(TerminalColorPicker), new PropertyMetadata(Colors.Transparent, (s, e) =>
-            {
-                if (s is TerminalColorPicker terminalColorPicker)
-                {
-                    terminalColorPicker.colorPicker.Color = (Color)e.NewValue;
-                }
-            }));
+                    {
+                        if (s is TerminalColorPicker terminalColorPicker)
+                        {
+                            terminalColorPicker.colorPicker.Color = (Color)e.NewValue;
+                        }
+                    }));
 
         public TerminalColorPicker()
         {

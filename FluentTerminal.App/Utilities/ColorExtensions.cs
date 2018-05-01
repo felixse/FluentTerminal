@@ -40,7 +40,7 @@ namespace FluentTerminal.App.Utilities
                     B = byte.Parse(parts[2])
                 };
             }
-            else 
+            else
             {
                 return colorString.ToColor();
             }

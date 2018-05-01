@@ -1,5 +1,4 @@
-﻿using FluentTerminal.App.ViewModels;
-using FluentTerminal.App.ViewModels.Settings;
+﻿using FluentTerminal.App.ViewModels.Settings;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,11 +19,6 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
             }
-        }
-
-        private void KeyBindingView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
         }
     }
 }

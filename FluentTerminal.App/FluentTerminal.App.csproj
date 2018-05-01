@@ -121,8 +121,6 @@
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ITrayProcessCommunicationService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
-    <Compile Include="Utilities\HttpJsonContent.cs" />
-    <Compile Include="Utilities\IHttpContentExtensions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />

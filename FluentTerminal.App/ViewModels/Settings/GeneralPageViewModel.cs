@@ -12,7 +12,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
-        private ApplicationSettings _applicationSettings;
+        private readonly ApplicationSettings _applicationSettings;
         private bool _editingNewTerminalLocation;
 
         public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
@@ -22,7 +22,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
         }
 
         public bool ConfirmClosingTabs
@@ -87,7 +87,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the general settings?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the general settings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

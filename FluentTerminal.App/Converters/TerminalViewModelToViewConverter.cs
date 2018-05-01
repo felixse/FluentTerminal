@@ -8,7 +8,7 @@ namespace FluentTerminal.App.Converters
 {
     internal class TerminalViewModelToViewConverter : IValueConverter
     {
-        private Dictionary<int, TerminalView> _viewDictionary;
+        private readonly Dictionary<int, TerminalView> _viewDictionary;
 
         public TerminalViewModelToViewConverter()
         {

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,7 +61,7 @@ namespace FluentTerminal.App.Views
         {
             if (e.WindowActivationState != CoreWindowActivationState.Deactivated && TerminalContainer.Content is TerminalView terminal)
             {
-                await terminal.FocusWebView();
+                await terminal.FocusWebView().ConfigureAwait(true);
             }
         }
 

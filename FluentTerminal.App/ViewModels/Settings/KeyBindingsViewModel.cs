@@ -2,7 +2,6 @@
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +13,7 @@ namespace FluentTerminal.App.ViewModels.Settings
     {
         private readonly Command _command;
         private readonly IDialogService _dialogService;
-        private ICollection<KeyBinding> _keyBindings;
+        private readonly ICollection<KeyBinding> _keyBindings;
 
         public KeyBindingsViewModel(Command command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
         {
@@ -39,7 +38,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = _command }, _dialogService);
 
-            if (await newKeyBinding.Edit())
+            if (await newKeyBinding.Edit().ConfigureAwait(true))
             {
                 newKeyBinding.Deleted += ViewModel_Deleted;
                 newKeyBinding.Edited += ViewModel_Edited;

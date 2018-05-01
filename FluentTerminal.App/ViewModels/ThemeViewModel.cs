@@ -42,7 +42,7 @@ namespace FluentTerminal.App.ViewModels
         private string _name;
         private Color _red;
         private Color _selection;
-        private TerminalTheme _theme;
+        private readonly TerminalTheme _theme;
         private Color _white;
         private Color _yellow;
 
@@ -82,9 +82,9 @@ namespace FluentTerminal.App.ViewModels
             Selection = _theme.Colors.Selection.FromString();
 
             SetActiveCommand = new RelayCommand(SetActive);
-            DeleteCommand = new RelayCommand(async () => await Delete(), CanDelete);
+            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), CanDelete);
             EditCommand = new RelayCommand(Edit, CanEdit);
-            CancelEditCommand = new RelayCommand(async () => await CancelEdit());
+            CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
             SaveChangesCommand = new RelayCommand(SaveChanges);
         }
 
@@ -296,7 +296,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -344,7 +344,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

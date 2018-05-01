@@ -12,7 +12,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class TerminalPageViewModel : ViewModelBase
     {
-        private TerminalOptions _terminalOptions;
+        private readonly TerminalOptions _terminalOptions;
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
@@ -105,7 +105,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {
@@ -123,7 +123,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
 
             Fonts = CanvasTextFormat.GetSystemFontFamilies().OrderBy(s => s);
             Sizes = Enumerable.Range(1, 72);

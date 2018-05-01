@@ -32,7 +32,7 @@ namespace FluentTerminal.App.Converters
 
             var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            if (attributes != null && attributes.Length > 0)
+            if (attributes?.Length > 0)
             {
                 return attributes[0].Description;
             }

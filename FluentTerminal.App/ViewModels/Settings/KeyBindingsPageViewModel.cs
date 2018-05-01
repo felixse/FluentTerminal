@@ -22,8 +22,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults());
-            AddCommand = new RelayCommand<Command>(async command => await Add(command));
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+            AddCommand = new RelayCommand<Command>(async command => await Add(command).ConfigureAwait(false));
 
             Initialize(_settingsService.GetKeyBindings());
         }
@@ -31,8 +31,6 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void Initialize(KeyBindings keyBindings)
         {
             _keyBindings = keyBindings;
-
-            _keyBindings.NewTab = new List<KeyBinding>(_keyBindings.NewTab);
 
             NewTab = CreateViewModel(Command.NewTab, _keyBindings.NewTab);
             ToggleWindow = CreateViewModel(Command.ToggleWindow, _keyBindings.ToggleWindow);
@@ -97,7 +95,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default keybindings?", DialogButton.OK, DialogButton.Cancel);
+            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default keybindings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

@@ -21,11 +21,11 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private ApplicationSettings _applicationSettings;
-        private CoreDispatcher _dispatcher;
+        private readonly CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
-        private DispatcherTimer _resizeOverlayTimer;
+        private readonly DispatcherTimer _resizeOverlayTimer;
         private bool _showResizeOverlay;
-        private string _startupDirectory;
+        private readonly string _startupDirectory;
         private int _terminalId;
         private ITerminalView _terminalView;
         private string _title;
@@ -45,11 +45,13 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService = keyboardCommandService;
             _applicationSettings = applicationSettings;
             _startupDirectory = startupDirectory;
-            _resizeOverlayTimer = new DispatcherTimer();
-            _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
+            _resizeOverlayTimer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 2)
+            };
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
-            CloseCommand = new RelayCommand(async () => await InvokeCloseRequested());
+            CloseCommand = new RelayCommand(async () => await InvokeCloseRequested().ConfigureAwait(false));
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
         }
@@ -59,7 +61,7 @@ namespace FluentTerminal.App.ViewModels
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var keyBindings = _settingsService.GetKeyBindings();
-                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(keyBindings));
+                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(keyBindings)).ConfigureAwait(false);
             });
         }
 
@@ -69,7 +71,7 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand CloseCommand { get; }
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
         public bool Initialized { get; private set; }
 
@@ -130,7 +132,7 @@ namespace FluentTerminal.App.ViewModels
             var theme = _settingsService.GetCurrentTheme();
             var keyBindings = _settingsService.GetKeyBindings();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings));
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings)).ConfigureAwait(true);
             var configuration = _settingsService.GetShellConfiguration();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
@@ -138,7 +140,7 @@ namespace FluentTerminal.App.ViewModels
                 configuration.WorkingDirectory = _startupDirectory;
             }
 
-            var response = await _trayProcessCommunicationService.CreateTerminal(size, configuration);
+            var response = await _trayProcessCommunicationService.CreateTerminal(size, configuration).ConfigureAwait(true);
 
             if (response.Success)
             {
@@ -150,22 +152,22 @@ namespace FluentTerminal.App.ViewModels
                 DefaultTitle = response.ShellExecutableName;
                 Title = DefaultTitle;
 
-                await _terminalView.ConnectToSocket(response.WebSocketUrl);
+                await _terminalView.ConnectToSocket(response.WebSocketUrl).ConfigureAwait(true);
                 Initialized = true;
             }
             else
             {
-                await _dialogService.ShowDialogAsnyc("Error", response.Error, DialogButton.OK);
+                await _dialogService.ShowDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
             }
 
-            await FocusTerminal();
+            await FocusTerminal().ConfigureAwait(true);
         }
 
         private async Task InvokeCloseRequested()
         {
             if (_applicationSettings.ConfirmClosingTabs)
             {
-                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel);
+                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {
@@ -178,10 +180,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, EventArgs e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                _applicationSettings = _settingsService.GetApplicationSettings();
-            });
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = _settingsService.GetApplicationSettings());
         }
 
         private async void OnCurrentThemeChanged(object sender, EventArgs e)
@@ -189,7 +188,7 @@ namespace FluentTerminal.App.ViewModels
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var currentTheme = _settingsService.GetCurrentTheme();
-                await _terminalView.ChangeTheme(currentTheme.Colors);
+                await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
             });
         }
 
@@ -197,7 +196,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (e == Command.Copy)
             {
-                var selection = await _terminalView.GetSelection();
+                var selection = await _terminalView.GetSelection().ConfigureAwait(true);
                 var dataPackage = new DataPackage();
                 dataPackage.SetText(selection);
                 Clipboard.SetContent(dataPackage);
@@ -208,7 +207,7 @@ namespace FluentTerminal.App.ViewModels
                 if (content.Contains(StandardDataFormats.Text))
                 {
                     var text = await content.GetTextAsync();
-                    await _terminalView.Write(text);
+                    await _terminalView.Write(text).ConfigureAwait(true);
                 }
             }
             else
@@ -228,7 +227,7 @@ namespace FluentTerminal.App.ViewModels
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var options = _settingsService.GetTerminalOptions();
-                await _terminalView.ChangeOptions(options);
+                await _terminalView.ChangeOptions(options).ConfigureAwait(true);
             });
         }
 
@@ -240,7 +239,7 @@ namespace FluentTerminal.App.ViewModels
             }
             ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
             ShowResizeOverlay = true;
-            await _trayProcessCommunicationService.ResizeTerminal(_terminalId, e);
+            await _trayProcessCommunicationService.ResizeTerminal(_terminalId, e).ConfigureAwait(true);
         }
 
         private void OnTerminalTitleChanged(object sender, string e)

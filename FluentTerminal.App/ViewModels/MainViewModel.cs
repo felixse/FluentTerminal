@@ -22,7 +22,7 @@ namespace FluentTerminal.App.ViewModels
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
-        private CoreDispatcher _dispatcher;
+        private readonly CoreDispatcher _dispatcher;
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
         private string _title;
@@ -135,10 +135,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, EventArgs e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                _applicationSettings = _settingsService.GetApplicationSettings();
-            });
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = _settingsService.GetApplicationSettings());
         }
 
         private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
@@ -147,7 +144,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel);
+                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {
