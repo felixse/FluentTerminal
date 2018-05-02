@@ -183,7 +183,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(ProjectDir)BinaryDependencies\$(PlatformName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)"
-xcopy /y /s "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)FluentTerminal.App\Win32"
+xcopy /y /s "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)FluentTerminal.App\Win32\"
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
