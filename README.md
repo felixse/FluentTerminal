@@ -1,4 +1,6 @@
 
+![](https://fs-apps.visualstudio.com/_apis/public/build/definitions/a91787f7-3162-4680-b783-cd83e58d2754/1/badge)
+
 # Fluent Terminal
 A Terminal Emulator based on UWP and web technologies.
 
@@ -14,7 +16,6 @@ A Terminal Emulator based on UWP and web technologies.
 ![Settings window](Screenshots/Settings.png)
 
 ## Up Next:
-- MSI Installer
 - Create multiple profiles to easily switch between different shell types
 - Split screen support
 - Import/Export themes
