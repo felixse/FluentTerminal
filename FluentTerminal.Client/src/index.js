@@ -30,7 +30,8 @@ function createTerminal(options, theme, keyBindings) {
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
     allowTransparency: true,
-    theme: theme
+    theme: theme,
+    experimentalCharAtlas: 'dynamic'
   };
 
   term = new Terminal(terminalOptions);
