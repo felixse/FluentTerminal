@@ -9,7 +9,7 @@ A Terminal Emulator based on UWP and web technologies.
 - Supports tabs and multiple windows
 - Theming and appearance configuration
 - Editable keybindings
-- Explorer context menu integration
+- Explorer context menu integration (Installation script can be found [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration))
 
 ## Screenshots:
 ![Terminal window](Screenshots/Terminal.png)
