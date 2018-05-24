@@ -220,7 +220,40 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            return new[] { defaultXterm, powerShell };
+            var homebrew = new TerminalTheme
+            {
+                Id = Guid.Parse("5f034210-067b-40e2-b9c9-6a25eb6fb8e6"),
+                Author = "Hans Kokx",
+                Name = "Homebrew",
+                PreInstalled = true,
+                BackgroundOpacity = 0.8,
+                Colors = new TerminalColors
+                {
+                    Black = "#000000",
+                    Red = "#A0160B",
+                    Green = "#00AF21",
+                    Yellow = "#A1A222",
+                    Blue = "#192AB7",
+                    Magenta = "#AA2FAE",
+                    Cyan = "#12B1BC",
+                    White = "#BBB5AF",
+                    BrightBlack = "#747876",
+                    BrightRed = "#E52213",
+                    BrightGreen = "#00D92B",
+                    BrightYellow = "#E6E435",
+                    BrightBlue = "#283EF9",
+                    BrightMagenta = "#EB43E6",
+                    BrightCyan = "#15E7E8",
+                    BrightWhite = "#E9E9E9",
+                    Foreground = "#00D92B",
+                    Background = "#000000",
+                    Cursor = "#00D92B",
+                    CursorAccent = "#000000",
+                    Selection = "#4CFFFFFF"
+                }
+            };
+
+            return new[] { defaultXterm, powerShell, homebrew };
         }
     }
 }
