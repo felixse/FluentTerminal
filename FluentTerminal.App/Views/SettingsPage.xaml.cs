@@ -56,8 +56,8 @@ namespace FluentTerminal.App.Views
                         ContentFrame.Navigate(typeof(GeneralSettings), ViewModel.General);
                         break;
 
-                    case "shell":
-                        ContentFrame.Navigate(typeof(ShellSettings), ViewModel.Shell);
+                    case "profiles":
+                        ContentFrame.Navigate(typeof(ShellProfileSettings), ViewModel.Shell);
                         break;
 
                     case "themes":

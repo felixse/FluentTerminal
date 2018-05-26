@@ -127,9 +127,10 @@
     <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
-    <Compile Include="ViewModels\Settings\ShellPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ProfilesPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\TerminalPageViewModel.cs" />
     <Compile Include="ViewModels\Settings\ThemesPageViewModel.cs" />
+    <Compile Include="ViewModels\ShellProfileViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\TerminalViewModel.cs" />
     <Compile Include="Views\BindableColorsTitleBar.cs" />
@@ -159,8 +160,8 @@
     <Compile Include="Views\SettingsPages\KeyBindingSettings.xaml.cs">
       <DependentUpon>KeyBindingSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\ShellSettings.xaml.cs">
-      <DependentUpon>ShellSettings.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPages\ShellProfileSettings.xaml.cs">
+      <DependentUpon>ShellProfileSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
@@ -297,7 +298,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\ShellSettings.xaml">
+    <Page Include="Views\SettingsPages\ShellProfileSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

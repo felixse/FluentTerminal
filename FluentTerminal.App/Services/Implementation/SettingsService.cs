@@ -11,11 +11,14 @@ namespace FluentTerminal.App.Services.Implementation
     internal class SettingsService : ISettingsService
     {
         public const string ThemesContainerName = "Themes";
+        public const string ShellProfilesContainerName = "ShellProfiles";
         public const string CurrentThemeKey = "CurrentTheme";
+        public const string DefaultShellProfileKey = "DefaultShellProfile";
 
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ApplicationDataContainer _localSettings;
         private readonly ApplicationDataContainer _themes;
+        private readonly ApplicationDataContainer _shellProfiles;
         private readonly ApplicationDataContainer _roamingSettings;
 
         public event EventHandler CurrentThemeChanged;
@@ -30,21 +33,17 @@ namespace FluentTerminal.App.Services.Implementation
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
             _themes = _roamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always);
+            _shellProfiles = _roamingSettings.CreateContainer(ShellProfilesContainerName, ApplicationDataCreateDisposition.Always);
 
             foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
             {
                 _themes.WriteValueAsJson(theme.Id.ToString(), theme);
             }
-        }
 
-        public ShellConfiguration GetShellConfiguration()
-        {
-            return _localSettings.ReadValueFromJson(nameof(ShellConfiguration), _defaultValueProvider.GetDefaultShellConfiguration());
-        }
-
-        public void SaveShellConfiguration(ShellConfiguration shellConfiguration)
-        {
-            _localSettings.WriteValueAsJson(nameof(ShellConfiguration), shellConfiguration);
+            foreach (var shellProfile in _defaultValueProvider.GetPreinstalledShellProfiles())
+            {
+                _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+            }
         }
 
         public TerminalTheme GetCurrentTheme()
@@ -127,6 +126,41 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
             KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public Guid GetDefaultShellProfileId()
+        {
+            if (_roamingSettings.Values.TryGetValue(DefaultShellProfileKey, out object value))
+            {
+                return (Guid)value;
+            }
+            return _defaultValueProvider.GetDefaultShellProfileId();
+        }
+
+        public ShellProfile GetDefaultShellProfile()
+        {
+            var id = GetDefaultShellProfileId();
+            return _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
+        }
+
+        public void SaveDefaultShellProfileId(Guid id)
+        {
+            _roamingSettings.Values[DefaultShellProfileKey] = id;
+        }
+
+        public IEnumerable<ShellProfile> GetShellProfiles()
+        {
+            return _shellProfiles.Values.Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x.Value)).ToList();
+        }
+
+        public void SaveShellProfile(ShellProfile shellProfile)
+        {
+            _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+        }
+
+        public void DeleteShellProfile(Guid id)
+        {
+            _shellProfiles.Values.Remove(id.ToString());
         }
     }
 }

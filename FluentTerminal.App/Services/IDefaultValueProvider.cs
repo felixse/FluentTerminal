@@ -6,7 +6,8 @@ namespace FluentTerminal.App.Services
 {
     public interface IDefaultValueProvider
     {
-        ShellConfiguration GetDefaultShellConfiguration();
+        IEnumerable<ShellProfile> GetPreinstalledShellProfiles();
+        Guid GetDefaultShellProfileId();
         TerminalOptions GetDefaultTerminalOptions();
         KeyBindings GetDefaultKeyBindings();
         ApplicationSettings GetDefaultApplicationSettings();

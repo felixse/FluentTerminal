@@ -124,15 +124,9 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
-        public ShellConfiguration GetDefaultShellConfiguration()
+        public Guid GetDefaultShellProfileId()
         {
-            return new ShellConfiguration
-            {
-                Shell = ShellType.PowerShell,
-                CustomShellLocation = string.Empty,
-                WorkingDirectory = string.Empty,
-                Arguments = string.Empty
-            };
+            return Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e2");
         }
 
         public TerminalOptions GetDefaultTerminalOptions()
@@ -150,6 +144,31 @@ namespace FluentTerminal.App.Services.Implementation
         public Guid GetDefaultThemeId()
         {
             return Guid.Parse("281e4352-bb50-47b7-a691-2b13830df95e");
+        }
+
+        public IEnumerable<ShellProfile> GetPreinstalledShellProfiles()
+        {
+            return new[]
+            {
+                new ShellProfile
+                {
+                    Id = GetDefaultShellProfileId(),
+                    Name = "Powershell",
+                    Arguments = string.Empty,
+                    Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
+                    PreInstalled = true,
+                    WorkingDirectory = string.Empty
+                },
+                new ShellProfile
+                {
+                    Id = Guid.Parse("ab942a61-7673-4755-9bd8-765aff91d9a3"),
+                    Name = "CMD",
+                    Arguments = string.Empty,
+                    Location = @"C:\Windows\System32\cmd.exe",
+                    PreInstalled = true,
+                    WorkingDirectory = string.Empty
+                }
+            };
         }
 
         public IEnumerable<TerminalTheme> GetPreInstalledThemes()

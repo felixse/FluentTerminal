@@ -3,6 +3,6 @@
     public class CreateTerminalRequest
     {
         public TerminalSize Size { get; set; }
-        public ShellConfiguration Configuration { get; set; }
+        public ShellProfile Profile { get; set; }
     }
 }

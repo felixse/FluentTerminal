@@ -1,6 +1,5 @@
 ﻿using Fleck;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
@@ -38,9 +37,9 @@ namespace FluentTerminal.SystemTray.Services
                     throw new Exception(winpty_error_msg(errorHandle).ToString());
                 }
 
-                string exe = GetShellLocation(request.Configuration);
-                string args = $"\"{exe}\" {request.Configuration.Arguments}";
-                string cwd = GetWorkingDirectory(request.Configuration);
+                string exe = request.Profile.Location;
+                string args = $"\"{exe}\" {request.Profile.Arguments}";
+                string cwd = GetWorkingDirectory(request.Profile);
                 spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, exe, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
@@ -103,22 +102,7 @@ namespace FluentTerminal.SystemTray.Services
             Dispose(false);
         }
 
-        private string GetShellLocation(ShellConfiguration configuration)
-        {
-            switch (configuration.Shell)
-            {
-                case ShellType.CMD:
-                    return @"C:\Windows\System32\cmd.exe";
-                case ShellType.PowerShell:
-                    return @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe";
-                case ShellType.Custom:
-                    return configuration.CustomShellLocation;
-                default:
-                    return null;
-            }
-        }
-
-        private string GetWorkingDirectory(ShellConfiguration configuration)
+        private string GetWorkingDirectory(ShellProfile configuration)
         {
             if (string.IsNullOrWhiteSpace(configuration.WorkingDirectory) || !Directory.Exists(configuration.WorkingDirectory))
             {

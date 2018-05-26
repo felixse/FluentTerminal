@@ -133,7 +133,7 @@ namespace FluentTerminal.App.ViewModels
             var keyBindings = _settingsService.GetKeyBindings();
 
             var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings)).ConfigureAwait(true);
-            var configuration = _settingsService.GetShellConfiguration();
+            var configuration = _settingsService.GetDefaultShellProfile();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {

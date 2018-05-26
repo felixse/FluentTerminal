@@ -19,12 +19,12 @@ namespace FluentTerminal.App.Services.Implementation
             _settingsService = settingsService;
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellConfiguration shellConfiguration)
+        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile)
         {
             var request = new CreateTerminalRequest
             {
                 Size = size,
-                Configuration = shellConfiguration
+                Profile = shellProfile
             };
 
             var message = new ValueSet

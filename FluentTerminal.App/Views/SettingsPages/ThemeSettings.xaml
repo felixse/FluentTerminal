@@ -128,12 +128,12 @@
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Viewbox
-                            Width="16"
-                            Height="16"
+                            Width="12"
+                            Height="12"
                             Margin="0,0,6,0">
                             <SymbolIcon Symbol="Add" />
                         </Viewbox>
-                        <TextBlock Text="Create New" />
+                        <TextBlock Text="Create new" Style="{StaticResource CaptionTextBlockStyle}" />
                     </StackPanel>
                 </Button.Content>
             </Button>

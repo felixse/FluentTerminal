@@ -11,8 +11,13 @@ namespace FluentTerminal.App.Services
         event EventHandler ApplicationSettingsChanged;
         event EventHandler KeyBindingsChanged;
 
-        ShellConfiguration GetShellConfiguration();
-        void SaveShellConfiguration(ShellConfiguration shellConfiguration);
+        Guid GetDefaultShellProfileId();
+        ShellProfile GetDefaultShellProfile();
+        void SaveDefaultShellProfileId(Guid id);
+
+        IEnumerable<ShellProfile> GetShellProfiles();
+        void SaveShellProfile(ShellProfile shellProfile);
+        void DeleteShellProfile(Guid id);
 
         TerminalOptions GetTerminalOptions();
         void SaveTerminalOptions(TerminalOptions terminalOptions);

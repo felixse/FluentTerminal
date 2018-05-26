@@ -40,7 +40,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             SelectedTheme = Themes.First(t => t.IsActive);
         }
 
-        public RelayCommand CreateThemeCommand { get; set; }
+        public RelayCommand CreateThemeCommand { get; }
 
         public ThemeViewModel SelectedTheme
         {

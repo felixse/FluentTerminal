@@ -40,7 +40,7 @@
                             ToolTipService.ToolTip="Terminal" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Shell" Tag="shell">
+                <NavigationViewItem Content="Profiles" Tag="profiles">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"

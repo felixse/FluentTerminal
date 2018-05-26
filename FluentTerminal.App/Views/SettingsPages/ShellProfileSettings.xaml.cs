@@ -4,18 +4,18 @@ using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App.Views.SettingsPages
 {
-    public sealed partial class ShellSettings : Page
+    public sealed partial class ShellProfileSettings : Page
     {
-        public ShellPageViewModel ViewModel { get; private set; }
+        public ProfilesPageViewModel ViewModel { get; private set; }
 
-        public ShellSettings()
+        public ShellProfileSettings()
         {
             InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is ShellPageViewModel viewModel)
+            if (e.Parameter is ProfilesPageViewModel viewModel)
             {
                 ViewModel = viewModel;
             }
