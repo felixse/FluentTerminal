@@ -195,6 +195,7 @@ namespace FluentTerminal.SystemTray.Services
                     }
                 }
                 while (!reader.EndOfStream);
+                _webSocket.Close();
             });
         }
     }

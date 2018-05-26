@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
+using Windows.UI.ViewManagement;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -176,11 +177,6 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnTerminalCloseRequested(object sender, EventArgs e)
         {
-            if (Terminals.Count == 1)
-            {
-                return;
-            }
-
             if (sender is TerminalViewModel terminal)
             {
                 terminal.CloseView();
@@ -189,6 +185,12 @@ namespace FluentTerminal.App.ViewModels
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
                 Terminals.Remove(terminal);
+
+                if (Terminals.Count == 0)
+                {
+                    Closed?.Invoke(this, EventArgs.Empty);
+                    ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
             }
         }
 

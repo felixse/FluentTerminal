@@ -99,6 +99,9 @@ function attachTerminal() {
 function connectToWebSocket(url) {
   socket = new WebSocket(url);
   socket.onopen = attachTerminal;
+  socket.onclose = function() {
+    terminalBridge.invokeCommand('CloseTab');
+  };
 }
 
 function changeTheme(theme) {
