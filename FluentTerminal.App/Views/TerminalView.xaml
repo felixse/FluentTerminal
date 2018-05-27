@@ -5,11 +5,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
-    d:DesignWidth="400"
+    d:DesignWidth="600"
     mc:Ignorable="d">
     <Grid>
-        <Grid x:Name="WebViewContainer" Margin="12" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Grid
+            x:Name="WebViewContainer"
+            Grid.Row="0"
+            Margin="12" />
+        <Grid
+            Grid.Row="0"
             Margin="12"
             Padding="6"
             HorizontalAlignment="Right"
@@ -20,5 +28,49 @@
             </Grid.Background>
             <TextBlock Foreground="White" Text="{x:Bind ViewModel.ResizeOverlayContent, Mode=OneWay}" />
         </Grid>
+        <RelativePanel
+            Grid.Row="1"
+            Padding="12"
+            Visibility="{x:Bind ViewModel.ShowSearchPanel, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+            <TextBlock
+                Name="SearchLabel"
+                Margin="0,6,0,0"
+                RelativePanel.AlignLeftWithPanel="True"
+                Text="Search" />
+            <TextBox
+                Name="SearchTextBox"
+                Width="300"
+                Margin="6,0,6,0"
+                KeyUp="SearchTextBox_KeyUp"
+                PlaceholderText="Enter search term"
+                RelativePanel.RightOf="SearchLabel"
+                Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                Name="PreviousButton"
+                Margin="0,0,6,0"
+                Command="{x:Bind ViewModel.FindPreviousCommand}"
+                RelativePanel.RightOf="SearchTextBox"
+                ToolTipService.ToolTip="Find previous">
+                <Button.Content>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76B;" />
+                </Button.Content>
+            </Button>
+            <Button
+                Command="{x:Bind ViewModel.FindNextCommand}"
+                RelativePanel.RightOf="PreviousButton"
+                ToolTipService.ToolTip="Find next">
+                <Button.Content>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76C;" />
+                </Button.Content>
+            </Button>
+            <Button
+                Command="{x:Bind ViewModel.CloseSearchPanelCommand}"
+                RelativePanel.AlignRightWithPanel="True"
+                ToolTipService.ToolTip="Close search panel">
+                <Button.Content>
+                    <SymbolIcon Symbol="Cancel" />
+                </Button.Content>
+            </Button>
+        </RelativePanel>
     </Grid>
 </UserControl>

@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -150,6 +151,16 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"paste('{text}')");
         }
 
+        public Task FindNext(string searchText)
+        {
+            return ExecuteScriptAsync($"findNext('{searchText}')");
+        }
+
+        public Task FindPrevious(string searchText)
+        {
+            return ExecuteScriptAsync($"findPrevious('{searchText}')");
+        }
+
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             _loaded.Release();
@@ -235,6 +246,23 @@ namespace FluentTerminal.App.Views
                     }
                 }
             });
+        }
+
+        private void SearchTextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                ViewModel.CloseSearchPanelCommand.Execute(null);
+            }
+            else if (e.Key == VirtualKey.Enter)
+            {
+                ViewModel.FindNextCommand.Execute(null);
+            }
+        }
+
+        public void FocusSearchTextBox()
+        {
+            SearchTextBox.Focus(FocusState.Programmatic);
         }
     }
 }

@@ -131,6 +131,17 @@ namespace FluentTerminal.App.Services.Implementation
                         Shift = false,
                         Key = (int)VirtualKey.Scroll
                     }
+                },
+                Search = new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.Search,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.F
+                    }
                 }
             };
         }

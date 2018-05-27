@@ -30,6 +30,8 @@ namespace FluentTerminal.App.ViewModels
         private ITerminalView _terminalView;
         private string _title;
         private readonly ShellProfile _shellProfile;
+        private bool _showSearchPanel;
+        private string _searchText;
 
         public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile)
@@ -55,9 +57,11 @@ namespace FluentTerminal.App.ViewModels
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
             CloseCommand = new RelayCommand(async () => await InvokeCloseRequested().ConfigureAwait(false));
+            FindNextCommand = new RelayCommand(async () => await FindNext().ConfigureAwait(false));
+            FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
+            CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
-            
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
@@ -75,11 +79,27 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand CloseCommand { get; }
 
+        public RelayCommand FindPreviousCommand { get; }
+        public RelayCommand FindNextCommand { get; }
+        public RelayCommand CloseSearchPanelCommand { get; }
+
         public int Id { get; }
 
         public bool Initialized { get; private set; }
 
         public string DefaultTitle { get; private set; } = "Fluent Terminal";
+
+        public string SearchText
+        {
+            get => _searchText;
+            set => Set(ref _searchText, value);
+        }
+
+        public bool ShowSearchPanel
+        {
+            get => _showSearchPanel;
+            set => Set(ref _showSearchPanel, value);
+        }
 
         public string ResizeOverlayContent
         {
@@ -213,6 +233,14 @@ namespace FluentTerminal.App.ViewModels
                     await _terminalView.Write(text).ConfigureAwait(true);
                 }
             }
+            else if (e == Command.Search)
+            {
+                ShowSearchPanel = !ShowSearchPanel;
+                if (ShowSearchPanel)
+                {
+                    _terminalView.FocusSearchTextBox();
+                }
+            }
             else
             {
                 _keyboardCommandService.SendCommand(e);
@@ -262,8 +290,26 @@ namespace FluentTerminal.App.ViewModels
             list.AddRange(keyBindings.Paste);
             list.AddRange(keyBindings.PreviousTab);
             list.AddRange(keyBindings.ShowSettings);
+            list.AddRange(keyBindings.Search);
 
             return list;
+        }
+
+        private Task FindNext()
+        {
+            return _terminalView.FindNext(SearchText);
+        }
+
+        private Task FindPrevious()
+        {
+            return _terminalView.FindPrevious(SearchText);
+        }
+
+        private void CloseSearchPanel()
+        {
+            SearchText = string.Empty;
+            ShowSearchPanel = false;
+            _terminalView.FocusTerminal();
         }
     }
 }

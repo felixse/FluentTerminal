@@ -11,6 +11,7 @@
         NewWindow,
         ShowSettings,
         Copy,
-        Paste
+        Paste,
+        Search
     }
 }

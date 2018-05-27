@@ -42,6 +42,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             ShowSettings = CreateViewModel(Command.ShowSettings, _keyBindings.ShowSettings);
             Copy = CreateViewModel(Command.Copy, _keyBindings.Copy);
             Paste = CreateViewModel(Command.Paste, _keyBindings.Paste);
+            Search = CreateViewModel(Command.Search, _keyBindings.Search);
 
             RaisePropertyChanged(nameof(NewTab));
             RaisePropertyChanged(nameof(ConfigurableNewTab));
@@ -53,6 +54,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             RaisePropertyChanged(nameof(ShowSettings));
             RaisePropertyChanged(nameof(Copy));
             RaisePropertyChanged(nameof(Paste));
+            RaisePropertyChanged(nameof(Search));
         }
 
         public KeyBindingsViewModel NewTab { get; private set; }
@@ -65,6 +67,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public KeyBindingsViewModel ShowSettings { get; private set; }
         public KeyBindingsViewModel Copy { get; private set; }
         public KeyBindingsViewModel Paste { get; private set; }
+        public KeyBindingsViewModel Search { get; private set; }
 
         public RelayCommand RestoreDefaultsCommand { get; }
         public RelayCommand<Command> AddCommand { get; }
@@ -93,6 +96,8 @@ namespace FluentTerminal.App.ViewModels.Settings
                     return Copy.Add();
                 case Command.Paste:
                     return Paste.Add();
+                case Command.Search:
+                    return Search.Add();
             }
 
             return Task.CompletedTask;

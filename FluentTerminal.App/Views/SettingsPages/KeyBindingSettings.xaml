@@ -63,6 +63,11 @@
                                     <enums:Command>NewWindow</enums:Command>
                                 </MenuFlyoutItem.CommandParameter>
                             </MenuFlyoutItem>
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.AddCommand}" Text="Search">
+                                <MenuFlyoutItem.CommandParameter>
+                                    <enums:Command>Search</enums:Command>
+                                </MenuFlyoutItem.CommandParameter>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem Command="{x:Bind ViewModel.AddCommand}" Text="Show settings">
                                 <MenuFlyoutItem.CommandParameter>
                                     <enums:Command>ShowSettings</enums:Command>
@@ -100,6 +105,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -182,42 +188,53 @@
                     Grid.Row="6"
                     Grid.Column="0"
                     Margin="0,6,24,0"
-                    Text="Show settings" />
+                    Text="Search" />
                 <views:KeyBindingsView
                     Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="0,0,0,24"
+                    ViewModel="{x:Bind ViewModel.Search, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Margin="0,6,24,0"
+                    Text="Show settings" />
+                <views:KeyBindingsView
+                    Grid.Row="7"
                     Grid.Column="1"
                     Margin="0,0,0,24"
                     ViewModel="{x:Bind ViewModel.ShowSettings, Mode=OneWay}" />
 
                 <TextBlock
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Grid.Column="0"
                     Margin="0,6,24,0"
                     Text="Toggle window" />
                 <views:KeyBindingsView
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Grid.Column="1"
                     Margin="0,0,0,24"
                     ViewModel="{x:Bind ViewModel.ToggleWindow, Mode=OneWay}" />
 
                 <TextBlock
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Grid.Column="0"
                     Margin="0,6,24,0"
                     Text="Copy" />
                 <views:KeyBindingsView
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Grid.Column="1"
                     Margin="0,0,0,24"
                     ViewModel="{x:Bind ViewModel.Copy, Mode=OneWay}" />
 
                 <TextBlock
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Grid.Column="0"
                     Margin="0,6,24,0"
                     Text="Paste" />
                 <views:KeyBindingsView
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Grid.Column="1"
                     Margin="0,0,0,24"
                     ViewModel="{x:Bind ViewModel.Paste, Mode=OneWay}" />

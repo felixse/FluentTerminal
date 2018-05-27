@@ -125,6 +125,11 @@ namespace FluentTerminal.App.Services.Implementation
                 keyBindings.ConfigurableNewTab = defaults.ConfigurableNewTab;
             }
 
+            if (keyBindings.Search == null)
+            {
+                keyBindings.Search = defaults.Search;
+            }
+
             return keyBindings ?? _defaultValueProvider.GetDefaultKeyBindings();
         }
 

@@ -14,5 +14,6 @@ namespace FluentTerminal.Models
         public ICollection<KeyBinding> ShowSettings { get; set; }
         public ICollection<KeyBinding> Copy { get; set; }
         public ICollection<KeyBinding> Paste { get; set; }
+        public ICollection<KeyBinding> Search { get; set; }
     }
 }
