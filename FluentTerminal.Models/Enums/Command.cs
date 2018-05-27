@@ -6,6 +6,7 @@
         NextTab,
         PreviousTab,
         NewTab,
+        ConfigurableNewTab,
         CloseTab,
         NewWindow,
         ShowSettings,

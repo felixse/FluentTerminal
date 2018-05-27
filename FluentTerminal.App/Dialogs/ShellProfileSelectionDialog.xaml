@@ -1,0 +1,18 @@
+﻿<ContentDialog
+    x:Class="FluentTerminal.App.Dialogs.ShellProfileSelectionDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Select Profile"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    CloseButtonText="Cancel"
+    PrimaryButtonText="Start"
+    RequestedTheme="Dark"
+    mc:Ignorable="d">
+    <ComboBox
+        HorizontalAlignment="Stretch"
+        DisplayMemberPath="Name"
+        ItemsSource="{x:Bind Profiles}"
+        SelectedItem="{x:Bind SelectedProfile, Mode=TwoWay}" />
+</ContentDialog>

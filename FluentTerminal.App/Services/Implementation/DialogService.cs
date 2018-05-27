@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FluentTerminal.App.Dialogs;
+using FluentTerminal.Models;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Services.Implementation
 {
     public class DialogService : IDialogService
     {
-        public async Task<DialogButton> ShowDialogAsnyc(string title, string content, params DialogButton[] buttons)
+        private readonly ISettingsService _settingsService;
+
+        public DialogService(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
+
+        public async Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -33,6 +43,19 @@ namespace FluentTerminal.App.Services.Implementation
             var result = await dialog.ShowAsync();
 
             return Enum.Parse<DialogButton>(result.Label);
+        }
+
+        public async Task<ShellProfile> ShowProfileSelectionDialogAsync()
+        {
+            var dialog = new ShellProfileSelectionDialog(_settingsService);
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                return dialog.SelectedProfile;
+            }
+            return null;
         }
     }
 }

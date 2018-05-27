@@ -105,7 +105,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

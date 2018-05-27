@@ -6,6 +6,7 @@ using FluentAssertions;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Implementation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace FluentTerminal.App.Test.Services
 {
@@ -26,9 +27,9 @@ namespace FluentTerminal.App.Test.Services
             var title = string.Empty;
             var content = _fixture.Create<string>();
             var buttons = _fixture.CreateMany<DialogButton>(2);
-            var dialogService = new DialogService();
+            var dialogService = new DialogService(Mock.Of<ISettingsService>());
 
-            Func<Task<DialogButton>> invoke = () => dialogService.ShowDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
+            Func<Task<DialogButton>> invoke = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
             invoke.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("title");
         }
@@ -39,9 +40,9 @@ namespace FluentTerminal.App.Test.Services
             var title = _fixture.Create<string>();
             var content = string.Empty;
             var buttons = _fixture.CreateMany<DialogButton>(2);
-            var dialogService = new DialogService();
+            var dialogService = new DialogService(Mock.Of<ISettingsService>());
 
-            Func<Task<DialogButton>> invoke = () => dialogService.ShowDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
+            Func<Task<DialogButton>> invoke = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
             invoke.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("content");
         }
@@ -51,9 +52,9 @@ namespace FluentTerminal.App.Test.Services
         {
             var title = _fixture.Create<string>();
             var content = _fixture.Create<string>();
-            var dialogService = new DialogService();
+            var dialogService = new DialogService(Mock.Of<ISettingsService>());
 
-            Func<Task<DialogButton>> invoke = () => dialogService.ShowDialogAsnyc(title, content);
+            Func<Task<DialogButton>> invoke = () => dialogService.ShowMessageDialogAsnyc(title, content);
 
             invoke.Should().Throw<ArgumentException>().And.ParamName.Should().Be("buttons");
         }

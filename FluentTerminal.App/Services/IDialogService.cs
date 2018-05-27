@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using FluentTerminal.Models;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services
 {
@@ -10,6 +11,8 @@ namespace FluentTerminal.App.Services
 
     public interface IDialogService
     {
-        Task<DialogButton> ShowDialogAsnyc(string title, string content, params DialogButton[] buttons);
+        Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons);
+
+        Task<ShellProfile> ShowProfileSelectionDialogAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Dialogs;
+using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -40,7 +41,8 @@ namespace FluentTerminal.App.ViewModels
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null));
+            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
+            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
             _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
@@ -51,7 +53,7 @@ namespace FluentTerminal.App.ViewModels
             BackgroundOpacity = currentTheme.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal(null));
+            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
@@ -98,11 +100,26 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _title, value);
         }
 
-        public Task AddTerminal(string startupDirectory)
+        public Task AddTerminal(string startupDirectory, bool showProfileSelection)
         {
-            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory);
+                ShellProfile profile = null;
+                if (showProfileSelection)
+                {
+                    profile = await _dialogService.ShowProfileSelectionDialogAsync();
+
+                    if (profile == null)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    profile = _settingsService.GetDefaultShellProfile();
+                }
+
+                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory, profile);
                 terminal.CloseRequested += OnTerminalCloseRequested;
                 terminal.TitleChanged += OnTitleChanged;
                 Terminals.Add(terminal);
@@ -145,7 +162,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {

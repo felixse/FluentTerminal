@@ -33,6 +33,17 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.T
                     }
                 },
+                ConfigurableNewTab = new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.ConfigurableNewTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)VirtualKey.T
+                    }
+                },
                 CloseTab = new List<KeyBinding>
                 {
                     new KeyBinding

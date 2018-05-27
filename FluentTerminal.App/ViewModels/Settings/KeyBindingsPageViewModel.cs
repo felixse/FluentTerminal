@@ -33,6 +33,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _keyBindings = keyBindings;
 
             NewTab = CreateViewModel(Command.NewTab, _keyBindings.NewTab);
+            ConfigurableNewTab = CreateViewModel(Command.ConfigurableNewTab, _keyBindings.ConfigurableNewTab);
             ToggleWindow = CreateViewModel(Command.ToggleWindow, _keyBindings.ToggleWindow);
             NextTab = CreateViewModel(Command.NextTab, _keyBindings.NextTab);
             PreviousTab = CreateViewModel(Command.PreviousTab, _keyBindings.PreviousTab);
@@ -43,6 +44,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             Paste = CreateViewModel(Command.Paste, _keyBindings.Paste);
 
             RaisePropertyChanged(nameof(NewTab));
+            RaisePropertyChanged(nameof(ConfigurableNewTab));
             RaisePropertyChanged(nameof(ToggleWindow));
             RaisePropertyChanged(nameof(NextTab));
             RaisePropertyChanged(nameof(PreviousTab));
@@ -54,6 +56,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         }
 
         public KeyBindingsViewModel NewTab { get; private set; }
+        public KeyBindingsViewModel ConfigurableNewTab { get; private set; }
         public KeyBindingsViewModel ToggleWindow { get; private set; }
         public KeyBindingsViewModel NextTab { get; private set; }
         public KeyBindingsViewModel PreviousTab { get; private set; }
@@ -78,6 +81,8 @@ namespace FluentTerminal.App.ViewModels.Settings
                     return PreviousTab.Add();
                 case Command.NewTab:
                     return NewTab.Add();
+                case Command.ConfigurableNewTab:
+                    return ConfigurableNewTab.Add();
                 case Command.CloseTab:
                     return CloseTab.Add();
                 case Command.NewWindow:
@@ -95,7 +100,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to restore the default keybindings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default keybindings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
             if (result == DialogButton.OK)
             {

@@ -29,8 +29,10 @@ namespace FluentTerminal.App.ViewModels
         private int _terminalId;
         private ITerminalView _terminalView;
         private string _title;
+        private readonly ShellProfile _shellProfile;
 
-        public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory)
+        public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
+            IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile)
         {
             Id = id;
             Title = DefaultTitle;
@@ -45,6 +47,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService = keyboardCommandService;
             _applicationSettings = applicationSettings;
             _startupDirectory = startupDirectory;
+            _shellProfile = shellProfile;
             _resizeOverlayTimer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 2)
@@ -54,6 +57,7 @@ namespace FluentTerminal.App.ViewModels
             CloseCommand = new RelayCommand(async () => await InvokeCloseRequested().ConfigureAwait(false));
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
+            
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
@@ -133,14 +137,13 @@ namespace FluentTerminal.App.ViewModels
             var keyBindings = _settingsService.GetKeyBindings();
 
             var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings)).ConfigureAwait(true);
-            var configuration = _settingsService.GetDefaultShellProfile();
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
-                configuration.WorkingDirectory = _startupDirectory;
+                _shellProfile.WorkingDirectory = _startupDirectory;
             }
 
-            var response = await _trayProcessCommunicationService.CreateTerminal(size, configuration).ConfigureAwait(true);
+            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile).ConfigureAwait(true);
 
             if (response.Success)
             {
@@ -157,7 +160,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await _dialogService.ShowDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
+                await _dialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
             }
 
             await FocusTerminal().ConfigureAwait(true);
@@ -167,7 +170,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingTabs)
             {
-                var result = await _dialogService.ShowDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {
@@ -253,6 +256,7 @@ namespace FluentTerminal.App.ViewModels
             list.AddRange(keyBindings.CloseTab);
             list.AddRange(keyBindings.Copy);
             list.AddRange(keyBindings.NewTab);
+            list.AddRange(keyBindings.ConfigurableNewTab);
             list.AddRange(keyBindings.NewWindow);
             list.AddRange(keyBindings.NextTab);
             list.AddRange(keyBindings.Paste);

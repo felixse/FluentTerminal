@@ -117,7 +117,13 @@ namespace FluentTerminal.App.Services.Implementation
 
         public KeyBindings GetKeyBindings()
         {
+            var defaults = _defaultValueProvider.GetDefaultKeyBindings();
             var keyBindings = _roamingSettings.ReadValueFromJson<KeyBindings>(nameof(KeyBindings), null);
+
+            if (keyBindings.ConfigurableNewTab == null)
+            {
+                keyBindings.ConfigurableNewTab = defaults.ConfigurableNewTab;
+            }
 
             return keyBindings ?? _defaultValueProvider.GetDefaultKeyBindings();
         }

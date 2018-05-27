@@ -109,6 +109,9 @@
     <Compile Include="Converters\NegateConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
+    <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
+      <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\Implementation\DialogService.cs" />
     <Compile Include="Services\Implementation\KeyboardCommandService.cs" />
@@ -261,6 +264,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\ShellProfileSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\KeyBindingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
