@@ -25,6 +25,8 @@ function createTerminal(options, theme, keyBindings) {
 
   options = JSON.parse(options);
 
+  setScrollBarStyle(options.scrollBarStyle);
+
   var terminalOptions = {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
@@ -121,6 +123,18 @@ function changeOptions(options) {
   term.setOption('cursorStyle', options.cursorStyle);
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
+  setScrollBarStyle(options.scrollBarStyle);
+}
+
+function setScrollBarStyle(scrollBarStyle) {
+  if (scrollBarStyle == 'hidden') {
+    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'none';
+  } else if (scrollBarStyle == 'autoHiding') {
+    document.getElementById('terminal-container').style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
+  } else if (scrollBarStyle == 'visible') {
+    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'scrollbar';
+  }
+  
 }
 
 function changeKeyBindings(keyBindings) {

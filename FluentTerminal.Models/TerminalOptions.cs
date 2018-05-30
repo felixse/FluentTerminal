@@ -13,5 +13,7 @@ namespace FluentTerminal.Models
         public bool CursorBlink { get; set; }
 
         public BellStyle BellStyle { get; set; }
+
+        public ScrollBarStyle ScrollBarStyle { get; set; }
     }
 }

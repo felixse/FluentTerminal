@@ -34,27 +34,52 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <StackPanel Grid.Row="2" Margin="24,0,0,0">
-            <ComboBox
-                Width="200"
-                Margin="0,0,0,24"
-                Header="Font Family"
-                ItemsSource="{x:Bind ViewModel.Fonts}"
-                SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
-            <ComboBox
-                Width="200"
-                Margin="0,0,0,24"
-                Header="Font Size"
-                ItemsSource="{x:Bind ViewModel.Sizes}"
-                SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
-            <ToggleSwitch
-                Margin="0,0,0,24"
-                Header="Blinking Cursor"
-                IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
-            <TextBlock Margin="0,0,0,8" Text="Cursor Style" />
-            <RadioButton Content="Block" IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
-            <RadioButton Content="Underline" IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
-            <RadioButton Content="Bar" IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
-        </StackPanel>
+        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
+            <StackPanel>
+                <ComboBox
+                    Width="200"
+                    Margin="0,0,0,24"
+                    Header="Font family"
+                    ItemsSource="{x:Bind ViewModel.Fonts}"
+                    SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
+                <ComboBox
+                    Width="200"
+                    Margin="0,0,0,24"
+                    Header="Font size"
+                    ItemsSource="{x:Bind ViewModel.Sizes}"
+                    SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="Blinking cursor"
+                    IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
+                <TextBlock Margin="0,0,0,8" Text="Cursor style" />
+                <RadioButton
+                    Content="Block"
+                    GroupName="Cursor"
+                    IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
+                <RadioButton
+                    Content="Underline"
+                    GroupName="Cursor"
+                    IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
+                <RadioButton
+                    Content="Bar"
+                    GroupName="Cursor"
+                    IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
+
+                <TextBlock Margin="0,24,0,8" Text="Scrollbar style" />
+                <RadioButton
+                    Content="Hidden"
+                    GroupName="ScrollBar"
+                    IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
+                <RadioButton
+                    Content="Auto hiding"
+                    GroupName="ScrollBar"
+                    IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
+                <RadioButton
+                    Content="Visible"
+                    GroupName="ScrollBar"
+                    IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

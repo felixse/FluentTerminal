@@ -158,6 +158,7 @@ namespace FluentTerminal.App.Services.Implementation
                 BellStyle = BellStyle.None,
                 CursorBlink = true,
                 CursorStyle = CursorStyle.Block,
+                ScrollBarStyle = ScrollBarStyle.Hidden,
                 FontFamily = "Consolas",
                 FontSize = 13
             };

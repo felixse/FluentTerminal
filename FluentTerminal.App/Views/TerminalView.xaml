@@ -12,10 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid
-            x:Name="WebViewContainer"
-            Grid.Row="0"
-            Margin="12" />
+        <Grid x:Name="WebViewContainer" Grid.Row="0" />
         <Grid
             Grid.Row="0"
             Margin="12"

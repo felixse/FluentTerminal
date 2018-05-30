@@ -17,6 +17,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
         private bool _isEditingCursorStyle;
+        private bool _isEditingScrollBarStyle;
 
         public bool BarIsSelected
         {
@@ -28,6 +29,30 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             get => CursorStyle == CursorStyle.Block;
             set => CursorStyle = CursorStyle.Block;
+        }
+
+        public bool UnderlineIsSelected
+        {
+            get => CursorStyle == CursorStyle.Underline;
+            set => CursorStyle = CursorStyle.Underline;
+        }
+
+        public bool HiddenIsSelected
+        {
+            get => ScrollBarStyle == ScrollBarStyle.Hidden;
+            set => ScrollBarStyle = ScrollBarStyle.Hidden;
+        }
+
+        public bool AutoHidingIsSelected
+        {
+            get => ScrollBarStyle == ScrollBarStyle.AutoHiding;
+            set => ScrollBarStyle = ScrollBarStyle.AutoHiding;
+        }
+
+        public bool VisibleIsSelected
+        {
+            get => ScrollBarStyle == ScrollBarStyle.Visible;
+            set => ScrollBarStyle = ScrollBarStyle.Visible;
         }
 
         public bool CursorBlink
@@ -76,12 +101,6 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public IEnumerable<int> Sizes { get; }
 
-        public bool UnderlineIsSelected
-        {
-            get => CursorStyle == CursorStyle.Underline;
-            set => CursorStyle = CursorStyle.Underline;
-        }
-
         public RelayCommand RestoreDefaultsCommand { get; }
 
         private CursorStyle CursorStyle
@@ -103,15 +122,35 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        private ScrollBarStyle ScrollBarStyle
+        {
+            get => _terminalOptions.ScrollBarStyle;
+            set
+            {
+                if (_terminalOptions.ScrollBarStyle != value && !_isEditingScrollBarStyle)
+                {
+                    _isEditingScrollBarStyle = true;
+                    _terminalOptions.ScrollBarStyle = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(HiddenIsSelected));
+                    RaisePropertyChanged(nameof(AutoHidingIsSelected));
+                    RaisePropertyChanged(nameof(VisibleIsSelected));
+                    _isEditingScrollBarStyle = false;
+                }
+            }
+        }
+
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
                 var defaults = _defaultValueProvider.GetDefaultTerminalOptions();
                 CursorBlink = defaults.CursorBlink;
                 CursorStyle = defaults.CursorStyle;
+                ScrollBarStyle = defaults.ScrollBarStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
             }

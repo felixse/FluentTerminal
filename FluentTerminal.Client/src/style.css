@@ -2,23 +2,17 @@
     margin: 0;
 }
 
-html {
-    -ms-overflow-style: none;
+html, body {
     background: transparent;
     height: 100%;
   }
 
-body {
-    background: transparent;
-    height: 100%;
-}
-
 #terminal-container {
     width: 100%;
     height: 100%;
-    margin: 0;
 }
 
 .terminal {
     background: transparent !important;
+    padding:  12px;
 }
