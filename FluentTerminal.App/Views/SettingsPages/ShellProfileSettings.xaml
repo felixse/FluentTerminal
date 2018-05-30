@@ -135,7 +135,7 @@
                                 Header="Name"
                                 IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                 IsSpellCheckEnabled="False"
-                                Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
                                 <TextBox
