@@ -139,7 +139,6 @@
     <Compile Include="ViewModels\ShellProfileViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\TerminalViewModel.cs" />
-    <Compile Include="Views\BindableColorsTitleBar.cs" />
     <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>

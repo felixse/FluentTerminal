@@ -20,12 +20,6 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
             }
-            TitleBar.RestoreColors();
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            TitleBar.ResetTitleBar();
         }
     }
 }

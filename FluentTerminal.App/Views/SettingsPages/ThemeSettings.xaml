@@ -24,7 +24,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:BindableColorsTitleBar x:Name="TitleBar" TitleBarForeground="White" />
         <Border
             Grid.RowSpan="3"
             Grid.Column="0"
@@ -133,7 +132,7 @@
                             Margin="0,0,6,0">
                             <SymbolIcon Symbol="Add" />
                         </Viewbox>
-                        <TextBlock Text="Create new" Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Create new" />
                     </StackPanel>
                 </Button.Content>
             </Button>
