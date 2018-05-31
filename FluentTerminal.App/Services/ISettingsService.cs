@@ -6,10 +6,10 @@ namespace FluentTerminal.App.Services
 {
     public interface ISettingsService
     {
-        event EventHandler CurrentThemeChanged;
-        event EventHandler TerminalOptionsChanged;
-        event EventHandler ApplicationSettingsChanged;
-        event EventHandler KeyBindingsChanged;
+        event EventHandler<Guid> CurrentThemeChanged;
+        event EventHandler<TerminalOptions> TerminalOptionsChanged;
+        event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
+        event EventHandler<KeyBindings> KeyBindingsChanged;
 
         Guid GetDefaultShellProfileId();
         ShellProfile GetDefaultShellProfile();

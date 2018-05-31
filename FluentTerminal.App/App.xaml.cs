@@ -222,9 +222,9 @@ namespace FluentTerminal.App
             return windowId;
         }
 
-        private void OnApplicationSettingsChanged(object sender, EventArgs e)
+        private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            _applicationSettings = _settingsService.GetApplicationSettings();
+            _applicationSettings = e;
         }
 
         private void OnMainViewModelClosed(object sender, EventArgs e)

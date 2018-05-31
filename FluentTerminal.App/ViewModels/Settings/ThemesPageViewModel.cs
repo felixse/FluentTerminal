@@ -14,6 +14,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private ThemeViewModel _selectedTheme;
+        private double _backgroundOpacity;
 
         public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
         {
@@ -22,6 +23,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
+
+            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+
+            BackgroundOpacity = _settingsService.GetTerminalOptions().BackgroundOpacity;
 
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
@@ -40,7 +45,18 @@ namespace FluentTerminal.App.ViewModels.Settings
             SelectedTheme = Themes.First(t => t.IsActive);
         }
 
+        private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        {
+            BackgroundOpacity = e.BackgroundOpacity;
+        }
+
         public RelayCommand CreateThemeCommand { get; }
+
+        public double BackgroundOpacity
+        {
+            get => _backgroundOpacity;
+            set => Set(ref _backgroundOpacity, value);
+        }
 
         public ThemeViewModel SelectedTheme
         {
@@ -58,7 +74,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 Id = Guid.NewGuid(),
                 PreInstalled = false,
                 Name = "New Theme",
-                BackgroundOpacity = defaultTheme.BackgroundOpacity,
                 Colors = new TerminalColors(defaultTheme.Colors)
             };
 

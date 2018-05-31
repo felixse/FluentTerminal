@@ -31,7 +31,6 @@ namespace FluentTerminal.App.ViewModels
         private Color _cursorAccent;
         private Color _cyan;
         private string _fallBackAuthor;
-        private double _fallBackBackgroundOpacity;
         private TerminalColors _fallBackColors;
         private string _fallBackName;
         private Color _foreground;
@@ -55,7 +54,6 @@ namespace FluentTerminal.App.ViewModels
             Name = _theme.Name;
             Author = _theme.Author;
             Id = _theme.Id;
-            BackgroundOpacity = _theme.BackgroundOpacity;
 
             Black = _theme.Colors.Black.ToColor();
             Red = _theme.Colors.Red.ToColor();
@@ -263,7 +261,6 @@ namespace FluentTerminal.App.ViewModels
         {
             _theme.Name = Name;
             _theme.Author = Author;
-            _theme.BackgroundOpacity = BackgroundOpacity;
 
             _theme.Colors.Black = Black.ToColorString(false);
             _theme.Colors.Red = Red.ToColorString(false);
@@ -326,7 +323,6 @@ namespace FluentTerminal.App.ViewModels
 
                 Name = _fallBackName;
                 Author = _fallBackAuthor;
-                BackgroundOpacity = _fallBackBackgroundOpacity;
 
                 InEditMode = false;
             }
@@ -357,7 +353,6 @@ namespace FluentTerminal.App.ViewModels
             _fallBackColors = new TerminalColors(_theme.Colors);
             _fallBackName = Name;
             _fallBackAuthor = Author;
-            _fallBackBackgroundOpacity = BackgroundOpacity;
             InEditMode = true;
         }
 

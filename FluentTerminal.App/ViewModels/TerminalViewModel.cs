@@ -64,12 +64,11 @@ namespace FluentTerminal.App.ViewModels
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
         }
 
-        private async void OnKeyBindingsChanged(object sender, EventArgs e)
+        private async void OnKeyBindingsChanged(object sender, KeyBindings e)
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var keyBindings = _settingsService.GetKeyBindings();
-                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(keyBindings)).ConfigureAwait(false);
+                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(e)).ConfigureAwait(false);
             });
         }
 
@@ -201,16 +200,16 @@ namespace FluentTerminal.App.ViewModels
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(object sender, EventArgs e)
+        private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = _settingsService.GetApplicationSettings());
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = e);
         }
 
-        private async void OnCurrentThemeChanged(object sender, EventArgs e)
+        private async void OnCurrentThemeChanged(object sender, Guid e)
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var currentTheme = _settingsService.GetCurrentTheme();
+                var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
             });
         }
@@ -253,12 +252,11 @@ namespace FluentTerminal.App.ViewModels
             ShowResizeOverlay = false;
         }
 
-        private async void OnTerminalOptionsChanged(object sender, EventArgs e)
+        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var options = _settingsService.GetTerminalOptions();
-                await _terminalView.ChangeOptions(options).ConfigureAwait(true);
+                await _terminalView.ChangeOptions(e).ConfigureAwait(true);
             });
         }
 

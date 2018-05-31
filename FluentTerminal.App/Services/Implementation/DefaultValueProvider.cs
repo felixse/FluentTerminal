@@ -160,7 +160,8 @@ namespace FluentTerminal.App.Services.Implementation
                 CursorStyle = CursorStyle.Block,
                 ScrollBarStyle = ScrollBarStyle.Hidden,
                 FontFamily = "Consolas",
-                FontSize = 13
+                FontSize = 13,
+                BackgroundOpacity = 0.8
             };
         }
 
@@ -202,7 +203,6 @@ namespace FluentTerminal.App.Services.Implementation
                 Author = "xterm.js",
                 Name = "Xterm.js Default",
                 PreInstalled = true,
-                BackgroundOpacity = 0.8,
                 Colors = new TerminalColors
                 {
                     Black = "#2e3436",
@@ -235,7 +235,6 @@ namespace FluentTerminal.App.Services.Implementation
                 Author = "Microsoft",
                 Name = "PowerShell",
                 PreInstalled = true,
-                BackgroundOpacity = 0.8,
                 Colors = new TerminalColors
                 {
                     Black = "#000000",
@@ -268,7 +267,6 @@ namespace FluentTerminal.App.Services.Implementation
                 Author = "Hans Kokx",
                 Name = "Homebrew",
                 PreInstalled = true,
-                BackgroundOpacity = 0.8,
                 Colors = new TerminalColors
                 {
                     Black = "#000000",

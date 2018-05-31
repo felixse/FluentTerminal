@@ -1,5 +1,4 @@
-﻿using FluentTerminal.App.Dialogs;
-using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -38,6 +37,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
@@ -49,8 +49,9 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
             _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
             var currentTheme = _settingsService.GetCurrentTheme();
+            var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;
-            BackgroundOpacity = currentTheme.BackgroundOpacity;
+            BackgroundOpacity = options.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
@@ -62,6 +63,14 @@ namespace FluentTerminal.App.ViewModels
 
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+        }
+
+        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        {
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BackgroundOpacity = e.BackgroundOpacity;
+            });
         }
 
         public RelayCommand AddTerminalCommand { get; }
@@ -151,9 +160,9 @@ namespace FluentTerminal.App.ViewModels
             NewWindowRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(object sender, EventArgs e)
+        private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = _settingsService.GetApplicationSettings());
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = e);
         }
 
         private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
@@ -182,13 +191,12 @@ namespace FluentTerminal.App.ViewModels
             deferral.Complete();
         }
 
-        private async void OnCurrentThemeChanged(object sender, System.EventArgs e)
+        private async void OnCurrentThemeChanged(object sender, Guid e)
         {
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
              {
-                 var currentTheme = _settingsService.GetCurrentTheme();
+                 var currentTheme = _settingsService.GetTheme(e);
                  Background = currentTheme.Colors.Background;
-                 BackgroundOpacity = currentTheme.BackgroundOpacity;
              });
         }
 

@@ -15,5 +15,7 @@ namespace FluentTerminal.Models
         public BellStyle BellStyle { get; set; }
 
         public ScrollBarStyle ScrollBarStyle { get; set; }
+
+        public double BackgroundOpacity { get; set; }
     }
 }

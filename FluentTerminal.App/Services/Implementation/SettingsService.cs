@@ -21,10 +21,10 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly ApplicationDataContainer _shellProfiles;
         private readonly ApplicationDataContainer _roamingSettings;
 
-        public event EventHandler CurrentThemeChanged;
-        public event EventHandler TerminalOptionsChanged;
-        public event EventHandler ApplicationSettingsChanged;
-        public event EventHandler KeyBindingsChanged;
+        public event EventHandler<Guid> CurrentThemeChanged;
+        public event EventHandler<TerminalOptions> TerminalOptionsChanged;
+        public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
+        public event EventHandler<KeyBindings> KeyBindingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
@@ -65,7 +65,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _roamingSettings.Values[CurrentThemeKey] = id;
 
-            CurrentThemeChanged?.Invoke(this, EventArgs.Empty);
+            CurrentThemeChanged?.Invoke(this, id);
         }
 
         public void SaveTheme(TerminalTheme theme)
@@ -74,7 +74,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (theme.Id == GetCurrentThemeId())
             {
-                CurrentThemeChanged?.Invoke(this, EventArgs.Empty);
+                CurrentThemeChanged?.Invoke(this, theme.Id);
             }
         }
 
@@ -101,7 +101,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveTerminalOptions(TerminalOptions terminalOptions)
         {
             _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
-            TerminalOptionsChanged?.Invoke(this, EventArgs.Empty);
+            TerminalOptionsChanged?.Invoke(this, terminalOptions);
         }
 
         public ApplicationSettings GetApplicationSettings()
@@ -112,7 +112,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveApplicationSettings(ApplicationSettings applicationSettings)
         {
             _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
-            ApplicationSettingsChanged?.Invoke(this, EventArgs.Empty);
+            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
         }
 
         public KeyBindings GetKeyBindings()
@@ -136,7 +136,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveKeyBindings(KeyBindings keyBindings)
         {
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
-            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+            KeyBindingsChanged?.Invoke(this, keyBindings);
         }
 
         public Guid GetDefaultShellProfileId()

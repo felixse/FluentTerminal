@@ -83,6 +83,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public double BackgroundOpacity
+        {
+            get => _terminalOptions.BackgroundOpacity;
+            set
+            {
+                if (_terminalOptions.BackgroundOpacity != value)
+                {
+                    _terminalOptions.BackgroundOpacity = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public IEnumerable<string> Fonts { get; }
 
         public int FontSize
@@ -153,6 +167,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ScrollBarStyle = defaults.ScrollBarStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
+                BackgroundOpacity = defaults.BackgroundOpacity;
             }
         }
 

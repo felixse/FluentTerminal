@@ -48,6 +48,15 @@
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
+                <Slider
+                    Width="200"
+                    Margin="0,0,0,24"
+                    HorizontalAlignment="Left"
+                    Header="Background opacity"
+                    Maximum="1"
+                    Minimum="0"
+                    StepFrequency="0.01"
+                    Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Blinking cursor"
