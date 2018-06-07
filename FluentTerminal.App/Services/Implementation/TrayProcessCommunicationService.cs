@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
 using Newtonsoft.Json;
@@ -63,7 +64,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task UpdateToggleWindowKeyBindings()
         {
-            var keyBindings = _settingsService.GetKeyBindings().ToggleWindow;
+            var keyBindings = _settingsService.GetKeyBindings()[Command.ToggleWindow];
 
             var request = new SetToggleWindowKeyBindingsRequest
             {

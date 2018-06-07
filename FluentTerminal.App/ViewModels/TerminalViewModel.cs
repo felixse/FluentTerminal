@@ -5,6 +5,7 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -64,11 +65,13 @@ namespace FluentTerminal.App.ViewModels
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
         }
 
-        private async void OnKeyBindingsChanged(object sender, KeyBindings e)
+        private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
+            var keyBindings = _settingsService.GetKeyBindings();
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await _terminalView.ChangeKeyBindings(GetKeyBindingsCollection(e)).ConfigureAwait(false);
+                
+                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
             });
         }
 
@@ -155,7 +158,7 @@ namespace FluentTerminal.App.ViewModels
             var theme = _settingsService.GetCurrentTheme();
             var keyBindings = _settingsService.GetKeyBindings();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, GetKeyBindingsCollection(keyBindings)).ConfigureAwait(true);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings)).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
@@ -276,21 +279,9 @@ namespace FluentTerminal.App.ViewModels
             Title = e;
         }
 
-        private IEnumerable<KeyBinding> GetKeyBindingsCollection(KeyBindings keyBindings)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
         {
-            var list = new List<KeyBinding>();
-            list.AddRange(keyBindings.CloseTab);
-            list.AddRange(keyBindings.Copy);
-            list.AddRange(keyBindings.NewTab);
-            list.AddRange(keyBindings.ConfigurableNewTab);
-            list.AddRange(keyBindings.NewWindow);
-            list.AddRange(keyBindings.NextTab);
-            list.AddRange(keyBindings.Paste);
-            list.AddRange(keyBindings.PreviousTab);
-            list.AddRange(keyBindings.ShowSettings);
-            list.AddRange(keyBindings.Search);
-
-            return list;
+            return keyBindings.Values.SelectMany(k => k);
         }
 
         private Task FindNext()

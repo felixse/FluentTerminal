@@ -10,7 +10,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class KeyBindingsPageViewModel : ViewModelBase
     {
-        private KeyBindings _keyBindings;
+        private IDictionary<Command, ICollection<KeyBinding>> _keyBindings;
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
@@ -28,21 +28,21 @@ namespace FluentTerminal.App.ViewModels.Settings
             Initialize(_settingsService.GetKeyBindings());
         }
 
-        private void Initialize(KeyBindings keyBindings)
+        private void Initialize(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
         {
             _keyBindings = keyBindings;
 
-            NewTab = CreateViewModel(Command.NewTab, _keyBindings.NewTab);
-            ConfigurableNewTab = CreateViewModel(Command.ConfigurableNewTab, _keyBindings.ConfigurableNewTab);
-            ToggleWindow = CreateViewModel(Command.ToggleWindow, _keyBindings.ToggleWindow);
-            NextTab = CreateViewModel(Command.NextTab, _keyBindings.NextTab);
-            PreviousTab = CreateViewModel(Command.PreviousTab, _keyBindings.PreviousTab);
-            CloseTab = CreateViewModel(Command.CloseTab, _keyBindings.CloseTab);
-            NewWindow = CreateViewModel(Command.NewWindow, _keyBindings.NewWindow);
-            ShowSettings = CreateViewModel(Command.ShowSettings, _keyBindings.ShowSettings);
-            Copy = CreateViewModel(Command.Copy, _keyBindings.Copy);
-            Paste = CreateViewModel(Command.Paste, _keyBindings.Paste);
-            Search = CreateViewModel(Command.Search, _keyBindings.Search);
+            NewTab = CreateViewModel(Command.NewTab, _keyBindings[Command.NewTab]);
+            ConfigurableNewTab = CreateViewModel(Command.ConfigurableNewTab, _keyBindings[Command.ConfigurableNewTab]);
+            ToggleWindow = CreateViewModel(Command.ToggleWindow, _keyBindings[Command.ToggleWindow]);
+            NextTab = CreateViewModel(Command.NextTab, _keyBindings[Command.NextTab]);
+            PreviousTab = CreateViewModel(Command.PreviousTab, _keyBindings[Command.PreviousTab]);
+            CloseTab = CreateViewModel(Command.CloseTab, _keyBindings[Command.CloseTab]);
+            NewWindow = CreateViewModel(Command.NewWindow, _keyBindings[Command.NewWindow]);
+            ShowSettings = CreateViewModel(Command.ShowSettings, _keyBindings[Command.ShowSettings]);
+            Copy = CreateViewModel(Command.Copy, _keyBindings[Command.Copy]);
+            Paste = CreateViewModel(Command.Paste, _keyBindings[Command.Paste]);
+            Search = CreateViewModel(Command.Search, _keyBindings[Command.Search]);
 
             RaisePropertyChanged(nameof(NewTab));
             RaisePropertyChanged(nameof(ConfigurableNewTab));
@@ -109,8 +109,8 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             if (result == DialogButton.OK)
             {
-                Initialize(_defaultValueProvider.GetDefaultKeyBindings());
-                _settingsService.SaveKeyBindings(_keyBindings);
+                _settingsService.ResetKeyBindings();
+                Initialize(_settingsService.GetKeyBindings());
             }
         }
 
@@ -122,9 +122,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             return viewModel;
         }
 
-        private void OnEdited(object sender, System.EventArgs e)
+        private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
         {
-            _settingsService.SaveKeyBindings(_keyBindings);
+            _settingsService.SaveKeyBindings(command, keyBindings);
             _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
         }
     }

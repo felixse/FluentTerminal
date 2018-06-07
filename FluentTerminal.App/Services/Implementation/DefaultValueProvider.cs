@@ -18,110 +18,12 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
-        public KeyBindings GetDefaultKeyBindings()
+        public ICollection<KeyBinding> GetDefaultKeyBindings(Command command)
         {
-            return new KeyBindings
+            switch (command)
             {
-                NewTab = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.NewTab,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.T
-                    }
-                },
-                ConfigurableNewTab = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.ConfigurableNewTab,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = true,
-                        Key = (int)VirtualKey.T
-                    }
-                },
-                CloseTab = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.CloseTab,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.W
-                    }
-                },
-                NextTab = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.NextTab,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.Tab
-                    }
-                },
-                PreviousTab = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.PreviousTab,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = true,
-                        Key = (int)VirtualKey.Tab
-                    }
-                },
-                NewWindow = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.NewWindow,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.N
-                    }
-                },
-                ShowSettings = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.ShowSettings,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = 188 // comma
-                    }
-                },
-                Copy = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.Copy,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.C
-                    }
-                },
-                Paste = new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = Command.Paste,
-                        Ctrl = true,
-                        Alt = false,
-                        Shift = false,
-                        Key = (int)VirtualKey.V
-                    }
-                },
-                ToggleWindow = new List<KeyBinding>
+                case Command.ToggleWindow:
+                return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -131,8 +33,127 @@ namespace FluentTerminal.App.Services.Implementation
                         Shift = false,
                         Key = (int)VirtualKey.Scroll
                     }
-                },
-                Search = new List<KeyBinding>
+                };
+
+                case Command.NextTab:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.NextTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.Tab
+                    }
+                };
+
+                case Command.PreviousTab:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.PreviousTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)VirtualKey.Tab
+                    }
+                };
+
+                case Command.NewTab:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.NewTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.T
+                    }
+                };
+
+                case Command.ConfigurableNewTab:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.ConfigurableNewTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)VirtualKey.T
+                    }
+                };
+
+                case Command.CloseTab:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.CloseTab,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.W
+                    }
+                };
+
+                case Command.NewWindow:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.NewWindow,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.N
+                    }
+                };
+
+                case Command.ShowSettings:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.ShowSettings,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.Comma
+                    }
+                };
+
+                case Command.Copy:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.Copy,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.C
+                    }
+                };
+
+                case Command.Paste:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.Paste,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.V
+                    }
+                };
+
+                case Command.Search:
+                return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -142,8 +163,10 @@ namespace FluentTerminal.App.Services.Implementation
                         Shift = false,
                         Key = (int)VirtualKey.F
                     }
-                }
-            };
+                };
+            }
+
+            return null;
         }
 
         public Guid GetDefaultShellProfileId()

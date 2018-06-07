@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace FluentTerminal.App.Services
         event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-        event EventHandler<KeyBindings> KeyBindingsChanged;
+        event EventHandler KeyBindingsChanged;
 
         Guid GetDefaultShellProfileId();
         ShellProfile GetDefaultShellProfile();
@@ -25,8 +26,9 @@ namespace FluentTerminal.App.Services
         ApplicationSettings GetApplicationSettings();
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
 
-        KeyBindings GetKeyBindings();
-        void SaveKeyBindings(KeyBindings keyBindings);
+        IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings();
+        void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings);
+        void ResetKeyBindings();
 
         TerminalTheme GetCurrentTheme();
         Guid GetCurrentThemeId();

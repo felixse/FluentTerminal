@@ -30,7 +30,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public event EventHandler Edited;
+        public delegate void EditedEvent(Command command, ICollection<KeyBinding> keyBindings);
+
+        public event EditedEvent Edited;
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
@@ -44,7 +46,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 newKeyBinding.Edited += ViewModel_Edited;
                 KeyBindings.Add(newKeyBinding);
                 _keyBindings.Add(newKeyBinding.Model);
-                Edited?.Invoke(this, EventArgs.Empty);
+                Edited?.Invoke(_command, _keyBindings);
             }
         }
 
@@ -54,13 +56,13 @@ namespace FluentTerminal.App.ViewModels.Settings
             {
                 _keyBindings.Remove(keyBinding.Model);
                 KeyBindings.Remove(keyBinding);
-                Edited?.Invoke(this, EventArgs.Empty);
+                Edited?.Invoke(_command, _keyBindings);
             }
         }
 
         private void ViewModel_Edited(object sender, EventArgs e)
         {
-            Edited?.Invoke(this, EventArgs.Empty);
+            Edited?.Invoke(_command, _keyBindings);
         }
     }
 }

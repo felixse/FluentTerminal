@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using Newtonsoft.Json;
 using Windows.Storage;
 
@@ -11,6 +13,7 @@ namespace FluentTerminal.App.Services.Implementation
     internal class SettingsService : ISettingsService
     {
         public const string ThemesContainerName = "Themes";
+        public const string KeyBindingsContainerName = "KeyBindings";
         public const string ShellProfilesContainerName = "ShellProfiles";
         public const string CurrentThemeKey = "CurrentTheme";
         public const string DefaultShellProfileKey = "DefaultShellProfile";
@@ -18,13 +21,14 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ApplicationDataContainer _localSettings;
         private readonly ApplicationDataContainer _themes;
+        private readonly ApplicationDataContainer _keyBindings;
         private readonly ApplicationDataContainer _shellProfiles;
         private readonly ApplicationDataContainer _roamingSettings;
 
         public event EventHandler<Guid> CurrentThemeChanged;
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-        public event EventHandler<KeyBindings> KeyBindingsChanged;
+        public event EventHandler KeyBindingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider)
         {
@@ -33,6 +37,7 @@ namespace FluentTerminal.App.Services.Implementation
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
             _themes = _roamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always);
+            _keyBindings = _roamingSettings.CreateContainer(KeyBindingsContainerName, ApplicationDataCreateDisposition.Always);
             _shellProfiles = _roamingSettings.CreateContainer(ShellProfilesContainerName, ApplicationDataCreateDisposition.Always);
 
             foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
@@ -115,28 +120,34 @@ namespace FluentTerminal.App.Services.Implementation
             ApplicationSettingsChanged?.Invoke(this, applicationSettings);
         }
 
-        public KeyBindings GetKeyBindings()
+        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
         {
-            var defaults = _defaultValueProvider.GetDefaultKeyBindings();
-            var keyBindings = _roamingSettings.ReadValueFromJson<KeyBindings>(nameof(KeyBindings), null) ?? defaults;
-
-            if (keyBindings.ConfigurableNewTab == null)
+            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
+            foreach (var value in Enum.GetValues(typeof(Command)))
             {
-                keyBindings.ConfigurableNewTab = defaults.ConfigurableNewTab;
-            }
-
-            if (keyBindings.Search == null)
-            {
-                keyBindings.Search = defaults.Search;
+                var command = (Command)value;
+                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
             return keyBindings;
         }
 
-        public void SaveKeyBindings(KeyBindings keyBindings)
+        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
         {
+            _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
-            KeyBindingsChanged?.Invoke(this, keyBindings);
+            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ResetKeyBindings()
+        {
+            foreach (var value in Enum.GetValues(typeof(Command)))
+            {
+                var command = (Command)value;
+                _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
+            }
+
+            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public Guid GetDefaultShellProfileId()

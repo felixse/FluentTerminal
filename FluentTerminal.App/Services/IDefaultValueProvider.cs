@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ namespace FluentTerminal.App.Services
         IEnumerable<ShellProfile> GetPreinstalledShellProfiles();
         Guid GetDefaultShellProfileId();
         TerminalOptions GetDefaultTerminalOptions();
-        KeyBindings GetDefaultKeyBindings();
+        ICollection<KeyBinding> GetDefaultKeyBindings(Command command);
         ApplicationSettings GetDefaultApplicationSettings();
         Guid GetDefaultThemeId();
         IEnumerable<TerminalTheme> GetPreInstalledThemes();
