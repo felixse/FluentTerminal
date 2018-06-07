@@ -88,6 +88,11 @@
                                     <enums:Command>Paste</enums:Command>
                                 </MenuFlyoutItem.CommandParameter>
                             </MenuFlyoutItem>
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.AddCommand}" Text="Toggle fullscreen">
+                                <MenuFlyoutItem.CommandParameter>
+                                    <enums:Command>ToggleFullScreen</enums:Command>
+                                </MenuFlyoutItem.CommandParameter>
+                            </MenuFlyoutItem>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -105,6 +110,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -238,6 +244,17 @@
                     Grid.Column="1"
                     Margin="0,0,0,24"
                     ViewModel="{x:Bind ViewModel.Paste, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    Margin="0,6,24,0"
+                    Text="Toggle fullscreen" />
+                <views:KeyBindingsView
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Margin="0,0,0,24"
+                    ViewModel="{x:Bind ViewModel.FullScreen, Mode=OneWay}" />
             </Grid>
         </ScrollViewer>
     </Grid>

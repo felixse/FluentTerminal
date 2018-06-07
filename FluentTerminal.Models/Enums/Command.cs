@@ -12,6 +12,7 @@
         ShowSettings,
         Copy,
         Paste,
-        Search
+        Search,
+        ToggleFullScreen
     }
 }

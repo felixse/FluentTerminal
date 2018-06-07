@@ -164,6 +164,19 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.F
                     }
                 };
+
+                case Command.ToggleFullScreen:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.ToggleFullScreen,
+                        Ctrl = false,
+                        Alt = true,
+                        Shift = false,
+                        Key = (int)VirtualKey.Enter
+                    }
+                };
             }
 
             return null;

@@ -48,6 +48,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
             _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
             _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;
@@ -252,6 +253,20 @@ namespace FluentTerminal.App.ViewModels
         private void ShowSettings()
         {
             ShowSettingsRequested?.Invoke(this, EventArgs.Empty);
+        }
+        
+        private void ToggleFullScreen()
+        {
+            var applicationView = ApplicationView.GetForCurrentView();
+
+            if (applicationView.IsFullScreenMode)
+            {
+                applicationView.ExitFullScreenMode();
+            }
+            else
+            {
+                applicationView.TryEnterFullScreenMode();
+            }
         }
     }
 }

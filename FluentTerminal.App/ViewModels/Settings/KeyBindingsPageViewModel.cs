@@ -43,6 +43,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             Copy = CreateViewModel(Command.Copy, _keyBindings[Command.Copy]);
             Paste = CreateViewModel(Command.Paste, _keyBindings[Command.Paste]);
             Search = CreateViewModel(Command.Search, _keyBindings[Command.Search]);
+            FullScreen = CreateViewModel(Command.ToggleFullScreen, _keyBindings[Command.ToggleFullScreen]);
 
             RaisePropertyChanged(nameof(NewTab));
             RaisePropertyChanged(nameof(ConfigurableNewTab));
@@ -55,6 +56,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             RaisePropertyChanged(nameof(Copy));
             RaisePropertyChanged(nameof(Paste));
             RaisePropertyChanged(nameof(Search));
+            RaisePropertyChanged(nameof(FullScreen));
         }
 
         public KeyBindingsViewModel NewTab { get; private set; }
@@ -68,6 +70,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public KeyBindingsViewModel Copy { get; private set; }
         public KeyBindingsViewModel Paste { get; private set; }
         public KeyBindingsViewModel Search { get; private set; }
+        public KeyBindingsViewModel FullScreen { get; private set; }
 
         public RelayCommand RestoreDefaultsCommand { get; }
         public RelayCommand<Command> AddCommand { get; }
@@ -98,6 +101,8 @@ namespace FluentTerminal.App.ViewModels.Settings
                     return Paste.Add();
                 case Command.Search:
                     return Search.Add();
+                case Command.ToggleFullScreen:
+                    return FullScreen.Add();
             }
 
             return Task.CompletedTask;
