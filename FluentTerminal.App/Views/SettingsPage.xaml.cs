@@ -27,9 +27,6 @@ namespace FluentTerminal.App.Views
             InitializeComponent();
             Root.DataContext = this;
 
-            ApplicationView.PreferredLaunchViewSize = new Windows.Foundation.Size(1024, 768);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-
             ApplicationView.GetForCurrentView().Title = "Settings";
 
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -157,6 +154,11 @@ namespace FluentTerminal.App.Views
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitle.Margin = new Thickness(CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset + 12, 8, 0, 0);
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            ApplicationView.GetForCurrentView().TryResizeView(new Size { Width = 800, Height = 600 });
         }
     }
 }

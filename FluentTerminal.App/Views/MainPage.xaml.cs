@@ -45,8 +45,7 @@ namespace FluentTerminal.App.Views
             Unloaded += OnUnloaded;
             Window.Current.Activated += OnWindowActivated;
 
-            ApplicationView.PreferredLaunchViewSize = new Windows.Foundation.Size(800, 600);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
