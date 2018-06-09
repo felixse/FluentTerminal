@@ -1,10 +1,12 @@
-﻿using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Exceptions;
+using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.Storage.Pickers;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -15,14 +17,17 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private ThemeViewModel _selectedTheme;
         private double _backgroundOpacity;
+        private readonly IThemeParserFactory _themeParserFactory;
 
-        public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
+        public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IThemeParserFactory themeParserFactory)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
+            _themeParserFactory = themeParserFactory;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
+            ImportThemeCommand = new RelayCommand(ImportTheme);
 
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
 
@@ -43,6 +48,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
 
             SelectedTheme = Themes.First(t => t.IsActive);
+
         }
 
         private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
@@ -51,6 +57,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         }
 
         public RelayCommand CreateThemeCommand { get; }
+        public RelayCommand ImportThemeCommand { get; }
 
         public double BackgroundOpacity
         {
@@ -84,6 +91,48 @@ namespace FluentTerminal.App.ViewModels.Settings
             viewModel.Deleted += OnThemeDeleted;
             Themes.Add(viewModel);
             SelectedTheme = viewModel;
+        }
+
+        private async void ImportTheme()
+        {
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder
+            };
+
+            foreach (var supportedFileType in _themeParserFactory.SupportedFileTypes)
+            {
+                picker.FileTypeFilter.Add(supportedFileType);
+            }
+
+            var file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                var parser = _themeParserFactory.GetParser(file);
+
+                if (parser == null)
+                {
+                    await _dialogService.ShowMessageDialogAsnyc("Import theme failed", "No suitable parser found", DialogButton.OK).ConfigureAwait(false);
+                    return;
+                }
+
+                try
+                {
+                    var theme = await parser.Parse(file).ConfigureAwait(true);
+
+                    _settingsService.SaveTheme(theme);
+
+                    var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
+                    viewModel.Activated += OnThemeActivated;
+                    viewModel.Deleted += OnThemeDeleted;
+                    Themes.Add(viewModel);
+                    SelectedTheme = viewModel;
+                }
+                catch (Exception exception)
+                {
+                    await _dialogService.ShowMessageDialogAsnyc("Import theme failed", exception.Message, DialogButton.OK).ConfigureAwait(false);
+                }
+            }
         }
 
         private void OnThemeActivated(object sender, EventArgs e)

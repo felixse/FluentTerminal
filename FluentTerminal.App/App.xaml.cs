@@ -51,6 +51,8 @@ namespace FluentTerminal.App
             builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
+            builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();
+            builder.RegisterType<ITermThemeParser>().As<IThemeParser>().SingleInstance();
 
             _container = builder.Build();
 

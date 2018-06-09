@@ -115,10 +115,15 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\ParseThemeException.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\Implementation\DialogService.cs" />
     <Compile Include="Services\Implementation\KeyboardCommandService.cs" />
     <Compile Include="Services\IKeyboardCommandService.cs" />
+    <Compile Include="Services\Implementation\ITermThemeParser.cs" />
+    <Compile Include="Services\Implementation\ThemeParserFactory.cs" />
+    <Compile Include="Services\IThemeParser.cs" />
+    <Compile Include="Services\IThemeParserFactory.cs" />
     <Compile Include="Utilities\ApplicationDataContainerExtensions.cs" />
     <Compile Include="Services\IDefaultValueProvider.cs" />
     <Compile Include="Services\Implementation\DefaultValueProvider.cs" />
@@ -341,6 +346,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="PListNet">
+      <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

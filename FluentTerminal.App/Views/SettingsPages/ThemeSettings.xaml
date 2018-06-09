@@ -136,6 +136,26 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
+            <Button
+                Height="48"
+                Margin="0,0,0,0"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                Command="{x:Bind ViewModel.ImportThemeCommand}"
+                Style="{StaticResource ButtonRevealStyle}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox
+                            Width="12"
+                            Height="12"
+                            Margin="0,0,6,0">
+                            <SymbolIcon Symbol="OpenFile" />
+                        </Viewbox>
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Import" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <ContentControl
