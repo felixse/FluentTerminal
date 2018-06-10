@@ -72,9 +72,15 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
+                            <Border
+                                Grid.ColumnSpan="3"
+                                Height="3"
+                                VerticalAlignment="Bottom"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Visibility="{x:Bind IsUnderlined, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                             <TextBlock
                                 Grid.Column="0"
-                                Margin="12,8,0,0"
+                                Margin="12,8,6,0"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind Title, Mode=OneWay}" />
                             <Button

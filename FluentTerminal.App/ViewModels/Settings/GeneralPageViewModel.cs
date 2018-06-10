@@ -53,6 +53,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool UnderlineSelectedTab
+        {
+            get => _applicationSettings.UnderlineSelectedTab;
+            set
+            {
+                if (_applicationSettings.UnderlineSelectedTab != value)
+                {
+                    _applicationSettings.UnderlineSelectedTab = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public NewTerminalLocation NewTerminalLocation
         {
             get => _applicationSettings.NewTerminalLocation;
@@ -94,6 +108,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 var defaults = _defaultValueProvider.GetDefaultApplicationSettings();
                 ConfirmClosingWindows = defaults.ConfirmClosingWindows;
                 ConfirmClosingTabs = defaults.ConfirmClosingTabs;
+                UnderlineSelectedTab = defaults.UnderlineSelectedTab;
                 NewTerminalLocation = defaults.NewTerminalLocation;
             }
         }

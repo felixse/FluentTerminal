@@ -5,8 +5,8 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -33,6 +33,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ShellProfile _shellProfile;
         private bool _showSearchPanel;
         private string _searchText;
+        private bool _isSelected;
 
         public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile)
@@ -70,7 +71,6 @@ namespace FluentTerminal.App.ViewModels
             var keyBindings = _settingsService.GetKeyBindings();
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                
                 await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
             });
         }
@@ -84,6 +84,20 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand FindPreviousCommand { get; }
         public RelayCommand FindNextCommand { get; }
         public RelayCommand CloseSearchPanelCommand { get; }
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (Set(ref _isSelected, value))
+                {
+                    RaisePropertyChanged(nameof(IsUnderlined));
+                }
+            }
+        }
+
+        public bool IsUnderlined => IsSelected && _applicationSettings.UnderlineSelectedTab;
 
         public int Id { get; }
 
@@ -131,7 +145,7 @@ namespace FluentTerminal.App.ViewModels
             get => _title;
             set
             {
-                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle: value;
+                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle : value;
 
                 if (Set(ref _title, value))
                 {
@@ -205,7 +219,11 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = e);
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                _applicationSettings = e;
+                RaisePropertyChanged(nameof(IsUnderlined));
+            });
         }
 
         private async void OnCurrentThemeChanged(object sender, Guid e)

@@ -93,9 +93,17 @@ namespace FluentTerminal.App.ViewModels
             get => _selectedTerminal;
             set
             {
+                if (SelectedTerminal != null)
+                {
+                    _selectedTerminal.IsSelected = false;
+                }
                 if (Set(ref _selectedTerminal, value))
                 {
                     SelectedTerminal?.FocusTerminal();
+                    if (SelectedTerminal != null)
+                    {
+                        SelectedTerminal.IsSelected = true;
+                    }
                 }
             }
         }
