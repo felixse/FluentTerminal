@@ -329,7 +329,39 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            return new[] { defaultXterm, powerShell, homebrew };
+            var tomorrow = new TerminalTheme
+            {
+                Id = Guid.Parse("0cbbf805-fa86-4be5-ac51-75f3054dcc3a"),
+                Author = "Chris Kempson",
+                Name = "Tomorrow",
+                PreInstalled = true,
+                Colors = new TerminalColors
+                {
+                    Foreground = "#4D4D4C",
+                    Background = "#FFFFFF",
+                    Cursor = "#4D4D4C",
+                    CursorAccent = "#FFFFFF",
+                    Selection = "rgba(214, 214, 214, 0.5)",
+                    Black = "#000000",
+                    Red = "#C82829",
+                    Green = "#718C00",
+                    Yellow = "#EAB700",
+                    Blue = "#4271AE",
+                    Magenta = "#8959A8",
+                    Cyan = "#3E999F",
+                    White = "#FFFFFF",
+                    BrightBlack = "#000000",
+                    BrightRed = "#C82829",
+                    BrightGreen = "#718C00",
+                    BrightYellow = "#EAB700",
+                    BrightBlue = "#4271AE",
+                    BrightMagenta = "#8959A8",
+                    BrightCyan = "#3E999F",
+                    BrightWhite = "#FFFFFF"
+                }
+            };
+
+            return new[] { defaultXterm, powerShell, homebrew, tomorrow };
         }
     }
 }
