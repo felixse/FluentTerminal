@@ -56,6 +56,14 @@
                     IsEnabled="{Binding ViewModel.SelectedTheme.IsActive, Mode=OneWay, Converter={StaticResource NegateConverter}}"
                     Label="Set Active" />
                 <AppBarButton
+                    Name="ExportButton"
+                    Command="{x:Bind ViewModel.SelectedTheme.ExportCommand, Mode=OneWay}"
+                    Label="Export">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEE71;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
                     Name="EditButton"
                     Command="{x:Bind ViewModel.SelectedTheme.EditCommand, Mode=OneWay}"
                     Icon="Edit"

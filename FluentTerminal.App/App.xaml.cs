@@ -53,6 +53,7 @@ namespace FluentTerminal.App
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
             builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();
             builder.RegisterType<ITermThemeParser>().As<IThemeParser>().SingleInstance();
+            builder.RegisterType<FluentTerminalThemeParser>().As<IThemeParser>().SingleInstance();
 
             _container = builder.Build();
 

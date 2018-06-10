@@ -119,6 +119,7 @@
     <Compile Include="Exceptions\ParseThemeException.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\Implementation\DialogService.cs" />
+    <Compile Include="Services\Implementation\FluentTerminalThemeParser.cs" />
     <Compile Include="Services\Implementation\KeyboardCommandService.cs" />
     <Compile Include="Services\IKeyboardCommandService.cs" />
     <Compile Include="Services\Implementation\ITermThemeParser.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Services\ITrayProcessCommunicationService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
+    <Compile Include="Utilities\TerminalThemeContractResolver.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />

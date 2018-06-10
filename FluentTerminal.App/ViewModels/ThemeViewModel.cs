@@ -4,8 +4,12 @@ using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI;
 
 namespace FluentTerminal.App.ViewModels
@@ -82,10 +86,11 @@ namespace FluentTerminal.App.ViewModels
             Selection = _theme.Colors.Selection.FromString();
 
             SetActiveCommand = new RelayCommand(SetActive);
-            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), CanDelete);
-            EditCommand = new RelayCommand(Edit, CanEdit);
+            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
+            EditCommand = new RelayCommand(Edit, NotPreInstalled);
             CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
             SaveChangesCommand = new RelayCommand(SaveChanges);
+            ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -196,6 +201,7 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand DeleteCommand { get; }
         public RelayCommand EditCommand { get; }
+        public RelayCommand ExportCommand { get; }
 
         public Color Foreground
         {
@@ -334,12 +340,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private bool CanDelete()
-        {
-            return !_theme.PreInstalled;
-        }
-
-        private bool CanEdit()
+        private bool NotPreInstalled()
         {
             return !_theme.PreInstalled;
         }
@@ -365,6 +366,22 @@ namespace FluentTerminal.App.ViewModels
         private void SetActive()
         {
             Activated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async Task Export()
+        {
+            var picker = new FileSavePicker();
+            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            picker.SuggestedFileName = Name;
+            picker.FileTypeChoices.Add("Fluent Terminal Theme", new List<string> { ".flutecolors" });
+
+            var file = await picker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                var content = JsonConvert.SerializeObject(_theme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
+                await FileIO.WriteTextAsync(file, content);
+            }
         }
     }
 }

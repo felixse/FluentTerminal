@@ -41,6 +41,7 @@ namespace FluentTerminal.App.Views.SettingsPages
             DeleteButton.RequestedTheme = theme;
             SaveButton.RequestedTheme = theme;
             CancelButton.RequestedTheme = theme;
+            ExportButton.RequestedTheme = theme;
 
             ContrastHelper.SetTitleBarButtonsForTheme(theme);
         }
