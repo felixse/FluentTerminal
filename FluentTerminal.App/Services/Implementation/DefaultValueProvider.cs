@@ -293,7 +293,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Background = "#012456",
                     Cursor = "#fedba9",
                     CursorAccent = "#000000",
-                    Selection = "#fedba9"
+                    Selection = "rgba(254, 219, 169, 0.3)"
                 }
             };
 

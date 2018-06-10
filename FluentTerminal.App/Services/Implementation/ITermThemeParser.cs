@@ -1,6 +1,6 @@
 ﻿using FluentTerminal.App.Exceptions;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
-using Microsoft.Toolkit.Uwp.Helpers;
 using PListNet;
 using PListNet.Nodes;
 using System;
@@ -14,6 +14,8 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class ITermThemeParser : IThemeParser
     {
+        private const byte Opacity30Percent = 77;
+
         public IEnumerable<string> SupportedFileTypes { get; } = new string[] { ".itermcolors" };
 
         private static class ITermThemeKeys
@@ -73,7 +75,7 @@ namespace FluentTerminal.App.Services.Implementation
                 Foreground = GetColorString(themeDictionary[ITermThemeKeys.ForegroundColor]),
                 Cursor = GetColorString(themeDictionary[ITermThemeKeys.CursorColor]),
                 CursorAccent = GetColorString(themeDictionary[ITermThemeKeys.CursorTextColor]),
-                Selection = GetColorString(themeDictionary[ITermThemeKeys.SelectionColor]),
+                Selection = GetColorString(themeDictionary[ITermThemeKeys.SelectionColor], Opacity30Percent),
                 Black = GetColorString(themeDictionary[ITermThemeKeys.Ansi0Color]),
                 Red = GetColorString(themeDictionary[ITermThemeKeys.Ansi1Color]),
                 Green = GetColorString(themeDictionary[ITermThemeKeys.Ansi2Color]),
@@ -93,7 +95,7 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
-        private string GetColorString(PNode colorNode)
+        private string GetColorString(PNode colorNode, byte alpha = Byte.MaxValue)
         {
             var dictionaryNode = colorNode as DictionaryNode ?? throw new ParseThemeException("Color node was not a dictionary");
 
@@ -101,9 +103,16 @@ namespace FluentTerminal.App.Services.Implementation
             var green = dictionaryNode[ITermThemeColorKeys.GreenComponent] as RealNode ?? throw new ParseThemeException("Green node value was not a real number");
             var blue = dictionaryNode[ITermThemeColorKeys.BlueComponent] as RealNode ?? throw new ParseThemeException("Blue node value was not a real number");
 
-            var color = Color.FromArgb(Byte.MaxValue, GetByteValue(red), GetByteValue(green), GetByteValue(blue));
+            var color = Color.FromArgb(alpha, GetByteValue(red), GetByteValue(green), GetByteValue(blue));
 
-            return color.ToHex();
+            if (alpha == byte.MaxValue)
+            {
+                return color.ToColorString(false);
+            }
+            else
+            {
+                return color.ToColorString(true);
+            }
         }
 
         private byte GetByteValue(RealNode node)
