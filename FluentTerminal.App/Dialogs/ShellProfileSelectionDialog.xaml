@@ -8,7 +8,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     CloseButtonText="Cancel"
     PrimaryButtonText="Start"
-    RequestedTheme="Dark"
     mc:Ignorable="d">
     <ComboBox
         HorizontalAlignment="Stretch"

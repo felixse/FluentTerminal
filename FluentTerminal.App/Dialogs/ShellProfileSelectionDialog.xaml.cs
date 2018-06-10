@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace FluentTerminal.App.Dialogs
             Profiles = settingsService.GetShellProfiles();
             SelectedProfile = Profiles.First();
             this.InitializeComponent();
+            var currentTheme = settingsService.GetCurrentTheme();
+            RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
     }
 }

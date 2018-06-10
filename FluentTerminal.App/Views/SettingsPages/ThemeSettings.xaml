@@ -50,24 +50,21 @@
                 DefaultLabelPosition="Right"
                 Visibility="{x:Bind ViewModel.SelectedTheme.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                 <AppBarButton
+                    Name="SetActiveButton"
                     Command="{x:Bind ViewModel.SelectedTheme.SetActiveCommand, Mode=OneWay}"
-                    Foreground="White"
                     Icon="Accept"
-                    IsEnabled="{x:Bind ViewModel.SelectedTheme.IsActive, Mode=OneWay, Converter={StaticResource NegateConverter}}"
-                    Label="Set Active"
-                    Style="{StaticResource ThemeAppBarButtonStyle}" />
+                    IsEnabled="{Binding ViewModel.SelectedTheme.IsActive, Mode=OneWay, Converter={StaticResource NegateConverter}}"
+                    Label="Set Active" />
                 <AppBarButton
+                    Name="EditButton"
                     Command="{x:Bind ViewModel.SelectedTheme.EditCommand, Mode=OneWay}"
-                    Foreground="White"
                     Icon="Edit"
-                    Label="Edit"
-                    Style="{StaticResource ThemeAppBarButtonStyle}" />
+                    Label="Edit" />
                 <AppBarButton
+                    Name="DeleteButton"
                     Command="{x:Bind ViewModel.SelectedTheme.DeleteCommand, Mode=OneWay}"
-                    Foreground="White"
                     Icon="Delete"
-                    Label="Delete"
-                    Style="{StaticResource ThemeAppBarButtonStyle}" />
+                    Label="Delete" />
             </CommandBar>
             <CommandBar
                 Grid.Column="1"
@@ -77,17 +74,15 @@
                 DefaultLabelPosition="Right"
                 Visibility="{x:Bind ViewModel.SelectedTheme.InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <AppBarButton
+                    Name="SaveButton"
                     Command="{x:Bind ViewModel.SelectedTheme.SaveChangesCommand, Mode=OneWay}"
-                    Foreground="White"
                     Icon="Save"
-                    Label="Save"
-                    Style="{StaticResource ThemeAppBarButtonStyle}" />
+                    Label="Save" />
                 <AppBarButton
+                    Name="CancelButton"
                     Command="{x:Bind ViewModel.SelectedTheme.CancelEditCommand, Mode=OneWay}"
-                    Foreground="White"
                     Icon="Cancel"
-                    Label="Cancel"
-                    Style="{StaticResource ThemeAppBarButtonStyle}" />
+                    Label="Cancel" />
             </CommandBar>
         </Grid>
         <StackPanel Grid.Row="2" Grid.Column="0">
@@ -162,7 +157,8 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="24,0,0,0"
-            Content="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+            Content="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
+            RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <ContentControl.ContentTemplate>
                 <DataTemplate x:DataType="viewmodels:ThemeViewModel">
                     <StackPanel>
@@ -174,19 +170,14 @@
                                 <SolidColorBrush Color="{x:Bind Foreground, Mode=OneWay}" />
                             </TextBlock.Foreground>
                         </TextBlock>
-                        <TextBlock
-                            Foreground="White"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind Author, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Author, Mode=OneWay}" />
                         <TextBox
                             Header="Name"
-                            RequestedTheme="Dark"
                             Text="{x:Bind Name, Mode=TwoWay}"
                             Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                         <TextBox
                             Margin="0,24,0,0"
                             Header="Author"
-                            RequestedTheme="Dark"
                             Text="{x:Bind Author, Mode=TwoWay}"
                             Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                         <Grid Margin="0,48,0,0">
@@ -297,7 +288,6 @@
                             <TextBlock
                                 Grid.Row="3"
                                 Margin="0,6,0,0"
-                                Foreground="White"
                                 Text="Click on a color to edit"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                         </Grid>

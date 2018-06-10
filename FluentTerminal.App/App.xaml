@@ -27,6 +27,7 @@
                 If="0"
                 Then="Collapsed" />
             <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
+            <converters:BackgroundToApplicationThemeConverter x:Key="BackgroundToApplicationThemeConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -9,7 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
-    RequestedTheme="Dark"
+    RequestedTheme="{x:Bind ViewModel.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />

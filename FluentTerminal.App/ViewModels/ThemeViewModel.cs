@@ -45,6 +45,8 @@ namespace FluentTerminal.App.ViewModels
         private Color _white;
         private Color _yellow;
 
+        public event EventHandler<Color> BackgroundChanged;
+
         public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService)
         {
             _theme = theme;
@@ -99,7 +101,11 @@ namespace FluentTerminal.App.ViewModels
         public Color Background
         {
             get => _background;
-            set => Set(ref _background, value);
+            set
+            {
+                Set(ref _background, value);
+                BackgroundChanged?.Invoke(this, value);
+            }
         }
 
         public double BackgroundOpacity

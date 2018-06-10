@@ -1,4 +1,5 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.Utilities;
+using FluentTerminal.App.ViewModels;
 using System.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
@@ -39,11 +40,14 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
             Root.DataContext = this;
-            SetTitleBarColors();
             Window.Current.SetTitleBar(TitleBar);
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             Window.Current.Activated += OnWindowActivated;
+            RegisterPropertyChangedCallback(RequestedThemeProperty, (s, e) =>
+            {
+                ContrastHelper.SetTitleBarButtonsForTheme(RequestedTheme);
+            });
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
         }
@@ -80,18 +84,6 @@ namespace FluentTerminal.App.Views
             UpdateLayoutMetrics();
         }
 
-        private void SetTitleBarColors()
-        {
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = Colors.White;
-            titleBar.ButtonPressedForegroundColor = Colors.White;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(24, 255, 255, 255);
-            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(48, 255, 255, 255);
-        }
 
         private void UpdateLayoutMetrics()
         {

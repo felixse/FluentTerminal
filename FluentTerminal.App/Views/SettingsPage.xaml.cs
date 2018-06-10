@@ -12,6 +12,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
@@ -55,36 +56,8 @@ namespace FluentTerminal.App.Views
         {
             return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                _titleBar.ButtonBackgroundColor = Colors.Transparent;
-                _titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                _titleBar.ButtonForegroundColor = (Color)Resources["SystemBaseHighColor"];
-                _titleBar.ButtonHoverForegroundColor = (Color)Resources["SystemBaseHighColor"];
-                _titleBar.ButtonPressedForegroundColor = (Color)Resources["SystemBaseHighColor"];
-
-                if (Application.Current.RequestedTheme == ApplicationTheme.Light)
-                {
-                    _titleBar.ButtonHoverBackgroundColor = (Color)Resources["SystemChromeMediumColor"];
-                    _titleBar.ButtonPressedBackgroundColor = (Color)Resources["SystemChromeHighColor"];
-                }
-                else
-                {
-                    _titleBar.ButtonHoverBackgroundColor = (Color)Resources["SystemChromeLowColor"];
-                    _titleBar.ButtonPressedBackgroundColor = (Color)Resources["SystemChromeMediumLowColor"];
-                }
-            });
-        }
-
-        private IAsyncAction SetTitleBarColorsForThemesPage()
-        {
-            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                _titleBar.ButtonBackgroundColor = Colors.Transparent;
-                _titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                _titleBar.ButtonForegroundColor = Colors.White;
-                _titleBar.ButtonHoverForegroundColor = Colors.White;
-                _titleBar.ButtonPressedForegroundColor = Colors.White;
-                _titleBar.ButtonHoverBackgroundColor = Color.FromArgb(24, 255, 255, 255);
-                _titleBar.ButtonPressedBackgroundColor = Color.FromArgb(48, 255, 255, 255);
+                var theme = Application.Current.RequestedTheme == ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
+                ContrastHelper.SetTitleBarButtonsForTheme(theme);
             });
         }
 
@@ -136,11 +109,7 @@ namespace FluentTerminal.App.Views
                 }
             }
 
-            if (_onThemesPage)
-            {
-                SetTitleBarColorsForThemesPage();
-            }
-            else
+            if (!_onThemesPage)
             {
                 SetTitleBarColors();
             }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.Storage.Pickers;
+using Windows.UI;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -18,6 +19,8 @@ namespace FluentTerminal.App.ViewModels.Settings
         private ThemeViewModel _selectedTheme;
         private double _backgroundOpacity;
         private readonly IThemeParserFactory _themeParserFactory;
+
+        public event EventHandler<Color> SelectedThemeBackgroundColorChanged;
 
         public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IThemeParserFactory themeParserFactory)
         {
@@ -51,11 +54,6 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         }
 
-        private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
-        {
-            BackgroundOpacity = e.BackgroundOpacity;
-        }
-
         public RelayCommand CreateThemeCommand { get; }
         public RelayCommand ImportThemeCommand { get; }
 
@@ -68,7 +66,18 @@ namespace FluentTerminal.App.ViewModels.Settings
         public ThemeViewModel SelectedTheme
         {
             get => _selectedTheme;
-            set => Set(ref _selectedTheme, value);
+            set
+            {
+                if (_selectedTheme != null)
+                {
+                    _selectedTheme.BackgroundChanged -= OnSelectedThemeBackgroundChanged;
+                }
+                Set(ref _selectedTheme, value);
+                if (value != null)
+                {
+                    value.BackgroundChanged += OnSelectedThemeBackgroundChanged;
+                }
+            }
         }
 
         public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
@@ -165,6 +174,16 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 _settingsService.DeleteTheme(theme.Id);
             }
+        }
+
+        private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        {
+            BackgroundOpacity = e.BackgroundOpacity;
+        }
+
+        private void OnSelectedThemeBackgroundChanged(object sender, Color e)
+        {
+            SelectedThemeBackgroundColorChanged?.Invoke(this, e);
         }
     }
 }
