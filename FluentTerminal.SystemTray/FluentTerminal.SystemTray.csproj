@@ -151,10 +151,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac">
-      <Version>4.8.0</Version>
+      <Version>4.8.1</Version>
     </PackageReference>
     <PackageReference Include="Fleck">
-      <Version>1.0.2</Version>
+      <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="GlobalHotKey">
       <Version>1.1.0</Version>
