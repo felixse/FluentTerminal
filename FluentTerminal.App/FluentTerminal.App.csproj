@@ -135,6 +135,7 @@
     <Compile Include="Services\ITrayProcessCommunicationService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
+    <Compile Include="Utilities\EnumHelper.cs" />
     <Compile Include="Utilities\TerminalThemeContractResolver.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

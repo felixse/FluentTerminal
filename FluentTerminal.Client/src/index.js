@@ -33,6 +33,7 @@ function createTerminal(options, theme, keyBindings) {
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
+    scrollback: options.scrollBackLimit,
     allowTransparency: true,
     theme: theme,
     experimentalCharAtlas: 'dynamic'
@@ -79,6 +80,15 @@ function createTerminal(options, theme, keyBindings) {
           if (keyBinding.command == 'copy' && term.getSelection() == '') {
             return true;
           }
+          if (keyBinding.command == 'clear' && term.getSelection() == '') {
+            term.clear();
+            return false;
+          }
+          if (keyBinding.command == 'selectAll' && term.getSelection() == '') {
+            term.selectAll();
+            return false;
+          }
+
 
           e.preventDefault();
           terminalBridge.invokeCommand(keyBinding.command);
@@ -123,6 +133,7 @@ function changeOptions(options) {
   term.setOption('cursorStyle', options.cursorStyle);
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
+  term.setOption('scrollback', options.scrollBackLimit);
   setScrollBarStyle(options.scrollBarStyle);
 }
 

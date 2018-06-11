@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -11,15 +12,16 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class KeyBindingsViewModel : ViewModelBase
     {
-        private readonly Command _command;
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
 
         public KeyBindingsViewModel(Command command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
         {
-            _command = command;
+            Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
+
+            CommandName = EnumHelper.GetEnumDescription(command);
 
             foreach (var binding in keyBindings)
             {
@@ -34,11 +36,15 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public event EditedEvent Edited;
 
+        public Command Command { get; }
+
+        public string CommandName { get; }
+
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
         public async Task Add()
         {
-            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = _command }, _dialogService);
+            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService);
 
             if (await newKeyBinding.Edit().ConfigureAwait(true))
             {
@@ -46,7 +52,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 newKeyBinding.Edited += ViewModel_Edited;
                 KeyBindings.Add(newKeyBinding);
                 _keyBindings.Add(newKeyBinding.Model);
-                Edited?.Invoke(_command, _keyBindings);
+                Edited?.Invoke(Command, _keyBindings);
             }
         }
 
@@ -56,13 +62,13 @@ namespace FluentTerminal.App.ViewModels.Settings
             {
                 _keyBindings.Remove(keyBinding.Model);
                 KeyBindings.Remove(keyBinding);
-                Edited?.Invoke(_command, _keyBindings);
+                Edited?.Invoke(Command, _keyBindings);
             }
         }
 
         private void ViewModel_Edited(object sender, EventArgs e)
         {
-            Edited?.Invoke(_command, _keyBindings);
+            Edited?.Invoke(Command, _keyBindings);
         }
     }
 }

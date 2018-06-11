@@ -97,6 +97,32 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public string ScrollBackLimit
+        {
+            get => _terminalOptions.ScrollBackLimit.ToString();
+            set
+            {
+                var oldValue = _terminalOptions.ScrollBackLimit;
+                if (uint.TryParse(value, out uint intValue))
+                {
+                    if (intValue == uint.MinValue)
+                    {
+                        intValue = uint.MaxValue;
+                    }
+                    if (_terminalOptions.ScrollBackLimit != intValue)
+                    {
+                        _terminalOptions.ScrollBackLimit = intValue;
+                        _settingsService.SaveTerminalOptions(_terminalOptions);
+                        RaisePropertyChanged();
+                    }
+                }
+                else
+                {
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public IEnumerable<string> Fonts { get; }
 
         public int FontSize
@@ -168,6 +194,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
                 BackgroundOpacity = defaults.BackgroundOpacity;
+                ScrollBackLimit = defaults.ScrollBackLimit.ToString();
             }
         }
 

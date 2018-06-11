@@ -17,5 +17,7 @@ namespace FluentTerminal.Models
         public ScrollBarStyle ScrollBarStyle { get; set; }
 
         public double BackgroundOpacity { get; set; }
+
+        public uint ScrollBackLimit { get; set; }
     }
 }

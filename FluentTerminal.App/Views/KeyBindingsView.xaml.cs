@@ -7,7 +7,7 @@ namespace FluentTerminal.App.Views
     public sealed partial class KeyBindingsView : UserControl
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
+                    DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
 
         public KeyBindingsView()
         {

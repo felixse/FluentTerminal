@@ -3,18 +3,21 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
     public class KeyBindingsPageViewModel : ViewModelBase
     {
-        private IDictionary<Command, ICollection<KeyBinding>> _keyBindings;
-        private readonly ISettingsService _settingsService;
-        private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
+        private readonly IDialogService _dialogService;
+        private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private IDictionary<Command, ICollection<KeyBinding>> _keyBindings;
 
         public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -28,84 +31,45 @@ namespace FluentTerminal.App.ViewModels.Settings
             Initialize(_settingsService.GetKeyBindings());
         }
 
+        public RelayCommand<Command> AddCommand { get; }
+        public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
+        public RelayCommand RestoreDefaultsCommand { get; }
+
+        private async Task Add(Command command)
+        {
+            var keyBinding = KeyBindings.FirstOrDefault(k => k.Command == command);
+            await keyBinding?.Add();
+        }
+
+        private void ClearKeyBindings()
+        {
+            foreach (var keyBinding in KeyBindings)
+            {
+                keyBinding.Edited -= OnEdited;
+            }
+
+            KeyBindings.Clear();
+        }
+
         private void Initialize(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
         {
             _keyBindings = keyBindings;
 
-            NewTab = CreateViewModel(Command.NewTab, _keyBindings[Command.NewTab]);
-            ConfigurableNewTab = CreateViewModel(Command.ConfigurableNewTab, _keyBindings[Command.ConfigurableNewTab]);
-            ToggleWindow = CreateViewModel(Command.ToggleWindow, _keyBindings[Command.ToggleWindow]);
-            NextTab = CreateViewModel(Command.NextTab, _keyBindings[Command.NextTab]);
-            PreviousTab = CreateViewModel(Command.PreviousTab, _keyBindings[Command.PreviousTab]);
-            CloseTab = CreateViewModel(Command.CloseTab, _keyBindings[Command.CloseTab]);
-            NewWindow = CreateViewModel(Command.NewWindow, _keyBindings[Command.NewWindow]);
-            ShowSettings = CreateViewModel(Command.ShowSettings, _keyBindings[Command.ShowSettings]);
-            Copy = CreateViewModel(Command.Copy, _keyBindings[Command.Copy]);
-            Paste = CreateViewModel(Command.Paste, _keyBindings[Command.Paste]);
-            Search = CreateViewModel(Command.Search, _keyBindings[Command.Search]);
-            FullScreen = CreateViewModel(Command.ToggleFullScreen, _keyBindings[Command.ToggleFullScreen]);
+            ClearKeyBindings();
 
-            RaisePropertyChanged(nameof(NewTab));
-            RaisePropertyChanged(nameof(ConfigurableNewTab));
-            RaisePropertyChanged(nameof(ToggleWindow));
-            RaisePropertyChanged(nameof(NextTab));
-            RaisePropertyChanged(nameof(PreviousTab));
-            RaisePropertyChanged(nameof(CloseTab));
-            RaisePropertyChanged(nameof(NewWindow));
-            RaisePropertyChanged(nameof(ShowSettings));
-            RaisePropertyChanged(nameof(Copy));
-            RaisePropertyChanged(nameof(Paste));
-            RaisePropertyChanged(nameof(Search));
-            RaisePropertyChanged(nameof(FullScreen));
+            foreach (var value in Enum.GetValues(typeof(Command)))
+            {
+                var command = (Command)value;
+                var viewModel = new KeyBindingsViewModel(command, _keyBindings[command], _dialogService);
+                viewModel.Edited += OnEdited;
+                KeyBindings.Add(viewModel);
+            }
         }
 
-        public KeyBindingsViewModel NewTab { get; private set; }
-        public KeyBindingsViewModel ConfigurableNewTab { get; private set; }
-        public KeyBindingsViewModel ToggleWindow { get; private set; }
-        public KeyBindingsViewModel NextTab { get; private set; }
-        public KeyBindingsViewModel PreviousTab { get; private set; }
-        public KeyBindingsViewModel CloseTab { get; private set; }
-        public KeyBindingsViewModel NewWindow { get; private set; }
-        public KeyBindingsViewModel ShowSettings { get; private set; }
-        public KeyBindingsViewModel Copy { get; private set; }
-        public KeyBindingsViewModel Paste { get; private set; }
-        public KeyBindingsViewModel Search { get; private set; }
-        public KeyBindingsViewModel FullScreen { get; private set; }
-
-        public RelayCommand RestoreDefaultsCommand { get; }
-        public RelayCommand<Command> AddCommand { get; }
-
-        private Task Add(Command command)
+        private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
         {
-            switch (command)
-            {
-                case Command.ToggleWindow:
-                    return ToggleWindow.Add();
-                case Command.NextTab:
-                    return NextTab.Add();
-                case Command.PreviousTab:
-                    return PreviousTab.Add();
-                case Command.NewTab:
-                    return NewTab.Add();
-                case Command.ConfigurableNewTab:
-                    return ConfigurableNewTab.Add();
-                case Command.CloseTab:
-                    return CloseTab.Add();
-                case Command.NewWindow:
-                    return NewWindow.Add();
-                case Command.ShowSettings:
-                    return ShowSettings.Add();
-                case Command.Copy:
-                    return Copy.Add();
-                case Command.Paste:
-                    return Paste.Add();
-                case Command.Search:
-                    return Search.Add();
-                case Command.ToggleFullScreen:
-                    return FullScreen.Add();
-            }
-
-            return Task.CompletedTask;
+            _settingsService.SaveKeyBindings(command, keyBindings);
+            _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
         }
 
         private async Task RestoreDefaults()
@@ -117,20 +81,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 _settingsService.ResetKeyBindings();
                 Initialize(_settingsService.GetKeyBindings());
             }
-        }
-
-        private KeyBindingsViewModel CreateViewModel(Command command, ICollection<KeyBinding> keyBindings)
-        {
-            var viewModel = new KeyBindingsViewModel(command, keyBindings, _dialogService);
-            viewModel.Edited += OnEdited;
-
-            return viewModel;
-        }
-
-        private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
-        {
-            _settingsService.SaveKeyBindings(command, keyBindings);
-            _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
         }
     }
 }

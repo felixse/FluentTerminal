@@ -57,6 +57,13 @@
                     Minimum="0"
                     StepFrequency="0.01"
                     Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
+                <TextBox
+                    Width="200"
+                    Margin="0,0,0,24"
+                    HorizontalAlignment="Left"
+                    Header="Scrollback limit"
+                    KeyDown="ScrollBackTextBoxOnKeyDown"
+                    Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Blinking cursor"

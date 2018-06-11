@@ -9,11 +9,15 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ItemsControl Grid.Row="0" ItemsSource="{x:Bind ViewModel.KeyBindings, Mode=OneWay}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Column="0"
+            Margin="0,6,24,0"
+            Text="{x:Bind ViewModel.CommandName, Mode=OneWay}" />
+        <ItemsControl Grid.Column="1" ItemsSource="{x:Bind ViewModel.KeyBindings, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="settings:KeyBindingViewModel">
                     <StackPanel

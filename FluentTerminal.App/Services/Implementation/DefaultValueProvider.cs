@@ -178,6 +178,32 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)VirtualKey.Enter
                     }
                 };
+
+                case Command.SelectAll:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.SelectAll,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.A
+                    }
+                };
+
+                case Command.Clear:
+                return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = Command.Clear,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)VirtualKey.L
+                    }
+                };
             }
 
             return null;
@@ -198,7 +224,8 @@ namespace FluentTerminal.App.Services.Implementation
                 ScrollBarStyle = ScrollBarStyle.Hidden,
                 FontFamily = "Consolas",
                 FontSize = 13,
-                BackgroundOpacity = 0.8
+                BackgroundOpacity = 0.8,
+                ScrollBackLimit = 1000
             };
         }
 
