@@ -80,11 +80,12 @@ function createTerminal(options, theme, keyBindings) {
           if (keyBinding.command == 'copy' && term.getSelection() == '') {
             return true;
           }
-          if (keyBinding.command == 'clear' && term.getSelection() == '') {
+          if (keyBinding.command == 'clear') {
+            term.clearSelection();
             term.clear();
             return false;
           }
-          if (keyBinding.command == 'selectAll' && term.getSelection() == '') {
+          if (keyBinding.command == 'selectAll') {
             term.selectAll();
             return false;
           }
