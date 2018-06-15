@@ -406,11 +406,11 @@ namespace FluentTerminal.App.Services.Implementation
                 PreInstalled = true,
                 Colors = new TerminalColors
                 {
-                    Foregroun = "#EEEEEE",
+                    Foreground = "#EEEEEE",
                     Background = "#300A24",
                     Cursor = "#CFF5DB",
                     CursorAccent = "#000000",
-                    Selection = "rgba(207, 245, 219, 0.99609375)",
+                    Selection = "4DABEDC1",
                     Black = "#300A24",
                     Red = "#3465A4",
                     Green = "#4E9A06",
