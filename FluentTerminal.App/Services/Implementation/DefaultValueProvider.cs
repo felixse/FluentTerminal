@@ -255,6 +255,15 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty
+                },
+                new ShellProfile
+                {
+                    Id= Guid.Parse("e5785ad6-584f-40cb-bdcd-d5b3b3953e7f"),
+                    Name = "WSL",
+                    Arguments = string.Empty,
+                    Location = @"C:\windows\system32\wsl.exe",
+                    PreInstalled = true,
+                    WorkingDirectory = string.Empty
                 }
             };
         }

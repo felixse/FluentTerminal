@@ -5,7 +5,7 @@
 A Terminal Emulator based on UWP and web technologies.
 
 ## Features:
-- Terminal for PowerShell, CMD, or custom shells
+- Terminal for PowerShell, CMD, WSL, or custom shells
 - Supports tabs and multiple windows
 - Theming and appearance configuration
 - Editable keybindings
