@@ -255,6 +255,15 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty
+                },
+                new ShellProfile
+                {
+                    Id= Guid.Parse("e5785ad6-584f-40cb-bdcd-d5b3b3953e7f"),
+                    Name = "WSL",
+                    Arguments = string.Empty,
+                    Location = @"C:\windows\system32\wsl.exe",
+                    PreInstalled = true,
+                    WorkingDirectory = string.Empty
                 }
             };
         }
@@ -389,7 +398,39 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            return new[] { defaultXterm, powerShell, homebrew, tomorrow };
+            var ubuntu = new TerminalTheme
+            {
+                Id = Guid.Parse("32519543-bf94-4db6-92a1-7bcec3966c82"),
+                Author = "Canonical",
+                Name = "Ubuntu Bash",
+                PreInstalled = true,
+                Colors = new TerminalColors
+                {
+                    Foreground = "#EEEEEE",
+                    Background = "#300A24",
+                    Cursor = "#CFF5DB",
+                    CursorAccent = "#000000",
+                    Selection = "4DABEDC1",
+                    Black = "#300A24",
+                    Red = "#3465A4",
+                    Green = "#4E9A06",
+                    Yellow = "#06989A",
+                    Blue = "#CC0000",
+                    Magenta = "#75507B",
+                    Cyan = "#C4A000",
+                    White = "#D3D7CF",
+                    BrightBlack = "#554E53",
+                    BrightRed = "#729FCF",
+                    BrightGreen = "#8AE234",
+                    BrightYellow = "#34E2E2",
+                    BrightBlue = "#EF2929",
+                    BrightMagenta = "#AD7FA8",
+                    BrightCyan = "#FCE94F",
+                    BrightWhite = "#EEEEEE"
+                }
+            };
+
+            return new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
         }
     }
 }
