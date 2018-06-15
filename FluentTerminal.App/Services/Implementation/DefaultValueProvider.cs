@@ -398,7 +398,39 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            return new[] { defaultXterm, powerShell, homebrew, tomorrow };
+            var ubuntu = new TerminalTheme
+            {
+                Id = Guid.Parse("32519543-bf94-4db6-92a1-7bcec3966c82"),
+                Author = "Canonical",
+                Name = "Ubuntu Bash",
+                PreInstalled = true,
+                Colors = new TerminalColors
+                {
+                    Foregroun = "#EEEEEE",
+                    Background = "#300A24",
+                    Cursor = "#CFF5DB",
+                    CursorAccent = "#000000",
+                    Selection = "rgba(207, 245, 219, 0.99609375)",
+                    Black = "#300A24",
+                    Red = "#3465A4",
+                    Green = "#4E9A06",
+                    Yellow = "#06989A",
+                    Blue = "#CC0000",
+                    Magenta = "#75507B",
+                    Cyan = "#C4A000",
+                    White = "#D3D7CF",
+                    BrightBlack = "#554E53",
+                    BrightRed = "#729FCF",
+                    BrightGreen = "#8AE234",
+                    BrightYellow = "#34E2E2",
+                    BrightBlue = "#EF2929",
+                    BrightMagenta = "#AD7FA8",
+                    BrightCyan = "#FCE94F",
+                    BrightWhite = "#EEEEEE"
+                }
+            };
+
+            return new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
         }
     }
 }
