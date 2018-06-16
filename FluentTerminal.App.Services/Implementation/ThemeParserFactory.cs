@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Windows.Storage;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -16,9 +15,9 @@ namespace FluentTerminal.App.Services.Implementation
             SupportedFileTypes = _parsers.SelectMany(p => p.SupportedFileTypes);
         }
 
-        public IThemeParser GetParser(StorageFile themeFile)
+        public IThemeParser GetParser(string fileType)
         {
-            return _parsers.FirstOrDefault(p => p.SupportedFileTypes.Contains(themeFile.FileType));
+            return _parsers.FirstOrDefault(p => p.SupportedFileTypes.Contains(fileType));
         }
     }
 }

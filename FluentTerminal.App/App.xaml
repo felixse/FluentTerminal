@@ -28,6 +28,7 @@
                 Then="Collapsed" />
             <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
             <converters:BackgroundToApplicationThemeConverter x:Key="BackgroundToApplicationThemeConverter" />
+            <converters:StringToColorConverter x:Key="StringToColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

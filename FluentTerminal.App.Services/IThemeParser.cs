@@ -1,7 +1,7 @@
 ﻿using FluentTerminal.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace FluentTerminal.App.Services
 {
@@ -9,6 +9,6 @@ namespace FluentTerminal.App.Services
     {
         IEnumerable<string> SupportedFileTypes { get; }
 
-        Task<TerminalTheme> Parse(StorageFile themeFile);
+        Task<TerminalTheme> Parse(string fileName, Stream fileContent);
     }
 }

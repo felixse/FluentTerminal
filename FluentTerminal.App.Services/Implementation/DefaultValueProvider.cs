@@ -2,11 +2,10 @@
 using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
-using Windows.System;
 
 namespace FluentTerminal.App.Services.Implementation
 {
-    internal class DefaultValueProvider : IDefaultValueProvider
+    public class DefaultValueProvider : IDefaultValueProvider
     {
         public ApplicationSettings GetDefaultApplicationSettings()
         {
@@ -32,7 +31,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = false,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.Scroll
+                        Key = (int)ExtendedVirtualKey.Scroll
                     }
                 };
 
@@ -45,7 +44,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.Tab
+                        Key = (int)ExtendedVirtualKey.Tab
                     }
                 };
 
@@ -58,7 +57,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
-                        Key = (int)VirtualKey.Tab
+                        Key = (int)ExtendedVirtualKey.Tab
                     }
                 };
 
@@ -71,7 +70,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.T
+                        Key = (int)ExtendedVirtualKey.T
                     }
                 };
 
@@ -84,7 +83,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
-                        Key = (int)VirtualKey.T
+                        Key = (int)ExtendedVirtualKey.T
                     }
                 };
 
@@ -97,7 +96,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.W
+                        Key = (int)ExtendedVirtualKey.W
                     }
                 };
 
@@ -110,7 +109,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.N
+                        Key = (int)ExtendedVirtualKey.N
                     }
                 };
 
@@ -136,7 +135,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.C
+                        Key = (int)ExtendedVirtualKey.C
                     }
                 };
 
@@ -149,7 +148,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.V
+                        Key = (int)ExtendedVirtualKey.V
                     }
                 };
 
@@ -162,7 +161,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.F
+                        Key = (int)ExtendedVirtualKey.F
                     }
                 };
 
@@ -175,7 +174,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = false,
                         Alt = true,
                         Shift = false,
-                        Key = (int)VirtualKey.Enter
+                        Key = (int)ExtendedVirtualKey.Enter
                     }
                 };
 
@@ -188,7 +187,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.A
+                        Key = (int)ExtendedVirtualKey.A
                     }
                 };
 
@@ -201,7 +200,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)VirtualKey.L
+                        Key = (int)ExtendedVirtualKey.L
                     }
                 };
             }

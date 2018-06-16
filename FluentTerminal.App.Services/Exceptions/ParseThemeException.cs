@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentTerminal.App.Exceptions
+namespace FluentTerminal.App.Services.Exceptions
 {
     public class ParseThemeException : Exception
     {

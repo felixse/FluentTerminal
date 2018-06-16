@@ -2,43 +2,38 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using Newtonsoft.Json;
-using Windows.Storage;
 
 namespace FluentTerminal.App.Services.Implementation
 {
-    internal class SettingsService : ISettingsService
+    public class SettingsService : ISettingsService
     {
-        public const string ThemesContainerName = "Themes";
-        public const string KeyBindingsContainerName = "KeyBindings";
-        public const string ShellProfilesContainerName = "ShellProfiles";
         public const string CurrentThemeKey = "CurrentTheme";
         public const string DefaultShellProfileKey = "DefaultShellProfile";
 
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private readonly ApplicationDataContainer _localSettings;
-        private readonly ApplicationDataContainer _themes;
-        private readonly ApplicationDataContainer _keyBindings;
-        private readonly ApplicationDataContainer _shellProfiles;
-        private readonly ApplicationDataContainer _roamingSettings;
+        private readonly IApplicationDataContainer _localSettings;
+        private readonly IApplicationDataContainer _themes;
+        private readonly IApplicationDataContainer _keyBindings;
+        private readonly IApplicationDataContainer _shellProfiles;
+        private readonly IApplicationDataContainer _roamingSettings;
 
         public event EventHandler<Guid> CurrentThemeChanged;
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
         public event EventHandler KeyBindingsChanged;
 
-        public SettingsService(IDefaultValueProvider defaultValueProvider)
+        public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
             _defaultValueProvider = defaultValueProvider;
-            _localSettings = ApplicationData.Current.LocalSettings;
-            _roamingSettings = ApplicationData.Current.RoamingSettings;
+            _localSettings = containers.LocalSettings;
+            _roamingSettings = containers.RoamingSettings;
 
-            _themes = _roamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always);
-            _keyBindings = _roamingSettings.CreateContainer(KeyBindingsContainerName, ApplicationDataCreateDisposition.Always);
-            _shellProfiles = _roamingSettings.CreateContainer(ShellProfilesContainerName, ApplicationDataCreateDisposition.Always);
+            _themes = containers.Themes;
+            _keyBindings = containers.KeyBindings;
+            _shellProfiles = containers.ShellProfiles;
 
             foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
             {
@@ -59,7 +54,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetCurrentThemeId()
         {
-            if (_roamingSettings.Values.TryGetValue(CurrentThemeKey, out object value))
+            if (_roamingSettings.TryGetValue(CurrentThemeKey, out object value))
             {
                 return (Guid)value;
             }
@@ -68,7 +63,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void SaveCurrentThemeId(Guid id)
         {
-            _roamingSettings.Values[CurrentThemeKey] = id;
+            _roamingSettings.SetValue(CurrentThemeKey, id);
 
             CurrentThemeChanged?.Invoke(this, id);
         }
@@ -85,12 +80,12 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void DeleteTheme(Guid id)
         {
-            _themes.Values.Remove(id.ToString());
+            _themes.Delete(id.ToString());
         }
 
         public IEnumerable<TerminalTheme> GetThemes()
         {
-            return _themes.Values.Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x.Value)).ToList();
+            return _themes.GetAll().Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x)).ToList();
         }
 
         public TerminalTheme GetTheme(Guid id)
@@ -152,7 +147,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetDefaultShellProfileId()
         {
-            if (_roamingSettings.Values.TryGetValue(DefaultShellProfileKey, out object value))
+            if (_roamingSettings.TryGetValue(DefaultShellProfileKey, out object value))
             {
                 return (Guid)value;
             }
@@ -167,12 +162,12 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void SaveDefaultShellProfileId(Guid id)
         {
-            _roamingSettings.Values[DefaultShellProfileKey] = id;
+            _roamingSettings.SetValue(DefaultShellProfileKey, id);
         }
 
         public IEnumerable<ShellProfile> GetShellProfiles()
         {
-            return _shellProfiles.Values.Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x.Value)).ToList();
+            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
         }
 
         public void SaveShellProfile(ShellProfile shellProfile)
@@ -182,7 +177,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void DeleteShellProfile(Guid id)
         {
-            _shellProfiles.Values.Remove(id.ToString());
+            _shellProfiles.Delete(id.ToString());
         }
     }
 }

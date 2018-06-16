@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace FluentTerminal.App.Utilities
+namespace FluentTerminal.App.Services.Utilities
 {
     public static class EnumHelper
     {
@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Utilities
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
 
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
             if (attributes?.Length > 0)
             {

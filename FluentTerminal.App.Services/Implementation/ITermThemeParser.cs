@@ -1,14 +1,12 @@
-﻿using FluentTerminal.App.Exceptions;
-using FluentTerminal.App.Utilities;
+﻿using FluentTerminal.App.Services.Exceptions;
 using FluentTerminal.Models;
 using PListNet;
 using PListNet.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.UI;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -53,14 +51,13 @@ namespace FluentTerminal.App.Services.Implementation
             public const string RedComponent = "Red Component";
         }
 
-        public async Task<TerminalTheme> Parse(StorageFile themeFile)
+        public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
         {
-            var stream = await themeFile.OpenStreamForReadAsync().ConfigureAwait(false);
-            var node = PList.Load(stream) as DictionaryNode ?? throw new ParseThemeException("Root node was not a dictionary.");
+            var node = PList.Load(fileContent) as DictionaryNode ?? throw new ParseThemeException("Root node was not a dictionary.");
 
             return new TerminalTheme
             {
-                Name = Path.GetFileNameWithoutExtension(themeFile.Name),
+                Name = Path.GetFileNameWithoutExtension(fileName),
                 Colors = GetColors(node),
                 Id = Guid.NewGuid(),
                 PreInstalled = false
@@ -103,15 +100,15 @@ namespace FluentTerminal.App.Services.Implementation
             var green = dictionaryNode[ITermThemeColorKeys.GreenComponent] as RealNode ?? throw new ParseThemeException("Green node value was not a real number");
             var blue = dictionaryNode[ITermThemeColorKeys.BlueComponent] as RealNode ?? throw new ParseThemeException("Blue node value was not a real number");
 
-            var color = Color.FromArgb(alpha, GetByteValue(red), GetByteValue(green), GetByteValue(blue));
+            var color = $"#{alpha:X2}{GetByteValue(red):X2}{GetByteValue(green):X2}{GetByteValue(blue):X2}";
 
             if (alpha == byte.MaxValue)
             {
-                return color.ToColorString(false);
+                return $"#{GetByteValue(red):X2}{GetByteValue(green):X2}{GetByteValue(blue):X2}";
             }
             else
             {
-                return color.ToColorString(true);
+                return $"rgba({GetByteValue(red):G}, {GetByteValue(green):G}, {GetByteValue(blue):G}, {ToDoubleString(alpha)})";
             }
         }
 
@@ -120,6 +117,11 @@ namespace FluentTerminal.App.Services.Implementation
             var doubleValue = node.Value * Byte.MaxValue;
 
             return Convert.ToByte(doubleValue);
+        }
+
+        private static string ToDoubleString(byte alpha)
+        {
+            return (alpha / 256.0).ToString(CultureInfo.InvariantCulture);
         }
     }
 }

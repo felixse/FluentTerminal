@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using FluentTerminal.App.Adapters;
+using FluentTerminal.App.Dialogs;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
@@ -15,6 +18,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -25,6 +30,10 @@ namespace FluentTerminal.App
 {
     public sealed partial class App : Application
     {
+        public const string ThemesContainerName = "Themes";
+        public const string KeyBindingsContainerName = "KeyBindings";
+        public const string ShellProfilesContainerName = "ShellProfiles";
+
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
@@ -34,7 +43,7 @@ namespace FluentTerminal.App
         private readonly List<MainViewModel> _mainViewModels;
         private SettingsViewModel _settingsViewModel;
         private int? _settingsWindowId;
-        private AppServiceConnection _appServiceConnection;
+        private IAppServiceConnection _appServiceConnection;
         private BackgroundTaskDeferral _appServiceDeferral;
 
         public App()
@@ -42,6 +51,15 @@ namespace FluentTerminal.App
             _mainViewModels = new List<MainViewModel>();
 
             InitializeComponent();
+
+            var applicationDataContainers = new ApplicationDataContainers
+            {
+                LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
+                RoamingSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings),
+                KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
+                ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
+                Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always))
+            };
 
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
@@ -54,6 +72,11 @@ namespace FluentTerminal.App
             builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();
             builder.RegisterType<ITermThemeParser>().As<IThemeParser>().SingleInstance();
             builder.RegisterType<FluentTerminalThemeParser>().As<IThemeParser>().SingleInstance();
+            builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
+            builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
+            builder.RegisterInstance(applicationDataContainers);
+
+            var foo = new Color();
 
             _container = builder.Build();
 
@@ -139,7 +162,7 @@ namespace FluentTerminal.App
                     _appServiceDeferral = args.TaskInstance.GetDeferral();
                     args.TaskInstance.Canceled += OnTaskCanceled;
 
-                    _appServiceConnection = details.AppServiceConnection;
+                    _appServiceConnection = new AppServiceConnectionAdapter(details.AppServiceConnection);
 
                     _trayReady.SetResult(0);
                 }

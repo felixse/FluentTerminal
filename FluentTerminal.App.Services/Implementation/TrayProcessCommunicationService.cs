@@ -1,19 +1,17 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
 using Newtonsoft.Json;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 
 namespace FluentTerminal.App.Services.Implementation
 {
-    internal class TrayProcessCommunicationService : ITrayProcessCommunicationService
+    public class TrayProcessCommunicationService : ITrayProcessCommunicationService
     {
         private readonly ISettingsService _settingsService;
-        private AppServiceConnection _appServiceConnection;
+        private IAppServiceConnection _appServiceConnection;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
@@ -28,7 +26,7 @@ namespace FluentTerminal.App.Services.Implementation
                 Profile = shellProfile
             };
 
-            var message = new ValueSet
+            var message = new Dictionary<string, string>
             {
                 { MessageKeys.Type, MessageTypes.CreateTerminalRequest },
                 { MessageKeys.Content, JsonConvert.SerializeObject(request) }
@@ -36,10 +34,10 @@ namespace FluentTerminal.App.Services.Implementation
 
             var responseMessage = await _appServiceConnection.SendMessageAsync(message);
 
-            return JsonConvert.DeserializeObject<CreateTerminalResponse>((string)responseMessage.Message[MessageKeys.Content]);
+            return JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
         }
 
-        public Task Initialize(AppServiceConnection appServiceConnection)
+        public Task Initialize(IAppServiceConnection appServiceConnection)
         {
             _appServiceConnection = appServiceConnection;
             return UpdateToggleWindowKeyBindings();
@@ -53,13 +51,13 @@ namespace FluentTerminal.App.Services.Implementation
                 NewSize = size
             };
 
-            var message = new ValueSet
+            var message = new Dictionary<string, string>
             {
                 { MessageKeys.Type, MessageTypes.ResizeTerminalRequest },
                 { MessageKeys.Content, JsonConvert.SerializeObject(request) }
             };
 
-            return _appServiceConnection.SendMessageAsync(message).AsTask();
+            return _appServiceConnection.SendMessageAsync(message);
         }
 
         public Task UpdateToggleWindowKeyBindings()
@@ -71,13 +69,13 @@ namespace FluentTerminal.App.Services.Implementation
                 KeyBindings = keyBindings
             };
 
-            var message = new ValueSet
+            var message = new Dictionary<string, string>
             {
                 { MessageKeys.Type, MessageTypes.SetToggleWindowKeyBindingsRequest },
                 { MessageKeys.Content, JsonConvert.SerializeObject(request) }
             };
 
-            return _appServiceConnection.SendMessageAsync(message).AsTask();
+            return _appServiceConnection.SendMessageAsync(message);
         }
     }
 }

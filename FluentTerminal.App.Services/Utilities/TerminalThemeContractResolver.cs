@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
-namespace FluentTerminal.App.Utilities
+namespace FluentTerminal.App.Services.Utilities
 {
     public class TerminalThemeContractResolver : DefaultContractResolver
     {

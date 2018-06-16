@@ -1,6 +1,6 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels.Settings;
-using Windows.UI;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -28,7 +28,7 @@ namespace FluentTerminal.App.Views.SettingsPages
             }
         }
 
-        private void OnSelectedThemeBackgroundColorChanged(object sender, Color e)
+        private void OnSelectedThemeBackgroundColorChanged(object sender, string e)
         {
             var theme = ContrastHelper.GetIdealThemeForBackgroundColor(e);
             SetTheme(theme);

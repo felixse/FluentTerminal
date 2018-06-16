@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.Utilities;
+﻿using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models.Enums;
 using System;

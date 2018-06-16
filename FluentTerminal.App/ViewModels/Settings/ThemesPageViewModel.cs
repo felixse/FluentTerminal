@@ -1,13 +1,12 @@
-﻿using FluentTerminal.App.Exceptions;
-using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Windows.Storage.Pickers;
-using Windows.UI;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -20,7 +19,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private double _backgroundOpacity;
         private readonly IThemeParserFactory _themeParserFactory;
 
-        public event EventHandler<Color> SelectedThemeBackgroundColorChanged;
+        public event EventHandler<string> SelectedThemeBackgroundColorChanged;
 
         public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IThemeParserFactory themeParserFactory)
         {
@@ -117,7 +116,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             var file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                var parser = _themeParserFactory.GetParser(file);
+                var stream = await file.OpenStreamForReadAsync().ConfigureAwait(true);
+                var parser = _themeParserFactory.GetParser(file.FileType);
 
                 if (parser == null)
                 {
@@ -127,7 +127,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 try
                 {
-                    var theme = await parser.Parse(file).ConfigureAwait(true);
+                    var theme = await parser.Parse(file.DisplayName, stream).ConfigureAwait(true);
 
                     _settingsService.SaveTheme(theme);
 
@@ -181,7 +181,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             BackgroundOpacity = e.BackgroundOpacity;
         }
 
-        private void OnSelectedThemeBackgroundChanged(object sender, Color e)
+        private void OnSelectedThemeBackgroundChanged(object sender, string e)
         {
             SelectedThemeBackgroundColorChanged?.Invoke(this, e);
         }

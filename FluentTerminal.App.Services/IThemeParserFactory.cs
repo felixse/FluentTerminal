@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Windows.Storage;
 
 namespace FluentTerminal.App.Services
 {
@@ -7,6 +6,6 @@ namespace FluentTerminal.App.Services
     {
         IEnumerable<string> SupportedFileTypes { get; }
 
-        IThemeParser GetParser(StorageFile themeFile);
+        IThemeParser GetParser(string fileType);
     }
 }

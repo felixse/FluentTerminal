@@ -102,6 +102,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ApplicationDataContainerAdapter.cs" />
+    <Compile Include="Adapters\AppServiceConnectionAdapter.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -111,32 +113,15 @@
     <Compile Include="Converters\IntToExtendedVirtualKeyConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\NegateConverter.cs" />
+    <Compile Include="Converters\StringToColorConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
+    <Compile Include="Adapters\MessageDialogAdapter.cs" />
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\ParseThemeException.cs" />
-    <Compile Include="Services\IDialogService.cs" />
-    <Compile Include="Services\Implementation\DialogService.cs" />
-    <Compile Include="Services\Implementation\FluentTerminalThemeParser.cs" />
-    <Compile Include="Services\Implementation\KeyboardCommandService.cs" />
-    <Compile Include="Services\IKeyboardCommandService.cs" />
-    <Compile Include="Services\Implementation\ITermThemeParser.cs" />
-    <Compile Include="Services\Implementation\ThemeParserFactory.cs" />
-    <Compile Include="Services\IThemeParser.cs" />
-    <Compile Include="Services\IThemeParserFactory.cs" />
-    <Compile Include="Utilities\ApplicationDataContainerExtensions.cs" />
-    <Compile Include="Services\IDefaultValueProvider.cs" />
-    <Compile Include="Services\Implementation\DefaultValueProvider.cs" />
-    <Compile Include="Services\Implementation\SettingsService.cs" />
-    <Compile Include="Services\Implementation\TrayProcessCommunicationService.cs" />
-    <Compile Include="Services\ISettingsService.cs" />
-    <Compile Include="Services\ITrayProcessCommunicationService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
-    <Compile Include="Utilities\EnumHelper.cs" />
-    <Compile Include="Utilities\TerminalThemeContractResolver.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />
@@ -352,9 +337,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
-    <PackageReference Include="PListNet">
-      <Version>2.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
     </PackageReference>
@@ -365,6 +347,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">
+      <Project>{a1ad7385-f92e-46ac-a349-43dc99b1e72d}</Project>
+      <Name>FluentTerminal.App.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
       <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>
       <Name>FluentTerminal.Models</Name>

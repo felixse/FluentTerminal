@@ -1,5 +1,5 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Utilities;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
