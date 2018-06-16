@@ -2,24 +2,22 @@
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models.Enums;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
-namespace FluentTerminal.App.Test.Services
+namespace FluentTerminal.App.Services.Test
 {
-    [TestClass]
     public class KeyboardCommandServiceTests
     {
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
 
-        [TestInitialize]
-        public void TestInitialize()
+        public KeyboardCommandServiceTests()
         {
             _fixture = new Fixture();
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterCommandHandler_HandlerIsNull_ThrowsArgumentNullException()
         {
             var command = _fixture.Create<Command>();
@@ -31,7 +29,7 @@ namespace FluentTerminal.App.Test.Services
             invoke.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("handler");
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterCommandHandler_CommandAlreadyRegisted_ThrowsInvalidOperationException()
         {
             var command = _fixture.Create<Command>();
@@ -44,7 +42,7 @@ namespace FluentTerminal.App.Test.Services
             invoke.Should().Throw<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void SendCommand_CommandIsRegistered_HandlerGetsInvoked()
         {
             var command = _fixture.Create<Command>();
@@ -57,7 +55,7 @@ namespace FluentTerminal.App.Test.Services
             handlerCalled.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void SendCommand_CommandIsNotRegisted_KeyNotFoundExceptionIsThrown()
         {
             var command = _fixture.Create<Command>();
