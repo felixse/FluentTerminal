@@ -1,0 +1,25 @@
+os: Visual Studio 2017
+configuration: Debug
+platform:
+- x64
+skip_commits:
+  files:
+    - README.md
+install:
+- ps: iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+- cmd: appveyor-tools\secure-file -decrypt FluentTerminal.App\FluentTerminal.App_StoreKey.pfx.enc -secret %CertificationFilesSecret%
+- cmd: appveyor-tools\secure-file -decrypt FluentTerminal.App\Package.StoreAssociation.xml.enc -secret %CertificationFilesSecret%
+before_build:
+- cmd: pushd FluentTerminal.Client && npm install && npm run build && popd
+- cmd: nuget restore
+build:
+  project: FluentTerminal.sln
+  parallel: true
+  verbosity: minimal
+before_test:
+- cmd: dotnet build FluentTerminal.App.Services.Test\FluentTerminal.App.Services.Test.csproj
+test:
+  assemblies:
+    only:
+      - '**\*.Test.dll'
+deploy: off
