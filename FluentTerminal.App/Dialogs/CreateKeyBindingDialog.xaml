@@ -1,5 +1,5 @@
 ﻿<ContentDialog
-    x:Class="FluentTerminal.App.Views.CreateKeyBindingDialog"
+    x:Class="FluentTerminal.App.Dialogs.CreateKeyBindingDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,7 +17,7 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                Visibility="{x:Bind KeyBinding.Ctrl, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                Visibility="{x:Bind Ctrl, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -28,7 +28,7 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                Visibility="{x:Bind KeyBinding.Meta, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                Visibility="{x:Bind Meta, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -40,7 +40,7 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                Visibility="{x:Bind KeyBinding.Alt, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                Visibility="{x:Bind Alt, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -51,7 +51,7 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                Visibility="{x:Bind KeyBinding.Shift, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                Visibility="{x:Bind Shift, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -62,11 +62,11 @@
                 Height="32"
                 Margin="0,0,6,0"
                 Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                Visibility="{x:Bind KeyBinding.Key, Mode=OneWay, Converter={StaticResource ZeroToCollapsedConverter}}">
+                Visibility="{x:Bind Key, Mode=OneWay, Converter={StaticResource ZeroToCollapsedConverter}}">
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{x:Bind KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToExtendedVirtualKeyConverter}}" />
+                    Text="{x:Bind Key, Mode=OneWay, Converter={StaticResource IntToExtendedVirtualKeyConverter}}" />
             </Grid>
             <HyperlinkButton
                 x:Name="ResetButton"

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -7,10 +8,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Windows.UI.Core.Preview;
-using Windows.UI.ViewManagement;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -23,16 +20,19 @@ namespace FluentTerminal.App.ViewModels
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
-        private readonly CoreDispatcher _dispatcher;
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
         private string _title;
+        private readonly IApplicationView _applicationView;
+        private readonly IDispatcherTimer _dispatcherTimer;
+        private readonly IClipboardService _clipboardService;
 
         public event EventHandler Closed;
         public event EventHandler NewWindowRequested;
         public event EventHandler ShowSettingsRequested;
 
-        public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService)
+        public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -40,6 +40,9 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
+            _applicationView = applicationView;
+            _dispatcherTimer = dispatcherTimer;
+            _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
             _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
@@ -62,13 +65,12 @@ namespace FluentTerminal.App.ViewModels
 
             Title = "Fluent Terminal";
 
-            _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+            _applicationView.CloseRequested += OnCloseRequest;
         }
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await _applicationView.RunOnDispatcherThread(() =>
             {
                 BackgroundOpacity = e.BackgroundOpacity;
             });
@@ -120,7 +122,7 @@ namespace FluentTerminal.App.ViewModels
 
         public Task AddTerminal(string startupDirectory, bool showProfileSelection)
         {
-            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            return _applicationView.RunOnDispatcherThread(async () =>
             {
                 ShellProfile profile = null;
                 if (showProfileSelection)
@@ -137,13 +139,14 @@ namespace FluentTerminal.App.ViewModels
                     profile = _settingsService.GetDefaultShellProfile();
                 }
 
-                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService, _applicationSettings, startupDirectory, profile);
+                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
+                    _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);
                 terminal.CloseRequested += OnTerminalCloseRequested;
                 terminal.TitleChanged += OnTitleChanged;
                 Terminals.Add(terminal);
 
                 SelectedTerminal = terminal;
-            }).AsTask();
+            });
         }
 
         public void CloseAllTerminals()
@@ -171,13 +174,11 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _applicationSettings = e);
+            await _applicationView.RunOnDispatcherThread(() => _applicationSettings = e);
         }
 
-        private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        private async Task OnCloseRequest(object sender, CancelableEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
             if (_applicationSettings.ConfirmClosingWindows)
             {
                 var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
@@ -189,7 +190,7 @@ namespace FluentTerminal.App.ViewModels
                 }
                 else
                 {
-                    e.Handled = true;
+                    e.Cancelled = true;
                 }
             }
             else
@@ -197,12 +198,11 @@ namespace FluentTerminal.App.ViewModels
                 CloseAllTerminals();
                 Closed?.Invoke(this, EventArgs.Empty);
             }
-            deferral.Complete();
         }
 
         private async void OnCurrentThemeChanged(object sender, Guid e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await _applicationView.RunOnDispatcherThread(() =>
              {
                  var currentTheme = _settingsService.GetTheme(e);
                  Background = currentTheme.Colors.Background;
@@ -223,7 +223,7 @@ namespace FluentTerminal.App.ViewModels
                 if (Terminals.Count == 0)
                 {
                     Closed?.Invoke(this, EventArgs.Empty);
-                    ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    _applicationView.TryClose();
                 }
             }
         }
@@ -262,19 +262,10 @@ namespace FluentTerminal.App.ViewModels
         {
             ShowSettingsRequested?.Invoke(this, EventArgs.Empty);
         }
-        
+      
         private void ToggleFullScreen()
         {
-            var applicationView = ApplicationView.GetForCurrentView();
-
-            if (applicationView.IsFullScreenMode)
-            {
-                applicationView.ExitFullScreenMode();
-            }
-            else
-            {
-                applicationView.TryEnterFullScreenMode();
-            }
+            _applicationView.ToggleFullScreen();
         }
     }
 }

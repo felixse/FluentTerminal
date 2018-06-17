@@ -1,4 +1,5 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;

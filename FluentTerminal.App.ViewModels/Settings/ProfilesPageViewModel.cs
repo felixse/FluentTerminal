@@ -13,20 +13,23 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
+        private readonly IFileSystemService _fileSystemService;
         private ShellProfileViewModel _selectedShellProfile;
+        
 
-        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
+        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
+            _fileSystemService = fileSystemService;
 
             CreateShellProfileCommand = new RelayCommand(CreateShellProfile);
 
             var defaultShellProfileId = _settingsService.GetDefaultShellProfileId();
             foreach (var shellProfile in _settingsService.GetShellProfiles())
             {
-                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService);
+                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService);
                 viewModel.Deleted += OnShellProfileDeleted;
                 viewModel.SetAsDefault += OnShellProfileSetAsDefault;
 
@@ -85,7 +88,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             _settingsService.SaveShellProfile(shellProfile);
 
-            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService);
+            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService);
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnShellProfileSetAsDefault;
             viewModel.Deleted += OnShellProfileDeleted;

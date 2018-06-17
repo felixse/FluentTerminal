@@ -9,11 +9,20 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly Func<IShellProfileSelectionDialog> _shellProfileSelectionDialogFactory;
         private readonly Func<IMessageDialog> _messageDialogFactory;
+        private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
 
-        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory, Func<IMessageDialog> messageDialogFactory)
+        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory, Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory)
         {
             _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
             _messageDialogFactory = messageDialogFactory;
+            _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
+        }
+
+        public Task<KeyBinding> ShowCreateKeyBindingDialog()
+        {
+            var dialog = _createKeyBindingDialogFactory();
+
+            return dialog.CreateKeyBinding();
         }
 
         public Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons)

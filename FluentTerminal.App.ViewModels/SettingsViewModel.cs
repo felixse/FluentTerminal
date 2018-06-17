@@ -7,13 +7,14 @@ namespace FluentTerminal.App.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
-        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService, ITrayProcessCommunicationService trayProcessCommunicationService, IThemeParserFactory themeParserFactory)
+        public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService,
+            ITrayProcessCommunicationService trayProcessCommunicationService, IThemeParserFactory themeParserFactory, ISystemFontService systemFontService, IFileSystemService fileSystemService)
         {
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider);
-            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider);
-            Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider);
-            Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory);
+            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService);
+            Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
+            Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
         }
 
         public event EventHandler Closed;

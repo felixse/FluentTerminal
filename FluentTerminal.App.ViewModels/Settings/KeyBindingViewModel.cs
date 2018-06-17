@@ -1,11 +1,9 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -97,16 +95,15 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public async Task<bool> Edit()
         {
-            var dialog = new CreateKeyBindingDialog(_dialogService);
-            var result = await dialog.ShowAsync();
+            var keyBinding = await _dialogService.ShowCreateKeyBindingDialog().ConfigureAwait(true);
 
-            if (result == ContentDialogResult.Primary)
+            if (keyBinding != null)
             {
-                Alt = dialog.KeyBinding.Alt;
-                Ctrl = dialog.KeyBinding.Ctrl;
-                Shift = dialog.KeyBinding.Shift;
-                Meta = dialog.KeyBinding.Meta;
-                Key = dialog.KeyBinding.Key;
+                Alt = keyBinding.Alt;
+                Ctrl = keyBinding.Ctrl;
+                Shift = keyBinding.Shift;
+                Meta = keyBinding.Meta;
+                Key = keyBinding.Key;
 
                 Edited?.Invoke(this, EventArgs.Empty);
 

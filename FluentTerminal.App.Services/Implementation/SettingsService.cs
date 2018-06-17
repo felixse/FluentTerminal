@@ -131,7 +131,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
-            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
         public void ResetKeyBindings()
@@ -142,7 +142,7 @@ namespace FluentTerminal.App.Services.Implementation
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
-            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
         public Guid GetDefaultShellProfileId()

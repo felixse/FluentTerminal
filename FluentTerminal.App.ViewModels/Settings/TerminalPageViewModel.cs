@@ -3,7 +3,6 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Graphics.Canvas.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -198,7 +197,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public TerminalPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
+        public TerminalPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ISystemFontService systemFontService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
@@ -206,7 +205,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
 
-            Fonts = CanvasTextFormat.GetSystemFontFamilies().OrderBy(s => s);
+            Fonts = systemFontService.GetSystemFontFamilies().OrderBy(s => s);
             Sizes = Enumerable.Range(1, 72);
 
             _terminalOptions = _settingsService.GetTerminalOptions();

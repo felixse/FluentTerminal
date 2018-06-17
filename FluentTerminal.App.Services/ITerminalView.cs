@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FluentTerminal.App.Views
+namespace FluentTerminal.App.Services
 {
     public interface ITerminalView
     {

@@ -4,9 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using Windows.Storage.Pickers;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -18,15 +16,18 @@ namespace FluentTerminal.App.ViewModels.Settings
         private ThemeViewModel _selectedTheme;
         private double _backgroundOpacity;
         private readonly IThemeParserFactory _themeParserFactory;
+        private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> SelectedThemeBackgroundColorChanged;
 
-        public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IThemeParserFactory themeParserFactory)
+        public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
+            IThemeParserFactory themeParserFactory, IFileSystemService fileSystemService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _themeParserFactory = themeParserFactory;
+            _fileSystemService = fileSystemService;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
             ImportThemeCommand = new RelayCommand(ImportTheme);
@@ -38,7 +39,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
             {
-                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
+                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, fileSystemService);
                 viewModel.Activated += OnThemeActivated;
                 viewModel.Deleted += OnThemeDeleted;
 
@@ -50,7 +51,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
 
             SelectedTheme = Themes.First(t => t.IsActive);
-
         }
 
         public RelayCommand CreateThemeCommand { get; }
@@ -94,7 +94,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             _settingsService.SaveTheme(theme);
 
-            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
             viewModel.Activated += OnThemeActivated;
             viewModel.Deleted += OnThemeDeleted;
             Themes.Add(viewModel);
@@ -103,20 +103,9 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async void ImportTheme()
         {
-            var picker = new FileOpenPicker
-            {
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
-            };
-
-            foreach (var supportedFileType in _themeParserFactory.SupportedFileTypes)
-            {
-                picker.FileTypeFilter.Add(supportedFileType);
-            }
-
-            var file = await picker.PickSingleFileAsync();
+            var file = await _fileSystemService.OpenFile(_themeParserFactory.SupportedFileTypes).ConfigureAwait(true);
             if (file != null)
             {
-                var stream = await file.OpenStreamForReadAsync().ConfigureAwait(true);
                 var parser = _themeParserFactory.GetParser(file.FileType);
 
                 if (parser == null)
@@ -127,11 +116,11 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 try
                 {
-                    var theme = await parser.Parse(file.DisplayName, stream).ConfigureAwait(true);
+                    var theme = await parser.Parse(file.Name, file.Content).ConfigureAwait(true);
 
                     _settingsService.SaveTheme(theme);
 
-                    var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService);
+                    var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
                     viewModel.Activated += OnThemeActivated;
                     viewModel.Deleted += OnThemeDeleted;
                     Themes.Add(viewModel);

@@ -103,7 +103,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Adapters\ApplicationDataContainerAdapter.cs" />
+    <Compile Include="Adapters\ApplicationViewAdapter.cs" />
     <Compile Include="Adapters\AppServiceConnectionAdapter.cs" />
+    <Compile Include="Adapters\DispatcherTimerAdapter.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -120,21 +122,11 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ClipboardService.cs" />
+    <Compile Include="Services\FileSystemService.cs" />
+    <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />
-    <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
-    <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
-    <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
-    <Compile Include="ViewModels\Settings\ProfilesPageViewModel.cs" />
-    <Compile Include="ViewModels\Settings\TerminalPageViewModel.cs" />
-    <Compile Include="ViewModels\Settings\ThemesPageViewModel.cs" />
-    <Compile Include="ViewModels\ShellProfileViewModel.cs" />
-    <Compile Include="ViewModels\ThemeViewModel.cs" />
-    <Compile Include="ViewModels\TerminalViewModel.cs" />
-    <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>
@@ -142,7 +134,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\CreateKeyBindingDialog.xaml.cs">
+    <Compile Include="Dialogs\CreateKeyBindingDialog.xaml.cs">
       <DependentUpon>CreateKeyBindingDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
@@ -278,7 +270,7 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\CreateKeyBindingDialog.xaml">
+    <Page Include="Dialogs\CreateKeyBindingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,6 +342,10 @@
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">
       <Project>{a1ad7385-f92e-46ac-a349-43dc99b1e72d}</Project>
       <Name>FluentTerminal.App.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FluentTerminal.App.ViewModels\FluentTerminal.App.ViewModels.csproj">
+      <Project>{44e8e225-f46c-47ec-9290-ffa08fccf1b5}</Project>
+      <Name>FluentTerminal.App.ViewModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
       <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>

@@ -1,17 +1,11 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.UI;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -49,14 +43,16 @@ namespace FluentTerminal.App.ViewModels
         private readonly TerminalTheme _theme;
         private string _white;
         private string _yellow;
+        private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
 
-        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService)
+        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
             _theme = theme;
             _settingsService = settingsService;
             _dialogService = dialogService;
+            _fileSystemService = fileSystemService;
 
             Name = _theme.Name;
             Author = _theme.Author;
@@ -369,20 +365,10 @@ namespace FluentTerminal.App.ViewModels
             Activated?.Invoke(this, EventArgs.Empty);
         }
 
-        private async Task Export()
+        private Task Export()
         {
-            var picker = new FileSavePicker();
-            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            picker.SuggestedFileName = Name;
-            picker.FileTypeChoices.Add("Fluent Terminal Theme", new List<string> { ".flutecolors" });
-
-            var file = await picker.PickSaveFileAsync();
-
-            if (file != null)
-            {
-                var content = JsonConvert.SerializeObject(_theme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
-                await FileIO.WriteTextAsync(file, content);
-            }
+            var content = JsonConvert.SerializeObject(_theme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
+            return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
         }
     }
 }

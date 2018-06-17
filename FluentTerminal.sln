@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.Models", "Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.App.Services", "FluentTerminal.App.Services\FluentTerminal.App.Services.csproj", "{A1AD7385-F92E-46AC-A349-43DC99B1E72D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentTerminal.App.Services.Test", "FluentTerminal.App.Services.Test\FluentTerminal.App.Services.Test.csproj", "{B353EAF4-8332-4C89-B986-B0B29F7E21FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.App.Services.Test", "FluentTerminal.App.Services.Test\FluentTerminal.App.Services.Test.csproj", "{B353EAF4-8332-4C89-B986-B0B29F7E21FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentTerminal.App.ViewModels", "FluentTerminal.App.ViewModels\FluentTerminal.App.ViewModels.csproj", "{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,22 @@ Global
 		{B353EAF4-8332-4C89-B986-B0B29F7E21FC}.Release|x64.Build.0 = Release|Any CPU
 		{B353EAF4-8332-4C89-B986-B0B29F7E21FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{B353EAF4-8332-4C89-B986-B0B29F7E21FC}.Release|x86.Build.0 = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|x64.Build.0 = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|ARM.Build.0 = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|x64.ActiveCfg = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|x64.Build.0 = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

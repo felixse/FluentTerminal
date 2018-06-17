@@ -19,7 +19,6 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -72,11 +71,15 @@ namespace FluentTerminal.App
             builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();
             builder.RegisterType<ITermThemeParser>().As<IThemeParser>().SingleInstance();
             builder.RegisterType<FluentTerminalThemeParser>().As<IThemeParser>().SingleInstance();
+            builder.RegisterType<ClipboardService>().As<IClipboardService>().SingleInstance();
+            builder.RegisterType<FileSystemService>().As<IFileSystemService>().SingleInstance();
+            builder.RegisterType<SystemFontService>().As<ISystemFontService>().SingleInstance();
             builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
+            builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
+            builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
+            builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterInstance(applicationDataContainers);
-
-            var foo = new Color();
 
             _container = builder.Build();
 

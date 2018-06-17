@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj" />
+    <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj" />
+  </ItemGroup>
+
+</Project>

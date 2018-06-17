@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -8,10 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -22,9 +17,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private ApplicationSettings _applicationSettings;
-        private readonly CoreDispatcher _dispatcher;
         private string _resizeOverlayContent;
-        private readonly DispatcherTimer _resizeOverlayTimer;
         private bool _showResizeOverlay;
         private readonly string _startupDirectory;
         private int _terminalId;
@@ -34,9 +27,13 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private string _searchText;
         private bool _isSelected;
+        private readonly IApplicationView _applicationView;
+        private readonly IDispatcherTimer _resizeOverlayTimer;
+        private readonly IClipboardService _clipboardService;
 
         public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
-            IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile)
+            IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
             Id = id;
             Title = DefaultTitle;
@@ -52,24 +49,23 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = applicationSettings;
             _startupDirectory = startupDirectory;
             _shellProfile = shellProfile;
-            _resizeOverlayTimer = new DispatcherTimer
-            {
-                Interval = new TimeSpan(0, 0, 2)
-            };
+            _applicationView = applicationView;
+            _clipboardService = clipboardService;
+            _resizeOverlayTimer = dispatcherTimer;
+            _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
             CloseCommand = new RelayCommand(async () => await InvokeCloseRequested().ConfigureAwait(false));
             FindNextCommand = new RelayCommand(async () => await FindNext().ConfigureAwait(false));
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
-
-            _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
+            
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
             var keyBindings = _settingsService.GetKeyBindings();
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await _applicationView.RunOnDispatcherThread(async () =>
             {
                 await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
             });
@@ -219,7 +215,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await _applicationView.RunOnDispatcherThread(() =>
             {
                 _applicationSettings = e;
                 RaisePropertyChanged(nameof(IsUnderlined));
@@ -228,7 +224,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnCurrentThemeChanged(object sender, Guid e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await _applicationView.RunOnDispatcherThread(async () =>
             {
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
@@ -240,17 +236,14 @@ namespace FluentTerminal.App.ViewModels
             if (e == Command.Copy)
             {
                 var selection = await _terminalView.GetSelection().ConfigureAwait(true);
-                var dataPackage = new DataPackage();
-                dataPackage.SetText(selection);
-                Clipboard.SetContent(dataPackage);
+                _clipboardService.SetText(selection);
             }
             else if (e == Command.Paste)
             {
-                var content = Clipboard.GetContent();
-                if (content.Contains(StandardDataFormats.Text))
+                var content = await _clipboardService.GetText().ConfigureAwait(true);
+                if (content != null)
                 {
-                    var text = await content.GetTextAsync();
-                    await _terminalView.Write(text).ConfigureAwait(true);
+                    await _terminalView.Write(content).ConfigureAwait(true);
                 }
             }
             else if (e == Command.Search)
@@ -275,7 +268,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await _applicationView.RunOnDispatcherThread(async () =>
             {
                 await _terminalView.ChangeOptions(e).ConfigureAwait(true);
             });

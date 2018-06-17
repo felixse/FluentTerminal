@@ -14,5 +14,7 @@ namespace FluentTerminal.App.Services
         Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons);
 
         Task<ShellProfile> ShowProfileSelectionDialogAsync();
+
+        Task<KeyBinding> ShowCreateKeyBindingDialog();
     }
 }

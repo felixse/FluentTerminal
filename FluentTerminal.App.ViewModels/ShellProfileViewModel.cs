@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Threading.Tasks;
-using Windows.Storage.Pickers;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -23,12 +22,14 @@ namespace FluentTerminal.App.ViewModels
         private bool _inEditMode;
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
+        private readonly IFileSystemService _fileSystemService;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
             _shellProfile = shellProfile;
             _settingsService = settingsService;
             _dialogService = dialogService;
+            _fileSystemService = fileSystemService;
 
             Id = shellProfile.Id;
             Name = shellProfile.Name;
@@ -157,13 +158,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task BrowseForCustomShell()
         {
-            var picker = new FileOpenPicker
-            {
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
-            };
-            picker.FileTypeFilter.Add(".exe");
-
-            var file = await picker.PickSingleFileAsync();
+            var file = await _fileSystemService.OpenFile(new[] { ".exe" }).ConfigureAwait(true);
             if (file != null)
             {
                 Location = file.Path;
@@ -172,14 +167,10 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task BrowseForWorkingDirectory()
         {
-            var picker = new FolderPicker();
-            picker.FileTypeFilter.Add(".whatever"); // else a ComException is thrown
-            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-
-            var folder = await picker.PickSingleFolderAsync();
-            if (folder != null)
+            var directory = await _fileSystemService.BrowseForDirectory().ConfigureAwait(true);
+            if (directory != null)
             {
-                WorkingDirectory = folder.Path;
+                WorkingDirectory = directory;
             }
         }
     }
