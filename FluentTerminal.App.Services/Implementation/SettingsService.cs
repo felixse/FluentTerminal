@@ -118,10 +118,26 @@ namespace FluentTerminal.App.Services.Implementation
         public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
         {
             var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
-            foreach (var value in Enum.GetValues(typeof(Command)))
+
+            // Don't enumerate explicit keybinding enums that are in the range of a profile shortcut
+            // since they won't be directly assigned to.
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                var command = (Command)value;
-                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+                if (command < Command.ShellProfileShortcut)
+                {
+                    keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+                }
+            }
+
+            // Now, for each shell, find those with key bindings, and add them.
+            foreach (ShellProfile shellProfile in GetShellProfiles())
+            {
+                if (shellProfile.KeyBinding != null)
+                {
+                    ICollection<KeyBinding> shellKeyBindings = shellProfile.KeyBinding;
+                    // Use the command associated with the first key binding as representative for all of them.
+                    keyBindings.Add(shellProfile.KeyBindingCommand, shellKeyBindings);
+                }
             }
 
             return keyBindings;
@@ -136,9 +152,15 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void ResetKeyBindings()
         {
-            foreach (var value in Enum.GetValues(typeof(Command)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                var command = (Command)value;
+                // Don't enumerate explicit keybinding enums that are in the range of a profile shortcut
+                // since they won't be directly assigned to.
+                if (command >= Command.ShellProfileShortcut)
+                {
+                    continue;
+                }
+
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
@@ -170,9 +192,14 @@ namespace FluentTerminal.App.Services.Implementation
             return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
         }
 
-        public void SaveShellProfile(ShellProfile shellProfile)
+        public void SaveShellProfile(ShellProfile shellProfile, bool updateKeyBindings)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+
+            if (updateKeyBindings)
+            {
+                KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void DeleteShellProfile(Guid id)

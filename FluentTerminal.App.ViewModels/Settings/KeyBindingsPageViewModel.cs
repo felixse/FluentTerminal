@@ -31,6 +31,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             Initialize(_settingsService.GetKeyBindings());
         }
 
+        public IEnumerable<ShellProfile> ShellProfiles { get { return _settingsService.GetShellProfiles(); } }
+
         public RelayCommand<Command> AddCommand { get; }
         public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
         public RelayCommand RestoreDefaultsCommand { get; }
@@ -51,25 +53,67 @@ namespace FluentTerminal.App.ViewModels.Settings
             KeyBindings.Clear();
         }
 
+        public void UpdateKeyBindings()
+        {
+            Initialize(_settingsService.GetKeyBindings());
+        }
+
         private void Initialize(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
         {
             _keyBindings = keyBindings;
 
             ClearKeyBindings();
 
-            foreach (var value in Enum.GetValues(typeof(Command)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                var command = (Command)value;
-                var viewModel = new KeyBindingsViewModel(command, _keyBindings[command], _dialogService);
-                viewModel.Edited += OnEdited;
-                KeyBindings.Add(viewModel);
+                // Don't enumerate explicit keybinding enums that are in the range of a profile shortcut
+                // since they won't be directly assigned to.
+                if (command < Command.ShellProfileShortcut)
+                {
+                    var viewModel = new KeyBindingsViewModel(command, _keyBindings[command], _dialogService);
+                    viewModel.Edited += OnEdited;
+                    KeyBindings.Add(viewModel);
+                }
+            }
+
+            foreach (ShellProfile shellProfile in _settingsService.GetShellProfiles())
+            {
+                ICollection<KeyBinding> shellKeyBindings = shellProfile.KeyBinding;
+                if (shellKeyBindings != null)
+                {
+                    var viewModel = new KeyBindingsViewModel(shellProfile.KeyBindingCommand, shellKeyBindings, _dialogService, shellProfile.Name + " Shortcut");
+                    viewModel.Edited += OnEdited;
+                    KeyBindings.Add(viewModel);
+                }
             }
         }
 
         private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
         {
-            _settingsService.SaveKeyBindings(command, keyBindings);
-            _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
+            if (command < Command.ShellProfileShortcut)
+            {
+                _settingsService.SaveKeyBindings(command, keyBindings);
+                _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
+            }
+            else
+            {
+                ShellProfile shellProfile = null;
+                // If the command is a shell profile keybinding, find that shell and save it.
+                foreach (ShellProfile _shellProfile in _settingsService.GetShellProfiles())
+                {
+                    if (_shellProfile.KeyBindingCommand == command)
+                    {
+                        shellProfile = _shellProfile;
+                        break;
+                    }
+                }
+
+                if (shellProfile != null)
+                {
+                    shellProfile.KeyBinding = keyBindings;
+                    _settingsService.SaveShellProfile(shellProfile, true);
+                }
+            }
         }
 
         private async Task RestoreDefaults()

@@ -44,21 +44,30 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, _settingsService.GetDefaultShellProfile()));
+            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, null));
             _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
             _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
             _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
+
+            foreach (ShellProfile shellProfile in _settingsService.GetShellProfiles())
+            {
+                if (shellProfile.KeyBinding != null)
+                {
+                    _keyboardCommandService.RegisterCommandHandler(shellProfile.KeyBindingCommand, () => AddTerminal(null, shellProfile));
+                }
+            }
+
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;
             BackgroundOpacity = options.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
+            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, _settingsService.GetDefaultShellProfile()));
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
@@ -120,12 +129,12 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _title, value);
         }
 
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection)
+        public Task AddTerminal(string startupDirectory, ShellProfile startupProfile)
         {
             return _applicationView.RunOnDispatcherThread(async () =>
             {
-                ShellProfile profile = null;
-                if (showProfileSelection)
+                ShellProfile profile = startupProfile;
+                if (profile == null)
                 {
                     profile = await _dialogService.ShowProfileSelectionDialogAsync();
 
@@ -133,10 +142,6 @@ namespace FluentTerminal.App.ViewModels
                     {
                         return;
                     }
-                }
-                else
-                {
-                    profile = _settingsService.GetDefaultShellProfile();
                 }
 
                 var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,

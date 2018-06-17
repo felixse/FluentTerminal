@@ -114,7 +114,7 @@ namespace FluentTerminal.App
                     {
                         if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
                         {
-                            await _mainViewModels.Last().AddTerminal(parameter, false).ConfigureAwait(true);
+                            await _mainViewModels.Last().AddTerminal(parameter, _settingsService.GetDefaultShellProfile()).ConfigureAwait(true);
                         }
                         else
                         {
@@ -132,7 +132,7 @@ namespace FluentTerminal.App
                     else if (command == "new")
                     {
                         var viewModel = _container.Resolve<MainViewModel>();
-                        await viewModel.AddTerminal(parameter, false).ConfigureAwait(true);
+                        await viewModel.AddTerminal(parameter, _settingsService.GetDefaultShellProfile()).ConfigureAwait(true);
                         await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                     }
                 }
@@ -144,7 +144,7 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminal(null, false).ConfigureAwait(true);
+                await viewModel.AddTerminal(null, _settingsService.GetDefaultShellProfile()).ConfigureAwait(true);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
@@ -239,7 +239,7 @@ namespace FluentTerminal.App
                 mainViewModel.NewWindowRequested += OnNewWindowRequested;
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory, false).ConfigureAwait(true);
+                await mainViewModel.AddTerminal(directory, _settingsService.GetDefaultShellProfile()).ConfigureAwait(true);
             }
 
             if (viewModel is SettingsViewModel settingsViewModel)

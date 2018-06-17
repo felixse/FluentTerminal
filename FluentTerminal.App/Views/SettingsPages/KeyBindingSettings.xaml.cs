@@ -22,14 +22,29 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
 
-                foreach (var value in Enum.GetValues(typeof(Command)))
+                foreach (Command command in Enum.GetValues(typeof(Command)))
                 {
-                    var command = (Command)value;
+                    // Don't enumerate explicit keybinding enums that are in the range of a profile shortcut
+                    // since they won't be directly assigned to in the KeyBindings settings panels.
+                    if (command < Command.ShellProfileShortcut)
+                    {
+                        AddCommandMenu.Items.Add(new MenuFlyoutItem
+                        {
+                            Text = EnumHelper.GetEnumDescription(command),
+                            Command = ViewModel.AddCommand,
+                            CommandParameter = command
+                        });
+                    }
+                }
+
+                // Add all of the shells we know of.
+                foreach (var shellProfile in viewModel.ShellProfiles)
+                {
                     AddCommandMenu.Items.Add(new MenuFlyoutItem
                     {
-                        Text = EnumHelper.GetEnumDescription(command),
+                        Text = shellProfile.Name + " Shortcut",
                         Command = ViewModel.AddCommand,
-                        CommandParameter = command
+                        CommandParameter = shellProfile.KeyBindingCommand
                     });
                 }
             }

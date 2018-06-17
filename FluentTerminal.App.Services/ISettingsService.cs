@@ -17,7 +17,7 @@ namespace FluentTerminal.App.Services
         void SaveDefaultShellProfileId(Guid id);
 
         IEnumerable<ShellProfile> GetShellProfiles();
-        void SaveShellProfile(ShellProfile shellProfile);
+        void SaveShellProfile(ShellProfile shellProfile, bool updateKeyBindings = false);
         void DeleteShellProfile(Guid id);
 
         TerminalOptions GetTerminalOptions();

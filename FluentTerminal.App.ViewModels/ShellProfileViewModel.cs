@@ -22,10 +22,12 @@ namespace FluentTerminal.App.ViewModels
         private bool _inEditMode;
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
+        private SettingsViewModel _settingsParent;
         private readonly IFileSystemService _fileSystemService;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, SettingsViewModel settingsParent)
         {
+            _settingsParent = settingsParent;
             _shellProfile = shellProfile;
             _settingsService = settingsService;
             _dialogService = dialogService;
@@ -105,6 +107,9 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.SaveShellProfile(_shellProfile);
 
             InEditMode = false;
+
+            // Now update the KeyBindings page becuse this shell's stuff has changed.
+            _settingsParent.KeyBindings.UpdateKeyBindings();
         }
 
         private async Task CancelEdit()
