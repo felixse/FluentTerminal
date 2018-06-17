@@ -1,5 +1,5 @@
 
-![Build status](https://fs-apps.visualstudio.com/_apis/public/build/definitions/a91787f7-3162-4680-b783-cd83e58d2754/1/badge)
+[![Build status](https://ci.appveyor.com/api/projects/status/4r429bv594fxkygd?svg=true)](https://ci.appveyor.com/project/felixse/fluentterminal)
 
 # Fluent Terminal
 A Terminal Emulator based on UWP and web technologies.
