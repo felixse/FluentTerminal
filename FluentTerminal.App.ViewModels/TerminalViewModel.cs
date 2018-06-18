@@ -62,8 +62,9 @@ namespace FluentTerminal.App.ViewModels
             
         }
 
-        private async void OnKeyBindingsChanged(object sender, EventArgs e)
+        private async void OnKeyBindingsChanged(object sender, Command? e)
         {
+            // First, update the keybindings in the JavaScript terminal view
             var keyBindings = _settingsService.GetKeyBindings();
             await _applicationView.RunOnDispatcherThread(async () =>
             {

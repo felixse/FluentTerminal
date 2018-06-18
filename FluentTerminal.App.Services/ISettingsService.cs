@@ -10,7 +10,7 @@ namespace FluentTerminal.App.Services
         event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-        event EventHandler KeyBindingsChanged;
+        event EventHandler<Command?> KeyBindingsChanged;
 
         Guid GetDefaultShellProfileId();
         ShellProfile GetDefaultShellProfile();

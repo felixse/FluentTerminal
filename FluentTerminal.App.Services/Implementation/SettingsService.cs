@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Services.Implementation
         public event EventHandler<Guid> CurrentThemeChanged;
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-        public event EventHandler KeyBindingsChanged;
+        public event EventHandler<Command?> KeyBindingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
@@ -147,7 +147,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            KeyBindingsChanged?.Invoke(this, command);
         }
 
         public void ResetKeyBindings()
@@ -164,7 +164,7 @@ namespace FluentTerminal.App.Services.Implementation
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            KeyBindingsChanged?.Invoke(this, null);
         }
 
         public Guid GetDefaultShellProfileId()
@@ -198,13 +198,16 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (updateKeyBindings)
             {
-                KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+                KeyBindingsChanged?.Invoke(this, shellProfile.KeyBindingCommand);
             }
         }
 
         public void DeleteShellProfile(Guid id)
         {
-            _shellProfiles.Delete(id.ToString());
+            ShellProfile shellProfile = _shellProfiles.ReadValueFromJson<ShellProfile>(id.ToString(), null);
+            _shellProfiles.Values.Remove(id.ToString());
+            KeyBindingsChanged?.Invoke(this, shellProfile?.KeyBindingCommand);
+            //_shellProfiles.Delete(id.ToString());
         }
     }
 }

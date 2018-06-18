@@ -38,6 +38,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+            _settingsService.KeyBindingsChanged += OnKeyBindingsChanged;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _applicationView = applicationView;
@@ -75,6 +76,33 @@ namespace FluentTerminal.App.ViewModels
             Title = "Fluent Terminal";
 
             _applicationView.CloseRequested += OnCloseRequest;
+        }
+
+        private void OnKeyBindingsChanged(object sender, Command? e)
+        {
+            // When the event argument is non-null, then it's the command either being added or removed
+            // So, first sort out of it's in the range of a shell profile.
+            // - If it is, then try to remove it, this should be safe, regardless.
+            // - After removing it, try to add it by finding the shell it corresponds to
+            if (e != null)
+            {
+                Command cmd = e.GetValueOrDefault();
+
+                try
+                {
+                    _keyboardCommandService.DeegisterCommandHandler(cmd);
+                }
+                catch { }
+
+                // Find the shell with this keybinding, and add it in.
+                foreach (ShellProfile shellProfile in _settingsService.GetShellProfiles())
+                {
+                    if (shellProfile.KeyBindingCommand == cmd)
+                    {
+                        _keyboardCommandService.RegisterCommandHandler(shellProfile.KeyBindingCommand, () => AddTerminal(null, shellProfile));
+                    }
+                }
+            }
         }
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
