@@ -252,7 +252,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = true,
                         Shift = false,
-                        Key = (int)VirtualKey.Number0
+                        Key = (int)ExtendedVirtualKey.Number0
                     } }
                 },
                 new ShellProfile
@@ -270,7 +270,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = true,
                         Shift = false,
-                        Key = (int)VirtualKey.Number1
+                        Key = (int)ExtendedVirtualKey.Number1
                     } }
                 },
                 new ShellProfile
@@ -288,7 +288,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = true,
                         Shift = false,
-                        Key = (int)VirtualKey.Number2
+                        Key = (int)ExtendedVirtualKey.Number2
                     } }
                 }
             };

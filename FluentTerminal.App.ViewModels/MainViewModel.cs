@@ -90,7 +90,7 @@ namespace FluentTerminal.App.ViewModels
 
                 try
                 {
-                    _keyboardCommandService.DeegisterCommandHandler(cmd);
+                    _keyboardCommandService.DeregisterCommandHandler(cmd);
                 }
                 catch { }
 
@@ -100,6 +100,7 @@ namespace FluentTerminal.App.ViewModels
                     if (shellProfile.KeyBindingCommand == cmd)
                     {
                         _keyboardCommandService.RegisterCommandHandler(shellProfile.KeyBindingCommand, () => AddTerminal(null, shellProfile));
+                        break;
                     }
                 }
             }

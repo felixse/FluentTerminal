@@ -205,9 +205,8 @@ namespace FluentTerminal.App.Services.Implementation
         public void DeleteShellProfile(Guid id)
         {
             ShellProfile shellProfile = _shellProfiles.ReadValueFromJson<ShellProfile>(id.ToString(), null);
-            _shellProfiles.Values.Remove(id.ToString());
+            _shellProfiles.Delete(id.ToString());
             KeyBindingsChanged?.Invoke(this, shellProfile?.KeyBindingCommand);
-            //_shellProfiles.Delete(id.ToString());
         }
     }
 }

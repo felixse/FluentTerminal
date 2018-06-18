@@ -19,7 +19,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private ShellProfileViewModel _selectedShellProfile;
         private SettingsViewModel _settingsParent;
 
-        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService, SettingsViewModel settingsParent = null)
+        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService, SettingsViewModel settingsParent)
         {
             _settingsParent = settingsParent;
             _settingsService = settingsService;
@@ -75,6 +75,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _settingsService.SaveDefaultShellProfileId(ShellProfiles.First().Id);
                 }
                 _settingsService.DeleteShellProfile(shellProfile.Id);
+                _settingsParent.KeyBindings.UpdateKeyBindings();
             }
         }
 

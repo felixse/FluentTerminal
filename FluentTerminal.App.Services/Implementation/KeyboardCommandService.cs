@@ -18,7 +18,7 @@ namespace FluentTerminal.App.Services.Implementation
             _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
-        public void DeegisterCommandHandler(Command command)
+        public void DeregisterCommandHandler(Command command)
         {
             if (_commandHandlers.ContainsKey(command))
             {

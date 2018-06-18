@@ -12,7 +12,7 @@ namespace FluentTerminal.App.ViewModels
         {
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider);
-            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService);
+            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, this);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
         }
