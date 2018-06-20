@@ -57,7 +57,7 @@ namespace FluentTerminal.SystemTray
 
 		private static void CheckForNewVersion(UpdateService updateService, NotificationService notificationService)
 		{
-			var newVersion = updateService.GetLatestReleasVersion();
+			var newVersion = updateService.GetLatestReleasedVersion();
 			if (newVersion)
 			{
 				notificationService.ShowNotification("Update available",

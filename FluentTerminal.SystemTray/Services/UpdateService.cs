@@ -9,7 +9,7 @@ namespace FluentTerminal.SystemTray.Services
 	{
 		private const string apiEndpoint = "https://api.github.com";
 
-		public bool GetLatestReleasVersion()
+		public bool GetLatestReleasedVersion()
 		{
 			var restClient = new RestClient(apiEndpoint);
 			var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
