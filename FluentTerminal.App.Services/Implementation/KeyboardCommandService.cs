@@ -25,6 +25,13 @@ namespace FluentTerminal.App.Services.Implementation
                 handler.Invoke();
                 return;
             }
+
+            // already registered by SystemTray's ToggleWindowService
+            if (command == Command.ToggleWindow)
+            {
+                return;
+            }
+
             throw new KeyNotFoundException($"No handler registered for command: {command}");
         }
     }

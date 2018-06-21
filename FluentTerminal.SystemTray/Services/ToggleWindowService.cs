@@ -22,6 +22,8 @@ namespace FluentTerminal.SystemTray.Services
         private bool _disposedValue;
         private List<HotKey> _hotKeys;
 
+        private const int SW_MINIMIZE = 6;
+
         public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, NotificationService notificationService)
         {
             _dispatcher = dispatcher;
@@ -103,6 +105,9 @@ namespace FluentTerminal.SystemTray.Services
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
         private static string GetKeyBindingRepresentation(KeyBinding keyBinding)
         {
             var keys = new List<string>();
@@ -146,7 +151,8 @@ namespace FluentTerminal.SystemTray.Services
         {
             if (GetActiveProcessFileName() == "Fluent Terminal")
             {
-                SendKeys.Send("%{Tab}");
+                var hwnd = GetForegroundWindow();
+                ShowWindow(hwnd, SW_MINIMIZE);
             }
             else
             {
