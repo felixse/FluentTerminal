@@ -326,6 +326,8 @@ namespace FluentTerminal.SystemTray
                     return Key.OemQuestion;
                 case ExtendedVirtualKey.OpenBrackets:
                     return Key.OemOpenBrackets;
+                case ExtendedVirtualKey.GraveAccent:
+                    return Key.Oem3;
                 case ExtendedVirtualKey.Circumflex:
                     return Key.Oem5;
                 case ExtendedVirtualKey.AcuteAccent:

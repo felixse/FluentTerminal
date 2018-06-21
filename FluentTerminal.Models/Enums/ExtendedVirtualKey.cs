@@ -177,6 +177,8 @@ namespace FluentTerminal.Models.Enums
         Period = 190,
         [Description("#")]
         NumberSign = 191,
+        [Description("`")]
+        GraveAccent = 192,
         GamepadA = 195,
         GamepadB = 196,
         GamepadX = 197,
