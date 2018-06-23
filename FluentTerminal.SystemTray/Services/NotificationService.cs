@@ -8,7 +8,7 @@ namespace FluentTerminal.SystemTray.Services
 {
 	public class NotificationService
 	{
-		public void ShowNotification(string title, string content)
+		public void ShowNotification(string title, string content, string url = null)
 		{
 			string xml = $@"<toast>
                             <visual>
@@ -23,25 +23,10 @@ namespace FluentTerminal.SystemTray.Services
 			doc.LoadXml(xml);
 
 			var toast = new ToastNotification(doc);
-			ToastNotificationManager.CreateToastNotifier().Show(toast);
-		}
-
-		public void ShowNotification(string title, string content, string url)
-		{
-			string xml = $@"<toast>
-                            <visual>
-                                <binding template='ToastGeneric'>
-                                    <text>{title}</text>
-                                    <text>{content}</text>
-                                </binding>
-                            </visual>
-                        </toast>";
-
-			var doc = new XmlDocument();
-			doc.LoadXml(xml);
-
-			var toast = new ToastNotification(doc);
-			toast.Activated += (n, o) => Process.Start(url);
+			if(url != null)
+			{
+				toast.Activated += (n, o) => Process.Start(url);
+			}
 			ToastNotificationManager.CreateToastNotifier().Show(toast);
 		}
 	}
