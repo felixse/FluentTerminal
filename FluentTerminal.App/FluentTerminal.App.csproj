@@ -176,6 +176,7 @@
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
     <Content Include="Win32\Newtonsoft.Json.dll" />
+    <Content Include="Win32\RestSharp.dll" />
     <Content Include="Win32\System.Data.Common.dll" />
     <Content Include="Win32\System.Diagnostics.StackTrace.dll" />
     <Content Include="Win32\System.Diagnostics.Tracing.dll" />
