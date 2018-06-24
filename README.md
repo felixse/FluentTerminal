@@ -24,10 +24,17 @@ A Terminal Emulator based on UWP and web technologies.
 - Import/Export themes
 
 ## How to install
-- activate the developer mode as described [here](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development)
+- [Enable sideloading apps ](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store
+)
+  - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
 - Install the *.cer file into `Local Machine` -> `Trusted Root Certification Authorities`
 - double click the *.appxbundle
-- Optional: Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration))
+- If you did not enable developer mode, you'll have to run the following Powershell snippet in an Administrative/elevated Powershell prompt (addresses issues such as the one described in [#43](https://github.com/felixse/FluentTerminal/issues/43))
+  ```powershell
+  $packageFamily = (Get-AppxPackage | where { $_.Name -eq "53621FSApps.FluentTerminal" }).PackageFamilyName
+  CheckNetIsolation.exe LoopbackExempt -a -n="$packageFamily"
+  ```
+- **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration))
 
 ## How to build:
 Build the Client first, or whenever edited by running `npm run build` in FluentTerminal.Client  
