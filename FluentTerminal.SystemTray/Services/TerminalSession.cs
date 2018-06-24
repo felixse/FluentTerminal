@@ -1,10 +1,8 @@
-﻿using Fleck;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
 using System.IO.Pipes;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static winpty.WinPty;
@@ -18,7 +16,7 @@ namespace FluentTerminal.SystemTray.Services
         private IntPtr _handle;
         private Stream _stdin;
         private Stream _stdout;
-        private IWebSocketConnection _webSocket;
+        private NamedPipeServerStream _outServer;
 
         public TerminalSession(CreateTerminalRequest request)
         {
@@ -72,29 +70,17 @@ namespace FluentTerminal.SystemTray.Services
 
             Id = port.Value;
             _connectedEvent = new ManualResetEventSlim(false);
-            WebSocketUrl = "ws://127.0.0.1:" + port;
-            var webSocketServer = new WebSocketServer(WebSocketUrl);
-            webSocketServer.Start(socket =>
-            {
-                _webSocket = socket;
-                socket.OnOpen = () =>
-                {
-                    Console.WriteLine("open");
-                    _connectedEvent.Set();
-                };
-                socket.OnClose = () =>
-                {
-                    Console.WriteLine("closing");
-                    ConnectionClosed?.Invoke(this, EventArgs.Empty);
-                };
-                socket.OnMessage = message =>
-                {
-                    var bytes = Encoding.UTF8.GetBytes(message);
-                    _stdin.Write(bytes, 0, bytes.Length);
-                };
-            });
+
+            PipeName = @"LOCAL\" + Guid.NewGuid().ToString();
+
+            _outServer = new NamedPipeServerStream(PipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.None);
+
+            StreamReader reader = new StreamReader(_outServer);
+
+
 
             ListenToStdOut();
+            ListenToNamedPipe();
         }
 
         ~TerminalSession()
@@ -114,7 +100,9 @@ namespace FluentTerminal.SystemTray.Services
         public event EventHandler ConnectionClosed;
 
         public int Id { get; }
-        public string WebSocketUrl { get; }
+
+        public string PipeName { get; }
+
         public string ShellExecutableName { get; }
 
         public void Dispose()
@@ -178,12 +166,18 @@ namespace FluentTerminal.SystemTray.Services
             return pipe;
         }
 
-        private void ListenToStdOut()
+        private void ListenToNamedPipe()
         {
+            new NotificationService().ShowNotification("DEBUG", "wating now");
+            _outServer.WaitForConnection();
+            new NotificationService().ShowNotification("DEBUG", "connected");
+
             Task.Run(async () =>
             {
-                _connectedEvent.Wait();
-                var reader = new StreamReader(_stdout);
+                //_connectedEvent.Wait();
+                var reader = new StreamReader(_outServer);
+                var writer = new StreamWriter(_stdin);
+
                 do
                 {
                     var offset = 0;
@@ -191,11 +185,33 @@ namespace FluentTerminal.SystemTray.Services
                     var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset);
                     if (readChars > 0)
                     {
-                        await _webSocket.Send(new String(buffer));
+                        writer.Write(buffer, 0, readChars);
                     }
                 }
                 while (!reader.EndOfStream);
-                _webSocket.Close();
+                _stdin.Close();
+            });
+        }
+
+        private void ListenToStdOut()
+        {
+            Task.Run(async () =>
+            {
+                var reader = new StreamReader(_stdout);
+                var writer = new StreamWriter(_outServer);
+
+                do
+                {
+                    var offset = 0;
+                    var buffer = new char[1024];
+                    var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset);
+                    if (readChars > 0)
+                    {
+                        writer.Write(buffer, 0, readChars);
+                    }
+                }
+                while (!reader.EndOfStream);
+                _outServer.Close();
             });
         }
     }
