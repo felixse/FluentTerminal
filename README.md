@@ -1,5 +1,6 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/4r429bv594fxkygd?svg=true)](https://ci.appveyor.com/project/felixse/fluentterminal)
+[![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FluentTerminal)
 
 # Fluent Terminal
 A Terminal Emulator based on UWP and web technologies.
