@@ -10,14 +10,14 @@ namespace FluentTerminal.App.Services
         event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-        event EventHandler KeyBindingsChanged;
+        event EventHandler<Command?> KeyBindingsChanged;
 
         Guid GetDefaultShellProfileId();
         ShellProfile GetDefaultShellProfile();
         void SaveDefaultShellProfileId(Guid id);
 
         IEnumerable<ShellProfile> GetShellProfiles();
-        void SaveShellProfile(ShellProfile shellProfile);
+        void SaveShellProfile(ShellProfile shellProfile, bool updateKeyBindings = false);
         void DeleteShellProfile(Guid id);
 
         TerminalOptions GetTerminalOptions();

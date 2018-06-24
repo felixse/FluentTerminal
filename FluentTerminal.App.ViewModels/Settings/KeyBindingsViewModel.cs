@@ -15,13 +15,22 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
 
-        public KeyBindingsViewModel(Command command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
+        public KeyBindingsViewModel(Command command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string _commandName = null)
         {
             Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
 
-            CommandName = EnumHelper.GetEnumDescription(command);
+            // For the shell profile bindings, the command won't have a decorator, so this is
+            // to allow us to pass in the shell name as the key binding text.
+            if (_commandName == null)
+            {
+                CommandName = EnumHelper.GetEnumDescription(command);
+            }
+            else
+            {
+                CommandName = _commandName;
+            }
 
             foreach (var binding in keyBindings)
             {

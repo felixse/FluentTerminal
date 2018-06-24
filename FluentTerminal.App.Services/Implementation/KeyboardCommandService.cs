@@ -18,6 +18,18 @@ namespace FluentTerminal.App.Services.Implementation
             _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
+        public void DeregisterCommandHandler(Command command)
+        {
+            if (_commandHandlers.ContainsKey(command))
+            {
+                _commandHandlers.Remove(command);
+            }
+            else
+            {
+                throw new InvalidOperationException("command not registered");
+            }
+        }
+
         public void SendCommand(Command command)
         {
             if (_commandHandlers.TryGetValue(command, out Action handler))

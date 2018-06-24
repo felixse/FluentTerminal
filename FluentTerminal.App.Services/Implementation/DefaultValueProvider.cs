@@ -210,7 +210,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetDefaultShellProfileId()
         {
-            return Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e2");
+            return Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e0");
         }
 
         public TerminalOptions GetDefaultTerminalOptions()
@@ -230,7 +230,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetDefaultThemeId()
         {
-            return Guid.Parse("281e4352-bb50-47b7-a691-2b13830df95e");
+            return Guid.Parse("281e4352-bb50-47b7-a691-2b13830df950");
         }
 
         public IEnumerable<ShellProfile> GetPreinstalledShellProfiles()
@@ -244,25 +244,52 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindingCommand = Command.ShellProfileShortcut + 0,
+                    KeyBinding = new List<KeyBinding> {new KeyBinding()
+                    {
+                        Command = Command.ShellProfileShortcut + 0,
+                        Ctrl = true,
+                        Alt = true,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.Number0
+                    } }
                 },
                 new ShellProfile
                 {
-                    Id = Guid.Parse("ab942a61-7673-4755-9bd8-765aff91d9a3"),
+                    Id = Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e1"),
                     Name = "CMD",
                     Arguments = string.Empty,
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindingCommand = Command.ShellProfileShortcut + 1,
+                    KeyBinding = new List<KeyBinding> {new KeyBinding()
+                    {
+                        Command = Command.ShellProfileShortcut + 1,
+                        Ctrl = true,
+                        Alt = true,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.Number1
+                    } }
                 },
                 new ShellProfile
                 {
-                    Id= Guid.Parse("e5785ad6-584f-40cb-bdcd-d5b3b3953e7f"),
+                    Id= Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e2"),
                     Name = "WSL",
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindingCommand = Command.ShellProfileShortcut + 2,
+                    KeyBinding = new List<KeyBinding> {new KeyBinding()
+                    {
+                        Command = Command.ShellProfileShortcut + 2,
+                        Ctrl = true,
+                        Alt = true,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.Number2
+                    } }
                 }
             };
         }
