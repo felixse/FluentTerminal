@@ -12,6 +12,10 @@ html, body {
     height: 100%;
 }
 
+.xterm .xterm-viewport {
+    background-color: transparent !important;
+}
+
 .terminal {
     background: transparent !important;
     padding:  12px;

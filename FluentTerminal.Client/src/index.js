@@ -19,7 +19,6 @@ function createTerminal(options, theme, keyBindings) {
   }
 
   theme = JSON.parse(theme);
-  theme.background = 'transparent';
 
   window.keyBindings = JSON.parse(keyBindings);
 
@@ -121,8 +120,6 @@ function connectToWebSocket(url) {
 
 function changeTheme(theme) {
   theme = JSON.parse(theme);
-  theme.background = 'transparent';
-
   term.setOption('theme', theme);
 }
 
