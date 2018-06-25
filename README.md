@@ -6,9 +6,12 @@
 A Terminal Emulator based on UWP and web technologies.
 
 ## Features:
-- Terminal for PowerShell, CMD, WSL, or custom shells
+- Terminal for PowerShell, CMD, WSL or custom shells
 - Supports tabs and multiple windows
 - Theming and appearance configuration
+- Import/Export themes
+- Import iTerm themes
+- Fullscreen mode
 - Editable keybindings
 - Search function
 - Configure shell profiles to quickly switch between different shells
@@ -19,9 +22,10 @@ A Terminal Emulator based on UWP and web technologies.
 ![Settings window](Screenshots/Settings.png)
 
 ## Up Next:
+- Launch shell profile with a custom defined keybinding
+- Copy&Paste options
+- Improved tabs
 - Split screen support
-- Full screen mode
-- Import/Export themes
 
 ## How to install
 - [Enable sideloading apps ](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store
@@ -34,7 +38,7 @@ A Terminal Emulator based on UWP and web technologies.
   $packageFamily = (Get-AppxPackage | where { $_.Name -eq "53621FSApps.FluentTerminal" }).PackageFamilyName
   CheckNetIsolation.exe LoopbackExempt -a -n="$packageFamily"
   ```
-- **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration))
+- **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration)
 
 ## How to build:
 Build the Client first, or whenever edited by running `npm run build` in FluentTerminal.Client  
