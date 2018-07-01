@@ -118,9 +118,8 @@ namespace FluentTerminal.App.Services.Implementation
         public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
         {
             var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
-            foreach (var value in Enum.GetValues(typeof(Command)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                var command = (Command)value;
                 keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
@@ -130,15 +129,13 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
-            _roamingSettings.WriteValueAsJson(nameof(KeyBindings), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
         public void ResetKeyBindings()
         {
-            foreach (var value in Enum.GetValues(typeof(Command)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                var command = (Command)value;
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 

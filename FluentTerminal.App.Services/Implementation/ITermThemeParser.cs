@@ -53,6 +53,16 @@ namespace FluentTerminal.App.Services.Implementation
 
         public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
             var node = PList.Load(fileContent) as DictionaryNode ?? throw new ParseThemeException("Root node was not a dictionary.");
 
             return new TerminalTheme
