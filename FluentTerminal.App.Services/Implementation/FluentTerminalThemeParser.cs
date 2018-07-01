@@ -13,6 +13,16 @@ namespace FluentTerminal.App.Services.Implementation
 
         public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
             using (var streamReader = new StreamReader(fileContent))
             {
                 var content = await streamReader.ReadToEndAsync();
