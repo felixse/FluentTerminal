@@ -22,7 +22,6 @@ namespace FluentTerminal.App.ViewModels
         private double _backgroundOpacity;
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
-        private string _title;
         private readonly IApplicationView _applicationView;
         private readonly IDispatcherTimer _dispatcherTimer;
         private readonly IClipboardService _clipboardService;
@@ -60,10 +59,6 @@ namespace FluentTerminal.App.ViewModels
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
             ShowSettingsCommand = new RelayCommand(ShowSettings);
-
-            Terminals.CollectionChanged += OnTerminalsCollectionChanged;
-
-            Title = "Fluent Terminal";
 
             _applicationView.CloseRequested += OnCloseRequest;
         }
@@ -114,12 +109,6 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
-        public string Title
-        {
-            get => _title;
-            set => Set(ref _title, value);
-        }
-
         public Task AddTerminal(string startupDirectory, bool showProfileSelection)
         {
             return _applicationView.RunOnDispatcherThread(async () =>
@@ -142,7 +131,6 @@ namespace FluentTerminal.App.ViewModels
                 var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);
                 terminal.CloseRequested += OnTerminalCloseRequested;
-                terminal.TitleChanged += OnTitleChanged;
                 Terminals.Add(terminal);
 
                 SelectedTerminal = terminal;
@@ -225,22 +213,6 @@ namespace FluentTerminal.App.ViewModels
                     Closed?.Invoke(this, EventArgs.Empty);
                     _applicationView.TryClose();
                 }
-            }
-        }
-
-        private void OnTerminalsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (Terminals.Any())
-            {
-                Title = Terminals.First().Title;
-            }
-        }
-
-        private void OnTitleChanged(object sender, string e)
-        {
-            if (sender is TerminalViewModel terminal && Terminals.First() == terminal)
-            {
-                Title = e;
             }
         }
 

@@ -73,8 +73,6 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler CloseRequested;
 
-        public event EventHandler<string> TitleChanged;
-
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand FindPreviousCommand { get; }
@@ -88,6 +86,10 @@ namespace FluentTerminal.App.ViewModels
             {
                 if (Set(ref _isSelected, value))
                 {
+                    if (IsSelected)
+                    {
+                        _applicationView.Title = Title;
+                    }
                     RaisePropertyChanged(nameof(IsUnderlined));
                 }
             }
@@ -99,7 +101,7 @@ namespace FluentTerminal.App.ViewModels
 
         public bool Initialized { get; private set; }
 
-        public string DefaultTitle { get; private set; } = "Fluent Terminal";
+        public string DefaultTitle { get; private set; } = string.Empty;
 
         public string SearchText
         {
@@ -145,7 +147,10 @@ namespace FluentTerminal.App.ViewModels
 
                 if (Set(ref _title, value))
                 {
-                    TitleChanged?.Invoke(this, Title);
+                    if (IsSelected)
+                    {
+                        _applicationView.Title = Title;
+                    }
                 }
             }
         }

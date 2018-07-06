@@ -41,7 +41,7 @@
                 Grid.Column="0"
                 IsHitTestVisible="False"
                 Style="{StaticResource WindowTitleTextBlockStyle}"
-                Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.Terminals.Count, Mode=OneWay, Converter={StaticResource OneToVisibleConverter}}" />
             <ListView
                 x:Name="Tabs"
