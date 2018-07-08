@@ -14,7 +14,8 @@ namespace FluentTerminal.App.Services.Implementation
                 ConfirmClosingTabs = false,
                 ConfirmClosingWindows = false,
                 UnderlineSelectedTab = false,
-                NewTerminalLocation = NewTerminalLocation.Tab
+                NewTerminalLocation = NewTerminalLocation.Tab,
+                TabsPosition = TabsPosition.Top
             };
         }
 

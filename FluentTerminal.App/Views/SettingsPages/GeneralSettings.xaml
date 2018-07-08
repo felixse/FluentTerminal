@@ -36,11 +36,25 @@
         </Grid>
         <StackPanel Grid.Row="2" Margin="24,0,0,0">
             <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
-            <RadioButton Content="Tabs" IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
+            <RadioButton
+                Content="Tabs"
+                GroupName="NewTerminalLocation"
+                IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
             <RadioButton
                 Margin="0,0,0,24"
                 Content="Windows"
+                GroupName="NewTerminalLocation"
                 IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
+            <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
+            <RadioButton
+                Content="Top"
+                GroupName="TabsPosition"
+                IsChecked="{x:Bind ViewModel.TopIsSelected, Mode=TwoWay}" />
+            <RadioButton
+                Margin="0,0,0,24"
+                Content="Bottom"
+                GroupName="TabsPosition"
+                IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
             <ToggleSwitch
                 Margin="0,0,0,24"
                 Header="Underline selected tab"

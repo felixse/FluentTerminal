@@ -26,6 +26,7 @@
             Padding="0,0,0,0"
             Click="OnScrollLeftButtonTapped"
             Style="{StaticResource TitleBarRepeatButtonStyle}"
+            ToolTipService.ToolTip="Scroll left"
             Visibility="Collapsed">
             <RepeatButton.Content>
                 <Viewbox Width="12" Height="12">
@@ -119,6 +120,7 @@
             Padding="0,0,0,0"
             Click="OnScrollRightButtonTapped"
             Style="{StaticResource TitleBarRepeatButtonStyle}"
+            ToolTipService.ToolTip="Scroll right"
             Visibility="Collapsed">
             <RepeatButton.Content>
                 <Viewbox Width="12" Height="12">
@@ -130,7 +132,8 @@
             x:Name="Add"
             Grid.Column="3"
             Command="{x:Bind AddCommand}"
-            Style="{StaticResource TitleBarButtonStyle}">
+            Style="{StaticResource TitleBarButtonStyle}"
+            ToolTipService.ToolTip="New tab">
             <Button.Content>
                 <Viewbox Width="12" Height="12">
                     <SymbolIcon Symbol="Add" />

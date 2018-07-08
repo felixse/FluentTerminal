@@ -8,5 +8,6 @@ namespace FluentTerminal.Models
         public bool ConfirmClosingWindows { get; set; }
         public bool UnderlineSelectedTab { get; set; }
         public NewTerminalLocation NewTerminalLocation { get; set; }
+        public TabsPosition TabsPosition { get; set; }
     }
 }

@@ -22,6 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <Grid
@@ -62,7 +63,8 @@
                 <Button
                     x:Name="Add"
                     Command="{x:Bind ViewModel.AddTerminalCommand}"
-                    Style="{StaticResource TitleBarButtonStyle}">
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    ToolTipService.ToolTip="New tab">
                     <Button.Content>
                         <Viewbox Width="12" Height="12">
                             <SymbolIcon Symbol="Add" />
@@ -76,7 +78,8 @@
                 HorizontalAlignment="Left"
                 AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
-                SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}" />
+                SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
+                Visibility="{x:Bind ViewModel.TabsPosition, Mode=OneWay, Converter={StaticResource EnumValueToVisibiltyConverter}, ConverterParameter=Top}" />
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"
@@ -84,5 +87,12 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
+        <views:TabBar
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
+            ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
+            Visibility="{x:Bind ViewModel.TabsPosition, Mode=OneWay, Converter={StaticResource EnumValueToVisibiltyConverter}, ConverterParameter=Bottom}" />
     </Grid>
 </Page>

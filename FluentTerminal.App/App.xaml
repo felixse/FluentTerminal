@@ -29,6 +29,7 @@
             <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
             <converters:BackgroundToApplicationThemeConverter x:Key="BackgroundToApplicationThemeConverter" />
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
+            <converters:EnumValueToVisibiltyConverter x:Key="EnumValueToVisibiltyConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -13,7 +13,10 @@ namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IApplicationView _applicationView;
+        private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
+        private readonly IDispatcherTimer _dispatcherTimer;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
@@ -22,13 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private double _backgroundOpacity;
         private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
-        private readonly IApplicationView _applicationView;
-        private readonly IDispatcherTimer _dispatcherTimer;
-        private readonly IClipboardService _clipboardService;
-
-        public event EventHandler Closed;
-        public event EventHandler NewWindowRequested;
-        public event EventHandler ShowSettingsRequested;
+        private TabsPosition _tabsPosition;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
@@ -56,6 +53,7 @@ namespace FluentTerminal.App.ViewModels
             Background = currentTheme.Colors.Background;
             BackgroundOpacity = options.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
+            TabsPosition = _applicationSettings.TabsPosition;
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
             ShowSettingsCommand = new RelayCommand(ShowSettings);
@@ -63,14 +61,11 @@ namespace FluentTerminal.App.ViewModels
             _applicationView.CloseRequested += OnCloseRequest;
         }
 
-        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
-        {
-            await _applicationView.RunOnDispatcherThread(() =>
-            {
-                BackgroundOpacity = e.BackgroundOpacity;
-            });
-        }
+        public event EventHandler Closed;
 
+        public event EventHandler NewWindowRequested;
+
+        public event EventHandler ShowSettingsRequested;
         public RelayCommand AddTerminalCommand { get; }
 
         public string Background
@@ -106,6 +101,12 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public RelayCommand ShowSettingsCommand { get; }
+
+        public TabsPosition TabsPosition
+        {
+            get => _tabsPosition;
+            set => Set(ref _tabsPosition, value);
+        }
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
@@ -162,7 +163,11 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _applicationView.RunOnDispatcherThread(() => _applicationSettings = e);
+            await _applicationView.RunOnDispatcherThread(() =>
+            {
+                _applicationSettings = e;
+                TabsPosition = e.TabsPosition;
+            });
         }
 
         private async Task OnCloseRequest(object sender, CancelableEventArgs e)
@@ -216,6 +221,13 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        {
+            await _applicationView.RunOnDispatcherThread(() =>
+            {
+                BackgroundOpacity = e.BackgroundOpacity;
+            });
+        }
         private void SelectNextTab()
         {
             var currentIndex = Terminals.IndexOf(SelectedTerminal);
@@ -234,7 +246,7 @@ namespace FluentTerminal.App.ViewModels
         {
             ShowSettingsRequested?.Invoke(this, EventArgs.Empty);
         }
-      
+
         private void ToggleFullScreen()
         {
             _applicationView.ToggleFullScreen();

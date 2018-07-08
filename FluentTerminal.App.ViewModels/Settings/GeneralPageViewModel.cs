@@ -14,6 +14,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly ApplicationSettings _applicationSettings;
         private bool _editingNewTerminalLocation;
+        private bool _editingTabsPosition;
 
         public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
         {
@@ -97,6 +98,36 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             get => NewTerminalLocation == NewTerminalLocation.Window;
             set => NewTerminalLocation = NewTerminalLocation.Window;
+        }
+
+        public TabsPosition TabsPosition
+        {
+            get => _applicationSettings.TabsPosition;
+            set
+            {
+                if (_applicationSettings.TabsPosition != value && !_editingTabsPosition)
+                {
+                    _editingTabsPosition = true;
+                    _applicationSettings.TabsPosition = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(TopIsSelected));
+                    RaisePropertyChanged(nameof(BottomIsSelected));
+                    _editingTabsPosition = false;
+                }
+            }
+        }
+
+        public bool TopIsSelected
+        {
+            get => TabsPosition == TabsPosition.Top;
+            set => TabsPosition = TabsPosition.Top;
+        }
+
+        public bool BottomIsSelected
+        {
+            get => TabsPosition == TabsPosition.Bottom;
+            set => TabsPosition = TabsPosition.Bottom;
         }
 
         private async Task RestoreDefaults()
