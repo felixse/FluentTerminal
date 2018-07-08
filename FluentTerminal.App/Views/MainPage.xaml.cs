@@ -2,7 +2,6 @@
 using FluentTerminal.App.ViewModels;
 using System.ComponentModel;
 using Windows.ApplicationModel.Core;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -84,21 +83,12 @@ namespace FluentTerminal.App.Views
             UpdateLayoutMetrics();
         }
 
-
         private void UpdateLayoutMetrics()
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarHeight)));
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarPadding)));
-            }
-        }
-
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (sender is Grid grid)
-            {
-                Tabs.MaxWidth = grid.ActualWidth - grid.ColumnDefinitions[2].ActualWidth;
             }
         }
     }
