@@ -9,5 +9,7 @@
         public static string ResizeTerminalRequest => nameof(ResizeTerminalRequest);
 
         public static string SetToggleWindowKeyBindingsRequest => nameof(SetToggleWindowKeyBindingsRequest);
+
+        public static string WriteTextRequest => nameof(WriteTextRequest);
     }
 }

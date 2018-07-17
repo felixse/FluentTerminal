@@ -20,7 +20,6 @@ namespace FluentTerminal.App.Services
         void Close();
         Task FocusTerminal();
         Task<string> GetSelection();
-        Task Write(string text);
         Task FindNext(string searchText);
         Task FindPrevious(string searchText);
         void FocusSearchTextBox();

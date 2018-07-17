@@ -77,5 +77,22 @@ namespace FluentTerminal.App.Services.Implementation
 
             return _appServiceConnection.SendMessageAsync(message);
         }
+
+        public Task WriteText(int id, string text)
+        {
+            var request = new WriteTextRequest
+            {
+                TerminalId = id,
+                Text = text
+            };
+
+            var message = new Dictionary<string, string>
+            {
+                { MessageKeys.Type, MessageTypes.WriteTextRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
+            };
+
+            return _appServiceConnection.SendMessageAsync(message);
+        }
     }
 }

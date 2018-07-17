@@ -248,7 +248,7 @@ namespace FluentTerminal.App.ViewModels
                 var content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
                 {
-                    await _terminalView.Write(content).ConfigureAwait(true);
+                    await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
                 }
             }
             else if (e == Command.Search)

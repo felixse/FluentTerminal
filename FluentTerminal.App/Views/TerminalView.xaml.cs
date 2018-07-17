@@ -146,12 +146,6 @@ namespace FluentTerminal.App.Views
             _dispatcherJobs.Add(() => TerminalTitleChanged?.Invoke(this, title));
         }
 
-        public Task Write(string text)
-        {
-            text = Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
-            return ExecuteScriptAsync($"paste('{text}')");
-        }
-
         public Task FindNext(string searchText)
         {
             return ExecuteScriptAsync($"findNext('{searchText}')");

@@ -90,6 +90,11 @@ namespace FluentTerminal.SystemTray.Services
 
                 _toggleWindowService.SetHotKeys(request.KeyBindings);
             }
+            else if (messageType == MessageTypes.WriteTextRequest)
+            {
+                var request = JsonConvert.DeserializeObject<WriteTextRequest>(messageContent);
+                _terminalsManager.WriteText(request.TerminalId, request.Text);
+            }
         }
     }
 }

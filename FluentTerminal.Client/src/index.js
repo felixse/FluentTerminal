@@ -151,11 +151,6 @@ function changeKeyBindings(keyBindings) {
   window.keyBindings = keyBindings;
 }
 
-function paste(content) {
-  content = b64DecodeUnicode(content);
-  term.send(content);
-}
-
 function b64DecodeUnicode(str) {
   return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
@@ -179,6 +174,5 @@ window.connectToWebSocket = connectToWebSocket;
 window.changeTheme = changeTheme;
 window.changeOptions = changeOptions;
 window.changeKeyBindings = changeKeyBindings;
-window.paste = paste;
 window.findNext = findNext;
 window.findPrevious = findPrevious;

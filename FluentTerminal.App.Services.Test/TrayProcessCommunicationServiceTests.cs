@@ -85,5 +85,25 @@ namespace FluentTerminal.App.Services.Test
 
             appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.ResizeTerminalRequest)), Times.Once);
         }
+
+        [Fact]
+        public async Task WriteText_Default_SendsWriteTextRequest()
+        {
+            var terminalId = _fixture.Create<int>();
+            var text = _fixture.Create<string>();
+            var settingsService = new Mock<ISettingsService>();
+            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            {
+                [Command.ToggleWindow] = keyBindings.ToList()
+            });
+            var appServiceConnection = new Mock<IAppServiceConnection>();
+            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
+            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+
+            await trayProcessCommunicationService.WriteText(terminalId, text);
+
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.WriteTextRequest)), Times.Once);
+        }
     }
 }

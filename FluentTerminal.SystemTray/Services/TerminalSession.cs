@@ -123,6 +123,12 @@ namespace FluentTerminal.SystemTray.Services
             GC.SuppressFinalize(this);
         }
 
+        public void WriteText(string text)
+        {
+            var bytes = Encoding.UTF8.GetBytes(text);
+            _stdin.Write(bytes, 0, bytes.Length);
+        }
+
         public void Resize(TerminalSize size)
         {
             var errorHandle = IntPtr.Zero;

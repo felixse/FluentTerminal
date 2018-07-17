@@ -40,6 +40,14 @@ namespace FluentTerminal.SystemTray.Services
             };
         }
 
+        public void WriteText(int id, string text)
+        {
+            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            {
+                terminal.WriteText(text);
+            }
+        }
+
         public void ResizeTerminal(int id, TerminalSize size)
         {
             if (_terminals.TryGetValue(id, out TerminalSession terminal))
