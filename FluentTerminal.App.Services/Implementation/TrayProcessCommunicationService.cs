@@ -32,13 +32,7 @@ namespace FluentTerminal.App.Services.Implementation
                 Profile = shellProfile
             };
 
-            var message = new Dictionary<string, string>
-            {
-                { MessageKeys.Type, MessageTypes.CreateTerminalRequest },
-                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
-            };
-
-            var responseMessage = await _appServiceConnection.SendMessageAsync(message);
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
 
             return JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
         }
@@ -55,7 +49,7 @@ namespace FluentTerminal.App.Services.Implementation
             var messageType = e[MessageKeys.Type];
             var messageContent = e[MessageKeys.Content];
 
-            if (messageType == MessageTypes.DisplayTerminalOutputRequest)
+            if (messageType == nameof(DisplayTerminalOutputRequest))
             {
                 var request = JsonConvert.DeserializeObject<DisplayTerminalOutputRequest>(messageContent);
 
@@ -68,7 +62,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Debug.WriteLine("output was not handled: " + request.Output);
                 }
             }
-            else if (messageType == MessageTypes.TerminalExitedRequest)
+            else if (messageType == nameof(TerminalExitedRequest))
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
 
@@ -84,13 +78,7 @@ namespace FluentTerminal.App.Services.Implementation
                 NewSize = size
             };
 
-            var message = new Dictionary<string, string>
-            {
-                { MessageKeys.Type, MessageTypes.ResizeTerminalRequest },
-                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
-            };
-
-            return _appServiceConnection.SendMessageAsync(message);
+            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
         public void SubscribeForTerminalOutput(int terminalId, Action<string> callback)
@@ -107,13 +95,7 @@ namespace FluentTerminal.App.Services.Implementation
                 KeyBindings = keyBindings
             };
 
-            var message = new Dictionary<string, string>
-            {
-                { MessageKeys.Type, MessageTypes.SetToggleWindowKeyBindingsRequest },
-                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
-            };
-
-            return _appServiceConnection.SendMessageAsync(message);
+            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
         public Task WriteText(int id, string text)
@@ -124,13 +106,7 @@ namespace FluentTerminal.App.Services.Implementation
                 Text = text
             };
 
-            var message = new Dictionary<string, string>
-            {
-                { MessageKeys.Type, MessageTypes.WriteTextRequest },
-                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
-            };
-
-            return _appServiceConnection.SendMessageAsync(message);
+            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
         public Task CloseTerminal(int terminalId)
@@ -140,13 +116,16 @@ namespace FluentTerminal.App.Services.Implementation
                 TerminalId = terminalId
             };
 
-            var message = new Dictionary<string, string>
-            {
-                { MessageKeys.Type, MessageTypes.TerminalExitedRequest },
-                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
-            };
+            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+        }
 
-            return _appServiceConnection.SendMessageAsync(message);
+        private IDictionary<string, string> CreateMessage(object content)
+        {
+            return new Dictionary<string, string>
+            {
+                [MessageKeys.Type] = content.GetType().Name,
+                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
+            };
         }
     }
 }

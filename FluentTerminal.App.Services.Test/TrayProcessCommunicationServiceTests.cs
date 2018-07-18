@@ -3,6 +3,7 @@ using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
 using Moq;
 using Newtonsoft.Json;
@@ -63,7 +64,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.SetToggleWindowKeyBindingsRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(SetToggleWindowKeyBindingsRequest))), Times.Once);
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.ResizeTerminalRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(ResizeTerminalRequest))), Times.Once);
         }
 
         [Fact]
@@ -103,7 +104,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.WriteText(terminalId, text);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.WriteTextRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteTextRequest))), Times.Once);
         }
     }
 }
