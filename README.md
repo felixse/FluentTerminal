@@ -1,5 +1,5 @@
 
-[![Build status](https://ci.appveyor.com/api/projects/status/4r429bv594fxkygd?svg=true)](https://ci.appveyor.com/project/felixse/fluentterminal)
+[![Build status](https://ci.appveyor.com/api/projects/status/4r429bv594fxkygd/branch/master?svg=true)](https://ci.appveyor.com/project/felixse/fluentterminal/branch/master)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=FluentTerminal&metric=alert_status)](https://sonarcloud.io/dashboard?id=FluentTerminal)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FluentTerminal)
 
