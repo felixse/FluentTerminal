@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using Windows.ApplicationModel;
 
 namespace FluentTerminal.SystemTray
 {
@@ -20,9 +19,6 @@ namespace FluentTerminal.SystemTray
 			if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
 			{
 				mutex = new Mutex(false, MutexName);
-
-				var loopbackEnabler = new LoopbackEnabler();
-				loopbackEnabler.EnableForApp(Package.Current.DisplayName);
 
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);

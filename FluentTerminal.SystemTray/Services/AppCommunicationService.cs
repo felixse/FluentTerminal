@@ -20,6 +20,8 @@ namespace FluentTerminal.SystemTray.Services
         public AppCommunicationService(TerminalsManager terminalsManager, ToggleWindowService toggleWindowService)
         {
             _terminalsManager = terminalsManager;
+            _terminalsManager.DisplayOutputRequested += _terminalsManager_DisplayOutputRequested;
+            _terminalsManager.TerminalExited += _terminalsManager_TerminalExited;
             _toggleWindowService = toggleWindowService;
 
             var eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventWaitHandleName);
@@ -32,6 +34,33 @@ namespace FluentTerminal.SystemTray.Services
                     StartAppServiceConnection();
                 }
             });
+        }
+
+        private void _terminalsManager_TerminalExited(object sender, int e)
+        {
+            var request = new TerminalExitedRequest
+            {
+                TerminalId = e
+            };
+
+            var message = new ValueSet
+            {
+                { MessageKeys.Type, MessageTypes.TerminalExitedRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(request) }
+            };
+
+            _appServiceConnection.SendMessageAsync(message);
+        }
+
+        private void _terminalsManager_DisplayOutputRequested(object sender, DisplayTerminalOutputRequest e)
+        {
+            var message = new ValueSet
+            {
+                { MessageKeys.Type, MessageTypes.DisplayTerminalOutputRequest },
+                { MessageKeys.Content, JsonConvert.SerializeObject(e) }
+            };
+
+            _appServiceConnection.SendMessageAsync(message);
         }
 
         public void StartAppServiceConnection()
@@ -94,6 +123,11 @@ namespace FluentTerminal.SystemTray.Services
             {
                 var request = JsonConvert.DeserializeObject<WriteTextRequest>(messageContent);
                 _terminalsManager.WriteText(request.TerminalId, request.Text);
+            }
+            else if (messageType == MessageTypes.TerminalExitedRequest)
+            {
+                var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
+                _terminalsManager.CloseTerminal(request.TerminalId);
             }
         }
     }

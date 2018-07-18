@@ -11,9 +11,21 @@ namespace FluentTerminal.SystemTray.Services
     {
         private Dictionary<int, TerminalSession> _terminals = new Dictionary<int, TerminalSession>();
 
+        public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
+        public event EventHandler<int> TerminalExited;
+
         public TerminalsManager()
         {
 
+        }
+
+        public void DisplayTerminalOutput(int terminalId, string output)
+        {
+            DisplayOutputRequested?.Invoke(this, new DisplayTerminalOutputRequest
+            {
+                TerminalId = terminalId,
+                Output = output
+            });
         }
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
@@ -21,7 +33,7 @@ namespace FluentTerminal.SystemTray.Services
             TerminalSession terminal;
             try
             {
-                terminal = new TerminalSession(request);
+                terminal = new TerminalSession(request, this);
             }
             catch (Exception e)
             {
@@ -35,7 +47,6 @@ namespace FluentTerminal.SystemTray.Services
             {
                 Success = true,
                 Id = terminal.Id,
-                WebSocketUrl = terminal.WebSocketUrl,
                 ShellExecutableName = terminal.ShellExecutableName
             };
         }
@@ -60,12 +71,22 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
+        public void CloseTerminal(int id)
+        {
+            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            {
+                _terminals.Remove(terminal.Id);
+                terminal.Dispose();
+            }
+        }
+
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
         {
             if (sender is TerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();
+                TerminalExited?.Invoke(this, terminal.Id);
             }
         }
     }

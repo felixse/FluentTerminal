@@ -1,4 +1,5 @@
-﻿using FluentTerminal.App.Services;
+﻿using Fleck;
+using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -6,6 +7,8 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
@@ -30,6 +33,8 @@ namespace FluentTerminal.App.ViewModels
         private readonly IApplicationView _applicationView;
         private readonly IDispatcherTimer _resizeOverlayTimer;
         private readonly IClipboardService _clipboardService;
+        private IWebSocketConnection _webSocket;
+        private ManualResetEventSlim _connectedEvent;
 
         public TerminalViewModel(int id, ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
@@ -38,12 +43,15 @@ namespace FluentTerminal.App.ViewModels
             Id = id;
             Title = DefaultTitle;
 
+            _connectedEvent = new ManualResetEventSlim(false);
+
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.KeyBindingsChanged += OnKeyBindingsChanged;
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
             _applicationSettings = applicationSettings;
@@ -60,6 +68,14 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             
+        }
+
+        private void OnTerminalExited(object sender, int e)
+        {
+            if (e == _terminalId)
+            {
+                _applicationView.RunOnDispatcherThread(() => CloseRequested?.Invoke(this, EventArgs.Empty));
+            }
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
@@ -189,10 +205,32 @@ namespace FluentTerminal.App.ViewModels
                 _terminalView.TerminalTitleChanged += OnTerminalTitleChanged;
                 _terminalView.KeyboardCommandReceived += OnKeyboardCommandReceived;
 
+                _trayProcessCommunicationService.SubscribeForTerminalOutput(_terminalId, t =>
+                {
+                        _connectedEvent.Wait();
+                        _webSocket.Send(t);
+                });
+
                 DefaultTitle = response.ShellExecutableName;
                 Title = DefaultTitle;
 
-                await _terminalView.ConnectToSocket(response.WebSocketUrl).ConfigureAwait(true);
+                var webSocketUrl = "ws://127.0.0.1:" + response.Id;
+                var webSocketServer = new WebSocketServer(webSocketUrl);
+                webSocketServer.Start(socket =>
+                {
+                    _webSocket = socket;
+                    socket.OnOpen = () => _connectedEvent.Set();
+                    socket.OnClose = () =>
+                    {
+                        Console.WriteLine("closing");
+                    };
+                    socket.OnMessage = message =>
+                    {
+                        _trayProcessCommunicationService.WriteText(_terminalId, message);
+                    };
+                });
+
+                await _terminalView.ConnectToSocket(webSocketUrl).ConfigureAwait(true);
                 Initialized = true;
             }
             else
@@ -215,6 +253,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
+            await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
@@ -315,6 +354,35 @@ namespace FluentTerminal.App.ViewModels
             SearchText = string.Empty;
             ShowSearchPanel = false;
             _terminalView.FocusTerminal();
+        }
+
+        private const int FirstDynamicPort = 49151;
+
+        public static int? GetAvailablePort()
+        {
+            var usedPorts = new List<int>();
+
+            var properties = IPGlobalProperties.GetIPGlobalProperties();
+
+            var connections = properties.GetActiveTcpConnections();
+            usedPorts.AddRange(connections.Where(c => c.LocalEndPoint.Port >= FirstDynamicPort).Select(c => c.LocalEndPoint.Port));
+
+            var endPoints = properties.GetActiveTcpListeners();
+            usedPorts.AddRange(endPoints.Where(e => e.Port >= FirstDynamicPort).Select(e => e.Port));
+
+            endPoints = properties.GetActiveUdpListeners();
+            usedPorts.AddRange(endPoints.Where(e => e.Port >= FirstDynamicPort).Select(e => e.Port));
+
+            usedPorts.Sort();
+
+            for (var i = FirstDynamicPort; i < UInt16.MaxValue; i++)
+            {
+                if (!usedPorts.Contains(i))
+                {
+                    return i;
+                }
+            }
+            return null;
         }
     }
 }
