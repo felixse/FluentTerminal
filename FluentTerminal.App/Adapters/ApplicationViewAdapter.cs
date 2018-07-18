@@ -65,4 +65,3 @@ namespace FluentTerminal.App.Adapters
         }
     }
 }
-

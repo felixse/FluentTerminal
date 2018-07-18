@@ -1,7 +1,5 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Requests;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

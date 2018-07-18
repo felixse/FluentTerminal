@@ -48,10 +48,13 @@ namespace FluentTerminal.App.Utilities
                 {
                     case "SystemBaseHighColor":
                         return new Color { A = 0xFF, R = 0x00, G = 0x00, B = 0x00 };
+
                     case "SystemListLowColor":
                         return new Color { A = 0x19, R = 0x00, G = 0x00, B = 0x00 };
+
                     case "SystemListMediumColor":
                         return new Color { A = 0x33, R = 0x00, G = 0x00, B = 0x00 };
+
                     default:
                         return null;
                 }
@@ -62,10 +65,13 @@ namespace FluentTerminal.App.Utilities
                 {
                     case "SystemBaseHighColor":
                         return new Color { A = 0xFF, R = 0xFF, G = 0xFF, B = 0xFF };
+
                     case "SystemListLowColor":
                         return new Color { A = 0x19, R = 0xFF, G = 0xFF, B = 0xFF };
+
                     case "SystemListMediumColor":
                         return new Color { A = 0x33, R = 0xFF, G = 0xFF, B = 0xFF };
+
                     default:
                         return null;
                 }

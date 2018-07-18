@@ -12,11 +12,11 @@ namespace FluentTerminal.SystemTray.Services
         private Dictionary<int, TerminalSession> _terminals = new Dictionary<int, TerminalSession>();
 
         public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
+
         public event EventHandler<int> TerminalExited;
 
         public TerminalsManager()
         {
-
         }
 
         public void DisplayTerminalOutput(int terminalId, string output)
@@ -39,7 +39,7 @@ namespace FluentTerminal.SystemTray.Services
             {
                 return new CreateTerminalResponse { Error = e.Message };
             }
-            
+
             terminal.ConnectionClosed += OnTerminalConnectionClosed;
             _terminals.Add(terminal.Id, terminal);
 

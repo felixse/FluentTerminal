@@ -2,11 +2,8 @@
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;

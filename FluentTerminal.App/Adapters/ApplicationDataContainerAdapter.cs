@@ -50,7 +50,6 @@ namespace FluentTerminal.App.Adapters
             return _applicationDataContainer.Values.TryGetValue(key, out value);
         }
 
-
         public void WriteValueAsJson<T>(string name, T value)
         {
             _applicationDataContainer.Values[name] = JsonConvert.SerializeObject(value);

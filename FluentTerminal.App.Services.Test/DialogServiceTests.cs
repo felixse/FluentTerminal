@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using FluentAssertions;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Implementation;
-using FluentTerminal.Models;
 using Moq;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FluentTerminal.App.Services.Test

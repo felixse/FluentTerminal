@@ -66,6 +66,7 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
+
         public RelayCommand AddTerminalCommand { get; }
 
         public string Background
@@ -228,6 +229,7 @@ namespace FluentTerminal.App.ViewModels
                 BackgroundOpacity = e.BackgroundOpacity;
             });
         }
+
         private void SelectNextTab()
         {
             var currentIndex = Terminals.IndexOf(SelectedTerminal);

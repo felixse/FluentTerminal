@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using FluentTerminal.App.Services.Dialogs;
+﻿using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight.Command;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using System;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -92,16 +92,20 @@ namespace FluentTerminal.App.Dialogs
                 case VirtualKey.Control:
                     Ctrl = true;
                     break;
+
                 case VirtualKey.Shift:
                     Shift = true;
                     break;
+
                 case VirtualKey.Menu:
                     Alt = true;
                     break;
+
                 case VirtualKey.LeftWindows:
                 case VirtualKey.RightWindows:
                     Meta = true;
                     break;
+
                 default:
                     Key = (int)e.Key;
                     break;

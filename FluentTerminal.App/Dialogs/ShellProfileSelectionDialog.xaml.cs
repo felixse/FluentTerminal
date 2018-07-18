@@ -1,8 +1,8 @@
-﻿using System;
-using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

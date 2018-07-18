@@ -8,11 +8,17 @@ namespace FluentTerminal.App.Services
     public interface IDefaultValueProvider
     {
         IEnumerable<ShellProfile> GetPreinstalledShellProfiles();
+
         Guid GetDefaultShellProfileId();
+
         TerminalOptions GetDefaultTerminalOptions();
+
         ICollection<KeyBinding> GetDefaultKeyBindings(Command command);
+
         ApplicationSettings GetDefaultApplicationSettings();
+
         Guid GetDefaultThemeId();
+
         IEnumerable<TerminalTheme> GetPreInstalledThemes();
     }
 }

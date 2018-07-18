@@ -175,7 +175,6 @@
                                 IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                 IsSpellCheckEnabled="False"
                                 Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                         </StackPanel>
                         <StackPanel Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                             <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -192,7 +191,6 @@
                                 Header="Arguments"
                                 Text="{x:Bind Arguments, Mode=OneWay}" />
                         </StackPanel>
-
                     </Grid>
                 </DataTemplate>
             </ContentControl.ContentTemplate>

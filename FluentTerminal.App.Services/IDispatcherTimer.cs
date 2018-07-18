@@ -5,6 +5,7 @@ namespace FluentTerminal.App.Services
     public interface IDispatcherTimer
     {
         void Start();
+
         void Stop();
 
         TimeSpan Interval { get; set; }

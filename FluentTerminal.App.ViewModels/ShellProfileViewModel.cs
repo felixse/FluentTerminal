@@ -47,6 +47,7 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public event EventHandler Deleted;
+
         public event EventHandler SetAsDefault;
 
         public RelayCommand DeleteCommand { get; }

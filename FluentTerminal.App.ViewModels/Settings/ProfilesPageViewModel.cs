@@ -15,7 +15,6 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly IFileSystemService _fileSystemService;
         private ShellProfileViewModel _selectedShellProfile;
-        
 
         public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService)
         {
