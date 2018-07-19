@@ -151,9 +151,10 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public void CloseView()
+        public async Task CloseView()
         {
             _terminalView.Close();
+            await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
         }
 
         public Task FocusTerminal()

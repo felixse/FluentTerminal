@@ -37,7 +37,7 @@ namespace FluentTerminal.SystemTray.Services
             }
             catch (Exception e)
             {
-                return new CreateTerminalResponse { Error = e.Message };
+                return new CreateTerminalResponse { Error = e.ToString() };
             }
 
             terminal.ConnectionClosed += OnTerminalConnectionClosed;

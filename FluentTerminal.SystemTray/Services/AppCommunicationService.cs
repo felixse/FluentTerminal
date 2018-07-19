@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using System;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -72,17 +73,21 @@ namespace FluentTerminal.SystemTray.Services
             _appServiceConnection = null;
         }
 
-        private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
             var messageType = (string)args.Request.Message[MessageKeys.Type];
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
 
             if (messageType == nameof(CreateTerminalRequest))
             {
+                var deferral = args.GetDeferral();
+
                 var request = JsonConvert.DeserializeObject<CreateTerminalRequest>(messageContent);
                 var response = _terminalsManager.CreateTerminal(request);
 
-                args.Request.SendResponseAsync(CreateMessage(response));
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
             }
             else if (messageType == nameof(ResizeTerminalRequest))
             {
@@ -105,7 +110,7 @@ namespace FluentTerminal.SystemTray.Services
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
                 _terminalsManager.CloseTerminal(request.TerminalId);
-            }
+            }           
         }
 
         private ValueSet CreateMessage(object content)
