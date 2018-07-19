@@ -1,16 +1,14 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Windows.Data.Xml.Dom;
-using Windows.Foundation;
 using Windows.UI.Notifications;
 
 namespace FluentTerminal.SystemTray.Services
 {
-	public class NotificationService
-	{
-		public void ShowNotification(string title, string content, string url = null)
-		{
-			string xml = $@"<toast>
+    public class NotificationService
+    {
+        public void ShowNotification(string title, string content, string url = null)
+        {
+            string xml = $@"<toast>
                             <visual>
                                 <binding template='ToastGeneric'>
                                     <text>{title}</text>
@@ -19,15 +17,15 @@ namespace FluentTerminal.SystemTray.Services
                             </visual>
                         </toast>";
 
-			var doc = new XmlDocument();
-			doc.LoadXml(xml);
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
 
-			var toast = new ToastNotification(doc);
-			if(url != null)
-			{
-				toast.Activated += (n, o) => Process.Start(url);
-			}
-			ToastNotificationManager.CreateToastNotifier().Show(toast);
-		}
-	}
+            var toast = new ToastNotification(doc);
+            if (url != null)
+            {
+                toast.Activated += (n, o) => Process.Start(url);
+            }
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+        }
+    }
 }

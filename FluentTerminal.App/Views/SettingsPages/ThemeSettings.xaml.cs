@@ -1,6 +1,5 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels.Settings;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

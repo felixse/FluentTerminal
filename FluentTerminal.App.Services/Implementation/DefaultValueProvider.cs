@@ -24,7 +24,7 @@ namespace FluentTerminal.App.Services.Implementation
             switch (command)
             {
                 case Command.ToggleWindow:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -37,7 +37,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.NextTab:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -50,7 +50,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.PreviousTab:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -63,7 +63,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.NewTab:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -76,7 +76,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.ConfigurableNewTab:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -89,7 +89,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.CloseTab:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -102,7 +102,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.NewWindow:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -115,7 +115,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.ShowSettings:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -128,7 +128,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.Copy:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -141,7 +141,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.Paste:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -154,7 +154,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.Search:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -167,7 +167,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.ToggleFullScreen:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -180,7 +180,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.SelectAll:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {
@@ -193,7 +193,7 @@ namespace FluentTerminal.App.Services.Implementation
                 };
 
                 case Command.Clear:
-                return new List<KeyBinding>
+                    return new List<KeyBinding>
                 {
                     new KeyBinding
                     {

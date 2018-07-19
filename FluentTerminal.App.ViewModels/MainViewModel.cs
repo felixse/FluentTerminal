@@ -23,7 +23,6 @@ namespace FluentTerminal.App.ViewModels
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
-        private int _nextTerminalId;
         private TerminalViewModel _selectedTerminal;
         private TabsPosition _tabsPosition;
 
@@ -66,6 +65,7 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
+
         public RelayCommand AddTerminalCommand { get; }
 
         public string Background
@@ -129,9 +129,9 @@ namespace FluentTerminal.App.ViewModels
                     profile = _settingsService.GetDefaultShellProfile();
                 }
 
-                var terminal = new TerminalViewModel(GetNextTerminalId(), _settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
+                var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);
-                terminal.CloseRequested += OnTerminalCloseRequested;
+                terminal.Closed += OnTerminalCloseRequested;
                 Terminals.Add(terminal);
 
                 SelectedTerminal = terminal;
@@ -149,11 +149,6 @@ namespace FluentTerminal.App.ViewModels
         private void CloseCurrentTab()
         {
             SelectedTerminal?.CloseCommand.Execute(null);
-        }
-
-        private int GetNextTerminalId()
-        {
-            return _nextTerminalId++;
         }
 
         private void NewWindow()
@@ -228,6 +223,7 @@ namespace FluentTerminal.App.ViewModels
                 BackgroundOpacity = e.BackgroundOpacity;
             });
         }
+
         private void SelectNextTab()
         {
             var currentIndex = Terminals.IndexOf(SelectedTerminal);

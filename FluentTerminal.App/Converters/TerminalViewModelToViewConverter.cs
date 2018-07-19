@@ -8,24 +8,24 @@ namespace FluentTerminal.App.Converters
 {
     internal class TerminalViewModelToViewConverter : IValueConverter
     {
-        private readonly Dictionary<int, TerminalView> _viewDictionary;
+        private readonly Dictionary<TerminalViewModel, TerminalView> _viewDictionary;
 
         public TerminalViewModelToViewConverter()
         {
-            _viewDictionary = new Dictionary<int, TerminalView>();
+            _viewDictionary = new Dictionary<TerminalViewModel, TerminalView>();
         }
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is TerminalViewModel terminal)
             {
-                if (_viewDictionary.TryGetValue(terminal.Id, out TerminalView view))
+                if (_viewDictionary.TryGetValue(terminal, out TerminalView view))
                 {
                     return view;
                 }
 
                 var newView = new TerminalView(terminal);
-                _viewDictionary.Add(terminal.Id, newView);
+                _viewDictionary.Add(terminal, newView);
                 return newView;
             }
             return null;

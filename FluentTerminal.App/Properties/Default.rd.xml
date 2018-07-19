@@ -6,7 +6,7 @@
     Laufzeitdirektiven sind hier dokumentiert: https://go.microsoft.com/fwlink/?LinkID=391919
 
     Vollständige Aktivierung der Reflektion von "App1.MyClass" und allen zugehörigen öffentlichen/privaten Membern:
-    <Type Name="App1.MyClass" Dynamic="Required All"/>
+    <Type Name="App1.MyClass" Dynamic="Required All" />
 
     Aktivierung der dynamischen Erstellung der spezifischen Instanziierung von "AppClass<T>" über "System.Int32":
     <TypeInstantiation Name="App1.AppClass" Arguments="System.Int32" Activate="Required Public" />
@@ -22,10 +22,7 @@
       Anwendungspaket. Die Sternchen sind keine Platzhalter.
     -->
     <Assembly Name="*Application*" Dynamic="Required All" />
-    
-    
+
     <!-- Fügen Sie hier Ihre anwendungsspezifischen Laufzeitdirektiven ein. -->
-
-
   </Application>
 </Directives>

@@ -47,26 +47,37 @@ namespace FluentTerminal.Models.Enums
         Insert = 45,
         Delete = 46,
         Help = 47,
+
         [Description("0")]
         Number0 = 48,
+
         [Description("1")]
         Number1 = 49,
+
         [Description("2")]
         Number2 = 50,
+
         [Description("3")]
         Number3 = 51,
+
         [Description("4")]
         Number4 = 52,
+
         [Description("5")]
         Number5 = 53,
+
         [Description("6")]
         Number6 = 54,
+
         [Description("7")]
         Number7 = 55,
+
         [Description("8")]
         Number8 = 56,
+
         [Description("9")]
         Number9 = 57,
+
         A = 65,
         B = 66,
         C = 67,
@@ -167,18 +178,25 @@ namespace FluentTerminal.Models.Enums
         MediaPrevious = 177,
         MediaStop = 178,
         MediaPlayPause = 179,
+
         [Description("+")]
         Plus = 187,
+
         [Description(",")]
         Comma = 188,
+
         [Description("-")]
         Minus = 189,
+
         [Description(".")]
         Period = 190,
+
         [Description("#")]
         NumberSign = 191,
+
         [Description("`")]
         GraveAccent = 192,
+
         GamepadA = 195,
         GamepadB = 196,
         GamepadX = 197,
@@ -203,10 +221,13 @@ namespace FluentTerminal.Models.Enums
         GamepadRightThumbstickDown = 216,
         GamepadRightThumbstickRight = 217,
         GamepadRightThumbstickLeft = 218,
+
         [Description(")")]
         OpenBrackets = 219,
+
         [Description("^")]
         Circumflex = 220,
+
         [Description("´")]
         AcuteAccent = 221
     }

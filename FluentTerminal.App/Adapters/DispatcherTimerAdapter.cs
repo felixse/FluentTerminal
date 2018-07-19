@@ -1,5 +1,5 @@
-﻿using System;
-using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Services;
+using System;
 using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.Adapters

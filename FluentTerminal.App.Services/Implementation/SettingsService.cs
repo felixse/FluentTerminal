@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
-using Newtonsoft.Json;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -21,8 +21,11 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _roamingSettings;
 
         public event EventHandler<Guid> CurrentThemeChanged;
+
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
+
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
+
         public event EventHandler KeyBindingsChanged;
 
         public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)

@@ -13,7 +13,9 @@ namespace FluentTerminal.App.Services
         string Title { get; set; }
 
         Task RunOnDispatcherThread(Action action);
+
         Task<bool> TryClose();
+
         bool ToggleFullScreen();
     }
 }

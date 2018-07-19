@@ -12,7 +12,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -55,7 +54,9 @@ namespace FluentTerminal.App.Views
         }
 
         public event EventHandler<Command> KeyboardCommandReceived;
+
         public event EventHandler<TerminalSize> TerminalSizeChanged;
+
         public event EventHandler<string> TerminalTitleChanged;
 
         public TerminalViewModel ViewModel { get; }

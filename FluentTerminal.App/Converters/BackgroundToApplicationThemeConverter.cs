@@ -14,7 +14,8 @@ namespace FluentTerminal.App.Converters
             if (value is string colorString)
             {
                 color = colorString.ToColor();
-            } else if (value is Color)
+            }
+            else if (value is Color)
             {
                 color = (Color)value;
             }

@@ -28,7 +28,6 @@
 
         public TerminalColors()
         {
-
         }
 
         public TerminalColors(TerminalColors other)

@@ -6,63 +6,59 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using Windows.ApplicationModel;
 
 namespace FluentTerminal.SystemTray
 {
-	public static class Program
-	{
-		private const string MutexName = "FluentTerminalMutex";
+    public static class Program
+    {
+        private const string MutexName = "FluentTerminalMutex";
 
-		[STAThread]
-		public static void Main()
-		{
-			if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
-			{
-				mutex = new Mutex(false, MutexName);
+        [STAThread]
+        public static void Main()
+        {
+            if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
+            {
+                mutex = new Mutex(false, MutexName);
 
-				var loopbackEnabler = new LoopbackEnabler();
-				loopbackEnabler.EnableForApp(Package.Current.DisplayName);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
+                var containerBuilder = new ContainerBuilder();
 
-				var containerBuilder = new ContainerBuilder();
+                containerBuilder.RegisterType<UpdateService>().SingleInstance();
+                containerBuilder.RegisterType<NotificationService>().SingleInstance();
+                containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
+                containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
+                containerBuilder.RegisterType<HotKeyManager>().SingleInstance();
+                containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
+                containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
+                containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
-				containerBuilder.RegisterType<UpdateService>().SingleInstance();
-				containerBuilder.RegisterType<NotificationService>().SingleInstance();
-				containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
-				containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
-				containerBuilder.RegisterType<HotKeyManager>().SingleInstance();
-				containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
-				containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
-				containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
+                var container = containerBuilder.Build();
 
-				var container = containerBuilder.Build();
+                var appCommunicationService = container.Resolve<AppCommunicationService>();
+                appCommunicationService.StartAppServiceConnection();
+                Task.Run(() => CheckForNewVersion(container.Resolve<UpdateService>(), container.Resolve<NotificationService>()));
 
-				var appCommunicationService = container.Resolve<AppCommunicationService>();
-				appCommunicationService.StartAppServiceConnection();
-				Task.Run(() => CheckForNewVersion(container.Resolve<UpdateService>(), container.Resolve<NotificationService>()));
+                Application.Run(container.Resolve<SystemTrayApplicationContext>());
 
-				Application.Run(container.Resolve<SystemTrayApplicationContext>());
+                mutex.Close();
+            }
+            else
+            {
+                var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
+                eventWaitHandle.Set();
+            }
+        }
 
-				mutex.Close();
-			}
-			else
-			{
-				var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
-				eventWaitHandle.Set();
-			}
-		}
-
-		private static void CheckForNewVersion(UpdateService updateService, NotificationService notificationService)
-		{
-			var newVersion = updateService.IsNewerVersionAvailable();
-			if (newVersion)
-			{
-				notificationService.ShowNotification("Update available",
-					"Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
-			}
-		}
-	}
+        private static void CheckForNewVersion(UpdateService updateService, NotificationService notificationService)
+        {
+            var newVersion = updateService.IsNewerVersionAvailable();
+            if (newVersion)
+            {
+                notificationService.ShowNotification("Update available",
+                    "Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
+            }
+        }
+    }
 }

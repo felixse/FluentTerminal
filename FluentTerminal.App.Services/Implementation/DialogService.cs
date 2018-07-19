@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using FluentTerminal.App.Services.Dialogs;
+﻿using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services.Implementation
 {

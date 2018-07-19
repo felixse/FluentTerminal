@@ -2,7 +2,6 @@
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using Moq;
-using System.Linq;
 using Xunit;
 
 namespace FluentTerminal.App.Services.Test

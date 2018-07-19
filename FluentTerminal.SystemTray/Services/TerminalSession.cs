@@ -1,11 +1,9 @@
-﻿using Fleck;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using static winpty.WinPty;
 
@@ -13,15 +11,16 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalSession : IDisposable
     {
-        private ManualResetEventSlim _connectedEvent;
         private bool _disposedValue;
-        private IntPtr _handle;
-        private Stream _stdin;
-        private Stream _stdout;
-        private IWebSocketConnection _webSocket;
+        private readonly IntPtr _handle;
+        private readonly Stream _stdin;
+        private readonly Stream _stdout;
+        private readonly TerminalsManager _terminalsManager;
 
-        public TerminalSession(CreateTerminalRequest request)
+        public TerminalSession(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            _terminalsManager = terminalsManager;
+
             var configHandle = IntPtr.Zero;
             var spawnConfigHandle = IntPtr.Zero;
             var errorHandle = IntPtr.Zero;
@@ -34,7 +33,7 @@ namespace FluentTerminal.SystemTray.Services
                 _handle = winpty_open(configHandle, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_msg(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle));
                 }
 
                 string exe = request.Profile.Location;
@@ -71,28 +70,6 @@ namespace FluentTerminal.SystemTray.Services
             }
 
             Id = port.Value;
-            _connectedEvent = new ManualResetEventSlim(false);
-            WebSocketUrl = "ws://127.0.0.1:" + port;
-            var webSocketServer = new WebSocketServer(WebSocketUrl);
-            webSocketServer.Start(socket =>
-            {
-                _webSocket = socket;
-                socket.OnOpen = () =>
-                {
-                    Console.WriteLine("open");
-                    _connectedEvent.Set();
-                };
-                socket.OnClose = () =>
-                {
-                    Console.WriteLine("closing");
-                    ConnectionClosed?.Invoke(this, EventArgs.Empty);
-                };
-                socket.OnMessage = message =>
-                {
-                    var bytes = Encoding.UTF8.GetBytes(message);
-                    _stdin.Write(bytes, 0, bytes.Length);
-                };
-            });
 
             ListenToStdOut();
         }
@@ -114,13 +91,18 @@ namespace FluentTerminal.SystemTray.Services
         public event EventHandler ConnectionClosed;
 
         public int Id { get; }
-        public string WebSocketUrl { get; }
+
         public string ShellExecutableName { get; }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Close()
+        {
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         public void WriteText(string text)
@@ -188,20 +170,22 @@ namespace FluentTerminal.SystemTray.Services
         {
             Task.Run(async () =>
             {
-                _connectedEvent.Wait();
                 var reader = new StreamReader(_stdout);
+
                 do
                 {
                     var offset = 0;
                     var buffer = new char[1024];
-                    var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset);
+                    var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset).ConfigureAwait(false);
+
                     if (readChars > 0)
                     {
-                        await _webSocket.Send(new String(buffer));
+                        var output = new String(buffer, 0, readChars);
+                        _terminalsManager.DisplayTerminalOutput(Id, output);
                     }
                 }
                 while (!reader.EndOfStream);
-                _webSocket.Close();
+                Close();
             });
         }
     }

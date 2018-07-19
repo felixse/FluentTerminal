@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.Models.Enums;
-using Windows.System;
 
 namespace FluentTerminal.Models
 {

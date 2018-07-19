@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FluentTerminal.Models.Enums;
+using System;
 using System.Collections.Generic;
-using FluentTerminal.Models.Enums;
 
 namespace FluentTerminal.App.Services.Implementation
 {

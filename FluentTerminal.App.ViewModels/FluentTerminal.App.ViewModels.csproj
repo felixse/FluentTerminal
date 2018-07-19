@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fleck" Version="1.0.3" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
   </ItemGroup>
 

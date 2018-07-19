@@ -3,6 +3,7 @@ using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
 using Moq;
 using Newtonsoft.Json;
@@ -63,7 +64,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.SetToggleWindowKeyBindingsRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(SetToggleWindowKeyBindingsRequest))), Times.Once);
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.ResizeTerminalRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(ResizeTerminalRequest))), Times.Once);
         }
 
         [Fact]
@@ -103,7 +104,97 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.WriteText(terminalId, text);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == MessageTypes.WriteTextRequest)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteTextRequest))), Times.Once);
+        }
+
+        [Fact]
+        public async Task CloseTerminal_Default_SendsTerminalExitedRequest()
+        {
+            var terminalId = _fixture.Create<int>();
+            var settingsService = new Mock<ISettingsService>();
+            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            {
+                [Command.ToggleWindow] = keyBindings.ToList()
+            });
+            var appServiceConnection = new Mock<IAppServiceConnection>();
+            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
+            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+
+            await trayProcessCommunicationService.CloseTerminal(terminalId);
+
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(TerminalExitedRequest))), Times.Once);
+        }
+
+        [Fact]
+        public async Task OnMessageReceived_TerminalExitedRequest_InvokesTerminalExitedEvent()
+        {
+            var terminalId = _fixture.Create<int>();
+            var receivedTerminalId = 0;
+            var terminalExitedEventCalled = false;
+            var request = new TerminalExitedRequest
+            {
+                TerminalId = terminalId
+            };
+            var message = new Dictionary<string, string>
+            {
+                [MessageKeys.Type] = nameof(TerminalExitedRequest),
+                [MessageKeys.Content] = JsonConvert.SerializeObject(request)
+            };
+            var settingsService = new Mock<ISettingsService>();
+            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            {
+                [Command.ToggleWindow] = keyBindings.ToList()
+            });
+            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
+            var appServiceConnection = new Mock<IAppServiceConnection>();
+            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.TerminalExited += (s, e) =>
+            {
+                terminalExitedEventCalled = true;
+                receivedTerminalId = e;
+            };
+
+            appServiceConnection.Raise(x => x.MessageReceived += null, null, message);
+
+            terminalExitedEventCalled.Should().BeTrue();
+            receivedTerminalId.Should().Be(terminalId);
+        }
+
+        [Fact]
+        public async Task OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
+        {
+            var terminalId = _fixture.Create<int>();
+            var output = _fixture.Create<string>();
+            var receivedOutput = string.Empty;
+            var request = new DisplayTerminalOutputRequest
+            {
+                TerminalId = terminalId,
+                Output = output
+            };
+            var message = new Dictionary<string, string>
+            {
+                [MessageKeys.Type] = nameof(DisplayTerminalOutputRequest),
+                [MessageKeys.Content] = JsonConvert.SerializeObject(request)
+            };
+            var settingsService = new Mock<ISettingsService>();
+            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            {
+                [Command.ToggleWindow] = keyBindings.ToList()
+            });
+            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
+            var appServiceConnection = new Mock<IAppServiceConnection>();
+            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.SubscribeForTerminalOutput(terminalId, o =>
+            {
+                receivedOutput = o;
+            });
+
+            appServiceConnection.Raise(x => x.MessageReceived += null, null, message);
+
+            receivedOutput.Should().Be(output);
         }
     }
 }
