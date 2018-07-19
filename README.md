@@ -34,11 +34,6 @@ A Terminal Emulator based on UWP and web technologies.
   - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
 - Install the *.cer file into `Local Machine` -> `Trusted Root Certification Authorities`
 - double click the *.appxbundle
-- If you did not enable developer mode, you'll have to run the following Powershell snippet in an Administrative/elevated Powershell prompt (addresses issues such as the one described in [#43](https://github.com/felixse/FluentTerminal/issues/43))
-  ```powershell
-  $packageFamily = (Get-AppxPackage | where { $_.Name -eq "53621FSApps.FluentTerminal" }).PackageFamilyName
-  CheckNetIsolation.exe LoopbackExempt -a -n="$packageFamily"
-  ```
 - **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration)
 
 ## How to build:
