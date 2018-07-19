@@ -24,7 +24,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly ShellProfile _shellProfile;
         private readonly string _startupDirectory;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private ApplicationSettings _applicationSettings;
         private bool _isSelected;
         private string _resizeOverlayContent;
         private string _searchText;
@@ -54,7 +53,7 @@ namespace FluentTerminal.App.ViewModels
 
             _dialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
-            _applicationSettings = applicationSettings;
+            ApplicationSettings = applicationSettings;
             _startupDirectory = startupDirectory;
             _shellProfile = shellProfile;
             _applicationView = applicationView;
@@ -69,6 +68,8 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
         }
+
+        public ApplicationSettings ApplicationSettings { get; private set; }
 
         public event EventHandler Closed;
 
@@ -100,7 +101,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public bool IsUnderlined => IsSelected && _applicationSettings.UnderlineSelectedTab;
+        public bool IsUnderlined => IsSelected && ApplicationSettings.UnderlineSelectedTab;
 
         public string ResizeOverlayContent
         {
@@ -241,7 +242,7 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(() =>
             {
-                _applicationSettings = e;
+                ApplicationSettings = e;
                 RaisePropertyChanged(nameof(IsUnderlined));
             });
         }
@@ -333,7 +334,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task TryClose()
         {
-            if (_applicationSettings.ConfirmClosingTabs)
+            if (ApplicationSettings.ConfirmClosingTabs)
             {
                 var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 

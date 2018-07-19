@@ -1,4 +1,6 @@
-﻿namespace FluentTerminal.RuntimeComponent.Interfaces
+﻿using FluentTerminal.RuntimeComponent.Enums;
+
+namespace FluentTerminal.RuntimeComponent.Interfaces
 {
     public interface ITerminalEventListener
     {
@@ -8,6 +10,8 @@
 
         void OnKeyboardCommand(string command);
 
-        void OnRightClick(int x, int y, bool hasSelection);
+        void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection);
+
+        void OnSelectionChanged(string selection);
     }
 }

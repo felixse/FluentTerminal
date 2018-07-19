@@ -1,4 +1,5 @@
-﻿using FluentTerminal.RuntimeComponent.Interfaces;
+﻿using FluentTerminal.RuntimeComponent.Enums;
+using FluentTerminal.RuntimeComponent.Interfaces;
 using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
@@ -30,7 +31,17 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 
         public void NotifyRightClick(int x, int y, bool hasSelection)
         {
-            _terminalEventListener.OnRightClick(x, y, hasSelection);
+            _terminalEventListener.OnMouseClick(MouseButton.Right, x, y, hasSelection);
+        }
+
+        public void NotifyMiddleClick(int x, int y, bool hasSelection)
+        {
+            _terminalEventListener.OnMouseClick(MouseButton.Middle, x, y, hasSelection);
+        }
+
+        public void NotifySelectionChanged(string selection)
+        {
+            _terminalEventListener.OnSelectionChanged(selection);
         }
     }
 }

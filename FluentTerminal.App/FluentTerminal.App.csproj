@@ -143,6 +143,9 @@
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsPages\MouseSettings.xaml.cs">
+      <DependentUpon>MouseSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPages\ThemeSettings.xaml.cs">
       <DependentUpon>ThemeSettings.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPages\MouseSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

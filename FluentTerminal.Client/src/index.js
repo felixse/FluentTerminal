@@ -50,6 +50,10 @@ function createTerminal(options, theme, keyBindings) {
     terminalBridge.notifyTitleChanged(title);
   });
 
+  term.on('selection', function () {
+    terminalBridge.notifySelectionChanged(term.getSelection());
+  });
+
   term.open(terminalContainer);
   term.winptyCompatInit();
   term.fit();
@@ -62,7 +66,9 @@ function createTerminal(options, theme, keyBindings) {
   }
 
   window.onmouseup = function (e) {
-    if (e.button == 2) {
+    if (e.button == 1) {
+      terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
+    } else if (e.button == 2) {
       terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
     }
   }

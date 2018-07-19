@@ -9,5 +9,8 @@ namespace FluentTerminal.Models
         public bool UnderlineSelectedTab { get; set; }
         public NewTerminalLocation NewTerminalLocation { get; set; }
         public TabsPosition TabsPosition { get; set; }
+        public bool CopyOnSelect { get; set; }
+        public MouseAction MouseMiddleClickAction { get; set; }
+        public MouseAction MouseRightClickAction { get; set; }
     }
 }

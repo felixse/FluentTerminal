@@ -103,6 +103,10 @@ namespace FluentTerminal.App.Views
                     case "keyBindings":
                         ContentFrame.Navigate(typeof(KeyBindingSettings), ViewModel.KeyBindings);
                         break;
+
+                    case "mouse":
+                        ContentFrame.Navigate(typeof(MouseSettings), ViewModel.Mouse);
+                        break;
                 }
             }
 

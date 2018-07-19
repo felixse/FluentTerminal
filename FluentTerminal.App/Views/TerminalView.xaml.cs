@@ -2,6 +2,7 @@
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
@@ -209,16 +210,6 @@ namespace FluentTerminal.App.Views
             await ViewModel.OnViewIsReady(this).ConfigureAwait(true);
         }
 
-        public void OnRightClick(int x, int y, bool hasSelection)
-        {
-            _dispatcherJobs.Add(() =>
-            {
-                var flyout = (MenuFlyout)_webView.ContextFlyout;
-                _copyMenuItem.IsEnabled = hasSelection;
-                flyout.ShowAt(_webView, new Point(x, y));
-            });
-        }
-
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
             OnKeyboardCommand(nameof(Command.Paste));
@@ -259,6 +250,50 @@ namespace FluentTerminal.App.Views
         public void FocusSearchTextBox()
         {
             SearchTextBox.Focus(FocusState.Programmatic);
+        }
+
+        public void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection)
+        {
+            _dispatcherJobs.Add(() =>
+            {
+                if (mouseButton == MouseButton.Middle)
+                {
+                    if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
+                    {
+                        ShowContextMenu(x, y, hasSelection);
+                    }
+                    else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
+                    {
+                        OnKeyboardCommand(nameof(Command.Paste));
+                    }
+                }
+                else if (mouseButton == MouseButton.Right)
+                {
+                    if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
+                    {
+                        ShowContextMenu(x, y, hasSelection);
+                    }
+                    else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
+                    {
+                        OnKeyboardCommand(nameof(Command.Paste));
+                    }
+                }
+            });
+        }
+
+        public void OnSelectionChanged(string selection)
+        {
+            if (ViewModel.ApplicationSettings.CopyOnSelect)
+            {
+                _dispatcherJobs.Add(() => OnKeyboardCommand(nameof(Command.Copy)));
+            }
+        }
+
+        private void ShowContextMenu(int x, int y, bool terminalHasSelection)
+        {
+            var flyout = (MenuFlyout)_webView.ContextFlyout;
+            _copyMenuItem.IsEnabled = terminalHasSelection;
+            flyout.ShowAt(_webView, new Point(x, y));
         }
     }
 }

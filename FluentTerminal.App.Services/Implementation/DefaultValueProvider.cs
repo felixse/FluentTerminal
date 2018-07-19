@@ -15,7 +15,10 @@ namespace FluentTerminal.App.Services.Implementation
                 ConfirmClosingWindows = false,
                 UnderlineSelectedTab = false,
                 NewTerminalLocation = NewTerminalLocation.Tab,
-                TabsPosition = TabsPosition.Top
+                TabsPosition = TabsPosition.Top,
+                CopyOnSelect = false,
+                MouseMiddleClickAction = MouseAction.None,
+                MouseRightClickAction = MouseAction.ContextMenu
             };
         }
 

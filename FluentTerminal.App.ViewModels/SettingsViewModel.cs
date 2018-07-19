@@ -15,6 +15,7 @@ namespace FluentTerminal.App.ViewModels
             Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
+            Mouse = new MousePageViewModel(settingsService, dialogService, defaultValueProvider);
         }
 
         public event EventHandler Closed;
@@ -24,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         public ProfilesPageViewModel Shell { get; }
         public TerminalPageViewModel Terminal { get; }
         public ThemesPageViewModel Themes { get; }
+        public MousePageViewModel Mouse { get; }
 
         public void Close()
         {

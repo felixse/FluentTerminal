@@ -107,6 +107,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\MouseButton.cs" />
     <Compile Include="Interfaces\ITerminalEventListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebAllowedObjects\TerminalBridge.cs" />

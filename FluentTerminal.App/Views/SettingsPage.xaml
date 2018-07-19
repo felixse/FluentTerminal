@@ -57,6 +57,14 @@
                             ToolTipService.ToolTip="Keybindings" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="Mouse" Tag="mouse">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="g"
+                            ToolTipService.ToolTip="Keybindings" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="Themes" Tag="themes">
                     <NavigationViewItem.Icon>
                         <FontIcon
