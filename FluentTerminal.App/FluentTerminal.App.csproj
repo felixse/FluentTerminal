@@ -173,7 +173,6 @@
     </AppxManifest>
     <Content Include="Assets\settingsicons.ttf" />
     <Content Include="Win32\Autofac.dll" />
-    <Content Include="Win32\Fleck.dll" />
     <Content Include="Win32\FluentTerminal.Models.dll" />
     <Content Include="Win32\FluentTerminal.Models.pdb" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
