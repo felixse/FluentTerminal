@@ -701,5 +701,61 @@ namespace FluentTerminal.App.Services.Test
 
             shellProfilesContainer.Verify(x => x.Delete(shellProfileId.ToString()), Times.Once);
         }
+
+        [Fact]
+        public void GetDefaultShellProfile_ProfileNotFound_DefaultShellProfileIdGetsResetToDefault()
+        {
+            var currentShellProfileId = (object)_fixture.Create<Guid>();
+            var defaultShellProfile = _fixture.Create<ShellProfile>();
+            var defaultValueProvider = new Mock<IDefaultValueProvider>();
+            defaultValueProvider.Setup(x => x.GetDefaultShellProfileId()).Returns(defaultShellProfile.Id);
+            var shellProfilesContainer = new Mock<IApplicationDataContainer>();
+            var roamingSettings = new Mock<IApplicationDataContainer>();
+            var applicationDataContainers = new ApplicationDataContainers
+            {
+                ShellProfiles = shellProfilesContainer.Object,
+                KeyBindings = Mock.Of<IApplicationDataContainer>(),
+                LocalSettings = Mock.Of<IApplicationDataContainer>(),
+                RoamingSettings = roamingSettings.Object,
+                Themes = Mock.Of<IApplicationDataContainer>()
+            };
+            shellProfilesContainer.Setup(x => x.ReadValueFromJson(currentShellProfileId.ToString(), default(ShellProfile))).Returns(value: null);
+            shellProfilesContainer.Setup(x => x.ReadValueFromJson(defaultShellProfile.Id.ToString(), default(ShellProfile))).Returns(defaultShellProfile);
+            roamingSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentShellProfileId)).Returns(true);
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
+
+            var result = settingsService.GetDefaultShellProfile();
+
+            result.Should().Be(defaultShellProfile);
+            roamingSettings.Verify(x => x.SetValue(SettingsService.DefaultShellProfileKey, defaultShellProfile.Id), Times.Once);
+        }
+
+        [Fact]
+        public void GetCurrentTheme_ThemeNotFound_CurrentThemeIdGetsResetToDefault()
+        {
+            var currentThemeId = (object)_fixture.Create<Guid>();
+            var defaultTheme = _fixture.Create<TerminalTheme>();
+            var defaultValueProvider = new Mock<IDefaultValueProvider>();
+            defaultValueProvider.Setup(x => x.GetDefaultThemeId()).Returns(defaultTheme.Id);
+            var themesContainer = new Mock<IApplicationDataContainer>();
+            var roamingSettings = new Mock<IApplicationDataContainer>();
+            var applicationDataContainers = new ApplicationDataContainers
+            {
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                KeyBindings = Mock.Of<IApplicationDataContainer>(),
+                LocalSettings = Mock.Of<IApplicationDataContainer>(),
+                RoamingSettings = roamingSettings.Object,
+                Themes = themesContainer.Object
+            };
+            themesContainer.Setup(x => x.ReadValueFromJson(currentThemeId.ToString(), default(TerminalTheme))).Returns(value: null);
+            themesContainer.Setup(x => x.ReadValueFromJson(defaultTheme.Id.ToString(), default(TerminalTheme))).Returns(defaultTheme);
+            roamingSettings.Setup(x => x.TryGetValue(SettingsService.CurrentThemeKey, out currentThemeId)).Returns(true);
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
+
+            var result = settingsService.GetCurrentTheme();
+
+            result.Should().Be(defaultTheme);
+            roamingSettings.Verify(x => x.SetValue(SettingsService.CurrentThemeKey, defaultTheme.Id), Times.Once);
+        }
     }
 }

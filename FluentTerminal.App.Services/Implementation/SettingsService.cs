@@ -52,7 +52,14 @@ namespace FluentTerminal.App.Services.Implementation
         public TerminalTheme GetCurrentTheme()
         {
             var id = GetCurrentThemeId();
-            return GetTheme(id);
+            var theme = GetTheme(id);
+            if (theme == null)
+            {
+                id = _defaultValueProvider.GetDefaultThemeId();
+                SaveCurrentThemeId(id);
+                theme = GetTheme(id);
+            }
+            return theme;
         }
 
         public Guid GetCurrentThemeId()
@@ -157,7 +164,14 @@ namespace FluentTerminal.App.Services.Implementation
         public ShellProfile GetDefaultShellProfile()
         {
             var id = GetDefaultShellProfileId();
-            return _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
+            var profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
+            if (profile == null)
+            {
+                id = _defaultValueProvider.GetDefaultShellProfileId();
+                SaveDefaultShellProfileId(id);
+                profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
+            }
+            return profile;
         }
 
         public void SaveDefaultShellProfileId(Guid id)
