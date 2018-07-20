@@ -15,13 +15,12 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class ToggleWindowService : IDisposable
     {
+        private const int SW_MINIMIZE = 6;
         private readonly HotKeyManager _hotKeyManager;
         private readonly NotificationService _notificationService;
-        private Dispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
         private bool _disposedValue;
-        private List<HotKey> _hotKeys;
-
-        private const int SW_MINIMIZE = 6;
+        private readonly List<HotKey> _hotKeys;
 
         public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, NotificationService notificationService)
         {
@@ -104,9 +103,6 @@ namespace FluentTerminal.SystemTray.Services
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
         private static string GetKeyBindingRepresentation(KeyBinding keyBinding)
         {
             var keys = new List<string>();
@@ -131,6 +127,9 @@ namespace FluentTerminal.SystemTray.Services
         [DllImport("user32.dll")]
         private static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
 
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
         private string GetActiveProcessFileName()
         {
             try
@@ -148,7 +147,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private async void OnKeyPressed(object sender, KeyPressedEventArgs e)
         {
-            if (GetActiveProcessFileName() == "Fluent Terminal")
+            if (GetActiveProcessFileName().EndsWith("Fluent Terminal"))
             {
                 var hwnd = GetForegroundWindow();
                 ShowWindow(hwnd, SW_MINIMIZE);
