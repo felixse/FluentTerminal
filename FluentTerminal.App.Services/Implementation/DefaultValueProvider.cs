@@ -18,7 +18,8 @@ namespace FluentTerminal.App.Services.Implementation
                 TabsPosition = TabsPosition.Top,
                 CopyOnSelect = false,
                 MouseMiddleClickAction = MouseAction.None,
-                MouseRightClickAction = MouseAction.ContextMenu
+                MouseRightClickAction = MouseAction.ContextMenu,
+                AlwaysShowTabs = false
             };
         }
 

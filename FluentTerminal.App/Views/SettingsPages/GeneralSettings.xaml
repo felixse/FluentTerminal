@@ -57,6 +57,10 @@
                 IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
             <ToggleSwitch
                 Margin="0,0,0,24"
+                Header="Always show tabs"
+                IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
+            <ToggleSwitch
+                Margin="0,0,0,24"
                 Header="Underline selected tab"
                 IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
             <ToggleSwitch

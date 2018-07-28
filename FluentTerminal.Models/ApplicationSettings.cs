@@ -12,5 +12,6 @@ namespace FluentTerminal.Models
         public bool CopyOnSelect { get; set; }
         public MouseAction MouseMiddleClickAction { get; set; }
         public MouseAction MouseRightClickAction { get; set; }
+        public bool AlwaysShowTabs { get; set; }
     }
 }

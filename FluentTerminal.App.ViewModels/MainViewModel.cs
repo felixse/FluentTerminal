@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -58,6 +59,13 @@ namespace FluentTerminal.App.ViewModels
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             _applicationView.CloseRequested += OnCloseRequest;
+            Terminals.CollectionChanged += OnTerminalsCollectionChanged;
+        }
+
+        private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(ShowTabsOnTop));
+            RaisePropertyChanged(nameof(ShowTabsOnBottom));
         }
 
         public event EventHandler Closed;
@@ -67,6 +75,16 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler ShowSettingsRequested;
 
         public RelayCommand AddTerminalCommand { get; }
+
+        public bool ShowTabsOnTop
+        {
+            get => TabsPosition == TabsPosition.Top && (Terminals.Count > 1 || _applicationSettings.AlwaysShowTabs);
+        }
+
+        public bool ShowTabsOnBottom
+        {
+            get => TabsPosition == TabsPosition.Bottom && (Terminals.Count > 1 || _applicationSettings.AlwaysShowTabs);
+        }
 
         public string Background
         {
@@ -162,6 +180,8 @@ namespace FluentTerminal.App.ViewModels
             {
                 _applicationSettings = e;
                 TabsPosition = e.TabsPosition;
+                RaisePropertyChanged(nameof(ShowTabsOnTop));
+                RaisePropertyChanged(nameof(ShowTabsOnBottom));
             });
         }
 

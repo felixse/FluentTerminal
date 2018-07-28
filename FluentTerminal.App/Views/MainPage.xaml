@@ -44,7 +44,18 @@
                 </Button.Content>
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Command="{x:Bind ViewModel.ShowSettingsCommand}" Text="Settings">
+                        <MenuFlyoutItem
+                            Width="160"
+                            Command="{x:Bind ViewModel.AddTerminalCommand}"
+                            Text="New tab">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Add" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Width="160"
+                            Command="{x:Bind ViewModel.ShowSettingsCommand}"
+                            Text="Settings">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Setting" />
                             </MenuFlyoutItem.Icon>
@@ -52,34 +63,19 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <StackPanel
+            <TextBlock
                 Grid.Column="1"
-                Orientation="Horizontal"
-                Visibility="{x:Bind ViewModel.Terminals.Count, Mode=OneWay, Converter={StaticResource OneToVisibleConverter}}">
-                <TextBlock
-                    IsHitTestVisible="False"
-                    Style="{StaticResource WindowTitleTextBlockStyle}"
-                    Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}" />
-                <Button
-                    x:Name="Add"
-                    Command="{x:Bind ViewModel.AddTerminalCommand}"
-                    Style="{StaticResource TitleBarButtonStyle}"
-                    ToolTipService.ToolTip="New tab">
-                    <Button.Content>
-                        <Viewbox Width="12" Height="12">
-                            <SymbolIcon Symbol="Add" />
-                        </Viewbox>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-
+                IsHitTestVisible="False"
+                Style="{StaticResource WindowTitleTextBlockStyle}"
+                Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
             <views:TabBar
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.TabsPosition, Mode=OneWay, Converter={StaticResource EnumValueToVisibiltyConverter}, ConverterParameter=Top}" />
+                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" />
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"
@@ -93,6 +89,6 @@
             AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
             ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-            Visibility="{x:Bind ViewModel.TabsPosition, Mode=OneWay, Converter={StaticResource EnumValueToVisibiltyConverter}, ConverterParameter=Bottom}" />
+            Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}" />
     </Grid>
 </Page>

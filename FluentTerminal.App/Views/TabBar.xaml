@@ -12,7 +12,7 @@
     d:DesignWidth="200"
     mc:Ignorable="d">
 
-    <Grid x:Name="Tabs" Visibility="{x:Bind ItemsSource.Count, Mode=OneWay, Converter={StaticResource OneToCollapsedConverter}}">
+    <Grid x:Name="Tabs">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />

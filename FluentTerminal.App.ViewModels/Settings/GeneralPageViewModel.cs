@@ -68,6 +68,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool AlwaysShowTabs
+        {
+            get => _applicationSettings.AlwaysShowTabs;
+            set
+            {
+                if (_applicationSettings.AlwaysShowTabs != value)
+                {
+                    _applicationSettings.AlwaysShowTabs = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public NewTerminalLocation NewTerminalLocation
         {
             get => _applicationSettings.NewTerminalLocation;
@@ -141,6 +155,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ConfirmClosingTabs = defaults.ConfirmClosingTabs;
                 UnderlineSelectedTab = defaults.UnderlineSelectedTab;
                 NewTerminalLocation = defaults.NewTerminalLocation;
+                AlwaysShowTabs = defaults.AlwaysShowTabs;
             }
         }
     }
