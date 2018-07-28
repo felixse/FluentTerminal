@@ -216,6 +216,11 @@ namespace FluentTerminal.App.ViewModels
             await FocusTerminal().ConfigureAwait(true);
         }
 
+        public void CopyText(string text)
+        {
+            _clipboardService.SetText(text);
+        }
+
         private void CloseSearchPanel()
         {
             SearchText = string.Empty;

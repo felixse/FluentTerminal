@@ -281,11 +281,15 @@ namespace FluentTerminal.App.Views
             });
         }
 
-        public void OnSelectionChanged(string selection)
+        public async void OnSelectionChanged(string selection)
         {
-            if (ViewModel.ApplicationSettings.CopyOnSelect)
+            if (ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
             {
-                _dispatcherJobs.Add(() => OnKeyboardCommand(nameof(Command.Copy)));
+                _dispatcherJobs.Add(async () =>
+                {
+                    ViewModel.CopyText(selection);
+                    await ExecuteScriptAsync("term.clearSelection()");
+                });
             }
         }
 
