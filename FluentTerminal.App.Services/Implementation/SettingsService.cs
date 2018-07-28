@@ -154,7 +154,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Guid GetDefaultShellProfileId()
         {
-            if (_roamingSettings.TryGetValue(DefaultShellProfileKey, out object value))
+            if (_localSettings.TryGetValue(DefaultShellProfileKey, out object value))
             {
                 return (Guid)value;
             }
@@ -176,7 +176,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void SaveDefaultShellProfileId(Guid id)
         {
-            _roamingSettings.SetValue(DefaultShellProfileKey, id);
+            _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
         public IEnumerable<ShellProfile> GetShellProfiles()

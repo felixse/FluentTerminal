@@ -592,14 +592,14 @@ namespace FluentTerminal.App.Services.Test
         public void GetDefaultShellProfileId_ValueExistsInRoamingSettings_ReturnsDefaultShellProfileId()
         {
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
-            var roamingSettings = new Mock<IApplicationDataContainer>();
+            var localSettings = new Mock<IApplicationDataContainer>();
             var defaultShellProfileId = (object)_fixture.Create<Guid>();
-            roamingSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out defaultShellProfileId)).Returns(true);
+            localSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out defaultShellProfileId)).Returns(true);
             var applicationDataContainers = new ApplicationDataContainers
             {
-                RoamingSettings = roamingSettings.Object,
+                LocalSettings = localSettings.Object,
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
-                LocalSettings = Mock.Of<IApplicationDataContainer>(),
+                RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
@@ -608,7 +608,7 @@ namespace FluentTerminal.App.Services.Test
             var result = settingsService.GetDefaultShellProfileId();
 
             result.Should().Be((Guid)defaultShellProfileId);
-            roamingSettings.Verify(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out defaultShellProfileId), Times.Once);
+            localSettings.Verify(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out defaultShellProfileId), Times.Once);
         }
 
         [Fact]
@@ -617,14 +617,14 @@ namespace FluentTerminal.App.Services.Test
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             var defaultShellProfileId = _fixture.Create<Guid>();
             defaultValueProvider.Setup(x => x.GetDefaultShellProfileId()).Returns(defaultShellProfileId);
-            var roamingSettings = new Mock<IApplicationDataContainer>();
+            var localSettings = new Mock<IApplicationDataContainer>();
             var currentDefaultShellProfileId = (object)_fixture.Create<Guid>();
-            roamingSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentDefaultShellProfileId)).Returns(false);
+            localSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentDefaultShellProfileId)).Returns(false);
             var applicationDataContainers = new ApplicationDataContainers
             {
-                RoamingSettings = roamingSettings.Object,
+                LocalSettings = localSettings.Object,
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
-                LocalSettings = Mock.Of<IApplicationDataContainer>(),
+                RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
@@ -634,7 +634,7 @@ namespace FluentTerminal.App.Services.Test
 
             result.Should().Be(defaultShellProfileId);
             defaultValueProvider.Verify(x => x.GetDefaultShellProfileId(), Times.Once);
-            roamingSettings.Verify(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentDefaultShellProfileId), Times.Once);
+            localSettings.Verify(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentDefaultShellProfileId), Times.Once);
         }
 
         [Fact]
@@ -710,24 +710,24 @@ namespace FluentTerminal.App.Services.Test
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             defaultValueProvider.Setup(x => x.GetDefaultShellProfileId()).Returns(defaultShellProfile.Id);
             var shellProfilesContainer = new Mock<IApplicationDataContainer>();
-            var roamingSettings = new Mock<IApplicationDataContainer>();
+            var localSettings = new Mock<IApplicationDataContainer>();
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
-                LocalSettings = Mock.Of<IApplicationDataContainer>(),
-                RoamingSettings = roamingSettings.Object,
+                RoamingSettings = Mock.Of<IApplicationDataContainer>(),
+                LocalSettings = localSettings.Object,
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             shellProfilesContainer.Setup(x => x.ReadValueFromJson(currentShellProfileId.ToString(), default(ShellProfile))).Returns(value: null);
             shellProfilesContainer.Setup(x => x.ReadValueFromJson(defaultShellProfile.Id.ToString(), default(ShellProfile))).Returns(defaultShellProfile);
-            roamingSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentShellProfileId)).Returns(true);
+            localSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentShellProfileId)).Returns(true);
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetDefaultShellProfile();
 
             result.Should().Be(defaultShellProfile);
-            roamingSettings.Verify(x => x.SetValue(SettingsService.DefaultShellProfileKey, defaultShellProfile.Id), Times.Once);
+            localSettings.Verify(x => x.SetValue(SettingsService.DefaultShellProfileKey, defaultShellProfile.Id), Times.Once);
         }
 
         [Fact]
