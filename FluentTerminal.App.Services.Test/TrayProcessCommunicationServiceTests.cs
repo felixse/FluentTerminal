@@ -43,28 +43,11 @@ namespace FluentTerminal.App.Services.Test
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
             var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile);
 
             result.Should().BeEquivalentTo(response);
-        }
-
-        [Fact]
-        public async Task Initialize_Default_SendsSetToggleWindowKeyBindingsRequest()
-        {
-            var settingsService = new Mock<ISettingsService>();
-            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
-            {
-                [Command.ToggleWindow] = keyBindings.ToList()
-            });
-            var appServiceConnection = new Mock<IAppServiceConnection>();
-            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
-
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(SetToggleWindowKeyBindingsRequest))), Times.Once);
         }
 
         [Fact]
@@ -80,7 +63,7 @@ namespace FluentTerminal.App.Services.Test
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
@@ -100,7 +83,7 @@ namespace FluentTerminal.App.Services.Test
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
             await trayProcessCommunicationService.WriteText(terminalId, text);
 
@@ -119,7 +102,7 @@ namespace FluentTerminal.App.Services.Test
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
             await trayProcessCommunicationService.CloseTerminal(terminalId);
 
@@ -127,7 +110,7 @@ namespace FluentTerminal.App.Services.Test
         }
 
         [Fact]
-        public async Task OnMessageReceived_TerminalExitedRequest_InvokesTerminalExitedEvent()
+        public void OnMessageReceived_TerminalExitedRequest_InvokesTerminalExitedEvent()
         {
             var terminalId = _fixture.Create<int>();
             var receivedTerminalId = 0;
@@ -149,7 +132,7 @@ namespace FluentTerminal.App.Services.Test
             });
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             var appServiceConnection = new Mock<IAppServiceConnection>();
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
             trayProcessCommunicationService.TerminalExited += (s, e) =>
             {
                 terminalExitedEventCalled = true;
@@ -163,7 +146,7 @@ namespace FluentTerminal.App.Services.Test
         }
 
         [Fact]
-        public async Task OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
+        public void OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
         {
             var terminalId = _fixture.Create<int>();
             var output = _fixture.Create<string>();
@@ -186,7 +169,7 @@ namespace FluentTerminal.App.Services.Test
             });
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             var appServiceConnection = new Mock<IAppServiceConnection>();
-            await trayProcessCommunicationService.Initialize(appServiceConnection.Object);
+            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
             trayProcessCommunicationService.SubscribeForTerminalOutput(terminalId, o =>
             {
                 receivedOutput = o;

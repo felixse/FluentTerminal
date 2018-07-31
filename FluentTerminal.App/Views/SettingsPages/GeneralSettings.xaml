@@ -35,7 +35,15 @@
             </CommandBar>
         </Grid>
         <StackPanel Grid.Row="2" Margin="24,0,0,0">
-            <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
+            <ToggleSwitch
+                Header="Run on startup"
+                IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
+                IsOn="{x:Bind ViewModel.StartupTaskEnabled, Mode=TwoWay}" />
+            <TextBlock
+                Foreground="Red"
+                Text="{x:Bind ViewModel.StartupTaskErrorMessage, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+            <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
             <RadioButton
                 Content="Tabs"
                 GroupName="NewTerminalLocation"

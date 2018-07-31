@@ -2,6 +2,7 @@
 using FluentTerminal.App.Adapters;
 using FluentTerminal.App.Dialogs;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
@@ -29,10 +30,6 @@ namespace FluentTerminal.App
 {
     public sealed partial class App : Application
     {
-        public const string ThemesContainerName = "Themes";
-        public const string KeyBindingsContainerName = "KeyBindings";
-        public const string ShellProfilesContainerName = "ShellProfiles";
-
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
@@ -55,9 +52,9 @@ namespace FluentTerminal.App
             {
                 LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
                 RoamingSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings),
-                KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
-                ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
-                Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(ThemesContainerName, ApplicationDataCreateDisposition.Always))
+                KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
+                ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
+                Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always))
             };
 
             var builder = new ContainerBuilder();
@@ -79,6 +76,7 @@ namespace FluentTerminal.App
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
+            builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -296,10 +294,10 @@ namespace FluentTerminal.App
 
         private async Task StartSystemTray()
         {
-            var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync().AsTask();
+            var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("AppLaunchedParameterGroup").AsTask();
             var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
             await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
-            await _trayProcessCommunicationService.Initialize(_appServiceConnection).ConfigureAwait(true);
+            _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }
 }

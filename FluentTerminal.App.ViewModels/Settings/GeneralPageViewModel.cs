@@ -9,21 +9,59 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class GeneralPageViewModel : ViewModelBase
     {
+        private readonly ApplicationSettings _applicationSettings;
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
-        private readonly ApplicationSettings _applicationSettings;
+        private readonly IStartupTaskService _startupTaskService;
+        private bool _canEnableStartupTask;
         private bool _editingNewTerminalLocation;
         private bool _editingTabsPosition;
+        private bool _startupTaskEnabled;
+        private string _startupTaskErrorMessage;
 
-        public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
+        public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IStartupTaskService startupTaskService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
+            _startupTaskService = startupTaskService;
+
             _applicationSettings = _settingsService.GetApplicationSettings();
 
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+        }
+
+        public async Task OnNavigatedTo()
+        {
+            var startupTaskStatus = await _startupTaskService.GetStatus();
+            SetStartupTaskPropertiesForStatus(startupTaskStatus);
+        }
+
+        public bool AlwaysShowTabs
+        {
+            get => _applicationSettings.AlwaysShowTabs;
+            set
+            {
+                if (_applicationSettings.AlwaysShowTabs != value)
+                {
+                    _applicationSettings.AlwaysShowTabs = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool BottomIsSelected
+        {
+            get => TabsPosition == TabsPosition.Bottom;
+            set => TabsPosition = TabsPosition.Bottom;
+        }
+
+        public bool CanEnableStartupTask
+        {
+            get => _canEnableStartupTask;
+            set => Set(ref _canEnableStartupTask, value);
         }
 
         public bool ConfirmClosingTabs
@@ -54,34 +92,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public bool UnderlineSelectedTab
-        {
-            get => _applicationSettings.UnderlineSelectedTab;
-            set
-            {
-                if (_applicationSettings.UnderlineSelectedTab != value)
-                {
-                    _applicationSettings.UnderlineSelectedTab = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public bool AlwaysShowTabs
-        {
-            get => _applicationSettings.AlwaysShowTabs;
-            set
-            {
-                if (_applicationSettings.AlwaysShowTabs != value)
-                {
-                    _applicationSettings.AlwaysShowTabs = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         public NewTerminalLocation NewTerminalLocation
         {
             get => _applicationSettings.NewTerminalLocation;
@@ -102,16 +112,30 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public RelayCommand RestoreDefaultsCommand { get; }
 
+        public bool StartupTaskEnabled
+        {
+            get => _startupTaskEnabled;
+            set
+            {
+                if (_startupTaskEnabled != value)
+                {
+                    _startupTaskEnabled = value;
+                    RaisePropertyChanged(nameof(StartupTaskEnabled));
+                    SetStartupTaskState(value);
+                }
+            }
+        }
+
+        public string StartupTaskErrorMessage
+        {
+            get => _startupTaskErrorMessage;
+            set => Set(ref _startupTaskErrorMessage, value);
+        }
+
         public bool TabIsSelected
         {
             get => NewTerminalLocation == NewTerminalLocation.Tab;
             set => NewTerminalLocation = NewTerminalLocation.Tab;
-        }
-
-        public bool WindowIsSelected
-        {
-            get => NewTerminalLocation == NewTerminalLocation.Window;
-            set => NewTerminalLocation = NewTerminalLocation.Window;
         }
 
         public TabsPosition TabsPosition
@@ -138,10 +162,24 @@ namespace FluentTerminal.App.ViewModels.Settings
             set => TabsPosition = TabsPosition.Top;
         }
 
-        public bool BottomIsSelected
+        public bool UnderlineSelectedTab
         {
-            get => TabsPosition == TabsPosition.Bottom;
-            set => TabsPosition = TabsPosition.Bottom;
+            get => _applicationSettings.UnderlineSelectedTab;
+            set
+            {
+                if (_applicationSettings.UnderlineSelectedTab != value)
+                {
+                    _applicationSettings.UnderlineSelectedTab = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool WindowIsSelected
+        {
+            get => NewTerminalLocation == NewTerminalLocation.Window;
+            set => NewTerminalLocation = NewTerminalLocation.Window;
         }
 
         private async Task RestoreDefaults()
@@ -157,6 +195,51 @@ namespace FluentTerminal.App.ViewModels.Settings
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
             }
+        }
+
+        private void SetStartupTaskPropertiesForStatus(StartupTaskStatus startupTaskStatus)
+        {
+            switch (startupTaskStatus)
+            {
+                case StartupTaskStatus.Enabled:
+                    StartupTaskEnabled = true;
+                    StartupTaskErrorMessage = string.Empty;
+                    CanEnableStartupTask = true;
+                    break;
+
+                case StartupTaskStatus.Disabled:
+                    StartupTaskEnabled = false;
+                    StartupTaskErrorMessage = string.Empty;
+                    CanEnableStartupTask = true;
+                    break;
+
+                case StartupTaskStatus.DisabledByUser:
+                    StartupTaskEnabled = false;
+                    StartupTaskErrorMessage = "Disabled by user. Please reactivate it in the Startup tab of the Task Manager.";
+                    CanEnableStartupTask = false;
+                    break;
+
+                case StartupTaskStatus.DisabledByPolicy:
+                    StartupTaskEnabled = false;
+                    StartupTaskErrorMessage = "Disabled by policy.";
+                    CanEnableStartupTask = false;
+                    break;
+            }
+        }
+
+        private async Task SetStartupTaskState(bool enabled)
+        {
+            StartupTaskStatus status;
+            if (enabled)
+            {
+                status = await _startupTaskService.EnableStartupTask();
+            }
+            else
+            {
+                _startupTaskService.DisableStartupTask();
+                status = await _startupTaskService.GetStatus();
+            }
+            SetStartupTaskPropertiesForStatus(status);
         }
     }
 }

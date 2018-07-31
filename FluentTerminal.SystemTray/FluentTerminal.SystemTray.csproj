@@ -175,6 +175,10 @@
     <Content Include="BinaryDependencies\x86\winpty.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">
+      <Project>{A1AD7385-F92E-46AC-A349-43DC99B1E72D}</Project>
+      <Name>FluentTerminal.App.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
       <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>
       <Name>FluentTerminal.Models</Name>

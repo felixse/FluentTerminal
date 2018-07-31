@@ -1,4 +1,5 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GlobalHotKey;
 using System;
@@ -22,13 +23,16 @@ namespace FluentTerminal.SystemTray.Services
         private bool _disposedValue;
         private readonly List<HotKey> _hotKeys;
 
-        public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, NotificationService notificationService)
+        public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, NotificationService notificationService, ISettingsService settingsService)
         {
             _dispatcher = dispatcher;
             _notificationService = notificationService;
             _hotKeyManager = hotKeyManager;
             _hotKeys = new List<HotKey>();
             _hotKeyManager.KeyPressed += OnKeyPressed;
+
+            var keyBindings = settingsService.GetKeyBindings()[Command.ToggleWindow];
+            SetHotKeys(keyBindings);
         }
 
         public void Dispose()

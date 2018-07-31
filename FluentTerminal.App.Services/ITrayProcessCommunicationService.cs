@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Services
     {
         event EventHandler<int> TerminalExited;
 
-        Task Initialize(IAppServiceConnection appServiceConnection);
+        void Initialize(IAppServiceConnection appServiceConnection);
 
         Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile);
 

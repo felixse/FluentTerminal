@@ -1,11 +1,10 @@
-﻿using FluentTerminal.App.Services;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 
-namespace FluentTerminal.App.Adapters
+namespace FluentTerminal.App.Services.Adapters
 {
     public class ApplicationDataContainerAdapter : IApplicationDataContainer
     {

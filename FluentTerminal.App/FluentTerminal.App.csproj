@@ -104,7 +104,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Adapters\ApplicationDataContainerAdapter.cs" />
     <Compile Include="Adapters\ApplicationViewAdapter.cs" />
     <Compile Include="Adapters\AppServiceConnectionAdapter.cs" />
     <Compile Include="Adapters\DispatcherTimerAdapter.cs" />
@@ -127,6 +126,7 @@
     </Compile>
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
+    <Compile Include="Services\StartupTaskService.cs" />
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
@@ -177,6 +177,8 @@
     </AppxManifest>
     <Content Include="Assets\settingsicons.ttf" />
     <Content Include="Win32\Autofac.dll" />
+    <Content Include="Win32\FluentTerminal.App.Services.dll" />
+    <Content Include="Win32\FluentTerminal.App.Services.pdb" />
     <Content Include="Win32\FluentTerminal.Models.dll" />
     <Content Include="Win32\FluentTerminal.Models.pdb" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />

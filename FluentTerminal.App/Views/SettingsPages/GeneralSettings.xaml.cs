@@ -18,6 +18,7 @@ namespace FluentTerminal.App.Views.SettingsPages
             if (e.Parameter is GeneralPageViewModel viewModel)
             {
                 ViewModel = viewModel;
+                ViewModel.OnNavigatedTo();
             }
         }
     }

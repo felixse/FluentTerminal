@@ -37,11 +37,10 @@ namespace FluentTerminal.App.Services.Implementation
             return JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
         }
 
-        public Task Initialize(IAppServiceConnection appServiceConnection)
+        public void Initialize(IAppServiceConnection appServiceConnection)
         {
             _appServiceConnection = appServiceConnection;
             _appServiceConnection.MessageReceived += OnMessageReceived;
-            return UpdateToggleWindowKeyBindings();
         }
 
         private void OnMessageReceived(object sender, IDictionary<string, string> e)

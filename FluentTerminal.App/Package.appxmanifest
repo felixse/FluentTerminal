@@ -26,7 +26,11 @@
         <uap:SplashScreen Image="Assets\AppIcons\SplashScreen.png" uap5:Optional="true" />
       </uap:VisualElements>
       <Extensions>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe" />
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe">
+          <desktop:FullTrustProcess>
+            <desktop:ParameterGroup GroupId="AppLaunchedParameterGroup" Parameters="appLaunched"/>
+          </desktop:FullTrustProcess>
+        </desktop:Extension>
         <uap5:Extension Category="windows.appExecutionAlias" Executable="FluentTerminal.App.exe" EntryPoint="FluentTerminal.App.App">
           <uap5:AppExecutionAlias>
             <uap5:ExecutionAlias Alias="flute.exe" />
@@ -35,6 +39,9 @@
         <uap:Extension Category="windows.appService">
           <uap:AppService Name="FluentTerminalAppService" />
         </uap:Extension>
+        <desktop:Extension Category="windows.startupTask" Executable="Win32\FluentTerminal.SystemTray.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="FluentTerminalStartupTask" Enabled="false" DisplayName="Fluent Terminal" />
+        </desktop:Extension>
       </Extensions>
     </Application>
   </Applications>

@@ -21,4 +21,15 @@
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\References\10.0.16299.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\References\10.0.16299.0\Windows.Foundation.UniversalApiContract\5.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
 </Project>
