@@ -19,8 +19,8 @@ A Terminal Emulator based on UWP and web technologies.
 - Explorer context menu integration (Installation script can be found [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration))
 
 ## Screenshots:
-![Terminal window](Screenshots/Terminal.png)
-![Settings window](Screenshots/Settings.png)
+![Terminal window](Screenshots/terminal.jpg)
+![Settings window](Screenshots/settings.jpg)
 
 ## Up Next:
 - Launch shell profile with a custom defined keybinding
