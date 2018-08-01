@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp desktop rescap">
-  <Identity Name="53621FSApps.FluentTerminal" Publisher="CN=BDC72197-B634-438A-B863-16DCB7D90C85" Version="0.1.14.0" />
+  <Identity Name="53621FSApps.FluentTerminal" Publisher="CN=BDC72197-B634-438A-B863-16DCB7D90C85" Version="0.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="f7225014-f405-4342-ad2e-ebf6ac60ea2c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Fluent Terminal</DisplayName>
@@ -28,7 +28,7 @@
       <Extensions>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe">
           <desktop:FullTrustProcess>
-            <desktop:ParameterGroup GroupId="AppLaunchedParameterGroup" Parameters="appLaunched"/>
+            <desktop:ParameterGroup GroupId="AppLaunchedParameterGroup" Parameters="appLaunched" />
           </desktop:FullTrustProcess>
         </desktop:Extension>
         <uap5:Extension Category="windows.appExecutionAlias" Executable="FluentTerminal.App.exe" EntryPoint="FluentTerminal.App.App">
@@ -36,12 +36,12 @@
             <uap5:ExecutionAlias Alias="flute.exe" />
           </uap5:AppExecutionAlias>
         </uap5:Extension>
-        <uap:Extension Category="windows.appService">
-          <uap:AppService Name="FluentTerminalAppService" />
-        </uap:Extension>
         <desktop:Extension Category="windows.startupTask" Executable="Win32\FluentTerminal.SystemTray.exe" EntryPoint="Windows.FullTrustApplication">
           <desktop:StartupTask TaskId="FluentTerminalStartupTask" Enabled="false" DisplayName="Fluent Terminal" />
         </desktop:Extension>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="FluentTerminalAppService" />
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
