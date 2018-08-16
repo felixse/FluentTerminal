@@ -131,7 +131,7 @@
                 <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ScrollViewer HorizontalAlignment="Stretch" Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="0,0,20,0">
+                            <StackPanel Margin="0,0,24,0">
                                 <TextBox
                                 Width="300"
                                 HorizontalAlignment="Left"
@@ -181,7 +181,7 @@
                             </StackPanel>
                         </ScrollViewer>
                         <ScrollViewer HorizontalAlignment="Stretch" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="0,0,20,0">
+                            <StackPanel Margin="0,0,24,0">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
                                 <controls:HeaderedTextBlock
                                 Margin="0,58,0,0"

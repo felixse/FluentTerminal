@@ -171,7 +171,7 @@
             RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <ContentControl.ContentTemplate>
                 <DataTemplate x:DataType="viewmodels:ThemeViewModel">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,20,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,24,0">
                         <StackPanel>
                             <TextBlock
                             Style="{StaticResource SubtitleTextBlockStyle}"
