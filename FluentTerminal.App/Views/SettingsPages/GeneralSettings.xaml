@@ -34,48 +34,50 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <StackPanel Grid.Row="2" Margin="24,0,0,0">
-            <ToggleSwitch
+        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
+            <StackPanel>
+                <ToggleSwitch
                 Header="Run on startup"
                 IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
                 IsOn="{x:Bind ViewModel.StartupTaskEnabled, Mode=TwoWay}" />
-            <TextBlock
+                <TextBlock
                 Foreground="Red"
                 Text="{x:Bind ViewModel.StartupTaskErrorMessage, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
-            <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
-            <RadioButton
+                <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
+                <RadioButton
                 Content="Tabs"
                 GroupName="NewTerminalLocation"
                 IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
-            <RadioButton
+                <RadioButton
                 Margin="0,0,0,24"
                 Content="Windows"
                 GroupName="NewTerminalLocation"
                 IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
-            <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
-            <RadioButton
+                <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
+                <RadioButton
                 Content="Top"
                 GroupName="TabsPosition"
                 IsChecked="{x:Bind ViewModel.TopIsSelected, Mode=TwoWay}" />
-            <RadioButton
+                <RadioButton
                 Margin="0,0,0,24"
                 Content="Bottom"
                 GroupName="TabsPosition"
                 IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
-            <ToggleSwitch
+                <ToggleSwitch
                 Margin="0,0,0,24"
                 Header="Always show tabs"
                 IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
-            <ToggleSwitch
+                <ToggleSwitch
                 Margin="0,0,0,24"
                 Header="Underline selected tab"
                 IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
-            <ToggleSwitch
+                <ToggleSwitch
                 Margin="0,0,0,24"
                 Header="Ask before closing windows"
                 IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
-            <ToggleSwitch Header="Ask before closing tabs" IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
-        </StackPanel>
+                <ToggleSwitch Header="Ask before closing tabs" IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
