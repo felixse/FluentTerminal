@@ -64,7 +64,7 @@ A Terminal Emulator based on UWP and web technologies.
 - When the solution is first opened, it will help to set the architecture to x64 for testing, as we didn't install the ARM cross-compiling stuff for VS2017 and we only include pre-compiled winpty binaries for x86 and x64.
   - **For this reason, the default architecture of "Any CPU" will fail to build, and you will have to choose either x64 or x86**
 - When first built, Visual studio will spend a significant amount of time resolving dependencies, and fetching additional components via nuGet. This is normal.
-  - If you have done the steps so far correctly, and the build is left as a debug build, then the solution should build successfully and should launch correctly when you press F5.
+  - If you have done the steps so far correctly, and the build is left as a debug build, then the solution should build and launch when you press F5.
 
 ### Subsequent Builds
 
@@ -73,4 +73,4 @@ A Terminal Emulator based on UWP and web technologies.
 
 ### Packaging
 
-With the solution open in Visual Studio, you can build a package for your own use by right-clicking on the `FluentTerminal.App` project in the Solution Explorer and choosing `Store->Create App Packages`. From here, follow the prompts, and if this is only for your personal use, it is OK to only build the x64 package, and not include the debug symbols.
+With the solution open in Visual Studio, you can build a package for your own use by right-clicking on the `FluentTerminal.App` project in the Solution Explorer and choosing `Store->Create App Packages`. From here, follow the prompts to create a package for sideloading, and if this is only for your personal use, it is OK to only build the x64 package, and not include the debug (i.e PDB) symbols.
