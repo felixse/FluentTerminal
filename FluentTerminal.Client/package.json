@@ -10,9 +10,11 @@
   "author": "FS Apps",
   "license": "GPL-3.0",
   "devDependencies": {
-    "webpack": "^3.10.0"
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "add-dependency": "^1.1.0",
     "xterm": "^3.5.1"
   }
 }
