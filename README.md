@@ -77,3 +77,4 @@ A Terminal Emulator based on UWP and web technologies.
 - With the solution open in Visual Studio, you can build a package for your own use by right-clicking on the `FluentTerminal.App` project in the Solution Explorer and choosing `Store->Create App Packages`
 - Follow the prompts to create a package for sideloading, and if this is only for your personal use, it is OK to only build the x64 package, and not include the debug (i.e PDB) symbols.
   - Note that your commits with these settings (as well as a newly generated temporary store key) will involve changes to the `FluentTerminal.App.csproj` file, so be careful about that if you plan to submit them for PRs.
+- This will produce, if successful, a folder in `FluentTerminal.App\AppPackages` that you can zip up and share. You'll need to follow the same install instructions as when installing a release from the GitHub repo, including installing the certificate and then installing the appxpackage.
