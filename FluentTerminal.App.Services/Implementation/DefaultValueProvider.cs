@@ -66,6 +66,27 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.SwitchToTerm1:
+                case Command.SwitchToTerm2:
+                case Command.SwitchToTerm3:
+                case Command.SwitchToTerm4:
+                case Command.SwitchToTerm5:
+                case Command.SwitchToTerm6:
+                case Command.SwitchToTerm7:
+                case Command.SwitchToTerm8:
+                case Command.SwitchToTerm9:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = command,
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.Number1 + (command - Command.SwitchToTerm1)
+                    }
+                };
+
                 case Command.NewTab:
                     return new List<KeyBinding>
                 {

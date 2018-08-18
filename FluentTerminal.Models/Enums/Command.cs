@@ -44,6 +44,33 @@ namespace FluentTerminal.Models.Enums
         SelectAll,
 
         [Description("Clear")]
-        Clear
+        Clear,
+
+        [Description("Switch to Terminal 1")]
+        SwitchToTerm1,
+
+        [Description("Switch to Terminal 2")]
+        SwitchToTerm2,
+
+        [Description("Switch to Terminal 3")]
+        SwitchToTerm3,
+
+        [Description("Switch to Terminal 4")]
+        SwitchToTerm4,
+
+        [Description("Switch to Terminal 5")]
+        SwitchToTerm5,
+
+        [Description("Switch to Terminal 6")]
+        SwitchToTerm6,
+
+        [Description("Switch to Terminal 7")]
+        SwitchToTerm7,
+
+        [Description("Switch to Terminal 8")]
+        SwitchToTerm8,
+
+        [Description("Switch to Terminal 9")]
+        SwitchToTerm9
     }
 }

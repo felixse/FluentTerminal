@@ -43,8 +43,18 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
             _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
             _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
+
+            // Add all of the commands for switching to a tab of a given ID, if there's one open there
+            for (int i = 0; i < 9; i++)
+            {
+                Command switchCmd = Command.SwitchToTerm1 + i;
+                int tabNumber = i;
+                Action handler = () => SelectTabNumber(tabNumber);
+                _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
+            }
             _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
+
             _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
             _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
@@ -242,6 +252,14 @@ namespace FluentTerminal.App.ViewModels
             {
                 BackgroundOpacity = e.BackgroundOpacity;
             });
+        }
+
+        private void SelectTabNumber(int tabNumber)
+        {
+            if (tabNumber < Terminals.Count)
+            {
+                SelectedTerminal = Terminals[tabNumber];
+            }
         }
 
         private void SelectNextTab()
