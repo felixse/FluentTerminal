@@ -32,6 +32,11 @@
         public string TabInactiveBackground { get; set; }
         public string TabInactiveUnderline { get; set; }
         public string TabInactiveForeground { get; set; }
+        public string TabActiveHoverBackground { get; set; }
+        public string TabActiveClickBackground { get; set; }
+        public string TabInactiveHoverBackground { get; set; }
+        public string TabInactiveHoverForeground { get; set; }
+        public string TabInactiveClickBackground { get; set; }
 
         public TerminalColors()
         {
@@ -51,6 +56,11 @@
             TabInactiveBackground = other.TabInactiveBackground;
             TabInactiveUnderline = other.TabInactiveUnderline;
             TabInactiveForeground = other.TabInactiveForeground;
+            TabActiveHoverBackground = other.TabActiveHoverBackground;
+            TabActiveClickBackground = other.TabActiveClickBackground;
+            TabInactiveHoverBackground = other.TabInactiveHoverBackground;
+            TabInactiveHoverForeground = other.TabInactiveHoverForeground;
+            TabInactiveClickBackground = other.TabInactiveClickBackground;
 
             Black = other.Black;
             Red = other.Red;

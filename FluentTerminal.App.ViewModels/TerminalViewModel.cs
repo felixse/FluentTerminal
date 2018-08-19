@@ -102,6 +102,7 @@ namespace FluentTerminal.App.ViewModels
                     RaisePropertyChanged(nameof(TabUnderlineColour));
                     RaisePropertyChanged(nameof(TabForegroundColour));
                     RaisePropertyChanged(nameof(TabBackgroundColour));
+                    RaisePropertyChanged(nameof(TabHoverBackground));
                 }
             }
         }
@@ -110,56 +111,42 @@ namespace FluentTerminal.App.ViewModels
         // TODO Add an "underline non-selected tabs" option
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) || (!IsSelected && ApplicationSettings.UnderlineSelectedTab);
 
-        // The colour depends on whether the current tab is selected or not.
+        string ColorAlternatives(string themeColorName, string windowsColorName)
+        {
+            var colors = _settingsService.GetCurrentTheme().Colors;
+            return (string)(colors.GetType().GetProperty(themeColorName).GetValue(colors, null) ?? 
+                _settingsService.GetWindowsThemeColorString(windowsColorName));
+        }
+
+        public string TabHoverBackground
+        {
+            get => IsSelected ?
+                ColorAlternatives("TabActiveHoverBackground", "SystemControlHighlightListAccentMediumBrush") :
+                ColorAlternatives("TabInactiveHoverBackground", "SystemControlHighlightListLowBrush");
+        }
+
         public string TabUnderlineColour
         {
-            get
-            {
-                if (IsSelected)
-                {
-                    return _settingsService.GetCurrentTheme().Colors.TabActiveUnderline ??
-                        _settingsService.GetWindowsThemeColorString("SystemControlHighlightAccentBrush");
-                }
-                else
-                {
-                    // Inactive tabs are, by default, not underlined.
-                    return _settingsService.GetCurrentTheme().Colors.TabInactiveUnderline ??
-                        "#00000000";
-                }
-            }
+            get => IsSelected ?
+                ColorAlternatives("TabActiveUnderline", "SystemControlHighlightAccentBrush") :
+                // No underline by default for inactive tabs
+                (_settingsService.GetCurrentTheme().Colors.TabInactiveUnderline ?? "#00000000");
         }
+
         public string TabBackgroundColour
         {
-            get
-            {
-                if (IsSelected)
-                {
-                    return _settingsService.GetCurrentTheme().Colors.TabActiveBackground ??
-                        _settingsService.GetWindowsThemeColorString("SystemControlHighlightListAccentLowBrush");
-                }
-                else
-                {
-                    // Inactive tabs are just transparent backgrounds
-                    return _settingsService.GetCurrentTheme().Colors.TabInactiveBackground ??
-                        "#00000000";
-                }
-            }
+            get => IsSelected ?
+                ColorAlternatives("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
+                // Show through to the background of the theme for inactive tabs
+                (_settingsService.GetCurrentTheme().Colors.TabInactiveBackground ?? "#00000000");
         }
+
         public string TabForegroundColour
         {
-            get
-            {
-                if (IsSelected)
-                {
-                    // The default for tab foreground colour is white-ish.
-                    return _settingsService.GetCurrentTheme().Colors.TabActiveForeground ?? "#f0f0f0";
-
-                }
-                else
-                {
-                    return _settingsService.GetCurrentTheme().Colors.TabInactiveForeground ?? "#f0f0f0";
-                }
-            }
+            get => IsSelected ?
+                // Use a white-ish tab text by default
+                (_settingsService.GetCurrentTheme().Colors.TabActiveForeground ?? "#f0f0f0") :
+                (_settingsService.GetCurrentTheme().Colors.TabInactiveForeground ?? "#f0f0f0");
         }
 
         public string ResizeOverlayContent
@@ -318,6 +305,7 @@ namespace FluentTerminal.App.ViewModels
                 RaisePropertyChanged(nameof(TabUnderlineColour));
                 RaisePropertyChanged(nameof(TabForegroundColour));
                 RaisePropertyChanged(nameof(TabBackgroundColour));
+                RaisePropertyChanged(nameof(TabHoverBackground));
 
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);

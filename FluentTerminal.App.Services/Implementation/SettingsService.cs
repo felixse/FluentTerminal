@@ -62,12 +62,6 @@ namespace FluentTerminal.App.Services.Implementation
             byte a = t.Item4;
             double opacity = t.Item5;
 
-            // Optionally mix in the opacity of the brush with the alpha channel of the color
-            if (mixOpacity)
-            {
-                a = (byte)(a * opacity);
-            }
-
             string ret = $"#{a:X2}{r:X2}{g:X2}{b:X2}";
 
             return ret;

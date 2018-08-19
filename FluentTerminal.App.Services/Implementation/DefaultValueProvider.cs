@@ -476,19 +476,7 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            var ret = new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
-
-            //foreach (var theme in ret)
-            //{
-            //    theme.Colors.TabActiveBackground = DefaultTabColours("ActiveBackground");
-            //    theme.Colors.TabActiveUnderline = DefaultTabColours("ActiveUnderline");
-            //    theme.Colors.TabActiveForeground = DefaultTabColours("ActiveForeground");
-            //    theme.Colors.TabInactiveBackground = DefaultTabColours("InactiveBackground");
-            //    theme.Colors.TabInactiveUnderline = DefaultTabColours("InactiveUnderline");
-            //    theme.Colors.TabInactiveForeground = DefaultTabColours("InactiveForeground");
-            //}
-
-            return ret;
+            return new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
         }
     }
 }

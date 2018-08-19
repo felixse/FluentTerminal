@@ -210,6 +210,9 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid.Resources>
                                 </Grid.Resources>
@@ -268,6 +271,51 @@
                                         ColorName="Inactive Foreground"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabInactiveForeground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                <TextBlock Grid.Row="3" Grid.Column="0"
+                                        Text="Active Click Background"
+                                        Margin="0,0,15,0">
+                                </TextBlock>
+                                <views:TerminalColorPicker
+                                    Grid.Row="3" Grid.Column="1"
+                                        ColorName="Active Click Background"
+                                        EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
+                                        SelectedColor="{x:Bind TabActiveClickBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                <TextBlock Grid.Row="3" Grid.Column="2"
+                                        Text="Inactive Click Background"
+                                        Margin="0,0,15,0">
+                                </TextBlock>
+                                <views:TerminalColorPicker
+                                    Grid.Row="3" Grid.Column="3"
+                                        ColorName="Inactive CLick Background"
+                                        EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
+                                        SelectedColor="{x:Bind TabInactiveClickBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                <TextBlock Grid.Row="4" Grid.Column="0"
+                                        Text="Active Hover Background"
+                                        Margin="0,0,15,0">
+                                </TextBlock>
+                                <views:TerminalColorPicker
+                                    Grid.Row="4" Grid.Column="1"
+                                        ColorName="Active Hover Background"
+                                        EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
+                                        SelectedColor="{x:Bind TabActiveHoverBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                <TextBlock Grid.Row="4" Grid.Column="2"
+                                        Text="Inactive Hover Background"
+                                        Margin="0,0,15,0">
+                                </TextBlock>
+                                <views:TerminalColorPicker
+                                    Grid.Row="4" Grid.Column="3"
+                                        ColorName="Inactive Hover Background"
+                                        EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
+                                        SelectedColor="{x:Bind TabInactiveHoverBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                <TextBlock Grid.Row="5" Grid.Column="2"
+                                        Text="Inactive Hover Foreground"
+                                        Margin="0,0,15,0">
+                                </TextBlock>
+                                <views:TerminalColorPicker
+                                    Grid.Row="5" Grid.Column="3"
+                                        ColorName="Inactive Hover Foreground"
+                                        EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
+                                        SelectedColor="{x:Bind TabInactiveHoverForeground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                             </Grid>
 
                             <Grid Margin="0,48,0,0">

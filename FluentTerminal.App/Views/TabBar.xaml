@@ -149,7 +149,10 @@
                                         CheckMode="Inline">
                                         <!-- TODO We need to be careful here, the default ones use alpha channel to overlay and brighten
                                         colours in different things. Note that, even at this stage, the "X" on each tab still lights up on
-                                        hover. -->
+                                        hover. 
+                                        
+                                        Also note that we can't ise x:Bind in styles EVER, according to the internet,
+                                        so only Binding is allowed. -->
                                         <ListViewItemPresenter.PlaceholderBackground>
                                             <!--ListViewItemPlaceholderBackgroundThemeBrush-->
                                             <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
@@ -160,7 +163,7 @@
                                         </ListViewItemPresenter.PointerOverForeground>
                                         <ListViewItemPresenter.PointerOverBackground>
                                             <!--SystemControlHighlightListLowBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
+                                            <SolidColorBrush Color="{Binding TabHoverBackground, Mode=OneWay}" Opacity="1.0" />
                                         </ListViewItemPresenter.PointerOverBackground>
                                         <ListViewItemPresenter.SelectedBackground>
                                             <!--SystemControlHighlightListAccentLowBrush-->
@@ -172,7 +175,7 @@
                                         </ListViewItemPresenter.SelectedForeground>
                                         <ListViewItemPresenter.SelectedPointerOverBackground>
                                             <!--SystemControlHighlightListAccentMediumBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
+                                            <SolidColorBrush Color="{Binding TabHoverBackground, Mode=OneWay}" Opacity="1.0" />
                                         </ListViewItemPresenter.SelectedPointerOverBackground>
                                         <ListViewItemPresenter.PressedBackground>
                                             <!--SystemControlHighlightListMediumBrush-->
@@ -182,7 +185,6 @@
                                             <!--SystemControlHighlightListAccentHighBrush-->
                                             <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
                                         </ListViewItemPresenter.SelectedPressedBackground>
-
                                     </ListViewItemPresenter>
                                 </ControlTemplate>
                             </Setter.Value>
