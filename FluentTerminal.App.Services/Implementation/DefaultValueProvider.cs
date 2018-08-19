@@ -293,6 +293,27 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
+        public string DefaultTabColours(string tabColourKey)
+        {
+            switch (tabColourKey)
+            {
+                case "ActiveBackground":
+                    return "#666666";
+                case "ActiveUnderline":
+                    return "#ffffff";
+                case "ActiveForeground":
+                    return "#ffffff";
+                case "InactiveBackground":
+                    return "#000000";
+                case "InactiveUnderline":
+                    return "#333333";
+                case "IntiveForeground":
+                    return "#aaaaaa";
+                default:
+                    return "#888888";
+            }
+        }
+
         public IEnumerable<TerminalTheme> GetPreInstalledThemes()
         {
             var defaultXterm = new TerminalTheme
@@ -455,7 +476,19 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
 
-            return new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
+            var ret = new[] { defaultXterm, powerShell, homebrew, tomorrow, ubuntu };
+
+            //foreach (var theme in ret)
+            //{
+            //    theme.Colors.TabActiveBackground = DefaultTabColours("ActiveBackground");
+            //    theme.Colors.TabActiveUnderline = DefaultTabColours("ActiveUnderline");
+            //    theme.Colors.TabActiveForeground = DefaultTabColours("ActiveForeground");
+            //    theme.Colors.TabInactiveBackground = DefaultTabColours("InactiveBackground");
+            //    theme.Colors.TabInactiveUnderline = DefaultTabColours("InactiveUnderline");
+            //    theme.Colors.TabInactiveForeground = DefaultTabColours("InactiveForeground");
+            //}
+
+            return ret;
         }
     }
 }

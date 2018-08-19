@@ -24,6 +24,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -137,10 +138,41 @@ namespace FluentTerminal.App
             }
         }
 
+        /// <summary>
+        /// The goal of this function is to read the theme brush colours and opacities from the
+        /// Applications.Resource dictionary, and pass them as simply colours to the SettingsService
+        /// for use in themes. We can't pass the brushes themselves, or the Application object
+        /// for #reasons, so this is actually good enough, and makes them more portable.
+        /// </summary>
+        private void PassAcrossThemeColours()
+        {
+            Dictionary<string, Tuple<byte, byte, byte, byte, double>> themeColorMapping = new Dictionary<string, Tuple<byte, byte, byte, byte, double>>();
+            foreach (string brushKey in new string[] {
+                "SystemControlHighlightAccentBrush",
+                "ListViewItemPlaceholderBackgroundThemeBrush",
+                "SystemControlHighlightAltBaseHighBrush",
+                "SystemControlHighlightListLowBrush",
+                "SystemControlHighlightListAccentLowBrush",
+                "SystemControlHighlightAltBaseHighBrush",
+                "SystemControlHighlightListAccentMediumBrush",
+                "SystemControlHighlightListMediumBrush",
+                "SystemControlHighlightListAccentHighBrush" })
+            {
+                SolidColorBrush brush;
+                object brushObj;
+                Current.Resources.TryGetValue(brushKey, out brushObj);
+                brush = (SolidColorBrush)brushObj;
+                themeColorMapping[brushKey] = new Tuple<byte, byte, byte, byte, double>(brush.Color.R, brush.Color.G, brush.Color.B, brush.Color.A, brush.Opacity);
+            }
+
+            _settingsService.SetWindowsThemeColours(themeColorMapping);
+        }
+
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             if (!_alreadyLaunched)
             {
+                PassAcrossThemeColours();
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null, false).ConfigureAwait(true);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);

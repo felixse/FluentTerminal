@@ -26,6 +26,13 @@
         public string BrightCyan { get; set; }
         public string BrightWhite { get; set; }
 
+        public string TabActiveBackground { get; set; }
+        public string TabActiveUnderline { get; set; }
+        public string TabActiveForeground { get; set; }
+        public string TabInactiveBackground { get; set; }
+        public string TabInactiveUnderline { get; set; }
+        public string TabInactiveForeground { get; set; }
+
         public TerminalColors()
         {
         }
@@ -37,6 +44,13 @@
             Cursor = other.Cursor;
             CursorAccent = other.CursorAccent;
             Selection = other.Selection;
+
+            TabActiveBackground = other.TabActiveBackground;
+            TabActiveUnderline = other.TabActiveUnderline;
+            TabActiveForeground = other.TabActiveForeground;
+            TabInactiveBackground = other.TabInactiveBackground;
+            TabInactiveUnderline = other.TabInactiveUnderline;
+            TabInactiveForeground = other.TabInactiveForeground;
 
             Black = other.Black;
             Red = other.Red;

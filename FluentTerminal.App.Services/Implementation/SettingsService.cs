@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.UI;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -19,6 +20,7 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _keyBindings;
         private readonly IApplicationDataContainer _shellProfiles;
         private readonly IApplicationDataContainer _roamingSettings;
+        private Dictionary<string, Tuple<byte, byte, byte, byte, double>> windowsThemeColours;
 
         public event EventHandler<Guid> CurrentThemeChanged;
 
@@ -47,6 +49,33 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
             }
+        }
+
+        public string GetWindowsThemeColorString(string colorKey, bool mixOpacity)
+        {
+            // I would prefer to use the App.Utilities.ColorExtensions methods, but the nature of the
+            // references means that, given the current file layout, i can't.
+            Tuple<byte, byte, byte, byte, double> t = windowsThemeColours[colorKey];
+            byte r = t.Item1;
+            byte g = t.Item2;
+            byte b = t.Item3;
+            byte a = t.Item4;
+            double opacity = t.Item5;
+
+            // Optionally mix in the opacity of the brush with the alpha channel of the color
+            if (mixOpacity)
+            {
+                a = (byte)(a * opacity);
+            }
+
+            string ret = $"#{a:X2}{r:X2}{g:X2}{b:X2}";
+
+            return ret;
+        }
+
+        public void SetWindowsThemeColours(Dictionary<string, Tuple<byte, byte, byte, byte, double>> themeColors)
+        {
+            windowsThemeColours = themeColors;
         }
 
         public TerminalTheme GetCurrentTheme()
