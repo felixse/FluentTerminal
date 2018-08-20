@@ -111,43 +111,62 @@ namespace FluentTerminal.App.ViewModels
         // TODO Add an "underline non-selected tabs" option
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) || (!IsSelected && ApplicationSettings.UnderlineSelectedTab);
 
-        string ColorAlternatives(string themeColorName, string windowsColorName)
+        private string ColorAlternative(string themeColor, string systemColor)
         {
-            var colors = _settingsService.GetCurrentTheme().Colors;
-            return (string)(colors.GetType().GetProperty(themeColorName).GetValue(colors, null) ?? 
-                _settingsService.GetWindowsThemeColorString(windowsColorName));
+            TerminalColors colors = _settingsService.GetCurrentTheme().Colors;
+            return (string)colors.GetType().GetProperty(themeColor).GetValue(colors) ?? systemColor;
         }
 
-        public string TabHoverBackground
+        private string EffectiveTabBackgroundColor()
         {
-            get => IsSelected ?
-                ColorAlternatives("TabActiveHoverBackground", "SystemControlHighlightListAccentMediumBrush") :
-                ColorAlternatives("TabInactiveHoverBackground", "SystemControlHighlightListLowBrush");
-        }
-
-        public string TabUnderlineColour
-        {
-            get => IsSelected ?
-                ColorAlternatives("TabActiveUnderline", "SystemControlHighlightAccentBrush") :
-                // No underline by default for inactive tabs
-                (_settingsService.GetCurrentTheme().Colors.TabInactiveUnderline ?? "#00000000");
-        }
-
-        public string TabBackgroundColour
-        {
-            get => IsSelected ?
-                ColorAlternatives("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
-                // Show through to the background of the theme for inactive tabs
-                (_settingsService.GetCurrentTheme().Colors.TabInactiveBackground ?? "#00000000");
+            if (TabBackgroundColour == "!Transparent")
+            {
+                return _settingsService.GetCurrentTheme().Colors.Background;
+            }
+            else
+            {
+                return TabBackgroundColour;
+            }
         }
 
         public string TabForegroundColour
         {
             get => IsSelected ?
-                // Use a white-ish tab text by default
-                (_settingsService.GetCurrentTheme().Colors.TabActiveForeground ?? "#f0f0f0") :
-                (_settingsService.GetCurrentTheme().Colors.TabInactiveForeground ?? "#f0f0f0");
+                    // In keeping with the "auto-theme for the theme" thing, we'll need to default to the same
+                    // behaviour as ContrastHelper.SetTitleBarButtonsForTheme, but selectively.
+                    //
+                    // The ?CH() style of return string tells teh converter to ask the Contrast helper what
+                    // colour to use. You'll see this in use in other colours as well.
+                    ColorAlternative("TabActiveForeground", $"?CH(SystemBaseHighColor,{EffectiveTabBackgroundColor()})") :
+                    ColorAlternative("TabInactiveForeground", $"?CH(SystemBaseHighColor,{EffectiveTabBackgroundColor()})");
         }
+
+        public string TabUnderlineColour
+        {
+            get => IsUnderlined ?
+                    (IsSelected ?
+                        // This maps to SystemAccentColor, but embodied as a brush
+                        ColorAlternative("TabActiveUnderline", "SystemControlHighlightAccentBrush") :
+                        ColorAlternative("TabInactiveUnderline", "SystemControlHighlightAccentBrush")
+                    ) :
+                    "SystemControlHighlightAccentBrush";
+        }
+
+        public string TabHoverBackground
+        {
+            get => IsSelected ?
+                    ColorAlternative("TabActiveHoverBackground", "SystemControlHighlightListAccentMediumBrush") :
+                    ColorAlternative("TabInactiveHoverBackground", "SystemControlHighlightListLowBrush");
+        }
+
+        public string TabBackgroundColour
+        {
+            get => IsSelected ?
+                    ColorAlternative("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
+                    // The default background is "Transparent", the literal, indicated to the converter by a !
+                    ColorAlternative("TabInactiveBackground", "!Transparent");
+        }
+
 
         public string ResizeOverlayContent
         {

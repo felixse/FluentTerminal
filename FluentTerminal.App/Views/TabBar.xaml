@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:FluentTerminal.App.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -51,12 +50,9 @@
                 SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TerminalViewModel">
-                        <!-- Inactive tab background colour is set as "Background" here on RelativePanel,
-                        without it being set, my guess is that it is full transparency, rgba(0,0,0,1) -->
                         <RelativePanel
                             Height="32"
                             Margin="0"
-                            Background="{x:Bind TabBackgroundColour, Mode=OneWay}"
                             VerticalAlignment="Stretch">
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
@@ -65,14 +61,11 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
-                            <!-- The TabUnderlineColour property is updated based on the selected-ness of
-                            the tab, so that handles both selected and inactive tabs.
-                            The system colour for this is SystemControlHighlightAccentBrush -->
                             <Border
                                 Grid.ColumnSpan="3"
                                 Height="3"
                                 VerticalAlignment="Bottom"
-                                Background="{x:Bind TabUnderlineColour, Mode=OneWay}"
+                                Background="{x:Bind TabUnderlineColour, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
                                 RelativePanel.AlignBottomWithPanel="True"
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignRightWithPanel="True"
@@ -83,11 +76,9 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.LeftOf="CloseButton"
                                 Text="{x:Bind Title, Mode=OneWay}"
-                                Style="{StaticResource CaptionTextBlockStyle}">
-                                <!-- Inactive tab foreground colour, this was white-ish, inherited from the style -->
-                                <TextBlock.Foreground>
-                                    <SolidColorBrush Color="{x:Bind TabForegroundColour, Mode=OneWay}" />
-                                </TextBlock.Foreground>
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Foreground="{Binding TabForegroundColour, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
+                                >
                             </TextBlock>
                             <Button
                                 x:Name="CloseButton"
@@ -111,28 +102,19 @@
                 </ListView.Template>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <!-- Ref: https://msdn.microsoft.com/en-us/library/windows/apps/mt299136.aspx -->
                         <Setter Property="MinWidth" Value="100" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                        <!-- This probably does nothing, since the RelativePanel occupies the whole item's space
-                        and the TextBlock has the pertinent Foreground property set, but in case, we'll leave it. -->
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Foreground">
-                            <Setter.Value>
-                                <SolidColorBrush Color="{Binding TabForegroundColour, Mode=OneWay}" Opacity="1.0" />
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                        <Setter Property="Background" Value="{Binding TabBackgroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"/>
+                        <Setter Property="Foreground" Value="{Binding TabForegroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
-                                    <!--Reference:
-                                        https://msdn.microsoft.com/en-us/library/windows/apps/mt299136.aspx-->
                                     <ListViewItemPresenter
                                         ContentTransitions="{TemplateBinding ContentTransitions}"
                                         SelectionCheckMarkVisualEnabled="True"
@@ -142,50 +124,19 @@
                                         DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
                                         FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
                                         FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                                        PointerOverBackground="{Binding TabHoverBackground, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                        SelectedBackground="{Binding TabBackgroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        SelectedForeground="{Binding TabForegroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        SelectedPointerOverBackground="{Binding TabHoverBackground, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                        SelectedPressedBackground="{ThemeResource SystemControlHighlightListAccentHighBrush}"
                                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                                         DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
                                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                         ContentMargin="{TemplateBinding Padding}"
-                                        CheckMode="Inline">
-                                        <!-- TODO We need to be careful here, the default ones use alpha channel to overlay and brighten
-                                        colours in different things. Note that, even at this stage, the "X" on each tab still lights up on
-                                        hover. 
-                                        
-                                        Also note that we can't ise x:Bind in styles EVER, according to the internet,
-                                        so only Binding is allowed. -->
-                                        <ListViewItemPresenter.PlaceholderBackground>
-                                            <!--ListViewItemPlaceholderBackgroundThemeBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.PlaceholderBackground>
-                                        <ListViewItemPresenter.PointerOverForeground>
-                                            <!--SystemControlHighlightAltBaseHighBrush-->
-                                            <SolidColorBrush Color="{Binding TabForegroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.PointerOverForeground>
-                                        <ListViewItemPresenter.PointerOverBackground>
-                                            <!--SystemControlHighlightListLowBrush-->
-                                            <SolidColorBrush Color="{Binding TabHoverBackground, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.PointerOverBackground>
-                                        <ListViewItemPresenter.SelectedBackground>
-                                            <!--SystemControlHighlightListAccentLowBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.SelectedBackground>
-                                        <ListViewItemPresenter.SelectedForeground>
-                                            <!--SystemControlHighlightAltBaseHighBrush-->
-                                            <SolidColorBrush Color="{Binding TabForegroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.SelectedForeground>
-                                        <ListViewItemPresenter.SelectedPointerOverBackground>
-                                            <!--SystemControlHighlightListAccentMediumBrush-->
-                                            <SolidColorBrush Color="{Binding TabHoverBackground, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.SelectedPointerOverBackground>
-                                        <ListViewItemPresenter.PressedBackground>
-                                            <!--SystemControlHighlightListMediumBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.PressedBackground>
-                                        <ListViewItemPresenter.SelectedPressedBackground>
-                                            <!--SystemControlHighlightListAccentHighBrush-->
-                                            <SolidColorBrush Color="{Binding TabBackgroundColour, Mode=OneWay}" Opacity="1.0" />
-                                        </ListViewItemPresenter.SelectedPressedBackground>
-                                    </ListViewItemPresenter>
+                                        CheckMode="Inline"/>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>

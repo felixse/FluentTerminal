@@ -293,27 +293,6 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
-        public string DefaultTabColours(string tabColourKey)
-        {
-            switch (tabColourKey)
-            {
-                case "ActiveBackground":
-                    return "#666666";
-                case "ActiveUnderline":
-                    return "#ffffff";
-                case "ActiveForeground":
-                    return "#ffffff";
-                case "InactiveBackground":
-                    return "#000000";
-                case "InactiveUnderline":
-                    return "#333333";
-                case "IntiveForeground":
-                    return "#aaaaaa";
-                default:
-                    return "#888888";
-            }
-        }
-
         public IEnumerable<TerminalTheme> GetPreInstalledThemes()
         {
             var defaultXterm = new TerminalTheme

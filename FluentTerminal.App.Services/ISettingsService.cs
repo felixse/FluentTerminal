@@ -54,9 +54,5 @@ namespace FluentTerminal.App.Services
         void SaveTheme(TerminalTheme theme);
 
         void DeleteTheme(Guid id);
-
-        void SetWindowsThemeColours(Dictionary<string, Tuple<byte, byte, byte, byte, double>> themeColors);
-
-        string GetWindowsThemeColorString(string colorKey, bool mixOpacity = true);
     }
 }
