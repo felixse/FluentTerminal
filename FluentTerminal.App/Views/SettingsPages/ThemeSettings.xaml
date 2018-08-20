@@ -277,20 +277,20 @@
                                 </TextBlock>
                                 <views:TerminalColorPicker
                                     Grid.Row="3" Grid.Column="1"
-                                        ColorName="Active Click Background"
+                                        ColorName="Active click background"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabActiveClickBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="3" Grid.Column="2"
-                                        Text="Inactive Click Background"
+                                        Text="Inactive click background"
                                         Margin="0,0,15,0">
                                 </TextBlock>
                                 <views:TerminalColorPicker
                                     Grid.Row="3" Grid.Column="3"
-                                        ColorName="Inactive CLick Background"
+                                        ColorName="Inactive Click Background"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabInactiveClickBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="4" Grid.Column="0"
-                                        Text="Active Hover Background"
+                                        Text="Active hover background"
                                         Margin="0,0,15,0">
                                 </TextBlock>
                                 <views:TerminalColorPicker
@@ -299,7 +299,7 @@
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabActiveHoverBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="4" Grid.Column="2"
-                                        Text="Inactive Hover Background"
+                                        Text="Inactive hover background"
                                         Margin="0,0,15,0">
                                 </TextBlock>
                                 <views:TerminalColorPicker
@@ -308,7 +308,7 @@
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabInactiveHoverBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="5" Grid.Column="2"
-                                        Text="Inactive Hover Foreground"
+                                        Text="Inactive hover foreground"
                                         Margin="0,0,15,0">
                                 </TextBlock>
                                 <views:TerminalColorPicker

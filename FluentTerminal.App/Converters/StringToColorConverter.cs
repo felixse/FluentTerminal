@@ -13,6 +13,7 @@ namespace FluentTerminal.App.Converters
             {
                 return colorString.FromString();
             }
+
             return null;
         }
 

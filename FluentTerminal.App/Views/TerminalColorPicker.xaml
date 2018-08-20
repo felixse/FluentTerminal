@@ -11,10 +11,11 @@
         x:Name="Root"
         IsEnabled="{x:Bind EnableEditing, Mode=OneWay}"
         Style="{StaticResource ColorPreviewButtonStyle}"
-        ToolTipService.ToolTip="{x:Bind ColorName}">
-        <Button.Background>
-            <SolidColorBrush Color="{x:Bind SelectedColor, Mode=OneWay}" />
-        </Button.Background>
+        ToolTipService.ToolTip="{x:Bind ColorName}"
+        Background="{x:Bind ButtonBackground, Mode=OneWay}">
+        <!--<Button.Background>
+            <SolidColorBrush Color="{x:Bind VisibleColor, Mode=OneWay}" />
+        </Button.Background>-->
         <Button.Flyout>
             <Flyout>
                 <StackPanel>

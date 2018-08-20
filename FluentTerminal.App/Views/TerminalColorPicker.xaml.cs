@@ -1,11 +1,14 @@
 ﻿using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Views
 {
     public sealed partial class TerminalColorPicker : UserControl
     {
+        bool colorIsNull = false;
+
         public static readonly DependencyProperty ColorNameProperty =
             DependencyProperty.Register(nameof(ColorName), typeof(string), typeof(TerminalColorPicker), new PropertyMetadata(null));
 
@@ -16,13 +19,19 @@ namespace FluentTerminal.App.Views
                     DependencyProperty.Register(nameof(IsAlphaEnabled), typeof(bool), typeof(TerminalColorPicker), new PropertyMetadata(false));
 
         public static readonly DependencyProperty SelectedColorProperty =
-                    DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(TerminalColorPicker), new PropertyMetadata(Colors.Transparent, (s, e) =>
+                    DependencyProperty.Register(nameof(SelectedColor), typeof(Color?), typeof(TerminalColorPicker), new PropertyMetadata(Colors.Transparent, (s, e) =>
                     {
                         if (s is TerminalColorPicker terminalColorPicker)
                         {
-                            terminalColorPicker.colorPicker.Color = (Color)e.NewValue;
+                            // Default color for the picker, when the value isn't yet set, is grey.
+                            terminalColorPicker.colorIsNull = ((Color?)e.NewValue) == null;
+                            terminalColorPicker.colorPicker.Color = (Color?)e.NewValue ?? Colors.Gray;
                         }
                     }));
+
+        public static readonly DependencyProperty ButtonBackgroundProperty =
+                    DependencyProperty.Register(nameof(ButtonBackground), typeof(Brush), typeof(TerminalColorPicker), new PropertyMetadata(false));
+
 
         public TerminalColorPicker()
         {
@@ -48,15 +57,35 @@ namespace FluentTerminal.App.Views
             set { SetValue(IsAlphaEnabledProperty, value); }
         }
 
-        public Color SelectedColor
+        public Color? SelectedColor
         {
-            get { return (Color)GetValue(SelectedColorProperty); }
+            get { return (Color?)GetValue(SelectedColorProperty); }
             set { SetValue(SelectedColorProperty, value); }
+        }
+
+        public Brush ButtonBackground
+        {
+            get
+            {
+                if (SelectedColor == null)
+                {
+                    return (Brush)Application.Current.Resources["MissingColorSelectionBrush"];
+                }
+                else
+                {
+                    return new SolidColorBrush((Color)GetValue(SelectedColorProperty));
+                }
+            }
         }
 
         private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            SelectedColor = args.NewColor;
+            // When we set the color picker color, only update the selected color if the
+            // color was set because it wasn't null.
+            if (!colorIsNull)
+            {
+                SelectedColor = args.NewColor;
+            }
         }
     }
 }
