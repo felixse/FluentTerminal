@@ -65,7 +65,7 @@
                                 Grid.ColumnSpan="3"
                                 Height="3"
                                 VerticalAlignment="Bottom"
-                                Background="{x:Bind TabUnderlineColour, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
+                                Background="{x:Bind TabUnderlineColor, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
                                 RelativePanel.AlignBottomWithPanel="True"
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignRightWithPanel="True"
@@ -77,7 +77,7 @@
                                 RelativePanel.LeftOf="CloseButton"
                                 Text="{x:Bind Title, Mode=OneWay}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Foreground="{Binding TabForegroundColour, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
+                                Foreground="{x:Bind TabForegroundColor, Mode=OneWay, Converter={StaticResource ColorTupleToBrushConverter}}"
                                 >
                             </TextBlock>
                             <Button
@@ -110,8 +110,8 @@
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-                        <Setter Property="Background" Value="{Binding TabBackgroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"/>
-                        <Setter Property="Foreground" Value="{Binding TabForegroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}" />
+                        <Setter Property="Background" Value="{Binding TabBackgroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"/>
+                        <Setter Property="Foreground" Value="{Binding TabForegroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
@@ -125,11 +125,11 @@
                                         FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
                                         FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
-                                        PointerOverBackground="{Binding TabHoverBackground, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        PointerOverBackground="{Binding TabHoverBackgroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
                                         PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
-                                        SelectedBackground="{Binding TabBackgroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
-                                        SelectedForeground="{Binding TabForegroundColour, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
-                                        SelectedPointerOverBackground="{Binding TabHoverBackground, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        SelectedBackground="{Binding TabBackgroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        SelectedForeground="{Binding TabForegroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
+                                        SelectedPointerOverBackground="{Binding TabHoverBackgroundColor, Mode=OneWay,Converter={StaticResource ColorTupleToBrushConverter}}"
                                         PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
                                         SelectedPressedBackground="{ThemeResource SystemControlHighlightListAccentHighBrush}"
                                         DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"

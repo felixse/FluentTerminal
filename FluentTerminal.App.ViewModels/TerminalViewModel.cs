@@ -99,10 +99,10 @@ namespace FluentTerminal.App.ViewModels
                     RaisePropertyChanged(nameof(IsUnderlined));
 
                     // Since the tab colour scheme depends on selection state, notify those properties have changed too.
-                    RaisePropertyChanged(nameof(TabUnderlineColour));
-                    RaisePropertyChanged(nameof(TabForegroundColour));
-                    RaisePropertyChanged(nameof(TabBackgroundColour));
-                    RaisePropertyChanged(nameof(TabHoverBackground));
+                    RaisePropertyChanged(nameof(TabUnderlineColor));
+                    RaisePropertyChanged(nameof(TabForegroundColor));
+                    RaisePropertyChanged(nameof(TabBackgroundColor));
+                    RaisePropertyChanged(nameof(TabHoverBackgroundColor));
                 }
             }
         }
@@ -119,17 +119,12 @@ namespace FluentTerminal.App.ViewModels
 
         private string EffectiveTabBackgroundColor()
         {
-            if (TabBackgroundColour == "!Transparent")
-            {
-                return _settingsService.GetCurrentTheme().Colors.Background;
-            }
-            else
-            {
-                return TabBackgroundColour;
-            }
+            return TabBackgroundColor == "!Transparent" ? 
+                _settingsService.GetCurrentTheme().Colors.Background : 
+                TabBackgroundColor;
         }
 
-        public string TabForegroundColour
+        public string TabForegroundColor
         {
             get => IsSelected ?
                     // In keeping with the "auto-theme for the theme" thing, we'll need to default to the same
@@ -141,7 +136,7 @@ namespace FluentTerminal.App.ViewModels
                     ColorAlternative("TabInactiveForeground", $"?CH(SystemBaseHighColor,{EffectiveTabBackgroundColor()})");
         }
 
-        public string TabUnderlineColour
+        public string TabUnderlineColor
         {
             get => IsUnderlined ?
                     (IsSelected ?
@@ -152,14 +147,14 @@ namespace FluentTerminal.App.ViewModels
                     "SystemControlHighlightAccentBrush";
         }
 
-        public string TabHoverBackground
+        public string TabHoverBackgroundColor
         {
             get => IsSelected ?
                     ColorAlternative("TabActiveHoverBackground", "SystemControlHighlightListAccentMediumBrush") :
                     ColorAlternative("TabInactiveHoverBackground", "SystemControlHighlightListLowBrush");
         }
 
-        public string TabBackgroundColour
+        public string TabBackgroundColor
         {
             get => IsSelected ?
                     ColorAlternative("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
@@ -321,10 +316,10 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                RaisePropertyChanged(nameof(TabUnderlineColour));
-                RaisePropertyChanged(nameof(TabForegroundColour));
-                RaisePropertyChanged(nameof(TabBackgroundColour));
-                RaisePropertyChanged(nameof(TabHoverBackground));
+                RaisePropertyChanged(nameof(TabUnderlineColor));
+                RaisePropertyChanged(nameof(TabForegroundColor));
+                RaisePropertyChanged(nameof(TabBackgroundColor));
+                RaisePropertyChanged(nameof(TabHoverBackgroundColor));
 
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
