@@ -109,7 +109,9 @@ namespace FluentTerminal.App.ViewModels
 
         // We're underlining the tab if it is selected, and we want to underline selected tabs, or if it is not selected, and we are underlining non-selected tabs
         // TODO Add an "underline non-selected tabs" option
-        public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) || (!IsSelected && ApplicationSettings.UnderlineSelectedTab);
+        public bool IsUnderlined => 
+            (IsSelected && ApplicationSettings.UnderlineSelectedTab) || 
+            (!IsSelected && _settingsService.GetCurrentTheme().Colors.TabInactiveUnderline != null);
 
         private string ColorAlternative(string themeColor, string systemColor)
         {
@@ -316,6 +318,7 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
+                RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(TabUnderlineColor));
                 RaisePropertyChanged(nameof(TabForegroundColor));
                 RaisePropertyChanged(nameof(TabBackgroundColor));

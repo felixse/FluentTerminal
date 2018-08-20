@@ -272,12 +272,12 @@
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabInactiveForeground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="3" Grid.Column="0"
-                                        Text="Active Click Background"
+                                        Text="Active click background"
                                         Margin="0,0,15,0">
                                 </TextBlock>
                                 <views:TerminalColorPicker
                                     Grid.Row="3" Grid.Column="1"
-                                        ColorName="Active click background"
+                                        ColorName="Active Click Background"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind TabActiveClickBackground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 <TextBlock Grid.Row="3" Grid.Column="2"
