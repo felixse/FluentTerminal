@@ -23,9 +23,14 @@ namespace FluentTerminal.App.Views
                     {
                         if (s is TerminalColorPicker terminalColorPicker)
                         {
-                            // Default color for the picker, when the value isn't yet set, is grey.
                             terminalColorPicker.colorIsNull = ((Color?)e.NewValue) == null;
-                            terminalColorPicker.colorPicker.Color = (Color?)e.NewValue ?? Colors.Gray;
+
+                            // When leading the color, or changing the selected color (happens on page load)
+                            // only set the picker (triggering the event action later) if the color is non-null
+                            if (((Color?)e.NewValue) != null)
+                            {
+                                terminalColorPicker.colorPicker.Color = (Color)e.NewValue;
+                            }
                         }
                     }));
 
@@ -60,7 +65,11 @@ namespace FluentTerminal.App.Views
         public Color? SelectedColor
         {
             get { return (Color?)GetValue(SelectedColorProperty); }
-            set { SetValue(SelectedColorProperty, value); }
+            set
+            {
+                SetValue(SelectedColorProperty, value);
+                SetValue(ButtonBackgroundProperty, value);
+            }
         }
 
         public Brush ButtonBackground
@@ -76,16 +85,12 @@ namespace FluentTerminal.App.Views
                     return new SolidColorBrush((Color)GetValue(SelectedColorProperty));
                 }
             }
+            set { }
         }
 
         private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            // When we set the color picker color, only update the selected color if the
-            // color was set because it wasn't null.
-            if (!colorIsNull)
-            {
-                SelectedColor = args.NewColor;
-            }
+            SelectedColor = args.NewColor;
         }
     }
 }
