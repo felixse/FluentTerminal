@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 
 namespace FluentTerminal.App.Converters
 {
-    class ColorTupleToBrushConverter : IValueConverter
+    class ColorIndicatorToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

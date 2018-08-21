@@ -160,10 +160,9 @@ namespace FluentTerminal.App.ViewModels
         {
             get => IsSelected ?
                     ColorAlternative("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
-                    // The default background is "Transparent", the literal, indicated to the converter by a !
+                    // The default background is "Transparent", the literal, indicated to the converter by a !    
                     ColorAlternative("TabInactiveBackground", "!Transparent");
         }
-
 
         public string ResizeOverlayContent
         {

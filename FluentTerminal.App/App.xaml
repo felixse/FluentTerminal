@@ -26,7 +26,7 @@
             <converters:NegateConverter x:Key="NegateConverter" />
             <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
             <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
-            <converters:ColorTupleToBrushConverter x:Key="ColorTupleToBrushConverter" />
+            <converters:ColorIndicatorToBrushConverter x:Key="ColorIndicatorToBrushConverter" />
             <converters:IntToVisibilityConverter
                 x:Key="ZeroToCollapsedConverter"
                 Else="Visible"

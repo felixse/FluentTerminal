@@ -112,7 +112,7 @@
     </Compile>
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
-    <Compile Include="Converters\ColorTupleToBrushConverter.cs" />
+    <Compile Include="Converters\ColorIndicatorToBrushConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
     <Compile Include="Converters\IntToExtendedVirtualKeyConverter.cs" />
