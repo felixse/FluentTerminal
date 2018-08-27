@@ -107,6 +107,8 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public TabTheme TabTheme { get; } = new TabTheme();
+
         // We're underlining the tab if it is selected, and we want to underline selected tabs, or if it is not selected, and we are underlining non-selected tabs
         // TODO Add an "underline non-selected tabs" option
         public bool IsUnderlined => 

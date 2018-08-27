@@ -37,45 +37,45 @@
         <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
             <StackPanel>
                 <ToggleSwitch
-                Header="Run on startup"
-                IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
-                IsOn="{x:Bind ViewModel.StartupTaskEnabled, Mode=TwoWay}" />
+                    Header="Run on startup"
+                    IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
+                    IsOn="{x:Bind ViewModel.StartupTaskEnabled, Mode=TwoWay}" />
                 <TextBlock
-                Foreground="Red"
-                Text="{x:Bind ViewModel.StartupTaskErrorMessage, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+                    Foreground="Red"
+                    Text="{x:Bind ViewModel.StartupTaskErrorMessage, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
                 <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
                 <RadioButton
-                Content="Tabs"
-                GroupName="NewTerminalLocation"
-                IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
+                    Content="Tabs"
+                    GroupName="NewTerminalLocation"
+                    IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
                 <RadioButton
-                Margin="0,0,0,24"
-                Content="Windows"
-                GroupName="NewTerminalLocation"
-                IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
+                    Margin="0,0,0,24"
+                    Content="Windows"
+                    GroupName="NewTerminalLocation"
+                    IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
                 <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
                 <RadioButton
-                Content="Top"
-                GroupName="TabsPosition"
-                IsChecked="{x:Bind ViewModel.TopIsSelected, Mode=TwoWay}" />
+                    Content="Top"
+                    GroupName="TabsPosition"
+                    IsChecked="{x:Bind ViewModel.TopIsSelected, Mode=TwoWay}" />
                 <RadioButton
-                Margin="0,0,0,24"
-                Content="Bottom"
-                GroupName="TabsPosition"
-                IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
+                    Margin="0,0,0,24"
+                    Content="Bottom"
+                    GroupName="TabsPosition"
+                    IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
                 <ToggleSwitch
-                Margin="0,0,0,24"
-                Header="Always show tabs"
-                IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
+                    Margin="0,0,0,24"
+                    Header="Always show tabs"
+                    IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
                 <ToggleSwitch
-                Margin="0,0,0,24"
-                Header="Underline selected tab"
-                IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
+                    Margin="0,0,0,24"
+                    Header="Underline selected tab"
+                    IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
                 <ToggleSwitch
-                Margin="0,0,0,24"
-                Header="Ask before closing windows"
-                IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
+                    Margin="0,0,0,24"
+                    Header="Ask before closing windows"
+                    IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
                 <ToggleSwitch Header="Ask before closing tabs" IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>

@@ -8,10 +8,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles\Custom.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <LinearGradientBrush x:Key="MissingColorSelectionBrush" 
-                                 StartPoint="0,0" EndPoint="1,1" >
-                <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="White" Offset="1.0"/>
+            <LinearGradientBrush x:Key="MissingColorSelectionBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="Black" />
+                <GradientStop Offset="1.0" Color="White" />
             </LinearGradientBrush>
             <converters:IntToVisibilityConverter
                 x:Key="OneToVisibleConverter"
@@ -26,7 +25,7 @@
             <converters:NegateConverter x:Key="NegateConverter" />
             <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
             <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
-            <converters:ColorIndicatorToBrushConverter x:Key="ColorIndicatorToBrushConverter" />
+            <converters:TabColorFallbackConverter x:Key="TabColorFallbackConverter" />
             <converters:IntToVisibilityConverter
                 x:Key="ZeroToCollapsedConverter"
                 Else="Visible"
