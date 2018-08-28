@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using FluentTerminal.Models;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
@@ -33,7 +34,9 @@ namespace FluentTerminal.App.Views
                     RelativeSource = new RelativeSource
                     {
                         Mode = RelativeSourceMode.Self
-                    }
+                    },
+                    Converter = (IValueConverter)Application.Current.Resources["TabColorFallbackConverter"],
+                    ConverterParameter = TabThemeKey.Background.ToString()
                 };
                 BindingOperations.SetBinding(obj, ListViewItem.BackgroundProperty, binding);
             }

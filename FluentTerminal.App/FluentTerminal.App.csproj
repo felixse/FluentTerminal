@@ -119,6 +119,7 @@
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Converters\NegateConverter.cs" />
     <Compile Include="Converters\StringToColorConverter.cs" />
+    <Compile Include="Converters\TabThemeSelectedConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />

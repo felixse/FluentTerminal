@@ -63,11 +63,29 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
+                            <RelativePanel.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutSubItem Text="Color">
+                                        <ToggleMenuFlyoutItem
+                                            Command="{x:Bind SelectTabThemeCommand}"
+                                            CommandParameter="None"
+                                            IsChecked="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterLanguage=None}"
+                                            Text="None" />
+                                        <ToggleMenuFlyoutItem
+                                            Command="{x:Bind SelectTabThemeCommand}"
+                                            CommandParameter="Red"
+                                            IsChecked="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterLanguage=Red}"
+                                            Text="Red" />
+                                    </MenuFlyoutSubItem>
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem Command="{x:Bind CloseCommand}" Text="Close" />
+                                </MenuFlyout>
+                            </RelativePanel.ContextFlyout>
                             <Border
                                 Grid.ColumnSpan="3"
                                 Height="3"
                                 VerticalAlignment="Bottom"
-                                Background="{x:Bind TabTheme.Underline, Mode=OneWay}"
+                                Background="{x:Bind TabTheme.Color, Mode=OneWay}"
                                 RelativePanel.AlignBottomWithPanel="True"
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignRightWithPanel="True"
@@ -104,7 +122,7 @@
                         <Setter Property="MinWidth" Value="100" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="TabTheme.Background" />
+                        <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="TabTheme" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -144,17 +162,17 @@
                                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
                                         FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
                                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                                        PointerOverBackground="{Binding TabTheme.BackgroundPointerOver, Mode=OneWay}"
+                                        PointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundPointerOver}"
                                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                                        PressedBackground="{Binding TabTheme.BackgroundPressed, Mode=OneWay}"
+                                        PressedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundPressed}"
                                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
                                         RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
-                                        SelectedBackground="{Binding TabTheme.BackgroundSelected, Mode=OneWay}"
+                                        SelectedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelected}"
                                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-                                        SelectedPointerOverBackground="{Binding TabTheme.BackgroundSelectedPointerOver, Mode=OneWay}"
-                                        SelectedPressedBackground="{Binding TabTheme.BackgroundSelectedPressed, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=ListViewItemBackgroundSelectedPressed}"
+                                        SelectedPointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPointerOver}"
+                                        SelectedPressedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPressed}"
                                         SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}">
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">

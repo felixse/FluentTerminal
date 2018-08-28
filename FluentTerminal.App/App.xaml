@@ -35,6 +35,7 @@
             <converters:BackgroundToApplicationThemeConverter x:Key="BackgroundToApplicationThemeConverter" />
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
             <converters:EnumValueToVisibiltyConverter x:Key="EnumValueToVisibiltyConverter" />
+            <converters:TabThemeSelectedConverter x:Key="TabThemeSelectedConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,6 +68,11 @@ namespace FluentTerminal.App.ViewModels
             FindNextCommand = new RelayCommand(async () => await FindNext().ConfigureAwait(false));
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
+            SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
+
+
+            TabThemes = new ObservableCollection<TabTheme>(TabTheme.Themes);
+            TabTheme = TabThemes.First();
         }
 
         public ApplicationSettings ApplicationSettings { get; private set; }
@@ -98,73 +104,34 @@ namespace FluentTerminal.App.ViewModels
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
 
-                    // Since the tab colour scheme depends on selection state, notify those properties have changed too.
-                    RaisePropertyChanged(nameof(TabUnderlineColor));
-                    RaisePropertyChanged(nameof(TabForegroundColor));
-                    RaisePropertyChanged(nameof(TabBackgroundColor));
-                    RaisePropertyChanged(nameof(TabHoverBackgroundColor));
                 }
             }
         }
 
-        public TabTheme TabTheme { get; } = new TabTheme();
+        public ObservableCollection<TabTheme> TabThemes { get; }
+
+        private TabTheme _tabTheme;
+
+        
+
+        public TabTheme TabTheme
+        {
+            get => _tabTheme;
+            set => Set(ref _tabTheme, value);
+        }
+
+        public RelayCommand<string> SelectTabThemeCommand { get; }
+
+        private void SelectTabTheme(string name)
+        {
+            TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
+        }
 
         // We're underlining the tab if it is selected, and we want to underline selected tabs, or if it is not selected, and we are underlining non-selected tabs
         // TODO Add an "underline non-selected tabs" option
         public bool IsUnderlined => 
             (IsSelected && ApplicationSettings.UnderlineSelectedTab) || 
             (!IsSelected && _settingsService.GetCurrentTheme().Colors.TabInactiveUnderline != null);
-
-        private string ColorAlternative(string themeColor, string systemColor)
-        {
-            TerminalColors colors = _settingsService.GetCurrentTheme().Colors;
-            return (string)colors.GetType().GetProperty(themeColor).GetValue(colors) ?? systemColor;
-        }
-
-        private string EffectiveTabBackgroundColor()
-        {
-            return TabBackgroundColor == "!Transparent" ? 
-                _settingsService.GetCurrentTheme().Colors.Background : 
-                TabBackgroundColor;
-        }
-
-        public string TabForegroundColor
-        {
-            get => IsSelected ?
-                    // In keeping with the "auto-theme for the theme" thing, we'll need to default to the same
-                    // behaviour as ContrastHelper.SetTitleBarButtonsForTheme, but selectively.
-                    //
-                    // The ?CH() style of return string tells teh converter to ask the Contrast helper what
-                    // colour to use. You'll see this in use in other colours as well.
-                    ColorAlternative("TabActiveForeground", $"?CH(SystemBaseHighColor,{EffectiveTabBackgroundColor()})") :
-                    ColorAlternative("TabInactiveForeground", $"?CH(SystemBaseHighColor,{EffectiveTabBackgroundColor()})");
-        }
-
-        public string TabUnderlineColor
-        {
-            get => IsUnderlined ?
-                    (IsSelected ?
-                        // This maps to SystemAccentColor, but embodied as a brush
-                        ColorAlternative("TabActiveUnderline", "SystemControlHighlightAccentBrush") :
-                        ColorAlternative("TabInactiveUnderline", "SystemControlHighlightAccentBrush")
-                    ) :
-                    "SystemControlHighlightAccentBrush";
-        }
-
-        public string TabHoverBackgroundColor
-        {
-            get => IsSelected ?
-                    ColorAlternative("TabActiveHoverBackground", "SystemControlHighlightListAccentMediumBrush") :
-                    ColorAlternative("TabInactiveHoverBackground", "SystemControlHighlightListLowBrush");
-        }
-
-        public string TabBackgroundColor
-        {
-            get => IsSelected ?
-                    ColorAlternative("TabActiveBackground", "SystemControlHighlightListAccentLowBrush") :
-                    // The default background is "Transparent", the literal, indicated to the converter by a !    
-                    ColorAlternative("TabInactiveBackground", "!Transparent");
-        }
 
         public string ResizeOverlayContent
         {
@@ -320,10 +287,6 @@ namespace FluentTerminal.App.ViewModels
             await _applicationView.RunOnDispatcherThread(async () =>
             {
                 RaisePropertyChanged(nameof(IsUnderlined));
-                RaisePropertyChanged(nameof(TabUnderlineColor));
-                RaisePropertyChanged(nameof(TabForegroundColor));
-                RaisePropertyChanged(nameof(TabBackgroundColor));
-                RaisePropertyChanged(nameof(TabHoverBackgroundColor));
 
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
