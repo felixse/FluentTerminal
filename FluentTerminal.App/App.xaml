@@ -36,6 +36,7 @@
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
             <converters:EnumValueToVisibiltyConverter x:Key="EnumValueToVisibiltyConverter" />
             <converters:TabThemeSelectedConverter x:Key="TabThemeSelectedConverter" />
+            <converters:ColorResourceKeyFallbackConverter x:Key="ColorResourceKeyFallbackConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

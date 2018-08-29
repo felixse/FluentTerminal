@@ -30,6 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private string _searchText;
         private bool _showResizeOverlay;
         private bool _showSearchPanel;
+        private TabTheme _tabTheme;
         private int _terminalId;
         private ITerminalView _terminalView;
         private string _title;
@@ -70,15 +71,14 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
 
-
             TabThemes = new ObservableCollection<TabTheme>(TabTheme.Themes);
             TabTheme = TabThemes.First();
         }
 
-        public ApplicationSettings ApplicationSettings { get; private set; }
-
         public event EventHandler Closed;
 
+        public ApplicationSettings ApplicationSettings { get; private set; }
+        
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
@@ -103,35 +103,11 @@ namespace FluentTerminal.App.ViewModels
                         _applicationView.Title = Title;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
-
                 }
             }
         }
 
-        public ObservableCollection<TabTheme> TabThemes { get; }
-
-        private TabTheme _tabTheme;
-
-        
-
-        public TabTheme TabTheme
-        {
-            get => _tabTheme;
-            set => Set(ref _tabTheme, value);
-        }
-
-        public RelayCommand<string> SelectTabThemeCommand { get; }
-
-        private void SelectTabTheme(string name)
-        {
-            TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
-        }
-
-        // We're underlining the tab if it is selected, and we want to underline selected tabs, or if it is not selected, and we are underlining non-selected tabs
-        // TODO Add an "underline non-selected tabs" option
-        public bool IsUnderlined => 
-            (IsSelected && ApplicationSettings.UnderlineSelectedTab) || 
-            (!IsSelected && _settingsService.GetCurrentTheme().Colors.TabInactiveUnderline != null);
+        public bool IsUnderlined => IsSelected && ApplicationSettings.UnderlineSelectedTab;
 
         public string ResizeOverlayContent
         {
@@ -144,6 +120,8 @@ namespace FluentTerminal.App.ViewModels
             get => _searchText;
             set => Set(ref _searchText, value);
         }
+
+        public RelayCommand<string> SelectTabThemeCommand { get; }
 
         public bool ShowResizeOverlay
         {
@@ -168,6 +146,14 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
+        public TabTheme TabTheme
+        {
+            get => _tabTheme;
+            set => Set(ref _tabTheme, value);
+        }
+
+        public ObservableCollection<TabTheme> TabThemes { get; }
+
         public string Title
         {
             get => _title;
@@ -186,6 +172,11 @@ namespace FluentTerminal.App.ViewModels
         {
             _terminalView.Close();
             await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
+        }
+
+        public void CopyText(string text)
+        {
+            _clipboardService.SetText(text);
         }
 
         public Task FocusTerminal()
@@ -244,11 +235,6 @@ namespace FluentTerminal.App.ViewModels
             }
 
             await FocusTerminal().ConfigureAwait(true);
-        }
-
-        public void CopyText(string text)
-        {
-            _clipboardService.SetText(text);
         }
 
         private void CloseSearchPanel()
@@ -367,6 +353,11 @@ namespace FluentTerminal.App.ViewModels
         private void OnTerminalTitleChanged(object sender, string e)
         {
             Title = e;
+        }
+
+        private void SelectTabTheme(string name)
+        {
+            TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
         }
 
         private async Task TryClose()
