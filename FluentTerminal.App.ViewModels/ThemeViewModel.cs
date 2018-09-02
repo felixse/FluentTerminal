@@ -43,17 +43,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly TerminalTheme _theme;
         private string _white;
         private string _yellow;
-        private string _tabActiveBackground;
-        private string _tabActiveUnderline;
-        private string _tabActiveForeground;
-        private string _tabInactiveBackground;
-        private string _tabInactiveUnderline;
-        private string _tabInactiveForeground;
-        private string _tabActiveHoverBackground;
-        private string _tabActiveClickBackground;
-        private string _tabInactiveHoverBackground;
-        private string _tabInactiveHoverForeground;
-        private string _tabInactiveClickBackground;
         private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
@@ -92,18 +81,6 @@ namespace FluentTerminal.App.ViewModels
             Cursor = _theme.Colors.Cursor;
             CursorAccent = _theme.Colors.CursorAccent;
             Selection = _theme.Colors.Selection;
-
-            TabActiveBackground = _theme.Colors.TabActiveBackground;
-            TabActiveUnderline = _theme.Colors.TabActiveUnderline;
-            TabActiveForeground = _theme.Colors.TabActiveForeground;
-            TabInactiveBackground = _theme.Colors.TabInactiveBackground;
-            TabInactiveUnderline = _theme.Colors.TabInactiveUnderline;
-            TabInactiveForeground = _theme.Colors.TabInactiveForeground;
-            TabActiveHoverBackground = _theme.Colors.TabActiveHoverBackground;
-            TabActiveClickBackground = _theme.Colors.TabActiveClickBackground;
-            TabInactiveHoverBackground = _theme.Colors.TabInactiveHoverBackground;
-            TabInactiveHoverForeground = _theme.Colors.TabInactiveHoverForeground;
-            TabInactiveClickBackground = _theme.Colors.TabInactiveClickBackground;
 
             SetActiveCommand = new RelayCommand(SetActive);
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
@@ -289,50 +266,6 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _yellow, value);
         }
 
-        public string TabActiveBackground
-        {
-            get => _tabActiveBackground;
-            set => Set(ref _tabActiveBackground, value);
-        }
-
-        public string TabActiveUnderline
-        {
-            get => _tabActiveUnderline;
-            set => Set(ref _tabActiveUnderline, value);
-        }
-
-        public string TabActiveForeground
-        {
-            get => _tabActiveForeground;
-            set => Set(ref _tabActiveForeground, value);
-        }
-
-        public string TabInactiveBackground
-        {
-            get => _tabInactiveBackground;
-            set => Set(ref _tabInactiveBackground, value);
-        }
-
-        public string TabInactiveUnderline
-        {
-            get => _tabInactiveUnderline;
-            set => Set(ref _tabInactiveUnderline, value);
-        }
-
-        public string TabInactiveForeground
-        {
-            get => _tabInactiveForeground;
-            set => Set(ref _tabInactiveForeground, value);
-        }
-
-        public string TabActiveHoverBackground {
-            get => _tabActiveHoverBackground;
-            set => Set(ref _tabActiveHoverBackground, value); }
-        public string TabActiveClickBackground { get => _tabActiveClickBackground; set => Set(ref _tabActiveClickBackground, value); }
-        public string TabInactiveHoverBackground { get => _tabInactiveHoverBackground; set => Set(ref _tabInactiveHoverBackground, value); }
-        public string TabInactiveHoverForeground { get => _tabInactiveHoverForeground; set => Set(ref _tabInactiveHoverForeground, value); }
-        public string TabInactiveClickBackground { get => _tabInactiveClickBackground; set => Set(ref _tabInactiveClickBackground, value); }
-
         public void SaveChanges()
         {
             _theme.Name = Name;
@@ -361,18 +294,6 @@ namespace FluentTerminal.App.ViewModels
             _theme.Colors.Cursor = Cursor;
             _theme.Colors.CursorAccent = CursorAccent;
             _theme.Colors.Selection = Selection;
-
-            _theme.Colors.TabActiveBackground = TabActiveBackground;
-            _theme.Colors.TabActiveUnderline = TabActiveUnderline;
-            _theme.Colors.TabActiveForeground = TabActiveForeground;
-            _theme.Colors.TabInactiveBackground = TabInactiveBackground;
-            _theme.Colors.TabInactiveUnderline = TabInactiveUnderline;
-            _theme.Colors.TabInactiveForeground = TabInactiveForeground;
-            _theme.Colors.TabActiveHoverBackground = TabActiveHoverBackground;
-            _theme.Colors.TabActiveClickBackground = TabActiveClickBackground;
-            _theme.Colors.TabInactiveHoverBackground = TabInactiveHoverBackground;
-            _theme.Colors.TabInactiveHoverForeground = TabInactiveHoverForeground;
-            _theme.Colors.TabInactiveClickBackground = TabInactiveClickBackground;
 
             _settingsService.SaveTheme(_theme);
 
@@ -408,18 +329,6 @@ namespace FluentTerminal.App.ViewModels
                 Cursor = _fallBackColors.Cursor;
                 CursorAccent = _fallBackColors.CursorAccent;
                 Selection = _fallBackColors.Selection;
-
-                TabActiveBackground = _fallBackColors.TabActiveBackground;
-                TabActiveUnderline = _fallBackColors.TabActiveUnderline;
-                TabActiveForeground = _fallBackColors.TabActiveForeground;
-                TabInactiveBackground = _fallBackColors.TabInactiveBackground;
-                TabInactiveUnderline = _fallBackColors.TabInactiveUnderline;
-                TabInactiveForeground = _fallBackColors.TabInactiveForeground;
-                TabActiveHoverBackground = _fallBackColors.TabActiveHoverBackground;
-                TabActiveClickBackground = _fallBackColors.TabActiveClickBackground;
-                TabInactiveHoverBackground = _fallBackColors.TabInactiveHoverBackground;
-                TabInactiveHoverForeground = _fallBackColors.TabInactiveHoverForeground;
-                TabInactiveClickBackground = _fallBackColors.TabInactiveClickBackground;
 
                 Name = _fallBackName;
                 Author = _fallBackAuthor;

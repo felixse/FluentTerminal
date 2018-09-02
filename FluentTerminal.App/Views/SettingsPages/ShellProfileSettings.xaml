@@ -5,8 +5,37 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:FluentTerminal.Models"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
+    xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
+    <Page.Resources>
+        <views:TabThemeComboBoxItemTemplateSelector x:Key="TabThemeComboBoxItemTemplateSelector">
+            <views:TabThemeComboBoxItemTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="models:TabTheme">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xF126;" />
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </views:TabThemeComboBoxItemTemplateSelector.DefaultTemplate>
+            <views:TabThemeComboBoxItemTemplateSelector.ColoredTemplate>
+                <DataTemplate x:DataType="models:TabTheme">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Foreground="{x:Bind Color}"
+                            Glyph="&#xF127;" />
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </views:TabThemeComboBoxItemTemplateSelector.ColoredTemplate>
+        </views:TabThemeComboBoxItemTemplateSelector>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
@@ -125,20 +154,17 @@
                 </Button>
             </StackPanel>
         </ScrollViewer>
-        <ContentControl
+        <ScrollViewer
             Grid.Row="2"
             Grid.Column="1"
             Margin="24,0,0,0"
-            HorizontalContentAlignment="Stretch"
-            Content="{x:Bind ViewModel.SelectedShellProfile, Mode=TwoWay}">
-            <ContentControl.ContentTemplate>
-                <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <ScrollViewer
-                            HorizontalAlignment="Stretch"
-                            VerticalScrollBarVisibility="Auto"
-                            Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
-                            <StackPanel Margin="0,0,24,0">
+            HorizontalAlignment="Stretch"
+            VerticalScrollBarVisibility="Auto">
+            <ContentControl HorizontalContentAlignment="Stretch" Content="{x:Bind ViewModel.SelectedShellProfile, Mode=TwoWay}">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                 <TextBox
                                     Width="300"
                                     HorizontalAlignment="Left"
@@ -185,13 +211,17 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <ComboBox
+                                    Width="150"
+                                    Margin="0,24,0,0"
+                                    Header="Tab color"
+                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                    ItemTemplateSelector="{StaticResource TabThemeComboBoxItemTemplateSelector}"
+                                    ItemsSource="{x:Bind TabThemes}"
+                                    SelectedItem="{x:Bind SelectedTabTheme, Mode=TwoWay}" />
                             </StackPanel>
-                        </ScrollViewer>
-                        <ScrollViewer
-                            HorizontalAlignment="Stretch"
-                            VerticalScrollBarVisibility="Auto"
-                            Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
-                            <StackPanel Margin="0,0,24,0">
+                            <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
                                 <controls:HeaderedTextBlock
                                     Margin="0,58,0,0"
@@ -205,11 +235,17 @@
                                     Margin="0,36,0,0"
                                     Header="Arguments"
                                     Text="{x:Bind Arguments, Mode=OneWay}" />
+                                <controls:HeaderedContentControl
+                                    Margin="0,36,0,0"
+                                    HorizontalContentAlignment="Stretch"
+                                    Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
+                                    ContentTemplateSelector="{StaticResource TabThemeComboBoxItemTemplateSelector}"
+                                    Header="Tab color" />
                             </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.ContentTemplate>
-        </ContentControl>
+                        </Grid>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </ScrollViewer>
     </Grid>
 </Page>

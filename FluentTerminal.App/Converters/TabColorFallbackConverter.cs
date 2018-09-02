@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using Windows.UI.Xaml;

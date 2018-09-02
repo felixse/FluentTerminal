@@ -239,6 +239,59 @@ namespace FluentTerminal.App.Services.Implementation
             return Guid.Parse("813f2298-210a-481a-bdbf-c17bc637a3e2");
         }
 
+        public IEnumerable<TabTheme> GetDefaultTabThemes()
+        {
+            return new[]
+            {
+                new TabTheme
+                {
+                    Id = 0,
+                    Name = "None",
+                    BackgroundOpacity = double.NaN,
+                    BackgroundPointerOverOpacity = double.NaN,
+                    BackgroundPressedOpacity = double.NaN,
+                    BackgroundSelectedOpacity = double.NaN,
+                    BackgroundSelectedPointerOverOpacity = double.NaN,
+                    BackgroundSelectedPressedOpacity = double.NaN
+                },
+                new TabTheme
+                {
+                    Id = 1,
+                    Name = "Red",
+                    Color = "#E81123"
+                },
+                new TabTheme
+                {
+                    Id = 2,
+                    Name = "Green",
+                    Color = "#10893E"
+                },
+                new TabTheme
+                {
+                    Id = 3,
+                    Name = "Blue",
+                    Color = "#0078D7"
+                },
+                new TabTheme
+                {
+                    Id = 4,
+                    Name = "Purple",
+                    Color = "#881798"
+                },
+                new TabTheme
+                {
+                    Id = 5,
+                    Name = "Orange",
+                    Color = "#FF8C00"
+                },
+                new TabTheme
+                {
+                    Id = 6,
+                    Name = "Teal",
+                    Color = "#00B7C3"
+                }
+            };
+        }
         public TerminalOptions GetDefaultTerminalOptions()
         {
             return new TerminalOptions

@@ -61,6 +61,9 @@ namespace FluentTerminal.App.ViewModels
             _applicationView = applicationView;
             _clipboardService = clipboardService;
 
+            TabThemes = new ObservableCollection<TabTheme>(_settingsService.GetTabThemes());
+            TabTheme = TabThemes.FirstOrDefault(t => t.Id == _shellProfile.TabThemeId);
+
             _resizeOverlayTimer = dispatcherTimer;
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
@@ -70,15 +73,13 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
-
-            TabThemes = new ObservableCollection<TabTheme>(TabTheme.Themes);
-            TabTheme = TabThemes.First();
+    
         }
 
         public event EventHandler Closed;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
-        
+   
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }

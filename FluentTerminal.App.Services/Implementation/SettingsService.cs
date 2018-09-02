@@ -14,20 +14,11 @@ namespace FluentTerminal.App.Services.Implementation
         public const string DefaultShellProfileKey = "DefaultShellProfile";
 
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private readonly IApplicationDataContainer _localSettings;
-        private readonly IApplicationDataContainer _themes;
         private readonly IApplicationDataContainer _keyBindings;
-        private readonly IApplicationDataContainer _shellProfiles;
+        private readonly IApplicationDataContainer _localSettings;
         private readonly IApplicationDataContainer _roamingSettings;
-
-        public event EventHandler<Guid> CurrentThemeChanged;
-
-        public event EventHandler<TerminalOptions> TerminalOptionsChanged;
-
-        public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-
-        public event EventHandler KeyBindingsChanged;
-
+        private readonly IApplicationDataContainer _shellProfiles;
+        private readonly IApplicationDataContainer _themes;
         public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
             _defaultValueProvider = defaultValueProvider;
@@ -47,6 +38,28 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
             }
+        }
+
+        public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
+
+        public event EventHandler<Guid> CurrentThemeChanged;
+
+        public event EventHandler KeyBindingsChanged;
+
+        public event EventHandler<TerminalOptions> TerminalOptionsChanged;
+        public void DeleteShellProfile(Guid id)
+        {
+            _shellProfiles.Delete(id.ToString());
+        }
+
+        public void DeleteTheme(Guid id)
+        {
+            _themes.Delete(id.ToString());
+        }
+
+        public ApplicationSettings GetApplicationSettings()
+        {
+            return _roamingSettings.ReadValueFromJson(nameof(ApplicationSettings), _defaultValueProvider.GetDefaultApplicationSettings());
         }
 
         public TerminalTheme GetCurrentTheme()
@@ -71,96 +84,6 @@ namespace FluentTerminal.App.Services.Implementation
             return _defaultValueProvider.GetDefaultThemeId();
         }
 
-        public void SaveCurrentThemeId(Guid id)
-        {
-            _roamingSettings.SetValue(CurrentThemeKey, id);
-
-            CurrentThemeChanged?.Invoke(this, id);
-        }
-
-        public void SaveTheme(TerminalTheme theme)
-        {
-            _themes.WriteValueAsJson(theme.Id.ToString(), theme);
-
-            if (theme.Id == GetCurrentThemeId())
-            {
-                CurrentThemeChanged?.Invoke(this, theme.Id);
-            }
-        }
-
-        public void DeleteTheme(Guid id)
-        {
-            _themes.Delete(id.ToString());
-        }
-
-        public IEnumerable<TerminalTheme> GetThemes()
-        {
-            return _themes.GetAll().Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x)).ToList();
-        }
-
-        public TerminalTheme GetTheme(Guid id)
-        {
-            return _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
-        }
-
-        public TerminalOptions GetTerminalOptions()
-        {
-            return _roamingSettings.ReadValueFromJson(nameof(TerminalOptions), _defaultValueProvider.GetDefaultTerminalOptions());
-        }
-
-        public void SaveTerminalOptions(TerminalOptions terminalOptions)
-        {
-            _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
-            TerminalOptionsChanged?.Invoke(this, terminalOptions);
-        }
-
-        public ApplicationSettings GetApplicationSettings()
-        {
-            return _roamingSettings.ReadValueFromJson(nameof(ApplicationSettings), _defaultValueProvider.GetDefaultApplicationSettings());
-        }
-
-        public void SaveApplicationSettings(ApplicationSettings applicationSettings)
-        {
-            _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
-            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
-        }
-
-        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
-        {
-            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
-            foreach (Command command in Enum.GetValues(typeof(Command)))
-            {
-                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
-            }
-
-            return keyBindings;
-        }
-
-        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
-        {
-            _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
-        }
-
-        public void ResetKeyBindings()
-        {
-            foreach (Command command in Enum.GetValues(typeof(Command)))
-            {
-                _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
-            }
-
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
-        }
-
-        public Guid GetDefaultShellProfileId()
-        {
-            if (_localSettings.TryGetValue(DefaultShellProfileKey, out object value))
-            {
-                return (Guid)value;
-            }
-            return _defaultValueProvider.GetDefaultShellProfileId();
-        }
-
         public ShellProfile GetDefaultShellProfile()
         {
             var id = GetDefaultShellProfileId();
@@ -174,9 +97,24 @@ namespace FluentTerminal.App.Services.Implementation
             return profile;
         }
 
-        public void SaveDefaultShellProfileId(Guid id)
+        public Guid GetDefaultShellProfileId()
         {
-            _localSettings.SetValue(DefaultShellProfileKey, id);
+            if (_localSettings.TryGetValue(DefaultShellProfileKey, out object value))
+            {
+                return (Guid)value;
+            }
+            return _defaultValueProvider.GetDefaultShellProfileId();
+        }
+
+        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
+        {
+            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
+            foreach (Command command in Enum.GetValues(typeof(Command)))
+            {
+                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+            }
+
+            return keyBindings;
         }
 
         public IEnumerable<ShellProfile> GetShellProfiles()
@@ -184,14 +122,79 @@ namespace FluentTerminal.App.Services.Implementation
             return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
         }
 
+        public IEnumerable<TabTheme> GetTabThemes()
+        {
+            return _defaultValueProvider.GetDefaultTabThemes();
+        }
+
+        public TerminalOptions GetTerminalOptions()
+        {
+            return _roamingSettings.ReadValueFromJson(nameof(TerminalOptions), _defaultValueProvider.GetDefaultTerminalOptions());
+        }
+
+        public TerminalTheme GetTheme(Guid id)
+        {
+            return _themes.ReadValueFromJson(id.ToString(), default(TerminalTheme));
+        }
+
+        public IEnumerable<TerminalTheme> GetThemes()
+        {
+            return _themes.GetAll().Select(x => JsonConvert.DeserializeObject<TerminalTheme>((string)x)).ToList();
+        }
+
+        public void ResetKeyBindings()
+        {
+            foreach (Command command in Enum.GetValues(typeof(Command)))
+            {
+                _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
+            }
+
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+        }
+
+        public void SaveApplicationSettings(ApplicationSettings applicationSettings)
+        {
+            _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
+            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
+        }
+
+        public void SaveCurrentThemeId(Guid id)
+        {
+            _roamingSettings.SetValue(CurrentThemeKey, id);
+
+            CurrentThemeChanged?.Invoke(this, id);
+        }
+
+        public void SaveDefaultShellProfileId(Guid id)
+        {
+            _localSettings.SetValue(DefaultShellProfileKey, id);
+        }
+
+        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
+        {
+            _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+        }
+
         public void SaveShellProfile(ShellProfile shellProfile)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
         }
 
-        public void DeleteShellProfile(Guid id)
+        public void SaveTerminalOptions(TerminalOptions terminalOptions)
         {
-            _shellProfiles.Delete(id.ToString());
+            _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
+            TerminalOptionsChanged?.Invoke(this, terminalOptions);
+        }
+
+        public void SaveTheme(TerminalTheme theme)
+        {
+            _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+
+            if (theme.Id == GetCurrentThemeId())
+            {
+                CurrentThemeChanged?.Invoke(this, theme.Id);
+            }
         }
     }
 }

@@ -7,52 +7,30 @@ namespace FluentTerminal.App.Services
 {
     public interface ISettingsService
     {
-        event EventHandler<Guid> CurrentThemeChanged;
-
-        event EventHandler<TerminalOptions> TerminalOptionsChanged;
-
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-
+        event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler KeyBindingsChanged;
-
-        Guid GetDefaultShellProfileId();
-
-        ShellProfile GetDefaultShellProfile();
-
-        void SaveDefaultShellProfileId(Guid id);
-
-        IEnumerable<ShellProfile> GetShellProfiles();
-
-        void SaveShellProfile(ShellProfile shellProfile);
-
+        event EventHandler<TerminalOptions> TerminalOptionsChanged;
         void DeleteShellProfile(Guid id);
-
-        TerminalOptions GetTerminalOptions();
-
-        void SaveTerminalOptions(TerminalOptions terminalOptions);
-
-        ApplicationSettings GetApplicationSettings();
-
-        void SaveApplicationSettings(ApplicationSettings applicationSettings);
-
-        IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings();
-
-        void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings);
-
-        void ResetKeyBindings();
-
-        TerminalTheme GetCurrentTheme();
-
-        Guid GetCurrentThemeId();
-
-        TerminalTheme GetTheme(Guid id);
-
-        void SaveCurrentThemeId(Guid id);
-
-        IEnumerable<TerminalTheme> GetThemes();
-
-        void SaveTheme(TerminalTheme theme);
-
         void DeleteTheme(Guid id);
+        ApplicationSettings GetApplicationSettings();
+        TerminalTheme GetCurrentTheme();
+        Guid GetCurrentThemeId();
+        ShellProfile GetDefaultShellProfile();
+        Guid GetDefaultShellProfileId();
+        IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings();
+        IEnumerable<ShellProfile> GetShellProfiles();
+        IEnumerable<TabTheme> GetTabThemes();
+        TerminalOptions GetTerminalOptions();
+        TerminalTheme GetTheme(Guid id);
+        IEnumerable<TerminalTheme> GetThemes();
+        void ResetKeyBindings();
+        void SaveApplicationSettings(ApplicationSettings applicationSettings);
+        void SaveCurrentThemeId(Guid id);
+        void SaveDefaultShellProfileId(Guid id);
+        void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings);
+        void SaveShellProfile(ShellProfile shellProfile);
+        void SaveTerminalOptions(TerminalOptions terminalOptions);
+        void SaveTheme(TerminalTheme theme);
     }
 }
