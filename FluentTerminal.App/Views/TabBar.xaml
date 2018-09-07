@@ -201,7 +201,7 @@
                         <Setter Property="MinWidth" Value="100" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
-                        <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="TabTheme" />
+                        <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="BackgroundTabTheme" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

@@ -104,11 +104,13 @@ namespace FluentTerminal.App.ViewModels
                         _applicationView.Title = Title;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
+                    RaisePropertyChanged(nameof(BackgroundTabTheme));
                 }
             }
         }
 
-        public bool IsUnderlined => IsSelected && ApplicationSettings.UnderlineSelectedTab;
+        public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) || 
+            (!IsSelected && ApplicationSettings.UnderlineInactiveTabs && TabTheme.Color != null);
 
         public string ResizeOverlayContent
         {
@@ -150,7 +152,22 @@ namespace FluentTerminal.App.ViewModels
         public TabTheme TabTheme
         {
             get => _tabTheme;
-            set => Set(ref _tabTheme, value);
+            set
+            {
+                Set(ref _tabTheme, value);
+                RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
+            }
+        }
+
+        public TabTheme BackgroundTabTheme
+        {
+            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
+            // (if we're set to underline inactive tabs, use the null theme).
+            get => (
+                IsSelected || (!IsSelected && !ApplicationSettings.UnderlineInactiveTabs) ?
+                _tabTheme :
+                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null));
         }
 
         public ObservableCollection<TabTheme> TabThemes { get; }
@@ -266,6 +283,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 ApplicationSettings = e;
                 RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
@@ -274,6 +292,7 @@ namespace FluentTerminal.App.ViewModels
             await _applicationView.RunOnDispatcherThread(async () =>
             {
                 RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
 
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);

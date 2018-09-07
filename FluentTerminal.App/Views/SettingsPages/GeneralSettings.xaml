@@ -74,6 +74,10 @@
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
                 <ToggleSwitch
                     Margin="0,0,0,24"
+                    Header="Underline inactive tabs instead of changing background color"
+                    IsOn="{x:Bind ViewModel.UnderlineInactiveTabs, Mode=TwoWay}" />
+                <ToggleSwitch
+                    Margin="0,0,0,24"
                     Header="Ask before closing windows"
                     IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
                 <ToggleSwitch Header="Ask before closing tabs" IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
