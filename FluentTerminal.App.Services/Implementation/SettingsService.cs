@@ -31,12 +31,18 @@ namespace FluentTerminal.App.Services.Implementation
 
             foreach (var theme in _defaultValueProvider.GetPreInstalledThemes())
             {
-                _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+                if (GetTheme(theme.Id) == null)
+                {
+                    _themes.WriteValueAsJson(theme.Id.ToString(), theme);
+                }
             }
 
             foreach (var shellProfile in _defaultValueProvider.GetPreinstalledShellProfiles())
             {
-                _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+                if (GetShellProfile(shellProfile.Id) == null)
+                {
+                    _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+                }
             }
         }
 
@@ -95,6 +101,11 @@ namespace FluentTerminal.App.Services.Implementation
                 profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
             }
             return profile;
+        }
+
+        public ShellProfile GetShellProfile(Guid id)
+        {
+            return _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
         }
 
         public Guid GetDefaultShellProfileId()

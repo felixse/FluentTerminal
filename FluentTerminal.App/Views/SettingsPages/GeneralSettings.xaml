@@ -72,10 +72,16 @@
                     Margin="0,0,0,24"
                     Header="Underline selected tab"
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
-                <ToggleSwitch
+                <TextBlock Margin="0,0,0,8" Text="Color on inactive tabs" />
+                <RadioButton
+                    Content="Background"
+                    GroupName="InactiveTabColorMode"
+                    IsChecked="{x:Bind ViewModel.BackgroundIsSelected, Mode=TwoWay}" />
+                <RadioButton
                     Margin="0,0,0,24"
-                    Header="Underline inactive tabs instead of changing background color"
-                    IsOn="{x:Bind ViewModel.UnderlineInactiveTabs, Mode=TwoWay}" />
+                    Content="Underline"
+                    GroupName="InactiveTabColorMode"
+                    IsChecked="{x:Bind ViewModel.UnderlinedIsSelected, Mode=TwoWay}" />
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Ask before closing windows"

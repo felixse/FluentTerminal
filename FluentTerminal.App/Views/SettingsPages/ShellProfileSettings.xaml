@@ -10,8 +10,8 @@
     xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
     <Page.Resources>
-        <views:TabThemeComboBoxItemTemplateSelector x:Key="TabThemeComboBoxItemTemplateSelector">
-            <views:TabThemeComboBoxItemTemplateSelector.DefaultTemplate>
+        <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
+            <views:TabThemeTemplateSelector.DefaultTemplate>
                 <DataTemplate x:DataType="models:TabTheme">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon
@@ -21,8 +21,8 @@
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
-            </views:TabThemeComboBoxItemTemplateSelector.DefaultTemplate>
-            <views:TabThemeComboBoxItemTemplateSelector.ColoredTemplate>
+            </views:TabThemeTemplateSelector.DefaultTemplate>
+            <views:TabThemeTemplateSelector.ColoredTemplate>
                 <DataTemplate x:DataType="models:TabTheme">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon
@@ -33,8 +33,8 @@
                         <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
-            </views:TabThemeComboBoxItemTemplateSelector.ColoredTemplate>
-        </views:TabThemeComboBoxItemTemplateSelector>
+            </views:TabThemeTemplateSelector.ColoredTemplate>
+        </views:TabThemeTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -160,7 +160,7 @@
             Margin="24,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalScrollBarVisibility="Auto">
-            <ContentControl HorizontalContentAlignment="Stretch" Content="{x:Bind ViewModel.SelectedShellProfile, Mode=TwoWay}">
+            <ContentControl HorizontalContentAlignment="Stretch" Content="{x:Bind ViewModel.SelectedShellProfile, Mode=OneWay}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -169,7 +169,7 @@
                                     Width="300"
                                     HorizontalAlignment="Left"
                                     Header="Name"
-                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                    IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -177,12 +177,13 @@
                                     <TextBox
                                         Width="300"
                                         Header="Shell executable location"
-                                        IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
+                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         Text="{x:Bind Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
+                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         Command="{x:Bind BrowseForCustomShellCommand}"
                                         Content="..."
                                         Style="{StaticResource ButtonRevealStyle}" />
@@ -211,15 +212,14 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                                 <ComboBox
                                     Width="150"
                                     Margin="0,24,0,0"
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    ItemTemplateSelector="{StaticResource TabThemeComboBoxItemTemplateSelector}"
-                                    ItemsSource="{x:Bind TabThemes}"
-                                    SelectedItem="{x:Bind SelectedTabTheme, Mode=TwoWay}" />
+                                    ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
+                                    ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -238,9 +238,12 @@
                                 <controls:HeaderedContentControl
                                     Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"
-                                    Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
-                                    ContentTemplateSelector="{StaticResource TabThemeComboBoxItemTemplateSelector}"
-                                    Header="Tab color" />
+                                    Header="Tab color">
+                                    <ContentControl
+                                        Margin="0,6,0,0"
+                                        Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
+                                </controls:HeaderedContentControl>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

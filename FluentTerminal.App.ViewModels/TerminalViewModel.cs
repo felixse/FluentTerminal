@@ -73,13 +73,12 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
-    
         }
 
         public event EventHandler Closed;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
-   
+
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
@@ -109,8 +108,8 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) || 
-            (!IsSelected && ApplicationSettings.UnderlineInactiveTabs && TabTheme.Color != null);
+        public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
+            (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
 
         public string ResizeOverlayContent
         {
@@ -164,10 +163,9 @@ namespace FluentTerminal.App.ViewModels
         {
             // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
             // (if we're set to underline inactive tabs, use the null theme).
-            get => (
-                IsSelected || (!IsSelected && !ApplicationSettings.UnderlineInactiveTabs) ?
+            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
                 _tabTheme :
-                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null));
+                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
         }
 
         public ObservableCollection<TabTheme> TabThemes { get; }

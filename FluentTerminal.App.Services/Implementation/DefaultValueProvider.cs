@@ -14,7 +14,7 @@ namespace FluentTerminal.App.Services.Implementation
                 ConfirmClosingTabs = false,
                 ConfirmClosingWindows = false,
                 UnderlineSelectedTab = false,
-                UnderlineInactiveTabs = false,
+                InactiveTabColorMode = InactiveTabColorMode.Background,
                 NewTerminalLocation = NewTerminalLocation.Tab,
                 TabsPosition = TabsPosition.Top,
                 CopyOnSelect = false,

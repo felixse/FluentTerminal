@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -43,28 +44,31 @@ namespace FluentTerminal.App.ViewModels
             Location = shellProfile.Location;
             WorkingDirectory = shellProfile.WorkingDirectory;
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
+            PreInstalled = shellProfile.PreInstalled;
 
             SetDefaultCommand = new RelayCommand(SetDefault);
-            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), CanDelete);
+            DeleteCommand = new AsyncCommand(Delete, CanDelete);
             EditCommand = new RelayCommand(Edit);
-            CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
+            CancelEditCommand = new AsyncCommand(CancelEdit);
             SaveChangesCommand = new RelayCommand(SaveChanges);
-            BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell().ConfigureAwait(false));
-            BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory().ConfigureAwait(false));
+            BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
+            BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
         }
 
         public event EventHandler Deleted;
         public event EventHandler SetAsDefault;
 
-        public RelayCommand BrowseForCustomShellCommand { get; }
-        public RelayCommand BrowseForWorkingDirectoryCommand { get; }
-        public RelayCommand CancelEditCommand { get; }
-        public RelayCommand DeleteCommand { get; }
+        public IAsyncCommand BrowseForCustomShellCommand { get; }
+        public IAsyncCommand BrowseForWorkingDirectoryCommand { get; }
+        public IAsyncCommand CancelEditCommand { get; }
+        public IAsyncCommand DeleteCommand { get; }
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
 
         public ObservableCollection<TabTheme> TabThemes { get; }
+
+        public bool PreInstalled { get; }
 
         public string Arguments
         {
@@ -101,7 +105,13 @@ namespace FluentTerminal.App.ViewModels
         public TabTheme SelectedTabTheme
         {
             get => _selectedTabTheme;
-            set => Set(ref _selectedTabTheme, value);
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _selectedTabTheme, value);
+                }
+            }
         }
 
         public string WorkingDirectory

@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Views
 {
-    public class TabThemeComboBoxItemTemplateSelector : DataTemplateSelector
+    public class TabThemeTemplateSelector : DataTemplateSelector
     {
         public DataTemplate DefaultTemplate { get; set; }
         public DataTemplate ColoredTemplate { get; set; }

@@ -17,6 +17,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private bool _canEnableStartupTask;
         private bool _editingNewTerminalLocation;
         private bool _editingTabsPosition;
+        private bool _editingInactiveTabColorMode;
         private bool _startupTaskEnabled;
         private string _startupTaskErrorMessage;
 
@@ -176,16 +177,32 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public bool UnderlineInactiveTabs
+        public bool BackgroundIsSelected
         {
-            get => _applicationSettings.UnderlineInactiveTabs;
+            get => InactiveTabColorMode == InactiveTabColorMode.Background;
+            set => InactiveTabColorMode = InactiveTabColorMode.Background;
+        }
+
+        public bool UnderlinedIsSelected
+        {
+            get => InactiveTabColorMode == InactiveTabColorMode.Underlined;
+            set => InactiveTabColorMode = InactiveTabColorMode.Underlined;
+        }
+
+        public InactiveTabColorMode InactiveTabColorMode
+        {
+            get => _applicationSettings.InactiveTabColorMode;
             set
             {
-                if (_applicationSettings.UnderlineInactiveTabs != value)
+                if (_applicationSettings.InactiveTabColorMode != value && !_editingInactiveTabColorMode)
                 {
-                    _applicationSettings.UnderlineInactiveTabs = value;
+                    _editingInactiveTabColorMode = true;
+                    _applicationSettings.InactiveTabColorMode = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(BackgroundIsSelected));
+                    RaisePropertyChanged(nameof(UnderlinedIsSelected));
+                    _editingInactiveTabColorMode = false;
                 }
             }
         }
@@ -206,7 +223,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ConfirmClosingWindows = defaults.ConfirmClosingWindows;
                 ConfirmClosingTabs = defaults.ConfirmClosingTabs;
                 UnderlineSelectedTab = defaults.UnderlineSelectedTab;
-                UnderlineInactiveTabs = defaults.UnderlineInactiveTabs;
+                InactiveTabColorMode = defaults.InactiveTabColorMode;
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
             }
