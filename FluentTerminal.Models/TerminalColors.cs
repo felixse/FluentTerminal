@@ -26,18 +26,6 @@
         public string BrightCyan { get; set; }
         public string BrightWhite { get; set; }
 
-        public string TabActiveBackground { get; set; }
-        public string TabActiveUnderline { get; set; }
-        public string TabActiveForeground { get; set; }
-        public string TabInactiveBackground { get; set; }
-        public string TabInactiveUnderline { get; set; }
-        public string TabInactiveForeground { get; set; }
-        public string TabActiveHoverBackground { get; set; }
-        public string TabActiveClickBackground { get; set; }
-        public string TabInactiveHoverBackground { get; set; }
-        public string TabInactiveHoverForeground { get; set; }
-        public string TabInactiveClickBackground { get; set; }
-
         public TerminalColors()
         {
         }
@@ -49,18 +37,6 @@
             Cursor = other.Cursor;
             CursorAccent = other.CursorAccent;
             Selection = other.Selection;
-
-            TabActiveBackground = other.TabActiveBackground;
-            TabActiveUnderline = other.TabActiveUnderline;
-            TabActiveForeground = other.TabActiveForeground;
-            TabInactiveBackground = other.TabInactiveBackground;
-            TabInactiveUnderline = other.TabInactiveUnderline;
-            TabInactiveForeground = other.TabInactiveForeground;
-            TabActiveHoverBackground = other.TabActiveHoverBackground;
-            TabActiveClickBackground = other.TabActiveClickBackground;
-            TabInactiveHoverBackground = other.TabInactiveHoverBackground;
-            TabInactiveHoverForeground = other.TabInactiveHoverForeground;
-            TabInactiveClickBackground = other.TabInactiveClickBackground;
 
             Black = other.Black;
             Red = other.Red;
