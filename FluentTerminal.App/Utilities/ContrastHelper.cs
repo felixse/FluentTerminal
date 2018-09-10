@@ -40,7 +40,7 @@ namespace FluentTerminal.App.Utilities
             titleBar.ButtonPressedBackgroundColor = GetColor("SystemListMediumColor", theme);
         }
 
-        private static Color? GetColor(string name, ElementTheme theme)
+        public static Color? GetColor(string name, ElementTheme theme)
         {
             if (theme == ElementTheme.Light)
             {

@@ -7,6 +7,7 @@ namespace FluentTerminal.Models
         public bool ConfirmClosingTabs { get; set; }
         public bool ConfirmClosingWindows { get; set; }
         public bool UnderlineSelectedTab { get; set; }
+        public InactiveTabColorMode InactiveTabColorMode { get; set; }
         public NewTerminalLocation NewTerminalLocation { get; set; }
         public TabsPosition TabsPosition { get; set; }
         public bool CopyOnSelect { get; set; }

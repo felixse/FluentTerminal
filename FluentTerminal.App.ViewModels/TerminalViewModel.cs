@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private string _searchText;
         private bool _showResizeOverlay;
         private bool _showSearchPanel;
+        private TabTheme _tabTheme;
         private int _terminalId;
         private ITerminalView _terminalView;
         private string _title;
@@ -59,6 +61,9 @@ namespace FluentTerminal.App.ViewModels
             _applicationView = applicationView;
             _clipboardService = clipboardService;
 
+            TabThemes = new ObservableCollection<TabTheme>(_settingsService.GetTabThemes());
+            TabTheme = TabThemes.FirstOrDefault(t => t.Id == _shellProfile.TabThemeId);
+
             _resizeOverlayTimer = dispatcherTimer;
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
@@ -67,11 +72,12 @@ namespace FluentTerminal.App.ViewModels
             FindNextCommand = new RelayCommand(async () => await FindNext().ConfigureAwait(false));
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
+            SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
         }
 
-        public ApplicationSettings ApplicationSettings { get; private set; }
-
         public event EventHandler Closed;
+
+        public ApplicationSettings ApplicationSettings { get; private set; }
 
         public RelayCommand CloseCommand { get; }
 
@@ -97,11 +103,13 @@ namespace FluentTerminal.App.ViewModels
                         _applicationView.Title = Title;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
+                    RaisePropertyChanged(nameof(BackgroundTabTheme));
                 }
             }
         }
 
-        public bool IsUnderlined => IsSelected && ApplicationSettings.UnderlineSelectedTab;
+        public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
+            (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
 
         public string ResizeOverlayContent
         {
@@ -114,6 +122,8 @@ namespace FluentTerminal.App.ViewModels
             get => _searchText;
             set => Set(ref _searchText, value);
         }
+
+        public RelayCommand<string> SelectTabThemeCommand { get; }
 
         public bool ShowResizeOverlay
         {
@@ -138,6 +148,28 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
+        public TabTheme TabTheme
+        {
+            get => _tabTheme;
+            set
+            {
+                Set(ref _tabTheme, value);
+                RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
+            }
+        }
+
+        public TabTheme BackgroundTabTheme
+        {
+            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
+            // (if we're set to underline inactive tabs, use the null theme).
+            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
+                _tabTheme :
+                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+        }
+
+        public ObservableCollection<TabTheme> TabThemes { get; }
+
         public string Title
         {
             get => _title;
@@ -156,6 +188,11 @@ namespace FluentTerminal.App.ViewModels
         {
             _terminalView.Close();
             await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
+        }
+
+        public void CopyText(string text)
+        {
+            _clipboardService.SetText(text);
         }
 
         public Task FocusTerminal()
@@ -216,11 +253,6 @@ namespace FluentTerminal.App.ViewModels
             await FocusTerminal().ConfigureAwait(true);
         }
 
-        public void CopyText(string text)
-        {
-            _clipboardService.SetText(text);
-        }
-
         private void CloseSearchPanel()
         {
             SearchText = string.Empty;
@@ -249,6 +281,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 ApplicationSettings = e;
                 RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
@@ -256,6 +289,9 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
+                RaisePropertyChanged(nameof(IsUnderlined));
+                RaisePropertyChanged(nameof(BackgroundTabTheme));
+
                 var currentTheme = _settingsService.GetTheme(e);
                 await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
             });
@@ -335,6 +371,11 @@ namespace FluentTerminal.App.ViewModels
         private void OnTerminalTitleChanged(object sender, string e)
         {
             Title = e;
+        }
+
+        private void SelectTabTheme(string name)
+        {
+            TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
         }
 
         private async Task TryClose()

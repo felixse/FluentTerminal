@@ -1,28 +1,33 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class ShellProfileViewModel : ViewModelBase
     {
-        private readonly ShellProfile _shellProfile;
-        private string _name;
-        private string _arguments;
-        private string _location;
-        private string _workingDirectory;
-        private string _fallbackName;
-        private string _fallbackArguments;
-        private string _fallbackLocation;
-        private string _fallbackWorkingDirectory;
-        private bool _isDefault;
-        private bool _inEditMode;
-        private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IFileSystemService _fileSystemService;
+        private readonly ISettingsService _settingsService;
+        private readonly ShellProfile _shellProfile;
+        private string _arguments;
+        private string _fallbackArguments;
+        private string _fallbackLocation;
+        private string _fallbackName;
+        private int _fallbackTabThemeId;
+        private string _fallbackWorkingDirectory;
+        private bool _inEditMode;
+        private bool _isDefault;
+        private string _location;
+        private string _name;
+        private TabTheme _selectedTabTheme;
+        private string _workingDirectory;
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
@@ -31,40 +36,39 @@ namespace FluentTerminal.App.ViewModels
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
 
+            TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
+
             Id = shellProfile.Id;
             Name = shellProfile.Name;
             Arguments = shellProfile.Arguments;
             Location = shellProfile.Location;
             WorkingDirectory = shellProfile.WorkingDirectory;
+            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
+            PreInstalled = shellProfile.PreInstalled;
 
             SetDefaultCommand = new RelayCommand(SetDefault);
-            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), CanDelete);
-            EditCommand = new RelayCommand(Edit, CanEdit);
-            CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
+            DeleteCommand = new AsyncCommand(Delete, CanDelete);
+            EditCommand = new RelayCommand(Edit);
+            CancelEditCommand = new AsyncCommand(CancelEdit);
             SaveChangesCommand = new RelayCommand(SaveChanges);
-            BrowseForCustomShellCommand = new RelayCommand(async () => await BrowseForCustomShell().ConfigureAwait(false));
-            BrowseForWorkingDirectoryCommand = new RelayCommand(async () => await BrowseForWorkingDirectory().ConfigureAwait(false));
+            BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
+            BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
         }
 
         public event EventHandler Deleted;
-
         public event EventHandler SetAsDefault;
 
-        public RelayCommand DeleteCommand { get; }
+        public IAsyncCommand BrowseForCustomShellCommand { get; }
+        public IAsyncCommand BrowseForWorkingDirectoryCommand { get; }
+        public IAsyncCommand CancelEditCommand { get; }
+        public IAsyncCommand DeleteCommand { get; }
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
-        public RelayCommand CancelEditCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
-        public RelayCommand BrowseForCustomShellCommand { get; }
-        public RelayCommand BrowseForWorkingDirectoryCommand { get; }
 
-        public Guid Id { get; }
+        public ObservableCollection<TabTheme> TabThemes { get; }
 
-        public string Name
-        {
-            get => _name;
-            set => Set(ref _name, value);
-        }
+        public bool PreInstalled { get; }
 
         public string Arguments
         {
@@ -72,16 +76,12 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _arguments, value);
         }
 
-        public string Location
-        {
-            get => _location;
-            set => Set(ref _location, value);
-        }
+        public Guid Id { get; }
 
-        public string WorkingDirectory
+        public bool InEditMode
         {
-            get => _workingDirectory;
-            set => Set(ref _workingDirectory, value);
+            get => _inEditMode;
+            set => Set(ref _inEditMode, value);
         }
 
         public bool IsDefault
@@ -90,10 +90,34 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _isDefault, value);
         }
 
-        public bool InEditMode
+        public string Location
         {
-            get => _inEditMode;
-            set => Set(ref _inEditMode, value);
+            get => _location;
+            set => Set(ref _location, value);
+        }
+
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
+
+        public TabTheme SelectedTabTheme
+        {
+            get => _selectedTabTheme;
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _selectedTabTheme, value);
+                }
+            }
+        }
+
+        public string WorkingDirectory
+        {
+            get => _workingDirectory;
+            set => Set(ref _workingDirectory, value);
         }
 
         public void SaveChanges()
@@ -102,59 +126,11 @@ namespace FluentTerminal.App.ViewModels
             _shellProfile.Location = Location;
             _shellProfile.Name = Name;
             _shellProfile.WorkingDirectory = WorkingDirectory;
+            _shellProfile.TabThemeId = SelectedTabTheme.Id;
 
             _settingsService.SaveShellProfile(_shellProfile);
 
             InEditMode = false;
-        }
-
-        private async Task CancelEdit()
-        {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
-            {
-                Arguments = _fallbackArguments;
-                Location = _fallbackLocation;
-                Name = _fallbackName;
-                WorkingDirectory = _fallbackWorkingDirectory;
-
-                InEditMode = false;
-            }
-        }
-
-        private void Edit()
-        {
-            _fallbackArguments = Arguments;
-            _fallbackLocation = Location;
-            _fallbackName = Name;
-            _fallbackWorkingDirectory = WorkingDirectory;
-            InEditMode = true;
-        }
-
-        private bool CanDelete()
-        {
-            return !_shellProfile.PreInstalled;
-        }
-
-        private bool CanEdit()
-        {
-            return !_shellProfile.PreInstalled;
-        }
-
-        private async Task Delete()
-        {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
-            {
-                Deleted?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private void SetDefault()
-        {
-            SetAsDefault?.Invoke(this, EventArgs.Empty);
         }
 
         private async Task BrowseForCustomShell()
@@ -173,6 +149,52 @@ namespace FluentTerminal.App.ViewModels
             {
                 WorkingDirectory = directory;
             }
+        }
+
+        private async Task CancelEdit()
+        {
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                Arguments = _fallbackArguments;
+                Location = _fallbackLocation;
+                Name = _fallbackName;
+                WorkingDirectory = _fallbackWorkingDirectory;
+                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackTabThemeId);
+
+                InEditMode = false;
+            }
+        }
+
+        private bool CanDelete()
+        {
+            return !_shellProfile.PreInstalled;
+        }
+
+        private async Task Delete()
+        {
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                Deleted?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void Edit()
+        {
+            _fallbackArguments = _shellProfile.Arguments;
+            _fallbackLocation = _shellProfile.Location;
+            _fallbackName = _shellProfile.Name;
+            _fallbackWorkingDirectory = _shellProfile.WorkingDirectory;
+            _fallbackTabThemeId = _shellProfile.TabThemeId;
+            InEditMode = true;
+        }
+
+        private void SetDefault()
+        {
+            SetAsDefault?.Invoke(this, EventArgs.Empty);
         }
     }
 }
