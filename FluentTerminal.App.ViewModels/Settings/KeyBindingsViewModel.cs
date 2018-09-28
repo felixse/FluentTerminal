@@ -15,7 +15,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
 
-        public KeyBindingsViewModel(Command command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
+        public KeyBindingsViewModel(AppCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
         {
             Command = command;
             _keyBindings = keyBindings;
@@ -32,11 +32,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public delegate void EditedEvent(Command command, ICollection<KeyBinding> keyBindings);
+        public delegate void EditedEvent(AppCommand command, ICollection<KeyBinding> keyBindings);
 
         public event EditedEvent Edited;
 
-        public Command Command { get; }
+        public AppCommand Command { get; }
 
         public string CommandName { get; }
 

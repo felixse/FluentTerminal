@@ -40,24 +40,25 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
-            _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NewTab), () => AddTerminal(null, false));
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ConfigurableNewTab), () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.CloseTab), CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                Command switchCmd = Command.SwitchToTerm1 + i;
+                ICommand switchCmd = new EnumCommand<AppCommand>(AppCommand.SwitchToTerm1 + i);
                 int tabNumber = i;
                 Action handler = () => SelectTabNumber(tabNumber);
                 _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
             }
-            _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
-            _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
-            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
-            _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NextTab), SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.PreviousTab), SelectPreviousTab);
+
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NewWindow), NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ShowSettings), ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ToggleFullScreen), ToggleFullScreen);
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;

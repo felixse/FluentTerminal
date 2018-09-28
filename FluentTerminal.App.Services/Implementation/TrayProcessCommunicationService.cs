@@ -87,7 +87,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task UpdateToggleWindowKeyBindings()
         {
-            var keyBindings = _settingsService.GetKeyBindings()[Command.ToggleWindow];
+            var keyBindings = _settingsService.GetKeyBindings()[AppCommand.ToggleWindow];
 
             var request = new SetToggleWindowKeyBindingsRequest
             {

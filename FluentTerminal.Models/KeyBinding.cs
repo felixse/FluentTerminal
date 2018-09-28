@@ -4,7 +4,7 @@ namespace FluentTerminal.Models
 {
     public class KeyBinding
     {
-        public Command Command { get; set; }
+        public AppCommand Command { get; set; }
         public int Key { get; set; }
         public bool Ctrl { get; set; }
         public bool Alt { get; set; }

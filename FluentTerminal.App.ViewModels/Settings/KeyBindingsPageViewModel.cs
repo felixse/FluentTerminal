@@ -17,7 +17,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private IDictionary<Command, ICollection<KeyBinding>> _keyBindings;
+        private IDictionary<AppCommand, ICollection<KeyBinding>> _keyBindings;
 
         public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -26,16 +26,16 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
-            AddCommand = new RelayCommand<Command>(async command => await Add(command).ConfigureAwait(false));
+            AddCommand = new RelayCommand<AppCommand>(async command => await Add(command).ConfigureAwait(false));
 
             Initialize(_settingsService.GetKeyBindings());
         }
 
-        public RelayCommand<Command> AddCommand { get; }
+        public RelayCommand<AppCommand> AddCommand { get; }
         public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
         public RelayCommand RestoreDefaultsCommand { get; }
 
-        private async Task Add(Command command)
+        private async Task Add(AppCommand command)
         {
             var keyBinding = KeyBindings.FirstOrDefault(k => k.Command == command);
             await keyBinding?.Add();
@@ -51,22 +51,22 @@ namespace FluentTerminal.App.ViewModels.Settings
             KeyBindings.Clear();
         }
 
-        private void Initialize(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
+        private void Initialize(IDictionary<AppCommand, ICollection<KeyBinding>> keyBindings)
         {
             _keyBindings = keyBindings;
 
             ClearKeyBindings();
 
-            foreach (var value in Enum.GetValues(typeof(Command)))
+            foreach (var value in Enum.GetValues(typeof(AppCommand)))
             {
-                var command = (Command)value;
+                var command = (AppCommand)value;
                 var viewModel = new KeyBindingsViewModel(command, _keyBindings[command], _dialogService);
                 viewModel.Edited += OnEdited;
                 KeyBindings.Add(viewModel);
             }
         }
 
-        private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
+        private void OnEdited(AppCommand command, ICollection<KeyBinding> keyBindings)
         {
             _settingsService.SaveKeyBindings(command, keyBindings);
             _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();

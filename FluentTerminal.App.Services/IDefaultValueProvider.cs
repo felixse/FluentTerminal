@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Services
     {
         ApplicationSettings GetDefaultApplicationSettings();
 
-        ICollection<KeyBinding> GetDefaultKeyBindings(Command command);
+        ICollection<KeyBinding> GetDefaultKeyBindings(AppCommand command);
 
         Guid GetDefaultShellProfileId();
 

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models.Enums;
+using FluentTerminal.Models;
 using System;
 using System.Collections.Generic;
 
@@ -6,9 +7,9 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class KeyboardCommandService : IKeyboardCommandService
     {
-        private readonly Dictionary<Command, Action> _commandHandlers = new Dictionary<Command, Action>();
+        private readonly Dictionary<ICommand, Action> _commandHandlers = new Dictionary<ICommand, Action>();
 
-        public void RegisterCommandHandler(Command command, Action handler)
+        public void RegisterCommandHandler(ICommand command, Action handler)
         {
             if (_commandHandlers.ContainsKey(command))
             {
@@ -18,7 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
             _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
-        public void SendCommand(Command command)
+        public void SendCommand(ICommand command)
         {
             if (_commandHandlers.TryGetValue(command, out Action handler))
             {
@@ -27,7 +28,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             // already registered by SystemTray's ToggleWindowService
-            if (command == Command.ToggleWindow)
+            if (command.Equals(AppCommand.ToggleWindow))
             {
                 return;
             }

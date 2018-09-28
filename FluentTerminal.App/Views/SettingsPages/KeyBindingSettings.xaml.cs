@@ -22,9 +22,10 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
 
-                foreach (var value in Enum.GetValues(typeof(Command)))
+                // Add the commands corresponding to all of the application's static commands
+                foreach (var value in Enum.GetValues(typeof(AppCommand)))
                 {
-                    var command = (Command)value;
+                    var command = (AppCommand)value;
                     AddCommandMenu.Items.Add(new MenuFlyoutItem
                     {
                         Text = EnumHelper.GetEnumDescription(command),

@@ -12,7 +12,7 @@ namespace FluentTerminal.App.Services
 
         event EventHandler<string> TerminalTitleChanged;
 
-        event EventHandler<Command> KeyboardCommandReceived;
+        event EventHandler<string> KeyboardCommandReceived;
 
         Task ChangeTheme(TerminalColors theme);
 

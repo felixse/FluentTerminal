@@ -54,7 +54,7 @@ namespace FluentTerminal.App.Views
             StartMediatorTask();
         }
 
-        public event EventHandler<Command> KeyboardCommandReceived;
+        public event EventHandler<string> KeyboardCommandReceived;
 
         public event EventHandler<TerminalSize> TerminalSizeChanged;
 
@@ -135,7 +135,8 @@ namespace FluentTerminal.App.Views
 
         public void OnKeyboardCommand(string command)
         {
-            _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, Enum.Parse<Command>(command, true)));
+            // Given a string representation of the keyboard command received and passed back by xterm, invoke the handler logic.
+            _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, command));
         }
 
         public void OnTerminalResized(int columns, int rows)
@@ -171,7 +172,7 @@ namespace FluentTerminal.App.Views
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(nameof(Command.Copy));
+            OnKeyboardCommand(nameof(AppCommand.Copy));
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -212,7 +213,7 @@ namespace FluentTerminal.App.Views
 
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(nameof(Command.Paste));
+            OnKeyboardCommand(nameof(AppCommand.Paste));
         }
 
         private void StartMediatorTask()
@@ -264,7 +265,7 @@ namespace FluentTerminal.App.Views
                     }
                     else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
                     {
-                        OnKeyboardCommand(nameof(Command.Paste));
+                        OnKeyboardCommand(nameof(AppCommand.Paste));
                     }
                 }
                 else if (mouseButton == MouseButton.Right)
@@ -275,7 +276,7 @@ namespace FluentTerminal.App.Views
                     }
                     else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
                     {
-                        OnKeyboardCommand(nameof(Command.Paste));
+                        OnKeyboardCommand(nameof(AppCommand.Paste));
                     }
                 }
             });

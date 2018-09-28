@@ -2,7 +2,7 @@
 
 namespace FluentTerminal.Models.Enums
 {
-    public enum Command
+    public enum AppCommand
     {
         [Description("Toggle window")]
         ToggleWindow,

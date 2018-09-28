@@ -117,10 +117,28 @@ namespace FluentTerminal.App.Services.Implementation
             return _defaultValueProvider.GetDefaultShellProfileId();
         }
 
-        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
+        /// <summary>
+        /// Attempt to parse a command string, given what the SettingsService knows about available application commands, as well as other dynamic runtime commands.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>ICommand instance that describes the command.</returns>
+        public ICommand ParseCommandString(string command)
         {
-            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
-            foreach (Command command in Enum.GetValues(typeof(Command)))
+            AppCommand e;
+            if (Enum.TryParse(command, true, out e))
+            {
+                return new EnumCommand<AppCommand>(e);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public IDictionary<AppCommand, ICollection<KeyBinding>> GetKeyBindings()
+        {
+            var keyBindings = new Dictionary<AppCommand, ICollection<KeyBinding>>();
+            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
             {
                 keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
@@ -155,7 +173,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void ResetKeyBindings()
         {
-            foreach (Command command in Enum.GetValues(typeof(Command)))
+            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
             {
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
@@ -181,7 +199,7 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(AppCommand command, ICollection<KeyBinding> keyBindings)
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
