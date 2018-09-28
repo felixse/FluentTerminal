@@ -31,21 +31,27 @@ A Terminal Emulator based on UWP and web technologies.
 - Improved tabs
 - Split screen support
 
-## How to install
+## How to install (as an end-user)
 
+- Download the latest [release](https://github.com/felixse/FluentTerminal/releases)
 - [Enable sideloading apps](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store)
   - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
 - Install the *.cer file into `Local Machine` -> `Trusted Root Certification Authorities`
+  - This will require administrator elevation. If you installed the certificate and did not have to elevate, you likely installed it into an incorrect certificate store.
 - double click the *.appxbundle
 - **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration)
 
-## How to build
+## How to set up a development environment
+
+This is not for the faint of heart, and won't be necessary unless you intend to contribute back to the project.
 
 - Grab the [latest NodeJS 8.x installer](https://nodejs.org/en/download/), and install ensuring that both NPM and "install into system PATH" are checked during the install process.
 - Grab the [latest Visual Studio 2017 Community installer](https://www.visualstudio.com/downloads/) and install (See next section)
 - [Enable developer mode in Windows 10](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development)
 
-### Visual Studio 2017 Configuration
+### Installing Visual Studio 2017
+
+There's some specific parts of VS2017 that we need to make sure are available when you go through the install process.
 
 - Under "Workloads" select:
   - Universal Windows Platform development
