@@ -127,7 +127,7 @@ namespace FluentTerminal.App.Services.Implementation
             AppCommand e;
             if (Enum.TryParse(command, true, out e))
             {
-                return new EnumCommand<AppCommand>(e);
+                return e;
             }
             else
             {
@@ -135,12 +135,22 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
-        public IDictionary<AppCommand, ICollection<KeyBinding>> GetKeyBindings()
+        public IDictionary<ICommand, ICollection<KeyBinding>> GetKeyBindings()
         {
-            var keyBindings = new Dictionary<AppCommand, ICollection<KeyBinding>>();
+            var keyBindings = new Dictionary<ICommand, ICollection<KeyBinding>>();
+
             foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
             {
                 keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+            }
+
+            foreach (ShellProfile profile in GetShellProfiles())
+            {
+                // For each shell, list all of the key bindings, and add them to the KeyBindings mapping.
+                if (profile.KeyBinding != null)
+                {
+                    keyBindings.Add(new NewShellTerminal(profile), profile.KeyBinding);
+                }
             }
 
             return keyBindings;
@@ -199,7 +209,7 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(AppCommand command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(ICommand command, ICollection<KeyBinding> keyBindings)
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
@@ -208,6 +218,8 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveShellProfile(ShellProfile shellProfile)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+            // When saving the shell profile, we also need to update keybindings.
+            SaveKeyBindings(new NewShellTerminal(shellProfile), shellProfile.KeyBinding);
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)

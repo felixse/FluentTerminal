@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FluentTerminal.Models
 {
@@ -11,5 +12,6 @@ namespace FluentTerminal.Models
         public string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
+        public ICollection<KeyBinding> KeyBinding { get; set; }
     }
 }

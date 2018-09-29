@@ -18,9 +18,9 @@ namespace FluentTerminal.App.Services
 
         Task ChangeOptions(TerminalOptions options);
 
-        Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings);
+        Task ChangeKeyBindings(IEnumerable<Dictionary<string, object>> keyBindings);
 
-        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings);
+        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<Dictionary<string, object>> keyBindings);
 
         Task ConnectToSocket(string url);
 

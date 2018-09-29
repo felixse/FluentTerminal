@@ -40,25 +40,25 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NewTab), () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ConfigurableNewTab), () => AddTerminal(null, true));
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.CloseTab), CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.NewTab, () => AddTerminal(null, false));
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.ConfigurableNewTab, () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.CloseTab, CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                ICommand switchCmd = new EnumCommand<AppCommand>(AppCommand.SwitchToTerm1 + i);
+                ICommand switchCmd = AppCommand.SwitchToTerm1 + i;
                 int tabNumber = i;
                 Action handler = () => SelectTabNumber(tabNumber);
                 _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
             }
 
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NextTab), SelectNextTab);
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.PreviousTab), SelectPreviousTab);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.NextTab, SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.PreviousTab, SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.NewWindow), NewWindow);
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ShowSettings), ShowSettings);
-            _keyboardCommandService.RegisterCommandHandler(new EnumCommand<AppCommand>(AppCommand.ToggleFullScreen), ToggleFullScreen);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.NewWindow, NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.ShowSettings, ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(AppCommand.ToggleFullScreen, ToggleFullScreen);
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;
@@ -144,11 +144,17 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection)
+        /// <summary>
+        /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
+        /// </summary>
+        /// <param name="startupDirectory"></param>
+        /// <param name="profile"></param>
+        /// <param name="showProfileSelection"></param>
+        /// <returns></returns>
+        public Task AddTerminal(string startupDirectory, bool showProfileSelection, ShellProfile profile = null)
         {
             return _applicationView.RunOnDispatcherThread(async () =>
             {
-                ShellProfile profile = null;
                 if (showProfileSelection)
                 {
                     profile = await _dialogService.ShowProfileSelectionDialogAsync();
@@ -158,7 +164,7 @@ namespace FluentTerminal.App.ViewModels
                         return;
                     }
                 }
-                else
+                else if (profile == null)
                 {
                     profile = _settingsService.GetDefaultShellProfile();
                 }

@@ -22,6 +22,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
@@ -74,7 +75,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
-        public Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings)
+        public Task ChangeKeyBindings(IEnumerable<Dictionary<string, object>> keyBindings)
         {
             var serialized = JsonConvert.SerializeObject(keyBindings);
             return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
@@ -91,7 +92,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"connectToWebSocket('{url}');");
         }
 
-        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
+        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<Dictionary<string, object>> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);

@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void RegisterCommandHandler_HandlerIsNull_ThrowsArgumentNullException()
         {
-            var command = new EnumCommand<AppCommand>((AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length));
+            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
             Action handler = null;
             var keyboardCommandService = new KeyboardCommandService();
 
@@ -33,7 +33,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void RegisterCommandHandler_CommandAlreadyRegisted_ThrowsInvalidOperationException()
         {
-            var command = new EnumCommand<AppCommand>((AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length));
+            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
             var handler = _fixture.Create<Action>();
             var keyboardCommandService = new KeyboardCommandService();
             keyboardCommandService.RegisterCommandHandler(command, handler);
@@ -46,7 +46,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SendCommand_CommandIsRegistered_HandlerGetsInvoked()
         {
-            var command = new EnumCommand<AppCommand>((AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length));
+            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
             var handlerCalled = false;
             var keyboardCommandService = new KeyboardCommandService();
             keyboardCommandService.RegisterCommandHandler(command, () => handlerCalled = true);
@@ -59,7 +59,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SendCommand_CommandIsNotRegisted_KeyNotFoundExceptionIsThrown()
         {
-            var command = new EnumCommand<AppCommand>((AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length));
+            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
             var keyboardCommandService = new KeyboardCommandService();
 
             Action invoke = () => keyboardCommandService.SendCommand(command);

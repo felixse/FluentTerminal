@@ -282,9 +282,23 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView.FindPrevious(SearchText);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<AppCommand, ICollection<KeyBinding>> keyBindings)
+        /// <summary>
+        /// Convert a dictionary mapping commands to key bindings into a flattened list of command/key binding pairs.
+        /// </summary>
+        /// <param name="keyBindings"></param>
+        /// <returns></returns>
+        private IEnumerable<Dictionary<string, object>> FlattenKeyBindings(IDictionary<ICommand, ICollection<KeyBinding>> keyBindings)
         {
-            return keyBindings.Values.SelectMany(k => k);
+            List<Dictionary<string, object>> ret = new List<Dictionary<string, object>>();
+            foreach (KeyValuePair<ICommand, ICollection<KeyBinding>> kv in keyBindings)
+            {
+                foreach (KeyBinding kb in kv.Value)
+                {
+                    ret.Add(kb.ToDict(kv.Key));
+                }
+            }
+            return ret;
+            //return keyBindings.Values.SelectMany(k => new PairedKeyBinding();
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)

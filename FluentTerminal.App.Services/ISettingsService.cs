@@ -18,7 +18,7 @@ namespace FluentTerminal.App.Services
         Guid GetCurrentThemeId();
         ShellProfile GetDefaultShellProfile();
         Guid GetDefaultShellProfileId();
-        IDictionary<AppCommand, ICollection<KeyBinding>> GetKeyBindings();
+        IDictionary<ICommand, ICollection<KeyBinding>> GetKeyBindings();
         IEnumerable<ShellProfile> GetShellProfiles();
         IEnumerable<TabTheme> GetTabThemes();
         TerminalOptions GetTerminalOptions();
@@ -28,7 +28,7 @@ namespace FluentTerminal.App.Services
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
         void SaveCurrentThemeId(Guid id);
         void SaveDefaultShellProfileId(Guid id);
-        void SaveKeyBindings(AppCommand command, ICollection<KeyBinding> keyBindings);
+        void SaveKeyBindings(ICommand command, ICollection<KeyBinding> keyBindings);
         void SaveShellProfile(ShellProfile shellProfile);
         void SaveTerminalOptions(TerminalOptions terminalOptions);
         void SaveTheme(TerminalTheme theme);

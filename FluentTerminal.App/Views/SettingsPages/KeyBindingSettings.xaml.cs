@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -25,12 +26,12 @@ namespace FluentTerminal.App.Views.SettingsPages
                 // Add the commands corresponding to all of the application's static commands
                 foreach (var value in Enum.GetValues(typeof(AppCommand)))
                 {
-                    var command = (AppCommand)value;
+                    AppCommand command = (AppCommand)value;
                     AddCommandMenu.Items.Add(new MenuFlyoutItem
                     {
                         Text = EnumHelper.GetEnumDescription(command),
                         Command = ViewModel.AddCommand,
-                        CommandParameter = command
+                        CommandParameter = (ICommand)command
                     });
                 }
             }

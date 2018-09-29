@@ -15,13 +15,13 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
 
-        public KeyBindingsViewModel(AppCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
+        public KeyBindingsViewModel(ICommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
         {
             Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
 
-            CommandName = EnumHelper.GetEnumDescription(command);
+            CommandName = command.Description;
 
             foreach (var binding in keyBindings)
             {
@@ -32,11 +32,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public delegate void EditedEvent(AppCommand command, ICollection<KeyBinding> keyBindings);
+        public delegate void EditedEvent(ICommand command, ICollection<KeyBinding> keyBindings);
 
         public event EditedEvent Edited;
 
-        public AppCommand Command { get; }
+        public ICommand Command { get; }
 
         public string CommandName { get; }
 
@@ -44,7 +44,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public async Task Add()
         {
-            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService);
+            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { }, _dialogService);
 
             if (await newKeyBinding.Edit().ConfigureAwait(true))
             {

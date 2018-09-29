@@ -1,17 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FluentTerminal.Models.Enums;
 
 namespace FluentTerminal.Models
 {
     /// <summary>
     /// Wrapper class to abstract handling both static enum based commands, as well as dynamic commands such as per-shell shortcuts.
     /// </summary>
-    public interface ICommand
+    public abstract class ICommand
     {
-        string Description();
-        int GetHashCode();
-        bool Equals(object obj);
+        public abstract string Description { get; }
+        public abstract override int GetHashCode();
+        public abstract override bool Equals(object obj);
+        public abstract override string ToString();
+
+        public static bool operator ==(ICommand A, ICommand B)
+        {
+            return A.Equals(B);
+        }
+
+        public static bool operator !=(ICommand A, ICommand B)
+        {
+            return !A.Equals(B);
+        }
+
+        public static implicit operator ICommand(AppCommand input)
+        {
+            return new EnumCommand<AppCommand>(input);
+        }
+
+        public static implicit operator ICommand(ShellProfile profile)
+        {
+            return new NewShellTerminal(profile);
+        }
     }
 
     public class EnumCommand<EnumType> : ICommand
@@ -23,10 +45,7 @@ namespace FluentTerminal.Models
             val = enumValue;
         }
 
-        public string Description()
-        {
-            return Enum.GetName(typeof(EnumType), val);
-        }
+        public override string Description => Enum.GetName(typeof(EnumType), val);
 
         public override int GetHashCode()
         {
@@ -49,40 +68,47 @@ namespace FluentTerminal.Models
                 return false;
             }
         }
+
+        public override string ToString()
+        {
+            // TODO This should use the FluentTerminal.App.Services.Utilities.EnumHelper helper, but that will need to be moved out into a new project to handle dependencies.
+            return val.ToString();
+        }
     }
 
-    public interface IDynamicCommand : ICommand
+    public class NewShellTerminal : ICommand
     {
+        ShellProfile profile;
 
-    }
-
-    public class NewShellTerminal : IDynamicCommand
-    {
-        public NewShellTerminal()
+        public NewShellTerminal(ShellProfile profile)
         {
-
+            this.profile = profile;
         }
 
-        public string Description()
-        {
-            throw new NotImplementedException();
-        }
+        public override string Description => profile.Name;
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            // Every shell's GUID is unique within this scope, so just return that hash code.
+            return profile.Id.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
             if (obj is NewShellTerminal)
             {
-                return Equals(obj as NewShellTerminal);
+                ShellProfile other = obj as ShellProfile;
+                return GetHashCode() == other.GetHashCode();
             }
             else
             {
                 return false;
             }
+        }
+
+        public override string ToString()
+        {
+            return profile.Id.ToString();
         }
     }
 }

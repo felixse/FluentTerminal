@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using Moq;
@@ -439,12 +440,12 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void GetKeyBindings_KeyBindingsInKeyBindingsContainer_ReturnsKeyBindingsFromKeyBindingsContainer()
         {
-            var keyBindings = _fixture.CreateMany<KeyBinding>(5);
+            var commands = _fixture.CreateMany<AppCommand>(5);
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null)).Returns(new Collection<KeyBinding> { keyBinding });
+                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null)).Returns(new Collection<KeyBinding> { });
             }
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -458,21 +459,21 @@ namespace FluentTerminal.App.Services.Test
 
             var result = settingsService.GetKeyBindings();
 
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null), Times.Once);
+                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null), Times.Once);
             }
         }
 
         [Fact]
         public void GetKeyBindings_KeyBindingsNotInKeyBindingsContainer_ReturnsKeyBindingsFromDefaultValueProvider()
         {
-            var keyBindings = _fixture.CreateMany<KeyBinding>(5);
+            var commands = _fixture.CreateMany<AppCommand>(5);
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null)).Returns(new Collection<KeyBinding> { keyBinding });
+                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null)).Returns(new Collection<KeyBinding> { });
             }
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -488,10 +489,10 @@ namespace FluentTerminal.App.Services.Test
 
             foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
             {
-                if (keyBindings.Select(x => x.Command).Contains(command))
-                {
-                    continue;
-                }
+                //if (keyBindings.Select(x => x.Command).Contains(command))
+                //{
+                //    continue;
+                //}
                 defaultValueProvider.Verify(x => x.GetDefaultKeyBindings(command), Times.Once);
             }
         }
