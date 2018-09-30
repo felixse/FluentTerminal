@@ -7,9 +7,9 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class KeyboardCommandService : IKeyboardCommandService
     {
-        private readonly Dictionary<ICommand, Action> _commandHandlers = new Dictionary<ICommand, Action>();
+        private readonly Dictionary<Command, Action> _commandHandlers = new Dictionary<Command, Action>();
 
-        public void RegisterCommandHandler(ICommand command, Action handler)
+        public void RegisterCommandHandler(Command command, Action handler)
         {
             if (_commandHandlers.ContainsKey(command))
             {
@@ -19,7 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
             _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
-        public void SendCommand(ICommand command)
+        public void SendCommand(Command command)
         {
             if (_commandHandlers.TryGetValue(command, out Action handler))
             {

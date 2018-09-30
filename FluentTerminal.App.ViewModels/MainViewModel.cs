@@ -47,7 +47,7 @@ namespace FluentTerminal.App.ViewModels
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                ICommand switchCmd = AppCommand.SwitchToTerm1 + i;
+                Command switchCmd = AppCommand.SwitchToTerm1 + i;
                 int tabNumber = i;
                 Action handler = () => SelectTabNumber(tabNumber);
                 _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);

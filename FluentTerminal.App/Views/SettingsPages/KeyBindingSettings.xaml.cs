@@ -31,7 +31,7 @@ namespace FluentTerminal.App.Views.SettingsPages
                     {
                         Text = EnumHelper.GetEnumDescription(command),
                         Command = ViewModel.AddCommand,
-                        CommandParameter = (ICommand)command
+                        CommandParameter = (Command)command
                     });
                 }
             }

@@ -122,7 +122,7 @@ namespace FluentTerminal.App.Services.Implementation
         /// </summary>
         /// <param name="command"></param>
         /// <returns>ICommand instance that describes the command.</returns>
-        public ICommand ParseCommandString(string command)
+        public Command ParseCommandString(string command)
         {
             AppCommand e;
             if (Enum.TryParse(command, true, out e))
@@ -135,9 +135,9 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
-        public IDictionary<ICommand, ICollection<KeyBinding>> GetKeyBindings()
+        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
         {
-            var keyBindings = new Dictionary<ICommand, ICollection<KeyBinding>>();
+            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
 
             foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
             {
@@ -209,7 +209,7 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(ICommand command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);

@@ -28,7 +28,7 @@ namespace FluentTerminal.App.Services.Test
         {
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });
@@ -57,7 +57,7 @@ namespace FluentTerminal.App.Services.Test
             var terminalSize = _fixture.Create<TerminalSize>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });
@@ -77,7 +77,7 @@ namespace FluentTerminal.App.Services.Test
             var text = _fixture.Create<string>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });
@@ -96,7 +96,7 @@ namespace FluentTerminal.App.Services.Test
             var terminalId = _fixture.Create<int>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });
@@ -126,7 +126,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });
@@ -163,7 +163,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<ICommand, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
             {
                 [AppCommand.ToggleWindow] = keyBindings.ToList()
             });

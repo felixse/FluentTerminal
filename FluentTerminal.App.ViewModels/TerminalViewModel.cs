@@ -287,10 +287,10 @@ namespace FluentTerminal.App.ViewModels
         /// </summary>
         /// <param name="keyBindings"></param>
         /// <returns></returns>
-        private IEnumerable<Dictionary<string, object>> FlattenKeyBindings(IDictionary<ICommand, ICollection<KeyBinding>> keyBindings)
+        private IEnumerable<Dictionary<string, object>> FlattenKeyBindings(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
         {
             List<Dictionary<string, object>> ret = new List<Dictionary<string, object>>();
-            foreach (KeyValuePair<ICommand, ICollection<KeyBinding>> kv in keyBindings)
+            foreach (KeyValuePair<Command, ICollection<KeyBinding>> kv in keyBindings)
             {
                 foreach (KeyBinding kb in kv.Value)
                 {
@@ -335,7 +335,7 @@ namespace FluentTerminal.App.ViewModels
         private async void OnKeyboardCommandReceived(object sender, string command)
         {
             // Use the SettingsService to parse the command string.
-            ICommand e = _settingsService.ParseCommandString(command);
+            Command e = _settingsService.ParseCommandString(command);
 
             if (e.Equals(AppCommand.Copy))
             {
