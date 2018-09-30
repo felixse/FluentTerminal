@@ -52,8 +52,7 @@ namespace FluentTerminal.App.ViewModels
             PreInstalled = shellProfile.PreInstalled;
             _keyBindings = shellProfile.KeyBinding;
 
-            // TODO When editing the profile, the CommandName doesn't update properly, and is stale until the setting window is closed and reloaded because this is only ever changed/set on view creation.
-            keyBindingsViewModel = new KeyBindingsViewModel(shellProfile, shellProfile.KeyBinding, _dialogService);
+            keyBindingsViewModel = new KeyBindingsViewModel(shellProfile, shellProfile.KeyBinding, _dialogService, "New Tab With Profile");
             KeyBindings.Add(keyBindingsViewModel);
 
             SetDefaultCommand = new RelayCommand(SetDefault);

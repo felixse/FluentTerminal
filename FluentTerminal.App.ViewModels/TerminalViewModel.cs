@@ -336,12 +336,12 @@ namespace FluentTerminal.App.ViewModels
             // Use the SettingsService to parse the command string.
             AbstractCommand e = _settingsService.ParseCommandString(command);
 
-            if (e.Equals(Command.Copy))
+            if (e == Command.Copy)
             {
                 var selection = await _terminalView.GetSelection().ConfigureAwait(true);
                 _clipboardService.SetText(selection);
             }
-            else if (e.Equals(Command.Paste))
+            else if (e == Command.Paste)
             {
                 var content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
@@ -349,7 +349,7 @@ namespace FluentTerminal.App.ViewModels
                     await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
                 }
             }
-            else if (e.Equals(Command.Search))
+            else if (e == Command.Search)
             {
                 ShowSearchPanel = !ShowSearchPanel;
                 if (ShowSearchPanel)

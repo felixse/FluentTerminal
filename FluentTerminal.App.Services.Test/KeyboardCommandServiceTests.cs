@@ -2,7 +2,6 @@
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models.Enums;
-using FluentTerminal.Models;
 using System;
 using System.Collections.Generic;
 using Xunit;

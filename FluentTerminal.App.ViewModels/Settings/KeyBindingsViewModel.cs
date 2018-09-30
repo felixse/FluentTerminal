@@ -16,13 +16,13 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ICollection<KeyBinding> _keyBindings;
         private bool _editable = true;
 
-        public KeyBindingsViewModel(AbstractCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
+        public KeyBindingsViewModel(AbstractCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandNameOverride = null)
         {
             Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
 
-            CommandName = command.Description;
+            CommandName = commandNameOverride ?? command.Description;
 
             foreach (var binding in keyBindings)
             {

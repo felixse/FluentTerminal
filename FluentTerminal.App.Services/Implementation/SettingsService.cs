@@ -139,7 +139,7 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 foreach (ShellProfile profile in GetShellProfiles())
                 {
-                    AbstractCommand acmd = (AbstractCommand)profile;
+                    AbstractCommand acmd = profile;
                     if (command == acmd.ToString())
                     {
                         return acmd;

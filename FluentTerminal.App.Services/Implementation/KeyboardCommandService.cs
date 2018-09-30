@@ -36,7 +36,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             // already registered by SystemTray's ToggleWindowService
-            if (command.Equals(Command.ToggleWindow))
+            if (command == Command.ToggleWindow)
             {
                 return;
             }

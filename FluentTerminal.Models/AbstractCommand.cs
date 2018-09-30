@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using FluentTerminal.Models.Enums;
 
 namespace FluentTerminal.Models
@@ -45,7 +44,22 @@ namespace FluentTerminal.Models
             val = enumValue;
         }
 
-        public override string Description => Enum.GetName(typeof(EnumType), val);
+        private static string GetEnumDescription(object objValue)
+        {
+            Enum value = objValue as Enum;
+
+            var fieldInfo = value.GetType().GetField(value.ToString());
+
+            var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            if (attributes?.Length > 0)
+            {
+                return attributes[0].Description;
+            }
+            return value.ToString();
+        }
+
+        public override string Description => GetEnumDescription(val);
 
         public override int GetHashCode()
         {
@@ -71,7 +85,6 @@ namespace FluentTerminal.Models
 
         public override string ToString()
         {
-            // TODO This should use the FluentTerminal.App.Services.Utilities.EnumHelper helper, but that will need to be moved out into a new project to handle dependencies.
             return val.ToString();
         }
     }
