@@ -1,10 +1,12 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +30,8 @@ namespace FluentTerminal.App.ViewModels
         private string _name;
         private TabTheme _selectedTabTheme;
         private string _workingDirectory;
+        private ICollection<KeyBinding> _keyBindings;
+        public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
@@ -45,6 +49,15 @@ namespace FluentTerminal.App.ViewModels
             WorkingDirectory = shellProfile.WorkingDirectory;
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
+            _keyBindings = shellProfile.KeyBinding;
+
+            foreach (var binding in shellProfile.KeyBinding)
+            {
+                var viewModel = new KeyBindingViewModel(binding, _dialogService);
+                viewModel.Deleted += ViewModel_Deleted;
+                viewModel.Edited += ViewModel_Edited;
+                KeyBindings.Add(viewModel);
+            }
 
             SetDefaultCommand = new RelayCommand(SetDefault);
             DeleteCommand = new AsyncCommand(Delete, CanDelete);
@@ -53,6 +66,21 @@ namespace FluentTerminal.App.ViewModels
             SaveChangesCommand = new RelayCommand(SaveChanges);
             BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
             BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
+        }
+
+        private void ViewModel_Deleted(object sender, EventArgs e)
+        {
+            if (sender is KeyBindingViewModel keyBinding)
+            {
+                _keyBindings.Remove(keyBinding.Model);
+                KeyBindings.Remove(keyBinding);
+                //Edited?.Invoke(Command, _keyBindings);
+            }
+        }
+
+        private void ViewModel_Edited(object sender, EventArgs e)
+        {
+            //Edited?.Invoke(Command, _keyBindings);
         }
 
         public event EventHandler Deleted;

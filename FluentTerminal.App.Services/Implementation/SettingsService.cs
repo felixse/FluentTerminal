@@ -122,9 +122,9 @@ namespace FluentTerminal.App.Services.Implementation
         /// </summary>
         /// <param name="command"></param>
         /// <returns>ICommand instance that describes the command.</returns>
-        public Command ParseCommandString(string command)
+        public AbstractCommand ParseCommandString(string command)
         {
-            AppCommand e;
+            Command e;
             if (Enum.TryParse(command, true, out e))
             {
                 return e;
@@ -135,11 +135,11 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
-        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
+        public IDictionary<AbstractCommand, ICollection<KeyBinding>> GetKeyBindings()
         {
-            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
+            var keyBindings = new Dictionary<AbstractCommand, ICollection<KeyBinding>>();
 
-            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
                 keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
@@ -149,7 +149,7 @@ namespace FluentTerminal.App.Services.Implementation
                 // For each shell, list all of the key bindings, and add them to the KeyBindings mapping.
                 if (profile.KeyBinding != null)
                 {
-                    keyBindings.Add(new NewShellTerminal(profile), profile.KeyBinding);
+                    keyBindings.Add(profile, profile.KeyBinding);
                 }
             }
 
@@ -183,7 +183,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void ResetKeyBindings()
         {
-            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
@@ -209,7 +209,7 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(AbstractCommand command, ICollection<KeyBinding> keyBindings)
         {
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
@@ -218,8 +218,8 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveShellProfile(ShellProfile shellProfile)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
-            // When saving the shell profile, we also need to update keybindings.
-            SaveKeyBindings(new NewShellTerminal(shellProfile), shellProfile.KeyBinding);
+            // When saving the shell profile, we also need to update keybindings for everywhere.
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)

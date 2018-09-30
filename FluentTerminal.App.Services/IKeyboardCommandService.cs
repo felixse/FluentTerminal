@@ -6,8 +6,8 @@ namespace FluentTerminal.App.Services
 {
     public interface IKeyboardCommandService
     {
-        void RegisterCommandHandler(Command command, Action handler);
+        void RegisterCommandHandler(AbstractCommand command, Action handler);
 
-        void SendCommand(Command command);
+        void SendCommand(AbstractCommand command);
     }
 }

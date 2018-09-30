@@ -440,7 +440,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void GetKeyBindings_KeyBindingsInKeyBindingsContainer_ReturnsKeyBindingsFromKeyBindingsContainer()
         {
-            var commands = _fixture.CreateMany<AppCommand>(5);
+            var commands = _fixture.CreateMany<Command>(5);
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
             foreach (var command in commands)
@@ -468,7 +468,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void GetKeyBindings_KeyBindingsNotInKeyBindingsContainer_ReturnsKeyBindingsFromDefaultValueProvider()
         {
-            var commands = _fixture.CreateMany<AppCommand>(5);
+            var commands = _fixture.CreateMany<Command>(5);
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
             foreach (var command in commands)
@@ -487,7 +487,7 @@ namespace FluentTerminal.App.Services.Test
 
             var result = settingsService.GetKeyBindings();
 
-            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
                 //if (keyBindings.Select(x => x.Command).Contains(command))
                 //{
@@ -500,7 +500,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SaveKeyBindings_Default_WritesToKeyBindingsContainer()
         {
-            var command = _fixture.Create<AppCommand>();
+            var command = _fixture.Create<Command>();
             var keyBindings = _fixture.Create<ICollection<KeyBinding>>();
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
@@ -522,7 +522,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SaveKeyBindings_Default_InvokesKeyBindingsChangedEvent()
         {
-            var command = _fixture.Create<AppCommand>();
+            var command = _fixture.Create<Command>();
             var keyBindings = _fixture.Create<Collection<KeyBinding>>();
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
@@ -560,7 +560,7 @@ namespace FluentTerminal.App.Services.Test
 
             settingsService.ResetKeyBindings();
 
-            foreach (AppCommand command in Enum.GetValues(typeof(AppCommand)))
+            foreach (Command command in Enum.GetValues(typeof(Command)))
             {
                 keyBindingsContainer.Verify(x => x.WriteValueAsJson(command.ToString(), It.IsAny<ICollection<KeyBinding>>()), Times.Once);
                 defaultValueProvider.Verify(x => x.GetDefaultKeyBindings(command), Times.Once);

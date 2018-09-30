@@ -25,11 +25,11 @@ namespace FluentTerminal.App.Services.Implementation
             };
         }
 
-        public ICollection<KeyBinding> GetDefaultKeyBindings(AppCommand command)
+        public ICollection<KeyBinding> GetDefaultKeyBindings(Command command)
         {
             switch (command)
             {
-                case AppCommand.ToggleWindow:
+                case Command.ToggleWindow:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -41,7 +41,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.NextTab:
+                case Command.NextTab:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -53,7 +53,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.PreviousTab:
+                case Command.PreviousTab:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -65,15 +65,15 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.SwitchToTerm1:
-                case AppCommand.SwitchToTerm2:
-                case AppCommand.SwitchToTerm3:
-                case AppCommand.SwitchToTerm4:
-                case AppCommand.SwitchToTerm5:
-                case AppCommand.SwitchToTerm6:
-                case AppCommand.SwitchToTerm7:
-                case AppCommand.SwitchToTerm8:
-                case AppCommand.SwitchToTerm9:
+                case Command.SwitchToTerm1:
+                case Command.SwitchToTerm2:
+                case Command.SwitchToTerm3:
+                case Command.SwitchToTerm4:
+                case Command.SwitchToTerm5:
+                case Command.SwitchToTerm6:
+                case Command.SwitchToTerm7:
+                case Command.SwitchToTerm8:
+                case Command.SwitchToTerm9:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -81,11 +81,11 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
-                        Key = (int)ExtendedVirtualKey.Number1 + (command - AppCommand.SwitchToTerm1)
+                        Key = (int)ExtendedVirtualKey.Number1 + (command - Command.SwitchToTerm1)
                     }
                 };
 
-                case AppCommand.NewTab:
+                case Command.NewTab:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -97,7 +97,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.ConfigurableNewTab:
+                case Command.ConfigurableNewTab:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -109,7 +109,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.CloseTab:
+                case Command.CloseTab:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -121,7 +121,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.NewWindow:
+                case Command.NewWindow:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -133,7 +133,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.ShowSettings:
+                case Command.ShowSettings:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -145,7 +145,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.Copy:
+                case Command.Copy:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -157,7 +157,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.Paste:
+                case Command.Paste:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -169,7 +169,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.Search:
+                case Command.Search:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -181,7 +181,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.ToggleFullScreen:
+                case Command.ToggleFullScreen:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -193,7 +193,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.SelectAll:
+                case Command.SelectAll:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -205,7 +205,7 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case AppCommand.Clear:
+                case Command.Clear:
                     return new List<KeyBinding>
                 {
                     new KeyBinding
@@ -310,7 +310,18 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBinding = new []
+                    {
+                        new KeyBinding
+                        {
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number1
+                        }
+                    }
                 },
                 new ShellProfile
                 {
@@ -319,7 +330,18 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBinding = new []
+                    {
+                        new KeyBinding
+                        {
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number2
+                        }
+                    }
                 },
                 new ShellProfile
                 {
@@ -328,7 +350,18 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBinding = new []
+                    {
+                        new KeyBinding
+                        {
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number3
+                        }
+                    }
                 }
             };
         }

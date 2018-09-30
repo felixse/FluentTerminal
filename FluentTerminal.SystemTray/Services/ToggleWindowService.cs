@@ -31,7 +31,7 @@ namespace FluentTerminal.SystemTray.Services
             _hotKeys = new List<HotKey>();
             _hotKeyManager.KeyPressed += OnKeyPressed;
 
-            var keyBindings = settingsService.GetKeyBindings()[AppCommand.ToggleWindow];
+            var keyBindings = settingsService.GetKeyBindings()[Command.ToggleWindow];
             SetHotKeys(keyBindings);
         }
 

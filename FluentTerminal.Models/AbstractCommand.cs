@@ -8,35 +8,35 @@ namespace FluentTerminal.Models
     /// <summary>
     /// Wrapper class to abstract handling both static enum based commands, as well as dynamic commands such as per-shell shortcuts.
     /// </summary>
-    public abstract class Command
+    public abstract class AbstractCommand
     {
         public abstract string Description { get; }
         public abstract override int GetHashCode();
         public abstract override bool Equals(object obj);
         public abstract override string ToString();
 
-        public static bool operator ==(Command A, Command B)
+        public static bool operator ==(AbstractCommand A, AbstractCommand B)
         {
             return A.Equals(B);
         }
 
-        public static bool operator !=(Command A, Command B)
+        public static bool operator !=(AbstractCommand A, AbstractCommand B)
         {
             return !A.Equals(B);
         }
 
-        public static implicit operator Command(AppCommand input)
+        public static implicit operator AbstractCommand(Command input)
         {
-            return new EnumCommand<AppCommand>(input);
+            return new EnumCommand<Command>(input);
         }
 
-        public static implicit operator Command(ShellProfile profile)
+        public static implicit operator AbstractCommand(ShellProfile profile)
         {
             return new NewShellTerminal(profile);
         }
     }
 
-    public class EnumCommand<EnumType> : Command
+    public class EnumCommand<EnumType> : AbstractCommand
     {
         EnumType val;
 
@@ -76,7 +76,7 @@ namespace FluentTerminal.Models
         }
     }
 
-    public class NewShellTerminal : Command
+    public class NewShellTerminal : AbstractCommand
     {
         ShellProfile profile;
 

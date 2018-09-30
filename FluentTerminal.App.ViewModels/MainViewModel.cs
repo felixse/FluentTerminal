@@ -40,25 +40,31 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.NewTab, () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.ConfigurableNewTab, () => AddTerminal(null, true));
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.CloseTab, CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
+            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                Command switchCmd = AppCommand.SwitchToTerm1 + i;
+                AbstractCommand switchCmd = Command.SwitchToTerm1 + i;
                 int tabNumber = i;
                 Action handler = () => SelectTabNumber(tabNumber);
                 _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
             }
 
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.NextTab, SelectNextTab);
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.PreviousTab, SelectPreviousTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.NewWindow, NewWindow);
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.ShowSettings, ShowSettings);
-            _keyboardCommandService.RegisterCommandHandler(AppCommand.ToggleFullScreen, ToggleFullScreen);
+            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
+
+            foreach (ShellProfile profile in _settingsService.GetShellProfiles())
+            {
+                _keyboardCommandService.RegisterCommandHandler(profile, () => AddTerminal(profile.WorkingDirectory, false, profile));
+            }
+
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;

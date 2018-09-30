@@ -8,6 +8,7 @@
     xmlns:models="using:FluentTerminal.Models"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
+    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     mc:Ignorable="d">
     <Page.Resources>
         <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
@@ -245,6 +246,13 @@
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
                                 </controls:HeaderedContentControl>
                             </StackPanel>
+                            <ItemsControl ItemsSource="{x:Bind KeyBindings, Mode=OneWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                                        <views:KeyBindingsView Margin="0,0,0,24" ViewModel="{x:Bind}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                     </DataTemplate>
                 </ContentControl.ContentTemplate>

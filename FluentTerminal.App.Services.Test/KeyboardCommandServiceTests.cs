@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void RegisterCommandHandler_HandlerIsNull_ThrowsArgumentNullException()
         {
-            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
+            var command = (Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length);
             Action handler = null;
             var keyboardCommandService = new KeyboardCommandService();
 
@@ -33,7 +33,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void RegisterCommandHandler_CommandAlreadyRegisted_ThrowsInvalidOperationException()
         {
-            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
+            var command = (Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length);
             var handler = _fixture.Create<Action>();
             var keyboardCommandService = new KeyboardCommandService();
             keyboardCommandService.RegisterCommandHandler(command, handler);
@@ -46,7 +46,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SendCommand_CommandIsRegistered_HandlerGetsInvoked()
         {
-            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
+            var command = (Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length);
             var handlerCalled = false;
             var keyboardCommandService = new KeyboardCommandService();
             keyboardCommandService.RegisterCommandHandler(command, () => handlerCalled = true);
@@ -59,7 +59,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SendCommand_CommandIsNotRegisted_KeyNotFoundExceptionIsThrown()
         {
-            var command = (AppCommand)new Random().Next(1, Enum.GetValues(typeof(AppCommand)).Length);
+            var command = (Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length);
             var keyboardCommandService = new KeyboardCommandService();
 
             Action invoke = () => keyboardCommandService.SendCommand(command);

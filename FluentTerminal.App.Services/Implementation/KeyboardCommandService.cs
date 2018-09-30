@@ -7,9 +7,9 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class KeyboardCommandService : IKeyboardCommandService
     {
-        private readonly Dictionary<Command, Action> _commandHandlers = new Dictionary<Command, Action>();
+        private readonly Dictionary<AbstractCommand, Action> _commandHandlers = new Dictionary<AbstractCommand, Action>();
 
-        public void RegisterCommandHandler(Command command, Action handler)
+        public void RegisterCommandHandler(AbstractCommand command, Action handler)
         {
             if (_commandHandlers.ContainsKey(command))
             {
@@ -19,7 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
             _commandHandlers[command] = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
-        public void SendCommand(Command command)
+        public void SendCommand(AbstractCommand command)
         {
             if (_commandHandlers.TryGetValue(command, out Action handler))
             {
@@ -28,7 +28,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             // already registered by SystemTray's ToggleWindowService
-            if (command.Equals(AppCommand.ToggleWindow))
+            if (command.Equals(Command.ToggleWindow))
             {
                 return;
             }

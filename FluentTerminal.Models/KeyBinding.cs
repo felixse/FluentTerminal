@@ -10,7 +10,7 @@ namespace FluentTerminal.Models
         public bool Shift { get; set; }
         public bool Meta { get; set; }
 
-        public Dictionary<string, object> ToDict(Command command)
+        public Dictionary<string, object> ToDict(AbstractCommand command)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             ret.Add("command", command.ToString());

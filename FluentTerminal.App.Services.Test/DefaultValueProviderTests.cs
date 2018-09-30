@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Services.Test
 {
     public class DefaultValueProviderTests
     {
-        public static IEnumerable<object[]> Commands => System.Enum.GetValues(typeof(AppCommand)).Cast<AppCommand>().Select(x => new object[] { x });
+        public static IEnumerable<object[]> Commands => System.Enum.GetValues(typeof(Command)).Cast<Command>().Select(x => new object[] { x });
 
         [Fact]
         public void GetDefaultApplicationSettings_Default_DoesNotReturnNull()
@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Services.Test
 
         [Theory]
         [MemberData(nameof(Commands))]
-        public void GetDefaultKeyBindings_AllCommands_ReturnsANonEmptyList(AppCommand command)
+        public void GetDefaultKeyBindings_AllCommands_ReturnsANonEmptyList(Command command)
         {
             var defaultValueProvider = new DefaultValueProvider();
 

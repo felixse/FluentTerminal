@@ -173,7 +173,7 @@ namespace FluentTerminal.App.Views
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(nameof(AppCommand.Copy));
+            OnKeyboardCommand(nameof(Command.Copy));
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -214,7 +214,7 @@ namespace FluentTerminal.App.Views
 
         private void Paste_Click(object sender, RoutedEventArgs e)
         {
-            OnKeyboardCommand(nameof(AppCommand.Paste));
+            OnKeyboardCommand(nameof(Command.Paste));
         }
 
         private void StartMediatorTask()
@@ -266,7 +266,7 @@ namespace FluentTerminal.App.Views
                     }
                     else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
                     {
-                        OnKeyboardCommand(nameof(AppCommand.Paste));
+                        OnKeyboardCommand(nameof(Command.Paste));
                     }
                 }
                 else if (mouseButton == MouseButton.Right)
@@ -277,7 +277,7 @@ namespace FluentTerminal.App.Views
                     }
                     else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
                     {
-                        OnKeyboardCommand(nameof(AppCommand.Paste));
+                        OnKeyboardCommand(nameof(Command.Paste));
                     }
                 }
             });

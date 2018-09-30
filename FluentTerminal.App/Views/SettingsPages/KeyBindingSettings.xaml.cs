@@ -24,14 +24,14 @@ namespace FluentTerminal.App.Views.SettingsPages
                 ViewModel = viewModel;
 
                 // Add the commands corresponding to all of the application's static commands
-                foreach (var value in Enum.GetValues(typeof(AppCommand)))
+                foreach (var value in Enum.GetValues(typeof(Command)))
                 {
-                    AppCommand command = (AppCommand)value;
+                    Command command = (Command)value;
                     AddCommandMenu.Items.Add(new MenuFlyoutItem
                     {
                         Text = EnumHelper.GetEnumDescription(command),
                         Command = ViewModel.AddCommand,
-                        CommandParameter = (Command)command
+                        CommandParameter = (AbstractCommand)command
                     });
                 }
             }
