@@ -82,11 +82,13 @@
                         <HyperlinkButton
                             Margin="12,0,0,0"
                             Command="{x:Bind EditCommand}"
-                            Content="Edit" />
+                            Content="Edit"
+                            Visibility="{x:Bind Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"/>
                         <HyperlinkButton
                             Margin="12,0,0,0"
                             Command="{x:Bind DeleteCommand}"
-                            Content="Delete" />
+                            Content="Delete"
+                            Visibility="{x:Bind Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

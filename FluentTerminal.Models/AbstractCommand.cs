@@ -85,7 +85,7 @@ namespace FluentTerminal.Models
             this.profile = profile;
         }
 
-        public override string Description => profile.Name;
+        public override string Description => "New " + profile.Name + " Tab";
 
         public override int GetHashCode()
         {

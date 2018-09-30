@@ -14,6 +14,7 @@ namespace FluentTerminal.App.ViewModels.Settings
     {
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
+        private bool _editable = true;
 
         public KeyBindingsViewModel(AbstractCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService)
         {
@@ -39,6 +40,22 @@ namespace FluentTerminal.App.ViewModels.Settings
         public AbstractCommand Command { get; }
 
         public string CommandName { get; }
+
+        /// <summary>
+        ///  Whether or not the "Edit" and "Delete" links appear next to the key binding list.
+        /// </summary>
+        public bool Editable
+        {
+            get { return _editable; }
+            set
+            {
+                _editable = value;
+                foreach (KeyBindingViewModel viewModel in KeyBindings)
+                {
+                    viewModel.Editable = value;
+                }
+            }
+        }
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 

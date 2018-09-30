@@ -221,6 +221,16 @@
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                     ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                <Button Margin="24,24,0,0" Command="{x:Bind AddKeyboardShortcutCommand, Mode=OneWay}">Add Keyboard Shortcut</Button>
+                                <ScrollViewer Grid.Row="2" Margin="24,24,0,0">
+                                    <ItemsControl ItemsSource="{x:Bind KeyBindings, Mode=OneWay}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                                                <views:KeyBindingsView Margin="0,0,0,24" ViewModel="{x:Bind}" Editable="True"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -245,14 +255,16 @@
                                         Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
                                 </controls:HeaderedContentControl>
+                                <ScrollViewer Grid.Row="2" Margin="24,24,0,0">
+                                    <ItemsControl ItemsSource="{x:Bind KeyBindings, Mode=OneWay}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                                                <views:KeyBindingsView Margin="0,0,0,24" ViewModel="{x:Bind}" Editable="False"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
                             </StackPanel>
-                            <ItemsControl ItemsSource="{x:Bind KeyBindings, Mode=OneWay}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                                        <views:KeyBindingsView Margin="0,0,0,24" ViewModel="{x:Bind}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
                         </Grid>
                     </DataTemplate>
                 </ContentControl.ContentTemplate>

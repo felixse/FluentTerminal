@@ -19,6 +19,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false));
         }
 
+        public bool Editable { get; set; } = true;
+
         public event EventHandler Deleted;
 
         public event EventHandler Edited;

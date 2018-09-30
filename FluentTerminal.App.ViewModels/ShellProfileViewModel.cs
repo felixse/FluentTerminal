@@ -31,7 +31,8 @@ namespace FluentTerminal.App.ViewModels
         private TabTheme _selectedTabTheme;
         private string _workingDirectory;
         private ICollection<KeyBinding> _keyBindings;
-        public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
+        KeyBindingsViewModel keyBindingsViewModel;
+        public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
@@ -51,36 +52,22 @@ namespace FluentTerminal.App.ViewModels
             PreInstalled = shellProfile.PreInstalled;
             _keyBindings = shellProfile.KeyBinding;
 
-            foreach (var binding in shellProfile.KeyBinding)
-            {
-                var viewModel = new KeyBindingViewModel(binding, _dialogService);
-                viewModel.Deleted += ViewModel_Deleted;
-                viewModel.Edited += ViewModel_Edited;
-                KeyBindings.Add(viewModel);
-            }
+            keyBindingsViewModel = new KeyBindingsViewModel(shellProfile, shellProfile.KeyBinding, _dialogService);
+            KeyBindings.Add(keyBindingsViewModel);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
             DeleteCommand = new AsyncCommand(Delete, CanDelete);
             EditCommand = new RelayCommand(Edit);
             CancelEditCommand = new AsyncCommand(CancelEdit);
             SaveChangesCommand = new RelayCommand(SaveChanges);
+            AddKeyboardShortcutCommand = new RelayCommand(AddKeyboardShortcut);
             BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
             BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
         }
 
-        private void ViewModel_Deleted(object sender, EventArgs e)
+        public void AddKeyboardShortcut()
         {
-            if (sender is KeyBindingViewModel keyBinding)
-            {
-                _keyBindings.Remove(keyBinding.Model);
-                KeyBindings.Remove(keyBinding);
-                //Edited?.Invoke(Command, _keyBindings);
-            }
-        }
-
-        private void ViewModel_Edited(object sender, EventArgs e)
-        {
-            //Edited?.Invoke(Command, _keyBindings);
+            keyBindingsViewModel.Add();
         }
 
         public event EventHandler Deleted;
@@ -93,7 +80,7 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
-
+        public RelayCommand AddKeyboardShortcutCommand { get; }
         public ObservableCollection<TabTheme> TabThemes { get; }
 
         public bool PreInstalled { get; }
@@ -155,6 +142,7 @@ namespace FluentTerminal.App.ViewModels
             _shellProfile.Name = Name;
             _shellProfile.WorkingDirectory = WorkingDirectory;
             _shellProfile.TabThemeId = SelectedTabTheme.Id;
+            // The keybindings were edited in-place by reference, so we don't need to update them here.
 
             _settingsService.SaveShellProfile(_shellProfile);
 
