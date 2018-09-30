@@ -52,10 +52,16 @@ namespace FluentTerminal.App.Services.Implementation
 
         public event EventHandler KeyBindingsChanged;
 
+        /// <summary>
+        /// Indicate that a change has occurred to the shell profile collection. If a profile was added, the furst tuple value will be true, and if a profile was removed it will be false.
+        /// </summary>
+        public event EventHandler<Tuple<bool, ShellProfile>> ShellProfileCollectionChanged;
+
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
+            ShellProfileCollectionChanged?.Invoke(this, new Tuple<bool, ShellProfile>(false, GetShellProfile(id)));
         }
 
         public void DeleteTheme(Guid id)
@@ -223,11 +229,15 @@ namespace FluentTerminal.App.Services.Implementation
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
-        public void SaveShellProfile(ShellProfile shellProfile)
+        public void SaveShellProfile(ShellProfile shellProfile, bool newShell = false)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
             // When saving the shell profile, we also need to update keybindings for everywhere.
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            if (newShell)
+            {
+                ShellProfileCollectionChanged?.Invoke(this, new Tuple<bool, ShellProfile>(true, shellProfile));
+            }
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)

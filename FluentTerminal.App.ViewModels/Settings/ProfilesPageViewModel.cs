@@ -87,7 +87,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 KeyBinding = new List<KeyBinding>()
             };
 
-            _settingsService.SaveShellProfile(shellProfile);
+            _settingsService.SaveShellProfile(shellProfile, true);
 
             var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService);
             viewModel.EditCommand.Execute(null);

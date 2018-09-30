@@ -9,5 +9,6 @@ namespace FluentTerminal.App.Services
         void RegisterCommandHandler(AbstractCommand command, Action handler);
 
         void SendCommand(AbstractCommand command);
+        void DeregisterCommandHandler(AbstractCommand command);
     }
 }
