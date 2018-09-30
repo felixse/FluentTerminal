@@ -131,6 +131,14 @@ namespace FluentTerminal.App.Services.Implementation
             }
             else
             {
+                foreach (ShellProfile profile in GetShellProfiles())
+                {
+                    AbstractCommand acmd = (AbstractCommand)profile;
+                    if (command == acmd.ToString())
+                    {
+                        return acmd;
+                    }
+                }
                 return null;
             }
         }

@@ -97,8 +97,8 @@ namespace FluentTerminal.Models
         {
             if (obj is NewShellTerminal)
             {
-                ShellProfile other = obj as ShellProfile;
-                return GetHashCode() == other.GetHashCode();
+                NewShellTerminal other = obj as NewShellTerminal;
+                return GetHashCode() == other.profile.Id.GetHashCode();
             }
             else
             {
