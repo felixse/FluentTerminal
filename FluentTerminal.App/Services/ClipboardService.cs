@@ -14,7 +14,7 @@ namespace FluentTerminal.App.Services
                 return content.GetTextAsync().AsTask();
             }
             // Otherwise return a new task that just sends an empty string.
-            return new Task<string>(new Func<string>(() => ""));
+            return Task.FromResult(string.Empty);
         }
 
         public void SetText(string text)
