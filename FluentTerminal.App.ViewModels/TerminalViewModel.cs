@@ -343,9 +343,11 @@ namespace FluentTerminal.App.ViewModels
             }
             else if (command == nameof(Command.Paste))
             {
-                var content = await _clipboardService.GetText().ConfigureAwait(true);
+                string content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
                 {
+                    // Use the shell profile line-ending translation method to translate the line endings of the pasted buffer
+                    content = _shellProfile.TranslateLineEndings(content);
                     await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
                 }
             }
