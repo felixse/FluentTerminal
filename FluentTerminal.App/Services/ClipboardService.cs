@@ -13,7 +13,8 @@ namespace FluentTerminal.App.Services
             {
                 return content.GetTextAsync().AsTask();
             }
-            return null;
+            // Otherwise return a new task that just sends an empty string.
+            return Task.FromResult(string.Empty);
         }
 
         public void SetText(string text)
