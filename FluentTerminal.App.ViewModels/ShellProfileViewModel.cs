@@ -2,6 +2,7 @@
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -21,6 +22,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _inEditMode;
         private bool _isDefault;
         private string _location;
+        private LineEndingStyle _lineEndingStyle;
         private string _name;
         private TabTheme _selectedTabTheme;
         private TerminalTheme _selectedTerminalTheme;
@@ -42,6 +44,15 @@ namespace FluentTerminal.App.ViewModels
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
+            Id = shellProfile.Id;
+            Name = shellProfile.Name;
+            Arguments = shellProfile.Arguments;
+            Location = shellProfile.Location;
+            WorkingDirectory = shellProfile.WorkingDirectory;
+            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
+            PreInstalled = shellProfile.PreInstalled;
+            LineEndingStyle = shellProfile.LineEndingTranslation;
+            _keyBindings = shellProfile.KeyBinding;
             TerminalThemes = new ObservableCollection<TerminalTheme>();
             TerminalThemes.Add(new TerminalTheme
             {
@@ -191,6 +202,18 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _workingDirectory, value);
         }
 
+        public LineEndingStyle? LineEndingStyle
+        {
+            get => _lineEndingStyle;
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _lineEndingStyle, (LineEndingStyle)value);
+                }
+            }
+        }
+
         public void SaveChanges()
         {
             Model.Arguments = Arguments;
@@ -199,6 +222,7 @@ namespace FluentTerminal.App.ViewModels
             Model.WorkingDirectory = WorkingDirectory;
             Model.TabThemeId = SelectedTabTheme.Id;
             Model.TerminalThemeId = SelectedTerminalTheme.Id;
+            Model.LineEndingTranslation = _lineEndingStyle;
             Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
             _settingsService.SaveShellProfile(Model);
 

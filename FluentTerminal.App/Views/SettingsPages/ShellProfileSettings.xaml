@@ -238,7 +238,7 @@
                                     Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <ComboBox
                                     Width="150"
-                                    Margin="0,24,0,0"
+                                    Margin="0,24,0,16"
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
@@ -264,6 +264,20 @@
                                     <HyperlinkButton Command="{x:Bind AddKeyboardShortcutCommand}" Content="Add" />
                                 </StackPanel>
                                 <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
+                                <TextBlock Margin="0,0,0,8" Text="Line ending translation on paste" />
+                                <RadioButton
+                                    Content="Do not modify line endings on paste"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='DoNotModify'}" />
+                                <RadioButton
+                                    Content="Convert line endings to CR+LF on paste"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToCRLF'}" />
+                                <RadioButton
+                                    Content="Convert line endings to LF on paste"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToLF'}" />
+                                <Button Margin="24,24,0,0" Command="{x:Bind AddKeyboardShortcutCommand, Mode=OneWay}">Add Keyboard Shortcut</Button>
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -280,7 +294,7 @@
                                     Header="Arguments"
                                     Text="{x:Bind Arguments, Mode=OneWay}" />
                                 <controls:HeaderedContentControl
-                                    Margin="0,36,0,0"
+                                    Margin="0,36,0,48"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Theme">
                                     <ContentControl
@@ -307,6 +321,9 @@
                                         ViewModel="{x:Bind KeyBindings}" />
                                 </controls:HeaderedContentControl>
 
+
+                                <TextBlock Margin="0,0,0,8" Text="Line ending translation on paste" />
+                                <TextBlock Margin="32,0,0,8" Text="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
