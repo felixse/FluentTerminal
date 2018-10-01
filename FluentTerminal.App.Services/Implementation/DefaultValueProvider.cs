@@ -187,7 +187,6 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.PasteWithoutNewlines,
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
