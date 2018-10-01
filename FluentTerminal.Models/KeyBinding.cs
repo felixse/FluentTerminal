@@ -13,7 +13,9 @@ namespace FluentTerminal.Models
         public Dictionary<string, object> ToDict(AbstractCommand command)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
-            ret.Add("command", command.ToString());
+            string commandString = command.ToString();
+            commandString = commandString[0].ToString().ToLower() + commandString.Substring(1);
+            ret.Add("command", commandString);
             ret.Add("key", Key);
             ret.Add("ctrl", Ctrl);
             ret.Add("alt", Alt);
