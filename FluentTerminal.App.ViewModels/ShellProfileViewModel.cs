@@ -17,16 +17,13 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ShellProfile _shellProfile;
         private string _arguments;
-        private string _fallbackArguments;
-        private string _fallbackLocation;
-        private string _fallbackName;
-        private int _fallbackTabThemeId;
-        private string _fallbackWorkingDirectory;
+        private ShellProfile _fallbackProfile;
         private bool _inEditMode;
         private bool _isDefault;
         private string _location;
         private string _name;
         private TabTheme _selectedTabTheme;
+        private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
@@ -37,6 +34,13 @@ namespace FluentTerminal.App.ViewModels
             _fileSystemService = fileSystemService;
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
+
+            TerminalThemes = new ObservableCollection<TerminalTheme>();
+            TerminalThemes.Add(new TerminalTheme
+            {
+                Id = Guid.Empty,
+                Name = "Default"
+            });
 
             Id = shellProfile.Id;
             Name = shellProfile.Name;
@@ -67,6 +71,8 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand SetDefaultCommand { get; }
 
         public ObservableCollection<TabTheme> TabThemes { get; }
+
+        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
 
         public bool PreInstalled { get; }
 
@@ -114,6 +120,18 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public TerminalTheme SelectedTerminalTheme
+        {
+            get => _selectedTerminalTheme;
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _selectedTerminalTheme, value);
+                }
+            }
+        }
+
         public string WorkingDirectory
         {
             get => _workingDirectory;
@@ -157,11 +175,11 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
-                Arguments = _fallbackArguments;
-                Location = _fallbackLocation;
-                Name = _fallbackName;
-                WorkingDirectory = _fallbackWorkingDirectory;
-                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackTabThemeId);
+                Arguments = _fallbackProfile.Arguments;
+                Location = _fallbackProfile.Location;
+                Name = _fallbackProfile.Name;
+                WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
                 InEditMode = false;
             }
@@ -184,11 +202,14 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            _fallbackArguments = _shellProfile.Arguments;
-            _fallbackLocation = _shellProfile.Location;
-            _fallbackName = _shellProfile.Name;
-            _fallbackWorkingDirectory = _shellProfile.WorkingDirectory;
-            _fallbackTabThemeId = _shellProfile.TabThemeId;
+            _fallbackProfile = new ShellProfile
+            {
+                Arguments = _shellProfile.Arguments,
+                Location = _shellProfile.Location,
+                Name = _shellProfile.Name,
+                WorkingDirectory = _shellProfile.WorkingDirectory,
+                TabThemeId = _shellProfile.TabThemeId
+            };
             InEditMode = true;
         }
 

@@ -11,5 +11,6 @@ namespace FluentTerminal.Models
         public string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
+        public Guid TerminalThemeId { get; set; }
     }
 }

@@ -235,6 +235,11 @@
                                     Margin="0,36,0,0"
                                     Header="Arguments"
                                     Text="{x:Bind Arguments, Mode=OneWay}" />
+                                <controls:HeaderedTextBlock
+                                    Margin="0,36,0,0"
+                                    HorizontalContentAlignment="Stretch"
+                                    Text=""
+                                    Header="Theme" />
                                 <controls:HeaderedContentControl
                                     Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"
