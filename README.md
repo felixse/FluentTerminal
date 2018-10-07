@@ -33,6 +33,15 @@ A Terminal Emulator based on UWP and web technologies.
 
 ## How to install (as an end-user)
 
+### Automatic install
+
+- Download and extract the latest [release](https://github.com/felixse/FluentTerminal/releases).
+- If not already present, download [`Install.ps1`](Install.ps1) to the extracted directory.
+- Right-click on `Install.ps1`, and choose "Run with Powershell".
+- The installer script will walk you through the rest of the process.
+
+### Manual install
+
 - Download the latest [release](https://github.com/felixse/FluentTerminal/releases)
 - [Enable sideloading apps](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store)
   - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
