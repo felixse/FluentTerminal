@@ -462,20 +462,26 @@ namespace FluentTerminal.SystemTray
                 case ExtendedVirtualKey.Period:
                     return Key.OemPeriod;
 
-                case ExtendedVirtualKey.NumberSign:
-                    return Key.OemQuestion;
+                case ExtendedVirtualKey.OEM_1:
+                    return Key.Oem1;
 
-                case ExtendedVirtualKey.OpenBrackets:
-                    return Key.OemOpenBrackets;
+                case ExtendedVirtualKey.OEM_2:
+                    return Key.Oem1;
 
-                case ExtendedVirtualKey.GraveAccent:
+                case ExtendedVirtualKey.OEM_3:
                     return Key.Oem3;
 
-                case ExtendedVirtualKey.Circumflex:
+                case ExtendedVirtualKey.OEM_5:
                     return Key.Oem5;
 
-                case ExtendedVirtualKey.AcuteAccent:
+                case ExtendedVirtualKey.OEM_6:
                     return Key.Oem6;
+
+                case ExtendedVirtualKey.OEM_7:
+                    return Key.Oem7;
+
+                case ExtendedVirtualKey.OEM_102:
+                    return Key.Oem102;
 
                 default:
                     return Key.None;
