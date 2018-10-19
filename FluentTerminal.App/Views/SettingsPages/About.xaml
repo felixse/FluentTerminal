@@ -27,7 +27,20 @@
         </Grid>
         <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
             <StackPanel>
-                <TextBlock Margin="0,24,0,8" Text="Version:" />
+                <!-- Current version -->
+                <TextBlock Margin="0,24,0,8" Text="Current version" />
+                <TextBlock><Run Text="{x:Bind ViewModel.CurrentVersion}" /> - <Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
+                
+                <!-- Latest version -->
+                <TextBlock Margin="0,24,0,8" Text="Latest version" />
+                <TextBlock><Run Text="{x:Bind ViewModel.LatestVersion}" /> - <Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
+
+                <!-- License -->
+                <TextBlock Margin="0,24,0,8" Text="License" />
+                <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
+
+                <!-- Created by... -->
+                <TextBlock VerticalAlignment="Bottom" Margin="0,50,0,0">Created by <Italic>felixse</Italic> and <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink></TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>
