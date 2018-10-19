@@ -107,6 +107,10 @@ namespace FluentTerminal.App.Views
                     case "mouse":
                         ContentFrame.Navigate(typeof(MouseSettings), ViewModel.Mouse);
                         break;
+
+                    case "about":
+                        ContentFrame.Navigate(typeof(About), ViewModel.About);
+                        break;
                 }
             }
 

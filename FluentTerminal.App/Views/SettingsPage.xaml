@@ -73,6 +73,14 @@
                             ToolTipService.ToolTip="Themes" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="About" Tag="about">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="z"
+                            ToolTipService.ToolTip="About" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
