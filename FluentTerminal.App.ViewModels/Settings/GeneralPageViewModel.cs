@@ -53,6 +53,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool ShowNewOutputIndicator
+        {
+            get => _applicationSettings.ShowNewOutputIndicator;
+            set
+            {
+                if (_applicationSettings.ShowNewOutputIndicator != value)
+                {
+                    _applicationSettings.ShowNewOutputIndicator = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool BottomIsSelected
         {
             get => TabsPosition == TabsPosition.Bottom;
@@ -226,6 +240,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 InactiveTabColorMode = defaults.InactiveTabColorMode;
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
+                ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
             }
         }
 

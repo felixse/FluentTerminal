@@ -20,7 +20,8 @@ namespace FluentTerminal.App.Services.Implementation
                 CopyOnSelect = false,
                 MouseMiddleClickAction = MouseAction.None,
                 MouseRightClickAction = MouseAction.ContextMenu,
-                AlwaysShowTabs = false
+                AlwaysShowTabs = false,
+                ShowNewOutputIndicator = false
             };
         }
 

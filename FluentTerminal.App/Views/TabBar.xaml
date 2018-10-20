@@ -56,7 +56,9 @@
                         <RelativePanel
                             Height="32"
                             Margin="0"
-                            VerticalAlignment="Stretch">
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
                                     <behaviors:MiddleClickBehavior.Actions>
@@ -71,11 +73,9 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="None"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=None}"
-                                            Text="None" >
+                                            Text="None">
                                             <ToggleMenuFlyoutItem.Icon>
-                                                <FontIcon
-                                                    FontFamily="Segoe MDL2 Assets"
-                                                    Glyph="&#xF126;" />
+                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF126;" />
                                             </ToggleMenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
                                         <ToggleMenuFlyoutItem
@@ -170,11 +170,13 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.LeftOf="CloseButton"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind Title, Mode=OneWay}" />
+                                Text="{x:Bind Title, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
                             <Grid
                                 x:Name="CloseButton"
                                 Grid.Column="2"
-                                Width="32"
+                                Width="32"  
                                 RelativePanel.AlignRightWithPanel="True">
                                 <Button
                                     HorizontalAlignment="Center"
@@ -186,8 +188,16 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
+                                <Grid Height="32" Visibility="{x:Bind NewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                    <Viewbox
+                                        Width="12"
+                                        Height="12"
+                                        VerticalAlignment="Center"
+                                        ToolTipService.ToolTip="New output">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
+                                    </Viewbox>
+                                </Grid>
                             </Grid>
-
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -199,6 +209,7 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="MinWidth" Value="100" />
+                        <Setter Property="MaxWidth" Value="200" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="BackgroundTabTheme" />
