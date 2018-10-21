@@ -6,7 +6,6 @@ using FluentTerminal.SystemTray.Services;
 using GlobalHotKey;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using Windows.Storage;
@@ -39,7 +38,6 @@ namespace FluentTerminal.SystemTray
                 var containerBuilder = new ContainerBuilder();
 
                 containerBuilder.RegisterInstance(applicationDataContainers);
-                containerBuilder.RegisterType<UpdateService>().SingleInstance();
                 containerBuilder.RegisterType<NotificationService>().SingleInstance();
                 containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
                 containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
@@ -58,8 +56,7 @@ namespace FluentTerminal.SystemTray
                 {
                     appCommunicationService.StartAppServiceConnection();
                 }
-
-                Task.Run(() => CheckForNewVersion(container.Resolve<UpdateService>(), container.Resolve<NotificationService>()));
+                
                 Application.Run(container.Resolve<SystemTrayApplicationContext>());
 
                 mutex.Close();
@@ -68,16 +65,6 @@ namespace FluentTerminal.SystemTray
             {
                 var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
                 eventWaitHandle.Set();
-            }
-        }
-
-        private static void CheckForNewVersion(UpdateService updateService, NotificationService notificationService)
-        {
-            var newVersion = updateService.IsNewerVersionAvailable();
-            if (newVersion)
-            {
-                notificationService.ShowNotification("Update available",
-                    "Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
             }
         }
     }

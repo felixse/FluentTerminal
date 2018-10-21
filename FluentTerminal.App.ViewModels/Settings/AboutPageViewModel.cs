@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -18,7 +17,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _settingsService = settingsService;
             _updateService = updateService;
 
-            CheckForUpdatesCommand = new RelayCommand(() => _updateService.CheckForUpdate());
+            CheckForUpdatesCommand = new RelayCommand(() => _updateService.CheckForUpdate(true));
         }
 
         public string GetCurrentVersion()
@@ -27,9 +26,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             return ConvertVersionToString(version);
         }
 
-        public async Task<string> GetLatestVersion()
+        public string GetLatestVersion()
         {
-            var version = await _updateService.GetLatestVersion();
+            var version = _updateService.GetLatestVersion();
             return ConvertVersionToString(version);
         }
 

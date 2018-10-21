@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services
 {
     public interface IUpdateService
     {
-        void CheckForUpdate();
+        void CheckForUpdate(bool notifyNoUpdate = false);
         Version GetCurrentVersion();
-        Task<Version> GetLatestVersion();
+        Version GetLatestVersion();
     }
 }

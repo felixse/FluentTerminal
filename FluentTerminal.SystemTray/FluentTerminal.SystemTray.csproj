@@ -119,7 +119,6 @@
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\TerminalSession.cs" />
     <Compile Include="Services\TerminalsManager.cs" />
-    <Compile Include="Services\UpdateService.cs" />
     <Compile Include="SystemTrayApplicationContext.cs" />
     <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.ViewModels.Settings;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -35,7 +36,7 @@ namespace FluentTerminal.App.Views.SettingsPages
 
         private async void GetLatestVersion()
         {
-            LatestVersion = await ViewModel.GetLatestVersion();
+            await Task.Run(() => LatestVersion = ViewModel.GetLatestVersion());
             Bindings.Update();
         }
     }

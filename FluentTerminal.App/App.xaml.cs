@@ -64,7 +64,7 @@ namespace FluentTerminal.App
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
             builder.RegisterType<NotificationService2>().As<INotificationService>().InstancePerDependency();
-            builder.RegisterType<UpdateService2>().As<IUpdateService>().InstancePerDependency();
+            builder.RegisterType<UpdateService>().As<IUpdateService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
             builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();
@@ -87,6 +87,9 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
+
+            var updateService = _container.Resolve<IUpdateService>();
+            Task.Run(() => updateService.CheckForUpdate());
 
             _applicationSettings = _settingsService.GetApplicationSettings();
         }
