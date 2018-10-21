@@ -8,12 +8,23 @@ namespace FluentTerminal.App.Services.Implementation
     public class UpdateService2 : IUpdateService
     {
         private const string apiEndpoint = "https://api.github.com";
+        
+        private readonly INotificationService _notificationService;
+        public UpdateService2(INotificationService notificationService)
+        {
+            _notificationService = notificationService;
+        }
 
         public void CheckForUpdate()
         {
             if (GetLatestVersion() > GetCurrentVersion())
             {
-
+                _notificationService.ShowNotification("Update available",
+                    "Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
+            }
+            else
+            {
+                _notificationService.ShowNotification("No update available", "You're up to date!");
             }
         }
 
@@ -36,7 +47,7 @@ namespace FluentTerminal.App.Services.Implementation
                 var latestVersion = new Version(tag);
                 return new Version(latestVersion.Major, latestVersion.Minor, latestVersion.Build, latestVersion.Revision);
             }
-            return new Version(3, 14, 0, 0);
+            return new Version(-1, 0, 0, 0);
         }
     }
 }
