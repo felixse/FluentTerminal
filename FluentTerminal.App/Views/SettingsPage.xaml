@@ -73,7 +73,9 @@
                             ToolTipService.ToolTip="Themes" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="About" Tag="about">
+            </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <NavigationViewItem Content="About" Tapped="NavigationViewItem_Tapped">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="Segoe MDL2 Assets"
@@ -81,7 +83,7 @@
                             ToolTipService.ToolTip="About" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-            </NavigationView.MenuItems>
+            </NavigationView.PaneFooter>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
                 <TextBlock

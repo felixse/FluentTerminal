@@ -9,6 +9,7 @@ using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App.Views
@@ -118,6 +119,18 @@ namespace FluentTerminal.App.Views
             {
                 SetTitleBarColors();
             }
+        }
+
+        private void NavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ContentFrame.Navigate(typeof(About), ViewModel.About);
+
+            // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
+            var temporaryItem = new NavigationViewItem();
+            NavigationView.MenuItems.Add(temporaryItem);
+            NavigationView.SelectedItem = temporaryItem;
+            NavigationView.SelectedItem = null;
+            NavigationView.MenuItems.Remove(temporaryItem);
         }
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
