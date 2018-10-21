@@ -1,38 +1,48 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Services.Implementation;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using System;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
     public class AboutPageViewModel : ViewModelBase
     {
-        private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
+        private readonly IUpdateService _updateService;
 
-        public AboutPageViewModel(ISettingsService settingsService, IDialogService dialogService)
+        public RelayCommand CheckForUpdatesCommand { get; }
+
+        public AboutPageViewModel(ISettingsService settingsService, IUpdateService updateService)
         {
             _settingsService = settingsService;
-            _dialogService = dialogService;
+            _updateService = updateService;
+
+            CheckForUpdatesCommand = new RelayCommand(() => _updateService.CheckForUpdate());
         }
 
+        public string CurrentVersionReleaseNotesURL => "https://github.com/felixse/FluentTerminal/releases/tag/" + CurrentVersion;
         public string CurrentVersion
         {
-            get { return TrayProcessCommunicationService.GetAppVersion(); }
+            get
+            {
+                var version = _updateService.GetCurrentVersion();
+                return ConvertVersionToString(version);
+            }
         }
 
-        public string CurrentVersionReleaseNotesURL
-        {
-            get { return "https://github.com/felixse/FluentTerminal/releases/tag/" + CurrentVersion; }
-        }
-
+        public string LatestVersionReleaseNotesURL => "https://github.com/felixse/FluentTerminal/releases/tag/" + LatestVersion;
         public string LatestVersion
         {
-            get { return TrayProcessCommunicationService.GetAppVersion(); }
+            get
+            {
+                var version = _updateService.GetLatestVersion();
+                return ConvertVersionToString(version);
+            }
         }
 
-        public string LatestVersionReleaseNotesURL
+        private string ConvertVersionToString(Version version)
         {
-            get { return "https://github.com/felixse/FluentTerminal/releases/tag/" + LatestVersion; }
+            return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
     }
 }

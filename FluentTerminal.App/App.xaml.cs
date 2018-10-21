@@ -63,6 +63,7 @@ namespace FluentTerminal.App
             builder.RegisterType<TrayProcessCommunicationService>().As<ITrayProcessCommunicationService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
+            builder.RegisterType<UpdateService2>().As<IUpdateService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
             builder.RegisterType<SettingsViewModel>().InstancePerDependency();
             builder.RegisterType<ThemeParserFactory>().As<IThemeParserFactory>().SingleInstance();

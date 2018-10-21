@@ -24,6 +24,17 @@
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
                 Text="About" />
+            <CommandBar
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                DefaultLabelPosition="Right">
+                <AppBarButton
+                    Command="{x:Bind ViewModel.CheckForUpdatesCommand}"
+                    Icon="Sync"
+                    Label="Check for updates" />
+            </CommandBar>
         </Grid>
         <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
             <StackPanel>
