@@ -50,7 +50,7 @@ namespace FluentTerminal.App.Services.Implementation
                     var latestVersion = new Version(tag);
                     return new Version(latestVersion.Major, latestVersion.Minor, latestVersion.Build, latestVersion.Revision);
                 }
-                return new Version(-1, 0, 0, 0);
+                return new Version(0, 0, 0, 0);
             });
         }
     }

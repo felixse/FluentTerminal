@@ -40,12 +40,13 @@
             <StackPanel>
                 <!-- Current version -->
                 <TextBlock Margin="0,24,0,8" Text="Current version" />
-                <TextBlock><Run Text="{x:Bind ViewModel.CurrentVersion}" /> - <Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
+                <TextBlock><Run Text="{x:Bind CurrentVersion}" /> - <Hyperlink NavigateUri="{x:Bind CurrentVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
                 
                 <!-- Latest version -->
                 <TextBlock Margin="0,24,0,8" Text="Latest version" />
-                <TextBlock Text="{x:Bind LatestVersion, Mode=OneWay}" />
-                <TextBlock Visibility="{x:Bind (Visibility)LatestVersionAvailable}">- <Hyperlink NavigateUri="{x:Bind LatestVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
+                <TextBlock Visibility="{x:Bind (Visibility)LatestVersionLoading}">loading...</TextBlock>
+                <TextBlock Visibility="{x:Bind (Visibility)LatestVersionNotFound}">Not found</TextBlock>
+                <TextBlock Visibility="{x:Bind (Visibility)LatestVersionFound}"><Run Text="{x:Bind LatestVersion, Mode=OneWay}" /> - <Hyperlink NavigateUri="{x:Bind LatestVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
 
                 <!-- License -->
                 <TextBlock Margin="0,24,0,8" Text="License" />

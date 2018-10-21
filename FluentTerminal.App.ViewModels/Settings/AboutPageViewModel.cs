@@ -2,13 +2,14 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
     public class AboutPageViewModel : ViewModelBase
     {
         private readonly ISettingsService _settingsService;
-        public readonly IUpdateService _updateService;
+        private readonly IUpdateService _updateService;
         
         public RelayCommand CheckForUpdatesCommand { get; }
 
@@ -20,17 +21,19 @@ namespace FluentTerminal.App.ViewModels.Settings
             CheckForUpdatesCommand = new RelayCommand(() => _updateService.CheckForUpdate());
         }
 
-        public string CurrentVersionReleaseNotesURL => "https://github.com/felixse/FluentTerminal/releases/tag/" + CurrentVersion;
-        public string CurrentVersion
+        public string GetCurrentVersion()
         {
-            get
-            {
-                var version = _updateService.GetCurrentVersion();
-                return ConvertVersionToString(version);
-            }
+            var version = _updateService.GetCurrentVersion();
+            return ConvertVersionToString(version);
         }
-        
-        public string ConvertVersionToString(Version version)
+
+        public async Task<string> GetLatestVersion()
+        {
+            var version = await _updateService.GetLatestVersion();
+            return ConvertVersionToString(version);
+        }
+
+        private string ConvertVersionToString(Version version)
         {
             return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
