@@ -26,6 +26,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly string _startupDirectory;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private bool _isSelected;
+        private bool _newOutput;
         private string _resizeOverlayContent;
         private string _searchText;
         private bool _showResizeOverlay;
@@ -79,6 +80,15 @@ namespace FluentTerminal.App.ViewModels
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
+        public TabTheme BackgroundTabTheme
+        {
+            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
+            // (if we're set to underline inactive tabs, use the null theme).
+            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
+                _tabTheme :
+                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+        }
+
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
@@ -101,6 +111,7 @@ namespace FluentTerminal.App.ViewModels
                     if (IsSelected)
                     {
                         _applicationView.Title = Title;
+                        _applicationView.RunOnDispatcherThread(() => NewOutput = false);
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
@@ -110,6 +121,12 @@ namespace FluentTerminal.App.ViewModels
 
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
             (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
+
+        public bool NewOutput
+        {
+            get => _newOutput;
+            set => Set(ref _newOutput, value);
+        }
 
         public string ResizeOverlayContent
         {
@@ -157,15 +174,6 @@ namespace FluentTerminal.App.ViewModels
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
             }
-        }
-
-        public TabTheme BackgroundTabTheme
-        {
-            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
-            // (if we're set to underline inactive tabs, use the null theme).
-            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
-                _tabTheme :
-                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
         }
 
         public ObservableCollection<TabTheme> TabThemes { get; }
@@ -228,6 +236,10 @@ namespace FluentTerminal.App.ViewModels
                 {
                     _connectedEvent.Wait();
                     _webSocket.Send(t);
+                    if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
+                    {
+                        _applicationView.RunOnDispatcherThread(() => NewOutput = true);
+                    }
                 });
 
                 DefaultTitle = response.ShellExecutableName;
