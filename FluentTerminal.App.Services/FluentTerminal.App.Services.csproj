@@ -10,6 +10,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="PListNet" Version="2.0.3" />
     <PackageReference Include="RestSharp" Version="106.5.4" />
+    <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

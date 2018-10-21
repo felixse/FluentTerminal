@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Services.Implementation
             var toast = new ToastNotification(doc);
             if (url != null)
             {
-                //toast.Activated += (n, o) => Process.Start(url);
+                toast.Activated += (n, o) => Process.Start(url);
             }
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
