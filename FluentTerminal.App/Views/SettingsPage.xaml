@@ -76,8 +76,8 @@
                 <NavigationViewItem Content="About" Tag="about">
                     <NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="z"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xE946;"
                             ToolTipService.ToolTip="About" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
