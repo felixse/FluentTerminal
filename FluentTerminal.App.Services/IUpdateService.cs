@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services
 {
@@ -6,6 +7,6 @@ namespace FluentTerminal.App.Services
     {
         void CheckForUpdate();
         Version GetCurrentVersion();
-        Version GetLatestVersion();
+        Task<Version> GetLatestVersion();
     }
 }

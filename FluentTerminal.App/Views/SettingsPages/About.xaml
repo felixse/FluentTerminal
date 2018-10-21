@@ -44,7 +44,8 @@
                 
                 <!-- Latest version -->
                 <TextBlock Margin="0,24,0,8" Text="Latest version" />
-                <TextBlock><Run Text="{x:Bind ViewModel.LatestVersion}" /> - <Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
+                <TextBlock Text="{x:Bind LatestVersion, Mode=OneWay}" />
+                <TextBlock Visibility="{x:Bind (Visibility)LatestVersionAvailable}">- <Hyperlink NavigateUri="{x:Bind LatestVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
 
                 <!-- License -->
                 <TextBlock Margin="0,24,0,8" Text="License" />
