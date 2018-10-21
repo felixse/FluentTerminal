@@ -38,7 +38,7 @@ namespace FluentTerminal.SystemTray
                 var containerBuilder = new ContainerBuilder();
 
                 containerBuilder.RegisterInstance(applicationDataContainers);
-                containerBuilder.RegisterType<NotificationService>().SingleInstance();
+                containerBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
                 containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
                 containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
                 containerBuilder.RegisterType<HotKeyManager>().SingleInstance();

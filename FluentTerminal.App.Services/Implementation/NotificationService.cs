@@ -2,9 +2,9 @@
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
-namespace FluentTerminal.SystemTray.Services
+namespace FluentTerminal.App.Services.Implementation
 {
-    public class NotificationService
+    public class NotificationService : INotificationService
     {
         public void ShowNotification(string title, string content, string url = null)
         {

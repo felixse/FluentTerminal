@@ -18,12 +18,12 @@ namespace FluentTerminal.SystemTray.Services
     {
         private const int SW_MINIMIZE = 6;
         private readonly HotKeyManager _hotKeyManager;
-        private readonly NotificationService _notificationService;
+        private readonly INotificationService _notificationService;
         private readonly Dispatcher _dispatcher;
         private bool _disposedValue;
         private readonly List<HotKey> _hotKeys;
 
-        public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, NotificationService notificationService, ISettingsService settingsService)
+        public ToggleWindowService(Dispatcher dispatcher, HotKeyManager hotKeyManager, INotificationService notificationService, ISettingsService settingsService)
         {
             _dispatcher = dispatcher;
             _notificationService = notificationService;
