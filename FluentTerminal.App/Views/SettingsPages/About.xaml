@@ -38,15 +38,18 @@
         </Grid>
         <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <!-- App Logo -->
+                    <Image Source="/Assets/AppIcons/Square106x106Logo.black.png" Margin="24,0,24,0" MaxWidth="106" MaxHeight="106" Stretch="None" HorizontalAlignment="Left" />
+
                     <!-- Current version -->
                     <TextBlock Margin="0,24,0,8" Text="Current version" />
                     <TextBlock><Run Text="{x:Bind CurrentVersion}" /> - <Hyperlink NavigateUri="{x:Bind CurrentVersionReleaseNotesURL}">Release notes</Hyperlink></TextBlock>
-                
+
                     <!-- Latest version -->
                     <TextBlock Margin="0,24,0,8" Text="Latest version" />
                     <TextBlock Visibility="{x:Bind (Visibility)LatestVersionLoading}">loading...</TextBlock>
@@ -57,12 +60,9 @@
                     <TextBlock Margin="0,24,0,8" Text="License" />
                     <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Margin="24">
-                    <!-- App Logo -->
-                    <Image Source="/Assets/AppIcons/Square106x106Logo.black.png" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Uniform" Margin="24" MaxWidth="106" MaxHeight="106" />
-
+                <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="0,72,0,24">
                     <!-- Created by... -->
-                    <TextBlock VerticalAlignment="Top" Margin="0,24,0,0" HorizontalAlignment="Center">Created by <Italic>felixse</Italic> and <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink></TextBlock>
+                    <TextBlock>Created by <Italic>felixse</Italic> and <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink></TextBlock>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
