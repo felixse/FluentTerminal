@@ -19,6 +19,7 @@ namespace FluentTerminal.App.Views
         private readonly UISettings _uiSettings;
         private readonly ApplicationViewTitleBar _titleBar;
         private readonly CoreDispatcher _dispatcher;
+        private readonly NavigationViewItem hiddenNavigationItem;
         private bool _onThemesPage;
 
         public SettingsPage()
@@ -40,6 +41,8 @@ namespace FluentTerminal.App.Views
             _uiSettings = new UISettings();
             _uiSettings.ColorValuesChanged += OnColorValuesChanged;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += SettingsPage_CloseRequested;
+            
+            hiddenNavigationItem = new NavigationViewItem();
         }
 
         private void OnColorValuesChanged(UISettings sender, object args)
@@ -108,10 +111,6 @@ namespace FluentTerminal.App.Views
                     case "mouse":
                         ContentFrame.Navigate(typeof(MouseSettings), ViewModel.Mouse);
                         break;
-
-                    case "about":
-                        ContentFrame.Navigate(typeof(About), ViewModel.About);
-                        break;
                 }
             }
 
@@ -126,11 +125,10 @@ namespace FluentTerminal.App.Views
             ContentFrame.Navigate(typeof(About), ViewModel.About);
 
             // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
-            var temporaryItem = new NavigationViewItem();
-            NavigationView.MenuItems.Add(temporaryItem);
-            NavigationView.SelectedItem = temporaryItem;
+            NavigationView.MenuItems.Add(hiddenNavigationItem);
+            NavigationView.SelectedItem = hiddenNavigationItem;
             NavigationView.SelectedItem = null;
-            NavigationView.MenuItems.Remove(temporaryItem);
+            NavigationView.MenuItems.Remove(hiddenNavigationItem);
         }
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
