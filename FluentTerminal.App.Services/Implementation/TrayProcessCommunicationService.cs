@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -118,7 +117,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
-        
+
         private IDictionary<string, string> CreateMessage(object content)
         {
             return new Dictionary<string, string>

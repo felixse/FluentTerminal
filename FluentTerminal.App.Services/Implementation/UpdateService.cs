@@ -10,6 +10,7 @@ namespace FluentTerminal.App.Services.Implementation
         private const string apiEndpoint = "https://api.github.com";
         
         private readonly INotificationService _notificationService;
+
         public UpdateService(INotificationService notificationService)
         {
             _notificationService = notificationService;
