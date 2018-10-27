@@ -75,7 +75,7 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
-                <NavigationViewItem Content="About" Tapped="NavigationViewItem_Tapped">
+                <NavigationViewItem Content="About" Tapped="AboutTapped">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="Segoe MDL2 Assets"

@@ -204,6 +204,7 @@ namespace FluentTerminal.App
                     mainViewModel.Closed += OnMainViewModelClosed;
                     mainViewModel.NewWindowRequested += OnNewWindowRequested;
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
+                    mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -241,6 +242,7 @@ namespace FluentTerminal.App
                 mainViewModel.Closed += OnMainViewModelClosed;
                 mainViewModel.NewWindowRequested += OnNewWindowRequested;
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
+                mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                 _mainViewModels.Add(mainViewModel);
                 await mainViewModel.AddTerminal(directory, false).ConfigureAwait(true);
             }
@@ -283,9 +285,20 @@ namespace FluentTerminal.App
             _settingsWindowId = null;
         }
 
+        private void OnShowAboutRequested(object sender, EventArgs e)
+        {
+            ShowAbout().ConfigureAwait(true);
+        }
+
         private async void OnShowSettingsRequested(object sender, EventArgs e)
         {
             await ShowSettings().ConfigureAwait(true);
+        }
+
+        private async Task ShowAbout()
+        {
+            await ShowSettings().ConfigureAwait(true);
+            _settingsViewModel.NavigateToAboutPage();
         }
 
         private async Task ShowSettings()

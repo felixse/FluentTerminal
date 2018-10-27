@@ -21,6 +21,7 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public event EventHandler Closed;
+        public event EventHandler AboutPageRequested;
 
         public GeneralPageViewModel General { get; }
         public KeyBindingsPageViewModel KeyBindings { get; }
@@ -29,6 +30,11 @@ namespace FluentTerminal.App.ViewModels
         public ThemesPageViewModel Themes { get; }
         public MousePageViewModel Mouse { get; }
         public AboutPageViewModel About { get; }
+
+        public void NavigateToAboutPage()
+        {
+            AboutPageRequested?.Invoke(this, EventArgs.Empty);
+        }
 
         public void Close()
         {

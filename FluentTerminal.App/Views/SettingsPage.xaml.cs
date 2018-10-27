@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views.SettingsPages;
+using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -71,7 +72,22 @@ namespace FluentTerminal.App.Views
             if (e.Parameter is SettingsViewModel viewModel)
             {
                 ViewModel = viewModel;
+                ViewModel.AboutPageRequested += OnAboutPageRequested;
             }
+        }
+
+        private void OnAboutPageRequested(object sender, System.EventArgs e)
+        {
+            _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ContentFrame.Navigate(typeof(About), ViewModel.About);
+
+                // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
+                NavigationView.MenuItems.Add(hiddenNavigationItem);
+                NavigationView.SelectedItem = hiddenNavigationItem;
+                NavigationView.SelectedItem = null;
+                NavigationView.MenuItems.Remove(hiddenNavigationItem);
+            });
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -120,15 +136,9 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private void NavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        private void AboutTapped(object sender, TappedRoutedEventArgs e)
         {
-            ContentFrame.Navigate(typeof(About), ViewModel.About);
-
-            // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
-            NavigationView.MenuItems.Add(hiddenNavigationItem);
-            NavigationView.SelectedItem = hiddenNavigationItem;
-            NavigationView.SelectedItem = null;
-            NavigationView.MenuItems.Remove(hiddenNavigationItem);
+            OnAboutPageRequested(sender, EventArgs.Empty);
         }
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
