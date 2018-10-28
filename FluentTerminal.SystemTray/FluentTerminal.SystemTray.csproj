@@ -154,12 +154,6 @@
     <PackageReference Include="GlobalHotKey">
       <Version>1.1.0</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="RestSharp">
-      <Version>106.3.1</Version>
-    </PackageReference>
     <PackageReference Include="winpty.NET">
       <Version>0.4.2</Version>
     </PackageReference>

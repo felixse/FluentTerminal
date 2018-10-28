@@ -6,6 +6,7 @@ using FluentTerminal.SystemTray.Services;
 using GlobalHotKey;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using Windows.Storage;
@@ -46,6 +47,7 @@ namespace FluentTerminal.SystemTray
                 containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
                 containerBuilder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>();
                 containerBuilder.RegisterType<SettingsService>().As<ISettingsService>();
+                containerBuilder.RegisterType<UpdateService>().As<IUpdateService>();
                 containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
                 var container = containerBuilder.Build();
@@ -56,7 +58,9 @@ namespace FluentTerminal.SystemTray
                 {
                     appCommunicationService.StartAppServiceConnection();
                 }
-                
+
+                Task.Run(() => container.Resolve<IUpdateService>().CheckForUpdate());
+
                 Application.Run(container.Resolve<SystemTrayApplicationContext>());
 
                 mutex.Close();

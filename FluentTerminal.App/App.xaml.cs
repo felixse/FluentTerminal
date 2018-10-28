@@ -88,9 +88,6 @@ namespace FluentTerminal.App
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
-            var updateService = _container.Resolve<IUpdateService>();
-            Task.Run(() => updateService.CheckForUpdate());
-
             _applicationSettings = _settingsService.GetApplicationSettings();
         }
 
