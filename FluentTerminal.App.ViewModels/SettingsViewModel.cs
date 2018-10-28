@@ -9,9 +9,9 @@ namespace FluentTerminal.App.ViewModels
     {
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService,
             ITrayProcessCommunicationService trayProcessCommunicationService, IThemeParserFactory themeParserFactory, ISystemFontService systemFontService,
-            IFileSystemService fileSystemService, IStartupTaskService startupTaskService, IUpdateService updateService)
+            IFileSystemService fileSystemService, IStartupTaskService startupTaskService, IUpdateService updateService, IApplicationView applicationView)
         {
-            About = new AboutPageViewModel(settingsService, updateService);
+            About = new AboutPageViewModel(settingsService, updateService, applicationView);
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService);
             Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService);

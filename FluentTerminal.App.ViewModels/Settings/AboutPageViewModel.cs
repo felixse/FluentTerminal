@@ -1,6 +1,6 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Threading.Tasks;
 
@@ -8,45 +8,67 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class AboutPageViewModel : ViewModelBase
     {
+        private const string BaseUrl = "https://github.com/felixse/FluentTerminal/releases/tag/";
         private readonly ISettingsService _settingsService;
         private readonly IUpdateService _updateService;
-        private readonly string baseUrl = "https://github.com/felixse/FluentTerminal/releases/tag/";
-
         private string _latestVersion;
+        private readonly IApplicationView _applicationView;
 
-        public RelayCommand CheckForUpdatesCommand { get; }
+        public AboutPageViewModel(ISettingsService settingsService, IUpdateService updateService, IApplicationView applicationView)
+        {
+            _settingsService = settingsService;
+            _updateService = updateService;
+            _applicationView = applicationView;
 
-        public bool LatestVersionLoading { get => LatestVersion == null; }
-        public bool LatestVersionFound { get => !LatestVersionNotFound && !LatestVersionLoading; }
-        public bool LatestVersionNotFound { get => LatestVersion == "0.0.0.0"; }
+            CheckForUpdatesCommand = new AsyncCommand(() => CheckForUpdate(true));
+        }
+
+        public IAsyncCommand CheckForUpdatesCommand { get; }
 
         public string CurrentVersion
         {
-            get {
+            get
+            {
                 var version = _updateService.GetCurrentVersion();
                 return ConvertVersionToString(version);
             }
         }
-        public string CurrentVersionReleaseNotesURL => baseUrl + CurrentVersion;
+
+        public string CurrentVersionReleaseNotesURL => BaseUrl + CurrentVersion;
 
         public string LatestVersion
         {
             get => _latestVersion;
-            set => Set(ref _latestVersion, value);
+            set
+            {
+                if (Set(ref _latestVersion, value))
+                {
+                    RaisePropertyChanged(nameof(LatestVersionFound));
+                    RaisePropertyChanged(nameof(LatestVersionLoading));
+                    RaisePropertyChanged(nameof(LatestVersionNotFound));
+                    RaisePropertyChanged(nameof(LatestVersionReleaseNotesURL));
+                }
+            }
         }
-        public string LatestVersionReleaseNotesURL => baseUrl + LatestVersion;
 
-        public AboutPageViewModel(ISettingsService settingsService, IUpdateService updateService)
+        public bool LatestVersionFound => !LatestVersionNotFound && !LatestVersionLoading;
+
+        public bool LatestVersionLoading => LatestVersion == null;
+
+        public bool LatestVersionNotFound => LatestVersion == "0.0.0.0";
+
+        public string LatestVersionReleaseNotesURL => BaseUrl + LatestVersion;
+
+        public Task OnNavigatedTo()
         {
-            _settingsService = settingsService;
-            _updateService = updateService;
+            return CheckForUpdate(false);
+        }
 
-            CheckForUpdatesCommand = new RelayCommand(() => _updateService.CheckForUpdate(true));
-
-            Task.Run(() => {
-                var version = _updateService.GetLatestVersion();
-                LatestVersion = ConvertVersionToString(version);
-            });
+        public async Task CheckForUpdate(bool notifyNoUpdate)
+        {
+            var version = ConvertVersionToString(await _updateService.GetLatestVersionAsync());
+            await _applicationView.RunOnDispatcherThread(() => LatestVersion = version);
+            await _updateService.CheckForUpdate(notifyNoUpdate);
         }
 
         private string ConvertVersionToString(Version version)

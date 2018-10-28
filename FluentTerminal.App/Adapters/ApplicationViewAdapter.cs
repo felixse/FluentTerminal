@@ -57,7 +57,10 @@ namespace FluentTerminal.App.Adapters
             var deferral = e.GetDeferral();
 
             var args = new CancelableEventArgs();
-            await CloseRequested?.Invoke(this, args);
+            if (CloseRequested != null)
+            {
+                await CloseRequested.Invoke(this, args);
+            }
 
             e.Handled = args.Cancelled;
 

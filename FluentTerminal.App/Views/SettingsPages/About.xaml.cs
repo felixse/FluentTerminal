@@ -19,6 +19,7 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
             }
+            ViewModel.OnNavigatedTo();
         }
     }
 }

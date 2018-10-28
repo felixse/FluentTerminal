@@ -2,13 +2,14 @@
 using Windows.ApplicationModel;
 using Newtonsoft.Json;
 using RestSharp;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services.Implementation
 {
     public class UpdateService : IUpdateService
     {
         private const string apiEndpoint = "https://api.github.com";
-        
+
         private readonly INotificationService _notificationService;
 
         public UpdateService(INotificationService notificationService)
@@ -16,9 +17,10 @@ namespace FluentTerminal.App.Services.Implementation
             _notificationService = notificationService;
         }
 
-        public void CheckForUpdate(bool notifyNoUpdate = false)
+        public async Task CheckForUpdate(bool notifyNoUpdate = false)
         {
-            if (GetLatestVersion() > GetCurrentVersion())
+            var latest = await GetLatestVersionAsync();
+            if (latest > GetCurrentVersion())
             {
                 _notificationService.ShowNotification("Update available",
                     "Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
@@ -35,12 +37,12 @@ namespace FluentTerminal.App.Services.Implementation
             return new Version(currentVersion.Major, currentVersion.Minor, currentVersion.Build, currentVersion.Revision);
         }
 
-        public Version GetLatestVersion()
+        public async Task<Version> GetLatestVersionAsync()
         {
             var restClient = new RestClient(apiEndpoint);
             var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
 
-            var restResponse = restClient.Execute(restRequest);
+            var restResponse = await restClient.ExecuteTaskAsync(restRequest);
             if (restResponse.IsSuccessful)
             {
                 dynamic restResponseData = JsonConvert.DeserializeObject(restResponse.Content);
