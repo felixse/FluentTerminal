@@ -146,6 +146,9 @@
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsPages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPages\MouseSettings.xaml.cs">
       <DependentUpon>MouseSettings.xaml</DependentUpon>
     </Compile>
@@ -180,6 +183,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\AppIcons\Square106x106Logo.black.png" />
     <Content Include="Assets\settingsicons.ttf" />
     <Content Include="Win32\Autofac.dll" />
     <Content Include="Win32\FluentTerminal.App.Services.dll" />
@@ -293,6 +297,10 @@
     <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPages\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\MouseSettings.xaml">
       <SubType>Designer</SubType>

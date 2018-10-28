@@ -60,6 +60,17 @@
                                 <SymbolIcon Symbol="Setting" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Width="160"
+                            Command="{x:Bind ViewModel.ShowAboutCommand}"
+                            Text="About">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xE946;"
+                            ToolTipService.ToolTip="About" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

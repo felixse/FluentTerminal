@@ -66,6 +66,7 @@ namespace FluentTerminal.App.ViewModels
             TabsPosition = _applicationSettings.TabsPosition;
 
             AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
+            ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             _applicationView.CloseRequested += OnCloseRequest;
@@ -83,6 +84,8 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
+
+        public event EventHandler ShowAboutRequested;
 
         public RelayCommand AddTerminalCommand { get; }
 
@@ -127,6 +130,8 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
         }
+
+        public RelayCommand ShowAboutCommand { get; }
 
         public RelayCommand ShowSettingsCommand { get; }
 
@@ -274,6 +279,11 @@ namespace FluentTerminal.App.ViewModels
             var currentIndex = Terminals.IndexOf(SelectedTerminal);
             var previousIndex = (currentIndex - 1 + Terminals.Count) % Terminals.Count;
             SelectedTerminal = Terminals[previousIndex];
+        }
+
+        private void ShowAbout()
+        {
+            ShowAboutRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowSettings()
