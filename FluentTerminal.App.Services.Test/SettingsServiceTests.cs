@@ -445,7 +445,7 @@ namespace FluentTerminal.App.Services.Test
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
             foreach (var command in commands)
             {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null)).Returns(new Collection<KeyBinding> { });
+                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null)).Returns(new Collection<KeyBinding> { });
             }
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -461,7 +461,7 @@ namespace FluentTerminal.App.Services.Test
 
             foreach (var command in commands)
             {
-                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null), Times.Once);
+                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null), Times.Once);
             }
         }
 
