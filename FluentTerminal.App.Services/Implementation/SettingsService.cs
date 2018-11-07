@@ -172,18 +172,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public IEnumerable<ShellProfile> GetShellProfiles()
         {
-            var profiles = _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
-
-            // Fix the default keybinding in profiles, for profiles that were created before this functionality was added
-            foreach (ShellProfile profile in profiles)
-            {
-                if (profile.KeyBinding == null)
-                {
-                    profile.KeyBinding = new List<KeyBinding>();
-                }
-            }
-
-            return profiles;
+            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
         }
 
         public IEnumerable<TabTheme> GetTabThemes()
