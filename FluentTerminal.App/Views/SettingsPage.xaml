@@ -18,7 +18,7 @@
             x:Name="NavigationView"
             AlwaysShowHeader="False"
             Canvas.ZIndex="0"
-            CompactModeThresholdWidth="560"
+            CompactModeThresholdWidth="0"
             ExpandedModeThresholdWidth="560"
             IsSettingsVisible="False"
             Loaded="NavigationView_Loaded"
