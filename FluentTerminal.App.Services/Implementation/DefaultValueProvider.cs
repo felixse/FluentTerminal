@@ -330,6 +330,7 @@ namespace FluentTerminal.App.Services.Implementation
                     {
                         new KeyBinding
                         {
+                            Command = GetDefaultShellProfileId().ToString(),
                             Ctrl=true,
                             Alt=true,
                             Shift=false,
@@ -350,6 +351,7 @@ namespace FluentTerminal.App.Services.Implementation
                     {
                         new KeyBinding
                         {
+                            Command = "ab942a61-7673-4755-9bd8-765aff91d9a3",
                             Ctrl=true,
                             Alt=true,
                             Shift=false,
@@ -370,6 +372,7 @@ namespace FluentTerminal.App.Services.Implementation
                     {
                         new KeyBinding
                         {
+                            Command = "e5785ad6-584f-40cb-bdcd-d5b3b3953e7f",
                             Ctrl=true,
                             Alt=true,
                             Shift=false,

@@ -489,10 +489,6 @@ namespace FluentTerminal.App.Services.Test
 
             foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                //if (keyBindings.Select(x => x.Command).Contains(command))
-                //{
-                //    continue;
-                //}
                 defaultValueProvider.Verify(x => x.GetDefaultKeyBindings(command), Times.Once);
             }
         }
