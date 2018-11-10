@@ -1,7 +1,5 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -16,13 +14,13 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ICollection<KeyBinding> _keyBindings;
         private bool _editable = true;
 
-        public KeyBindingsViewModel(AbstractCommand command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandNameOverride = null)
+        public KeyBindingsViewModel(string command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandNameOverride = null)
         {
             Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
 
-            CommandName = commandNameOverride ?? command.Description;
+            CommandName = commandNameOverride ?? command;
 
             foreach (var binding in keyBindings)
             {
@@ -33,11 +31,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public delegate void EditedEvent(AbstractCommand command, ICollection<KeyBinding> keyBindings);
+        public delegate void EditedEvent(string command, ICollection<KeyBinding> keyBindings);
 
         public event EditedEvent Edited;
 
-        public AbstractCommand Command { get; }
+        public string Command { get; }
 
         public string CommandName { get; }
 
@@ -61,7 +59,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public async Task Add()
         {
-            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { }, _dialogService);
+            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService);
 
             if (await newKeyBinding.Edit().ConfigureAwait(true))
             {

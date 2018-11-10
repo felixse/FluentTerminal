@@ -457,7 +457,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
-            var result = settingsService.GetKeyBindings();
+            var result = settingsService.GetCommandKeyBindings();
 
             foreach (var command in commands)
             {
@@ -485,7 +485,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
-            var result = settingsService.GetKeyBindings();
+            var result = settingsService.GetCommandKeyBindings();
 
             foreach (Command command in Enum.GetValues(typeof(Command)))
             {
@@ -514,7 +514,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
-            settingsService.SaveKeyBindings(command, keyBindings);
+            settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
             keyBindingsContainer.Verify(x => x.WriteValueAsJson(command.ToString(), keyBindings), Times.Once);
         }
@@ -538,7 +538,7 @@ namespace FluentTerminal.App.Services.Test
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             settingsService.KeyBindingsChanged += (s, e) => keyBindingsChangedEventInvoked = true;
 
-            settingsService.SaveKeyBindings(command, keyBindings);
+            settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
             keyBindingsChangedEventInvoked.Should().BeTrue();
         }

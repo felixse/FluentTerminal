@@ -34,6 +34,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.ToggleWindow),
                         Ctrl = false,
                         Alt = false,
                         Shift = false,
@@ -46,6 +47,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.NextTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -58,6 +60,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.PreviousTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
@@ -78,6 +81,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = command.ToString(),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -90,6 +94,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.NewTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -102,6 +107,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.ConfigurableNewTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
@@ -114,6 +120,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.CloseTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -126,6 +133,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.NewWindow),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -138,6 +146,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.ShowSettings),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -150,6 +159,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.Copy),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -162,6 +172,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.Paste),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -174,6 +185,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.Search),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -186,6 +198,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.ToggleFullScreen),
                         Ctrl = false,
                         Alt = true,
                         Shift = false,
@@ -198,6 +211,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.SelectAll),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -210,6 +224,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
+                        Command = nameof(Command.Clear),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,

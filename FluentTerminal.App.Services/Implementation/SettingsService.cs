@@ -19,6 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _roamingSettings;
         private readonly IApplicationDataContainer _shellProfiles;
         private readonly IApplicationDataContainer _themes;
+
         public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
             _defaultValueProvider = defaultValueProvider;
@@ -58,6 +59,7 @@ namespace FluentTerminal.App.Services.Implementation
         public event EventHandler<Tuple<bool, ShellProfile>> ShellProfileCollectionChanged;
 
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
+
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
@@ -123,50 +125,14 @@ namespace FluentTerminal.App.Services.Implementation
             return _defaultValueProvider.GetDefaultShellProfileId();
         }
 
-        /// <summary>
-        /// Attempt to parse a command string, given what the SettingsService knows about available application commands, as well as other dynamic runtime commands.
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns>ICommand instance that describes the command.</returns>
-        public AbstractCommand ParseCommandString(string command)
+        public IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings()
         {
-            Command e;
-            if (Enum.TryParse(command, true, out e))
-            {
-                return e;
-            }
-            else
-            {
-                foreach (ShellProfile profile in GetShellProfiles())
-                {
-                    AbstractCommand acmd = profile;
-                    if (command == acmd.ToString())
-                    {
-                        return acmd;
-                    }
-                }
-                return null;
-            }
-        }
-
-        public IDictionary<AbstractCommand, ICollection<KeyBinding>> GetKeyBindings()
-        {
-            var keyBindings = new Dictionary<AbstractCommand, ICollection<KeyBinding>>();
+            var keyBindings = new Dictionary<string, ICollection<KeyBinding>>();
 
             foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+                keyBindings.Add(command.ToString(), _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
-
-            foreach (ShellProfile profile in GetShellProfiles())
-            {
-                // For each shell, list all of the key bindings, and add them to the KeyBindings mapping.
-                if (profile.KeyBindings != null)
-                {
-                    keyBindings.Add(profile, profile.KeyBindings);
-                }
-            }
-
             return keyBindings;
         }
 
@@ -223,8 +189,13 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(AbstractCommand command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)
         {
+            if (!Enum.IsDefined(typeof(Command), command))
+            {
+                throw new InvalidOperationException();
+            }
+
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }

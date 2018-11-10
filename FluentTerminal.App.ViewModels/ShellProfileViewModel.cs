@@ -52,7 +52,7 @@ namespace FluentTerminal.App.ViewModels
             PreInstalled = shellProfile.PreInstalled;
             _keyBindings = shellProfile.KeyBindings;
 
-            keyBindingsViewModel = new KeyBindingsViewModel(shellProfile, shellProfile.KeyBindings, _dialogService, "New Tab With Profile");
+            keyBindingsViewModel = new KeyBindingsViewModel(shellProfile.Id.ToString(), shellProfile.KeyBindings, _dialogService, "New Tab With Profile");
             KeyBindings.Add(keyBindingsViewModel);
 
             SetDefaultCommand = new RelayCommand(SetDefault);

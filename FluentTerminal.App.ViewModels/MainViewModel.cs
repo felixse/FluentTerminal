@@ -42,29 +42,29 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
-            _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal(null, false));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                AbstractCommand switchCmd = Command.SwitchToTerm1 + i;
+                var switchCmd = Command.SwitchToTerm1 + i;
                 int tabNumber = i;
-                Action handler = () => SelectTabNumber(tabNumber);
-                _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
+                void handler() => SelectTabNumber(tabNumber);
+                _keyboardCommandService.RegisterCommandHandler(switchCmd.ToString(), handler);
             }
 
-            _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
-            _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
-            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
-            _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile, () => AddTerminal(profile.WorkingDirectory, false, profile));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.WorkingDirectory, false, profile));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -86,11 +86,11 @@ namespace FluentTerminal.App.ViewModels
         {
             if (e.Item1) // New Shell, just add it to the command handler.
             {
-                _keyboardCommandService.RegisterCommandHandler(e.Item2, () => AddTerminal(e.Item2.WorkingDirectory, false, e.Item2));
+                _keyboardCommandService.RegisterCommandHandler(e.Item2.Id.ToString(), () => AddTerminal(e.Item2.WorkingDirectory, false, e.Item2));
             }
             else // Existing shell to remove, deregister it.
             {
-                _keyboardCommandService.DeregisterCommandHandler(e.Item2);
+                _keyboardCommandService.DeregisterCommandHandler(e.Item2.Id.ToString());
             }
         }
 

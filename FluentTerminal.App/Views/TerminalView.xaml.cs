@@ -22,7 +22,6 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
@@ -75,7 +74,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
-        public Task ChangeKeyBindings(IEnumerable<Dictionary<string, object>> keyBindings)
+        public Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings)
         {
             var serialized = JsonConvert.SerializeObject(keyBindings);
             return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
@@ -92,7 +91,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"connectToWebSocket('{url}');");
         }
 
-        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<Dictionary<string, object>> keyBindings)
+        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);
@@ -136,8 +135,14 @@ namespace FluentTerminal.App.Views
 
         public void OnKeyboardCommand(string command)
         {
-            // Given a string representation of the keyboard command received and passed back by xterm, invoke the handler logic.
-            _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, command));
+            if (Enum.TryParse(command, true, out Command commandValue))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, commandValue.ToString()));
+            }
+            else if (Guid.TryParse(command, out Guid shellProfileId))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, shellProfileId.ToString()));
+            }
         }
 
         public void OnTerminalResized(int columns, int rows)

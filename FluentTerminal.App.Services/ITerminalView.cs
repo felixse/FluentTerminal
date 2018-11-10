@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,9 +17,9 @@ namespace FluentTerminal.App.Services
 
         Task ChangeOptions(TerminalOptions options);
 
-        Task ChangeKeyBindings(IEnumerable<Dictionary<string, object>> keyBindings);
+        Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings);
 
-        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<Dictionary<string, object>> keyBindings);
+        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings);
 
         Task ConnectToSocket(string url);
 
