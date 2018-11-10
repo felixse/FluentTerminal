@@ -84,7 +84,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 Id = Guid.NewGuid(),
                 PreInstalled = false,
                 Name = "New profile",
-                KeyBinding = new List<KeyBinding>()
+                KeyBindings = new List<KeyBinding>()
             };
 
             _settingsService.SaveShellProfile(shellProfile, true);

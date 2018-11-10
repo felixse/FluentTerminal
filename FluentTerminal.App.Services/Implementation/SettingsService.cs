@@ -161,9 +161,9 @@ namespace FluentTerminal.App.Services.Implementation
             foreach (ShellProfile profile in GetShellProfiles())
             {
                 // For each shell, list all of the key bindings, and add them to the KeyBindings mapping.
-                if (profile.KeyBinding != null)
+                if (profile.KeyBindings != null)
                 {
-                    keyBindings.Add(profile, profile.KeyBinding);
+                    keyBindings.Add(profile, profile.KeyBindings);
                 }
             }
 
