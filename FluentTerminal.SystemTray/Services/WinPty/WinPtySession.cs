@@ -7,17 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using static winpty.WinPty;
 
-namespace FluentTerminal.SystemTray.Services
+namespace FluentTerminal.SystemTray.Services.WinPty
 {
-    public class TerminalSession : IDisposable
+    public class WinPtySession : IDisposable, ITerminalSession
     {
         private bool _disposedValue;
-        private readonly IntPtr _handle;
-        private readonly Stream _stdin;
-        private readonly Stream _stdout;
-        private readonly TerminalsManager _terminalsManager;
+        private IntPtr _handle;
+        private Stream _stdin;
+        private Stream _stdout;
+        private TerminalsManager _terminalsManager;
 
-        public TerminalSession(CreateTerminalRequest request, TerminalsManager terminalsManager)
+        public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
             _terminalsManager = terminalsManager;
 
@@ -74,7 +74,7 @@ namespace FluentTerminal.SystemTray.Services
             ListenToStdOut();
         }
 
-        ~TerminalSession()
+        ~WinPtySession()
         {
             Dispose(false);
         }
@@ -90,9 +90,9 @@ namespace FluentTerminal.SystemTray.Services
 
         public event EventHandler ConnectionClosed;
 
-        public int Id { get; }
+        public int Id { get; private set; }
 
-        public string ShellExecutableName { get; }
+        public string ShellExecutableName { get; private set; }
 
         public void Dispose()
         {

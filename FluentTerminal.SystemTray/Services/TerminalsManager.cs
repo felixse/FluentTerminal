@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
+using FluentTerminal.SystemTray.Services.WinPty;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,15 +10,11 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalsManager
     {
-        private Dictionary<int, TerminalSession> _terminals = new Dictionary<int, TerminalSession>();
+        private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
 
         public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
 
         public event EventHandler<int> TerminalExited;
-
-        public TerminalsManager()
-        {
-        }
 
         public void DisplayTerminalOutput(int terminalId, string output)
         {
@@ -30,10 +27,12 @@ namespace FluentTerminal.SystemTray.Services
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
-            TerminalSession terminal;
+            ITerminalSession terminal;
             try
             {
-                terminal = new TerminalSession(request, this);
+                //terminal = new WinPtySession();
+                terminal = new ConPty.ConPtySession();
+                terminal.Start(request, this);
             }
             catch (Exception e)
             {
@@ -53,7 +52,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void WriteText(int id, string text)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 terminal.WriteText(text);
             }
@@ -61,7 +60,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void ResizeTerminal(int id, TerminalSize size)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 terminal.Resize(size);
             }
@@ -73,7 +72,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void CloseTerminal(int id)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();
@@ -82,7 +81,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
         {
-            if (sender is TerminalSession terminal)
+            if (sender is WinPtySession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();

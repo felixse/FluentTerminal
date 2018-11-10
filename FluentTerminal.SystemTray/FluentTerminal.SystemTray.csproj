@@ -115,8 +115,18 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppCommunicationService.cs" />
+    <Compile Include="Services\ConPty\ConPtySession.cs" />
+    <Compile Include="Services\ConPty\Native\ConsoleApi.cs" />
+    <Compile Include="Services\ConPty\Native\ProcessApi.cs" />
+    <Compile Include="Services\ConPty\PseudoConsole.cs" />
+    <Compile Include="Services\ConPty\Native\PseudoConsoleApi.cs" />
+    <Compile Include="Services\ConPty\Processes\Process.cs" />
+    <Compile Include="Services\ConPty\Processes\ProcessFactory.cs" />
+    <Compile Include="Services\ConPty\PseudoConsolePipe.cs" />
+    <Compile Include="Services\ConPty\Terminal.cs" />
+    <Compile Include="Services\ITerminalSession.cs" />
     <Compile Include="Services\ToggleWindowService.cs" />
-    <Compile Include="Services\TerminalSession.cs" />
+    <Compile Include="Services\WinPty\WinPtySession.cs" />
     <Compile Include="Services\TerminalsManager.cs" />
     <Compile Include="SystemTrayApplicationContext.cs" />
     <Compile Include="Utilities.cs" />
@@ -176,6 +186,7 @@
       <Name>FluentTerminal.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(ProjectDir)BinaryDependencies\$(PlatformName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)\"
