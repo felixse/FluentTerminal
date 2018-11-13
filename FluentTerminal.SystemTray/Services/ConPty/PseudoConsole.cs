@@ -16,7 +16,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         private PseudoConsole(IntPtr handle)
         {
-            this.Handle = handle;
+            Handle = handle;
         }
 
         internal static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
@@ -30,6 +30,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                 throw new Win32Exception(createResult, "Could not create psuedo console.");
             }
             return new PseudoConsole(hPC);
+        }
+
+        internal void Resize(int width, int height)
+        {
+            ResizePseudoConsole(Handle, new COORD { X = (short)width, Y = (short)height });
         }
 
         public void Dispose()

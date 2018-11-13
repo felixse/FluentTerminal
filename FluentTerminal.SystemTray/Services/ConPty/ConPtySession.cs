@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
@@ -19,15 +18,12 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Close()
         {
-        }
-
-        public void Dispose()
-        {
+            ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Resize(TerminalSize size)
         {
-
+            _terminal.Resize(size.Columns, size.Rows);
         }
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
@@ -83,5 +79,27 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         {
             _terminal.WriteToPseudoConsole(text);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _terminal?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

@@ -12,12 +12,13 @@ namespace FluentTerminal.SystemTray.Services.ConPty
     /// <summary>
     /// Class for managing communication with the underlying console, and communicating with its pseudoconsole.
     /// </summary>
-    public sealed class Terminal
+    public sealed class Terminal : IDisposable
     {
-        private const string ExitCommand = "exit\r";
-        private const string CtrlC_Command = "\x3";
         private SafeFileHandle _consoleInputPipeWriteHandle;
         private StreamWriter _consoleInputWriter;
+        private PseudoConsolePipe _inputPipe;
+        private PseudoConsolePipe _outputPipe;
+        private PseudoConsole _pseudoConsole;
 
         /// <summary>
         /// A stream of VT-100-enabled output from the console.
@@ -71,27 +72,33 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// <param name="consoleWidth">The width (in characters) to start the pseudoconsole with. Defaults to 30.</param>
         public void Start(string command, int consoleWidth = 80, int consoleHeight = 30)
         {
-            using (var inputPipe = new PseudoConsolePipe())
-            using (var outputPipe = new PseudoConsolePipe())
-            using (var pseudoConsole = PseudoConsole.Create(inputPipe.ReadSide, outputPipe.WriteSide, consoleWidth, consoleHeight))
-            using (var process = ProcessFactory.Start(command, PseudoConsole.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
+            _inputPipe = new PseudoConsolePipe();
+            _outputPipe = new PseudoConsolePipe();
+            _pseudoConsole = PseudoConsole.Create(_inputPipe.ReadSide, _outputPipe.WriteSide, consoleWidth, consoleHeight);
+
+            using (var process = ProcessFactory.Start(command, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle))
             {
                 // copy all pseudoconsole output to a FileStream and expose it to the rest of the app
-                ConsoleOutStream = new FileStream(outputPipe.ReadSide, FileAccess.Read);
+                ConsoleOutStream = new FileStream(_outputPipe.ReadSide, FileAccess.Read);
                 OutputReady.Invoke(this, EventArgs.Empty);
 
                 // Store input pipe handle, and a writer for later reuse
-                _consoleInputPipeWriteHandle = inputPipe.WriteSide;
+                _consoleInputPipeWriteHandle = _inputPipe.WriteSide;
                 _consoleInputWriter = new StreamWriter(new FileStream(_consoleInputPipeWriteHandle, FileAccess.Write))
                 {
                     AutoFlush = true
                 };
 
                 // free resources in case the console is ungracefully closed (e.g. by the 'x' in the window titlebar)
-                OnClose(() => DisposeResources(process, pseudoConsole, outputPipe, inputPipe, _consoleInputWriter));
+                OnClose(() => DisposeResources(process, _pseudoConsole, _outputPipe, _inputPipe, _consoleInputWriter));
 
                 WaitForExit(process).WaitOne(Timeout.Infinite);
             }
+        }
+
+        public  void Resize(int width, int height)
+        {
+            _pseudoConsole?.Resize(width, height);
         }
 
         /// <summary>
@@ -164,5 +171,29 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
             return new SafeFileHandle(file, true);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _inputPipe?.Dispose();
+                    _outputPipe?.Dispose();
+                    _pseudoConsole?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
