@@ -39,10 +39,21 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
             Id = port.Value;
             ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
+            var cwd = GetWorkingDirectory(request.Profile);
+            string args = $"\"{request.Profile.Location}\" {request.Profile.Arguments}";
 
             _terminal = new Terminal();
             _terminal.OutputReady += _terminal_OutputReady;
-            Task.Run(() => _terminal.Start(request.Profile.Location, request.Size.Columns, request.Size.Rows));
+            Task.Run(() => _terminal.Start(args, cwd, request.Size.Columns, request.Size.Rows));
+        }
+
+        private string GetWorkingDirectory(ShellProfile configuration)
+        {
+            if (string.IsNullOrWhiteSpace(configuration.WorkingDirectory) || !Directory.Exists(configuration.WorkingDirectory))
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            }
+            return configuration.WorkingDirectory;
         }
 
         private void _terminal_OutputReady(object sender, EventArgs e)

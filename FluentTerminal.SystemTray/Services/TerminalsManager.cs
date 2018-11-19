@@ -41,7 +41,6 @@ namespace FluentTerminal.SystemTray.Services
 
             terminal.ConnectionClosed += OnTerminalConnectionClosed;
             _terminals.Add(terminal.Id, terminal);
-
             return new CreateTerminalResponse
             {
                 Success = true,
@@ -81,7 +80,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
         {
-            if (sender is WinPtySession terminal)
+            if (sender is ITerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();

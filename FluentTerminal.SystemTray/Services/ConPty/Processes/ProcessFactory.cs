@@ -16,10 +16,10 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
         /// <summary>
         /// Start and configure a process. The return value represents the process and should be disposed.
         /// </summary>
-        internal static Process Start(string command, IntPtr attributes, IntPtr hPC)
+        internal static Process Start(string command, string directory, IntPtr attributes, IntPtr hPC)
         {
             var startupInfo = ConfigureProcessThread(hPC, attributes);
-            var processInfo = RunProcess(ref startupInfo, command);
+            var processInfo = RunProcess(ref startupInfo, command, directory);
             return new Process(startupInfo, processInfo);
         }
 
@@ -71,7 +71,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
             return startupInfo;
         }
 
-        private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine)
+        private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine, string directory)
         {
             int securityAttributeSize = Marshal.SizeOf<SECURITY_ATTRIBUTES>();
             var pSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
@@ -84,7 +84,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
                 bInheritHandles: false,
                 dwCreationFlags: EXTENDED_STARTUPINFO_PRESENT,
                 lpEnvironment: IntPtr.Zero,
-                lpCurrentDirectory: null,
+                lpCurrentDirectory: directory,
                 lpStartupInfo: ref sInfoEx,
                 lpProcessInformation: out PROCESS_INFORMATION pInfo
             );
