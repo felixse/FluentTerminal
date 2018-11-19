@@ -33,6 +33,9 @@ A Terminal Emulator based on UWP and web technologies.
 
 ## How to install (as an end-user)
 
+### Prerequisite
+- You need to update to Fall Creators Update or later.
+
 ### Automatic install
 
 - Download and extract the latest [release](https://github.com/felixse/FluentTerminal/releases).
