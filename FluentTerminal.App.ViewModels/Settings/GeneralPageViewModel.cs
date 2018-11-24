@@ -53,6 +53,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool EnableTrayIcon
+        {
+            get => _applicationSettings.EnableTrayIcon;
+            set
+            {
+                if (_applicationSettings.EnableTrayIcon != value)
+                {
+                    _applicationSettings.EnableTrayIcon = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool ShowNewOutputIndicator
         {
             get => _applicationSettings.ShowNewOutputIndicator;
@@ -241,6 +255,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
                 ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
+                EnableTrayIcon = defaults.EnableTrayIcon;
             }
         }
 

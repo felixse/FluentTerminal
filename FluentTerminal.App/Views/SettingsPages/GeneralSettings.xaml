@@ -44,6 +44,10 @@
                     Foreground="Red"
                     Text="{x:Bind ViewModel.StartupTaskErrorMessage, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+                <ToggleSwitch
+                    Margin="0,24,0,0"
+                    Header="Show in system tray"
+                    IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
                 <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
                 <RadioButton
                     Content="Tabs"
