@@ -48,6 +48,10 @@
                     Margin="0,24,0,0"
                     Header="Show in system tray"
                     IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
+                <TextBlock
+                    Foreground="Red"
+                    Text="Requires restart to take affect"
+                    Visibility="{x:Bind ViewModel.ShouldRestartForTrayMessage, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                 <TextBlock Margin="0,24,0,8" Text="Open new terminals as" />
                 <RadioButton
                     Content="Tabs"
