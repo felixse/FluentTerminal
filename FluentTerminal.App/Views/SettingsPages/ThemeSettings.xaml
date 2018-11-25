@@ -187,12 +187,16 @@
                             </TextBlock>
                             <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Author, Mode=OneWay}" />
                             <TextBox
+                                Width="200"
                                 Margin="0,0,0,24"
+                                HorizontalAlignment="Left"
                                 Header="Name"
                                 Text="{x:Bind Name, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                             <TextBox
+                                Width="200"
                                 Margin="0,0,0,48"
+                                HorizontalAlignment="Left"
                                 Header="Author"
                                 Text="{x:Bind Author, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
