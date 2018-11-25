@@ -172,7 +172,6 @@
                                     IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                                 <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
@@ -188,7 +187,6 @@
                                         Content="..."
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
-
                                 <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
@@ -203,7 +201,6 @@
                                         Content="..."
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
-
                                 <TextBox
                                     Width="300"
                                     Margin="0,24,0,0"
@@ -240,7 +237,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Tab color">
                                     <ContentControl
-                                        Margin="0,6,0,0"
+                                        Margin="0,6,0,24"
                                         Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
                                 </controls:HeaderedContentControl>

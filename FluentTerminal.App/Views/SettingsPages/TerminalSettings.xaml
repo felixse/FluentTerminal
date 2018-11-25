@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,00,0,24">
+        <Grid Grid.Row="1" Margin="24,0,0,24">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -68,33 +68,36 @@
                     Margin="0,0,0,24"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
-                <TextBlock Margin="0,0,0,8" Text="Cursor style" />
-                <RadioButton
-                    Content="Block"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Underline"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Bar"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
-
-                <TextBlock Margin="0,24,0,8" Text="Scrollbar style" />
-                <RadioButton
-                    Content="Hidden"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Auto hiding"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Visible"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock Margin="0,0,0,8" Text="Cursor style" />
+                    <RadioButton
+                        Content="Block"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Underline"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Bar"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock Margin="0,0,0,8" Text="Scrollbar style" />
+                    <RadioButton
+                        Content="Hidden"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Auto hiding"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Visible"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

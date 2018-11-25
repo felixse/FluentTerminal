@@ -187,15 +187,16 @@
                             </TextBlock>
                             <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Author, Mode=OneWay}" />
                             <TextBox
+                                Margin="0,0,0,24"
                                 Header="Name"
                                 Text="{x:Bind Name, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                             <TextBox
-                                Margin="0,24,0,0"
+                                Margin="0,0,0,48"
                                 Header="Author"
                                 Text="{x:Bind Author, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
-                            <Grid Margin="0,48,0,0">
+                            <Grid Margin="0,0,0,24">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
