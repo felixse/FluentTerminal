@@ -56,10 +56,10 @@ function createTerminal(options, theme, keyBindings) {
 
   term.open(terminalContainer);
   term.winptyCompatInit();
-  term.fit();
   term.focus();
   
   setPadding(options.padding);
+  term.fit();
 
   var resizeTimeout;
   window.onresize = function () {
@@ -157,6 +157,7 @@ function setScrollBarStyle(scrollBarStyle) {
 
 function setPadding(padding) {
   document.querySelector('.terminal').style.padding = padding + 'px';
+  term.fit();
 }
 
 function changeKeyBindings(keyBindings) {
