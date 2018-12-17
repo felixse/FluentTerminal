@@ -4,7 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:FluentTerminal.App.Views.SettingsPages"
     mc:Ignorable="d">
+    <Page.Resources>
+        <local:ToolTipValueToPixelConverter x:Key="ToolTipValueToPixelConverter"/>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -65,7 +69,8 @@
                     Maximum="100"
                     Minimum="0"
                     StepFrequency="1"
-                    Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
+                    Value="{x:Bind ViewModel.Padding, Mode=TwoWay}"
+                    ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}" />
                 <TextBox
                     Width="200"
                     Margin="0,0,0,24"
