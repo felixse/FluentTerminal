@@ -55,11 +55,11 @@ function createTerminal(options, theme, keyBindings) {
   });
 
   term.open(terminalContainer);
+  term.fit();
   term.winptyCompatInit();
   term.focus();
   
   setPadding(options.padding);
-  term.fit();
 
   var resizeTimeout;
   window.onresize = function () {
