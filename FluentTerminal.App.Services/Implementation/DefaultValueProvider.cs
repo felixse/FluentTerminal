@@ -305,6 +305,7 @@ namespace FluentTerminal.App.Services.Implementation
                 FontFamily = "Consolas",
                 FontSize = 13,
                 BackgroundOpacity = 0.8,
+                Padding: 12,
                 ScrollBackLimit = 1000
             };
         }

@@ -57,6 +57,15 @@
                     Minimum="0"
                     StepFrequency="0.01"
                     Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
+                <Slider
+                    Width="200"
+                    Margin="0,0,0,24"
+                    HorizontalAlignment="Left"
+                    Header="Padding"
+                    Maximum="100"
+                    Minimum="0"
+                    StepFrequency="1"
+                    Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
                 <TextBox
                     Width="200"
                     Margin="0,0,0,24"

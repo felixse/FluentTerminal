@@ -96,6 +96,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public int Padding
+        {
+            get => _terminalOptions.Padding;
+            set
+            {
+                if (_terminalOptions.Padding != value)
+                {
+                    _terminalOptions.Padding = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string ScrollBackLimit
         {
             get => _terminalOptions.ScrollBackLimit.ToString();

@@ -139,6 +139,7 @@ function changeOptions(options) {
   term.setOption('fontSize', options.fontSize);
   term.setOption('scrollback', options.scrollBackLimit);
   setScrollBarStyle(options.scrollBarStyle);
+  setPadding(options.padding);
 }
 
 function setScrollBarStyle(scrollBarStyle) {
@@ -150,6 +151,10 @@ function setScrollBarStyle(scrollBarStyle) {
     document.getElementById('terminal-container').style['-ms-overflow-style'] = 'scrollbar';
   }
   
+}
+
+function setPadding(padding) {
+  document.querySelector('.terminal').style.padding = padding + 'px';
 }
 
 function changeKeyBindings(keyBindings) {
