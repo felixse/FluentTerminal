@@ -58,6 +58,8 @@ function createTerminal(options, theme, keyBindings) {
   term.winptyCompatInit();
   term.fit();
   term.focus();
+  
+  setPadding(options.padding);
 
   var resizeTimeout;
   window.onresize = function () {
