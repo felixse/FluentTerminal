@@ -18,6 +18,8 @@ namespace FluentTerminal.Models
 
         public double BackgroundOpacity { get; set; }
 
+        public int Padding { get; set; }
+
         public uint ScrollBackLimit { get; set; }
     }
 }
