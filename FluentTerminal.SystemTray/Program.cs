@@ -61,7 +61,15 @@ namespace FluentTerminal.SystemTray
 
                 Task.Run(() => container.Resolve<IUpdateService>().CheckForUpdate());
 
-                Application.Run(container.Resolve<SystemTrayApplicationContext>());
+                var settingsService = container.Resolve<ISettingsService>();
+                if (settingsService.GetApplicationSettings().EnableTrayIcon)
+                {
+                    Application.Run(container.Resolve<SystemTrayApplicationContext>());
+                }
+                else
+                {
+                    Application.Run();
+                }
 
                 mutex.Close();
             }

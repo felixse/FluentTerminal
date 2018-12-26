@@ -55,9 +55,11 @@ function createTerminal(options, theme, keyBindings) {
   });
 
   term.open(terminalContainer);
-  //term.winptyCompatInit();
   term.fit();
+  //term.winptyCompatInit();
   term.focus();
+  
+  setPadding(options.padding);
 
   var resizeTimeout;
   window.onresize = function () {
@@ -139,6 +141,7 @@ function changeOptions(options) {
   term.setOption('fontSize', options.fontSize);
   term.setOption('scrollback', options.scrollBackLimit);
   setScrollBarStyle(options.scrollBarStyle);
+  setPadding(options.padding);
 }
 
 function setScrollBarStyle(scrollBarStyle) {
@@ -150,6 +153,11 @@ function setScrollBarStyle(scrollBarStyle) {
     document.getElementById('terminal-container').style['-ms-overflow-style'] = 'scrollbar';
   }
   
+}
+
+function setPadding(padding) {
+  document.querySelector('.terminal').style.padding = padding + 'px';
+  term.fit();
 }
 
 function changeKeyBindings(keyBindings) {

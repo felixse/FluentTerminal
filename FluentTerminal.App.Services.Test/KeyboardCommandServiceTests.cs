@@ -65,5 +65,16 @@ namespace FluentTerminal.App.Services.Test
 
             invoke.Should().Throw<KeyNotFoundException>();
         }
+        
+        [Fact]
+        public void SendCommand_CommandIsToggleWindow_ShouldNotThrow()
+        {
+            var command = Command.ToggleWindow;
+            var keyboardCommandService = new KeyboardCommandService();
+
+            Action invoke = () => keyboardCommandService.SendCommand(command);
+
+            invoke.Should().NotThrow();
+        }
     }
 }
