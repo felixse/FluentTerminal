@@ -2,12 +2,12 @@
     x:Class="FluentTerminal.App.Views.SettingsPages.TerminalSettings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:FluentTerminal.App.Views.SettingsPages"
     mc:Ignorable="d">
     <Page.Resources>
-        <local:ToolTipValueToPixelConverter x:Key="ToolTipValueToPixelConverter"/>
+        <converters:ToolTipValueToPixelConverter x:Key="ToolTipValueToPixelConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -66,11 +66,11 @@
                     Margin="0,0,0,24"
                     HorizontalAlignment="Left"
                     Header="Padding"
-                    Maximum="100"
+                    Maximum="64"
                     Minimum="0"
                     StepFrequency="1"
-                    Value="{x:Bind ViewModel.Padding, Mode=TwoWay}"
-                    ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}" />
+                    ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}"
+                    Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
                 <TextBox
                     Width="200"
                     Margin="0,0,0,24"

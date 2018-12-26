@@ -105,8 +105,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (_terminalOptions.Padding != value)
                 {
                     _terminalOptions.Padding = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -226,6 +225,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             _terminalOptions = _settingsService.GetTerminalOptions();
 
             this.ObservableForProperty(x => x.BackgroundOpacity).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
+            {
+                _settingsService.SaveTerminalOptions(_terminalOptions);
+            });
+            this.ObservableForProperty(x => x.Padding).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
             {
                 _settingsService.SaveTerminalOptions(_terminalOptions);
             });

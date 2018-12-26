@@ -1,8 +1,6 @@
 ﻿using FluentTerminal.App.ViewModels.Settings;
-using System;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -42,19 +40,6 @@ namespace FluentTerminal.App.Views.SettingsPages
                 }
             }
             e.Handled = true;
-        }
-    }
-
-    class ToolTipValueToPixelConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            return string.Format("{0}px", value);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
         }
     }
 }
