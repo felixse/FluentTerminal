@@ -97,6 +97,19 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public int Padding
+        {
+            get => _terminalOptions.Padding;
+            set
+            {
+                if (_terminalOptions.Padding != value)
+                {
+                    _terminalOptions.Padding = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
         public string ScrollBackLimit
         {
             get => _terminalOptions.ScrollBackLimit.ToString();
@@ -212,6 +225,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             _terminalOptions = _settingsService.GetTerminalOptions();
 
             this.ObservableForProperty(x => x.BackgroundOpacity).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
+            {
+                _settingsService.SaveTerminalOptions(_terminalOptions);
+            });
+            this.ObservableForProperty(x => x.Padding).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
             {
                 _settingsService.SaveTerminalOptions(_terminalOptions);
             });
