@@ -69,7 +69,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void SendCommand_CommandIsToggleWindow_ShouldNotThrow()
         {
-            var command = Command.ToggleWindow;
+            var command = nameof(Command.ToggleWindow);
             var keyboardCommandService = new KeyboardCommandService();
 
             Action invoke = () => keyboardCommandService.SendCommand(command);
