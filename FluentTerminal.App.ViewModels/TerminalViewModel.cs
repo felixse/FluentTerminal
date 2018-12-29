@@ -214,9 +214,10 @@ namespace FluentTerminal.App.ViewModels
 
             var options = _settingsService.GetTerminalOptions();
             var theme = _settingsService.GetCurrentTheme();
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings)).ConfigureAwait(true);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
@@ -282,9 +283,9 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView.FindPrevious(SearchText);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles)
         {
-            return keyBindings.Values.SelectMany(k => k);
+            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings));
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
@@ -311,21 +312,22 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
+                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(false);
             });
         }
 
-        private async void OnKeyboardCommandReceived(object sender, Command e)
+        private async void OnKeyboardCommandReceived(object sender, string command)
         {
-            if (e == Command.Copy)
+            if (command == nameof(Command.Copy))
             {
                 var selection = await _terminalView.GetSelection().ConfigureAwait(true);
                 _clipboardService.SetText(selection);
             }
-            else if (e == Command.Paste)
+            else if (command == nameof(Command.Paste))
             {
                 var content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
@@ -333,7 +335,7 @@ namespace FluentTerminal.App.ViewModels
                     await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
                 }
             }
-            else if (e == Command.Search)
+            else if (command == nameof(Command.Search))
             {
                 ShowSearchPanel = !ShowSearchPanel;
                 if (ShowSearchPanel)
@@ -343,7 +345,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                _keyboardCommandService.SendCommand(e);
+                _keyboardCommandService.SendCommand(command);
             }
         }
 

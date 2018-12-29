@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentTerminal.App.ViewModels.Settings
@@ -82,10 +83,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             {
                 Id = Guid.NewGuid(),
                 PreInstalled = false,
-                Name = "New profile"
+                Name = "New profile",
+                KeyBindings = new List<KeyBinding>()
             };
 
-            _settingsService.SaveShellProfile(shellProfile);
+            _settingsService.SaveShellProfile(shellProfile, true);
 
             var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService);
             viewModel.EditCommand.Execute(null);

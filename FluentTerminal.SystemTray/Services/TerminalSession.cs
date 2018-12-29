@@ -180,7 +180,7 @@ namespace FluentTerminal.SystemTray.Services
 
                     if (readChars > 0)
                     {
-                        var output = new String(buffer, 0, readChars);
+                        var output = new System.String(buffer, 0, readChars);
                         _terminalsManager.DisplayTerminalOutput(Id, output);
                     }
                 }

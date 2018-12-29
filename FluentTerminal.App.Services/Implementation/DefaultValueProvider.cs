@@ -35,7 +35,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.ToggleWindow,
+                        Command = nameof(Command.ToggleWindow),
                         Ctrl = false,
                         Alt = false,
                         Shift = false,
@@ -48,7 +48,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.NextTab,
+                        Command = nameof(Command.NextTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -61,7 +61,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.PreviousTab,
+                        Command = nameof(Command.PreviousTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
@@ -82,7 +82,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = command,
+                        Command = command.ToString(),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -95,7 +95,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.NewTab,
+                        Command = nameof(Command.NewTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -108,7 +108,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.ConfigurableNewTab,
+                        Command = nameof(Command.ConfigurableNewTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
@@ -121,7 +121,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.CloseTab,
+                        Command = nameof(Command.CloseTab),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -134,7 +134,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.NewWindow,
+                        Command = nameof(Command.NewWindow),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -147,7 +147,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.ShowSettings,
+                        Command = nameof(Command.ShowSettings),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -160,7 +160,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.Copy,
+                        Command = nameof(Command.Copy),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -173,7 +173,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.Paste,
+                        Command = nameof(Command.Paste),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -186,7 +186,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.Search,
+                        Command = nameof(Command.Search),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -199,7 +199,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.ToggleFullScreen,
+                        Command = nameof(Command.ToggleFullScreen),
                         Ctrl = false,
                         Alt = true,
                         Shift = false,
@@ -212,7 +212,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.SelectAll,
+                        Command = nameof(Command.SelectAll),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -225,7 +225,7 @@ namespace FluentTerminal.App.Services.Implementation
                 {
                     new KeyBinding
                     {
-                        Command = Command.Clear,
+                        Command = nameof(Command.Clear),
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
@@ -327,7 +327,19 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindings = new []
+                    {
+                        new KeyBinding
+                        {
+                            Command = GetDefaultShellProfileId().ToString(),
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number1
+                        }
+                    }
                 },
                 new ShellProfile
                 {
@@ -336,7 +348,19 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindings = new []
+                    {
+                        new KeyBinding
+                        {
+                            Command = "ab942a61-7673-4755-9bd8-765aff91d9a3",
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number2
+                        }
+                    }
                 },
                 new ShellProfile
                 {
@@ -345,7 +369,19 @@ namespace FluentTerminal.App.Services.Implementation
                     Arguments = string.Empty,
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
-                    WorkingDirectory = string.Empty
+                    WorkingDirectory = string.Empty,
+                    KeyBindings = new []
+                    {
+                        new KeyBinding
+                        {
+                            Command = "e5785ad6-584f-40cb-bdcd-d5b3b3953e7f",
+                            Ctrl=true,
+                            Alt=true,
+                            Shift=false,
+                            Meta=false,
+                            Key=(int)ExtendedVirtualKey.Number3
+                        }
+                    }
                 }
             };
         }
