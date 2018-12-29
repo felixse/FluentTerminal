@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FluentTerminal.Models"
+    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
@@ -177,15 +178,15 @@
                                     <TextBox
                                         Width="300"
                                         Header="Shell executable location"
-                                        IsSpellCheckEnabled="False"
                                         IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
+                                        IsSpellCheckEnabled="False"
                                         Text="{x:Bind Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
-                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         Command="{x:Bind BrowseForCustomShellCommand}"
                                         Content="..."
+                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
 
@@ -220,6 +221,18 @@
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                     ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                <StackPanel
+                                    Width="300"
+                                    Margin="0,24,0,0"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        Text="Keyboard shortcut" />
+                                    <HyperlinkButton Command="{x:Bind AddKeyboardShortcutCommand}" Content="Add" />
+                                </StackPanel>
+                                <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
@@ -249,6 +262,16 @@
                                         Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
                                 </controls:HeaderedContentControl>
+                                <controls:HeaderedContentControl
+                                    Margin="0,36,0,0"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="Keyboard shortcut">
+                                    <views:KeyBindingsView
+                                        Margin="0,6,0,0"
+                                        ShowCommandName="False"
+                                        ViewModel="{x:Bind KeyBindings}" />
+                                </controls:HeaderedContentControl>
+
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

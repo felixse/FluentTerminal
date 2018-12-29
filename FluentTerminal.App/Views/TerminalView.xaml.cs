@@ -54,7 +54,7 @@ namespace FluentTerminal.App.Views
             StartMediatorTask();
         }
 
-        public event EventHandler<Command> KeyboardCommandReceived;
+        public event EventHandler<string> KeyboardCommandReceived;
 
         public event EventHandler<TerminalSize> TerminalSizeChanged;
 
@@ -135,7 +135,14 @@ namespace FluentTerminal.App.Views
 
         public void OnKeyboardCommand(string command)
         {
-            _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, Enum.Parse<Command>(command, true)));
+            if (Enum.TryParse(command, true, out Command commandValue))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, commandValue.ToString()));
+            }
+            else if (Guid.TryParse(command, out Guid shellProfileId))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, shellProfileId.ToString()));
+            }
         }
 
         public void OnTerminalResized(int columns, int rows)

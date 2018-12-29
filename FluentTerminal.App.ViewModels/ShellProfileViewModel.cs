@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -50,11 +51,15 @@ namespace FluentTerminal.App.ViewModels
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
 
+            var keyBindings = shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList();
+            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), keyBindings, _dialogService, string.Empty, false);
+
             SetDefaultCommand = new RelayCommand(SetDefault);
             DeleteCommand = new AsyncCommand(Delete, CanDelete);
             EditCommand = new RelayCommand(Edit);
             CancelEditCommand = new AsyncCommand(CancelEdit);
             SaveChangesCommand = new RelayCommand(SaveChanges);
+            AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
             BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
             BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
         }
@@ -69,8 +74,9 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
-
+        public IAsyncCommand AddKeyboardShortcutCommand { get; }
         public ObservableCollection<TabTheme> TabThemes { get; }
+        public KeyBindingsViewModel KeyBindings { get; }
 
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }
 
@@ -145,10 +151,16 @@ namespace FluentTerminal.App.ViewModels
             _shellProfile.Name = Name;
             _shellProfile.WorkingDirectory = WorkingDirectory;
             _shellProfile.TabThemeId = SelectedTabTheme.Id;
-
+            _shellProfile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
             _settingsService.SaveShellProfile(_shellProfile);
 
+            KeyBindings.Editable = false;
             InEditMode = false;
+        }
+
+        public Task AddKeyboardShortcut()
+        {
+            return KeyBindings.ShowAddKeyBindingDialog();
         }
 
         private async Task BrowseForCustomShell()
@@ -181,6 +193,13 @@ namespace FluentTerminal.App.ViewModels
                 WorkingDirectory = _fallbackProfile.WorkingDirectory;
                 SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
+                KeyBindings.KeyBindings.Clear();
+                foreach (var keyBinding in _shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                {
+                    KeyBindings.Add(keyBinding);
+                }
+
+                KeyBindings.Editable = false;
                 InEditMode = false;
             }
         }
@@ -210,6 +229,8 @@ namespace FluentTerminal.App.ViewModels
                 WorkingDirectory = _shellProfile.WorkingDirectory,
                 TabThemeId = _shellProfile.TabThemeId
             };
+
+            KeyBindings.Editable = true;
             InEditMode = true;
         }
 

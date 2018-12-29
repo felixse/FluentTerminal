@@ -19,6 +19,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private bool _editingTabsPosition;
         private bool _editingInactiveTabColorMode;
         private bool _startupTaskEnabled;
+        private bool _shouldRestartForTrayMessage;
         private string _startupTaskErrorMessage;
 
         public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IStartupTaskService startupTaskService)
@@ -47,6 +48,43 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (_applicationSettings.AlwaysShowTabs != value)
                 {
                     _applicationSettings.AlwaysShowTabs = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool EnableTrayIcon
+        {
+            get => _applicationSettings.EnableTrayIcon;
+            set
+            {
+                if (_applicationSettings.EnableTrayIcon != value)
+                {
+                    _applicationSettings.EnableTrayIcon = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+
+                    // Toggle message telling user to restart the program
+                    ShouldRestartForTrayMessage = !ShouldRestartForTrayMessage;
+                }
+            }
+        }
+
+        public bool ShouldRestartForTrayMessage
+        {
+            get => _shouldRestartForTrayMessage;
+            set => Set(ref _shouldRestartForTrayMessage, value);
+        }
+
+        public bool ShowNewOutputIndicator
+        {
+            get => _applicationSettings.ShowNewOutputIndicator;
+            set
+            {
+                if (_applicationSettings.ShowNewOutputIndicator != value)
+                {
+                    _applicationSettings.ShowNewOutputIndicator = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
                 }
@@ -226,6 +264,8 @@ namespace FluentTerminal.App.ViewModels.Settings
                 InactiveTabColorMode = defaults.InactiveTabColorMode;
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
+                ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
+                EnableTrayIcon = defaults.EnableTrayIcon;
             }
         }
 

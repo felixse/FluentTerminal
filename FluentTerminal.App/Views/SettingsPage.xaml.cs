@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views.SettingsPages;
+using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -9,6 +10,7 @@ using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App.Views
@@ -18,6 +20,7 @@ namespace FluentTerminal.App.Views
         private readonly UISettings _uiSettings;
         private readonly ApplicationViewTitleBar _titleBar;
         private readonly CoreDispatcher _dispatcher;
+        private readonly NavigationViewItem hiddenNavigationItem;
         private bool _onThemesPage;
 
         public SettingsPage()
@@ -39,6 +42,8 @@ namespace FluentTerminal.App.Views
             _uiSettings = new UISettings();
             _uiSettings.ColorValuesChanged += OnColorValuesChanged;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += SettingsPage_CloseRequested;
+            
+            hiddenNavigationItem = new NavigationViewItem();
         }
 
         private void OnColorValuesChanged(UISettings sender, object args)
@@ -67,7 +72,22 @@ namespace FluentTerminal.App.Views
             if (e.Parameter is SettingsViewModel viewModel)
             {
                 ViewModel = viewModel;
+                ViewModel.AboutPageRequested += OnAboutPageRequested;
             }
+        }
+
+        private void OnAboutPageRequested(object sender, System.EventArgs e)
+        {
+            _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ContentFrame.Navigate(typeof(About), ViewModel.About);
+
+                // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
+                NavigationView.MenuItems.Add(hiddenNavigationItem);
+                NavigationView.SelectedItem = hiddenNavigationItem;
+                NavigationView.SelectedItem = null;
+                NavigationView.MenuItems.Remove(hiddenNavigationItem);
+            });
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -114,6 +134,11 @@ namespace FluentTerminal.App.Views
             {
                 SetTitleBarColors();
             }
+        }
+
+        private void AboutTapped(object sender, TappedRoutedEventArgs e)
+        {
+            OnAboutPageRequested(sender, EventArgs.Empty);
         }
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)

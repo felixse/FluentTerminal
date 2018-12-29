@@ -1,15 +1,17 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class TerminalPageViewModel : ViewModelBase
+    public class TerminalPageViewModel : ReactiveObject
     {
         private readonly TerminalOptions _terminalOptions;
         private readonly ISettingsService _settingsService;
@@ -63,7 +65,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.CursorBlink = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -77,7 +79,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.FontFamily = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -90,8 +92,20 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (_terminalOptions.BackgroundOpacity != value)
                 {
                     _terminalOptions.BackgroundOpacity = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        public int Padding
+        {
+            get => _terminalOptions.Padding;
+            set
+            {
+                if (_terminalOptions.Padding != value)
+                {
+                    _terminalOptions.Padding = value;
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -112,12 +126,12 @@ namespace FluentTerminal.App.ViewModels.Settings
                     {
                         _terminalOptions.ScrollBackLimit = intValue;
                         _settingsService.SaveTerminalOptions(_terminalOptions);
-                        RaisePropertyChanged();
+                        this.RaisePropertyChanged();
                     }
                 }
                 else
                 {
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -133,7 +147,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.FontSize = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    this.RaisePropertyChanged();
                 }
             }
         }
@@ -152,10 +166,10 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _isEditingCursorStyle = true;
                     _terminalOptions.CursorStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(BlockIsSelected));
-                    RaisePropertyChanged(nameof(BarIsSelected));
-                    RaisePropertyChanged(nameof(UnderlineIsSelected));
+                    this.RaisePropertyChanged();
+                    this.RaisePropertyChanged(nameof(BlockIsSelected));
+                    this.RaisePropertyChanged(nameof(BarIsSelected));
+                    this.RaisePropertyChanged(nameof(UnderlineIsSelected));
                     _isEditingCursorStyle = false;
                 }
             }
@@ -171,10 +185,10 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _isEditingScrollBarStyle = true;
                     _terminalOptions.ScrollBarStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(HiddenIsSelected));
-                    RaisePropertyChanged(nameof(AutoHidingIsSelected));
-                    RaisePropertyChanged(nameof(VisibleIsSelected));
+                    this.RaisePropertyChanged();
+                    this.RaisePropertyChanged(nameof(HiddenIsSelected));
+                    this.RaisePropertyChanged(nameof(AutoHidingIsSelected));
+                    this.RaisePropertyChanged(nameof(VisibleIsSelected));
                     _isEditingScrollBarStyle = false;
                 }
             }
@@ -209,6 +223,15 @@ namespace FluentTerminal.App.ViewModels.Settings
             Sizes = Enumerable.Range(1, 72);
 
             _terminalOptions = _settingsService.GetTerminalOptions();
+
+            this.ObservableForProperty(x => x.BackgroundOpacity).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
+            {
+                _settingsService.SaveTerminalOptions(_terminalOptions);
+            });
+            this.ObservableForProperty(x => x.Padding).Throttle(TimeSpan.FromMilliseconds(800)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(x =>
+            {
+                _settingsService.SaveTerminalOptions(_terminalOptions);
+            });
         }
     }
 }

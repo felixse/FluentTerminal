@@ -6,12 +6,21 @@ namespace FluentTerminal.App.Views
 {
     public sealed partial class KeyBindingsView : UserControl
     {
+        public static readonly DependencyProperty ShowCommandNameProperty =
+            DependencyProperty.Register(nameof(ShowCommandName), typeof(bool), typeof(KeyBindingsView), new PropertyMetadata(true));
+
         public static readonly DependencyProperty ViewModelProperty =
-                    DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
+                            DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
 
         public KeyBindingsView()
         {
             InitializeComponent();
+        }
+
+        public bool ShowCommandName
+        {
+            get { return (bool)GetValue(ShowCommandNameProperty); }
+            set { SetValue(ShowCommandNameProperty, value); }
         }
 
         public KeyBindingsViewModel ViewModel

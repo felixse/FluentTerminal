@@ -179,6 +179,9 @@ namespace FluentTerminal.Models.Enums
         MediaStop = 178,
         MediaPlayPause = 179,
 
+        [Description(";")]
+        OEM_1 = 186,
+
         [Description("+")]
         Plus = 187,
 
@@ -191,11 +194,11 @@ namespace FluentTerminal.Models.Enums
         [Description(".")]
         Period = 190,
 
-        [Description("#")]
-        NumberSign = 191,
+        [Description("/")]
+        OEM_2 = 191,
 
         [Description("`")]
-        GraveAccent = 192,
+        OEM_3 = 192,
 
         GamepadA = 195,
         GamepadB = 196,
@@ -222,13 +225,19 @@ namespace FluentTerminal.Models.Enums
         GamepadRightThumbstickRight = 217,
         GamepadRightThumbstickLeft = 218,
 
-        [Description(")")]
-        OpenBrackets = 219,
+        [Description("[")]
+        OEM_4 = 219,
 
-        [Description("^")]
-        Circumflex = 220,
+        [Description(@"\")]
+        OEM_5 = 220,
 
-        [Description("´")]
-        AcuteAccent = 221
+        [Description("]")]
+        OEM_6 = 221,
+
+        [Description("'")]
+        OEM_7 = 222,
+
+        [Description("<")]
+        OEM_102 = 226
     }
 }

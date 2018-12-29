@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace FluentTerminal.App.Services
 
         event EventHandler<string> TerminalTitleChanged;
 
-        event EventHandler<Command> KeyboardCommandReceived;
+        event EventHandler<string> KeyboardCommandReceived;
 
         Task ChangeTheme(TerminalColors theme);
 

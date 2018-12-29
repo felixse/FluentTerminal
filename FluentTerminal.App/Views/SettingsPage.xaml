@@ -18,7 +18,7 @@
             x:Name="NavigationView"
             AlwaysShowHeader="False"
             Canvas.ZIndex="0"
-            CompactModeThresholdWidth="560"
+            CompactModeThresholdWidth="0"
             ExpandedModeThresholdWidth="560"
             IsSettingsVisible="False"
             Loaded="NavigationView_Loaded"
@@ -74,6 +74,16 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <NavigationViewItem Content="About" Tapped="AboutTapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xE946;"
+                            ToolTipService.ToolTip="About" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.PaneFooter>
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
                 <TextBlock

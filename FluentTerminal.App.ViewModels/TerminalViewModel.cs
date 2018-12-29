@@ -26,6 +26,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly string _startupDirectory;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private bool _isSelected;
+        private bool _newOutput;
         private string _resizeOverlayContent;
         private string _searchText;
         private bool _showResizeOverlay;
@@ -79,6 +80,15 @@ namespace FluentTerminal.App.ViewModels
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
+        public TabTheme BackgroundTabTheme
+        {
+            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
+            // (if we're set to underline inactive tabs, use the null theme).
+            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
+                _tabTheme :
+                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+        }
+
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
@@ -101,6 +111,7 @@ namespace FluentTerminal.App.ViewModels
                     if (IsSelected)
                     {
                         _applicationView.Title = Title;
+                        _applicationView.RunOnDispatcherThread(() => NewOutput = false);
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
@@ -110,6 +121,12 @@ namespace FluentTerminal.App.ViewModels
 
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
             (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
+
+        public bool NewOutput
+        {
+            get => _newOutput;
+            set => Set(ref _newOutput, value);
+        }
 
         public string ResizeOverlayContent
         {
@@ -159,15 +176,6 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public TabTheme BackgroundTabTheme
-        {
-            // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
-            // (if we're set to underline inactive tabs, use the null theme).
-            get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
-                _tabTheme :
-                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
-        }
-
         public ObservableCollection<TabTheme> TabThemes { get; }
 
         public string Title
@@ -206,9 +214,10 @@ namespace FluentTerminal.App.ViewModels
 
             var options = _settingsService.GetTerminalOptions();
             var theme = _settingsService.GetCurrentTheme();
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings)).ConfigureAwait(true);
+            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
@@ -228,6 +237,10 @@ namespace FluentTerminal.App.ViewModels
                 {
                     _connectedEvent.Wait();
                     _webSocket.Send(t);
+                    if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
+                    {
+                        _applicationView.RunOnDispatcherThread(() => NewOutput = true);
+                    }
                 });
 
                 DefaultTitle = response.ShellExecutableName;
@@ -270,9 +283,9 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView.FindPrevious(SearchText);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles)
         {
-            return keyBindings.Values.SelectMany(k => k);
+            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings));
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
@@ -299,21 +312,22 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
+                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(false);
             });
         }
 
-        private async void OnKeyboardCommandReceived(object sender, Command e)
+        private async void OnKeyboardCommandReceived(object sender, string command)
         {
-            if (e == Command.Copy)
+            if (command == nameof(Command.Copy))
             {
                 var selection = await _terminalView.GetSelection().ConfigureAwait(true);
                 _clipboardService.SetText(selection);
             }
-            else if (e == Command.Paste)
+            else if (command == nameof(Command.Paste))
             {
                 var content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
@@ -321,7 +335,7 @@ namespace FluentTerminal.App.ViewModels
                     await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
                 }
             }
-            else if (e == Command.Search)
+            else if (command == nameof(Command.Search))
             {
                 ShowSearchPanel = !ShowSearchPanel;
                 if (ShowSearchPanel)
@@ -331,7 +345,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                _keyboardCommandService.SendCommand(e);
+                _keyboardCommandService.SendCommand(command);
             }
         }
 

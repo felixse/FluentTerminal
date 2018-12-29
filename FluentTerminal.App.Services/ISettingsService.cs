@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +9,8 @@ namespace FluentTerminal.App.Services
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
         event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler KeyBindingsChanged;
+        event EventHandler<ShellProfile> ShellProfileAdded;
+        event EventHandler<Guid> ShellProfileDeleted;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
         void DeleteShellProfile(Guid id);
         void DeleteTheme(Guid id);
@@ -18,7 +19,7 @@ namespace FluentTerminal.App.Services
         Guid GetCurrentThemeId();
         ShellProfile GetDefaultShellProfile();
         Guid GetDefaultShellProfileId();
-        IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings();
+        IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings();
         IEnumerable<ShellProfile> GetShellProfiles();
         IEnumerable<TabTheme> GetTabThemes();
         TerminalOptions GetTerminalOptions();
@@ -28,8 +29,8 @@ namespace FluentTerminal.App.Services
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
         void SaveCurrentThemeId(Guid id);
         void SaveDefaultShellProfileId(Guid id);
-        void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings);
-        void SaveShellProfile(ShellProfile shellProfile);
+        void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings);
+        void SaveShellProfile(ShellProfile shellProfile, bool newShell = false);
         void SaveTerminalOptions(TerminalOptions terminalOptions);
         void SaveTheme(TerminalTheme theme);
     }
