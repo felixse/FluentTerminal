@@ -34,7 +34,8 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            _settingsService.ShellProfileCollectionChanged += OnShellProfileCollectionChanged;
+            _settingsService.ShellProfileAdded += OnShellProfileAdded;
+            _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
@@ -82,16 +83,14 @@ namespace FluentTerminal.App.ViewModels
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
         }
 
-        private void OnShellProfileCollectionChanged(object sender, Tuple<bool, ShellProfile> e)
+        private void OnShellProfileDeleted(object sender, Guid e)
         {
-            if (e.Item1) // New Shell, just add it to the command handler.
-            {
-                _keyboardCommandService.RegisterCommandHandler(e.Item2.Id.ToString(), () => AddTerminal(e.Item2.WorkingDirectory, false, e.Item2));
-            }
-            else // Existing shell to remove, deregister it.
-            {
-                _keyboardCommandService.DeregisterCommandHandler(e.Item2.Id.ToString());
-            }
+            _keyboardCommandService.DeregisterCommandHandler(e.ToString());
+        }
+
+        private void OnShellProfileAdded(object sender, ShellProfile e)
+        {
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.WorkingDirectory, false, e));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

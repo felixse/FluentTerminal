@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +9,8 @@ namespace FluentTerminal.App.Services
         event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
         event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler KeyBindingsChanged;
-        event EventHandler<Tuple<bool, ShellProfile>> ShellProfileCollectionChanged;
+        event EventHandler<ShellProfile> ShellProfileAdded;
+        event EventHandler<Guid> ShellProfileDeleted;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
         void DeleteShellProfile(Guid id);
         void DeleteTheme(Guid id);
