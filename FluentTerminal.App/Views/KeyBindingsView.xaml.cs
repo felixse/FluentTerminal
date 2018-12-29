@@ -6,26 +6,27 @@ namespace FluentTerminal.App.Views
 {
     public sealed partial class KeyBindingsView : UserControl
     {
-        public static readonly DependencyProperty ViewModelProperty =
-                    DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
+        public static readonly DependencyProperty ShowCommandNameProperty =
+            DependencyProperty.Register(nameof(ShowCommandName), typeof(bool), typeof(KeyBindingsView), new PropertyMetadata(true));
 
-        private bool _editable = true;
+        public static readonly DependencyProperty ViewModelProperty =
+                            DependencyProperty.Register(nameof(ViewModel), typeof(KeyBindingsViewModel), typeof(KeyBindingsView), new PropertyMetadata(null));
 
         public KeyBindingsView()
         {
             InitializeComponent();
         }
 
-        public bool Editable
+        public bool ShowCommandName
         {
-            get { if (ViewModel != null) { return ViewModel.Editable; } else { return _editable; } }
-            set { if (ViewModel != null) { ViewModel.Editable = value; } else { _editable = value; } }
+            get { return (bool)GetValue(ShowCommandNameProperty); }
+            set { SetValue(ShowCommandNameProperty, value); }
         }
 
         public KeyBindingsViewModel ViewModel
         {
             get { return (KeyBindingsViewModel)GetValue(ViewModelProperty); }
-            set { value.Editable = _editable; SetValue(ViewModelProperty, value); }
+            set { SetValue(ViewModelProperty, value); }
         }
     }
 }

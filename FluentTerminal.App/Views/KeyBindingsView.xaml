@@ -10,13 +10,15 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Column="0"
+            Width="180"
             Margin="0,6,24,0"
-            Text="{x:Bind ViewModel.CommandName, Mode=OneWay}" />
+            Text="{x:Bind ViewModel.CommandName, Mode=OneWay}"
+            Visibility="{x:Bind ShowCommandName, Mode=OneWay}" />
         <ItemsControl Grid.Column="1" ItemsSource="{x:Bind ViewModel.KeyBindings, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="settings:KeyBindingViewModel">
@@ -83,12 +85,12 @@
                             Margin="12,0,0,0"
                             Command="{x:Bind EditCommand}"
                             Content="Edit"
-                            Visibility="{x:Bind Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"/>
+                            Visibility="{x:Bind Parent.Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
                         <HyperlinkButton
                             Margin="12,0,0,0"
                             Command="{x:Bind DeleteCommand}"
                             Content="Delete"
-                            Visibility="{x:Bind Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
+                            Visibility="{x:Bind Parent.Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

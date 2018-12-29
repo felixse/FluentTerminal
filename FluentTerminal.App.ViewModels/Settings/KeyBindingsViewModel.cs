@@ -12,19 +12,20 @@ namespace FluentTerminal.App.ViewModels.Settings
     {
         private readonly IDialogService _dialogService;
         private readonly ICollection<KeyBinding> _keyBindings;
-        private bool _editable = true;
+        private bool _editable;
 
-        public KeyBindingsViewModel(string command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandNameOverride = null)
+        public KeyBindingsViewModel(string command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandName, bool editable)
         {
             Command = command;
             _keyBindings = keyBindings;
             _dialogService = dialogService;
 
-            CommandName = commandNameOverride ?? command;
+            CommandName = commandName;
+            _editable = editable;
 
             foreach (var binding in keyBindings)
             {
-                var viewModel = new KeyBindingViewModel(binding, _dialogService);
+                var viewModel = new KeyBindingViewModel(binding, _dialogService, this);
                 viewModel.Deleted += ViewModel_Deleted;
                 viewModel.Edited += ViewModel_Edited;
                 KeyBindings.Add(viewModel);
@@ -44,31 +45,31 @@ namespace FluentTerminal.App.ViewModels.Settings
         /// </summary>
         public bool Editable
         {
-            get { return _editable; }
-            set
-            {
-                _editable = value;
-                foreach (KeyBindingViewModel viewModel in KeyBindings)
-                {
-                    viewModel.Editable = value;
-                }
-            }
+            get => _editable;
+            set => Set(ref _editable, value);
         }
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
-        public async Task Add()
+        public async Task ShowAddKeyBindingDialog()
         {
-            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService);
+            var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService, this);
 
             if (await newKeyBinding.Edit().ConfigureAwait(true))
             {
-                newKeyBinding.Deleted += ViewModel_Deleted;
-                newKeyBinding.Edited += ViewModel_Edited;
-                KeyBindings.Add(newKeyBinding);
-                _keyBindings.Add(newKeyBinding.Model);
-                Edited?.Invoke(Command, _keyBindings);
+                Add(newKeyBinding.Model);
             }
+        }
+
+        public void Add(KeyBinding keyBinding)
+        {
+            var viewModel = new KeyBindingViewModel(keyBinding, _dialogService, this);
+
+            viewModel.Deleted += ViewModel_Deleted;
+            viewModel.Edited += ViewModel_Edited;
+            KeyBindings.Add(viewModel);
+            _keyBindings.Add(viewModel.Model);
+            Edited?.Invoke(Command, _keyBindings);
         }
 
         private void ViewModel_Deleted(object sender, EventArgs e)

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -38,7 +39,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private async Task Add(string command)
         {
             var keyBinding = KeyBindings.FirstOrDefault(k => k.Command == command);
-            await keyBinding?.Add();
+            await keyBinding?.ShowAddKeyBindingDialog();
         }
 
         private void ClearKeyBindings()
@@ -60,7 +61,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var value in Enum.GetValues(typeof(Command)))
             {
                 var command = (Command)value;
-                var viewModel = new KeyBindingsViewModel(command.ToString(), _keyBindings[command.ToString()], _dialogService);
+                var viewModel = new KeyBindingsViewModel(command.ToString(), _keyBindings[command.ToString()], _dialogService, EnumHelper.GetEnumDescription(command), true);
                 viewModel.Edited += OnEdited;
                 KeyBindings.Add(viewModel);
             }
