@@ -101,7 +101,13 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.DeleteCommand, Mode=OneWay}"
                     Icon="Delete"
-                    Label="Delete" />
+                    Label="Delete"
+                    Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+                <AppBarButton
+                    Command="{x:Bind ViewModel.SelectedShellProfile.RestoreDefaultsCommand, Mode=OneWay}"
+                    Icon="Undo"
+                    Label="Restore Defaults"
+                    Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
             </CommandBar>
             <CommandBar
                 Grid.Column="1"

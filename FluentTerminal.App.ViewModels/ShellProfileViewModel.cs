@@ -26,14 +26,19 @@ namespace FluentTerminal.App.ViewModels
         private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
         private readonly IApplicationView _applicationView;
+        private readonly IDefaultValueProvider _defaultValueProvider;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
         {
             Model = shellProfile;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
+            _defaultValueProvider = defaultValueProvider;
+
+            _settingsService.ThemeAdded += OnThemeAdded;
+            _settingsService.ThemeDeleted += OnThemeDeleted;
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
@@ -43,25 +48,14 @@ namespace FluentTerminal.App.ViewModels
                 Id = Guid.Empty,
                 Name = "Default"
             });
-            foreach(var theme in _settingsService.GetThemes())
+            foreach (var theme in _settingsService.GetThemes())
             {
                 TerminalThemes.Add(theme);
             }
-            SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == shellProfile.TerminalThemeId);
 
-            Id = shellProfile.Id;
-            Name = shellProfile.Name;
-            Arguments = shellProfile.Arguments;
-            Location = shellProfile.Location;
-            WorkingDirectory = shellProfile.WorkingDirectory;
-            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
-            PreInstalled = shellProfile.PreInstalled;
+            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), _dialogService, string.Empty, false);
 
-            _settingsService.ThemeAdded += OnThemeAdded;
-            _settingsService.ThemeDeleted += OnThemeDeleted;
-
-            var keyBindings = shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList();
-            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), keyBindings, _dialogService, string.Empty, false);
+            InitializeViewModelProperties(shellProfile);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
             DeleteCommand = new AsyncCommand(Delete, CanDelete);
@@ -71,6 +65,25 @@ namespace FluentTerminal.App.ViewModels
             AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
             BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
             BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
+        }
+
+        private void InitializeViewModelProperties(ShellProfile shellProfile)
+        {
+            SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == shellProfile.TerminalThemeId);
+            Id = shellProfile.Id;
+            Name = shellProfile.Name;
+            Arguments = shellProfile.Arguments;
+            Location = shellProfile.Location;
+            WorkingDirectory = shellProfile.WorkingDirectory;
+            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
+            PreInstalled = shellProfile.PreInstalled;
+
+            KeyBindings.Clear();
+            foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+            {
+                KeyBindings.Add(keyBinding);
+            }
         }
 
         private void OnThemeAdded(object sender, TerminalTheme e)
@@ -107,13 +120,14 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
+        public IAsyncCommand RestoreDefaultsCommand { get; }
         public IAsyncCommand AddKeyboardShortcutCommand { get; }
         public ObservableCollection<TabTheme> TabThemes { get; }
         public KeyBindingsViewModel KeyBindings { get; }
 
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }
         public ShellProfile Model { get; private set; }
-        public bool PreInstalled { get; }
+        public bool PreInstalled { get; private set; }
 
         public string Arguments
         {
@@ -121,7 +135,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _arguments, value);
         }
 
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
         public bool InEditMode
         {
@@ -190,6 +204,23 @@ namespace FluentTerminal.App.ViewModels
 
             KeyBindings.Editable = false;
             InEditMode = false;
+        }
+
+        private async Task RestoreDefaults()
+        {
+            if (InEditMode || !PreInstalled)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore this profile?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                Model = _defaultValueProvider.GetPreinstalledShellProfiles().FirstOrDefault(x => x.Id == Model.Id);
+                InitializeViewModelProperties(Model);
+                _settingsService.SaveShellProfile(Model);
+            }
         }
 
         public Task AddKeyboardShortcut()

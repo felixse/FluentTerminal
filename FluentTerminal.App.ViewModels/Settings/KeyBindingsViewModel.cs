@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
@@ -11,25 +12,15 @@ namespace FluentTerminal.App.ViewModels.Settings
     public class KeyBindingsViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
-        private readonly ICollection<KeyBinding> _keyBindings;
         private bool _editable;
 
-        public KeyBindingsViewModel(string command, ICollection<KeyBinding> keyBindings, IDialogService dialogService, string commandName, bool editable)
+        public KeyBindingsViewModel(string command, IDialogService dialogService, string commandName, bool editable)
         {
-            Command = command;
-            _keyBindings = keyBindings;
             _dialogService = dialogService;
 
+            Command = command;
             CommandName = commandName;
-            _editable = editable;
-
-            foreach (var binding in keyBindings)
-            {
-                var viewModel = new KeyBindingViewModel(binding, _dialogService, this);
-                viewModel.Deleted += ViewModel_Deleted;
-                viewModel.Edited += ViewModel_Edited;
-                KeyBindings.Add(viewModel);
-            }
+            Editable = editable;
         }
 
         public delegate void EditedEvent(string command, ICollection<KeyBinding> keyBindings);
@@ -61,6 +52,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public void Clear()
+        {
+            KeyBindings.Clear();
+        }
+
         public void Add(KeyBinding keyBinding)
         {
             var viewModel = new KeyBindingViewModel(keyBinding, _dialogService, this);
@@ -68,23 +64,21 @@ namespace FluentTerminal.App.ViewModels.Settings
             viewModel.Deleted += ViewModel_Deleted;
             viewModel.Edited += ViewModel_Edited;
             KeyBindings.Add(viewModel);
-            _keyBindings.Add(viewModel.Model);
-            Edited?.Invoke(Command, _keyBindings);
+            Edited?.Invoke(Command, KeyBindings.Select(x => x.Model).ToList());
         }
 
         private void ViewModel_Deleted(object sender, EventArgs e)
         {
             if (sender is KeyBindingViewModel keyBinding)
             {
-                _keyBindings.Remove(keyBinding.Model);
                 KeyBindings.Remove(keyBinding);
-                Edited?.Invoke(Command, _keyBindings);
+                Edited?.Invoke(Command, KeyBindings.Select(x => x.Model).ToList());
             }
         }
 
         private void ViewModel_Edited(object sender, EventArgs e)
         {
-            Edited?.Invoke(Command, _keyBindings);
+            Edited?.Invoke(Command, KeyBindings.Select(x => x.Model).ToList());
         }
     }
 }

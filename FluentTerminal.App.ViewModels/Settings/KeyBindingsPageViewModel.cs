@@ -61,7 +61,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var value in Enum.GetValues(typeof(Command)))
             {
                 var command = (Command)value;
-                var viewModel = new KeyBindingsViewModel(command.ToString(), _keyBindings[command.ToString()], _dialogService, EnumHelper.GetEnumDescription(command), true);
+                var viewModel = new KeyBindingsViewModel(command.ToString(), _dialogService, EnumHelper.GetEnumDescription(command), true);
+                foreach (var keyBinding in _keyBindings[command.ToString()])
+                {
+                    viewModel.Add(keyBinding);
+                }
                 viewModel.Edited += OnEdited;
                 KeyBindings.Add(viewModel);
             }
