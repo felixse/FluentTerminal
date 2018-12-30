@@ -310,13 +310,11 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                //RaisePropertyChanged(nameof(IsUnderlined));
-                //RaisePropertyChanged(nameof(BackgroundTabTheme));         copy paste error?
-
                 // only change theme if not overwritten by profile
-                if (TerminalTheme.Id == Guid.Empty)
+                if (_shellProfile.TerminalThemeId == Guid.Empty)
                 {
                     var currentTheme = _settingsService.GetTheme(e);
+                    TerminalTheme = currentTheme;
                     await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
                 }
             });
