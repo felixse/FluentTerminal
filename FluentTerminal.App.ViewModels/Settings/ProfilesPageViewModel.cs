@@ -27,11 +27,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             _applicationView = applicationView;
 
             CreateShellProfileCommand = new RelayCommand(CreateShellProfile);
+            CloneCommand = new RelayCommand<ShellProfileViewModel>(Clone);
 
             var defaultShellProfileId = _settingsService.GetDefaultShellProfileId();
             foreach (var shellProfile in _settingsService.GetShellProfiles())
             {
-                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, _applicationView);
+                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, applicationView);
                 viewModel.Deleted += OnShellProfileDeleted;
                 viewModel.SetAsDefault += OnShellProfileSetAsDefault;
 
@@ -80,6 +81,8 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public RelayCommand CreateShellProfileCommand { get; }
 
+        public RelayCommand<ShellProfileViewModel> CloneCommand { get; }
+
         private void CreateShellProfile()
         {
             var shellProfile = new ShellProfile
@@ -90,6 +93,23 @@ namespace FluentTerminal.App.ViewModels.Settings
                 KeyBindings = new List<KeyBinding>()
             };
 
+            AddShellProfile(shellProfile);
+        }
+
+        private void Clone(ShellProfileViewModel shellProfile)
+        {
+            var cloned = new ShellProfile(shellProfile.Model)
+            {
+                Id = Guid.NewGuid(),
+                PreInstalled = false,
+                Name = $"Copy of {shellProfile.Name}"
+            };
+
+            AddShellProfile(cloned);
+        }
+
+        private void AddShellProfile(ShellProfile shellProfile)
+        {
             _settingsService.SaveShellProfile(shellProfile, true);
 
             var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView);

@@ -16,7 +16,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IFileSystemService _fileSystemService;
         private readonly ISettingsService _settingsService;
-        private ShellProfile _shellProfile;
         private string _arguments;
         private ShellProfile _fallbackProfile;
         private bool _inEditMode;
@@ -30,7 +29,7 @@ namespace FluentTerminal.App.ViewModels
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView)
         {
-            _shellProfile = shellProfile;
+            Model = shellProfile;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
@@ -89,7 +88,7 @@ namespace FluentTerminal.App.ViewModels
                 _applicationView.RunOnDispatcherThread(() =>
                 {
                     SelectedTerminalTheme = TerminalThemes.FirstOrDefault(x => x.Id == Guid.Empty);
-                    _shellProfile.TerminalThemeId = Guid.Empty;
+                    Model.TerminalThemeId = Guid.Empty;
                     if (_fallbackProfile != null)
                     {
                         _fallbackProfile.TerminalThemeId = Guid.Empty;
@@ -113,7 +112,7 @@ namespace FluentTerminal.App.ViewModels
         public KeyBindingsViewModel KeyBindings { get; }
 
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-
+        public ShellProfile Model { get; private set; }
         public bool PreInstalled { get; }
 
         public string Arguments
@@ -180,14 +179,14 @@ namespace FluentTerminal.App.ViewModels
 
         public void SaveChanges()
         {
-            _shellProfile.Arguments = Arguments;
-            _shellProfile.Location = Location;
-            _shellProfile.Name = Name;
-            _shellProfile.WorkingDirectory = WorkingDirectory;
-            _shellProfile.TabThemeId = SelectedTabTheme.Id;
-            _shellProfile.TerminalThemeId = SelectedTerminalTheme.Id;
-            _shellProfile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
-            _settingsService.SaveShellProfile(_shellProfile);
+            Model.Arguments = Arguments;
+            Model.Location = Location;
+            Model.Name = Name;
+            Model.WorkingDirectory = WorkingDirectory;
+            Model.TabThemeId = SelectedTabTheme.Id;
+            Model.TerminalThemeId = SelectedTerminalTheme.Id;
+            Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
+            _settingsService.SaveShellProfile(Model);
 
             KeyBindings.Editable = false;
             InEditMode = false;
@@ -230,7 +229,7 @@ namespace FluentTerminal.App.ViewModels
                 SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
                 KeyBindings.KeyBindings.Clear();
-                foreach (var keyBinding in _shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
                 {
                     KeyBindings.Add(keyBinding);
                 }
@@ -242,7 +241,7 @@ namespace FluentTerminal.App.ViewModels
 
         private bool CanDelete()
         {
-            return !_shellProfile.PreInstalled;
+            return !Model.PreInstalled;
         }
 
         private async Task Delete()
@@ -260,12 +259,12 @@ namespace FluentTerminal.App.ViewModels
             // todo write copy ctor
             _fallbackProfile = new ShellProfile
             {
-                Arguments = _shellProfile.Arguments,
-                Location = _shellProfile.Location,
-                Name = _shellProfile.Name,
-                WorkingDirectory = _shellProfile.WorkingDirectory,
-                TabThemeId = _shellProfile.TabThemeId,
-                TerminalThemeId = _shellProfile.TerminalThemeId
+                Arguments = Model.Arguments,
+                Location = Model.Location,
+                Name = Model.Name,
+                WorkingDirectory = Model.WorkingDirectory,
+                TabThemeId = Model.TabThemeId,
+                TerminalThemeId = Model.TerminalThemeId
             };
 
             KeyBindings.Editable = true;

@@ -90,6 +90,11 @@
                     IsEnabled="{x:Bind ViewModel.SelectedShellProfile.IsDefault, Mode=OneWay, Converter={StaticResource NegateConverter}}"
                     Label="Set Default" />
                 <AppBarButton
+                    Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
+                    CommandParameter="{x:Bind ViewModel.SelectedShellProfile, Mode=OneWay}"
+                    Icon="Copy"
+                    Label="Clone" />
+                <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.EditCommand, Mode=OneWay}"
                     Icon="Edit"
                     Label="Edit" />
