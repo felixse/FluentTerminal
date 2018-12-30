@@ -92,7 +92,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 Colors = new TerminalColors(defaultTheme.Colors)
             };
 
-            _settingsService.SaveTheme(theme);
+            _settingsService.SaveTheme(theme, true);
 
             var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
             viewModel.Activated += OnThemeActivated;
@@ -118,7 +118,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     var theme = await parser.Parse(file.Name, file.Content).ConfigureAwait(true);
 
-                    _settingsService.SaveTheme(theme);
+                    _settingsService.SaveTheme(theme, true);
 
                     var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
                     viewModel.Activated += OnThemeActivated;

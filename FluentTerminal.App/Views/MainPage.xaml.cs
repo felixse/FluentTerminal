@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
+using System;
 using System.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -17,6 +18,8 @@ namespace FluentTerminal.App.Views
         public event PropertyChangedEventHandler PropertyChanged;
 
         public double CoreTitleBarHeight => coreTitleBar.Height;
+
+        public TimeSpan NoDuration => TimeSpan.Zero;
 
         public Thickness CoreTitleBarPadding
         {

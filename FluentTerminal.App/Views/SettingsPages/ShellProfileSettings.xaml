@@ -36,6 +36,18 @@
                 </DataTemplate>
             </views:TabThemeTemplateSelector.ColoredTemplate>
         </views:TabThemeTemplateSelector>
+        <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
+            <views:TerminalThemeTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="models:TerminalTheme">
+                    <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
+                </DataTemplate>
+            </views:TerminalThemeTemplateSelector.DefaultTemplate>
+            <views:TerminalThemeTemplateSelector.ThemeTemplate>
+                <DataTemplate x:DataType="models:TerminalTheme">
+                    <TextBlock Text="{x:Bind Name}" />
+                </DataTemplate>
+            </views:TerminalThemeTemplateSelector.ThemeTemplate>
+        </views:TerminalThemeTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -221,6 +233,14 @@
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                     ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                <ComboBox
+                                    Width="150"
+                                    Margin="0,24,0,0"
+                                    Header="Theme"
+                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                    ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
+                                    ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
                                 <StackPanel
                                     Width="300"
                                     Margin="0,24,0,0"
@@ -248,11 +268,15 @@
                                     Margin="0,36,0,0"
                                     Header="Arguments"
                                     Text="{x:Bind Arguments, Mode=OneWay}" />
-                                <controls:HeaderedTextBlock
+                                <controls:HeaderedContentControl
                                     Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"
-                                    Text=""
-                                    Header="Theme" />
+                                    Header="Theme">
+                                    <ContentControl
+                                        Margin="0,6,0,0"
+                                        Content="{x:Bind SelectedTerminalTheme, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}" />
+                                </controls:HeaderedContentControl>
                                 <controls:HeaderedContentControl
                                     Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"

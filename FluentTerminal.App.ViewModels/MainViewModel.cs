@@ -43,8 +43,8 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddTerminal(null, true));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal(null, false, Guid.Empty));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddTerminal(null, true, Guid.Empty));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
@@ -65,7 +65,7 @@ namespace FluentTerminal.App.ViewModels
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.WorkingDirectory, false, profile));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.WorkingDirectory, false, profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -75,7 +75,7 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
+            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false, Guid.Empty));
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -90,7 +90,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnShellProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.WorkingDirectory, false, e));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.WorkingDirectory, false, e.Id));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -166,14 +166,13 @@ namespace FluentTerminal.App.ViewModels
         /// <summary>
         /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
         /// </summary>
-        /// <param name="startupDirectory"></param>
-        /// <param name="profile"></param>
-        /// <param name="showProfileSelection"></param>
         /// <returns></returns>
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection, ShellProfile profile = null)
+        public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId)
         {
             return _applicationView.RunOnDispatcherThread(async () =>
             {
+                ShellProfile profile = null;
+
                 if (showProfileSelection)
                 {
                     profile = await _dialogService.ShowProfileSelectionDialogAsync();
@@ -183,9 +182,12 @@ namespace FluentTerminal.App.ViewModels
                         return;
                     }
                 }
-                else if (profile == null)
+                else if (profileId == Guid.Empty)
                 {
                     profile = _settingsService.GetDefaultShellProfile();
+                } else
+                {
+                    profile = _settingsService.GetShellProfile(profileId);
                 }
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,

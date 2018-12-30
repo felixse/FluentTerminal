@@ -49,7 +49,9 @@ namespace FluentTerminal.App.Services.Implementation
 
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
 
+        public event EventHandler<TerminalTheme> ThemeAdded;
         public event EventHandler<Guid> CurrentThemeChanged;
+        public event EventHandler<Guid> ThemeDeleted;
 
         public event EventHandler KeyBindingsChanged;
 
@@ -67,6 +69,17 @@ namespace FluentTerminal.App.Services.Implementation
         public void DeleteTheme(Guid id)
         {
             _themes.Delete(id.ToString());
+
+            foreach (var profile in GetShellProfiles())
+            {
+                if (profile.TerminalThemeId == id)
+                {
+                    profile.TerminalThemeId = Guid.Empty;
+                    SaveShellProfile(profile);
+                }
+            }
+
+            ThemeDeleted?.Invoke(this, id);
         }
 
         public ApplicationSettings GetApplicationSettings()
@@ -217,13 +230,18 @@ namespace FluentTerminal.App.Services.Implementation
             TerminalOptionsChanged?.Invoke(this, terminalOptions);
         }
 
-        public void SaveTheme(TerminalTheme theme)
+        public void SaveTheme(TerminalTheme theme, bool newTheme = false)
         {
             _themes.WriteValueAsJson(theme.Id.ToString(), theme);
 
             if (theme.Id == GetCurrentThemeId())
             {
                 CurrentThemeChanged?.Invoke(this, theme.Id);
+            }
+
+            if (newTheme)
+            {
+                ThemeAdded?.Invoke(this, theme);
             }
         }
     }
