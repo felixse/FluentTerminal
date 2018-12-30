@@ -12,6 +12,9 @@ namespace FluentTerminal.App.Services
         event EventHandler<ShellProfile> ShellProfileAdded;
         event EventHandler<Guid> ShellProfileDeleted;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
+        event EventHandler<Guid> ThemeDeleted;
+        event EventHandler<TerminalTheme> ThemeAdded;
+
         void DeleteShellProfile(Guid id);
         void DeleteTheme(Guid id);
         ApplicationSettings GetApplicationSettings();
@@ -32,6 +35,7 @@ namespace FluentTerminal.App.Services
         void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings);
         void SaveShellProfile(ShellProfile shellProfile, bool newShell = false);
         void SaveTerminalOptions(TerminalOptions terminalOptions);
-        void SaveTheme(TerminalTheme theme);
+        void SaveTheme(TerminalTheme theme, bool newTheme = false);
+        ShellProfile GetShellProfile(Guid id);
     }
 }

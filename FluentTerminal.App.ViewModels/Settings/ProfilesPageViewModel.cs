@@ -16,20 +16,22 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly IFileSystemService _fileSystemService;
         private ShellProfileViewModel _selectedShellProfile;
+        private readonly IApplicationView _applicationView;
 
-        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService)
+        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService, IApplicationView applicationView)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _fileSystemService = fileSystemService;
+            _applicationView = applicationView;
 
             CreateShellProfileCommand = new RelayCommand(CreateShellProfile);
 
             var defaultShellProfileId = _settingsService.GetDefaultShellProfileId();
             foreach (var shellProfile in _settingsService.GetShellProfiles())
             {
-                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService);
+                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, _applicationView);
                 viewModel.Deleted += OnShellProfileDeleted;
                 viewModel.SetAsDefault += OnShellProfileSetAsDefault;
 
@@ -41,6 +43,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
 
             SelectedShellProfile = ShellProfiles.First(p => p.IsDefault);
+            
         }
 
         private void OnShellProfileSetAsDefault(object sender, EventArgs e)
@@ -89,7 +92,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             _settingsService.SaveShellProfile(shellProfile, true);
 
-            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService);
+            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView);
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnShellProfileSetAsDefault;
             viewModel.Deleted += OnShellProfileDeleted;

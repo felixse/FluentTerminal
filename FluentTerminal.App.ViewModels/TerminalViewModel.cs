@@ -32,6 +32,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _showResizeOverlay;
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
+        private TerminalTheme _terminalTheme;
         private int _terminalId;
         private ITerminalView _terminalView;
         private string _title;
@@ -62,6 +63,8 @@ namespace FluentTerminal.App.ViewModels
             _applicationView = applicationView;
             _clipboardService = clipboardService;
 
+            TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? _settingsService.GetCurrentTheme() : _settingsService.GetTheme(shellProfile.TerminalThemeId);
+
             TabThemes = new ObservableCollection<TabTheme>(_settingsService.GetTabThemes());
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == _shellProfile.TabThemeId);
 
@@ -87,6 +90,12 @@ namespace FluentTerminal.App.ViewModels
             get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
                 _tabTheme :
                 _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+        }
+
+        public TerminalTheme TerminalTheme
+        {
+            get => _terminalTheme;
+            set => Set(ref _terminalTheme, value);
         }
 
         public RelayCommand CloseCommand { get; }
@@ -213,11 +222,10 @@ namespace FluentTerminal.App.ViewModels
             _terminalView = terminalView;
 
             var options = _settingsService.GetTerminalOptions();
-            var theme = _settingsService.GetCurrentTheme();
             var keyBindings = _settingsService.GetCommandKeyBindings();
             var profiles = _settingsService.GetShellProfiles();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
+            var size = await _terminalView.CreateTerminal(options, TerminalTheme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
@@ -302,11 +310,15 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                RaisePropertyChanged(nameof(IsUnderlined));
-                RaisePropertyChanged(nameof(BackgroundTabTheme));
+                //RaisePropertyChanged(nameof(IsUnderlined));
+                //RaisePropertyChanged(nameof(BackgroundTabTheme));         copy paste error?
 
-                var currentTheme = _settingsService.GetTheme(e);
-                await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
+                // only change theme if not overwritten by profile
+                if (TerminalTheme.Id == Guid.Empty)
+                {
+                    var currentTheme = _settingsService.GetTheme(e);
+                    await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
+                }
             });
         }
 
