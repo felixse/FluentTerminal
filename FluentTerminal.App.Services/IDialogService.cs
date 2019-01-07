@@ -16,5 +16,6 @@ namespace FluentTerminal.App.Services
         Task<ShellProfile> ShowProfileSelectionDialogAsync();
 
         Task<KeyBinding> ShowCreateKeyBindingDialog();
+        Task<string> ShowInputDialogAsync(string title);
     }
 }

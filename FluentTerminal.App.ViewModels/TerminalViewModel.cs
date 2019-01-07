@@ -1,5 +1,6 @@
 ﻿using Fleck;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -77,6 +78,7 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
+            EditTitleCommand = new AsyncCommand(EditTitle);
         }
 
         public event EventHandler Closed;
@@ -107,6 +109,8 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand FindNextCommand { get; }
 
         public RelayCommand FindPreviousCommand { get; }
+
+        public IAsyncCommand EditTitleCommand { get; }
 
         public bool Initialized { get; private set; }
 
@@ -400,6 +404,15 @@ namespace FluentTerminal.App.ViewModels
         private void SelectTabTheme(string name)
         {
             TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
+        }
+
+        private async Task EditTitle()
+        {
+            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
+            if (result != null)
+            {
+                Title = result;
+            }
         }
 
         private async Task TryClose()
