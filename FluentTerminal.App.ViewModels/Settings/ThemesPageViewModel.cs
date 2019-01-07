@@ -31,6 +31,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
             ImportThemeCommand = new RelayCommand(ImportTheme);
+            CloneCommand = new RelayCommand<ThemeViewModel>(CloneTheme);
 
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
 
@@ -55,6 +56,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public RelayCommand CreateThemeCommand { get; }
         public RelayCommand ImportThemeCommand { get; }
+        public RelayCommand<ThemeViewModel> CloneCommand { get; set; }
 
         public double BackgroundOpacity
         {
@@ -81,6 +83,18 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public ObservableCollection<ThemeViewModel> Themes { get; } = new ObservableCollection<ThemeViewModel>();
 
+        private void CloneTheme(ThemeViewModel theme)
+        {
+            var cloned = new TerminalTheme(theme.Model)
+            {
+                Id = Guid.NewGuid(),
+                PreInstalled = false,
+                Name = $"Copy of {theme.Name}"
+            };
+
+            AddTheme(cloned);
+        }
+
         private void CreateTheme()
         {
             var defaultTheme = _settingsService.GetTheme(_defaultValueProvider.GetDefaultThemeId());
@@ -92,13 +106,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 Colors = new TerminalColors(defaultTheme.Colors)
             };
 
-            _settingsService.SaveTheme(theme, true);
-
-            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
-            viewModel.Activated += OnThemeActivated;
-            viewModel.Deleted += OnThemeDeleted;
-            Themes.Add(viewModel);
-            SelectedTheme = viewModel;
+            AddTheme(theme);
         }
 
         private async void ImportTheme()
@@ -118,19 +126,24 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     var theme = await parser.Parse(file.Name, file.Content).ConfigureAwait(true);
 
-                    _settingsService.SaveTheme(theme, true);
-
-                    var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
-                    viewModel.Activated += OnThemeActivated;
-                    viewModel.Deleted += OnThemeDeleted;
-                    Themes.Add(viewModel);
-                    SelectedTheme = viewModel;
+                    AddTheme(theme);
                 }
                 catch (Exception exception)
                 {
                     await _dialogService.ShowMessageDialogAsnyc("Import theme failed", exception.Message, DialogButton.OK).ConfigureAwait(false);
                 }
             }
+        }
+
+        private void AddTheme(TerminalTheme theme)
+        {
+            _settingsService.SaveTheme(theme, true);
+
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
+            viewModel.Activated += OnThemeActivated;
+            viewModel.Deleted += OnThemeDeleted;
+            Themes.Add(viewModel);
+            SelectedTheme = viewModel;
         }
 
         private void OnThemeActivated(object sender, EventArgs e)

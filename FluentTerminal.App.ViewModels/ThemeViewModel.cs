@@ -40,7 +40,6 @@ namespace FluentTerminal.App.ViewModels
         private string _name;
         private string _red;
         private string _selection;
-        private readonly TerminalTheme _theme;
         private string _white;
         private string _yellow;
         private readonly IFileSystemService _fileSystemService;
@@ -49,38 +48,38 @@ namespace FluentTerminal.App.ViewModels
 
         public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
         {
-            _theme = theme;
+            Model = theme;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
 
-            Name = _theme.Name;
-            Author = _theme.Author;
-            Id = _theme.Id;
+            Name = Model.Name;
+            Author = Model.Author;
+            Id = Model.Id;
 
-            Black = _theme.Colors.Black;
-            Red = _theme.Colors.Red;
-            Green = _theme.Colors.Green;
-            Yellow = _theme.Colors.Yellow;
-            Blue = _theme.Colors.Blue;
-            Magenta = _theme.Colors.Magenta;
-            Cyan = _theme.Colors.Cyan;
-            White = _theme.Colors.White;
+            Black = Model.Colors.Black;
+            Red = Model.Colors.Red;
+            Green = Model.Colors.Green;
+            Yellow = Model.Colors.Yellow;
+            Blue = Model.Colors.Blue;
+            Magenta = Model.Colors.Magenta;
+            Cyan = Model.Colors.Cyan;
+            White = Model.Colors.White;
 
-            BrightBlack = _theme.Colors.BrightBlack;
-            BrightRed = _theme.Colors.BrightRed;
-            BrightGreen = _theme.Colors.BrightGreen;
-            BrightYellow = _theme.Colors.BrightYellow;
-            BrightBlue = _theme.Colors.BrightBlue;
-            BrightMagenta = _theme.Colors.BrightMagenta;
-            BrightCyan = _theme.Colors.BrightCyan;
-            BrightWhite = _theme.Colors.BrightWhite;
+            BrightBlack = Model.Colors.BrightBlack;
+            BrightRed = Model.Colors.BrightRed;
+            BrightGreen = Model.Colors.BrightGreen;
+            BrightYellow = Model.Colors.BrightYellow;
+            BrightBlue = Model.Colors.BrightBlue;
+            BrightMagenta = Model.Colors.BrightMagenta;
+            BrightCyan = Model.Colors.BrightCyan;
+            BrightWhite = Model.Colors.BrightWhite;
 
-            Background = _theme.Colors.Background;
-            Foreground = _theme.Colors.Foreground;
-            Cursor = _theme.Colors.Cursor;
-            CursorAccent = _theme.Colors.CursorAccent;
-            Selection = _theme.Colors.Selection;
+            Background = Model.Colors.Background;
+            Foreground = Model.Colors.Foreground;
+            Cursor = Model.Colors.Cursor;
+            CursorAccent = Model.Colors.CursorAccent;
+            Selection = Model.Colors.Selection;
 
             SetActiveCommand = new RelayCommand(SetActive);
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
@@ -93,6 +92,8 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler Activated;
 
         public event EventHandler Deleted;
+
+        public TerminalTheme Model { get; }
 
         public string Author
         {
@@ -268,34 +269,34 @@ namespace FluentTerminal.App.ViewModels
 
         public void SaveChanges()
         {
-            _theme.Name = Name;
-            _theme.Author = Author;
+            Model.Name = Name;
+            Model.Author = Author;
 
-            _theme.Colors.Black = Black;
-            _theme.Colors.Red = Red;
-            _theme.Colors.Green = Green;
-            _theme.Colors.Yellow = Yellow;
-            _theme.Colors.Blue = Blue;
-            _theme.Colors.Magenta = Magenta;
-            _theme.Colors.Cyan = Cyan;
-            _theme.Colors.White = White;
+            Model.Colors.Black = Black;
+            Model.Colors.Red = Red;
+            Model.Colors.Green = Green;
+            Model.Colors.Yellow = Yellow;
+            Model.Colors.Blue = Blue;
+            Model.Colors.Magenta = Magenta;
+            Model.Colors.Cyan = Cyan;
+            Model.Colors.White = White;
 
-            _theme.Colors.BrightBlack = BrightBlack;
-            _theme.Colors.BrightRed = BrightRed;
-            _theme.Colors.BrightGreen = BrightGreen;
-            _theme.Colors.BrightYellow = BrightYellow;
-            _theme.Colors.BrightBlue = BrightBlue;
-            _theme.Colors.BrightMagenta = BrightMagenta;
-            _theme.Colors.BrightCyan = BrightCyan;
-            _theme.Colors.BrightWhite = BrightWhite;
+            Model.Colors.BrightBlack = BrightBlack;
+            Model.Colors.BrightRed = BrightRed;
+            Model.Colors.BrightGreen = BrightGreen;
+            Model.Colors.BrightYellow = BrightYellow;
+            Model.Colors.BrightBlue = BrightBlue;
+            Model.Colors.BrightMagenta = BrightMagenta;
+            Model.Colors.BrightCyan = BrightCyan;
+            Model.Colors.BrightWhite = BrightWhite;
 
-            _theme.Colors.Background = Background;
-            _theme.Colors.Foreground = Foreground;
-            _theme.Colors.Cursor = Cursor;
-            _theme.Colors.CursorAccent = CursorAccent;
-            _theme.Colors.Selection = Selection;
+            Model.Colors.Background = Background;
+            Model.Colors.Foreground = Foreground;
+            Model.Colors.Cursor = Cursor;
+            Model.Colors.CursorAccent = CursorAccent;
+            Model.Colors.Selection = Selection;
 
-            _settingsService.SaveTheme(_theme);
+            _settingsService.SaveTheme(Model);
 
             InEditMode = false;
         }
@@ -339,7 +340,7 @@ namespace FluentTerminal.App.ViewModels
 
         private bool NotPreInstalled()
         {
-            return !_theme.PreInstalled;
+            return !Model.PreInstalled;
         }
 
         private async Task Delete()
@@ -354,7 +355,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            _fallBackColors = new TerminalColors(_theme.Colors);
+            _fallBackColors = new TerminalColors(Model.Colors);
             _fallBackName = Name;
             _fallBackAuthor = Author;
             InEditMode = true;
@@ -367,7 +368,7 @@ namespace FluentTerminal.App.ViewModels
 
         private Task Export()
         {
-            var content = JsonConvert.SerializeObject(_theme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
+            var content = JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
             return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
         }
     }
