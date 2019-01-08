@@ -1,7 +1,7 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Threading.Tasks;
 
@@ -11,17 +11,20 @@ namespace FluentTerminal.App.ViewModels.Settings
     {
         private readonly IDialogService _dialogService;
 
-        public KeyBindingViewModel(KeyBinding keyBinding, IDialogService dialogService)
+        public KeyBindingViewModel(KeyBinding keyBinding, IDialogService dialogService, KeyBindingsViewModel parent)
         {
             Model = keyBinding;
+            Parent = parent;
             _dialogService = dialogService;
-            EditCommand = new RelayCommand(async () => await Edit().ConfigureAwait(false));
-            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false));
+            EditCommand = new AsyncCommand(Edit);
+            DeleteCommand = new AsyncCommand(Delete);
         }
 
         public event EventHandler Deleted;
 
         public event EventHandler Edited;
+
+        public KeyBindingsViewModel Parent { get; }
 
         public bool Meta
         {
@@ -62,8 +65,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public RelayCommand DeleteCommand { get; }
-        public RelayCommand EditCommand { get; }
+        public IAsyncCommand DeleteCommand { get; }
+        public IAsyncCommand EditCommand { get; }
 
         public int Key
         {

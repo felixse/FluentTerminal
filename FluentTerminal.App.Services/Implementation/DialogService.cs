@@ -10,12 +10,14 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Func<IShellProfileSelectionDialog> _shellProfileSelectionDialogFactory;
         private readonly Func<IMessageDialog> _messageDialogFactory;
         private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
+        private readonly Func<IInputDialog> _inputDialogFactory;
 
-        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory, Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory)
+        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory, Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory, Func<IInputDialog> inputDialogFactory)
         {
             _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
             _messageDialogFactory = messageDialogFactory;
             _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
+            _inputDialogFactory = inputDialogFactory;
         }
 
         public Task<KeyBinding> ShowCreateKeyBindingDialog()
@@ -52,6 +54,14 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             return dialog.ShowAsync();
+        }
+
+        public Task<string> ShowInputDialogAsync(string title)
+        {
+            var dialog = _inputDialogFactory.Invoke();
+            dialog.SetTitle(title);
+
+            return dialog.GetInput();
         }
 
         public Task<ShellProfile> ShowProfileSelectionDialogAsync()

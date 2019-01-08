@@ -151,6 +151,7 @@
                                             </ToggleMenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
                                     </MenuFlyoutSubItem>
+                                    <MenuFlyoutItem Command="{x:Bind EditTitleCommand}" Text="Edit Title" />
                                     <MenuFlyoutSeparator />
                                     <MenuFlyoutItem Command="{x:Bind CloseCommand}" Text="Close" />
                                 </MenuFlyout>
@@ -176,7 +177,7 @@
                             <Grid
                                 x:Name="CloseButton"
                                 Grid.Column="2"
-                                Width="32"  
+                                Width="32"
                                 RelativePanel.AlignRightWithPanel="True">
                                 <Button
                                     HorizontalAlignment="Center"

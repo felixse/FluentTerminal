@@ -19,6 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _roamingSettings;
         private readonly IApplicationDataContainer _shellProfiles;
         private readonly IApplicationDataContainer _themes;
+
         public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
             _defaultValueProvider = defaultValueProvider;
@@ -48,19 +49,37 @@ namespace FluentTerminal.App.Services.Implementation
 
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
 
+        public event EventHandler<TerminalTheme> ThemeAdded;
         public event EventHandler<Guid> CurrentThemeChanged;
+        public event EventHandler<Guid> ThemeDeleted;
 
         public event EventHandler KeyBindingsChanged;
 
+        public event EventHandler<ShellProfile> ShellProfileAdded;
+        public event EventHandler<Guid> ShellProfileDeleted;
+
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
+
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
+            ShellProfileDeleted?.Invoke(this, id);
         }
 
         public void DeleteTheme(Guid id)
         {
             _themes.Delete(id.ToString());
+
+            foreach (var profile in GetShellProfiles())
+            {
+                if (profile.TerminalThemeId == id)
+                {
+                    profile.TerminalThemeId = Guid.Empty;
+                    SaveShellProfile(profile);
+                }
+            }
+
+            ThemeDeleted?.Invoke(this, id);
         }
 
         public ApplicationSettings GetApplicationSettings()
@@ -117,14 +136,14 @@ namespace FluentTerminal.App.Services.Implementation
             return _defaultValueProvider.GetDefaultShellProfileId();
         }
 
-        public IDictionary<Command, ICollection<KeyBinding>> GetKeyBindings()
+        public IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings()
         {
-            var keyBindings = new Dictionary<Command, ICollection<KeyBinding>>();
+            var keyBindings = new Dictionary<string, ICollection<KeyBinding>>();
+
             foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                keyBindings.Add(command, _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
+                keyBindings.Add(command.ToString(), _keyBindings.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null) ?? _defaultValueProvider.GetDefaultKeyBindings(command));
             }
-
             return keyBindings;
         }
 
@@ -181,15 +200,28 @@ namespace FluentTerminal.App.Services.Implementation
             _localSettings.SetValue(DefaultShellProfileKey, id);
         }
 
-        public void SaveKeyBindings(Command command, ICollection<KeyBinding> keyBindings)
+        public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)
         {
+            if (!Enum.IsDefined(typeof(Command), command))
+            {
+                throw new InvalidOperationException();
+            }
+
             _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
-        public void SaveShellProfile(ShellProfile shellProfile)
+        public void SaveShellProfile(ShellProfile shellProfile, bool newShell = false)
         {
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
+
+            // When saving the shell profile, we also need to update keybindings for everywhere.
+            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+
+            if (newShell)
+            {
+                ShellProfileAdded?.Invoke(this, shellProfile);
+            }
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)
@@ -198,13 +230,18 @@ namespace FluentTerminal.App.Services.Implementation
             TerminalOptionsChanged?.Invoke(this, terminalOptions);
         }
 
-        public void SaveTheme(TerminalTheme theme)
+        public void SaveTheme(TerminalTheme theme, bool newTheme = false)
         {
             _themes.WriteValueAsJson(theme.Id.ToString(), theme);
 
             if (theme.Id == GetCurrentThemeId())
             {
                 CurrentThemeChanged?.Invoke(this, theme.Id);
+            }
+
+            if (newTheme)
+            {
+                ThemeAdded?.Invoke(this, theme);
             }
         }
     }

@@ -14,7 +14,7 @@ namespace FluentTerminal.App.ViewModels
             About = new AboutPageViewModel(settingsService, updateService, applicationView);
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService);
-            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService);
+            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, applicationView);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
             Mouse = new MousePageViewModel(settingsService, dialogService, defaultValueProvider);

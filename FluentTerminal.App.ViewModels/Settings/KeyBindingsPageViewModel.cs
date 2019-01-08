@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -17,7 +18,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private IDictionary<Command, ICollection<KeyBinding>> _keyBindings;
+        private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
         public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -26,19 +27,19 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
-            AddCommand = new RelayCommand<Command>(async command => await Add(command).ConfigureAwait(false));
+            AddCommand = new RelayCommand<string>(async command => await Add(command).ConfigureAwait(false));
 
-            Initialize(_settingsService.GetKeyBindings());
+            Initialize(_settingsService.GetCommandKeyBindings());
         }
 
-        public RelayCommand<Command> AddCommand { get; }
+        public RelayCommand<string> AddCommand { get; }
         public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
         public RelayCommand RestoreDefaultsCommand { get; }
 
-        private async Task Add(Command command)
+        private async Task Add(string command)
         {
             var keyBinding = KeyBindings.FirstOrDefault(k => k.Command == command);
-            await keyBinding?.Add();
+            await keyBinding?.ShowAddKeyBindingDialog();
         }
 
         private void ClearKeyBindings()
@@ -51,7 +52,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             KeyBindings.Clear();
         }
 
-        private void Initialize(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
+        private void Initialize(IDictionary<string, ICollection<KeyBinding>> keyBindings)
         {
             _keyBindings = keyBindings;
 
@@ -60,13 +61,17 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var value in Enum.GetValues(typeof(Command)))
             {
                 var command = (Command)value;
-                var viewModel = new KeyBindingsViewModel(command, _keyBindings[command], _dialogService);
+                var viewModel = new KeyBindingsViewModel(command.ToString(), _dialogService, EnumHelper.GetEnumDescription(command), true);
+                foreach (var keyBinding in _keyBindings[command.ToString()])
+                {
+                    viewModel.Add(keyBinding);
+                }
                 viewModel.Edited += OnEdited;
                 KeyBindings.Add(viewModel);
             }
         }
 
-        private void OnEdited(Command command, ICollection<KeyBinding> keyBindings)
+        private void OnEdited(string command, ICollection<KeyBinding> keyBindings)
         {
             _settingsService.SaveKeyBindings(command, keyBindings);
             _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
@@ -79,7 +84,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             if (result == DialogButton.OK)
             {
                 _settingsService.ResetKeyBindings();
-                Initialize(_settingsService.GetKeyBindings());
+                Initialize(_settingsService.GetCommandKeyBindings());
             }
         }
     }

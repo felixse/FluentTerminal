@@ -84,15 +84,15 @@ function createTerminal(options, theme, keyBindings) {
         && keyBinding.shift == e.shiftKey
         && keyBinding.key == e.keyCode) {
         if (document.visibilityState == 'visible') {
-          if (keyBinding.command == 'copy' && term.getSelection() == '') {
+          if (keyBinding.command == 'Copy' && term.getSelection() == '') {
             return true;
           }
-          if (keyBinding.command == 'clear') {
+          if (keyBinding.command == 'Clear') {
             term.clearSelection();
             term.clear();
             return false;
           }
-          if (keyBinding.command == 'selectAll') {
+          if (keyBinding.command == 'SelectAll') {
             term.selectAll();
             return false;
           }

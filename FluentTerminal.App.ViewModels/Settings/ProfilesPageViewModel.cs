@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentTerminal.App.ViewModels.Settings
@@ -15,20 +16,23 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly IFileSystemService _fileSystemService;
         private ShellProfileViewModel _selectedShellProfile;
+        private readonly IApplicationView _applicationView;
 
-        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService)
+        public ProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IFileSystemService fileSystemService, IApplicationView applicationView)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _fileSystemService = fileSystemService;
+            _applicationView = applicationView;
 
             CreateShellProfileCommand = new RelayCommand(CreateShellProfile);
+            CloneCommand = new RelayCommand<ShellProfileViewModel>(Clone);
 
             var defaultShellProfileId = _settingsService.GetDefaultShellProfileId();
             foreach (var shellProfile in _settingsService.GetShellProfiles())
             {
-                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService);
+                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, applicationView, defaultValueProvider);
                 viewModel.Deleted += OnShellProfileDeleted;
                 viewModel.SetAsDefault += OnShellProfileSetAsDefault;
 
@@ -40,6 +44,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
 
             SelectedShellProfile = ShellProfiles.First(p => p.IsDefault);
+            
         }
 
         private void OnShellProfileSetAsDefault(object sender, EventArgs e)
@@ -76,18 +81,38 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public RelayCommand CreateShellProfileCommand { get; }
 
+        public RelayCommand<ShellProfileViewModel> CloneCommand { get; }
+
         private void CreateShellProfile()
         {
             var shellProfile = new ShellProfile
             {
                 Id = Guid.NewGuid(),
                 PreInstalled = false,
-                Name = "New profile"
+                Name = "New profile",
+                KeyBindings = new List<KeyBinding>()
             };
 
-            _settingsService.SaveShellProfile(shellProfile);
+            AddShellProfile(shellProfile);
+        }
 
-            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService);
+        private void Clone(ShellProfileViewModel shellProfile)
+        {
+            var cloned = new ShellProfile(shellProfile.Model)
+            {
+                Id = Guid.NewGuid(),
+                PreInstalled = false,
+                Name = $"Copy of {shellProfile.Name}"
+            };
+
+            AddShellProfile(cloned);
+        }
+
+        private void AddShellProfile(ShellProfile shellProfile)
+        {
+            _settingsService.SaveShellProfile(shellProfile, true);
+
+            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView, _defaultValueProvider);
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnShellProfileSetAsDefault;
             viewModel.Deleted += OnShellProfileDeleted;

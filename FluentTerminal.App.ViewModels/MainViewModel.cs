@@ -34,30 +34,40 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+            _settingsService.ShellProfileAdded += OnShellProfileAdded;
+            _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
+
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _applicationView = applicationView;
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(Command.NewTab, () => AddTerminal(null, false));
-            _keyboardCommandService.RegisterCommandHandler(Command.ConfigurableNewTab, () => AddTerminal(null, true));
-            _keyboardCommandService.RegisterCommandHandler(Command.CloseTab, CloseCurrentTab);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal(null, false, Guid.Empty));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddTerminal(null, true, Guid.Empty));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                Command switchCmd = Command.SwitchToTerm1 + i;
+                var switchCmd = Command.SwitchToTerm1 + i;
                 int tabNumber = i;
-                Action handler = () => SelectTabNumber(tabNumber);
-                _keyboardCommandService.RegisterCommandHandler(switchCmd, handler);
+                void handler() => SelectTabNumber(tabNumber);
+                _keyboardCommandService.RegisterCommandHandler(switchCmd.ToString(), handler);
             }
-            _keyboardCommandService.RegisterCommandHandler(Command.NextTab, SelectNextTab);
-            _keyboardCommandService.RegisterCommandHandler(Command.PreviousTab, SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(Command.NewWindow, NewWindow);
-            _keyboardCommandService.RegisterCommandHandler(Command.ShowSettings, ShowSettings);
-            _keyboardCommandService.RegisterCommandHandler(Command.ToggleFullScreen, ToggleFullScreen);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
+
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
+
+            foreach (ShellProfile profile in _settingsService.GetShellProfiles())
+            {
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.WorkingDirectory, false, profile.Id));
+            }
+
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
             Background = currentTheme.Colors.Background;
@@ -65,12 +75,22 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false));
+            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false, Guid.Empty));
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             _applicationView.CloseRequested += OnCloseRequest;
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
+        }
+
+        private void OnShellProfileDeleted(object sender, Guid e)
+        {
+            _keyboardCommandService.DeregisterCommandHandler(e.ToString());
+        }
+
+        private void OnShellProfileAdded(object sender, ShellProfile e)
+        {
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.WorkingDirectory, false, e.Id));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -143,11 +163,16 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection)
+        /// <summary>
+        /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
+        /// </summary>
+        /// <returns></returns>
+        public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId)
         {
             return _applicationView.RunOnDispatcherThread(async () =>
             {
                 ShellProfile profile = null;
+
                 if (showProfileSelection)
                 {
                     profile = await _dialogService.ShowProfileSelectionDialogAsync();
@@ -157,9 +182,12 @@ namespace FluentTerminal.App.ViewModels
                         return;
                     }
                 }
-                else
+                else if (profileId == Guid.Empty)
                 {
                     profile = _settingsService.GetDefaultShellProfile();
+                } else
+                {
+                    profile = _settingsService.GetShellProfile(profileId);
                 }
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
