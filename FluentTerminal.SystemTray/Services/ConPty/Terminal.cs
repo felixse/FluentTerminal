@@ -30,6 +30,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// Fired once the console has been hooked up and is ready to receive input.
         /// </summary>
         public event EventHandler OutputReady;
+        public event EventHandler Exited;
 
         public Terminal()
         {
@@ -98,6 +99,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
                 WaitForExit(process).WaitOne(Timeout.Infinite);
             }
+            Exited?.Invoke(this, EventArgs.Empty);
         }
 
         public  void Resize(int width, int height)

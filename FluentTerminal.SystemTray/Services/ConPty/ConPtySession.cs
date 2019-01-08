@@ -44,7 +44,13 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
             _terminal = new Terminal();
             _terminal.OutputReady += _terminal_OutputReady;
+            _terminal.Exited += _terminal_Exited;
             Task.Run(() => _terminal.Start(args, cwd, request.Size.Columns, request.Size.Rows));
+        }
+
+        private void _terminal_Exited(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private string GetWorkingDirectory(ShellProfile configuration)
@@ -80,7 +86,6 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                     }
                 }
                 while (!reader.EndOfStream);
-                Close();
             });
 
 
