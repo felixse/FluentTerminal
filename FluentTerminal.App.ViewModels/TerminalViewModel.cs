@@ -341,14 +341,14 @@ namespace FluentTerminal.App.ViewModels
                 var selection = await _terminalView.GetSelection().ConfigureAwait(true);
                 _clipboardService.SetText(selection);
             }
-            else if ((e == Command.Paste) || (e == Command.PasteWithoutNewlines))
+            else if ((command == nameof(Command.Paste)) || (command == nameof(Command.PasteWithoutNewlines)))
             {
                 string content = await _clipboardService.GetText().ConfigureAwait(true);
                 if (content != null)
                 {
                     // Use the shell profile line-ending translation method to translate the line endings of the pasted buffer
                     // or delete all of the instances of the newline pattern by replacing with the empty string.
-                    if (e == Command.Paste)
+                    if (command == nameof(Command.Paste))
                     {
                         content = _shellProfile.TranslateLineEndings(content);
                     }

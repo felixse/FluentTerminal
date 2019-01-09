@@ -11,7 +11,7 @@ namespace FluentTerminal.Models
         /// <summary>
         /// Replace all instances of anything resembling a newline, treating pairs of \r\n in either order as a single linebreak.
         /// </summary>
-        static Regex NewlinePattern = new Regex(@"\n\r|\r\n|\r|\n", RegexOptions.Compiled);
+        public static Regex NewlinePattern = new Regex(@"\n\r|\r\n|\r|\n", RegexOptions.Compiled);
 
         public ShellProfile()
         {

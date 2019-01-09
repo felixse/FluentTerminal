@@ -52,7 +52,6 @@ namespace FluentTerminal.App.ViewModels
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
             LineEndingStyle = shellProfile.LineEndingTranslation;
-            _keyBindings = shellProfile.KeyBinding;
             TerminalThemes = new ObservableCollection<TerminalTheme>();
             TerminalThemes.Add(new TerminalTheme
             {

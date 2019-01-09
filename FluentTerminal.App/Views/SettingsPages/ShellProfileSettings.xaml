@@ -277,7 +277,6 @@
                                     Content="Convert line endings to LF on paste"
                                     GroupName="LineEndingStyle"
                                     IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToLF'}" />
-                                <Button Margin="24,24,0,0" Command="{x:Bind AddKeyboardShortcutCommand, Mode=OneWay}">Add Keyboard Shortcut</Button>
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
