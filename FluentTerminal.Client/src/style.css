@@ -14,7 +14,7 @@ html, body {
 #terminal-container {
     width: 100%;
     height: 100%;
-    /* reenable scrolling only in the exterm */
+    /* re-enable scrolling only in the xterm container */
     overflow-y: auto;
     overflow-x: hidden;
     touch-action: pan-y;
