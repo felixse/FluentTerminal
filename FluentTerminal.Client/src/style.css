@@ -1,15 +1,24 @@
 * {
     margin: 0;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 html, body {
     background: transparent;
     height: 100%;
-  }
+    width: 100%;
+    overflow: hidden;
+    -ms-content-zooming: none;
+}
 
 #terminal-container {
     width: 100%;
     height: 100%;
+    /* reenable scrolling only in the exterm */
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y;
+    -ms-touch-action: pan-y;
 }
 
 .xterm .xterm-viewport {
