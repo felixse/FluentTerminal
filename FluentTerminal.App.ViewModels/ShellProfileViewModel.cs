@@ -44,14 +44,6 @@ namespace FluentTerminal.App.ViewModels
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
-            Id = shellProfile.Id;
-            Name = shellProfile.Name;
-            Arguments = shellProfile.Arguments;
-            Location = shellProfile.Location;
-            WorkingDirectory = shellProfile.WorkingDirectory;
-            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
-            PreInstalled = shellProfile.PreInstalled;
-            LineEndingStyle = shellProfile.LineEndingTranslation;
             TerminalThemes = new ObservableCollection<TerminalTheme>();
             TerminalThemes.Add(new TerminalTheme
             {
@@ -88,6 +80,7 @@ namespace FluentTerminal.App.ViewModels
             WorkingDirectory = shellProfile.WorkingDirectory;
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
+            LineEndingStyle = shellProfile.LineEndingTranslation;
 
             KeyBindings.Clear();
             foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
