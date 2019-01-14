@@ -145,14 +145,11 @@ function changeOptions(options) {
 }
 
 function setScrollBarStyle(scrollBarStyle) {
-  if (scrollBarStyle == 'hidden') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'none';
-  } else if (scrollBarStyle == 'autoHiding') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
-  } else if (scrollBarStyle == 'visible') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'scrollbar';
+  switch (scrollBarStyle) {
+  	case 'hidden':     return terminalContainer.style['-ms-overflow-style'] = 'none';
+  	case 'autoHiding': return terminalContainer.style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
+  	case 'visible':    return terminalContainer.style['-ms-overflow-style'] = 'scrollbar';
   }
-  
 }
 
 function setPadding(padding) {
