@@ -7,13 +7,17 @@
     Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Grid x:Name="Root">
+        <!--
         <TextBlock
+            Margin="0,8,0,0"
             x:Name="AppTitle"
             Canvas.ZIndex="1"
             IsHitTestVisible="False"
             Style="{StaticResource CaptionTextBlockStyle}"
             Text="Settings"
-            Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}" />
+            Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}"
+            HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" TextAlignment="Center" Height="40" FontSize="18" />
+        -->
         <NavigationView
             x:Name="NavigationView"
             AlwaysShowHeader="False"
@@ -23,7 +27,7 @@
             IsSettingsVisible="False"
             Loaded="NavigationView_Loaded"
             OpenPaneLength="200"
-            SelectionChanged="NavigationView_SelectionChanged">
+            SelectionChanged="NavigationView_SelectionChanged" PaneTitle="Settings">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="General" Tag="general">
                     <NavigationViewItem.Icon>
