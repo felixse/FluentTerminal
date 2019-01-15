@@ -7,17 +7,16 @@
     Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Grid x:Name="Root">
-        <!--
+
         <TextBlock
             Margin="0,8,0,0"
             x:Name="AppTitle"
             Canvas.ZIndex="1"
             IsHitTestVisible="False"
             Style="{StaticResource CaptionTextBlockStyle}"
-            Text="Settings"
+            Text=""
             Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}"
             HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" TextAlignment="Center" Height="40" FontSize="18" />
-        -->
         <NavigationView
             x:Name="NavigationView"
             AlwaysShowHeader="False"
