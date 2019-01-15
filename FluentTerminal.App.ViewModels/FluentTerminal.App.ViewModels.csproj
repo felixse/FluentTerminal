@@ -6,13 +6,21 @@
 
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.0.3" />
-    <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
-    <PackageReference Include="ReactiveUI" Version="9.4.1" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+    <PackageReference Include="ReactiveUI" Version="9.8.1" />
+    <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj" />
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Windows Kits\10\References\10.0.16299.0\Windows.Foundation.UniversalApiContract\5.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
   </ItemGroup>
 
 </Project>
