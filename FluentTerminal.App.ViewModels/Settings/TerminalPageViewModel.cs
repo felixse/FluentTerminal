@@ -136,6 +136,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool BoldText
+        {
+            get => _terminalOptions.BoldText;
+            set
+            {
+                if (_terminalOptions.BoldText != value)
+                {
+                    _terminalOptions.BoldText = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
         public IEnumerable<string> Fonts { get; }
 
         public int FontSize
