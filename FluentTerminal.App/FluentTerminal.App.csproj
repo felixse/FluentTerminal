@@ -17,8 +17,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>FluentTerminal.App_StoreKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>8FA8EF727E767FAE5409DDD1694C1CEE054A2962</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>FluentTerminal.App_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>F96F3E0E485F07E8E98DA6E5C06AA4B6F112B498</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
