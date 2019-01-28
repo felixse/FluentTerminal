@@ -8,6 +8,8 @@ namespace FluentTerminal.Models
 
         public int FontSize { get; set; }
 
+        public bool BoldText { get; set; }
+
         public CursorStyle CursorStyle { get; set; }
 
         public bool CursorBlink { get; set; }

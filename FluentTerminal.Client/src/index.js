@@ -29,6 +29,8 @@ function createTerminal(options, theme, keyBindings) {
   var terminalOptions = {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
+    fontWeight: options.boldText ? 'bold' : 'normal',
+    fontWeightBold: options.boldText ? 'bolder' : 'bold',
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
@@ -139,6 +141,8 @@ function changeOptions(options) {
   term.setOption('cursorStyle', options.cursorStyle);
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
+  term.setOption('fontWeight', options.boldText ? 'bold' : 'normal');
+  term.setOption('fontWeightBold', options.boldText ? 'bolder' : 'bold');
   term.setOption('scrollback', options.scrollBackLimit);
   setScrollBarStyle(options.scrollBarStyle);
   setPadding(options.padding);
