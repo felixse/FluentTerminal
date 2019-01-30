@@ -1,6 +1,6 @@
 # Fluent Terminal
 
-[![Build status](https://ci.appveyor.com/api/projects/status/4r429bv594fxkygd/branch/master?svg=true)](https://ci.appveyor.com/project/felixse/fluentterminal/branch/master)
+[![Build status](https://fs-apps.visualstudio.com/FluentTerminal/_apis/build/status/FluentTerminal-Universal%20Windows%20Platform-CI)](https://fs-apps.visualstudio.com/FluentTerminal/_build/latest?definitionId=3)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=FluentTerminal&metric=alert_status)](https://sonarcloud.io/dashboard?id=FluentTerminal)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FluentTerminal)
 
