@@ -221,6 +221,15 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView?.FocusTerminal();
         }
 
+        public async Task EditTitle()
+        {
+            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
+            if (result != null)
+            {
+                Title = result;
+            }
+        }
+
         public async Task OnViewIsReady(ITerminalView terminalView)
         {
             _terminalView = terminalView;
@@ -404,15 +413,6 @@ namespace FluentTerminal.App.ViewModels
         private void SelectTabTheme(string name)
         {
             TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
-        }
-
-        private async Task EditTitle()
-        {
-            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
-            if (result != null)
-            {
-                Title = result;
-            }
         }
 
         private async Task TryClose()
