@@ -11,97 +11,161 @@
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
     </Page.Resources>
-    <Grid x:Name="Root">
-        <Grid.Background>
-            <AcrylicBrush
+    <SplitView x:Name="splitView" OpenPaneLength="192" CompactPaneLength="48" DisplayMode="Inline"
+               IsPaneOpen="{Binding IsChecked, ElementName=togglePaneButton}" 
+               >
+        <SplitView.Pane>
+            <Grid x:Name="Menu">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ToggleButton x:Name="paneTogglePaneButton" IsChecked="{Binding IsChecked, Mode=TwoWay, ElementName=togglePaneButton}" Visibility="Visible">
+                    <ToggleButton.Content>
+                        <Viewbox Width="16" Height="16">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+                        </Viewbox>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <TextBlock Text="Fluent Terminal" x:Name="PaneHeader" Margin="36,5,0,0" Style="{StaticResource BaseTextBlockStyle}" TextAlignment="Center"/>
+
+                <ScrollViewer
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,8,0,0">
+                        <Button
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{x:Bind ViewModel.AddTerminalCommand}"
+                        Style="{StaticResource ButtonRevealStyle}" Padding="16,0,16,0" Height="40" Width="192" FocusVisualMargin="0,0,0,0">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox
+                                    Height="16"
+                                    Width="16"
+                                    Margin="0,0,16,0">
+                                        <SymbolIcon Symbol="Add" />
+                                    </Viewbox>
+                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="New Tab" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{x:Bind ViewModel.ShowSettingsCommand}"
+                        Style="{StaticResource ButtonRevealStyle}" Padding="16,0,16,0" Height="40" Width="192" FocusVisualMargin="0,0,0,0">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Viewbox
+                                    Height="16"
+                                    Width="16"
+                                    Margin="0,0,16,0">
+                                        <SymbolIcon Symbol="Setting" />
+                                    </Viewbox>
+                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Settings" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,0,0,8">
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{x:Bind ViewModel.ShowAboutCommand}"
+                        Style="{StaticResource ButtonRevealStyle}" Padding="16,0,16,0" Height="40" Width="192" FocusVisualMargin="0,0,0,0">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox
+                                    Height="16"
+                                    Width="16"
+                                    Margin="0,0,16,0">
+                                    <FontIcon
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Glyph="&#xE946;"
+                                        ToolTipService.ToolTip="About" />
+                                </Viewbox>
+                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="About" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </SplitView.Pane>
+
+        <Grid x:Name="Root">
+            <Grid.Background>
+                <AcrylicBrush
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
                 TintColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
                 TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}"
                 TintTransitionDuration="{x:Bind NoDuration}" />
 
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Rectangle x:Name="TitleBar" Fill="Transparent" />
-        <Grid
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Rectangle x:Name="TitleBar" Fill="Transparent" />
+            <Grid
             x:Name="TitleBarContents"
+            HorizontalAlignment="Stretch"
             Height="{Binding CoreTitleBarHeight, Mode=OneWay}"
             Margin="{Binding CoreTitleBarPadding, Mode=OneWay}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="Hamburger"
-                Height="32"
-                Style="{StaticResource TitleBarButtonStyle}">
-                <Button.Content>
-                    <Viewbox Width="16" Height="16">
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
-                    </Viewbox>
-                </Button.Content>
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            Width="160"
-                            Command="{x:Bind ViewModel.AddTerminalCommand}"
-                            Text="New tab">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Width="160"
-                            Command="{x:Bind ViewModel.ShowSettingsCommand}"
-                            Text="Settings">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Setting" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Width="160"
-                            Command="{x:Bind ViewModel.ShowAboutCommand}"
-                            Text="About">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE946;"
-                                    ToolTipService.ToolTip="About" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <TextBlock
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ToggleButton x:Name="togglePaneButton" IsChecked="False"
+                              Visibility="{Binding IsChecked, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}, ElementName=paneTogglePaneButton}" VerticalContentAlignment="Top" Padding="8,4,8,6" FocusVisualPrimaryBrush="White" Background="{x:Null}">
+                    <ToggleButton.Projection>
+                        <PlaneProjection LocalOffsetY="-1"/>
+                    </ToggleButton.Projection>
+                    <ToggleButton.Content>
+                        <Viewbox Width="16" Height="16">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+                        </Viewbox>
+                    </ToggleButton.Content>
+                </ToggleButton>
+
+                <TextBlock
                 Grid.Column="1"
                 IsHitTestVisible="False"
                 Style="{StaticResource WindowTitleTextBlockStyle}"
                 Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
-            <views:TabBar
+                <views:TabBar
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" />
-        </Grid>
-        <ContentControl
+                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" Margin="0,0,0,0" VerticalAlignment="Stretch" />
+            </Grid>
+            <ContentControl
             x:Name="TerminalContainer"
             Grid.Row="1"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
-        <views:TabBar
+            <views:TabBar
             Grid.Row="2"
             HorizontalAlignment="Left"
             AddCommand="{x:Bind ViewModel.AddTerminalCommand}"
             ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
             Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}" />
-    </Grid>
+        </Grid>
+
+    </SplitView>
 </Page>
