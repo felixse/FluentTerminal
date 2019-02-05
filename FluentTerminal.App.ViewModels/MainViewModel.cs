@@ -167,7 +167,7 @@ namespace FluentTerminal.App.ViewModels
         /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
         /// </summary>
         /// <returns></returns>
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId)
+        public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId, string additionalArguments="")
         {
             return _applicationView.RunOnDispatcherThread(async () =>
             {
@@ -189,6 +189,8 @@ namespace FluentTerminal.App.ViewModels
                 {
                     profile = _settingsService.GetShellProfile(profileId);
                 }
+
+                profile.Arguments += " " + additionalArguments;
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);

@@ -92,6 +92,66 @@ namespace FluentTerminal.App
             _applicationSettings = _settingsService.GetApplicationSettings();
         }
 
+        static string[] ParseArguments(string args, int len = 3)
+        {
+            string[] arglist = new string[len];
+            int curarg = 0;
+            string current = "";
+            bool inString = false;
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (!inString)
+                {
+                    if (args[i] == '"')
+                    {
+                        inString = true;
+                    }
+                    else if (args[i] == ' ')
+                    {
+                        if (current.Trim() != "")
+                        {
+                            arglist[curarg] = current;
+                            curarg++;
+                            if (curarg >= len) return arglist;
+                        }
+                        current = "";
+                    }
+                    else
+                    {
+                        current += args[i];
+                    }
+                }
+                else
+                {
+                    if (args[i] == '"')
+                    {
+                        if (args[i - 1] != '\\')
+                        {
+                            inString = false;
+                            if (current.Trim() != "")
+                            {
+                                arglist[curarg] = current;
+                                curarg++;
+                                if (curarg >= len) return arglist;
+                            }
+                            current = "";
+                        }
+                        else
+                        {
+                            current += args[i];
+                        }
+                    }
+                    else
+                    {
+                        current += args[i];
+                    }
+                }
+            }
+            if (current.Length > 0) arglist[curarg] = current;
+            return arglist;
+        }
+
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             if (args is CommandLineActivatedEventArgs commandLineActivated)
@@ -101,9 +161,10 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                var arguments = commandLineActivated.Operation.Arguments.Split(' ', 2);
+                var arguments = ParseArguments(commandLineActivated.Operation.Arguments, 3);
                 var command = arguments[0];
-                var parameter = arguments.Length > 1 ? arguments[1] : string.Empty;
+                var parameter = arguments[1];
+                var additionalArguments = arguments[2];
 
                 if (_alreadyLaunched)
                 {
@@ -115,7 +176,7 @@ namespace FluentTerminal.App
                     {
                         if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
                         {
-                            await _mainViewModels.Last().AddTerminal(parameter, false, Guid.Empty).ConfigureAwait(true);
+                            await _mainViewModels.Last().AddTerminal(parameter, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
                         }
                         else
                         {
@@ -133,7 +194,7 @@ namespace FluentTerminal.App
                     else if (command == "new")
                     {
                         var viewModel = _container.Resolve<MainViewModel>();
-                        await viewModel.AddTerminal(parameter, false, Guid.Empty).ConfigureAwait(true);
+                        await viewModel.AddTerminal(parameter, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
                         await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                     }
                 }
@@ -212,13 +273,13 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        private async Task CreateNewTerminalWindow(string startupDirectory)
+        private async Task CreateNewTerminalWindow(string startupDirectory, string additionalArguments="")
         {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory).ConfigureAwait(true);
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory, additionalArguments).ConfigureAwait(true);
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
-        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter)
+        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter, string additionalArguments = "")
         {
             int windowId = 0;
             TViewModel viewModel = default;
@@ -242,7 +303,7 @@ namespace FluentTerminal.App
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                 _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory, false, Guid.Empty).ConfigureAwait(true);
+                await mainViewModel.AddTerminal(directory, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
             }
 
             if (viewModel is SettingsViewModel settingsViewModel)
