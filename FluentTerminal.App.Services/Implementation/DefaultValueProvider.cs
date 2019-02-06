@@ -125,7 +125,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = true,
-                        Key = (int)ExtendedVirtualKey.N
+                        Key = (int)ExtendedVirtualKey.R
                     }
                 };
 
