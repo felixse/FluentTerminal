@@ -102,6 +102,10 @@
                     Margin="0,0,0,24"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="Windows 10 1809+: Always use WinPty"
+                    IsOn="{x:Bind ViewModel.AlwaysUseWinPty, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

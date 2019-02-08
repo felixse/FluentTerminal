@@ -42,10 +42,11 @@ namespace FluentTerminal.App.Services.Test
             appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<IDictionary<string, string>>())).Returns(Task.FromResult((IDictionary<string, string>)responseMessage));
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
+            var sessionType = _fixture.Create<SessionType>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile);
+            var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile, sessionType);
 
             result.Should().BeEquivalentTo(response);
         }

@@ -1,6 +1,7 @@
 ﻿using Fleck;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -26,6 +27,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ShellProfile _shellProfile;
         private readonly string _startupDirectory;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private InputBuffer _buffer;
         private bool _isSelected;
         private bool _newOutput;
         private string _resizeOverlayContent;
@@ -33,8 +35,8 @@ namespace FluentTerminal.App.ViewModels
         private bool _showResizeOverlay;
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
-        private TerminalTheme _terminalTheme;
         private int _terminalId;
+        private TerminalTheme _terminalTheme;
         private ITerminalView _terminalView;
         private string _title;
         private IWebSocketConnection _webSocket;
@@ -94,23 +96,17 @@ namespace FluentTerminal.App.ViewModels
                 _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
         }
 
-        public TerminalTheme TerminalTheme
-        {
-            get => _terminalTheme;
-            set => Set(ref _terminalTheme, value);
-        }
-
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
 
         public string DefaultTitle { get; private set; } = string.Empty;
 
+        public IAsyncCommand EditTitleCommand { get; }
+
         public RelayCommand FindNextCommand { get; }
 
         public RelayCommand FindPreviousCommand { get; }
-
-        public IAsyncCommand EditTitleCommand { get; }
 
         public bool Initialized { get; private set; }
 
@@ -191,6 +187,12 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TabTheme> TabThemes { get; }
 
+        public TerminalTheme TerminalTheme
+        {
+            get => _terminalTheme;
+            set => Set(ref _terminalTheme, value);
+        }
+
         public string Title
         {
             get => _title;
@@ -238,14 +240,25 @@ namespace FluentTerminal.App.ViewModels
             var keyBindings = _settingsService.GetCommandKeyBindings();
             var profiles = _settingsService.GetShellProfiles();
 
-            var size = await _terminalView.CreateTerminal(options, TerminalTheme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
+            var settings = _settingsService.GetApplicationSettings();
+            var sessionType = SessionType.Unknown;
+            if (!_applicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7) || settings.AlwaysUseWinPty)
+            {
+                sessionType = SessionType.WinPty;
+            }
+            else
+            {
+                sessionType = SessionType.ConPty;
+            }
+
+            var size = await _terminalView.CreateTerminal(options, TerminalTheme.Colors, FlattenKeyBindings(keyBindings, profiles), sessionType).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
                 _shellProfile.WorkingDirectory = _startupDirectory;
             }
 
-            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile).ConfigureAwait(true);
+            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile, sessionType).ConfigureAwait(true);
 
             if (response.Success)
             {
@@ -257,7 +270,7 @@ namespace FluentTerminal.App.ViewModels
                 _trayProcessCommunicationService.SubscribeForTerminalOutput(_terminalId, t =>
                 {
                     _connectedEvent.Wait();
-                    _webSocket.Send(t);
+                    _buffer.Write(t);
                     if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
                     {
                         _applicationView.RunOnDispatcherThread(() => NewOutput = true);
@@ -272,6 +285,7 @@ namespace FluentTerminal.App.ViewModels
                 webSocketServer.Start(socket =>
                 {
                     _webSocket = socket;
+                    _buffer = new InputBuffer(_webSocket.Send);
                     socket.OnOpen = () => _connectedEvent.Set();
                     socket.OnMessage = message => _trayProcessCommunicationService.WriteText(_terminalId, message);
                 });
@@ -292,6 +306,15 @@ namespace FluentTerminal.App.ViewModels
             SearchText = string.Empty;
             ShowSearchPanel = false;
             _terminalView.FocusTerminal();
+        }
+
+        private async Task EditTitle()
+        {
+            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
+            if (result != null)
+            {
+                Title = result;
+            }
         }
 
         private Task FindNext()

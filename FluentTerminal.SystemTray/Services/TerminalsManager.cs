@@ -1,6 +1,10 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
+using FluentTerminal.SystemTray.Services.ConPty;
+using FluentTerminal.SystemTray.Services.WinPty;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,14 +13,16 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalsManager
     {
-        private Dictionary<int, TerminalSession> _terminals = new Dictionary<int, TerminalSession>();
+        private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
+        private readonly ISettingsService _settingsService;
 
         public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
 
         public event EventHandler<int> TerminalExited;
 
-        public TerminalsManager()
+        public TerminalsManager(ISettingsService settingsService)
         {
+            _settingsService = settingsService;
         }
 
         public void DisplayTerminalOutput(int terminalId, string output)
@@ -30,10 +36,18 @@ namespace FluentTerminal.SystemTray.Services
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
-            TerminalSession terminal;
+            ITerminalSession terminal = null;
             try
             {
-                terminal = new TerminalSession(request, this);
+                if (request.SessionType == SessionType.WinPty)
+                {
+                    terminal = new WinPtySession();
+                }
+                else if (request.SessionType == SessionType.ConPty)
+                {
+                    terminal = new ConPtySession();
+                }
+                terminal.Start(request, this);
             }
             catch (Exception e)
             {
@@ -42,7 +56,6 @@ namespace FluentTerminal.SystemTray.Services
 
             terminal.ConnectionClosed += OnTerminalConnectionClosed;
             _terminals.Add(terminal.Id, terminal);
-
             return new CreateTerminalResponse
             {
                 Success = true,
@@ -53,7 +66,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void WriteText(int id, string text)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 terminal.WriteText(text);
             }
@@ -61,7 +74,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void ResizeTerminal(int id, TerminalSize size)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 terminal.Resize(size);
             }
@@ -73,7 +86,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public void CloseTerminal(int id)
         {
-            if (_terminals.TryGetValue(id, out TerminalSession terminal))
+            if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();
@@ -82,7 +95,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
         {
-            if (sender is TerminalSession terminal)
+            if (sender is ITerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();

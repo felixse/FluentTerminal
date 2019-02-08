@@ -16,5 +16,6 @@ namespace FluentTerminal.Models
         public bool AlwaysShowTabs { get; set; }
         public bool ShowNewOutputIndicator { get; set; }
         public bool EnableTrayIcon { get; set; }
+        public bool AlwaysUseWinPty { get; set; }
     }
 }
