@@ -1,6 +1,9 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
+using FluentTerminal.SystemTray.Services.ConPty;
 using FluentTerminal.SystemTray.Services.WinPty;
 using System;
 using System.Collections.Generic;
@@ -11,10 +14,16 @@ namespace FluentTerminal.SystemTray.Services
     public class TerminalsManager
     {
         private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
+        private readonly ISettingsService _settingsService;
 
         public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
 
         public event EventHandler<int> TerminalExited;
+
+        public TerminalsManager(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
 
         public void DisplayTerminalOutput(int terminalId, string output)
         {
@@ -27,11 +36,17 @@ namespace FluentTerminal.SystemTray.Services
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
-            ITerminalSession terminal;
+            ITerminalSession terminal = null;
             try
             {
-                //terminal = new WinPtySession();
-                terminal = new ConPty.ConPtySession();
+                if (request.SessionType == SessionType.WinPty)
+                {
+                    terminal = new WinPtySession();
+                }
+                else if (request.SessionType == SessionType.ConPty)
+                {
+                    terminal = new ConPtySession();
+                }
                 terminal.Start(request, this);
             }
             catch (Exception e)

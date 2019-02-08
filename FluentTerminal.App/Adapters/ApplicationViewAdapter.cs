@@ -3,6 +3,7 @@ using FluentTerminal.App.Services.EventArgs;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
@@ -27,6 +28,11 @@ namespace FluentTerminal.App.Adapters
         {
             get => _applicationView.Title;
             set => _applicationView.Title = value;
+        }
+
+        public bool IsApiContractPresent(string api, ushort version)
+        {
+            return ApiInformation.IsApiContractPresent(api, version);
         }
 
         public Task RunOnDispatcherThread(Action action)

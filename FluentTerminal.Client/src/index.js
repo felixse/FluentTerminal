@@ -1,19 +1,19 @@
 import * as Terminal from '../node_modules/xterm/dist/xterm';
 import * as attach from '../node_modules/xterm/dist/addons/attach/attach';
 import * as fit from '../node_modules/xterm/dist/addons/fit/fit';
-//import * as winptyCompat from '../node_modules/xterm/dist/addons/winptyCompat/winptyCompat';
+import * as winptyCompat from '../node_modules/xterm/dist/addons/winptyCompat/winptyCompat';
 import * as search from '../node_modules/xterm/dist/addons/search/search';
 
 
 Terminal.applyAddon(attach);
 Terminal.applyAddon(fit);
-//Terminal.applyAddon(winptyCompat);
+Terminal.applyAddon(winptyCompat);
 Terminal.applyAddon(search);
 
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings) {
+function createTerminal(options, theme, keyBindings, sessionType) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -58,7 +58,11 @@ function createTerminal(options, theme, keyBindings) {
 
   term.open(terminalContainer);
   term.fit();
-  //term.winptyCompatInit();
+
+  if (sessionType === 'WinPty') {
+    term.winptyCompatInit();
+  }
+
   term.focus();
   
   setPadding(options.padding);
