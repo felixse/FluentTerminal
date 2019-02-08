@@ -9,6 +9,7 @@ namespace FluentTerminal.Models
         public ICollection<KeyBinding> PreviousTab { get; set; }
         public ICollection<KeyBinding> NewTab { get; set; }
         public ICollection<KeyBinding> ConfigurableNewTab { get; set; }
+        public ICollection<KeyBinding> ChangeTabTitle { get; set; }
         public ICollection<KeyBinding> CloseTab { get; set; }
         public ICollection<KeyBinding> NewWindow { get; set; }
         public ICollection<KeyBinding> ShowSettings { get; set; }
