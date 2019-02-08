@@ -116,6 +116,19 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.ChangeTabTitle:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ChangeTabTitle),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.R
+                    }
+                };
+
                 case Command.CloseTab:
                     return new List<KeyBinding>
                 {
