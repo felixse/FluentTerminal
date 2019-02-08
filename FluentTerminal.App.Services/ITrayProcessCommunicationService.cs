@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Responses;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace FluentTerminal.App.Services
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
-        Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile);
+        Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
 
         Task ResizeTerminal(int id, TerminalSize size);
 

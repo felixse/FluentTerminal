@@ -21,6 +21,7 @@ namespace FluentTerminal.App.Services.Implementation
                 MouseMiddleClickAction = MouseAction.None,
                 MouseRightClickAction = MouseAction.ContextMenu,
                 AlwaysShowTabs = false,
+                AlwaysUseWinPty = true,
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true
             };

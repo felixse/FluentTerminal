@@ -13,7 +13,7 @@ Terminal.applyAddon(search);
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings) {
+function createTerminal(options, theme, keyBindings, sessionType) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -58,7 +58,11 @@ function createTerminal(options, theme, keyBindings) {
 
   term.open(terminalContainer);
   term.fit();
-  term.winptyCompatInit();
+
+  if (sessionType === 'WinPty') {
+    term.winptyCompatInit();
+  }
+
   term.focus();
   
   setPadding(options.padding);
