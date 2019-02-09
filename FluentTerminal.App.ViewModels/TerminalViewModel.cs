@@ -308,15 +308,6 @@ namespace FluentTerminal.App.ViewModels
             _terminalView.FocusTerminal();
         }
 
-        private async Task EditTitle()
-        {
-            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
-            if (result != null)
-            {
-                Title = result;
-            }
-        }
-
         private Task FindNext()
         {
             return _terminalView.FindNext(SearchText);
