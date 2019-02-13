@@ -257,15 +257,15 @@
                                 <RadioButton
                                     Content="Do not modify line endings"
                                     GroupName="LineEndingStyle"
-                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='DoNotModify'}" />
+                                    IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
                                 <RadioButton
                                     Content="Convert line endings to CR+LF"
                                     GroupName="LineEndingStyle"
-                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToCRLF'}" />
+                                    IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
                                 <RadioButton
                                     Content="Convert line endings to LF"
                                     GroupName="LineEndingStyle"
-                                    IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToLF'}" />
+                                    IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
 
                                 <StackPanel
                                     Width="300"

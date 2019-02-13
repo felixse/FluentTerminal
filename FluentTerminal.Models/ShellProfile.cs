@@ -28,6 +28,7 @@ namespace FluentTerminal.Models
             WorkingDirectory = other.WorkingDirectory;
             TabThemeId = other.TabThemeId;
             TerminalThemeId = other.TerminalThemeId;
+            LineEndingTranslation = other.LineEndingTranslation;
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
 
@@ -38,7 +39,7 @@ namespace FluentTerminal.Models
         public string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
-        public LineEndingStyle LineEndingTranslation { get; set; } = LineEndingStyle.DoNotModify;
+        public LineEndingStyle LineEndingTranslation { get; set; }
 
         public string TranslateLineEndings(string content)
         {
@@ -49,12 +50,11 @@ namespace FluentTerminal.Models
                 case LineEndingStyle.ToLF:
                     return NewlinePattern.Replace(content, "\n");
                 case LineEndingStyle.DoNotModify:
-                    return content;
                 default:
                     return content;
             }
         }
-        
+
         public Guid TerminalThemeId { get; set; }
         public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
     }

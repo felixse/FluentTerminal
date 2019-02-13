@@ -29,6 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private string _workingDirectory;
         private readonly IApplicationView _applicationView;
         private readonly IDefaultValueProvider _defaultValueProvider;
+        private bool _editingLineEndingStyle;
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
         {
@@ -194,16 +195,40 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _workingDirectory, value);
         }
 
-        public LineEndingStyle? LineEndingStyle
+        public LineEndingStyle LineEndingStyle
         {
             get => _lineEndingStyle;
             set
             {
-                if (value != null)
+                if (_lineEndingStyle != value && !_editingLineEndingStyle)
                 {
-                    Set(ref _lineEndingStyle, (LineEndingStyle)value);
+                    _editingLineEndingStyle = true;
+                    _lineEndingStyle = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(DoNotModifyIsSelected));
+                    RaisePropertyChanged(nameof(ToCRLFIsSelected));
+                    RaisePropertyChanged(nameof(ToLFIsSelected));
+                    _editingLineEndingStyle = false;
                 }
             }
+        }
+
+        public bool DoNotModifyIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.DoNotModify;
+            set => LineEndingStyle = LineEndingStyle.DoNotModify;
+        }
+
+        public bool ToCRLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCRLF;
+            set => LineEndingStyle = LineEndingStyle.ToCRLF;
+        }
+
+        public bool ToLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToLF;
+            set => LineEndingStyle = LineEndingStyle.ToLF;
         }
 
         public void SaveChanges()
@@ -272,8 +297,10 @@ namespace FluentTerminal.App.ViewModels
                 Location = _fallbackProfile.Location;
                 Name = _fallbackProfile.Name;
                 WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                LineEndingStyle = _fallbackProfile.LineEndingTranslation;
                 SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
                 SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
+                
 
                 KeyBindings.KeyBindings.Clear();
                 foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())

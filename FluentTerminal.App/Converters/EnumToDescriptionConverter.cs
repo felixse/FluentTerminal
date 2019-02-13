@@ -4,14 +4,14 @@ using Windows.UI.Xaml.Data;
 
 namespace FluentTerminal.App.Converters
 {
-    class EnumToDescriptionConverter : IValueConverter
+    public class EnumToDescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             // value is the Enum, parameter is the string.
-            if (value is Enum)
+            if (value is Enum enumValue)
             {
-                return EnumHelper.GetEnumDescription((Enum)value);
+                return EnumHelper.GetEnumDescription(enumValue);
             }
             return null;
         }
