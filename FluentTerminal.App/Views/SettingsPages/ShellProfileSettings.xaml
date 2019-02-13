@@ -238,7 +238,7 @@
                                     Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <ComboBox
                                     Width="150"
-                                    Margin="0,24,0,16"
+                                    Margin="0,24,0,0"
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
@@ -253,17 +253,17 @@
                                     ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
 
-                                <TextBlock Margin="0,24,0,8" Text="Line ending translation mode" />
+                                <TextBlock Margin="0,24,0,8" Text="Line ending translation mode on paste" />
                                 <RadioButton
-                                    Content="Do not modify line endings on paste"
+                                    Content="Do not modify line endings"
                                     GroupName="LineEndingStyle"
                                     IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='DoNotModify'}" />
                                 <RadioButton
-                                    Content="Convert line endings to CR+LF on paste"
+                                    Content="Convert line endings to CR+LF"
                                     GroupName="LineEndingStyle"
                                     IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToCRLF'}" />
                                 <RadioButton
-                                    Content="Convert line endings to LF on paste"
+                                    Content="Convert line endings to LF"
                                     GroupName="LineEndingStyle"
                                     IsChecked="{x:Bind LineEndingStyle, Mode=TwoWay, Converter={StaticResource LineEndingStyleToRadioButtonConverter}, ConverterParameter='ToLF'}" />
 
@@ -295,7 +295,7 @@
                                     Header="Arguments"
                                     Text="{x:Bind Arguments, Mode=OneWay}" />
                                 <controls:HeaderedContentControl
-                                    Margin="0,36,0,48"
+                                    Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Theme">
                                     <ContentControl
