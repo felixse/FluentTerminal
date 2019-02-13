@@ -37,6 +37,9 @@ namespace FluentTerminal.Models.Enums
         [Description("Paste")]
         Paste,
 
+        [Description("Paste without newlines")]
+        PasteWithoutNewlines,
+
         [Description("Search")]
         Search,
 

@@ -2,6 +2,7 @@
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -21,12 +22,14 @@ namespace FluentTerminal.App.ViewModels
         private bool _inEditMode;
         private bool _isDefault;
         private string _location;
+        private LineEndingStyle _lineEndingStyle;
         private string _name;
         private TabTheme _selectedTabTheme;
         private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
         private readonly IApplicationView _applicationView;
         private readonly IDefaultValueProvider _defaultValueProvider;
+        private bool _editingLineEndingStyle;
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
         {
@@ -78,6 +81,7 @@ namespace FluentTerminal.App.ViewModels
             WorkingDirectory = shellProfile.WorkingDirectory;
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
+            LineEndingStyle = shellProfile.LineEndingTranslation;
 
             KeyBindings.Clear();
             foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
@@ -191,6 +195,42 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _workingDirectory, value);
         }
 
+        public LineEndingStyle LineEndingStyle
+        {
+            get => _lineEndingStyle;
+            set
+            {
+                if (_lineEndingStyle != value && !_editingLineEndingStyle)
+                {
+                    _editingLineEndingStyle = true;
+                    _lineEndingStyle = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(DoNotModifyIsSelected));
+                    RaisePropertyChanged(nameof(ToCRLFIsSelected));
+                    RaisePropertyChanged(nameof(ToLFIsSelected));
+                    _editingLineEndingStyle = false;
+                }
+            }
+        }
+
+        public bool DoNotModifyIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.DoNotModify;
+            set => LineEndingStyle = LineEndingStyle.DoNotModify;
+        }
+
+        public bool ToCRLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCRLF;
+            set => LineEndingStyle = LineEndingStyle.ToCRLF;
+        }
+
+        public bool ToLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToLF;
+            set => LineEndingStyle = LineEndingStyle.ToLF;
+        }
+
         public void SaveChanges()
         {
             Model.Arguments = Arguments;
@@ -199,6 +239,7 @@ namespace FluentTerminal.App.ViewModels
             Model.WorkingDirectory = WorkingDirectory;
             Model.TabThemeId = SelectedTabTheme.Id;
             Model.TerminalThemeId = SelectedTerminalTheme.Id;
+            Model.LineEndingTranslation = _lineEndingStyle;
             Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
             _settingsService.SaveShellProfile(Model);
 
@@ -256,8 +297,10 @@ namespace FluentTerminal.App.ViewModels
                 Location = _fallbackProfile.Location;
                 Name = _fallbackProfile.Name;
                 WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                LineEndingStyle = _fallbackProfile.LineEndingTranslation;
                 SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
                 SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
+                
 
                 KeyBindings.KeyBindings.Clear();
                 foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())

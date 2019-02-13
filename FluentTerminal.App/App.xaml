@@ -37,6 +37,7 @@
             <converters:EnumValueToVisibiltyConverter x:Key="EnumValueToVisibiltyConverter" />
             <converters:TabThemeSelectedConverter x:Key="TabThemeSelectedConverter" />
             <converters:ColorResourceKeyFallbackConverter x:Key="ColorResourceKeyFallbackConverter" />
+            <converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

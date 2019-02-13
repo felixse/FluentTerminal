@@ -252,6 +252,21 @@
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                     ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
+
+                                <TextBlock Margin="0,24,0,8" Text="Line ending translation mode on paste" />
+                                <RadioButton
+                                    Content="Do not modify line endings"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
+                                <RadioButton
+                                    Content="Convert line endings to CR+LF"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
+                                <RadioButton
+                                    Content="Convert line endings to LF"
+                                    GroupName="LineEndingStyle"
+                                    IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
+
                                 <StackPanel
                                     Width="300"
                                     Margin="0,24,0,0"
@@ -300,13 +315,21 @@
                                 <controls:HeaderedContentControl
                                     Margin="0,36,0,0"
                                     HorizontalContentAlignment="Stretch"
+                                    Header="Line ending translation mode">
+                                    <ContentControl
+                                        Margin="0,6,0,0"
+                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
+                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}" />
+                                </controls:HeaderedContentControl>
+                                <controls:HeaderedContentControl
+                                    Margin="0,36,0,0"
+                                    HorizontalContentAlignment="Stretch"
                                     Header="Keyboard shortcut">
                                     <views:KeyBindingsView
                                         Margin="0,6,0,0"
                                         ShowCommandName="False"
                                         ViewModel="{x:Bind KeyBindings}" />
                                 </controls:HeaderedContentControl>
-
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

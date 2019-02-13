@@ -195,6 +195,20 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+
+                case Command.PasteWithoutNewlines:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.PasteWithoutNewlines),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.V
+                    }
+                };
+
                 case Command.Search:
                     return new List<KeyBinding>
                 {
@@ -343,6 +357,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -364,6 +379,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -385,6 +401,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding

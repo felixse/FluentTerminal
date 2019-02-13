@@ -359,30 +359,48 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnKeyboardCommandReceived(object sender, string command)
         {
-            if (command == nameof(Command.Copy))
+            switch (command)
             {
-                var selection = await _terminalView.GetSelection().ConfigureAwait(true);
-                _clipboardService.SetText(selection);
-            }
-            else if (command == nameof(Command.Paste))
-            {
-                var content = await _clipboardService.GetText().ConfigureAwait(true);
-                if (content != null)
-                {
-                    await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
-                }
-            }
-            else if (command == nameof(Command.Search))
-            {
-                ShowSearchPanel = !ShowSearchPanel;
-                if (ShowSearchPanel)
-                {
-                    _terminalView.FocusSearchTextBox();
-                }
-            }
-            else
-            {
-                _keyboardCommandService.SendCommand(command);
+                case nameof(Command.Copy):
+                    {
+                        var selection = await _terminalView.GetSelection().ConfigureAwait(true);
+                        _clipboardService.SetText(selection);
+                        break;
+                    }
+                case nameof(Command.Paste):
+                    {
+                        string content = await _clipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = _shellProfile.TranslateLineEndings(content);
+                            await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.PasteWithoutNewlines):
+                    {
+                        string content = await _clipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
+                            await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.Search):
+                    {
+                        ShowSearchPanel = !ShowSearchPanel;
+                        if (ShowSearchPanel)
+                        {
+                            _terminalView.FocusSearchTextBox();
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        _keyboardCommandService.SendCommand(command);
+                        break;
+                    }
             }
         }
 
