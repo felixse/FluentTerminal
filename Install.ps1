@@ -28,6 +28,7 @@
 
 param(
     [switch]$Force = $false,
+    [switch]$ForceContextMenu = $false,
     [switch]$GetDeveloperLicense = $false,
     [string]$CertificatePath = $null
 )
@@ -622,7 +623,7 @@ function DoStandardOperations
 
     InstallPackageWithDependencies
 
-    if (ConfirmContextMenuInstall)
+    if ($ForceContextMenu -or (ConfirmContextMenuInstall))
     {
         InstallContextMenuIntegration
     }
