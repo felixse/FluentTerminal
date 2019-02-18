@@ -183,6 +183,7 @@
                 <DataTemplate x:DataType="viewmodels:ThemeViewModel">
                     <ScrollViewer Padding="0,0,24,0" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
+                            <!-- VIEW THEME -->
                             <TextBlock
                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="{x:Bind Name, Mode=OneWay}"
@@ -191,7 +192,17 @@
                                     <SolidColorBrush Color="{x:Bind Foreground, Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Author, Mode=OneWay}" />
+
+                            <TextBlock
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind Author, Mode=OneWay}"
+                                Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{x:Bind Foreground, Mode=OneWay}" />
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <!-- EDIT THEME -->
                             <TextBox
                                 Width="200"
                                 Margin="0,0,0,24"
@@ -199,15 +210,18 @@
                                 Header="Name"
                                 Text="{x:Bind Name, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+
                             <TextBox
                                 Width="200"
-                                Margin="0,0,0,48"
+                                Margin="0,0,0,24"
                                 HorizontalAlignment="Left"
                                 Header="Author"
                                 Text="{x:Bind Author, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+
                             <Grid Margin="0,0,0,24">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition />
                                     <RowDefinition />
@@ -220,7 +234,19 @@
                                         <Setter Property="Height" Value="24" />
                                     </Style>
                                 </Grid.Resources>
-                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,6,0,0"
+                                    Text="Color palette" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Foreground="LightGray"
+                                    Margin="0,0,0,8"
+                                    Text="Click on a color to edit"
+                                    FontSize="14"
+                                    FontStyle="Italic"
+                                    Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+                                <StackPanel Grid.Row="2" Orientation="Horizontal">
                                     <views:TerminalColorPicker
                                         ColorName="Black"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
@@ -254,7 +280,7 @@
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind White, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 </StackPanel>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <StackPanel Grid.Row="3" Orientation="Horizontal">
                                     <views:TerminalColorPicker
                                         ColorName="Bright Black"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
@@ -288,7 +314,7 @@
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         SelectedColor="{x:Bind BrightWhite, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
                                 </StackPanel>
-                                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <StackPanel Grid.Row="4" Orientation="Horizontal">
                                     <views:TerminalColorPicker
                                         ColorName="Foreground"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
@@ -311,11 +337,6 @@
                                         IsAlphaEnabled="True"
                                         SelectedColor="{x:Bind Selection, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=true}" />
                                 </StackPanel>
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Margin="0,6,0,0"
-                                    Text="Click on a color to edit"
-                                    Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>

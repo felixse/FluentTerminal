@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -42,6 +41,7 @@
                     Margin="0,0,0,24"
                     Header="Copy on select"
                     IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
+
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8" Text="Middle button action" />
                     <RadioButton
@@ -57,6 +57,7 @@
                         GroupName="MiddleButton"
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
                 </StackPanel>
+
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8" Text="Right button action" />
                     <RadioButton

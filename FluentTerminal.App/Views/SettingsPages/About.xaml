@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -50,6 +49,7 @@
                         HorizontalAlignment="Left"
                         Source="/Assets/AppIcons/Square106x106Logo.black.png"
                         Stretch="None" />
+
                     <StackPanel Margin="0,24,0,0">
                         <TextBlock Margin="0,0,0,8" Text="Current version" />
                         <TextBlock>
@@ -57,6 +57,7 @@
                             <Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink>
                         </TextBlock>
                     </StackPanel>
+
                     <StackPanel Margin="0,24,0,0">
                         <TextBlock Margin="0,0,0,8" Text="Latest version" />
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionLoading, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
@@ -70,6 +71,7 @@
                             <Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL, Mode=OneWay}">Release notes</Hyperlink>
                         </TextBlock>
                     </StackPanel>
+
                     <StackPanel Margin="0,24,0,0">
                         <TextBlock Margin="0,0,0,8" Text="License" />
                         <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>

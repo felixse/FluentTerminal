@@ -46,16 +46,19 @@
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
                     SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
+
                 <ComboBox
                     Width="200"
                     Margin="0,0,0,24"
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
+
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Bold text"
                     IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
+
                 <Slider
                     Width="200"
                     Margin="0,0,0,24"
@@ -65,6 +68,7 @@
                     Minimum="0"
                     StepFrequency="0.01"
                     Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
+
                 <Slider
                     Width="200"
                     Margin="0,0,0,24"
@@ -75,6 +79,7 @@
                     StepFrequency="1"
                     ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}"
                     Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
+
                 <TextBox
                     Width="200"
                     Margin="0,0,0,24"
@@ -82,10 +87,12 @@
                     Header="Scrollback limit"
                     KeyDown="ScrollBackTextBoxOnKeyDown"
                     Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
+
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8" Text="Cursor style" />
                     <RadioButton
@@ -101,6 +108,7 @@
                         GroupName="Cursor"
                         IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
                 </StackPanel>
+
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8" Text="Scrollbar style" />
                     <RadioButton
