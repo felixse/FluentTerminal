@@ -47,6 +47,15 @@
                         Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
                 </StackPanel>
                 <StackPanel Margin="0,0,0,24">
+                    <ToggleSwitch
+                        Header="Show in system tray"
+                        IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
+                    <TextBlock
+                        Foreground="Red"
+                        Text="Relaunch required to apply setting"
+                        Visibility="{x:Bind ViewModel.ShouldRestartForTrayMessage, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+                </StackPanel>
+                <StackPanel Margin="0,0,0,24">
                     <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
                     <RadioButton
                         Content="Tabs"
@@ -99,6 +108,10 @@
                     Margin="0,0,0,24"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="Windows 10 1809+: Always use WinPty"
+                    IsOn="{x:Bind ViewModel.AlwaysUseWinPty, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -11,12 +11,12 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using static FluentTerminal.SystemTray.Native.WindowApi;
 
 namespace FluentTerminal.SystemTray.Services
 {
     public class ToggleWindowService : IDisposable
     {
-        private const int SW_MINIMIZE = 6;
         private readonly HotKeyManager _hotKeyManager;
         private readonly INotificationService _notificationService;
         private readonly Dispatcher _dispatcher;
@@ -31,7 +31,7 @@ namespace FluentTerminal.SystemTray.Services
             _hotKeys = new List<HotKey>();
             _hotKeyManager.KeyPressed += OnKeyPressed;
 
-            var keyBindings = settingsService.GetKeyBindings()[Command.ToggleWindow];
+            var keyBindings = settingsService.GetCommandKeyBindings()[nameof(Command.ToggleWindow)];
             SetHotKeys(keyBindings);
         }
 
@@ -128,11 +128,7 @@ namespace FluentTerminal.SystemTray.Services
             return string.Join(" + ", keys);
         }
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        
 
         private string GetActiveProcessFileName()
         {

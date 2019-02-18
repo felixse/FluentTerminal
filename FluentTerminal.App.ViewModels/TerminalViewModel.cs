@@ -1,5 +1,7 @@
 ﻿using Fleck;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -25,6 +27,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ShellProfile _shellProfile;
         private readonly string _startupDirectory;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private InputBuffer _buffer;
         private bool _isSelected;
         private bool _newOutput;
         private string _resizeOverlayContent;
@@ -33,6 +36,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private int _terminalId;
+        private TerminalTheme _terminalTheme;
         private ITerminalView _terminalView;
         private string _title;
         private IWebSocketConnection _webSocket;
@@ -62,6 +66,8 @@ namespace FluentTerminal.App.ViewModels
             _applicationView = applicationView;
             _clipboardService = clipboardService;
 
+            TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? _settingsService.GetCurrentTheme() : _settingsService.GetTheme(shellProfile.TerminalThemeId);
+
             TabThemes = new ObservableCollection<TabTheme>(_settingsService.GetTabThemes());
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == _shellProfile.TabThemeId);
 
@@ -74,6 +80,7 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
+            EditTitleCommand = new AsyncCommand(EditTitle);
         }
 
         public event EventHandler Closed;
@@ -94,6 +101,8 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand CloseSearchPanelCommand { get; }
 
         public string DefaultTitle { get; private set; } = string.Empty;
+
+        public IAsyncCommand EditTitleCommand { get; }
 
         public RelayCommand FindNextCommand { get; }
 
@@ -178,6 +187,12 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TabTheme> TabThemes { get; }
 
+        public TerminalTheme TerminalTheme
+        {
+            get => _terminalTheme;
+            set => Set(ref _terminalTheme, value);
+        }
+
         public string Title
         {
             get => _title;
@@ -208,22 +223,42 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView?.FocusTerminal();
         }
 
+        public async Task EditTitle()
+        {
+            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
+            if (result != null)
+            {
+                Title = result;
+            }
+        }
+
         public async Task OnViewIsReady(ITerminalView terminalView)
         {
             _terminalView = terminalView;
 
             var options = _settingsService.GetTerminalOptions();
-            var theme = _settingsService.GetCurrentTheme();
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
 
-            var size = await _terminalView.CreateTerminal(options, theme.Colors, FlattenKeyBindings(keyBindings)).ConfigureAwait(true);
+            var settings = _settingsService.GetApplicationSettings();
+            var sessionType = SessionType.Unknown;
+            if (!_applicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7) || settings.AlwaysUseWinPty)
+            {
+                sessionType = SessionType.WinPty;
+            }
+            else
+            {
+                sessionType = SessionType.ConPty;
+            }
+
+            var size = await _terminalView.CreateTerminal(options, TerminalTheme.Colors, FlattenKeyBindings(keyBindings, profiles), sessionType).ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(_startupDirectory))
             {
                 _shellProfile.WorkingDirectory = _startupDirectory;
             }
 
-            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile).ConfigureAwait(true);
+            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile, sessionType).ConfigureAwait(true);
 
             if (response.Success)
             {
@@ -235,7 +270,7 @@ namespace FluentTerminal.App.ViewModels
                 _trayProcessCommunicationService.SubscribeForTerminalOutput(_terminalId, t =>
                 {
                     _connectedEvent.Wait();
-                    _webSocket.Send(t);
+                    _buffer.Write(t);
                     if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
                     {
                         _applicationView.RunOnDispatcherThread(() => NewOutput = true);
@@ -250,6 +285,7 @@ namespace FluentTerminal.App.ViewModels
                 webSocketServer.Start(socket =>
                 {
                     _webSocket = socket;
+                    _buffer = new InputBuffer(_webSocket.Send);
                     socket.OnOpen = () => _connectedEvent.Set();
                     socket.OnMessage = message => _trayProcessCommunicationService.WriteText(_terminalId, message);
                 });
@@ -282,9 +318,9 @@ namespace FluentTerminal.App.ViewModels
             return _terminalView.FindPrevious(SearchText);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<Command, ICollection<KeyBinding>> keyBindings)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles)
         {
-            return keyBindings.Values.SelectMany(k => k);
+            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings));
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
@@ -301,49 +337,70 @@ namespace FluentTerminal.App.ViewModels
         {
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                RaisePropertyChanged(nameof(IsUnderlined));
-                RaisePropertyChanged(nameof(BackgroundTabTheme));
-
-                var currentTheme = _settingsService.GetTheme(e);
-                await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
+                // only change theme if not overwritten by profile
+                if (_shellProfile.TerminalThemeId == Guid.Empty)
+                {
+                    var currentTheme = _settingsService.GetTheme(e);
+                    TerminalTheme = currentTheme;
+                    await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
+                }
             });
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
-            var keyBindings = _settingsService.GetKeyBindings();
+            var keyBindings = _settingsService.GetCommandKeyBindings();
+            var profiles = _settingsService.GetShellProfiles();
             await _applicationView.RunOnDispatcherThread(async () =>
             {
-                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings)).ConfigureAwait(false);
+                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(false);
             });
         }
 
-        private async void OnKeyboardCommandReceived(object sender, Command e)
+        private async void OnKeyboardCommandReceived(object sender, string command)
         {
-            if (e == Command.Copy)
+            switch (command)
             {
-                var selection = await _terminalView.GetSelection().ConfigureAwait(true);
-                _clipboardService.SetText(selection);
-            }
-            else if (e == Command.Paste)
-            {
-                var content = await _clipboardService.GetText().ConfigureAwait(true);
-                if (content != null)
-                {
-                    await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
-                }
-            }
-            else if (e == Command.Search)
-            {
-                ShowSearchPanel = !ShowSearchPanel;
-                if (ShowSearchPanel)
-                {
-                    _terminalView.FocusSearchTextBox();
-                }
-            }
-            else
-            {
-                _keyboardCommandService.SendCommand(e);
+                case nameof(Command.Copy):
+                    {
+                        var selection = await _terminalView.GetSelection().ConfigureAwait(true);
+                        _clipboardService.SetText(selection);
+                        break;
+                    }
+                case nameof(Command.Paste):
+                    {
+                        string content = await _clipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = _shellProfile.TranslateLineEndings(content);
+                            await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.PasteWithoutNewlines):
+                    {
+                        string content = await _clipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
+                            await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.Search):
+                    {
+                        ShowSearchPanel = !ShowSearchPanel;
+                        if (ShowSearchPanel)
+                        {
+                            _terminalView.FocusSearchTextBox();
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        _keyboardCommandService.SendCommand(command);
+                        break;
+                    }
             }
         }
 

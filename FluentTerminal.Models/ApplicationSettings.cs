@@ -15,5 +15,7 @@ namespace FluentTerminal.Models
         public MouseAction MouseRightClickAction { get; set; }
         public bool AlwaysShowTabs { get; set; }
         public bool ShowNewOutputIndicator { get; set; }
+        public bool EnableTrayIcon { get; set; }
+        public bool AlwaysUseWinPty { get; set; }
     }
 }

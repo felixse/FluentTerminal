@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:FluentTerminal.App.Views"
-    RequestedTheme="{x:Bind ViewModel.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
+    RequestedTheme="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
@@ -15,9 +15,11 @@
         <Grid.Background>
             <AcrylicBrush
                 BackgroundSource="HostBackdrop"
-                FallbackColor="{x:Bind ViewModel.Background, Mode=OneWay}"
-                TintColor="{x:Bind ViewModel.Background, Mode=OneWay}"
-                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}" />
+                FallbackColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
+                TintColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
+                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}"
+                TintTransitionDuration="{x:Bind NoDuration}" />
+
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -66,9 +68,9 @@
                             Text="About">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon
-                            FontFamily="Segoe MDL2 Assets"
-                            Glyph="&#xE946;"
-                            ToolTipService.ToolTip="About" />
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xE946;"
+                                    ToolTipService.ToolTip="About" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

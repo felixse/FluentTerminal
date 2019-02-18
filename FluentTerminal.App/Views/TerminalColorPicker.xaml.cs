@@ -7,7 +7,7 @@ namespace FluentTerminal.App.Views
 {
     public sealed partial class TerminalColorPicker : UserControl
     {
-        bool colorIsNull = false;
+        private bool _colorIsNull;
 
         public static readonly DependencyProperty ColorNameProperty =
             DependencyProperty.Register(nameof(ColorName), typeof(string), typeof(TerminalColorPicker), new PropertyMetadata(null));
@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Views
                     {
                         if (s is TerminalColorPicker terminalColorPicker)
                         {
-                            terminalColorPicker.colorIsNull = ((Color?)e.NewValue) == null;
+                            terminalColorPicker._colorIsNull = ((Color?)e.NewValue) == null;
 
                             // When leading the color, or changing the selected color (happens on page load)
                             // only set the picker (triggering the event action later) if the color is non-null

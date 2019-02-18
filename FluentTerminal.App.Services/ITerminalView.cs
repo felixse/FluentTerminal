@@ -12,7 +12,7 @@ namespace FluentTerminal.App.Services
 
         event EventHandler<string> TerminalTitleChanged;
 
-        event EventHandler<Command> KeyboardCommandReceived;
+        event EventHandler<string> KeyboardCommandReceived;
 
         Task ChangeTheme(TerminalColors theme);
 
@@ -20,7 +20,7 @@ namespace FluentTerminal.App.Services
 
         Task ChangeKeyBindings(IEnumerable<KeyBinding> keyBindings);
 
-        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings);
+        Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings, SessionType sessionType);
 
         Task ConnectToSocket(string url);
 

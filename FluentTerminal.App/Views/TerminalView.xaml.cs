@@ -54,7 +54,7 @@ namespace FluentTerminal.App.Views
             StartMediatorTask();
         }
 
-        public event EventHandler<Command> KeyboardCommandReceived;
+        public event EventHandler<string> KeyboardCommandReceived;
 
         public event EventHandler<TerminalSize> TerminalSizeChanged;
 
@@ -91,12 +91,12 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"connectToWebSocket('{url}');");
         }
 
-        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
+        public async Task<TerminalSize> CreateTerminal(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings, SessionType sessionType)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);
             var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
-            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')").ConfigureAwait(true);
+            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}', '{sessionType}')").ConfigureAwait(true);
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 
@@ -135,7 +135,14 @@ namespace FluentTerminal.App.Views
 
         public void OnKeyboardCommand(string command)
         {
-            _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, Enum.Parse<Command>(command, true)));
+            if (Enum.TryParse(command, true, out Command commandValue))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, commandValue.ToString()));
+            }
+            else if (Guid.TryParse(command, out Guid shellProfileId))
+            {
+                _dispatcherJobs.Add(() => KeyboardCommandReceived?.Invoke(this, shellProfileId.ToString()));
+            }
         }
 
         public void OnTerminalResized(int columns, int rows)

@@ -13,7 +13,7 @@ Terminal.applyAddon(search);
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings) {
+function createTerminal(options, theme, keyBindings, sessionType) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -29,6 +29,8 @@ function createTerminal(options, theme, keyBindings) {
   var terminalOptions = {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
+    fontWeight: options.boldText ? 'bold' : 'normal',
+    fontWeightBold: options.boldText ? 'bolder' : 'bold',
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
@@ -55,9 +57,15 @@ function createTerminal(options, theme, keyBindings) {
   });
 
   term.open(terminalContainer);
-  term.winptyCompatInit();
   term.fit();
+
+  if (sessionType === 'WinPty') {
+    term.winptyCompatInit();
+  }
+
   term.focus();
+  
+  setPadding(options.padding);
 
   var resizeTimeout;
   window.onresize = function () {
@@ -82,15 +90,15 @@ function createTerminal(options, theme, keyBindings) {
         && keyBinding.shift == e.shiftKey
         && keyBinding.key == e.keyCode) {
         if (document.visibilityState == 'visible') {
-          if (keyBinding.command == 'copy' && term.getSelection() == '') {
+          if (keyBinding.command == 'Copy' && term.getSelection() == '') {
             return true;
           }
-          if (keyBinding.command == 'clear') {
+          if (keyBinding.command == 'Clear') {
             term.clearSelection();
             term.clear();
             return false;
           }
-          if (keyBinding.command == 'selectAll') {
+          if (keyBinding.command == 'SelectAll') {
             term.selectAll();
             return false;
           }
@@ -137,19 +145,24 @@ function changeOptions(options) {
   term.setOption('cursorStyle', options.cursorStyle);
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
+  term.setOption('fontWeight', options.boldText ? 'bold' : 'normal');
+  term.setOption('fontWeightBold', options.boldText ? 'bolder' : 'bold');
   term.setOption('scrollback', options.scrollBackLimit);
   setScrollBarStyle(options.scrollBarStyle);
+  setPadding(options.padding);
 }
 
 function setScrollBarStyle(scrollBarStyle) {
-  if (scrollBarStyle == 'hidden') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'none';
-  } else if (scrollBarStyle == 'autoHiding') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
-  } else if (scrollBarStyle == 'visible') {
-    document.getElementById('terminal-container').style['-ms-overflow-style'] = 'scrollbar';
+  switch (scrollBarStyle) {
+  	case 'hidden':     return terminalContainer.style['-ms-overflow-style'] = 'none';
+  	case 'autoHiding': return terminalContainer.style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
+  	case 'visible':    return terminalContainer.style['-ms-overflow-style'] = 'scrollbar';
   }
-  
+}
+
+function setPadding(padding) {
+  document.querySelector('.terminal').style.padding = padding + 'px';
+  term.fit();
 }
 
 function changeKeyBindings(keyBindings) {

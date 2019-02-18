@@ -1,6 +1,8 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -15,29 +17,63 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IFileSystemService _fileSystemService;
         private readonly ISettingsService _settingsService;
-        private readonly ShellProfile _shellProfile;
         private string _arguments;
-        private string _fallbackArguments;
-        private string _fallbackLocation;
-        private string _fallbackName;
-        private int _fallbackTabThemeId;
-        private string _fallbackWorkingDirectory;
+        private ShellProfile _fallbackProfile;
         private bool _inEditMode;
         private bool _isDefault;
         private string _location;
+        private LineEndingStyle _lineEndingStyle;
         private string _name;
         private TabTheme _selectedTabTheme;
+        private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
+        private readonly IApplicationView _applicationView;
+        private readonly IDefaultValueProvider _defaultValueProvider;
+        private bool _editingLineEndingStyle;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
         {
-            _shellProfile = shellProfile;
+            Model = shellProfile;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
+            _applicationView = applicationView;
+            _defaultValueProvider = defaultValueProvider;
+
+            _settingsService.ThemeAdded += OnThemeAdded;
+            _settingsService.ThemeDeleted += OnThemeDeleted;
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
+            TerminalThemes = new ObservableCollection<TerminalTheme>();
+            TerminalThemes.Add(new TerminalTheme
+            {
+                Id = Guid.Empty,
+                Name = "Default"
+            });
+            foreach (var theme in _settingsService.GetThemes())
+            {
+                TerminalThemes.Add(theme);
+            }
+
+            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), _dialogService, string.Empty, false);
+
+            InitializeViewModelProperties(shellProfile);
+
+            SetDefaultCommand = new RelayCommand(SetDefault);
+            DeleteCommand = new AsyncCommand(Delete, CanDelete);
+            EditCommand = new RelayCommand(Edit);
+            CancelEditCommand = new AsyncCommand(CancelEdit);
+            SaveChangesCommand = new RelayCommand(SaveChanges);
+            AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
+            BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
+            BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
+        }
+
+        private void InitializeViewModelProperties(ShellProfile shellProfile)
+        {
+            SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == shellProfile.TerminalThemeId);
             Id = shellProfile.Id;
             Name = shellProfile.Name;
             Arguments = shellProfile.Arguments;
@@ -45,14 +81,37 @@ namespace FluentTerminal.App.ViewModels
             WorkingDirectory = shellProfile.WorkingDirectory;
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
+            LineEndingStyle = shellProfile.LineEndingTranslation;
 
-            SetDefaultCommand = new RelayCommand(SetDefault);
-            DeleteCommand = new AsyncCommand(Delete, CanDelete);
-            EditCommand = new RelayCommand(Edit);
-            CancelEditCommand = new AsyncCommand(CancelEdit);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
-            BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
-            BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
+            KeyBindings.Clear();
+            foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+            {
+                KeyBindings.Add(keyBinding);
+            }
+        }
+
+        private void OnThemeAdded(object sender, TerminalTheme e)
+        {
+            _applicationView.RunOnDispatcherThread(() =>
+            {
+                TerminalThemes.Add(e);
+            });
+        }
+
+        private void OnThemeDeleted(object sender, Guid e)
+        {
+            if (SelectedTerminalTheme.Id == e)
+            {
+                _applicationView.RunOnDispatcherThread(() =>
+                {
+                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(x => x.Id == Guid.Empty);
+                    Model.TerminalThemeId = Guid.Empty;
+                    if (_fallbackProfile != null)
+                    {
+                        _fallbackProfile.TerminalThemeId = Guid.Empty;
+                    }
+                });
+            }
         }
 
         public event EventHandler Deleted;
@@ -65,10 +124,14 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand EditCommand { get; }
         public RelayCommand SaveChangesCommand { get; }
         public RelayCommand SetDefaultCommand { get; }
-
+        public IAsyncCommand RestoreDefaultsCommand { get; }
+        public IAsyncCommand AddKeyboardShortcutCommand { get; }
         public ObservableCollection<TabTheme> TabThemes { get; }
+        public KeyBindingsViewModel KeyBindings { get; }
 
-        public bool PreInstalled { get; }
+        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
+        public ShellProfile Model { get; private set; }
+        public bool PreInstalled { get; private set; }
 
         public string Arguments
         {
@@ -76,7 +139,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _arguments, value);
         }
 
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
         public bool InEditMode
         {
@@ -114,23 +177,96 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public TerminalTheme SelectedTerminalTheme
+        {
+            get => _selectedTerminalTheme;
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref _selectedTerminalTheme, value);
+                }
+            }
+        }
+
         public string WorkingDirectory
         {
             get => _workingDirectory;
             set => Set(ref _workingDirectory, value);
         }
 
+        public LineEndingStyle LineEndingStyle
+        {
+            get => _lineEndingStyle;
+            set
+            {
+                if (_lineEndingStyle != value && !_editingLineEndingStyle)
+                {
+                    _editingLineEndingStyle = true;
+                    _lineEndingStyle = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(DoNotModifyIsSelected));
+                    RaisePropertyChanged(nameof(ToCRLFIsSelected));
+                    RaisePropertyChanged(nameof(ToLFIsSelected));
+                    _editingLineEndingStyle = false;
+                }
+            }
+        }
+
+        public bool DoNotModifyIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.DoNotModify;
+            set => LineEndingStyle = LineEndingStyle.DoNotModify;
+        }
+
+        public bool ToCRLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCRLF;
+            set => LineEndingStyle = LineEndingStyle.ToCRLF;
+        }
+
+        public bool ToLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToLF;
+            set => LineEndingStyle = LineEndingStyle.ToLF;
+        }
+
         public void SaveChanges()
         {
-            _shellProfile.Arguments = Arguments;
-            _shellProfile.Location = Location;
-            _shellProfile.Name = Name;
-            _shellProfile.WorkingDirectory = WorkingDirectory;
-            _shellProfile.TabThemeId = SelectedTabTheme.Id;
+            Model.Arguments = Arguments;
+            Model.Location = Location;
+            Model.Name = Name;
+            Model.WorkingDirectory = WorkingDirectory;
+            Model.TabThemeId = SelectedTabTheme.Id;
+            Model.TerminalThemeId = SelectedTerminalTheme.Id;
+            Model.LineEndingTranslation = _lineEndingStyle;
+            Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
+            _settingsService.SaveShellProfile(Model);
 
-            _settingsService.SaveShellProfile(_shellProfile);
-
+            KeyBindings.Editable = false;
             InEditMode = false;
+        }
+
+        private async Task RestoreDefaults()
+        {
+            if (InEditMode || !PreInstalled)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore this profile?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                Model = _defaultValueProvider.GetPreinstalledShellProfiles().FirstOrDefault(x => x.Id == Model.Id);
+                InitializeViewModelProperties(Model);
+                _settingsService.SaveShellProfile(Model);
+            }
+        }
+
+        public Task AddKeyboardShortcut()
+        {
+            return KeyBindings.ShowAddKeyBindingDialog();
         }
 
         private async Task BrowseForCustomShell()
@@ -157,19 +293,29 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
-                Arguments = _fallbackArguments;
-                Location = _fallbackLocation;
-                Name = _fallbackName;
-                WorkingDirectory = _fallbackWorkingDirectory;
-                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackTabThemeId);
+                Arguments = _fallbackProfile.Arguments;
+                Location = _fallbackProfile.Location;
+                Name = _fallbackProfile.Name;
+                WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                LineEndingStyle = _fallbackProfile.LineEndingTranslation;
+                SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
+                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
+                
 
+                KeyBindings.KeyBindings.Clear();
+                foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                {
+                    KeyBindings.Add(keyBinding);
+                }
+
+                KeyBindings.Editable = false;
                 InEditMode = false;
             }
         }
 
         private bool CanDelete()
         {
-            return !_shellProfile.PreInstalled;
+            return !Model.PreInstalled;
         }
 
         private async Task Delete()
@@ -184,11 +330,18 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            _fallbackArguments = _shellProfile.Arguments;
-            _fallbackLocation = _shellProfile.Location;
-            _fallbackName = _shellProfile.Name;
-            _fallbackWorkingDirectory = _shellProfile.WorkingDirectory;
-            _fallbackTabThemeId = _shellProfile.TabThemeId;
+            // todo write copy ctor
+            _fallbackProfile = new ShellProfile
+            {
+                Arguments = Model.Arguments,
+                Location = Model.Location,
+                Name = Model.Name,
+                WorkingDirectory = Model.WorkingDirectory,
+                TabThemeId = Model.TabThemeId,
+                TerminalThemeId = Model.TerminalThemeId
+            };
+
+            KeyBindings.Editable = true;
             InEditMode = true;
         }
 

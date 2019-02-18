@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -14,7 +15,7 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private Dictionary<int, Action<string>> _terminalOutputHandlers;
+        private readonly Dictionary<int, Action<string>> _terminalOutputHandlers;
 
         public event EventHandler<int> TerminalExited;
 
@@ -24,12 +25,15 @@ namespace FluentTerminal.App.Services.Implementation
             _terminalOutputHandlers = new Dictionary<int, Action<string>>();
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile)
+        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
+            
+
             var request = new CreateTerminalRequest
             {
                 Size = size,
-                Profile = shellProfile
+                Profile = shellProfile,
+                SessionType = sessionType
             };
 
             var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
@@ -87,7 +91,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task UpdateToggleWindowKeyBindings()
         {
-            var keyBindings = _settingsService.GetKeyBindings()[Command.ToggleWindow];
+            var keyBindings = _settingsService.GetCommandKeyBindings()[nameof(Command.ToggleWindow)];
 
             var request = new SetToggleWindowKeyBindingsRequest
             {

@@ -28,9 +28,9 @@ namespace FluentTerminal.App.Services.Test
         {
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var response = _fixture.Create<CreateTerminalResponse>();
@@ -42,10 +42,11 @@ namespace FluentTerminal.App.Services.Test
             appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<IDictionary<string, string>>())).Returns(Task.FromResult((IDictionary<string, string>)responseMessage));
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
+            var sessionType = _fixture.Create<SessionType>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile);
+            var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile, sessionType);
 
             result.Should().BeEquivalentTo(response);
         }
@@ -57,9 +58,9 @@ namespace FluentTerminal.App.Services.Test
             var terminalSize = _fixture.Create<TerminalSize>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
@@ -77,9 +78,9 @@ namespace FluentTerminal.App.Services.Test
             var text = _fixture.Create<string>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
@@ -96,9 +97,9 @@ namespace FluentTerminal.App.Services.Test
             var terminalId = _fixture.Create<int>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
@@ -126,9 +127,9 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             var appServiceConnection = new Mock<IAppServiceConnection>();
@@ -163,9 +164,9 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetKeyBindings()).Returns(new Dictionary<Command, ICollection<KeyBinding>>
+            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
             {
-                [Command.ToggleWindow] = keyBindings.ToList()
+                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
             });
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             var appServiceConnection = new Mock<IAppServiceConnection>();

@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using Moq;
@@ -439,12 +440,12 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void GetKeyBindings_KeyBindingsInKeyBindingsContainer_ReturnsKeyBindingsFromKeyBindingsContainer()
         {
-            var keyBindings = _fixture.CreateMany<KeyBinding>(5);
+            var commands = _fixture.CreateMany<Command>(5);
             var defaultValueProvider = Mock.Of<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null)).Returns(new Collection<KeyBinding> { keyBinding });
+                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null)).Returns(new Collection<KeyBinding> { });
             }
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -456,23 +457,23 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
-            var result = settingsService.GetKeyBindings();
+            var result = settingsService.GetCommandKeyBindings();
 
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null), Times.Once);
+                keyBindingsContainer.Verify(x => x.ReadValueFromJson<Collection<KeyBinding>>(command.ToString(), null), Times.Once);
             }
         }
 
         [Fact]
         public void GetKeyBindings_KeyBindingsNotInKeyBindingsContainer_ReturnsKeyBindingsFromDefaultValueProvider()
         {
-            var keyBindings = _fixture.CreateMany<KeyBinding>(5);
+            var commands = _fixture.CreateMany<Command>(5);
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
-            foreach (var keyBinding in keyBindings)
+            foreach (var command in commands)
             {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(keyBinding.Command.ToString(), null)).Returns(new Collection<KeyBinding> { keyBinding });
+                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null)).Returns(new Collection<KeyBinding> { });
             }
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -484,14 +485,10 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
-            var result = settingsService.GetKeyBindings();
+            var result = settingsService.GetCommandKeyBindings();
 
             foreach (Command command in Enum.GetValues(typeof(Command)))
             {
-                if (keyBindings.Select(x => x.Command).Contains(command))
-                {
-                    continue;
-                }
                 defaultValueProvider.Verify(x => x.GetDefaultKeyBindings(command), Times.Once);
             }
         }
@@ -513,7 +510,7 @@ namespace FluentTerminal.App.Services.Test
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
-            settingsService.SaveKeyBindings(command, keyBindings);
+            settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
             keyBindingsContainer.Verify(x => x.WriteValueAsJson(command.ToString(), keyBindings), Times.Once);
         }
@@ -537,7 +534,7 @@ namespace FluentTerminal.App.Services.Test
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             settingsService.KeyBindingsChanged += (s, e) => keyBindingsChangedEventInvoked = true;
 
-            settingsService.SaveKeyBindings(command, keyBindings);
+            settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
             keyBindingsChangedEventInvoked.Should().BeTrue();
         }

@@ -64,6 +64,12 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
+                    Name="CloneButton"
+                    Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
+                    CommandParameter="{x:Bind ViewModel.SelectedTheme, Mode=OneWay}"
+                    Icon="Copy"
+                    Label="Clone" />
+                <AppBarButton
                     Name="EditButton"
                     Command="{x:Bind ViewModel.SelectedTheme.EditCommand, Mode=OneWay}"
                     Icon="Edit"
