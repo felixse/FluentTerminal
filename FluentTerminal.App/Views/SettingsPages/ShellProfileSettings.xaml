@@ -48,6 +48,18 @@
                 </DataTemplate>
             </views:TerminalThemeTemplateSelector.ThemeTemplate>
         </views:TerminalThemeTemplateSelector>
+        <views:TerminalArgumentTemplateSelector x:Key="TerminalArgumentTemplateSelector">
+            <views:TerminalArgumentTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <TextBlock FontStyle="Italic" Text="None" />
+                </DataTemplate>
+            </views:TerminalArgumentTemplateSelector.DefaultTemplate>
+            <views:TerminalArgumentTemplateSelector.ThemeTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <TextBlock Text="{x:Bind}" />
+                </DataTemplate>
+            </views:TerminalArgumentTemplateSelector.ThemeTemplate>
+        </views:TerminalArgumentTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -292,24 +304,28 @@
                                     Header="Shell executable location"
                                     Text="{x:Bind Location, Mode=OneWay}" />
 
-                                <controls:HeaderedTextBlock
+                                <controls:HeaderedContentControl
                                     Margin="0,0,0,24"
-                                    Header="Working directory"
-                                    Text="{x:Bind WorkingDirectory, Mode=OneWay}" />
-
-                                <controls:HeaderedTextBlock
-                                    Margin="0,0,0,24"
-                                    Header="Arguments"
-                                    Text="{x:Bind Arguments, Mode=OneWay}" />
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="Working directory">
+                                    <ContentControl
+                                        Foreground="DarkSlateGray"
+                                        FontSize="18"
+                                        FontWeight="Light"
+                                        Content="{x:Bind WorkingDirectory, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource TerminalArgumentTemplateSelector}" />
+                                </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
                                     Margin="0,0,0,24"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="Theme">
+                                    Header="Arguments">
                                     <ContentControl
-                                        Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTerminalTheme, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}" />
+                                        Foreground="DarkSlateGray"
+                                        FontSize="18"
+                                        FontWeight="Light"
+                                        Content="{x:Bind Arguments, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource TerminalArgumentTemplateSelector}" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
@@ -317,6 +333,9 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Tab color">
                                     <ContentControl
+                                        Foreground="DarkSlateGray"
+                                        FontSize="18"
+                                        FontWeight="Light"
                                         Margin="0,6,0,0"
                                         Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
@@ -327,7 +346,9 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Margin="0,6,0,0"
+                                        Foreground="DarkSlateGray"
+                                        FontSize="18"
+                                        FontWeight="Light"
                                         Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}" />
                                 </controls:HeaderedContentControl>

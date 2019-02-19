@@ -180,6 +180,7 @@
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TerminalArgumentTemplateSelector.cs" />
     <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
