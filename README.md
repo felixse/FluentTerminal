@@ -36,7 +36,12 @@ A Terminal Emulator based on UWP and web technologies.
 ### Prerequisite
 - You need to update to Fall Creators Update or later.
 
-### Automatic install
+### Chocolatey package manager installation
+
+- Install [Chocolatey](https://chocolatey.org/)
+- From an elevated/admin shell, execute `choco install fluent-terminal`
+
+### Bundled install script
 
 - Download and extract the latest [release](https://github.com/felixse/FluentTerminal/releases).
 - If not already present, download [`Install.ps1`](Install.ps1) to the extracted directory.
