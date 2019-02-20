@@ -48,18 +48,18 @@
                 </DataTemplate>
             </views:TerminalThemeTemplateSelector.ThemeTemplate>
         </views:TerminalThemeTemplateSelector>
-        <views:TerminalArgumentTemplateSelector x:Key="TerminalArgumentTemplateSelector">
-            <views:TerminalArgumentTemplateSelector.DefaultTemplate>
+        <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
+            <views:NoValueTemplateSelector.DefaultTemplate>
                 <DataTemplate x:DataType="x:String">
                     <TextBlock FontStyle="Italic" Text="None" />
                 </DataTemplate>
-            </views:TerminalArgumentTemplateSelector.DefaultTemplate>
-            <views:TerminalArgumentTemplateSelector.ThemeTemplate>
+            </views:NoValueTemplateSelector.DefaultTemplate>
+            <views:NoValueTemplateSelector.CustomTemplate>
                 <DataTemplate x:DataType="x:String">
                     <TextBlock Text="{x:Bind}" />
                 </DataTemplate>
-            </views:TerminalArgumentTemplateSelector.ThemeTemplate>
-        </views:TerminalArgumentTemplateSelector>
+            </views:NoValueTemplateSelector.CustomTemplate>
+        </views:NoValueTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -309,11 +309,10 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Working directory">
                                     <ContentControl
-                                        Foreground="DarkSlateGray"
                                         FontSize="18"
                                         FontWeight="Light"
                                         Content="{x:Bind WorkingDirectory, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource TerminalArgumentTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
@@ -321,11 +320,10 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Arguments">
                                     <ContentControl
-                                        Foreground="DarkSlateGray"
                                         FontSize="18"
                                         FontWeight="Light"
                                         Content="{x:Bind Arguments, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource TerminalArgumentTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
@@ -333,7 +331,6 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Tab color">
                                     <ContentControl
-                                        Foreground="DarkSlateGray"
                                         FontSize="18"
                                         FontWeight="Light"
                                         Margin="0,6,0,0"
@@ -346,7 +343,6 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Foreground="DarkSlateGray"
                                         FontSize="18"
                                         FontWeight="Light"
                                         Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
