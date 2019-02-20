@@ -194,8 +194,10 @@
                             </TextBlock>
 
                             <TextBlock
+                                Margin="0,0,0,24"
                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="{x:Bind Author, Mode=OneWay}"
+                                FontSize="14"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind Foreground, Mode=OneWay}" />
@@ -236,7 +238,6 @@
                                 </Grid.Resources>
                                 <TextBlock
                                     Grid.Row="0"
-                                    Margin="0,6,0,0"
                                     Text="Color palette" />
                                 <TextBlock
                                     Grid.Row="1"
