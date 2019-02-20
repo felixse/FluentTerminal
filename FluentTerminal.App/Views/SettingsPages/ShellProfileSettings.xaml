@@ -48,6 +48,21 @@
                 </DataTemplate>
             </views:TerminalThemeTemplateSelector.ThemeTemplate>
         </views:TerminalThemeTemplateSelector>
+        <views:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
+            <views:TerminalKeybindTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                    <TextBlock FontStyle="Italic" Text="None" />
+                </DataTemplate>
+            </views:TerminalKeybindTemplateSelector.DefaultTemplate>
+            <views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                    <views:KeyBindingsView
+                        Margin="0,6,0,0"
+                        ShowCommandName="False"
+                        ViewModel="{x:Bind}" />
+                </DataTemplate>
+            </views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+        </views:TerminalKeybindTemplateSelector>
         <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
             <views:NoValueTemplateSelector.DefaultTemplate>
                 <DataTemplate x:DataType="x:String">
@@ -290,8 +305,8 @@
                                         VerticalAlignment="Center"
                                         Text="Keyboard shortcut" />
                                     <HyperlinkButton Command="{x:Bind AddKeyboardShortcutCommand}" Content="Add" />
+                                    <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                                 </StackPanel>
-                                <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                             </StackPanel>
                             <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock
@@ -353,10 +368,11 @@
                                     Margin="0,0,0,24"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Keyboard shortcut">
-                                    <views:KeyBindingsView
-                                        Margin="0,6,0,0"
-                                        ShowCommandName="False"
-                                        ViewModel="{x:Bind KeyBindings}" />
+                                    <ContentControl
+                                        FontSize="18"
+                                        FontWeight="Light"
+                                        Content="{x:Bind KeyBindings, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource TerminalKeybindTemplateSelector}" />
                                 </controls:HeaderedContentControl>
                             </StackPanel>
                         </Grid>
