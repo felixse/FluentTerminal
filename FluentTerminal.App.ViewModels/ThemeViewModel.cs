@@ -29,9 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private string _cursor;
         private string _cursorAccent;
         private string _cyan;
-        private string _fallBackAuthor;
-        private TerminalColors _fallBackColors;
-        private string _fallBackName;
+        private TerminalTheme _fallbackTheme;
         private string _foreground;
         private string _green;
         private bool _inEditMode;
@@ -312,37 +310,76 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-                if (result == DialogButton.OK)
+                TerminalTheme changedTheme = new TerminalTheme()
                 {
-                    Black = _fallBackColors.Black;
-                    Red = _fallBackColors.Red;
-                    Green = _fallBackColors.Green;
-                    Yellow = _fallBackColors.Yellow;
-                    Blue = _fallBackColors.Blue;
-                    Magenta = _fallBackColors.Magenta;
-                    Cyan = _fallBackColors.Cyan;
-                    White = _fallBackColors.White;
+                    Name = Name,
+                    Author = Author,
+                    Colors = new TerminalColors()
+                    {
+                        Black = Black,
+                        Red = Red,
+                        Green = Green,
+                        Yellow = Yellow,
+                        Blue = Blue,
+                        Magenta = Magenta,
+                        Cyan = Cyan,
+                        White = White,
 
-                    BrightBlack = _fallBackColors.BrightBlack;
-                    BrightRed = _fallBackColors.BrightRed;
-                    BrightGreen = _fallBackColors.BrightGreen;
-                    BrightYellow = _fallBackColors.BrightYellow;
-                    BrightBlue = _fallBackColors.BrightBlue;
-                    BrightMagenta = _fallBackColors.BrightMagenta;
-                    BrightCyan = _fallBackColors.BrightCyan;
-                    BrightWhite = _fallBackColors.BrightWhite;
+                        BrightBlack = BrightBlack,
+                        BrightRed = BrightRed,
+                        BrightGreen = BrightGreen,
+                        BrightYellow = BrightYellow,
+                        BrightBlue = BrightBlue,
+                        BrightMagenta = BrightMagenta,
+                        BrightCyan = BrightCyan,
+                        BrightWhite = BrightWhite,
 
-                    Background = _fallBackColors.Background;
-                    Foreground = _fallBackColors.Foreground;
-                    Cursor = _fallBackColors.Cursor;
-                    CursorAccent = _fallBackColors.CursorAccent;
-                    Selection = _fallBackColors.Selection;
+                        Background = Background,
+                        Foreground = Foreground,
+                        Cursor = Cursor,
+                        CursorAccent = CursorAccent,
+                        Selection = Selection
+                    }
+                };
 
-                    Name = _fallBackName;
-                    Author = _fallBackAuthor;
+                if (!_fallbackTheme.Equals(changedTheme))
+                {
+                    var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
+                    if (result == DialogButton.OK)
+                    {
+                        Black = _fallbackTheme.Colors.Black;
+                        Red = _fallbackTheme.Colors.Red;
+                        Green = _fallbackTheme.Colors.Green;
+                        Yellow = _fallbackTheme.Colors.Yellow;
+                        Blue = _fallbackTheme.Colors.Blue;
+                        Magenta = _fallbackTheme.Colors.Magenta;
+                        Cyan = _fallbackTheme.Colors.Cyan;
+                        White = _fallbackTheme.Colors.White;
+
+                        BrightBlack = _fallbackTheme.Colors.BrightBlack;
+                        BrightRed = _fallbackTheme.Colors.BrightRed;
+                        BrightGreen = _fallbackTheme.Colors.BrightGreen;
+                        BrightYellow = _fallbackTheme.Colors.BrightYellow;
+                        BrightBlue = _fallbackTheme.Colors.BrightBlue;
+                        BrightMagenta = _fallbackTheme.Colors.BrightMagenta;
+                        BrightCyan = _fallbackTheme.Colors.BrightCyan;
+                        BrightWhite = _fallbackTheme.Colors.BrightWhite;
+
+                        Background = _fallbackTheme.Colors.Background;
+                        Foreground = _fallbackTheme.Colors.Foreground;
+                        Cursor = _fallbackTheme.Colors.Cursor;
+                        CursorAccent = _fallbackTheme.Colors.CursorAccent;
+                        Selection = _fallbackTheme.Colors.Selection;
+
+                        Name = _fallbackTheme.Name;
+                        Author = _fallbackTheme.Author;
+
+                        InEditMode = false;
+                    }
+                }
+                else
+                {
                     InEditMode = false;
                 }
             }
@@ -365,9 +402,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            _fallBackColors = new TerminalColors(Model.Colors);
-            _fallBackName = Name;
-            _fallBackAuthor = Author;
+            _fallbackTheme = new TerminalTheme(Model);
             InEditMode = true;
         }
 
