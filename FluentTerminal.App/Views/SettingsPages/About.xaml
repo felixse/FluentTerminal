@@ -60,9 +60,10 @@
 
                     <StackPanel Margin="0,24,0,0">
                         <TextBlock Margin="0,0,0,8" Text="Latest version" />
-                        <TextBlock Visibility="{x:Bind ViewModel.LatestVersionLoading, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
-                            <Italic>loading...</Italic>
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.LatestVersionLoading, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                            <ProgressRing Margin="0,0,8,0" IsActive="True"/>
+                            <TextBlock><Italic>Checking for updates...</Italic></TextBlock>
+                        </StackPanel>
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionNotFound, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                             <Italic>Not found</Italic>
                         </TextBlock>
