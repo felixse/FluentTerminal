@@ -38,6 +38,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _isActive;
         private string _magenta;
         private string _name;
+        private bool _isNew;
         private string _red;
         private string _selection;
         private string _white;
@@ -46,12 +47,13 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler<string> BackgroundChanged;
 
-        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService)
+        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, bool isNew)
         {
             Model = theme;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
+            _isNew = isNew;
 
             Name = Model.Name;
             Author = Model.Author;
@@ -299,42 +301,50 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.SaveTheme(Model);
 
             InEditMode = false;
+            _isNew = false;
         }
 
         private async Task CancelEdit()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
+            if (_isNew)
             {
-                Black = _fallBackColors.Black;
-                Red = _fallBackColors.Red;
-                Green = _fallBackColors.Green;
-                Yellow = _fallBackColors.Yellow;
-                Blue = _fallBackColors.Blue;
-                Magenta = _fallBackColors.Magenta;
-                Cyan = _fallBackColors.Cyan;
-                White = _fallBackColors.White;
+                await Delete();
+            }
+            else
+            {
+                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
-                BrightBlack = _fallBackColors.BrightBlack;
-                BrightRed = _fallBackColors.BrightRed;
-                BrightGreen = _fallBackColors.BrightGreen;
-                BrightYellow = _fallBackColors.BrightYellow;
-                BrightBlue = _fallBackColors.BrightBlue;
-                BrightMagenta = _fallBackColors.BrightMagenta;
-                BrightCyan = _fallBackColors.BrightCyan;
-                BrightWhite = _fallBackColors.BrightWhite;
+                if (result == DialogButton.OK)
+                {
+                    Black = _fallBackColors.Black;
+                    Red = _fallBackColors.Red;
+                    Green = _fallBackColors.Green;
+                    Yellow = _fallBackColors.Yellow;
+                    Blue = _fallBackColors.Blue;
+                    Magenta = _fallBackColors.Magenta;
+                    Cyan = _fallBackColors.Cyan;
+                    White = _fallBackColors.White;
 
-                Background = _fallBackColors.Background;
-                Foreground = _fallBackColors.Foreground;
-                Cursor = _fallBackColors.Cursor;
-                CursorAccent = _fallBackColors.CursorAccent;
-                Selection = _fallBackColors.Selection;
+                    BrightBlack = _fallBackColors.BrightBlack;
+                    BrightRed = _fallBackColors.BrightRed;
+                    BrightGreen = _fallBackColors.BrightGreen;
+                    BrightYellow = _fallBackColors.BrightYellow;
+                    BrightBlue = _fallBackColors.BrightBlue;
+                    BrightMagenta = _fallBackColors.BrightMagenta;
+                    BrightCyan = _fallBackColors.BrightCyan;
+                    BrightWhite = _fallBackColors.BrightWhite;
 
-                Name = _fallBackName;
-                Author = _fallBackAuthor;
+                    Background = _fallBackColors.Background;
+                    Foreground = _fallBackColors.Foreground;
+                    Cursor = _fallBackColors.Cursor;
+                    CursorAccent = _fallBackColors.CursorAccent;
+                    Selection = _fallBackColors.Selection;
 
-                InEditMode = false;
+                    Name = _fallBackName;
+                    Author = _fallBackAuthor;
+
+                    InEditMode = false;
+                }
             }
         }
 
