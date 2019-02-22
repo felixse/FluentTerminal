@@ -289,28 +289,48 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
+            ShellProfile changedProfile = new ShellProfile
             {
-                Arguments = _fallbackProfile.Arguments;
-                Location = _fallbackProfile.Location;
-                Name = _fallbackProfile.Name;
-                WorkingDirectory = _fallbackProfile.WorkingDirectory;
-                LineEndingStyle = _fallbackProfile.LineEndingTranslation;
-                SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
-                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
-                
+                Arguments = Arguments,
+                Location = Location,
+                Name = Name,
+                WorkingDirectory = WorkingDirectory,
+                TabThemeId = SelectedTabTheme.Id,
+                TerminalThemeId = SelectedTerminalTheme.Id,
+                LineEndingTranslation = _lineEndingStyle,
+                KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
+            };
 
-                KeyBindings.KeyBindings.Clear();
-                foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+            if (!_fallbackProfile.Equals(changedProfile))
+            {
+                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+                if (result == DialogButton.OK)
                 {
-                    KeyBindings.Add(keyBinding);
-                }
+                    Arguments = _fallbackProfile.Arguments;
+                    Location = _fallbackProfile.Location;
+                    Name = _fallbackProfile.Name;
+                    WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                    LineEndingStyle = _fallbackProfile.LineEndingTranslation;
+                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
+                    SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
+                    KeyBindings.KeyBindings.Clear();
+                    foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                    {
+                        KeyBindings.Add(keyBinding);
+                    }
+
+                    KeyBindings.Editable = false;
+                    InEditMode = false;
+                }
+            }
+            else
+            {
                 KeyBindings.Editable = false;
                 InEditMode = false;
             }
+
         }
 
         private bool CanDelete()
