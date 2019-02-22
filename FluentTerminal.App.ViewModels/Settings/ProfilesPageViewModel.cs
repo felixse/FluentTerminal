@@ -32,7 +32,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             var defaultShellProfileId = _settingsService.GetDefaultShellProfileId();
             foreach (var shellProfile in _settingsService.GetShellProfiles())
             {
-                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, applicationView, defaultValueProvider);
+                var viewModel = new ShellProfileViewModel(shellProfile, settingsService, dialogService, fileSystemService, applicationView, defaultValueProvider, false);
                 viewModel.Deleted += OnShellProfileDeleted;
                 viewModel.SetAsDefault += OnShellProfileSetAsDefault;
 
@@ -112,7 +112,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             _settingsService.SaveShellProfile(shellProfile, true);
 
-            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView, _defaultValueProvider);
+            var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView, _defaultValueProvider, true);
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnShellProfileSetAsDefault;
             viewModel.Deleted += OnShellProfileDeleted;

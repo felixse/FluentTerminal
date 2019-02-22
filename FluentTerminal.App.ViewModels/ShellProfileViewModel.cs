@@ -24,6 +24,7 @@ namespace FluentTerminal.App.ViewModels
         private string _location;
         private LineEndingStyle _lineEndingStyle;
         private string _name;
+        private bool _isNew;
         private TabTheme _selectedTabTheme;
         private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
@@ -31,7 +32,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDefaultValueProvider _defaultValueProvider;
         private bool _editingLineEndingStyle;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider, Boolean isNew)
         {
             Model = shellProfile;
             _settingsService = settingsService;
@@ -39,6 +40,7 @@ namespace FluentTerminal.App.ViewModels
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
             _defaultValueProvider = defaultValueProvider;
+            _isNew = isNew;
 
             _settingsService.ThemeAdded += OnThemeAdded;
             _settingsService.ThemeDeleted += OnThemeDeleted;
@@ -245,6 +247,7 @@ namespace FluentTerminal.App.ViewModels
 
             KeyBindings.Editable = false;
             InEditMode = false;
+            _isNew = false;
         }
 
         private async Task RestoreDefaults()
@@ -289,48 +292,54 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            ShellProfile changedProfile = new ShellProfile
+            if (_isNew)
             {
-                Arguments = Arguments,
-                Location = Location,
-                Name = Name,
-                WorkingDirectory = WorkingDirectory,
-                TabThemeId = SelectedTabTheme.Id,
-                TerminalThemeId = SelectedTerminalTheme.Id,
-                LineEndingTranslation = _lineEndingStyle,
-                KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
-            };
-
-            if (!_fallbackProfile.Equals(changedProfile))
+                await Delete();
+            }
+            else
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-                if (result == DialogButton.OK)
+                ShellProfile changedProfile = new ShellProfile
                 {
-                    Arguments = _fallbackProfile.Arguments;
-                    Location = _fallbackProfile.Location;
-                    Name = _fallbackProfile.Name;
-                    WorkingDirectory = _fallbackProfile.WorkingDirectory;
-                    LineEndingStyle = _fallbackProfile.LineEndingTranslation;
-                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
-                    SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
+                    Arguments = Arguments,
+                    Location = Location,
+                    Name = Name,
+                    WorkingDirectory = WorkingDirectory,
+                    TabThemeId = SelectedTabTheme.Id,
+                    TerminalThemeId = SelectedTerminalTheme.Id,
+                    LineEndingTranslation = _lineEndingStyle,
+                    KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
+                };
 
-                    KeyBindings.KeyBindings.Clear();
-                    foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                if (!_fallbackProfile.Equals(changedProfile))
+                {
+                    var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+                    if (result == DialogButton.OK)
                     {
-                        KeyBindings.Add(keyBinding);
-                    }
+                        Arguments = _fallbackProfile.Arguments;
+                        Location = _fallbackProfile.Location;
+                        Name = _fallbackProfile.Name;
+                        WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                        LineEndingStyle = _fallbackProfile.LineEndingTranslation;
+                        SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
+                        SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
+                        KeyBindings.KeyBindings.Clear();
+                        foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                        {
+                            KeyBindings.Add(keyBinding);
+                        }
+
+                        KeyBindings.Editable = false;
+                        InEditMode = false;
+                    }
+                }
+                else
+                {
                     KeyBindings.Editable = false;
                     InEditMode = false;
                 }
             }
-            else
-            {
-                KeyBindings.Editable = false;
-                InEditMode = false;
-            }
-
         }
 
         private bool CanDelete()
