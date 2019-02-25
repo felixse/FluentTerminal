@@ -10,6 +10,7 @@ namespace FluentTerminal.App.ViewModels.Utilities
         private readonly Timer _timer = new Timer();
         private readonly Func<string, Task> _writeCallback;
         private readonly List<string> _buffer = new List<string>();
+        private readonly object _lock = new object();
 
         public InputBuffer(Func<string, Task> writeCallback)
         {
@@ -22,14 +23,20 @@ namespace FluentTerminal.App.ViewModels.Utilities
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            var data = string.Concat(_buffer);
-            _buffer.Clear();
-            _writeCallback.Invoke(data);
+            lock (_lock)
+            {
+                var data = string.Concat(_buffer);
+                _buffer.Clear();
+                _writeCallback.Invoke(data);
+            }
         }
 
         public void Write(string data)
         {
-            _buffer.Add(data);
+            lock (_lock)
+            {
+                _buffer.Add(data);
+            }
         }
     }
 }
