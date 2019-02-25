@@ -28,7 +28,7 @@ namespace FluentTerminal.Models
             if (obj is TerminalTheme other)
             {
                 return other.Name.Equals(Name)
-                    && other.Author.Equals(Author)
+                    && other.Author == null ? Author == null : other.Author.Equals(Author)
                     && other.Colors.Equals(Colors);
             }
             return false;
