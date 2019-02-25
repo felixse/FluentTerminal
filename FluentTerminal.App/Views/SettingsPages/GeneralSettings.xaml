@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,0,0,24">
+        <Grid Grid.Row="1" Margin="24,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -34,9 +34,9 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <StackPanel>
-                <StackPanel Margin="0,0,0,24">
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="{StaticResource ContainerMargin}">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <ToggleSwitch
                         Header="Run on startup"
                         IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
@@ -47,17 +47,15 @@
                         Visibility="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,24">
-                    <ToggleSwitch
-                        Header="Show in system tray"
-                        IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <ToggleSwitch Header="Show in system tray" IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
                     <TextBlock
                         Foreground="Red"
                         Text="Relaunch required to apply setting"
                         Visibility="{x:Bind ViewModel.ShouldRestartForTrayMessage, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
                     <RadioButton
                         Content="Tabs"
@@ -69,7 +67,7 @@
                         IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
                     <RadioButton
                         Content="Top"
@@ -82,16 +80,16 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Always show tabs"
                     IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Underline selected tab"
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Color on inactive tabs" />
                     <RadioButton
                         Content="Background"
@@ -104,22 +102,22 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing windows"
                     IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing tabs"
                     IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Windows 10 1809+: Always use WinPty"
                     IsOn="{x:Bind ViewModel.AlwaysUseWinPty, Mode=TwoWay}" />
             </StackPanel>

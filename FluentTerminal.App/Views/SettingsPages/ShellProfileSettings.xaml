@@ -90,10 +90,7 @@
             Grid.RowSpan="3"
             Grid.Column="0"
             Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
-        <Grid
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="0,0,0,24">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -157,7 +154,7 @@
             Grid.Row="2"
             Grid.Column="0"
             VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Margin="{StaticResource ItemMargin}">
                 <ListView ItemsSource="{x:Bind ViewModel.ShellProfiles}" SelectedItem="{x:Bind ViewModel.SelectedShellProfile, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
@@ -208,24 +205,26 @@
         <ScrollViewer
             Grid.Row="2"
             Grid.Column="1"
-            Margin="24,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalScrollBarVisibility="Auto">
-            <ContentControl HorizontalContentAlignment="Stretch" Content="{x:Bind ViewModel.SelectedShellProfile, Mode=OneWay}">
+            <ContentControl
+                Margin="{StaticResource ContainerMargin}"
+                HorizontalContentAlignment="Stretch"
+                Content="{x:Bind ViewModel.SelectedShellProfile, Mode=OneWay}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate x:DataType="viewmodels:ShellProfileViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
+                            <StackPanel Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                 <TextBox
                                     Width="300"
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
                                     Header="Name"
                                     IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                <StackPanel Margin="0,0,0,24" Orientation="Horizontal">
+                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
                                         Header="Shell executable location"
@@ -241,7 +240,7 @@
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
 
-                                <StackPanel Margin="0,0,0,24" Orientation="Horizontal">
+                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
                                         Header="Working directory"
@@ -258,7 +257,7 @@
 
                                 <TextBox
                                     Width="300"
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
                                     Header="Arguments"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
@@ -267,7 +266,7 @@
 
                                 <ComboBox
                                     Width="150"
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
@@ -276,14 +275,14 @@
 
                                 <ComboBox
                                     Width="150"
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     Header="Theme"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                     ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
                                     SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
 
-                                <StackPanel Margin="0,0,0,24">
+                                <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock Margin="0,0,0,8" Text="Line ending translation mode on paste" />
                                     <RadioButton
                                         Content="Do not modify line endings"
@@ -299,7 +298,7 @@
                                         IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
                                 </StackPanel>
 
-                                <StackPanel Margin="0,0,0,24">
+                                <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock
                                         Margin="0,0,6,0"
                                         VerticalAlignment="Center"
@@ -308,71 +307,71 @@
                                     <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Margin="0,0,24,0" Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                            <StackPanel Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                     Text="{x:Bind Name, Mode=OneWay}" />
 
                                 <controls:HeaderedTextBlock
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     Header="Shell executable location"
                                     Text="{x:Bind Location, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Working directory">
                                     <ContentControl
-                                        FontSize="18"
-                                        FontWeight="Light"
                                         Content="{x:Bind WorkingDirectory, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Arguments">
                                     <ContentControl
-                                        FontSize="18"
-                                        FontWeight="Light"
                                         Content="{x:Bind Arguments, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Tab color">
                                     <ContentControl
-                                        FontSize="18"
-                                        FontWeight="Light"
                                         Margin="0,6,0,0"
                                         Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        FontSize="18"
-                                        FontWeight="Light"
                                         Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
-                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    Margin="0,0,0,24"
+                                    Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Keyboard shortcut">
                                     <ContentControl
-                                        FontSize="18"
-                                        FontWeight="Light"
                                         Content="{x:Bind KeyBindings, Mode=OneWay}"
-                                        ContentTemplateSelector="{StaticResource TerminalKeybindTemplateSelector}" />
+                                        ContentTemplateSelector="{StaticResource TerminalKeybindTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
                             </StackPanel>
                         </Grid>

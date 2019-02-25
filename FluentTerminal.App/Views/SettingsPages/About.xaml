@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,0,0,24">
+        <Grid Grid.Row="1" Margin="24,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -35,8 +35,8 @@
                     Label="Check for updates" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <Grid>
+        <ScrollViewer Grid.Row="2">
+            <Grid Margin="{StaticResource ContainerMargin}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -45,43 +45,46 @@
                     <Image
                         MaxWidth="106"
                         MaxHeight="106"
-                        Margin="24,0,24,0"
+                        Margin="{StaticResource ItemMargin}"
                         HorizontalAlignment="Left"
                         Source="/Assets/AppIcons/Square106x106Logo.black.png"
                         Stretch="None" />
 
-                    <StackPanel Margin="0,24,0,0">
+                    <StackPanel Margin="{StaticResource ItemMargin}">
                         <TextBlock Margin="0,0,0,8" Text="Current version" />
                         <TextBlock>
-                            <Run Text="{x:Bind ViewModel.CurrentVersion}" /> -
-                            <Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink>
+                            <Run Text="{x:Bind ViewModel.CurrentVersion}" />
+                            -<Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink>
                         </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Margin="0,24,0,0">
+                    <StackPanel Margin="{StaticResource ItemMargin}">
                         <TextBlock Margin="0,0,0,8" Text="Latest version" />
                         <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.LatestVersionLoading, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
-                            <ProgressRing Margin="0,0,8,0" IsActive="True"/>
+                            <ProgressRing Margin="0,0,8,0" IsActive="True" />
                             <TextBlock><Italic>Checking for updates...</Italic></TextBlock>
                         </StackPanel>
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionNotFound, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                             <Italic>Not found</Italic>
                         </TextBlock>
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionFound, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
-                            <Run Text="{x:Bind ViewModel.LatestVersion, Mode=OneWay}" /> -
-                            <Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL, Mode=OneWay}">Release notes</Hyperlink>
+                            <Run Text="{x:Bind ViewModel.LatestVersion, Mode=OneWay}" />
+                            -<Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL, Mode=OneWay}">Release notes</Hyperlink>
                         </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Margin="0,24,0,0">
+                    <StackPanel Margin="{StaticResource ItemMargin}">
                         <TextBlock Margin="0,0,0,8" Text="License" />
                         <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Row="1" Margin="0,72,0,24" VerticalAlignment="Bottom">
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,72,0,0"
+                    VerticalAlignment="Bottom">
                     <TextBlock>
-                        Created by <Italic>felixse</Italic>
-                        and <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink>
+                        Created by<Italic>felixse</Italic>
+                        and<Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink>
                     </TextBlock>
                 </StackPanel>
             </Grid>

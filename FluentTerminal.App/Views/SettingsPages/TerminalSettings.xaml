@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,0,0,24">
+        <Grid Grid.Row="1" Margin="24,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -38,30 +38,30 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <StackPanel>
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ComboBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
                     SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
 
                 <ComboBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Bold text"
                     IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
 
                 <Slider
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Background opacity"
                     Maximum="1"
@@ -71,7 +71,7 @@
 
                 <Slider
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Padding"
                     Maximum="64"
@@ -82,18 +82,18 @@
 
                 <TextBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Scrollback limit"
                     KeyDown="ScrollBackTextBoxOnKeyDown"
                     Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Cursor style" />
                     <RadioButton
                         Content="Block"
@@ -109,7 +109,7 @@
                         IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Scrollbar style" />
                     <RadioButton
                         Content="Hidden"

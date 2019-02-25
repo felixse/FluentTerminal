@@ -28,10 +28,7 @@
             Grid.RowSpan="3"
             Grid.Column="0"
             Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
-        <Grid
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="0,0,0,24">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -103,7 +100,7 @@
             Grid.Row="2"
             Grid.Column="0"
             VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Margin="{StaticResource ItemMargin}">
                 <ListView ItemsSource="{x:Bind ViewModel.Themes}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:ThemeViewModel">
@@ -175,16 +172,16 @@
         <ContentControl
             Grid.Row="2"
             Grid.Column="1"
-            Margin="24,0,0,0"
             HorizontalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
             RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <ContentControl.ContentTemplate>
                 <DataTemplate x:DataType="viewmodels:ThemeViewModel">
-                    <ScrollViewer Padding="0,0,24,0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <!-- VIEW THEME -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="{StaticResource ContainerMargin}">
+                            <!--  VIEW THEME  -->
                             <TextBlock
+                                Margin="{StaticResource ItemMargin}"
                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="{x:Bind Name, Mode=OneWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
@@ -194,20 +191,20 @@
                             </TextBlock>
 
                             <TextBlock
-                                Margin="0,0,0,24"
+                                Margin="{StaticResource ItemMargin}"
+                                FontSize="14"
                                 Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="{x:Bind Author, Mode=OneWay}"
-                                FontSize="14"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind Foreground, Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
 
-                            <!-- EDIT THEME -->
+                            <!--  EDIT THEME  -->
                             <TextBox
                                 Width="200"
-                                Margin="0,0,0,24"
+                                Margin="{StaticResource ItemMargin}"
                                 HorizontalAlignment="Left"
                                 Header="Name"
                                 Text="{x:Bind Name, Mode=TwoWay}"
@@ -215,13 +212,13 @@
 
                             <TextBox
                                 Width="200"
-                                Margin="0,0,0,24"
+                                Margin="{StaticResource ItemMargin}"
                                 HorizontalAlignment="Left"
                                 Header="Author"
                                 Text="{x:Bind Author, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
 
-                            <Grid Margin="0,0,0,24">
+                            <Grid Margin="{StaticResource ItemMargin}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
@@ -236,16 +233,14 @@
                                         <Setter Property="Height" Value="24" />
                                     </Style>
                                 </Grid.Resources>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Text="Color palette" />
+                                <TextBlock Grid.Row="0" Text="Color palette" />
                                 <TextBlock
                                     Grid.Row="1"
-                                    Foreground="LightGray"
                                     Margin="0,0,0,8"
-                                    Text="Click on a color to edit"
                                     FontSize="14"
                                     FontStyle="Italic"
+                                    Foreground="LightGray"
+                                    Text="Click on a color to edit"
                                     Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                                 <StackPanel Grid.Row="2" Orientation="Horizontal">
                                     <views:TerminalColorPicker

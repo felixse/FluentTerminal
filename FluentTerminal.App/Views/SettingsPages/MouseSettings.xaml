@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,0,0,24">
+        <Grid Grid.Row="1" Margin="24,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -35,14 +35,14 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <StackPanel>
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Copy on select"
                     IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Middle button action" />
                     <RadioButton
                         Content="Nothing"
@@ -58,7 +58,7 @@
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,24">
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <TextBlock Margin="0,0,0,8" Text="Right button action" />
                     <RadioButton
                         Content="Nothing"
