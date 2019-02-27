@@ -60,7 +60,9 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(false));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(true));
+
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
 
@@ -102,7 +104,7 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler Closed;
 
-        public event EventHandler NewWindowRequested;
+        public event EventHandler<ProfileSelectEventArgs> NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
 
@@ -213,9 +215,12 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseCommand.Execute(null);
         }
 
-        private void NewWindow()
+        private void NewWindow(bool showProfileSelection)
         {
-            NewWindowRequested?.Invoke(this, EventArgs.Empty);
+            ProfileSelectEventArgs args = new ProfileSelectEventArgs();
+            args.ShowProfileSelection = showProfileSelection;
+
+            NewWindowRequested?.Invoke(this, args);
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)

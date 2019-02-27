@@ -4,6 +4,7 @@ using FluentTerminal.App.Dialogs;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
@@ -119,7 +120,7 @@ namespace FluentTerminal.App
                         }
                         else
                         {
-                            await CreateNewTerminalWindow(parameter).ConfigureAwait(true);
+                            await CreateNewTerminalWindow(parameter, false).ConfigureAwait(true);
                         }
                     }
                 }
@@ -151,7 +152,7 @@ namespace FluentTerminal.App
             }
             else if (_mainViewModels.Count == 0)
             {
-                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty).ConfigureAwait(true);
+                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, false, string.Empty).ConfigureAwait(true);
             }
         }
 
@@ -212,13 +213,13 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        private async Task CreateNewTerminalWindow(string startupDirectory)
+        private async Task CreateNewTerminalWindow(string startupDirectory, bool showProfileSelection)
         {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory).ConfigureAwait(true);
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, showProfileSelection, startupDirectory).ConfigureAwait(true);
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
-        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter)
+        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, bool showProfileSelection, object parameter)
         {
             int windowId = 0;
             TViewModel viewModel = default;
@@ -242,7 +243,7 @@ namespace FluentTerminal.App
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                 _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory, false, Guid.Empty).ConfigureAwait(true);
+                await mainViewModel.AddTerminal(directory, showProfileSelection, Guid.Empty).ConfigureAwait(true);
             }
 
             if (viewModel is SettingsViewModel settingsViewModel)
@@ -271,9 +272,9 @@ namespace FluentTerminal.App
             }
         }
 
-        private async void OnNewWindowRequested(object sender, EventArgs e)
+        private async void OnNewWindowRequested(object sender, ProfileSelectEventArgs e)
         {
-            await CreateNewTerminalWindow(string.Empty).ConfigureAwait(true);
+            await CreateNewTerminalWindow(string.Empty, e.ShowProfileSelection).ConfigureAwait(true);
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)
@@ -303,7 +304,7 @@ namespace FluentTerminal.App
         {
             if (_settingsViewModel == null)
             {
-                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null).ConfigureAwait(true);
+                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, false, null).ConfigureAwait(true);
             }
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
         }
