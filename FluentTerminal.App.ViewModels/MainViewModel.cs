@@ -182,13 +182,20 @@ namespace FluentTerminal.App.ViewModels
 
                     if (profile == null)
                     {
+                        if (Terminals.Count == 0)
+                        {
+                            Closed?.Invoke(this, EventArgs.Empty);
+                            _applicationView.TryClose();
+                        }
+
                         return;
                     }
                 }
                 else if (profileId == Guid.Empty)
                 {
                     profile = _settingsService.GetDefaultShellProfile();
-                } else
+                }
+                else
                 {
                     profile = _settingsService.GetShellProfile(profileId);
                 }
