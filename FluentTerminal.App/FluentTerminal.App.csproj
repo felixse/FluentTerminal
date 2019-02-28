@@ -113,6 +113,7 @@
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
+    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
@@ -175,10 +176,12 @@
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
+    <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
     <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NoValueTemplateSelector.cs" />
     <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
