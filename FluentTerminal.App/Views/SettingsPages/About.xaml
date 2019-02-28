@@ -82,10 +82,7 @@
                     Grid.Row="1"
                     Margin="0,72,0,0"
                     VerticalAlignment="Bottom">
-                    <TextBlock>
-                        Created by<Italic>felixse</Italic>
-                        and<Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/graphs/contributors">contributors</Hyperlink>
-                    </TextBlock>
+                    <TextBlock x:Name="CreatedBy" />
                 </StackPanel>
             </Grid>
         </ScrollViewer>
