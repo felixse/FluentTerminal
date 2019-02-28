@@ -104,7 +104,7 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler Closed;
 
-        public event EventHandler<ProfileSelectEventArgs> NewWindowRequested;
+        public event EventHandler<NewWindowRequestedEventArgs> NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
 
@@ -224,8 +224,10 @@ namespace FluentTerminal.App.ViewModels
 
         private void NewWindow(bool showProfileSelection)
         {
-            ProfileSelectEventArgs args = new ProfileSelectEventArgs();
-            args.ShowProfileSelection = showProfileSelection;
+            var args = new NewWindowRequestedEventArgs
+            {
+                ShowProfileSelection = showProfileSelection
+            };
 
             NewWindowRequested?.Invoke(this, args);
         }

@@ -272,7 +272,7 @@ namespace FluentTerminal.App
             }
         }
 
-        private async void OnNewWindowRequested(object sender, ProfileSelectEventArgs e)
+        private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
             await CreateNewTerminalWindow(string.Empty, e.ShowProfileSelection).ConfigureAwait(true);
         }
