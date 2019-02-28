@@ -156,6 +156,19 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.ConfigurableNewWindow:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ConfigurableNewWindow),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.N
+                    }
+                };
+
                 case Command.ShowSettings:
                     return new List<KeyBinding>
                 {

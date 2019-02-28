@@ -60,7 +60,9 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), NewWindow);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(false));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(true));
+
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
 
@@ -102,7 +104,7 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler Closed;
 
-        public event EventHandler NewWindowRequested;
+        public event EventHandler<NewWindowRequestedEventArgs> NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
 
@@ -180,13 +182,20 @@ namespace FluentTerminal.App.ViewModels
 
                     if (profile == null)
                     {
+                        if (Terminals.Count == 0)
+                        {
+                            Closed?.Invoke(this, EventArgs.Empty);
+                            _applicationView.TryClose();
+                        }
+
                         return;
                     }
                 }
                 else if (profileId == Guid.Empty)
                 {
                     profile = _settingsService.GetDefaultShellProfile();
-                } else
+                }
+                else
                 {
                     profile = _settingsService.GetShellProfile(profileId);
                 }
@@ -213,9 +222,14 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseCommand.Execute(null);
         }
 
-        private void NewWindow()
+        private void NewWindow(bool showProfileSelection)
         {
-            NewWindowRequested?.Invoke(this, EventArgs.Empty);
+            var args = new NewWindowRequestedEventArgs
+            {
+                ShowProfileSelection = showProfileSelection
+            };
+
+            NewWindowRequested?.Invoke(this, args);
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
