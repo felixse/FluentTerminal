@@ -1,5 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Thickness x:Key="HeaderMargin">24,0,0,0</Thickness>
+    <Thickness x:Key="ContainerMargin">24,0,24,24</Thickness>
+    <Thickness x:Key="ItemMargin">0,24,0,0</Thickness>
+
     <Style
         x:Key="WindowTitleTextBlockStyle"
         BasedOn="{StaticResource CaptionTextBlockStyle}"

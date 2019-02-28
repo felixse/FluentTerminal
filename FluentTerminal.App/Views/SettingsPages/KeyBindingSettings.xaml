@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,0,0,0">
+        <Grid Grid.Row="1" Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -42,11 +42,11 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,24,0,0">
-            <ItemsControl ItemsSource="{x:Bind ViewModel.KeyBindings, Mode=OneWay}">
+        <ScrollViewer Grid.Row="2">
+            <ItemsControl Margin="{StaticResource ContainerMargin}" ItemsSource="{x:Bind ViewModel.KeyBindings, Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                        <views:KeyBindingsView Margin="0,0,0,24" ViewModel="{x:Bind}" />
+                        <views:KeyBindingsView Margin="{StaticResource ItemMargin}" ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

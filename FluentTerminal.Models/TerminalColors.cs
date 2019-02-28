@@ -56,5 +56,34 @@
             BrightCyan = other.BrightCyan;
             BrightWhite = other.BrightWhite;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TerminalColors other)
+            {
+                return other.Foreground.Equals(Foreground)
+                    && other.Background.Equals(Background)
+                    && other.Cursor.Equals(Cursor)
+                    && other.CursorAccent.Equals(CursorAccent)
+                    && other.Selection.Equals(Selection)
+                    && other.Black.Equals(Black)
+                    && other.Red.Equals(Red)
+                    && other.Green.Equals(Green)
+                    && other.Yellow.Equals(Yellow)
+                    && other.Blue.Equals(Blue)
+                    && other.Magenta.Equals(Magenta)
+                    && other.Cyan.Equals(Cyan)
+                    && other.White.Equals(White)
+                    && other.BrightBlack.Equals(BrightBlack)
+                    && other.BrightRed.Equals(BrightRed)
+                    && other.BrightGreen.Equals(BrightGreen)
+                    && other.BrightYellow.Equals(BrightYellow)
+                    && other.BrightBlue.Equals(BrightBlue)
+                    && other.BrightMagenta.Equals(BrightMagenta)
+                    && other.BrightCyan.Equals(BrightCyan)
+                    && other.BrightWhite.Equals(BrightWhite);
+            }
+            return false;
+        }
     }
 }

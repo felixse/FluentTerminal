@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,00,0,24">
+        <Grid Grid.Row="1" Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -38,36 +38,40 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <StackPanel>
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ComboBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
                     SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
+
                 <ComboBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
+
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Bold text"
                     IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
+
                 <Slider
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Background opacity"
                     Maximum="1"
                     Minimum="0"
                     StepFrequency="0.01"
                     Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
+
                 <Slider
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Padding"
                     Maximum="64"
@@ -75,44 +79,51 @@
                     StepFrequency="1"
                     ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}"
                     Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
+
                 <TextBox
                     Width="200"
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
                     Header="Scrollback limit"
                     KeyDown="ScrollBackTextBoxOnKeyDown"
                     Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
                 <ToggleSwitch
-                    Margin="0,0,0,24"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
-                <TextBlock Margin="0,0,0,8" Text="Cursor style" />
-                <RadioButton
-                    Content="Block"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Underline"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Bar"
-                    GroupName="Cursor"
-                    IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
 
-                <TextBlock Margin="0,24,0,8" Text="Scrollbar style" />
-                <RadioButton
-                    Content="Hidden"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Auto hiding"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                    Content="Visible"
-                    GroupName="ScrollBar"
-                    IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <TextBlock Margin="0,0,0,8" Text="Cursor style" />
+                    <RadioButton
+                        Content="Block"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Underline"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Bar"
+                        GroupName="Cursor"
+                        IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <TextBlock Margin="0,0,0,8" Text="Scrollbar style" />
+                    <RadioButton
+                        Content="Hidden"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Auto hiding"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Visible"
+                        GroupName="ScrollBar"
+                        IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

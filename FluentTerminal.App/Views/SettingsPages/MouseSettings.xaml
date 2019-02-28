@@ -6,14 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Margin="24,00,0,24">
+        <Grid Grid.Row="1" Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -36,40 +35,44 @@
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
-        <ScrollViewer Grid.Row="2" Margin="24,0,0,0">
-            <StackPanel>
+        <ScrollViewer Grid.Row="2">
+            <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ToggleSwitch
-                Margin="0,0,0,24"
-                Header="Copy on select"
-                IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
-                <TextBlock Margin="0,0,0,8" Text="Middle button action" />
-                <RadioButton
-                Content="Nothing"
-                GroupName="MiddleButton"
-                IsChecked="{x:Bind ViewModel.MouseMiddleClickNoneIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                Content="Context menu"
-                GroupName="MiddleButton"
-                IsChecked="{x:Bind ViewModel.MouseMiddleClickContextMenuIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                Margin="0,0,0,24"
-                Content="Paste"
-                GroupName="MiddleButton"
-                IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
-                <TextBlock Margin="0,0,0,8" Text="Right button action" />
-                <RadioButton
-                Content="Nothing"
-                GroupName="RightButton"
-                IsChecked="{x:Bind ViewModel.MouseRightClickNoneIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                Content="Context menu"
-                GroupName="RightButton"
-                IsChecked="{x:Bind ViewModel.MouseRightClickContextMenuIsSelected, Mode=TwoWay}" />
-                <RadioButton
-                Margin="0,0,0,24"
-                Content="Paste"
-                GroupName="RightButton"
-                IsChecked="{x:Bind ViewModel.MouseRightClickPasteIsSelected, Mode=TwoWay}" />
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Copy on select"
+                    IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
+
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <TextBlock Margin="0,0,0,8" Text="Middle button action" />
+                    <RadioButton
+                        Content="Nothing"
+                        GroupName="MiddleButton"
+                        IsChecked="{x:Bind ViewModel.MouseMiddleClickNoneIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Context menu"
+                        GroupName="MiddleButton"
+                        IsChecked="{x:Bind ViewModel.MouseMiddleClickContextMenuIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Paste"
+                        GroupName="MiddleButton"
+                        IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <TextBlock Margin="0,0,0,8" Text="Right button action" />
+                    <RadioButton
+                        Content="Nothing"
+                        GroupName="RightButton"
+                        IsChecked="{x:Bind ViewModel.MouseRightClickNoneIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Context menu"
+                        GroupName="RightButton"
+                        IsChecked="{x:Bind ViewModel.MouseRightClickContextMenuIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        Content="Paste"
+                        GroupName="RightButton"
+                        IsChecked="{x:Bind ViewModel.MouseRightClickPasteIsSelected, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

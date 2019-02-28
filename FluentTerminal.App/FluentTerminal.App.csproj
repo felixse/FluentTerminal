@@ -176,10 +176,12 @@
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
+    <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
     <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NoValueTemplateSelector.cs" />
     <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>

@@ -23,5 +23,19 @@
         public bool Alt { get; set; }
         public bool Shift { get; set; }
         public bool Meta { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is KeyBinding other)
+            {
+                return other.Command.Equals(Command)
+                    && other.Key == Key
+                    && other.Ctrl == Ctrl
+                    && other.Alt == Alt
+                    && other.Shift == Shift
+                    && other.Meta == Meta;
+            }
+            return false;
+        }
     }
 }

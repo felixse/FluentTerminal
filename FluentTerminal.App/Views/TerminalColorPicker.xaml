@@ -9,10 +9,10 @@
     mc:Ignorable="d">
     <Button
         x:Name="Root"
+        Background="{x:Bind ButtonBackground, Mode=OneWay}"
         IsEnabled="{x:Bind EnableEditing, Mode=OneWay}"
         Style="{StaticResource ColorPreviewButtonStyle}"
-        ToolTipService.ToolTip="{x:Bind ColorName}"
-        Background="{x:Bind ButtonBackground, Mode=OneWay}">
+        ToolTipService.ToolTip="{x:Bind ColorName}">
         <!--<Button.Background>
             <SolidColorBrush Color="{x:Bind VisibleColor, Mode=OneWay}" />
         </Button.Background>-->
