@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using System;
+using FluentTerminal.Models.Responses;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -110,7 +111,17 @@ namespace FluentTerminal.SystemTray.Services
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
                 _terminalsManager.CloseTerminal(request.TerminalId);
-            }           
+            }
+            else if (messageType == nameof(GetAvailablePortRequest))
+            {
+                var deferral = args.GetDeferral();
+
+                var response = new GetAvailablePortResponse { Port = Utilities.GetAvailablePort().Value };
+
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
+            }
         }
 
         private ValueSet CreateMessage(object content)

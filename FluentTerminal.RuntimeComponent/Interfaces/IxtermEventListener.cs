@@ -2,7 +2,7 @@
 
 namespace FluentTerminal.RuntimeComponent.Interfaces
 {
-    public interface ITerminalEventListener
+    public interface IxtermEventListener
     {
         void OnTerminalResized(int columns, int rows);
 

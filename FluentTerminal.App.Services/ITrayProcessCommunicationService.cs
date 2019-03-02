@@ -12,7 +12,7 @@ namespace FluentTerminal.App.Services
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
-        Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
+        Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
 
         Task ResizeTerminal(int id, TerminalSize size);
 
@@ -23,5 +23,7 @@ namespace FluentTerminal.App.Services
         void SubscribeForTerminalOutput(int terminalId, Action<string> callback);
 
         Task CloseTerminal(int terminalId);
+        Task<GetAvailablePortResponse> GetAvailablePort();
+        int GetNextTerminalId();
     }
 }

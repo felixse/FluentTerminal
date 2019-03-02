@@ -12,6 +12,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         private Terminal _terminal;
 
         public int Id { get; private set; }
+
         public string ShellExecutableName { get; private set; }
 
         public event EventHandler ConnectionClosed;
@@ -28,16 +29,9 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            Id = request.Id;
             _terminalsManager = terminalsManager;
 
-            var port = Utilities.GetAvailablePort();
-
-            if (port == null)
-            {
-                throw new Exception("no port available");
-            }
-
-            Id = port.Value;
             ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
             var cwd = GetWorkingDirectory(request.Profile);
             string args = $"\"{request.Profile.Location}\" {request.Profile.Arguments}";

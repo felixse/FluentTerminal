@@ -19,6 +19,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            Id = request.Id;
             _terminalsManager = terminalsManager;
 
             var configHandle = IntPtr.Zero;
@@ -61,15 +62,6 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 winpty_spawn_config_free(spawnConfigHandle);
                 winpty_error_free(errorHandle);
             }
-
-            var port = Utilities.GetAvailablePort();
-
-            if (port == null)
-            {
-                throw new Exception("no port available");
-            }
-
-            Id = port.Value;
 
             ListenToStdOut();
         }

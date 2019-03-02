@@ -59,7 +59,6 @@ namespace FluentTerminal.SystemTray.Services
             return new CreateTerminalResponse
             {
                 Success = true,
-                Id = terminal.Id,
                 ShellExecutableName = terminal.ShellExecutableName
             };
         }
