@@ -187,6 +187,9 @@
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VtNetCoreTerminalView.xaml.cs">
+      <DependentUpon>VtNetCoreTerminalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\XtermTerminalView.xaml.cs">
       <DependentUpon>XtermTerminalView.xaml</DependentUpon>
     </Compile>
@@ -354,6 +357,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VtNetCoreTerminalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\XtermTerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -377,6 +384,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="VtNetCore">
+      <Version>1.0.15</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
