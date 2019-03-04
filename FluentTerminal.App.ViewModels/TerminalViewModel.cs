@@ -357,7 +357,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {
-                NewOutput = true;
+                ApplicationView.RunOnDispatcherThread(() => NewOutput = true);
             }
         }
 
