@@ -13,7 +13,16 @@ namespace FluentTerminal.App.Services
         public Terminal(ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
             Id = _trayProcessCommunicationService.GetNextTerminalId();
+        }
+
+        private void OnTerminalExited(object sender, int e)
+        {
+            if (e == Id)
+            {
+                Closed?.Invoke(this, System.EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -29,7 +38,7 @@ namespace FluentTerminal.App.Services
         /// <summary>
         /// to be observed by view
         /// </summary>
-        public event EventHandler<string> OutputReceived;
+        public event EventHandler<byte[]> OutputReceived;
 
         /// <summary>
         /// to be observed by viewmodel
@@ -118,9 +127,9 @@ namespace FluentTerminal.App.Services
             }
         }
 
-        public Task Write(string text)
+        public Task Write(byte[] data)
         {
-            return _trayProcessCommunicationService.WriteText(Id, text);
+            return _trayProcessCommunicationService.Write(Id, data);
         }
     }
 }

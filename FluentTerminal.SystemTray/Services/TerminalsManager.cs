@@ -25,7 +25,7 @@ namespace FluentTerminal.SystemTray.Services
             _settingsService = settingsService;
         }
 
-        public void DisplayTerminalOutput(int terminalId, string output)
+        public void DisplayTerminalOutput(int terminalId, byte[] output)
         {
             DisplayOutputRequested?.Invoke(this, new DisplayTerminalOutputRequest
             {
@@ -63,11 +63,11 @@ namespace FluentTerminal.SystemTray.Services
             };
         }
 
-        public void WriteText(int id, string text)
+        public void Write(int id, byte[] data)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
-                terminal.WriteText(text);
+                terminal.Write(data);
             }
         }
 

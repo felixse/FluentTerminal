@@ -18,9 +18,9 @@ namespace FluentTerminal.App.Services
 
         Task UpdateToggleWindowKeyBindings();
 
-        Task WriteText(int terminalId, string text);
+        Task Write(int terminalId, byte[] data);
 
-        void SubscribeForTerminalOutput(int terminalId, Action<string> callback);
+        void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback);
 
         Task CloseTerminal(int terminalId);
         Task<GetAvailablePortResponse> GetAvailablePort();

@@ -102,10 +102,10 @@ namespace FluentTerminal.SystemTray.Services
 
                 _toggleWindowService.SetHotKeys(request.KeyBindings);
             }
-            else if (messageType == nameof(WriteTextRequest))
+            else if (messageType == nameof(WriteDataRequest))
             {
-                var request = JsonConvert.DeserializeObject<WriteTextRequest>(messageContent);
-                _terminalsManager.WriteText(request.TerminalId, request.Text);
+                var request = JsonConvert.DeserializeObject<WriteDataRequest>(messageContent);
+                _terminalsManager.Write(request.TerminalId, request.Data);
             }
             else if (messageType == nameof(TerminalExitedRequest))
             {

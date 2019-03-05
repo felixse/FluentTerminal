@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
@@ -303,7 +304,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_Closed(object sender, EventArgs e)
         {
-            Closed?.Invoke(this, EventArgs.Empty);
+            ApplicationView.RunOnDispatcherThread(() => Closed?.Invoke(this, EventArgs.Empty));
         }
 
         private async void Terminal_KeyboardCommandReceived(object sender, string e)
@@ -322,7 +323,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.TranslateLineEndings(content);
-                            await Terminal.Write(content).ConfigureAwait(true);
+                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
                         }
                         break;
                     }
@@ -332,7 +333,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
-                            await Terminal.Write(content).ConfigureAwait(true);
+                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
                         }
                         break;
                     }
@@ -353,7 +354,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private void Terminal_OutputReceived(object sender, string e)
+        private void Terminal_OutputReceived(object sender, byte[] e)
         {
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {

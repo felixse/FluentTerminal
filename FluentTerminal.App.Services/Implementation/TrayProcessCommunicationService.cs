@@ -14,7 +14,7 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private readonly Dictionary<int, Action<string>> _terminalOutputHandlers;
+        private readonly Dictionary<int, Action<byte[]>> _terminalOutputHandlers;
         private int _nextTerminalId = 0;
 
         public event EventHandler<int> TerminalExited;
@@ -22,7 +22,7 @@ namespace FluentTerminal.App.Services.Implementation
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _terminalOutputHandlers = new Dictionary<int, Action<string>>();
+            _terminalOutputHandlers = new Dictionary<int, Action<byte[]>>();
         }
 
         public int GetNextTerminalId()
@@ -97,7 +97,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public void SubscribeForTerminalOutput(int terminalId, Action<string> callback)
+        public void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback)
         {
             _terminalOutputHandlers[terminalId] = callback;
         }
@@ -114,12 +114,12 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public Task WriteText(int id, string text)
+        public Task Write(int id, byte[] data)
         {
-            var request = new WriteTextRequest
+            var request = new WriteDataRequest
             {
                 TerminalId = id,
-                Text = text
+                Data = data
             };
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));

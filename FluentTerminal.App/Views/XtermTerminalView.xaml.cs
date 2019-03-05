@@ -14,6 +14,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -221,9 +222,9 @@ namespace FluentTerminal.App.Views
             webSocketServer.Start(socket =>
             {
                 _webSocket = socket;
-                _buffer = new InputBuffer(_webSocket.Send);
+                _buffer = new InputBuffer(data => _webSocket.Send(Encoding.UTF8.GetString(data)));
                 socket.OnOpen = () => _connectedEvent.Set();
-                socket.OnMessage = message => ViewModel.Terminal.Write(message);
+                socket.OnMessage = message => ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(message));
             });
 
             await ExecuteScriptAsync($"connectToWebSocket('{webSocketUrl}');").ConfigureAwait(true);
@@ -272,7 +273,7 @@ namespace FluentTerminal.App.Views
         {
             _dispatcherJobs = new BlockingCollection<Action>();
             var dispatcher = CoreApplication.GetCurrentView().CoreWindow.Dispatcher;
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
                 foreach (var job in _dispatcherJobs.GetConsumingEnumerable())
                 {
@@ -285,21 +286,23 @@ namespace FluentTerminal.App.Views
                         Debug.WriteLine(e);
                     }
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         private async void Terminal_Closed(object sender, EventArgs e)
         {
-            ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
-            ViewModel.Terminal.Closed -= Terminal_Closed;
-            _webView?.Navigate(new Uri("about:blank"));
-            _webView = null;
-            await ViewModel.Terminal.Close().ConfigureAwait(true);
+            await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
+            {
+                ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
+                ViewModel.Terminal.Closed -= Terminal_Closed;
+                _webView?.Navigate(new Uri("about:blank"));
+                _webView = null;
+            });
         }
 
-        private void Terminal_OutputReceived(object sender, string e)
+        private void Terminal_OutputReceived(object sender, byte[] e)
         {
-            _webSocket.Send(e);
+            _buffer.Write(e);
         }
 
         private async void XtermTerminalView_GotFocus(object sender, RoutedEventArgs e)
