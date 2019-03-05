@@ -179,7 +179,7 @@ namespace FluentTerminal.App.Services.Test
 
             appServiceConnection.Raise(x => x.MessageReceived += null, null, message);
 
-            //receivedOutput.Should().Be(output);
+            receivedOutput.Should().BeEquivalentTo(output);
         }
     }
 }
