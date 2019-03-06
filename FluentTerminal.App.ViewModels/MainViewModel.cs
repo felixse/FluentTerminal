@@ -279,7 +279,6 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                terminal.Close();
                 if (SelectedTerminal == terminal)
                 {
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
