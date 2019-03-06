@@ -62,11 +62,11 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private async void OnWindowActivated(object sender, WindowActivatedEventArgs e)
+        private void OnWindowActivated(object sender, WindowActivatedEventArgs e)
         {
             if (e.WindowActivationState != CoreWindowActivationState.Deactivated && TerminalContainer.Content is TerminalView terminal)
             {
-                await terminal.FocusWebView().ConfigureAwait(true);
+                terminal.ViewModel.FocusTerminal();
             }
         }
 

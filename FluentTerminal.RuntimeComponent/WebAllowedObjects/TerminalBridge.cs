@@ -7,9 +7,9 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
     [AllowForWeb]
     public sealed class TerminalBridge
     {
-        private readonly ITerminalEventListener _terminalEventListener;
+        private readonly IxtermEventListener _terminalEventListener;
 
-        public TerminalBridge(ITerminalEventListener terminalEventListener)
+        public TerminalBridge(IxtermEventListener terminalEventListener)
         {
             _terminalEventListener = terminalEventListener;
         }

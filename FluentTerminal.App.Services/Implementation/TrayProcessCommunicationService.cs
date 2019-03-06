@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -15,22 +14,36 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private readonly Dictionary<int, Action<string>> _terminalOutputHandlers;
+        private readonly Dictionary<int, Action<byte[]>> _terminalOutputHandlers;
+        private int _nextTerminalId = 0;
 
         public event EventHandler<int> TerminalExited;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _terminalOutputHandlers = new Dictionary<int, Action<string>>();
+            _terminalOutputHandlers = new Dictionary<int, Action<byte[]>>();
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
+        public int GetNextTerminalId()
         {
-            
+            return _nextTerminalId++;
+        }
 
+        public async Task<GetAvailablePortResponse> GetAvailablePort()
+        {
+            var request = new GetAvailablePortRequest();
+
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+
+            return JsonConvert.DeserializeObject<GetAvailablePortResponse>(responseMessage[MessageKeys.Content]);
+        }
+
+        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
+        {
             var request = new CreateTerminalRequest
             {
+                Id = id,
                 Size = size,
                 Profile = shellProfile,
                 SessionType = sessionType
@@ -84,7 +97,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public void SubscribeForTerminalOutput(int terminalId, Action<string> callback)
+        public void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback)
         {
             _terminalOutputHandlers[terminalId] = callback;
         }
@@ -101,12 +114,12 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public Task WriteText(int id, string text)
+        public Task Write(int id, byte[] data)
         {
-            var request = new WriteTextRequest
+            var request = new WriteDataRequest
             {
                 TerminalId = id,
-                Text = text
+                Data = data
             };
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));

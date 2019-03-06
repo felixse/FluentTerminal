@@ -213,7 +213,7 @@ namespace FluentTerminal.App.ViewModels
         {
             foreach (var terminal in Terminals)
             {
-                terminal.CloseView();
+                terminal.Close();
             }
         }
 
@@ -279,7 +279,6 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                terminal.CloseView();
                 if (SelectedTerminal == terminal)
                 {
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);

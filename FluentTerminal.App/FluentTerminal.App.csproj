@@ -183,8 +183,12 @@
     </Compile>
     <Compile Include="Views\NoValueTemplateSelector.cs" />
     <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
+    <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XtermTerminalView.xaml.cs">
+      <DependentUpon>XtermTerminalView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TerminalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XtermTerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
