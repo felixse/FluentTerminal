@@ -16,7 +16,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
     public sealed class Terminal : IDisposable
     {
         private SafeFileHandle _consoleInputPipeWriteHandle;
-        private StreamWriter _consoleInputWriter;
+        private FileStream _consoleInputWriter;
         private PseudoConsolePipe _inputPipe;
         private PseudoConsolePipe _outputPipe;
         private PseudoConsole _pseudoConsole;
@@ -89,10 +89,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
                 // Store input pipe handle, and a writer for later reuse
                 _consoleInputPipeWriteHandle = _inputPipe.WriteSide;
-                _consoleInputWriter = new StreamWriter(new FileStream(_consoleInputPipeWriteHandle, FileAccess.Write))
-                {
-                    AutoFlush = true
-                };
+                _consoleInputWriter = new FileStream(_consoleInputPipeWriteHandle, FileAccess.Write);
 
                 // free resources in case the console is ungracefully closed (e.g. by the 'x' in the window titlebar)
                 OnClose(() => DisposeResources(process, _pseudoConsole, _outputPipe, _inputPipe, _consoleInputWriter));
@@ -110,14 +107,10 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// <summary>
         /// Sends the given string to the anonymous pipe that writes to the active pseudoconsole.
         /// </summary>
-        /// <param name="input">A string of characters to write to the console. Supports VT-100 codes.</param>
-        public void WriteToPseudoConsole(string input)
+        public void WriteToPseudoConsole(byte[] data)
         {
-            if (_consoleInputWriter == null)
-            {
-                throw new InvalidOperationException("There is no writer attached to a pseudoconsole. Have you called Start on this instance yet?");
-            }
-            _consoleInputWriter.Write(input);
+            _consoleInputWriter.Write(data, 0, data.Length);
+            _consoleInputWriter.Flush();
         }
 
         /// <summary>

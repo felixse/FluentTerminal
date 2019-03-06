@@ -13,7 +13,7 @@ namespace FluentTerminal.SystemTray.Services
 
         void Close();
         void Resize(TerminalSize size);
-        void WriteText(string text);
+        void Write(byte[] data);
         void Start(CreateTerminalRequest request, TerminalsManager terminalsManager);
     }
 }

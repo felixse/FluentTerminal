@@ -1,8 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.SystemTray.Services.ConPty
 {
@@ -10,8 +11,10 @@ namespace FluentTerminal.SystemTray.Services.ConPty
     {
         private TerminalsManager _terminalsManager;
         private Terminal _terminal;
+        private bool _exited;
 
         public int Id { get; private set; }
+
         public string ShellExecutableName { get; private set; }
 
         public event EventHandler ConnectionClosed;
@@ -28,16 +31,9 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            Id = request.Id;
             _terminalsManager = terminalsManager;
 
-            var port = Utilities.GetAvailablePort();
-
-            if (port == null)
-            {
-                throw new Exception("no port available");
-            }
-
-            Id = port.Value;
             ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
             var cwd = GetWorkingDirectory(request.Profile);
             string args = $"\"{request.Profile.Location}\" {request.Profile.Arguments}";
@@ -50,6 +46,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         private void _terminal_Exited(object sender, EventArgs e)
         {
+            _exited = true;
             Close();
         }
 
@@ -69,34 +66,32 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         private void ListenToStdOut()
         {
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
-                var reader = new StreamReader(_terminal.ConsoleOutStream);
-
-                do
+                using (var reader = new StreamReader(_terminal.ConsoleOutStream))
                 {
-                    var offset = 0;
-                    var buffer = new char[1024];
-                    var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset).ConfigureAwait(false);
-
-                    if (readChars > 0)
+                    do
                     {
-                        var output = new String(buffer, 0, readChars);
-                        _terminalsManager.DisplayTerminalOutput(Id, output);
+                        var buffer = new byte[1024];
+                        var readBytes = await _terminal.ConsoleOutStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+
+                        if (readBytes > 0)
+                        {
+                            _terminalsManager.DisplayTerminalOutput(Id, buffer);
+                        }
                     }
+                    while (!_exited);
                 }
-                while (!reader.EndOfStream);
-            });
-
-
+            }, TaskCreationOptions.LongRunning);
         }
 
-        public void WriteText(string text)
+        public void Write(byte[] data)
         {
-            _terminal.WriteToPseudoConsole(text);
+            _terminal.WriteToPseudoConsole(data);
         }
 
         #region IDisposable Support
+
         private bool disposedValue = false;
 
         private void Dispose(bool disposing)
@@ -116,6 +111,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         {
             Dispose(true);
         }
-        #endregion
+
+        #endregion IDisposable Support
     }
 }

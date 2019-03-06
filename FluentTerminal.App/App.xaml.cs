@@ -49,6 +49,8 @@ namespace FluentTerminal.App
 
             InitializeComponent();
 
+            UnhandledException += OnUnhandledException;
+
             var applicationDataContainers = new ApplicationDataContainers
             {
                 LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
@@ -91,6 +93,11 @@ namespace FluentTerminal.App
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
+        }
+
+        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Exception.ToString());
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
