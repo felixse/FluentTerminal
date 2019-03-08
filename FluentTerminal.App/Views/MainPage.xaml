@@ -77,9 +77,11 @@
                 </Button.Flyout>
             </Button>
             <RelativePanel
+                Background="{x:Bind ViewModel.SelectedTerminal.TabTheme.Color, Mode=OneWay, Converter={StaticResource ColorResourceKeyFallbackConverter}, ConverterParameter=SystemControlHighlightAccentBrush}"
                 Grid.Column="1"
                 Height="32"
-                HorizontalAlignment="Left">
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch">
                 <RelativePanel.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutSubItem Text="Color">
@@ -170,7 +172,7 @@
                 </RelativePanel.ContextFlyout>
                 <TextBlock
                     Margin="12,8,12,0"
-                    Style="{StaticResource WindowTitleTextBlockStyle}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap"
