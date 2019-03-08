@@ -25,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
         private string _title;
+        private bool _customTitle = false;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
@@ -232,6 +233,7 @@ namespace FluentTerminal.App.ViewModels
             if (result != null)
             {
                 Title = result;
+                _customTitle = true;
             }
         }
 
@@ -370,7 +372,10 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_TitleChanged(object sender, string e)
         {
-            Title = e;
+            if (!_customTitle)
+            {
+                Title = e;
+            }
         }
 
         private async Task TryClose()
