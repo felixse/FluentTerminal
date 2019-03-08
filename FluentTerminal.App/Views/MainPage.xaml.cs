@@ -94,5 +94,15 @@ namespace FluentTerminal.App.Views
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarPadding)));
             }
         }
+
+        private void CloseButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = false;
+        }
+
+        private void OpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = true;
+        }
     }
 }
