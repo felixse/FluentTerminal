@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
@@ -12,7 +13,7 @@ namespace FluentTerminal.App.Converters
         {
             if (value == null)
             {
-                return Application.Current.Resources[(string)parameter];
+                return new SolidColorBrush(Colors.Transparent);
             }
             else if (value is string hex)
             {
