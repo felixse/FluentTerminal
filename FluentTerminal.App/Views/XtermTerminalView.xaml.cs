@@ -1,4 +1,5 @@
 ﻿using Fleck;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
@@ -37,6 +38,7 @@ namespace FluentTerminal.App.Views
         private MenuFlyoutItem _pasteMenuItem;
         private IWebSocketConnection _webSocket;
         private WebView _webView;
+        private DebouncedAction<TerminalOptions> _optionsChanged;
 
         public XtermTerminalView()
         {
@@ -53,6 +55,12 @@ namespace FluentTerminal.App.Views
 
                 return settings;
             };
+
+            _optionsChanged = new DebouncedAction<TerminalOptions>(Dispatcher, TimeSpan.FromMilliseconds(800), async options =>
+            {
+                var serialized = JsonConvert.SerializeObject(options);
+                await ExecuteScriptAsync($"changeOptions('{serialized}')");
+            });
 
             InitializeComponent();
 
@@ -74,8 +82,8 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeOptions(TerminalOptions options)
         {
-            var serialized = JsonConvert.SerializeObject(options);
-            return ExecuteScriptAsync($"changeOptions('{serialized}')");
+            _optionsChanged.Invoke(options);
+            return Task.CompletedTask;
         }
 
         public Task ChangeTheme(TerminalTheme theme)

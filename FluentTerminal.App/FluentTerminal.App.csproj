@@ -138,6 +138,7 @@
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
+    <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>
