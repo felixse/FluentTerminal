@@ -80,7 +80,7 @@
                 Grid.Column="1"
                 IsHitTestVisible="False"
                 Style="{StaticResource WindowTitleTextBlockStyle}"
-                Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
+                Text="{x:Bind ViewModel.SelectedTerminal.TabTitle, Mode=OneWay}"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap"
                 Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
