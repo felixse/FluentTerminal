@@ -319,8 +319,7 @@ namespace FluentTerminal.App
         private async Task StartSystemTray()
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("AppLaunchedParameterGroup").AsTask();
-            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
+            await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }
