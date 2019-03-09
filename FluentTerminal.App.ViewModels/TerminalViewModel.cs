@@ -281,9 +281,9 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private void OnKeyBindingsChanged(object sender, EventArgs e)
+        private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
-            KeyBindingsChanged?.Invoke(this, EventArgs.Empty);
+            await ApplicationView.RunOnDispatcherThread(() => KeyBindingsChanged?.Invoke(this, EventArgs.Empty));
         }
 
         private void OnResizeOverlayTimerFinished(object sender, object e)
@@ -292,9 +292,9 @@ namespace FluentTerminal.App.ViewModels
             ShowResizeOverlay = false;
         }
 
-        private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
-            OptionsChanged?.Invoke(this, e);
+            await ApplicationView.RunOnDispatcherThread(() => OptionsChanged?.Invoke(this, e));
         }
 
         private void SelectTabTheme(string name)
