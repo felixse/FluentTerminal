@@ -173,7 +173,7 @@
                 <TextBlock
                     Margin="12,8,12,0"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.SelectedTerminal.TabTitle, Mode=OneWay}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap"
                     Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />

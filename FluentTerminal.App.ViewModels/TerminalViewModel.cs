@@ -24,7 +24,9 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
-        private string _title;
+        private string _tabTitle;
+        private string _shellTitle;
+        private bool _customTitle = false;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
@@ -120,7 +122,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
-                        ApplicationView.Title = Title ?? string.Empty;
+                        ApplicationView.Title = ShellTitle ?? string.Empty;
                         NewOutput = false;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
@@ -202,14 +204,26 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _terminalTheme, value);
         }
 
-        public string Title
+        public string TabTitle
         {
-            get => _title;
+            get => _tabTitle;
             set
             {
-                if (Set(ref _title, value) && IsSelected)
+                if (Set(ref _tabTitle, value) && IsSelected)
                 {
-                    ApplicationView.Title = Title;
+                    ApplicationView.Title = value;
+                }
+            }
+        }
+
+        public string ShellTitle
+        {
+            get => _shellTitle;
+            set
+            {
+                if (Set(ref _shellTitle, value) && !_customTitle)
+                {
+                    TabTitle = value;
                 }
             }
         }
@@ -231,7 +245,16 @@ namespace FluentTerminal.App.ViewModels
             var result = await DialogService.ShowInputDialogAsync("Edit Title");
             if (result != null)
             {
-                Title = result;
+                if (string.IsNullOrWhiteSpace(result))
+                {
+                    _customTitle = false;
+                    TabTitle = ShellTitle;
+                }
+                else
+                {
+                    _customTitle = true;
+                    TabTitle = result;
+                }
             }
         }
 
@@ -370,7 +393,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_TitleChanged(object sender, string e)
         {
-            Title = e;
+            ShellTitle = e;
         }
 
         private async Task TryClose()
