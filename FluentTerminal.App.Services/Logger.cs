@@ -12,11 +12,6 @@ namespace FluentTerminal.App.Services
 
         }
 
-        ~Logger()
-        {
-            Log.CloseAndFlush();
-        }
-
         public void Initialize(string filePath)
         {
             Log.Logger = new LoggerConfiguration()
