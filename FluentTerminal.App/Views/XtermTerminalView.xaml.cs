@@ -1,4 +1,5 @@
 ﻿using Fleck;
+using FluentTerminal.App.Services;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.ViewModels.Utilities;
@@ -32,13 +33,12 @@ namespace FluentTerminal.App.Views
         private readonly ManualResetEventSlim _connectedEvent;
         private readonly SemaphoreSlim _loaded;
         private bool _alreadyLoaded;
-        private InputBuffer _buffer;
         private MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
         private MenuFlyoutItem _pasteMenuItem;
-        private IWebSocketConnection _webSocket;
         private WebView _webView;
         private DebouncedAction<TerminalOptions> _optionsChanged;
+        private IWebSocketConnection _socket;
 
         public XtermTerminalView()
         {
@@ -143,6 +143,8 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnKeyboardCommand(string command)
         {
+            Logger.Instance.Debug("Received keyboard command: '{command}'", command);
+
             if (Enum.TryParse(command, true, out Command commandValue))
             {
                 _dispatcherJobs.Add(() => ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString()));
@@ -209,6 +211,7 @@ namespace FluentTerminal.App.Views
 
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
+            Logger.Instance.Debug("WebView navigation completed. Target: {uri}", args.Uri);
             _loaded.Release();
         }
 
@@ -225,15 +228,41 @@ namespace FluentTerminal.App.Views
 
         private async Task CreateWebSocketServer(int port)
         {
+            FleckLog.LogAction = (level, message, exception) =>
+            {
+                // todo: send debug to verbose
+                switch (level)
+                {
+                    case LogLevel.Info:
+                        Logger.Instance.Information(message);
+                        break;
+                    case LogLevel.Warn:
+                        Logger.Instance.Warning(message);
+                        break;
+                    case LogLevel.Error:
+                        Logger.Instance.Error(message);
+                        break;
+                }
+                if (exception != null)
+                {
+                    Logger.Instance.Error(exception, "Fleck Exception");
+                }
+            };
+
             var webSocketUrl = "ws://127.0.0.1:" + port;
             var webSocketServer = new WebSocketServer(webSocketUrl);
             webSocketServer.Start(socket =>
             {
-                _webSocket = socket;
-                _buffer = new InputBuffer(data => _webSocket.Send(Encoding.UTF8.GetString(data)));
-                socket.OnOpen = () => _connectedEvent.Set();
+                _socket = socket;
+                socket.OnOpen = () =>
+                {
+                    Logger.Instance.Debug("WebSocket open");
+                    _connectedEvent.Set();
+                };
                 socket.OnMessage = message => ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(message));
             });
+
+            Logger.Instance.Debug("WebSocketServer started. Calling connectToWebSocket() now.");
 
             await ExecuteScriptAsync($"connectToWebSocket('{webSocketUrl}');").ConfigureAwait(true);
         }
@@ -310,7 +339,7 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
-            _buffer.Write(e);
+            _socket.Send(Encoding.UTF8.GetString(e));
         }
 
         private async void XtermTerminalView_GotFocus(object sender, RoutedEventArgs e)
@@ -328,6 +357,8 @@ namespace FluentTerminal.App.Views
             {
                 return;
             }
+
+            Logger.Instance.Debug("XtermTerminalView_Loaded");
 
             if (Root.Children.Any())
             {
@@ -355,7 +386,12 @@ namespace FluentTerminal.App.Views
             };
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
-            _alreadyLoaded = true;
+            
+        }
+
+        void IxtermEventListener.OnError(string error)
+        {
+            Logger.Instance.Error(error);
         }
     }
 }

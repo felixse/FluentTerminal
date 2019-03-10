@@ -126,10 +126,13 @@ function attachTerminal() {
 
 function connectToWebSocket(url) {
   socket = new WebSocket(url);
-  socket.onopen = attachTerminal;
-  socket.onclose = function() {
-    terminalBridge.invokeCommand('CloseTab');
+  socket.onerror = function(event) {
+    terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
+  }
+  socket.onclose = function(event) {
+    terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
   };
+  socket.onopen = attachTerminal;
 }
 
 function changeTheme(theme) {

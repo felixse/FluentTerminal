@@ -5,6 +5,7 @@ using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.SystemTray.Services;
 using GlobalHotKey;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +19,7 @@ namespace FluentTerminal.SystemTray
         private const string MutexName = "FluentTerminalMutex";
 
         [STAThread]
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
             {
@@ -26,6 +27,12 @@ namespace FluentTerminal.SystemTray
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
+                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
+                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
+                Logger.Instance.Initialize(logFile);
+
+                AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
                 var applicationDataContainers = new ApplicationDataContainers
                 {
@@ -78,6 +85,11 @@ namespace FluentTerminal.SystemTray
                 var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
                 eventWaitHandle.Set();
             }
+        }
+
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Instance.Error((Exception)e.ExceptionObject, "Unhandled Exception");
         }
     }
 }
