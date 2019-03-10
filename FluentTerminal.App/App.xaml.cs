@@ -13,6 +13,7 @@ using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -48,6 +49,8 @@ namespace FluentTerminal.App
             _mainViewModels = new List<MainViewModel>();
 
             InitializeComponent();
+
+            UnhandledException += OnUnhandledException;
 
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -91,6 +94,11 @@ namespace FluentTerminal.App
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
+        }
+
+        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            Logger.Instance.Error(e.Exception, "Unhandled Exception");
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -145,6 +153,10 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
+                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
+                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
+                Logger.Instance.Initialize(logFile);
+
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null, false, Guid.Empty).ConfigureAwait(true);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
@@ -312,8 +324,7 @@ namespace FluentTerminal.App
         private async Task StartSystemTray()
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("AppLaunchedParameterGroup").AsTask();
-            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
+            await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }

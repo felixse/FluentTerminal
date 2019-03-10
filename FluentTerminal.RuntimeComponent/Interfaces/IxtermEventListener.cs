@@ -2,7 +2,7 @@
 
 namespace FluentTerminal.RuntimeComponent.Interfaces
 {
-    public interface ITerminalEventListener
+    public interface IxtermEventListener
     {
         void OnTerminalResized(int columns, int rows);
 
@@ -13,5 +13,7 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
         void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection);
 
         void OnSelectionChanged(string selection);
+
+        void OnError(string error);
     }
 }

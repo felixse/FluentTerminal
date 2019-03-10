@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid x:Name="WebViewContainer" Grid.Row="0" />
+        <Grid x:Name="TerminalContainer" Grid.Row="0" />
         <Grid
             Grid.Row="0"
             Margin="12"
@@ -38,7 +38,7 @@
                 Name="SearchTextBox"
                 Width="300"
                 Margin="6,0,6,0"
-                KeyUp="SearchTextBox_KeyUp"
+                KeyUp="OnSearchTextBoxKeyUp"
                 PlaceholderText="Enter search term"
                 RelativePanel.RightOf="SearchLabel"
                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
