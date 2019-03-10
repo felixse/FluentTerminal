@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using CommandLine;
 using FluentTerminal.App.Adapters;
+using FluentTerminal.App.CommandLineArguments;
 using FluentTerminal.App.Dialogs;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Adapters;
@@ -43,6 +45,7 @@ namespace FluentTerminal.App
         private int? _settingsWindowId;
         private IAppServiceConnection _appServiceConnection;
         private BackgroundTaskDeferral _appServiceDeferral;
+        private Parser _commandLineParser;
 
         public App()
         {
@@ -94,66 +97,11 @@ namespace FluentTerminal.App
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
-        }
 
-        static string[] ParseArguments(string args, int len = 3)
-        {
-            string[] arglist = new string[len];
-            int curarg = 0;
-            string current = "";
-            bool inString = false;
-
-            for (int i = 0; i < args.Length; i++)
+            _commandLineParser = new Parser(settings =>
             {
-                if (!inString)
-                {
-                    if (args[i] == '"')
-                    {
-                        inString = true;
-                    }
-                    else if (args[i] == ' ')
-                    {
-                        if (current.Trim() != "")
-                        {
-                            arglist[curarg] = current;
-                            curarg++;
-                            if (curarg >= len) return arglist;
-                        }
-                        current = "";
-                    }
-                    else
-                    {
-                        current += args[i];
-                    }
-                }
-                else
-                {
-                    if (args[i] == '"')
-                    {
-                        if (args[i - 1] != '\\')
-                        {
-                            inString = false;
-                            if (current.Trim() != "")
-                            {
-                                arglist[curarg] = current;
-                                curarg++;
-                                if (curarg >= len) return arglist;
-                            }
-                            current = "";
-                        }
-                        else
-                        {
-                            current += args[i];
-                        }
-                    }
-                    else
-                    {
-                        current += args[i];
-                    }
-                }
-            }
-            if (current.Length > 0) arglist[curarg] = current;
-            return arglist;
+                settings.CaseSensitive = false;
+            });
         }
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -161,7 +109,7 @@ namespace FluentTerminal.App
             Logger.Instance.Error(e.Exception, "Unhandled Exception");
         }
 
-        protected override async void OnActivated(IActivatedEventArgs args)
+        protected override void OnActivated(IActivatedEventArgs args)
         {
             if (args is CommandLineActivatedEventArgs commandLineActivated)
             {
@@ -170,43 +118,41 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                var arguments = ParseArguments(commandLineActivated.Operation.Arguments, 3);
-                var command = arguments[0];
-                var parameter = arguments[1];
-                var additionalArguments = arguments[2];
-
-                if (_alreadyLaunched)
+                _commandLineParser.ParseArguments(commandLineActivated.Operation.Arguments.Split(' '), typeof(NewVerb), typeof(SettingsVerb)).WithParsed(async verb =>
                 {
-                    if (command == "settings")
+                    if (_alreadyLaunched)
                     {
-                        await ShowSettings().ConfigureAwait(true);
-                    }
-                    else if (command == "new")
-                    {
-                        if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
+                        if (verb is SettingsVerb)
                         {
-                            await _mainViewModels.Last().AddTerminal(parameter, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
+                            await ShowSettings().ConfigureAwait(true);
                         }
-                        else
+                        else if (verb is NewVerb newVerb)
                         {
-                            await CreateNewTerminalWindow(parameter, false).ConfigureAwait(true);
+                            if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
+                            {
+                                await _mainViewModels.Last().AddTerminal(newVerb.Path, false, Guid.Empty, newVerb.Command).ConfigureAwait(true);
+                            }
+                            else
+                            {
+                                await CreateNewTerminalWindow(newVerb.Path, false, newVerb.Command).ConfigureAwait(true);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (command == "settings")
+                    else
                     {
-                        var viewModel = _container.Resolve<SettingsViewModel>();
-                        await CreateMainView(typeof(SettingsPage), viewModel, true).ConfigureAwait(true);
+                        if (verb is SettingsVerb)
+                        {
+                            var viewModel = _container.Resolve<SettingsViewModel>();
+                            await CreateMainView(typeof(SettingsPage), viewModel, true).ConfigureAwait(true);
+                        }
+                        else if (verb is NewVerb newVerb)
+                        {
+                            var viewModel = _container.Resolve<MainViewModel>();
+                            await viewModel.AddTerminal(newVerb.Path, false, Guid.Empty, newVerb.Command).ConfigureAwait(true);
+                            await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
+                        }
                     }
-                    else if (command == "new")
-                    {
-                        var viewModel = _container.Resolve<MainViewModel>();
-                        await viewModel.AddTerminal(parameter, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
-                        await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
-                    }
-                }
+                });
             }
         }
 
