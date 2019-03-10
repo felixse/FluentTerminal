@@ -2,6 +2,7 @@
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,10 +75,12 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                     {
                         var buffer = new byte[1024];
                         var readBytes = await _terminal.ConsoleOutStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                        var read = new byte[readBytes];
+                        Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
 
                         if (readBytes > 0)
                         {
-                            _terminalsManager.DisplayTerminalOutput(Id, buffer);
+                            _terminalsManager.DisplayTerminalOutput(Id, read);
                         }
                     }
                     while (!_exited);
