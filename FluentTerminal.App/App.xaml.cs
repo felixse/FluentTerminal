@@ -279,6 +279,7 @@ namespace FluentTerminal.App
                 viewModel.Closed -= OnMainViewModelClosed;
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
+                viewModel.ShowAboutRequested -= OnShowAboutRequested;
 
                 _mainViewModels.Remove(viewModel);
             }

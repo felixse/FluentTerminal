@@ -202,7 +202,7 @@ namespace FluentTerminal.App.ViewModels
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);
-                terminal.Closed += OnTerminalCloseRequested;
+                terminal.Closed += OnTerminalClosed;
                 Terminals.Add(terminal);
 
                 SelectedTerminal = terminal;
@@ -275,7 +275,7 @@ namespace FluentTerminal.App.ViewModels
              });
         }
 
-        private void OnTerminalCloseRequested(object sender, EventArgs e)
+        private void OnTerminalClosed(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
