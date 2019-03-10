@@ -1,31 +1,21 @@
-﻿using Fleck;
-using FluentTerminal.App.Services;
+﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class TerminalViewModel : ViewModelBase
     {
-        private readonly IApplicationView _applicationView;
-        private readonly IClipboardService _clipboardService;
-        private readonly ManualResetEventSlim _connectedEvent;
-        private readonly IDialogService _dialogService;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly IDispatcherTimer _resizeOverlayTimer;
-        private readonly ISettingsService _settingsService;
-        private readonly ShellProfile _shellProfile;
-        private readonly string _startupDirectory;
-        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private bool _isSelected;
         private bool _newOutput;
         private string _resizeOverlayContent;
@@ -34,56 +24,71 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
-        private int _terminalId;
-        private ITerminalView _terminalView;
-        private string _title;
-        private IWebSocketConnection _webSocket;
+        private string _tabTitle;
+        private string _shellTitle;
+        private bool _customTitle = false;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
-            Title = DefaultTitle;
+            SettingsService = settingsService;
+            SettingsService.CurrentThemeChanged += OnCurrentThemeChanged;
+            SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+            SettingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+            SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
 
-            _connectedEvent = new ManualResetEventSlim(false);
+            TrayProcessCommunicationService = trayProcessCommunicationService;
 
-            _settingsService = settingsService;
-            _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
-            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
-            _settingsService.KeyBindingsChanged += OnKeyBindingsChanged;
-
-            _trayProcessCommunicationService = trayProcessCommunicationService;
-            _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
-
-            _dialogService = dialogService;
+            DialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
             ApplicationSettings = applicationSettings;
-            _startupDirectory = startupDirectory;
-            _shellProfile = shellProfile;
-            _applicationView = applicationView;
-            _clipboardService = clipboardService;
+            StartupDirectory = startupDirectory;
+            ApplicationView = applicationView;
+            ClipboardService = clipboardService;
 
-            TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? _settingsService.GetCurrentTheme() : _settingsService.GetTheme(shellProfile.TerminalThemeId);
+            ShellProfile = shellProfile;
+            TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? SettingsService.GetCurrentTheme() : SettingsService.GetTheme(shellProfile.TerminalThemeId);
 
-            TabThemes = new ObservableCollection<TabTheme>(_settingsService.GetTabThemes());
-            TabTheme = TabThemes.FirstOrDefault(t => t.Id == _shellProfile.TabThemeId);
+            TabThemes = new ObservableCollection<TabTheme>(SettingsService.GetTabThemes());
+            TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
 
             _resizeOverlayTimer = dispatcherTimer;
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
 
             CloseCommand = new RelayCommand(async () => await TryClose().ConfigureAwait(false));
-            FindNextCommand = new RelayCommand(async () => await FindNext().ConfigureAwait(false));
-            FindPreviousCommand = new RelayCommand(async () => await FindPrevious().ConfigureAwait(false));
+            FindNextCommand = new RelayCommand(FindNext);
+            FindPreviousCommand = new RelayCommand(FindPrevious);
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
             EditTitleCommand = new AsyncCommand(EditTitle);
+
+            if (!string.IsNullOrWhiteSpace(StartupDirectory))
+            {
+                ShellProfile.WorkingDirectory = StartupDirectory;
+            }
+
+            Terminal = new Terminal(TrayProcessCommunicationService);
+            Terminal.KeyboardCommandReceived += Terminal_KeyboardCommandReceived;
+            Terminal.OutputReceived += Terminal_OutputReceived;
+            Terminal.SizeChanged += Terminal_SizeChanged;
+            Terminal.TitleChanged += Terminal_TitleChanged;
+            Terminal.Closed += Terminal_Closed;
         }
 
+        public event EventHandler Activated;
         public event EventHandler Closed;
+        public event EventHandler<string> FindNextRequested;
+        public event EventHandler<string> FindPreviousRequested;
+        public event EventHandler KeyBindingsChanged;
+        public event EventHandler<TerminalOptions> OptionsChanged;
+        public event EventHandler SearchStarted;
+        public event EventHandler<TerminalTheme> ThemeChanged;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
+
+        public IApplicationView ApplicationView { get; }
 
         public TabTheme BackgroundTabTheme
         {
@@ -91,28 +96,22 @@ namespace FluentTerminal.App.ViewModels
             // (if we're set to underline inactive tabs, use the null theme).
             get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
                 _tabTheme :
-                _settingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+                SettingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
         }
 
-        public TerminalTheme TerminalTheme
-        {
-            get => _terminalTheme;
-            set => Set(ref _terminalTheme, value);
-        }
+        public IClipboardService ClipboardService { get; }
 
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
 
-        public string DefaultTitle { get; private set; } = string.Empty;
+        public IDialogService DialogService { get; }
+
+        public IAsyncCommand EditTitleCommand { get; }
 
         public RelayCommand FindNextCommand { get; }
 
         public RelayCommand FindPreviousCommand { get; }
-
-        public IAsyncCommand EditTitleCommand { get; }
-
-        public bool Initialized { get; private set; }
 
         public bool IsSelected
         {
@@ -123,8 +122,8 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
-                        _applicationView.Title = Title;
-                        _applicationView.RunOnDispatcherThread(() => NewOutput = false);
+                        ApplicationView.Title = ShellTitle ?? string.Empty;
+                        NewOutput = false;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
@@ -155,6 +154,10 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand<string> SelectTabThemeCommand { get; }
 
+        public ISettingsService SettingsService { get; }
+
+        public ShellProfile ShellProfile { get; }
+
         public bool ShowResizeOverlay
         {
             get => _showResizeOverlay;
@@ -178,6 +181,8 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
+        public string StartupDirectory { get; }
+
         public TabTheme TabTheme
         {
             get => _tabTheme;
@@ -191,118 +196,93 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TabTheme> TabThemes { get; }
 
-        public string Title
+        public Terminal Terminal { get; private set; }
+
+        public TerminalTheme TerminalTheme
         {
-            get => _title;
+            get => _terminalTheme;
+            set => Set(ref _terminalTheme, value);
+        }
+
+        public string TabTitle
+        {
+            get => _tabTitle;
             set
             {
-                value = string.IsNullOrWhiteSpace(value) ? DefaultTitle : value;
-
-                if (Set(ref _title, value) && IsSelected)
+                if (Set(ref _tabTitle, value) && IsSelected)
                 {
-                    _applicationView.Title = Title;
+                    ApplicationView.Title = value;
                 }
             }
         }
 
-        public async Task CloseView()
+        public string ShellTitle
         {
-            _terminalView.Close();
-            await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
+            get => _shellTitle;
+            set
+            {
+                if (Set(ref _shellTitle, value) && !_customTitle)
+                {
+                    TabTitle = value;
+                }
+            }
+        }
+
+        public ITrayProcessCommunicationService TrayProcessCommunicationService { get; }
+
+        public Task Close()
+        {
+            return Terminal.Close();
         }
 
         public void CopyText(string text)
         {
-            _clipboardService.SetText(text);
+            ClipboardService.SetText(text);
         }
 
-        public Task FocusTerminal()
+        public async Task EditTitle()
         {
-            return _terminalView?.FocusTerminal();
+            var result = await DialogService.ShowInputDialogAsync("Edit Title");
+            if (result != null)
+            {
+                if (string.IsNullOrWhiteSpace(result))
+                {
+                    _customTitle = false;
+                    TabTitle = ShellTitle;
+                }
+                else
+                {
+                    _customTitle = true;
+                    TabTitle = result;
+                }
+            }
         }
 
-        public async Task OnViewIsReady(ITerminalView terminalView)
+        public void FocusTerminal()
         {
-            _terminalView = terminalView;
-
-            var options = _settingsService.GetTerminalOptions();
-            var keyBindings = _settingsService.GetCommandKeyBindings();
-            var profiles = _settingsService.GetShellProfiles();
-
-            var size = await _terminalView.CreateTerminal(options, TerminalTheme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
-
-            if (!string.IsNullOrWhiteSpace(_startupDirectory))
-            {
-                _shellProfile.WorkingDirectory = _startupDirectory;
-            }
-
-            var response = await _trayProcessCommunicationService.CreateTerminal(size, _shellProfile).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                _terminalId = response.Id;
-                _terminalView.TerminalSizeChanged += OnTerminalSizeChanged;
-                _terminalView.TerminalTitleChanged += OnTerminalTitleChanged;
-                _terminalView.KeyboardCommandReceived += OnKeyboardCommandReceived;
-
-                _trayProcessCommunicationService.SubscribeForTerminalOutput(_terminalId, t =>
-                {
-                    _connectedEvent.Wait();
-                    _webSocket.Send(t);
-                    if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
-                    {
-                        _applicationView.RunOnDispatcherThread(() => NewOutput = true);
-                    }
-                });
-
-                DefaultTitle = response.ShellExecutableName;
-                Title = DefaultTitle;
-
-                var webSocketUrl = "ws://127.0.0.1:" + response.Id;
-                var webSocketServer = new WebSocketServer(webSocketUrl);
-                webSocketServer.Start(socket =>
-                {
-                    _webSocket = socket;
-                    socket.OnOpen = () => _connectedEvent.Set();
-                    socket.OnMessage = message => _trayProcessCommunicationService.WriteText(_terminalId, message);
-                });
-
-                await _terminalView.ConnectToSocket(webSocketUrl).ConfigureAwait(true);
-                Initialized = true;
-            }
-            else
-            {
-                await _dialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
-            }
-
-            await FocusTerminal().ConfigureAwait(true);
+            Activated?.Invoke(this, EventArgs.Empty);
         }
 
         private void CloseSearchPanel()
         {
             SearchText = string.Empty;
             ShowSearchPanel = false;
-            _terminalView.FocusTerminal();
+            FocusTerminal();
         }
 
-        private Task FindNext()
+        private void FindNext()
         {
-            return _terminalView.FindNext(SearchText);
+            FindNextRequested?.Invoke(this, SearchText);
         }
 
-        private Task FindPrevious()
+        private void FindPrevious()
         {
-            return _terminalView.FindPrevious(SearchText);
-        }
-
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles)
-        {
-            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings));
+            FindPreviousRequested?.Invoke(this, SearchText);
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _applicationView.RunOnDispatcherThread(() =>
+            await ApplicationView.RunOnDispatcherThread(() =>
             {
                 ApplicationSettings = e;
                 RaisePropertyChanged(nameof(IsUnderlined));
@@ -312,55 +292,21 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnCurrentThemeChanged(object sender, Guid e)
         {
-            await _applicationView.RunOnDispatcherThread(async () =>
+            await ApplicationView.RunOnDispatcherThread(() =>
             {
                 // only change theme if not overwritten by profile
-                if (_shellProfile.TerminalThemeId == Guid.Empty)
+                if (ShellProfile.TerminalThemeId == Guid.Empty)
                 {
-                    var currentTheme = _settingsService.GetTheme(e);
+                    var currentTheme = SettingsService.GetTheme(e);
                     TerminalTheme = currentTheme;
-                    await _terminalView.ChangeTheme(currentTheme.Colors).ConfigureAwait(true);
+                    ThemeChanged?.Invoke(this, currentTheme);
                 }
             });
         }
 
         private async void OnKeyBindingsChanged(object sender, EventArgs e)
         {
-            var keyBindings = _settingsService.GetCommandKeyBindings();
-            var profiles = _settingsService.GetShellProfiles();
-            await _applicationView.RunOnDispatcherThread(async () =>
-            {
-                await _terminalView.ChangeKeyBindings(FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(false);
-            });
-        }
-
-        private async void OnKeyboardCommandReceived(object sender, string command)
-        {
-            if (command == nameof(Command.Copy))
-            {
-                var selection = await _terminalView.GetSelection().ConfigureAwait(true);
-                _clipboardService.SetText(selection);
-            }
-            else if (command == nameof(Command.Paste))
-            {
-                var content = await _clipboardService.GetText().ConfigureAwait(true);
-                if (content != null)
-                {
-                    await _trayProcessCommunicationService.WriteText(_terminalId, content).ConfigureAwait(true);
-                }
-            }
-            else if (command == nameof(Command.Search))
-            {
-                ShowSearchPanel = !ShowSearchPanel;
-                if (ShowSearchPanel)
-                {
-                    _terminalView.FocusSearchTextBox();
-                }
-            }
-            else
-            {
-                _keyboardCommandService.SendCommand(command);
-            }
+            await ApplicationView.RunOnDispatcherThread(() => KeyBindingsChanged?.Invoke(this, EventArgs.Empty));
         }
 
         private void OnResizeOverlayTimerFinished(object sender, object e)
@@ -369,36 +315,9 @@ namespace FluentTerminal.App.ViewModels
             ShowResizeOverlay = false;
         }
 
-        private void OnTerminalExited(object sender, int e)
-        {
-            if (e == _terminalId)
-            {
-                _applicationView.RunOnDispatcherThread(() => Closed?.Invoke(this, EventArgs.Empty));
-            }
-        }
-
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
-            await _applicationView.RunOnDispatcherThread(async () =>
-            {
-                await _terminalView.ChangeOptions(e).ConfigureAwait(true);
-            });
-        }
-
-        private async void OnTerminalSizeChanged(object sender, TerminalSize e)
-        {
-            if (!Initialized)
-            {
-                return;
-            }
-            ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
-            ShowResizeOverlay = true;
-            await _trayProcessCommunicationService.ResizeTerminal(_terminalId, e).ConfigureAwait(true);
-        }
-
-        private void OnTerminalTitleChanged(object sender, string e)
-        {
-            Title = e;
+            await ApplicationView.RunOnDispatcherThread(() => OptionsChanged?.Invoke(this, e));
         }
 
         private void SelectTabTheme(string name)
@@ -406,20 +325,82 @@ namespace FluentTerminal.App.ViewModels
             TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
         }
 
-        private async Task EditTitle()
+        private void Terminal_Closed(object sender, EventArgs e)
         {
-            var result = await _dialogService.ShowInputDialogAsync("Edit Title");
-            if (result != null)
+            ApplicationView.RunOnDispatcherThread(() => Closed?.Invoke(this, EventArgs.Empty));
+        }
+
+        private async void Terminal_KeyboardCommandReceived(object sender, string e)
+        {
+            switch (e)
             {
-                Title = result;
+                case nameof(Command.Copy):
+                    {
+                        var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
+                        ClipboardService.SetText(selection);
+                        break;
+                    }
+                case nameof(Command.Paste):
+                    {
+                        string content = await ClipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = ShellProfile.TranslateLineEndings(content);
+                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.PasteWithoutNewlines):
+                    {
+                        string content = await ClipboardService.GetText().ConfigureAwait(true);
+                        if (content != null)
+                        {
+                            content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
+                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
+                        }
+                        break;
+                    }
+                case nameof(Command.Search):
+                    {
+                        ShowSearchPanel = !ShowSearchPanel;
+                        if (ShowSearchPanel)
+                        {
+                            SearchStarted?.Invoke(this, EventArgs.Empty);
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        _keyboardCommandService.SendCommand(e);
+                        break;
+                    }
             }
+        }
+
+        private void Terminal_OutputReceived(object sender, byte[] e)
+        {
+            if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
+            {
+                ApplicationView.RunOnDispatcherThread(() => NewOutput = true);
+            }
+        }
+
+        private void Terminal_SizeChanged(object sender, TerminalSize e)
+        {
+            ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
+            ShowResizeOverlay = true;
+        }
+
+        private void Terminal_TitleChanged(object sender, string e)
+        {
+            ShellTitle = e;
         }
 
         private async Task TryClose()
         {
             if (ApplicationSettings.ConfirmClosingTabs)
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await DialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {
@@ -427,8 +408,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
-            await _trayProcessCommunicationService.CloseTerminal(_terminalId).ConfigureAwait(true);
-            Closed?.Invoke(this, EventArgs.Empty);
+            await Close().ConfigureAwait(true);
         }
     }
 }

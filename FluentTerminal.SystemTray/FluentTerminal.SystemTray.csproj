@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -112,12 +113,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Native\ProcessApi.cs" />
+    <Compile Include="Native\WindowApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AppCommunicationService.cs" />
+    <Compile Include="Services\ConPty\ConPtySession.cs" />
+    <Compile Include="Services\ConPty\Native\ConsoleApi.cs" />
+    <Compile Include="Services\ConPty\Native\ProcessApi.cs" />
+    <Compile Include="Services\ConPty\Native\PseudoConsoleApi.cs" />
+    <Compile Include="Services\ConPty\Processes\Process.cs" />
+    <Compile Include="Services\ConPty\Processes\ProcessFactory.cs" />
+    <Compile Include="Services\ConPty\PseudoConsole.cs" />
+    <Compile Include="Services\ConPty\PseudoConsolePipe.cs" />
+    <Compile Include="Services\ConPty\Terminal.cs" />
+    <Compile Include="Services\ITerminalSession.cs" />
     <Compile Include="Services\ToggleWindowService.cs" />
-    <Compile Include="Services\TerminalSession.cs" />
     <Compile Include="Services\TerminalsManager.cs" />
+    <Compile Include="Services\WinPty\WinPtySession.cs" />
     <Compile Include="SystemTrayApplicationContext.cs" />
     <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -149,7 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac">
-      <Version>4.8.1</Version>
+      <Version>4.9.1</Version>
     </PackageReference>
     <PackageReference Include="GlobalHotKey">
       <Version>1.1.0</Version>

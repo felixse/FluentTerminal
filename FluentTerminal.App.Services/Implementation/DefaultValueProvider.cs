@@ -21,6 +21,7 @@ namespace FluentTerminal.App.Services.Implementation
                 MouseMiddleClickAction = MouseAction.None,
                 MouseRightClickAction = MouseAction.ContextMenu,
                 AlwaysShowTabs = false,
+                AlwaysUseWinPty = true,
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true
             };
@@ -116,6 +117,19 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.ChangeTabTitle:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ChangeTabTitle),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.R
+                    }
+                };
+
                 case Command.CloseTab:
                     return new List<KeyBinding>
                 {
@@ -138,6 +152,19 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
+                        Key = (int)ExtendedVirtualKey.N
+                    }
+                };
+
+                case Command.ConfigurableNewWindow:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ConfigurableNewWindow),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
                         Key = (int)ExtendedVirtualKey.N
                     }
                 };
@@ -177,6 +204,20 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
+                        Key = (int)ExtendedVirtualKey.V
+                    }
+                };
+
+
+                case Command.PasteWithoutNewlines:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.PasteWithoutNewlines),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
                         Key = (int)ExtendedVirtualKey.V
                     }
                 };
@@ -329,6 +370,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -350,6 +392,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -371,6 +414,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     KeyBindings = new []
                     {
                         new KeyBinding

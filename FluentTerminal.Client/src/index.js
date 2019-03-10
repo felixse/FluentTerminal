@@ -13,7 +13,7 @@ Terminal.applyAddon(search);
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings) {
+function createTerminal(options, theme, keyBindings, sessionType) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -58,7 +58,11 @@ function createTerminal(options, theme, keyBindings) {
 
   term.open(terminalContainer);
   term.fit();
-  term.winptyCompatInit();
+
+  if (sessionType === 'WinPty') {
+    term.winptyCompatInit();
+  }
+
   term.focus();
   
   setPadding(options.padding);
@@ -122,10 +126,13 @@ function attachTerminal() {
 
 function connectToWebSocket(url) {
   socket = new WebSocket(url);
-  socket.onopen = attachTerminal;
-  socket.onclose = function() {
-    terminalBridge.invokeCommand('CloseTab');
+  socket.onerror = function(event) {
+    terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
+  }
+  socket.onclose = function(event) {
+    terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
   };
+  socket.onopen = attachTerminal;
 }
 
 function changeTheme(theme) {

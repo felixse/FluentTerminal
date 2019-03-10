@@ -17,5 +17,6 @@ namespace FluentTerminal.App.Services
         Task<bool> TryClose();
 
         bool ToggleFullScreen();
+        bool IsApiContractPresent(string api, ushort version);
     }
 }

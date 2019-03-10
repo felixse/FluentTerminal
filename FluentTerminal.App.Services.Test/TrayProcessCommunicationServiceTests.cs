@@ -42,10 +42,12 @@ namespace FluentTerminal.App.Services.Test
             appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<IDictionary<string, string>>())).Returns(Task.FromResult((IDictionary<string, string>)responseMessage));
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
+            var sessionType = _fixture.Create<SessionType>();
+            var id = _fixture.Create<int>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            var result = await trayProcessCommunicationService.CreateTerminal(terminalSize, shellProfile);
+            var result = await trayProcessCommunicationService.CreateTerminal(id, terminalSize, shellProfile, sessionType);
 
             result.Should().BeEquivalentTo(response);
         }
@@ -71,10 +73,10 @@ namespace FluentTerminal.App.Services.Test
         }
 
         [Fact]
-        public async Task WriteText_Default_SendsWriteTextRequest()
+        public async Task Write_Default_SendsWriteDataRequest()
         {
             var terminalId = _fixture.Create<int>();
-            var text = _fixture.Create<string>();
+            var data = _fixture.Create<byte[]>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
             settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
@@ -85,9 +87,9 @@ namespace FluentTerminal.App.Services.Test
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            await trayProcessCommunicationService.WriteText(terminalId, text);
+            await trayProcessCommunicationService.Write(terminalId, data);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteTextRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteDataRequest))), Times.Once);
         }
 
         [Fact]
@@ -149,8 +151,8 @@ namespace FluentTerminal.App.Services.Test
         public void OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
         {
             var terminalId = _fixture.Create<int>();
-            var output = _fixture.Create<string>();
-            var receivedOutput = string.Empty;
+            var output = _fixture.Create<byte[]>();
+            var receivedOutput = default(byte[]);
             var request = new DisplayTerminalOutputRequest
             {
                 TerminalId = terminalId,
@@ -177,7 +179,7 @@ namespace FluentTerminal.App.Services.Test
 
             appServiceConnection.Raise(x => x.MessageReceived += null, null, message);
 
-            receivedOutput.Should().Be(output);
+            receivedOutput.Should().BeEquivalentTo(output);
         }
     }
 }

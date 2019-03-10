@@ -1,24 +1,29 @@
 ﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
+using FluentTerminal.SystemTray.Native;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using static winpty.WinPty;
 
-namespace FluentTerminal.SystemTray.Services
+namespace FluentTerminal.SystemTray.Services.WinPty
 {
-    public class TerminalSession : IDisposable
+    public class WinPtySession : IDisposable, ITerminalSession
     {
         private bool _disposedValue;
-        private readonly IntPtr _handle;
-        private readonly Stream _stdin;
-        private readonly Stream _stdout;
-        private readonly TerminalsManager _terminalsManager;
+        private IntPtr _handle;
+        private Stream _stdin;
+        private Stream _stdout;
+        private TerminalsManager _terminalsManager;
+        private Process _shellProcess;
+        private bool _exited;
 
-        public TerminalSession(CreateTerminalRequest request, TerminalsManager terminalsManager)
+        public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            Id = request.Id;
             _terminalsManager = terminalsManager;
 
             var configHandle = IntPtr.Zero;
@@ -42,7 +47,7 @@ namespace FluentTerminal.SystemTray.Services
                 spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, exe, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_msg(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle));
                 }
 
                 _stdin = CreatePipe(winpty_conin_name(_handle), PipeDirection.Out);
@@ -53,6 +58,11 @@ namespace FluentTerminal.SystemTray.Services
                     throw new Exception($"Failed to start the shell process. Please check your shell settings.\nTried to start: {args}");
                 }
 
+                var shellProcessId = ProcessApi.GetProcessId(process);
+                _shellProcess = Process.GetProcessById(shellProcessId);
+                _shellProcess.EnableRaisingEvents = true;
+                _shellProcess.Exited += _shellProcess_Exited;
+
                 ShellExecutableName = Path.GetFileNameWithoutExtension(exe);
             }
             finally
@@ -62,19 +72,16 @@ namespace FluentTerminal.SystemTray.Services
                 winpty_error_free(errorHandle);
             }
 
-            var port = Utilities.GetAvailablePort();
-
-            if (port == null)
-            {
-                throw new Exception("no port available");
-            }
-
-            Id = port.Value;
-
             ListenToStdOut();
         }
 
-        ~TerminalSession()
+        private void _shellProcess_Exited(object sender, EventArgs e)
+        {
+            Close();
+            _exited = true;
+        }
+
+        ~WinPtySession()
         {
             Dispose(false);
         }
@@ -90,9 +97,9 @@ namespace FluentTerminal.SystemTray.Services
 
         public event EventHandler ConnectionClosed;
 
-        public int Id { get; }
+        public int Id { get; private set; }
 
-        public string ShellExecutableName { get; }
+        public string ShellExecutableName { get; private set; }
 
         public void Dispose()
         {
@@ -105,10 +112,9 @@ namespace FluentTerminal.SystemTray.Services
             ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
-        public void WriteText(string text)
+        public void Write(byte[] data)
         {
-            var bytes = Encoding.UTF8.GetBytes(text);
-            _stdin.Write(bytes, 0, bytes.Length);
+            _stdin.Write(data, 0, data.Length);
         }
 
         public void Resize(TerminalSize size)
@@ -119,7 +125,7 @@ namespace FluentTerminal.SystemTray.Services
                 winpty_set_size(_handle, size.Columns, size.Rows, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
-                    throw new Exception(winpty_error_msg(errorHandle).ToString());
+                    throw new Exception(winpty_error_msg(errorHandle));
                 }
             }
             finally
@@ -168,25 +174,25 @@ namespace FluentTerminal.SystemTray.Services
 
         private void ListenToStdOut()
         {
-            Task.Run(async () =>
+            Task.Factory.StartNew(async () =>
             {
-                var reader = new StreamReader(_stdout);
-
-                do
+                using (var reader = new StreamReader(_stdout))
                 {
-                    var offset = 0;
-                    var buffer = new char[1024];
-                    var readChars = await reader.ReadAsync(buffer, offset, buffer.Length - offset).ConfigureAwait(false);
-
-                    if (readChars > 0)
+                    do
                     {
-                        var output = new System.String(buffer, 0, readChars);
-                        _terminalsManager.DisplayTerminalOutput(Id, output);
+                        var buffer = new byte[1024];
+                        var readBytes = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                        var read = new byte[readBytes];
+                        Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
+
+                        if (readBytes > 0)
+                        {
+                            _terminalsManager.DisplayTerminalOutput(Id, read);
+                        }
                     }
+                    while (!_exited);
                 }
-                while (!reader.EndOfStream);
-                Close();
-            });
+            }, TaskCreationOptions.LongRunning);
         }
     }
 }

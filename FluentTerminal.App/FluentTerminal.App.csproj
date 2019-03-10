@@ -113,6 +113,7 @@
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
+    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Converters\TabThemeSelectedConverter.cs" />
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\ToolTipValueToPixelConverter.cs" />
+    <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
     <Compile Include="Dialogs\InputDialog.xaml.cs">
@@ -137,6 +139,7 @@
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
+    <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>
@@ -175,13 +178,19 @@
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
+    <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
     <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NoValueTemplateSelector.cs" />
     <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
+    <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\XtermTerminalView.xaml.cs">
+      <DependentUpon>XtermTerminalView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +208,11 @@
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
     <Content Include="Win32\Newtonsoft.Json.dll" />
+    <Content Include="Win32\PListNet.dll" />
     <Content Include="Win32\RestSharp.dll" />
+    <Content Include="Win32\Serilog.dll" />
+    <Content Include="Win32\Serilog.Sinks.Async.dll" />
+    <Content Include="Win32\Serilog.Sinks.File.dll" />
     <Content Include="Win32\System.Data.Common.dll" />
     <Content Include="Win32\System.Diagnostics.StackTrace.dll" />
     <Content Include="Win32\System.Diagnostics.Tracing.dll" />
@@ -347,25 +360,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\XtermTerminalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac">
-      <Version>4.8.1</Version>
+      <Version>4.9.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.5</Version>
+      <Version>6.1.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>3.0.0</Version>
+      <Version>5.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>3.0.0</Version>
+      <Version>5.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>

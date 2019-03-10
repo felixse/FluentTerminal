@@ -5,7 +5,6 @@ using FluentTerminal.Models.Responses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services.Implementation
@@ -14,27 +13,52 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private Dictionary<int, Action<string>> _terminalOutputHandlers;
+        private readonly Dictionary<int, Action<byte[]>> _terminalOutputHandlers;
+        private int _nextTerminalId = 0;
 
         public event EventHandler<int> TerminalExited;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _terminalOutputHandlers = new Dictionary<int, Action<string>>();
+            _terminalOutputHandlers = new Dictionary<int, Action<byte[]>>();
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(TerminalSize size, ShellProfile shellProfile)
+        public int GetNextTerminalId()
+        {
+            return _nextTerminalId++;
+        }
+
+        public async Task<GetAvailablePortResponse> GetAvailablePort()
+        {
+            var request = new GetAvailablePortRequest();
+
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            var response = JsonConvert.DeserializeObject<GetAvailablePortResponse>(responseMessage[MessageKeys.Content]);
+
+            Logger.Instance.Debug("Received GetAvailablePortResponse: {@response}", response);
+
+            return response;
+        }
+
+        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest
             {
+                Id = id,
                 Size = size,
-                Profile = shellProfile
+                Profile = shellProfile,
+                SessionType = sessionType
             };
 
-            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            Logger.Instance.Debug("Sending CreateTerminalRequest: {@request}", request);
 
-            return JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            var response = JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
+
+            Logger.Instance.Debug("Received CreateTerminalResponse: {@response}", response);
+
+            return response;
         }
 
         public void Initialize(IAppServiceConnection appServiceConnection)
@@ -58,12 +82,14 @@ namespace FluentTerminal.App.Services.Implementation
                 }
                 else
                 {
-                    Debug.WriteLine("output was not handled: " + request.Output);
+                    Logger.Instance.Error("Received output for unknown terminal Id {id}", request.TerminalId);
                 }
             }
             else if (messageType == nameof(TerminalExitedRequest))
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
+
+                Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 
                 TerminalExited?.Invoke(this, request.TerminalId);
             }
@@ -80,7 +106,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public void SubscribeForTerminalOutput(int terminalId, Action<string> callback)
+        public void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback)
         {
             _terminalOutputHandlers[terminalId] = callback;
         }
@@ -97,12 +123,12 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public Task WriteText(int id, string text)
+        public Task Write(int id, byte[] data)
         {
-            var request = new WriteTextRequest
+            var request = new WriteDataRequest
             {
                 TerminalId = id,
-                Text = text
+                Data = data
             };
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
@@ -114,6 +140,8 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 TerminalId = terminalId
             };
+
+            Logger.Instance.Debug("Sending TerminalExitedRequest: {@request}", request);
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }

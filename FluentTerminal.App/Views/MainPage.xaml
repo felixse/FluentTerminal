@@ -76,12 +76,108 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <TextBlock
+            <RelativePanel
+                Background="{x:Bind ViewModel.SelectedTerminal.TabTheme.Color, Mode=OneWay, Converter={StaticResource ColorResourceKeyFallbackConverter}, ConverterParameter=SystemControlHighlightAccentBrush}"
                 Grid.Column="1"
-                IsHitTestVisible="False"
-                Style="{StaticResource WindowTitleTextBlockStyle}"
-                Text="{x:Bind ViewModel.SelectedTerminal.Title, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+                Height="32"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch">
+                <RelativePanel.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutSubItem Text="Color">
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="None"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=None}"
+                                            Text="None">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF126;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Red"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Red}"
+                                            Text="Red">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#E81123"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Green"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Green}"
+                                            Text="Green">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#10893E"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Blue"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Blue}"
+                                            Text="Blue">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#0078D7"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Purple"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Purple}"
+                                            Text="Purple">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#881798"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Orange"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Orange}"
+                                            Text="Orange">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#FF8C00"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                            <ToggleMenuFlyoutItem
+                                            Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
+                                            CommandParameter="Teal"
+                                            IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Teal}"
+                                            Text="Teal">
+                                <ToggleMenuFlyoutItem.Icon>
+                                    <FontIcon
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Foreground="#00B7C3"
+                                                    Glyph="&#xF127;" />
+                                </ToggleMenuFlyoutItem.Icon>
+                            </ToggleMenuFlyoutItem>
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedTerminal.EditTitleCommand}" Text="Edit Title" />
+                    </MenuFlyout>
+                </RelativePanel.ContextFlyout>
+                <TextBlock
+                    Margin="12,8,12,0"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.SelectedTerminal.TabTitle, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap"
+                    Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+            </RelativePanel>
             <views:TabBar
                 Grid.Column="1"
                 HorizontalAlignment="Left"

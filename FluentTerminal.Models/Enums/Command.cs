@@ -19,11 +19,17 @@ namespace FluentTerminal.Models.Enums
         [Description("Configurable new tab")]
         ConfigurableNewTab,
 
+        [Description("Change tab title")]
+        ChangeTabTitle,
+
         [Description("Close tab")]
         CloseTab,
 
         [Description("New window")]
         NewWindow,
+
+        [Description("Configurable new window")]
+        ConfigurableNewWindow,
 
         [Description("Show settings")]
         ShowSettings,
@@ -33,6 +39,9 @@ namespace FluentTerminal.Models.Enums
 
         [Description("Paste")]
         Paste,
+
+        [Description("Paste without newlines")]
+        PasteWithoutNewlines,
 
         [Description("Search")]
         Search,

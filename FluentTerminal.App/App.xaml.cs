@@ -4,6 +4,7 @@ using FluentTerminal.App.Dialogs;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
@@ -12,6 +13,7 @@ using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -47,6 +49,8 @@ namespace FluentTerminal.App
             _mainViewModels = new List<MainViewModel>();
 
             InitializeComponent();
+
+            UnhandledException += OnUnhandledException;
 
             var applicationDataContainers = new ApplicationDataContainers
             {
@@ -152,6 +156,11 @@ namespace FluentTerminal.App
             return arglist;
         }
 
+        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            Logger.Instance.Error(e.Exception, "Unhandled Exception");
+        }
+
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             if (args is CommandLineActivatedEventArgs commandLineActivated)
@@ -180,7 +189,7 @@ namespace FluentTerminal.App
                         }
                         else
                         {
-                            await CreateNewTerminalWindow(parameter).ConfigureAwait(true);
+                            await CreateNewTerminalWindow(parameter, false).ConfigureAwait(true);
                         }
                     }
                 }
@@ -205,6 +214,10 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
+                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
+                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
+                Logger.Instance.Initialize(logFile);
+
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null, false, Guid.Empty).ConfigureAwait(true);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
@@ -212,7 +225,7 @@ namespace FluentTerminal.App
             }
             else if (_mainViewModels.Count == 0)
             {
-                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, string.Empty).ConfigureAwait(true);
+                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, false, string.Empty).ConfigureAwait(true);
             }
         }
 
@@ -273,13 +286,13 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        private async Task CreateNewTerminalWindow(string startupDirectory, string additionalArguments="")
+        private async Task CreateNewTerminalWindow(string startupDirectory, bool showProfileSelection, string additionalArguments= "")
         {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, startupDirectory, additionalArguments).ConfigureAwait(true);
+            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, showProfileSelection, startupDirectory, additionalArguments).ConfigureAwait(true);
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
         }
 
-        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, object parameter, string additionalArguments = "")
+        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, bool showProfileSelection, object parameter, string additionalArguments = "")
         {
             int windowId = 0;
             TViewModel viewModel = default;
@@ -303,7 +316,7 @@ namespace FluentTerminal.App
                 mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                 mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                 _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory, false, Guid.Empty, additionalArguments).ConfigureAwait(true);
+                await mainViewModel.AddTerminal(directory, showProfileSelection, Guid.Empty, additionalArguments).ConfigureAwait(true);
             }
 
             if (viewModel is SettingsViewModel settingsViewModel)
@@ -327,14 +340,15 @@ namespace FluentTerminal.App
                 viewModel.Closed -= OnMainViewModelClosed;
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
+                viewModel.ShowAboutRequested -= OnShowAboutRequested;
 
                 _mainViewModels.Remove(viewModel);
             }
         }
 
-        private async void OnNewWindowRequested(object sender, EventArgs e)
+        private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
-            await CreateNewTerminalWindow(string.Empty).ConfigureAwait(true);
+            await CreateNewTerminalWindow(string.Empty, e.ShowProfileSelection).ConfigureAwait(true);
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)
@@ -364,7 +378,7 @@ namespace FluentTerminal.App
         {
             if (_settingsViewModel == null)
             {
-                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, null).ConfigureAwait(true);
+                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, false, null).ConfigureAwait(true);
             }
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
         }
@@ -372,8 +386,7 @@ namespace FluentTerminal.App
         private async Task StartSystemTray()
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("AppLaunchedParameterGroup").AsTask();
-            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
+            await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }

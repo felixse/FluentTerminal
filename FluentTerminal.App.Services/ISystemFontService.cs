@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using FluentTerminal.Models;
+using System.Collections.Generic;
 
 namespace FluentTerminal.App.Services
 {
     public interface ISystemFontService
     {
-        IEnumerable<string> GetSystemFontFamilies();
+        IEnumerable<FontInfo> GetSystemFontFamilies();
     }
 }

@@ -3,6 +3,7 @@ using FluentTerminal.App.Services.EventArgs;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
@@ -13,6 +14,7 @@ namespace FluentTerminal.App.Adapters
     {
         private readonly ApplicationView _applicationView;
         private readonly CoreDispatcher _dispatcher;
+        private bool _closed;
 
         public event CloseRequestedHandler CloseRequested;
 
@@ -21,6 +23,8 @@ namespace FluentTerminal.App.Adapters
             _applicationView = ApplicationView.GetForCurrentView();
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+
+            Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
         }
 
         public string Title
@@ -29,14 +33,26 @@ namespace FluentTerminal.App.Adapters
             set => _applicationView.Title = value;
         }
 
+        public bool IsApiContractPresent(string api, ushort version)
+        {
+            return ApiInformation.IsApiContractPresent(api, version);
+        }
+
         public Task RunOnDispatcherThread(Action action)
         {
             return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action()).AsTask();
         }
 
-        public Task<bool> TryClose()
+        public async Task<bool> TryClose()
         {
-            return _applicationView.TryConsolidateAsync().AsTask();
+            if (_closed)
+            {
+                Logger.Instance.Debug("ApplicationViewAdapter.TryClose was called, but was already closed. ApplicationView.Id: {Id}", _applicationView.Id);
+                return true;
+            }
+            Logger.Instance.Debug("TryClose ApplicationView with Id: {Id}", _applicationView.Id);
+            _closed = await _applicationView.TryConsolidateAsync().AsTask();
+            return _closed;
         }
 
         public bool ToggleFullScreen()
