@@ -13,5 +13,7 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
         void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection);
 
         void OnSelectionChanged(string selection);
+
+        void OnError(string error);
     }
 }

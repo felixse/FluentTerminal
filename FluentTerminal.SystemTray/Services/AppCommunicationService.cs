@@ -8,6 +8,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using System;
 using FluentTerminal.Models.Responses;
+using FluentTerminal.App.Services;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -45,7 +46,7 @@ namespace FluentTerminal.SystemTray.Services
                 TerminalId = e
             };
 
-            _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            _appServiceConnection?.SendMessageAsync(CreateMessage(request));
         }
 
         private void _terminalsManager_DisplayOutputRequested(object sender, DisplayTerminalOutputRequest e)
@@ -84,7 +85,12 @@ namespace FluentTerminal.SystemTray.Services
                 var deferral = args.GetDeferral();
 
                 var request = JsonConvert.DeserializeObject<CreateTerminalRequest>(messageContent);
+
+                Logger.Instance.Debug("Received CreateTerminalRequest: {@request}", request);
+
                 var response = _terminalsManager.CreateTerminal(request);
+
+                Logger.Instance.Debug("Sending CreateTerminalResponse: {@response}", response);
 
                 await args.Request.SendResponseAsync(CreateMessage(response));
 

@@ -5,6 +5,7 @@
     xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:FluentTerminal.Models"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:ToolTipValueToPixelConverter x:Key="ToolTipValueToPixelConverter" />
@@ -45,7 +46,14 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
-                    SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}" />
+                    SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}"
+                    SelectedValuePath="Name">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:FontInfo">
+                            <TextBlock FontWeight="{x:Bind IsMonospaced, Converter={StaticResource TrueToBoldConverter}}" Text="{x:Bind Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <ComboBox
                     Width="200"
