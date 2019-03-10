@@ -207,7 +207,13 @@ namespace FluentTerminal.App.ViewModels
         public string TabTitle
         {
             get => _tabTitle;
-            set => Set(ref _tabTitle, value);
+            set
+            {
+                if (Set(ref _tabTitle, value) && IsSelected)
+                {
+                    ApplicationView.Title = value;
+                }
+            }
         }
 
         public string ShellTitle
@@ -215,12 +221,7 @@ namespace FluentTerminal.App.ViewModels
             get => _shellTitle;
             set
             {
-                if (Set(ref _shellTitle, value) && IsSelected)
-                {
-                    ApplicationView.Title = ShellTitle;
-                }
-
-                if (!_customTitle)
+                if (Set(ref _shellTitle, value) && !_customTitle)
                 {
                     TabTitle = value;
                 }
