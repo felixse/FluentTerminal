@@ -13,7 +13,7 @@ namespace FluentTerminal.App.Converters
         {
             if (value == null)
             {
-                return new SolidColorBrush(Colors.Transparent);
+                return Application.Current.Resources[(string)parameter];
             }
             else if (value is string hex)
             {
