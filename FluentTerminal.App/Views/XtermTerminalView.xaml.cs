@@ -67,7 +67,6 @@ namespace FluentTerminal.App.Views
             StartMediatorTask();
 
             Loaded += XtermTerminalView_Loaded;
-            GotFocus += XtermTerminalView_GotFocus;
         }
 
         public TerminalViewModel ViewModel { get; private set; }
@@ -340,15 +339,6 @@ namespace FluentTerminal.App.Views
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
             _socket.Send(Encoding.UTF8.GetString(e));
-        }
-
-        private async void XtermTerminalView_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (_webView != null)
-            {
-                _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
-            }
         }
 
         private void XtermTerminalView_Loaded(object sender, RoutedEventArgs e)
