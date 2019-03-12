@@ -17,15 +17,26 @@ namespace FluentTerminal.App.Adapters
         private bool _closed;
 
         public event CloseRequestedHandler CloseRequested;
+        public event EventHandler Closed;
 
         public ApplicationViewAdapter()
         {
             _applicationView = ApplicationView.GetForCurrentView();
+            _applicationView.Consolidated += _applicationView_Consolidated;
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
 
             Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
         }
+
+        private void _applicationView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            _applicationView.Consolidated -= _applicationView_Consolidated;
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public int Id => _applicationView.Id;
 
         public string Title
         {

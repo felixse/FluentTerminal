@@ -276,6 +276,8 @@ namespace FluentTerminal.App
         {
             if (sender is MainViewModel viewModel)
             {
+                Logger.Instance.Debug("MainViewModel with ApplicationView Id: {@id} closed.", viewModel.ApplicationView.Id);
+
                 viewModel.Closed -= OnMainViewModelClosed;
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;

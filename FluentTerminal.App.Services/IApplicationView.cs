@@ -9,7 +9,9 @@ namespace FluentTerminal.App.Services
     public interface IApplicationView
     {
         event CloseRequestedHandler CloseRequested;
+        event EventHandler Closed;
 
+        int Id { get; }
         string Title { get; set; }
 
         Task RunOnDispatcherThread(Action action);
