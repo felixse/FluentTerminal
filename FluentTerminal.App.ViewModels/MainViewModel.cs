@@ -103,7 +103,6 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var foo = ApplicationView.Id;
             RaisePropertyChanged(nameof(ShowTabsOnTop));
             RaisePropertyChanged(nameof(ShowTabsOnBottom));
         }
