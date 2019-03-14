@@ -99,7 +99,7 @@ namespace FluentTerminal.SystemTray.Services
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 _terminals.Remove(terminal.Id);
-                terminal.Dispose();
+                terminal.Close();
             }
         }
 
