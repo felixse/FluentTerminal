@@ -8,6 +8,7 @@ using FluentTerminal.SystemTray.Services.WinPty;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -36,6 +37,16 @@ namespace FluentTerminal.SystemTray.Services
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
+            if (_terminals.ContainsKey(request.Id))
+            {
+                // App terminated without cleaning up, removing orphaned sessions
+                foreach (var item in _terminals.Values)
+                {
+                    item.Dispose();
+                }
+                _terminals.Clear();
+            }
+
             ITerminalSession terminal = null;
             try
             {
