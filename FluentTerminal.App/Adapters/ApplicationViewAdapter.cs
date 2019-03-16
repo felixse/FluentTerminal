@@ -7,6 +7,7 @@ using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.Adapters
 {
@@ -22,18 +23,10 @@ namespace FluentTerminal.App.Adapters
         public ApplicationViewAdapter()
         {
             _applicationView = ApplicationView.GetForCurrentView();
-            _applicationView.Consolidated += _applicationView_Consolidated;
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
 
             Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
-        }
-
-        private void _applicationView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
-        {
-            _applicationView.Consolidated -= _applicationView_Consolidated;
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
-            Closed?.Invoke(this, EventArgs.Empty);
         }
 
         public int Id => _applicationView.Id;
@@ -92,6 +85,12 @@ namespace FluentTerminal.App.Adapters
             e.Handled = args.Cancelled;
 
             deferral.Complete();
+
+            if (!e.Handled)
+            {
+                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
+                Closed?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }
