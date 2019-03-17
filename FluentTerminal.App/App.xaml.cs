@@ -109,6 +109,30 @@ namespace FluentTerminal.App
             Logger.Instance.Error(e.Exception, "Unhandled Exception");
         }
 
+        private static IEnumerable<string> SplitArguments(string arguments)
+        {
+            var chars = arguments.ToCharArray();
+            var inQuote = false;
+
+            for (var i = 0; i < chars.Length; i++)
+            {
+                if (chars[i] == '"')
+                {
+                    inQuote = !inQuote;
+                }
+
+                if (!inQuote && chars[i] == ' ')
+                {
+                    chars[i] = '\n';
+                }
+            }
+
+            foreach (var value in new string(chars).Split('\n'))
+            {
+                yield return value.Trim('"');
+            }
+        }
+
         protected override void OnActivated(IActivatedEventArgs args)
         {
             if (args is CommandLineActivatedEventArgs commandLineActivated)
@@ -118,7 +142,7 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                _commandLineParser.ParseArguments(commandLineActivated.Operation.Arguments.Split(' '), typeof(NewVerb), typeof(SettingsVerb)).WithParsed(async verb =>
+                _commandLineParser.ParseArguments(SplitArguments(commandLineActivated.Operation.Arguments), typeof(NewVerb), typeof(SettingsVerb)).WithParsed(async verb =>
                 {
                     if (_alreadyLaunched)
                     {

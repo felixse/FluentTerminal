@@ -206,7 +206,11 @@ namespace FluentTerminal.App.ViewModels
                     profile = _settingsService.GetShellProfile(profileId);
                 }
 
-                profile.Arguments += " " + additionalArguments;
+                if (!string.IsNullOrWhiteSpace(additionalArguments))
+                {
+                    profile.Location = string.Empty;
+                    profile.Arguments = additionalArguments;
+                }
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, startupDirectory, profile, ApplicationView, _dispatcherTimer, _clipboardService);
