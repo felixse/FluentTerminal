@@ -2,8 +2,6 @@
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.SystemTray.Services.ConPty
@@ -112,6 +110,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Dispose()
         {
+            _terminal.Exited -= _terminal_Exited;
             Dispose(true);
         }
 

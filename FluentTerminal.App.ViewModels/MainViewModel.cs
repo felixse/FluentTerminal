@@ -14,7 +14,6 @@ namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IApplicationView _applicationView;
         private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
         private readonly IDispatcherTimer _dispatcherTimer;
@@ -39,7 +38,7 @@ namespace FluentTerminal.App.ViewModels
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
-            _applicationView = applicationView;
+            ApplicationView = applicationView;
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
@@ -82,8 +81,14 @@ namespace FluentTerminal.App.ViewModels
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
-            _applicationView.CloseRequested += OnCloseRequest;
+            ApplicationView.CloseRequested += OnCloseRequest;
+            ApplicationView.Closed += OnClosed;
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            Closed?.Invoke(this, e);
         }
 
         private void OnShellProfileDeleted(object sender, Guid e)
@@ -166,13 +171,15 @@ namespace FluentTerminal.App.ViewModels
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
 
+        public IApplicationView ApplicationView { get; }
+
         /// <summary>
         /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
         /// </summary>
         /// <returns></returns>
         public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId, string additionalArguments="")
         {
-            return _applicationView.RunOnDispatcherThread(async () =>
+            return ApplicationView.RunOnDispatcherThread(async () =>
             {
                 ShellProfile profile = null;
 
@@ -184,8 +191,7 @@ namespace FluentTerminal.App.ViewModels
                     {
                         if (Terminals.Count == 0)
                         {
-                            Closed?.Invoke(this, EventArgs.Empty);
-                            _applicationView.TryClose();
+                            ApplicationView.TryClose();
                         }
 
                         return;
@@ -203,7 +209,7 @@ namespace FluentTerminal.App.ViewModels
                 profile.Arguments += " " + additionalArguments;
 
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, startupDirectory, profile, _applicationView, _dispatcherTimer, _clipboardService);
+                    _applicationSettings, startupDirectory, profile, ApplicationView, _dispatcherTimer, _clipboardService);
                 terminal.Closed += OnTerminalClosed;
                 Terminals.Add(terminal);
 
@@ -211,11 +217,12 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        public void CloseAllTerminals()
+        public async Task CloseAllTerminals()
         {
             foreach (var terminal in Terminals)
             {
-                terminal.Close();
+                terminal.Closed -= OnTerminalClosed;
+                await terminal.Close();
             }
         }
 
@@ -236,7 +243,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
-            await _applicationView.RunOnDispatcherThread(() =>
+            await ApplicationView.RunOnDispatcherThread(() =>
             {
                 _applicationSettings = e;
                 TabsPosition = e.TabsPosition;
@@ -253,8 +260,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (result == DialogButton.OK)
                 {
-                    CloseAllTerminals();
-                    Closed?.Invoke(this, EventArgs.Empty);
+                    await CloseAllTerminals();
                 }
                 else
                 {
@@ -263,21 +269,20 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                CloseAllTerminals();
-                Closed?.Invoke(this, EventArgs.Empty);
+                await CloseAllTerminals();
             }
         }
 
         private async void OnCurrentThemeChanged(object sender, Guid e)
         {
-            await _applicationView.RunOnDispatcherThread(() =>
+            await ApplicationView.RunOnDispatcherThread(() =>
              {
                  var currentTheme = _settingsService.GetTheme(e);
                  Background = currentTheme.Colors.Background;
              });
         }
 
-        private void OnTerminalClosed(object sender, EventArgs e)
+        private async void OnTerminalClosed(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
@@ -285,19 +290,19 @@ namespace FluentTerminal.App.ViewModels
                 {
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
+                Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
                 Terminals.Remove(terminal);
 
                 if (Terminals.Count == 0)
                 {
-                    Closed?.Invoke(this, EventArgs.Empty);
-                    _applicationView.TryClose();
+                    await ApplicationView.TryClose();
                 }
             }
         }
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
-            await _applicationView.RunOnDispatcherThread(() =>
+            await ApplicationView.RunOnDispatcherThread(() =>
             {
                 BackgroundOpacity = e.BackgroundOpacity;
             });
@@ -337,7 +342,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void ToggleFullScreen()
         {
-            _applicationView.ToggleFullScreen();
+            ApplicationView.ToggleFullScreen();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace FluentTerminal.App.Adapters
         private bool _closed;
 
         public event CloseRequestedHandler CloseRequested;
+        public event EventHandler Closed;
 
         public ApplicationViewAdapter()
         {
@@ -26,6 +27,8 @@ namespace FluentTerminal.App.Adapters
 
             Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
         }
+
+        public int Id => _applicationView.Id;
 
         public string Title
         {
@@ -73,12 +76,19 @@ namespace FluentTerminal.App.Adapters
             var deferral = e.GetDeferral();
 
             var args = new CancelableEventArgs();
+
             if (CloseRequested != null)
             {
                 await CloseRequested.Invoke(this, args);
             }
 
             e.Handled = args.Cancelled;
+
+            if (!e.Handled)
+            {
+                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
+                Closed?.Invoke(this, EventArgs.Empty);
+            }
 
             deferral.Complete();
         }

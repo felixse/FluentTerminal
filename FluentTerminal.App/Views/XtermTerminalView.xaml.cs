@@ -2,7 +2,6 @@
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
-using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.RuntimeComponent.Enums;
@@ -31,19 +30,38 @@ namespace FluentTerminal.App.Views
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
         private readonly ManualResetEventSlim _connectedEvent;
-        private readonly SemaphoreSlim _loaded;
-        private bool _alreadyLoaded;
-        private MenuFlyoutItem _copyMenuItem;
+        private readonly SemaphoreSlim _navigationCompleted;
+        private readonly MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
-        private MenuFlyoutItem _pasteMenuItem;
+        private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
-        private DebouncedAction<TerminalOptions> _optionsChanged;
+        private readonly DebouncedAction<TerminalOptions> _optionsChanged;
         private IWebSocketConnection _socket;
 
         public XtermTerminalView()
         {
-            _loaded = new SemaphoreSlim(0, 1);
-            _connectedEvent = new ManualResetEventSlim(false);
+            InitializeComponent();
+            StartMediatorTask();
+
+            _webView = new WebView(WebViewExecutionMode.SeparateThread)
+            {
+                DefaultBackgroundColor = Colors.Transparent
+            };
+            Root.Children.Add(_webView);
+
+            _webView.NavigationCompleted += _webView_NavigationCompleted;
+            _webView.NavigationStarting += _webView_NavigationStarting;
+
+            _copyMenuItem = new MenuFlyoutItem { Text = "Copy" };
+            _copyMenuItem.Click += Copy_Click;
+
+            _pasteMenuItem = new MenuFlyoutItem { Text = "Paste" };
+            _pasteMenuItem.Click += Paste_Click;
+
+            _webView.ContextFlyout = new MenuFlyout
+            {
+                Items = { _copyMenuItem, _pasteMenuItem }
+            };
 
             JsonConvert.DefaultSettings = () =>
             {
@@ -51,7 +69,7 @@ namespace FluentTerminal.App.Views
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 };
-                settings.Converters.Add(new StringEnumConverter(true));
+                settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
 
                 return settings;
             };
@@ -62,12 +80,10 @@ namespace FluentTerminal.App.Views
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
             });
 
-            InitializeComponent();
+            _navigationCompleted = new SemaphoreSlim(0, 1);
+            _connectedEvent = new ManualResetEventSlim(false);
 
-            StartMediatorTask();
-
-            Loaded += XtermTerminalView_Loaded;
-            GotFocus += XtermTerminalView_GotFocus;
+            _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
 
         public TerminalViewModel ViewModel { get; private set; }
@@ -132,7 +148,7 @@ namespace FluentTerminal.App.Views
             {
                 sessionType = SessionType.ConPty;
             }
-            await _loaded.WaitAsync().ConfigureAwait(true);
+            await _navigationCompleted.WaitAsync().ConfigureAwait(true);
             var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles), sessionType).ConfigureAwait(true);
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
@@ -212,7 +228,7 @@ namespace FluentTerminal.App.Views
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             Logger.Instance.Debug("WebView navigation completed. Target: {uri}", args.Uri);
-            _loaded.Release();
+            _navigationCompleted.Release();
         }
 
         private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
@@ -340,53 +356,6 @@ namespace FluentTerminal.App.Views
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
             _socket.Send(Encoding.UTF8.GetString(e));
-        }
-
-        private async void XtermTerminalView_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (_webView != null)
-            {
-                _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
-            }
-        }
-
-        private void XtermTerminalView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_alreadyLoaded)
-            {
-                return;
-            }
-
-            Logger.Instance.Debug("XtermTerminalView_Loaded");
-
-            if (Root.Children.Any())
-            {
-                return;
-            }
-
-            _webView = new WebView(WebViewExecutionMode.SeparateThread)
-            {
-                DefaultBackgroundColor = Colors.Transparent
-            };
-            Root.Children.Add(_webView);
-
-            _webView.NavigationCompleted += _webView_NavigationCompleted;
-            _webView.NavigationStarting += _webView_NavigationStarting;
-
-            _copyMenuItem = new MenuFlyoutItem { Text = "Copy" };
-            _copyMenuItem.Click += Copy_Click;
-
-            _pasteMenuItem = new MenuFlyoutItem { Text = "Paste" };
-            _pasteMenuItem.Click += Paste_Click;
-
-            _webView.ContextFlyout = new MenuFlyout
-            {
-                Items = { _copyMenuItem, _pasteMenuItem }
-            };
-
-            _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
-            
         }
 
         void IxtermEventListener.OnError(string error)

@@ -103,6 +103,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Dispose()
         {
+            _shellProcess.Exited -= _shellProcess_Exited;
             Dispose(true);
             GC.SuppressFinalize(this);
         }
