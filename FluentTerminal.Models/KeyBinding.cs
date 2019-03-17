@@ -1,5 +1,8 @@
-﻿namespace FluentTerminal.Models
+﻿using System.Runtime.Serialization;
+
+namespace FluentTerminal.Models
 {
+    [DataContract]
     public class KeyBinding
     {
         public KeyBinding()
@@ -17,11 +20,22 @@
             Meta = other.Meta;
         }
 
+        [DataMember(Order = 0)]
         public string Command { get; set; }
+
+        [DataMember(Order = 1)]
         public int Key { get; set; }
+
+        [DataMember(Order = 2)]
         public bool Ctrl { get; set; }
+
+        [DataMember(Order = 3)]
         public bool Alt { get; set; }
+
+        [DataMember(Order = 4)]
         public bool Shift { get; set; }
+
+        [DataMember(Order = 5)]
         public bool Meta { get; set; }
 
         public override bool Equals(object obj)

@@ -1,7 +1,16 @@
-﻿namespace FluentTerminal.Models.Responses
+﻿using System.Runtime.Serialization;
+
+namespace FluentTerminal.Models.Responses
 {
-    public class GetAvailablePortResponse
+    [DataContract]
+    public class GetAvailablePortResponse : IMessage
     {
+        public const byte Identifier = 8;
+
+        [IgnoreDataMember]
+        byte IMessage.Identifier => Identifier;
+
+        [DataMember(Order = 0)]
         public int Port { get; set; }
     }
 }

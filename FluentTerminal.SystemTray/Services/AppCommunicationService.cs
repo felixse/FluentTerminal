@@ -1,6 +1,5 @@
 ﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Requests;
-using Newtonsoft.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -9,6 +8,7 @@ using Windows.Foundation.Collections;
 using System;
 using FluentTerminal.Models.Responses;
 using FluentTerminal.App.Services;
+using MessagePack;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -46,12 +46,12 @@ namespace FluentTerminal.SystemTray.Services
                 TerminalId = e
             };
 
-            _appServiceConnection?.SendMessageAsync(CreateMessage(request));
+            _appServiceConnection?.SendMessageAsync(CreateSerializedMessage(request));
         }
 
         private void _terminalsManager_DisplayOutputRequested(object sender, DisplayTerminalOutputRequest e)
         {
-            _appServiceConnection.SendMessageAsync(CreateMessage(e));
+            _appServiceConnection.SendMessageAsync(CreateSerializedMessage(e));
         }
 
         public void StartAppServiceConnection()
@@ -77,14 +77,14 @@ namespace FluentTerminal.SystemTray.Services
 
         private async void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            var messageType = (string)args.Request.Message[MessageKeys.Type];
-            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var messageType = (byte)args.Request.Message[MessageKeys.Type];
+            var messageContent = (byte[])args.Request.Message[MessageKeys.Content];
 
-            if (messageType == nameof(CreateTerminalRequest))
+            if (messageType == CreateTerminalRequest.Identifier)
             {
                 var deferral = args.GetDeferral();
 
-                var request = JsonConvert.DeserializeObject<CreateTerminalRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<CreateTerminalRequest>(messageContent);
 
                 Logger.Instance.Debug("Received CreateTerminalRequest: {@request}", request);
 
@@ -92,50 +92,50 @@ namespace FluentTerminal.SystemTray.Services
 
                 Logger.Instance.Debug("Sending CreateTerminalResponse: {@response}", response);
 
-                await args.Request.SendResponseAsync(CreateMessage(response));
+                await args.Request.SendResponseAsync(CreateSerializedMessage(response));
 
                 deferral.Complete();
             }
-            else if (messageType == nameof(ResizeTerminalRequest))
+            else if (messageType == ResizeTerminalRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<ResizeTerminalRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<ResizeTerminalRequest>(messageContent);
 
                 _terminalsManager.ResizeTerminal(request.TerminalId, request.NewSize);
             }
-            else if (messageType == nameof(SetToggleWindowKeyBindingsRequest))
+            else if (messageType == SetToggleWindowKeyBindingsRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<SetToggleWindowKeyBindingsRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<SetToggleWindowKeyBindingsRequest>(messageContent);
 
                 _toggleWindowService.SetHotKeys(request.KeyBindings);
             }
-            else if (messageType == nameof(WriteDataRequest))
+            else if (messageType == WriteDataRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<WriteDataRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<WriteDataRequest>(messageContent);
                 _terminalsManager.Write(request.TerminalId, request.Data);
             }
-            else if (messageType == nameof(TerminalExitedRequest))
+            else if (messageType == TerminalExitedRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<TerminalExitedRequest>(messageContent);
                 _terminalsManager.CloseTerminal(request.TerminalId);
             }
-            else if (messageType == nameof(GetAvailablePortRequest))
+            else if (messageType == GetAvailablePortRequest.Identifier)
             {
                 var deferral = args.GetDeferral();
 
                 var response = new GetAvailablePortResponse { Port = Utilities.GetAvailablePort().Value };
 
-                await args.Request.SendResponseAsync(CreateMessage(response));
+                await args.Request.SendResponseAsync(CreateSerializedMessage(response));
 
                 deferral.Complete();
             }
         }
 
-        private ValueSet CreateMessage(object content)
+        private ValueSet CreateSerializedMessage<T>(T message) where T : IMessage
         {
             return new ValueSet
             {
-                [MessageKeys.Type] = content.GetType().Name,
-                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
+                [MessageKeys.Type] = message.Identifier,
+                [MessageKeys.Content] = MessagePackSerializer.Serialize(message)
             };
         }
     }

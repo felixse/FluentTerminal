@@ -1,6 +1,13 @@
-﻿namespace FluentTerminal.Models.Requests
+﻿using System.Runtime.Serialization;
+
+namespace FluentTerminal.Models.Requests
 {
-    public class GetAvailablePortRequest
+    [DataContract]
+    public class GetAvailablePortRequest : IMessage
     {
+        public const byte Identifier = 2;
+
+        [IgnoreDataMember]
+        byte IMessage.Identifier => Identifier;
     }
 }

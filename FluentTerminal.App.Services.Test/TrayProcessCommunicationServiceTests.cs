@@ -5,8 +5,8 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
+using MessagePack;
 using Moq;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,12 +34,8 @@ namespace FluentTerminal.App.Services.Test
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var response = _fixture.Create<CreateTerminalResponse>();
-            var responseMessage = new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = _fixture.Create<string>(),
-                [MessageKeys.Content] = JsonConvert.SerializeObject(response)
-            };
-            appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<IDictionary<string, string>>())).Returns(Task.FromResult((IDictionary<string, string>)responseMessage));
+            var responseMessage = new SerializedMessage(_fixture.Create<byte>(), MessagePackSerializer.Serialize(response));
+            appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<SerializedMessage>())).Returns(Task.FromResult(responseMessage));
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
             var sessionType = _fixture.Create<SessionType>();
@@ -69,7 +65,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(ResizeTerminalRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<SerializedMessage>(d => d.Identifier == ResizeTerminalRequest.Identifier)), Times.Once);
         }
 
         [Fact]
@@ -89,7 +85,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.Write(terminalId, data);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteDataRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<SerializedMessage>(d => d.Identifier == WriteDataRequest.Identifier)), Times.Once);
         }
 
         [Fact]
@@ -108,7 +104,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.CloseTerminal(terminalId);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(TerminalExitedRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<SerializedMessage>(d => d.Identifier == TerminalExitedRequest.Identifier)), Times.Once);
         }
 
         [Fact]
@@ -121,11 +117,7 @@ namespace FluentTerminal.App.Services.Test
             {
                 TerminalId = terminalId
             };
-            var message = new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = nameof(TerminalExitedRequest),
-                [MessageKeys.Content] = JsonConvert.SerializeObject(request)
-            };
+            var message = new SerializedMessage(TerminalExitedRequest.Identifier, MessagePackSerializer.Serialize(request));
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
             settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
@@ -158,11 +150,7 @@ namespace FluentTerminal.App.Services.Test
                 TerminalId = terminalId,
                 Output = output
             };
-            var message = new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = nameof(DisplayTerminalOutputRequest),
-                [MessageKeys.Content] = JsonConvert.SerializeObject(request)
-            };
+            var message = new SerializedMessage(DisplayTerminalOutputRequest.Identifier, MessagePackSerializer.Serialize(request));
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
             settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>

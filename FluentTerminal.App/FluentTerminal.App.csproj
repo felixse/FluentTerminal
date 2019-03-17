@@ -207,6 +207,7 @@
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
+    <Content Include="Win32\MessagePack.dll" />
     <Content Include="Win32\Newtonsoft.Json.dll" />
     <Content Include="Win32\PListNet.dll" />
     <Content Include="Win32\RestSharp.dll" />
@@ -224,6 +225,7 @@
     <Content Include="Win32\System.Security.Cryptography.Algorithms.dll" />
     <Content Include="Win32\System.Security.SecureString.dll" />
     <Content Include="Win32\System.Threading.Overlapped.dll" />
+    <Content Include="Win32\System.Threading.Tasks.Extensions.dll" />
     <Content Include="Win32\System.Xml.XPath.XDocument.dll" />
     <Content Include="Win32\winpty-agent.exe" />
     <Content Include="Win32\winpty-debugserver.exe" />

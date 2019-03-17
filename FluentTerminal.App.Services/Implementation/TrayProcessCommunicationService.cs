@@ -2,7 +2,7 @@
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
-using Newtonsoft.Json;
+using MessagePack;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -33,8 +33,8 @@ namespace FluentTerminal.App.Services.Implementation
         {
             var request = new GetAvailablePortRequest();
 
-            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
-            var response = JsonConvert.DeserializeObject<GetAvailablePortResponse>(responseMessage[MessageKeys.Content]);
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
+            var response = MessagePackSerializer.Deserialize<GetAvailablePortResponse>(responseMessage.Data);
 
             Logger.Instance.Debug("Received GetAvailablePortResponse: {@response}", response);
 
@@ -53,8 +53,8 @@ namespace FluentTerminal.App.Services.Implementation
 
             Logger.Instance.Debug("Sending CreateTerminalRequest: {@request}", request);
 
-            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
-            var response = JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
+            var response = MessagePackSerializer.Deserialize<CreateTerminalResponse>(responseMessage.Data);
 
             Logger.Instance.Debug("Received CreateTerminalResponse: {@response}", response);
 
@@ -67,14 +67,11 @@ namespace FluentTerminal.App.Services.Implementation
             _appServiceConnection.MessageReceived += OnMessageReceived;
         }
 
-        private void OnMessageReceived(object sender, IDictionary<string, string> e)
+        private void OnMessageReceived(object sender, SerializedMessage e)
         {
-            var messageType = e[MessageKeys.Type];
-            var messageContent = e[MessageKeys.Content];
-
-            if (messageType == nameof(DisplayTerminalOutputRequest))
+            if (e.Identifier == DisplayTerminalOutputRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<DisplayTerminalOutputRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<DisplayTerminalOutputRequest>(e.Data);
 
                 if (_terminalOutputHandlers.ContainsKey(request.TerminalId))
                 {
@@ -85,9 +82,9 @@ namespace FluentTerminal.App.Services.Implementation
                     Logger.Instance.Error("Received output for unknown terminal Id {id}", request.TerminalId);
                 }
             }
-            else if (messageType == nameof(TerminalExitedRequest))
+            else if (e.Identifier == TerminalExitedRequest.Identifier)
             {
-                var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
+                var request = MessagePackSerializer.Deserialize<TerminalExitedRequest>(e.Data);
 
                 Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 
@@ -103,7 +100,7 @@ namespace FluentTerminal.App.Services.Implementation
                 NewSize = size
             };
 
-            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            return _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
         }
 
         public void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback)
@@ -120,18 +117,18 @@ namespace FluentTerminal.App.Services.Implementation
                 KeyBindings = keyBindings
             };
 
-            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            return _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
         }
 
-        public Task Write(int id, byte[] data)
+        public Task Write(int terminalId, byte[] data)
         {
             var request = new WriteDataRequest
             {
-                TerminalId = id,
+                TerminalId = terminalId,
                 Data = data
             };
 
-            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            return _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
         }
 
         public Task CloseTerminal(int terminalId)
@@ -143,16 +140,15 @@ namespace FluentTerminal.App.Services.Implementation
 
             Logger.Instance.Debug("Sending TerminalExitedRequest: {@request}", request);
 
-            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            return _appServiceConnection.SendMessageAsync(CreateSerializedMessage(request));
         }
 
-        private IDictionary<string, string> CreateMessage(object content)
+        private SerializedMessage CreateSerializedMessage<T>(T message) where T : IMessage
         {
-            return new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = content.GetType().Name,
-                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
-            };
+            var identifier = message.Identifier;
+            var data = MessagePackSerializer.Serialize(message);
+
+            return new SerializedMessage(identifier, data);
         }
     }
 }

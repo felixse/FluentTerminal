@@ -6,8 +6,8 @@ namespace FluentTerminal.App.Services
 {
     public interface IAppServiceConnection
     {
-        event EventHandler<IDictionary<string, string>> MessageReceived;
+        event EventHandler<SerializedMessage> MessageReceived;
 
-        Task<IDictionary<string, string>> SendMessageAsync(IDictionary<string, string> message);
+        Task<SerializedMessage> SendMessageAsync(SerializedMessage message);
     }
 }

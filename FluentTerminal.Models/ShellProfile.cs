@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using FluentTerminal.Models.Enums;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace FluentTerminal.Models
 {
+    [DataContract]
     public class ShellProfile
     {
         /// <summary>
@@ -32,14 +34,35 @@ namespace FluentTerminal.Models
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
 
+        [DataMember(Order = 0)]
         public Guid Id { get; set; }
+
+        [DataMember(Order = 1)]
         public bool PreInstalled { get; set; }
+
+        [DataMember(Order = 2)]
         public string Name { get; set; }
+
+        [DataMember(Order = 3)]
         public string Arguments { get; set; }
+
+        [DataMember(Order = 4)]
         public string Location { get; set; }
+
+        [DataMember(Order = 5)]
         public string WorkingDirectory { get; set; }
+
+        [DataMember(Order = 6)]
         public int TabThemeId { get; set; }
+
+        [DataMember(Order = 7)]
         public LineEndingStyle LineEndingTranslation { get; set; }
+
+        [DataMember(Order = 8)]
+        public Guid TerminalThemeId { get; set; }
+
+        [DataMember(Order = 9)]
+        public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
 
         public string TranslateLineEndings(string content)
         {
@@ -54,9 +77,6 @@ namespace FluentTerminal.Models
                     return content;
             }
         }
-
-        public Guid TerminalThemeId { get; set; }
-        public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
 
         public override bool Equals(object obj)
         {
