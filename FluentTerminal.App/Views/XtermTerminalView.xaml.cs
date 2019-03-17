@@ -29,7 +29,7 @@ namespace FluentTerminal.App.Views
 {
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
-        private readonly SemaphoreSlim _connectedEvent;
+        private readonly ManualResetEventSlim _connectedEvent;
         private readonly SemaphoreSlim _navigationCompleted;
         private readonly MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
@@ -81,7 +81,7 @@ namespace FluentTerminal.App.Views
             });
 
             _navigationCompleted = new SemaphoreSlim(0, 1);
-            _connectedEvent = new SemaphoreSlim(0, 1);
+            _connectedEvent = new ManualResetEventSlim(false);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
@@ -152,7 +152,7 @@ namespace FluentTerminal.App.Views
             var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles), sessionType).ConfigureAwait(true);
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
-            await _connectedEvent.WaitAsync().ConfigureAwait(true);
+            _connectedEvent.Wait();
             await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType).ConfigureAwait(true);
             _webView.Focus(FocusState.Programmatic);
         }
@@ -214,7 +214,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTerminalResized(int columns, int rows)
         {
-            if (_connectedEvent.CurrentCount == 1) // only propagate after xterm.js is finished with fitting
+            if (_connectedEvent.IsSet) // only propagate after xterm.js is finished with fitting
             {
                 _dispatcherJobs.Add(async () => await ViewModel.Terminal.SetSize(new TerminalSize { Columns = columns, Rows = rows }).ConfigureAwait(true));
             }
@@ -273,7 +273,7 @@ namespace FluentTerminal.App.Views
                 socket.OnOpen = () =>
                 {
                     Logger.Instance.Debug("WebSocket open");
-                    _connectedEvent.Release();
+                    _connectedEvent.Set();
                 };
                 socket.OnMessage = message => ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(message));
             });
