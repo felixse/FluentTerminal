@@ -7,7 +7,6 @@ using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.Adapters
 {
@@ -77,6 +76,7 @@ namespace FluentTerminal.App.Adapters
             var deferral = e.GetDeferral();
 
             var args = new CancelableEventArgs();
+
             if (CloseRequested != null)
             {
                 await CloseRequested.Invoke(this, args);
@@ -84,13 +84,13 @@ namespace FluentTerminal.App.Adapters
 
             e.Handled = args.Cancelled;
 
-            deferral.Complete();
-
             if (!e.Handled)
             {
                 SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
                 Closed?.Invoke(this, EventArgs.Empty);
             }
+
+            deferral.Complete();
         }
     }
 }

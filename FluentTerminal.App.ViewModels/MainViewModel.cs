@@ -215,11 +215,12 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        public void CloseAllTerminals()
+        public async Task CloseAllTerminals()
         {
             foreach (var terminal in Terminals)
             {
-                terminal.Close();
+                terminal.Closed -= OnTerminalClosed;
+                await terminal.Close();
             }
         }
 
@@ -257,7 +258,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (result == DialogButton.OK)
                 {
-                    CloseAllTerminals();
+                    await CloseAllTerminals();
                 }
                 else
                 {
@@ -266,7 +267,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                CloseAllTerminals();
+                await CloseAllTerminals();
             }
         }
 
