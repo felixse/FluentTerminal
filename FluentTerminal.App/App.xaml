@@ -38,6 +38,7 @@
             <converters:TabThemeSelectedConverter x:Key="TabThemeSelectedConverter" />
             <converters:ColorResourceKeyFallbackConverter x:Key="ColorResourceKeyFallbackConverter" />
             <converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+            <converters:TrueToBoldConverter x:Key="TrueToBoldConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

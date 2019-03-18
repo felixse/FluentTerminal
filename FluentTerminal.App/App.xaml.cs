@@ -13,6 +13,7 @@ using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -97,7 +98,7 @@ namespace FluentTerminal.App
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(e.Exception.ToString());
+            Logger.Instance.Error(e.Exception, "Unhandled Exception");
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -152,6 +153,10 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
+                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
+                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
+                Logger.Instance.Initialize(logFile);
+
                 var viewModel = _container.Resolve<MainViewModel>();
                 await viewModel.AddTerminal(null, false, Guid.Empty).ConfigureAwait(true);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
@@ -271,9 +276,12 @@ namespace FluentTerminal.App
         {
             if (sender is MainViewModel viewModel)
             {
+                Logger.Instance.Debug("MainViewModel with ApplicationView Id: {@id} closed.", viewModel.ApplicationView.Id);
+
                 viewModel.Closed -= OnMainViewModelClosed;
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
+                viewModel.ShowAboutRequested -= OnShowAboutRequested;
 
                 _mainViewModels.Remove(viewModel);
             }
@@ -319,8 +327,7 @@ namespace FluentTerminal.App
         private async Task StartSystemTray()
         {
             var launch = FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("AppLaunchedParameterGroup").AsTask();
-            var clearCache = WebView.ClearTemporaryWebDataAsync().AsTask();
-            await Task.WhenAll(launch, clearCache, _trayReady.Task).ConfigureAwait(true);
+            await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
     }

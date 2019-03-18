@@ -2,7 +2,6 @@
 using FluentTerminal.Models.Requests;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.SystemTray.Services.ConPty
@@ -74,10 +73,12 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                     {
                         var buffer = new byte[1024];
                         var readBytes = await _terminal.ConsoleOutStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                        var read = new byte[readBytes];
+                        Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
 
                         if (readBytes > 0)
                         {
-                            _terminalsManager.DisplayTerminalOutput(Id, buffer);
+                            _terminalsManager.DisplayTerminalOutput(Id, read);
                         }
                     }
                     while (!_exited);
@@ -109,6 +110,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Dispose()
         {
+            _terminal.Exited -= _terminal_Exited;
             Dispose(true);
         }
 

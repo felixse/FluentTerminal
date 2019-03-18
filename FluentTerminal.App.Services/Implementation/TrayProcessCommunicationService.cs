@@ -5,7 +5,6 @@ using FluentTerminal.Models.Responses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services.Implementation
@@ -35,8 +34,11 @@ namespace FluentTerminal.App.Services.Implementation
             var request = new GetAvailablePortRequest();
 
             var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            var response = JsonConvert.DeserializeObject<GetAvailablePortResponse>(responseMessage[MessageKeys.Content]);
 
-            return JsonConvert.DeserializeObject<GetAvailablePortResponse>(responseMessage[MessageKeys.Content]);
+            Logger.Instance.Debug("Received GetAvailablePortResponse: {@response}", response);
+
+            return response;
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
@@ -49,9 +51,14 @@ namespace FluentTerminal.App.Services.Implementation
                 SessionType = sessionType
             };
 
-            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            Logger.Instance.Debug("Sending CreateTerminalRequest: {@request}", request);
 
-            return JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            var response = JsonConvert.DeserializeObject<CreateTerminalResponse>(responseMessage[MessageKeys.Content]);
+
+            Logger.Instance.Debug("Received CreateTerminalResponse: {@response}", response);
+
+            return response;
         }
 
         public void Initialize(IAppServiceConnection appServiceConnection)
@@ -75,12 +82,14 @@ namespace FluentTerminal.App.Services.Implementation
                 }
                 else
                 {
-                    Debug.WriteLine("output was not handled: " + request.Output);
+                    Logger.Instance.Error("Received output for unknown terminal Id {id}", request.TerminalId);
                 }
             }
             else if (messageType == nameof(TerminalExitedRequest))
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
+
+                Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 
                 TerminalExited?.Invoke(this, request.TerminalId);
             }
@@ -131,6 +140,8 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 TerminalId = terminalId
             };
+
+            Logger.Instance.Debug("Sending TerminalExitedRequest: {@request}", request);
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }

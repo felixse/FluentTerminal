@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Threading.Tasks;
 using static winpty.WinPty;
 
@@ -102,6 +103,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Dispose()
         {
+            _shellProcess.Exited -= _shellProcess_Exited;
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -180,11 +182,13 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     do
                     {
                         var buffer = new byte[1024];
-                        var readChars = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                        var readBytes = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                        var read = new byte[readBytes];
+                        Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
 
-                        if (readChars > 0)
+                        if (readBytes > 0)
                         {
-                            _terminalsManager.DisplayTerminalOutput(Id, buffer);
+                            _terminalsManager.DisplayTerminalOutput(Id, read);
                         }
                     }
                     while (!_exited);

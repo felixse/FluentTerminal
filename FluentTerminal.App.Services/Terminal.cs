@@ -60,7 +60,6 @@ namespace FluentTerminal.App.Services
         public async Task Close()
         {
             await _trayProcessCommunicationService.CloseTerminal(Id).ConfigureAwait(true);
-            Closed?.Invoke(this, System.EventArgs.Empty);
         }
 
         /// <summary>

@@ -43,5 +43,10 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
         {
             _terminalEventListener.OnSelectionChanged(selection);
         }
+
+        public void ReportError(string error)
+        {
+            _terminalEventListener.OnError(error);
+        }
     }
 }
