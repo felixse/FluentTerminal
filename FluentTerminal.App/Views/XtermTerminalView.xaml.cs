@@ -55,7 +55,7 @@ namespace FluentTerminal.App.Views
             _copyMenuItem = new MenuFlyoutItem { Text = "Copy" };
             _copyMenuItem.Click += Copy_Click;
 
-            _pasteMenuItem = new MenuFlyoutItem { Text = "Paste" };
+            _pasteMenuItem = new MenuFlyoutItem { Text = "Paste", Icon = new SymbolIcon(Symbol.Paste), KeyboardAcceleratorTextOverride = "Ctrl + V" };
             _pasteMenuItem.Click += Paste_Click;
 
             _webView.ContextFlyout = new MenuFlyout

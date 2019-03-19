@@ -16,7 +16,7 @@
         x:Name="splitView"
         DisplayMode="Overlay"
         IsPaneOpen="{Binding IsChecked, ElementName=togglePaneButton}"
-        OpenPaneLength="200"
+        OpenPaneLength="240"
         PaneBackground="Transparent">
         <SplitView.Pane>
             <Border x:Name="PaneRoot" Padding="0,0,12,0">
@@ -29,7 +29,10 @@
                         Color="Black">
                         <Rectangle Fill="White" />
                     </controls:DropShadowPanel>
-                    <Grid x:Name="Menu" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}">
+                    <Grid
+                        x:Name="Menu"
+                        Padding="0,0,0,24"
+                        Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -49,14 +52,35 @@
                             <MenuFlyoutItem
                                 Command="{x:Bind ViewModel.AddTerminalCommand}"
                                 Icon="Add"
+                                KeyboardAcceleratorTextOverride="Ctrl + T"
+                                Style="{StaticResource MenuFlyoutItemWithIconAndKeyboardAccelerator}"
                                 Text="New Tab" />
-                            <MenuFlyoutItem Text="New Window" />
+
+                            <MenuFlyoutItem
+                                Icon="NewWindow"
+                                KeyboardAcceleratorTextOverride="Ctrl + N"
+                                Style="{StaticResource MenuFlyoutItemWithIconAndKeyboardAccelerator}"
+                                Text="New Window" />
                             <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowSettingsCommand}" Text="Settings" />
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowAboutCommand}" Text="About" />
+                            <MenuFlyoutItem
+                                Command="{x:Bind ViewModel.ShowSettingsCommand}"
+                                Icon="Setting"
+                                KeyboardAcceleratorTextOverride="Ctrl + ,"
+                                Style="{StaticResource MenuFlyoutItemWithIconAndKeyboardAccelerator}"
+                                Text="Settings" />
                             <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Text="Quit" />
+                            <MenuFlyoutItem
+                                Icon="Cancel"
+                                KeyboardAcceleratorTextOverride="Alt + F4"
+                                Style="{StaticResource MenuFlyoutItemWithIconAndKeyboardAccelerator}"
+                                Text="Quit" />
                         </StackPanel>
+                        <MenuFlyoutItem
+                            Grid.Row="2"
+                            Command="{x:Bind ViewModel.ShowAboutCommand}"
+                            Icon="Help"
+                            Style="{StaticResource MenuFlyoutItemWithIconAndKeyboardAccelerator}"
+                            Text="About" />
                     </Grid>
                 </Grid>
             </Border>
