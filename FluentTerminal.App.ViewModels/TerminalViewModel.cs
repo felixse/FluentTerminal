@@ -17,7 +17,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly IDispatcherTimer _resizeOverlayTimer;
         private bool _isSelected;
-        private bool _newOutput;
+        private bool _hasNewOutput;
         private string _resizeOverlayContent;
         private string _searchText;
         private bool _showResizeOverlay;
@@ -26,10 +26,10 @@ namespace FluentTerminal.App.ViewModels
         private TerminalTheme _terminalTheme;
         private string _tabTitle;
         private string _shellTitle;
-        private bool _customTitle = false;
+        private bool _hasCustomTitle;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
-            IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, string startupDirectory, ShellProfile shellProfile,
+            IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
             SettingsService = settingsService;
@@ -43,7 +43,6 @@ namespace FluentTerminal.App.ViewModels
             DialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
             ApplicationSettings = applicationSettings;
-            StartupDirectory = startupDirectory;
             ApplicationView = applicationView;
             ClipboardService = clipboardService;
 
@@ -63,11 +62,6 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
             EditTitleCommand = new AsyncCommand(EditTitle);
-
-            if (!string.IsNullOrWhiteSpace(StartupDirectory))
-            {
-                ShellProfile.WorkingDirectory = StartupDirectory;
-            }
 
             Terminal = new Terminal(TrayProcessCommunicationService);
             Terminal.KeyboardCommandReceived += Terminal_KeyboardCommandReceived;
@@ -123,7 +117,7 @@ namespace FluentTerminal.App.ViewModels
                     if (IsSelected)
                     {
                         ApplicationView.Title = ShellTitle ?? string.Empty;
-                        NewOutput = false;
+                        HasNewOutput = false;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
@@ -134,10 +128,10 @@ namespace FluentTerminal.App.ViewModels
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
             (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
 
-        public bool NewOutput
+        public bool HasNewOutput
         {
-            get => _newOutput;
-            set => Set(ref _newOutput, value);
+            get => _hasNewOutput;
+            set => Set(ref _hasNewOutput, value);
         }
 
         public string ResizeOverlayContent
@@ -181,8 +175,6 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
-        public string StartupDirectory { get; }
-
         public TabTheme TabTheme
         {
             get => _tabTheme;
@@ -221,7 +213,7 @@ namespace FluentTerminal.App.ViewModels
             get => _shellTitle;
             set
             {
-                if (Set(ref _shellTitle, value) && !_customTitle)
+                if (Set(ref _shellTitle, value) && !_hasCustomTitle)
                 {
                     TabTitle = value;
                 }
@@ -232,6 +224,10 @@ namespace FluentTerminal.App.ViewModels
 
         public Task Close()
         {
+            SettingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
+            SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
+            SettingsService.ApplicationSettingsChanged -= OnApplicationSettingsChanged;
+            SettingsService.KeyBindingsChanged -= OnKeyBindingsChanged;
             return Terminal.Close();
         }
 
@@ -247,12 +243,12 @@ namespace FluentTerminal.App.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(result))
                 {
-                    _customTitle = false;
+                    _hasCustomTitle = false;
                     TabTitle = ShellTitle;
                 }
                 else
                 {
-                    _customTitle = true;
+                    _hasCustomTitle = true;
                     TabTitle = result;
                 }
             }
@@ -381,7 +377,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {
-                ApplicationView.RunOnDispatcherThread(() => NewOutput = true);
+                ApplicationView.RunOnDispatcherThread(() => HasNewOutput = true);
             }
         }
 

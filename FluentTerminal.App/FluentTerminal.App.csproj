@@ -112,7 +112,9 @@
     </Compile>
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="CommandLineArguments\NewVerb.cs" />
+    <Compile Include="CommandLineArguments\RunVerb.cs" />
     <Compile Include="CommandLineArguments\SettingsVerb.cs" />
+    <Compile Include="CommandLineArguments\Target.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />

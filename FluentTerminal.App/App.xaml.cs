@@ -101,6 +101,7 @@ namespace FluentTerminal.App
             _commandLineParser = new Parser(settings =>
             {
                 settings.CaseSensitive = false;
+                settings.CaseInsensitiveEnumValues = true;
             });
         }
 
@@ -142,39 +143,60 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                _commandLineParser.ParseArguments(SplitArguments(commandLineActivated.Operation.Arguments), typeof(NewVerb), typeof(SettingsVerb)).WithParsed(async verb =>
+                _commandLineParser.ParseArguments(SplitArguments(commandLineActivated.Operation.Arguments), typeof(NewVerb), typeof(RunVerb), typeof(SettingsVerb)).WithParsed(async verb =>
                 {
-                    if (_alreadyLaunched)
+                    if (verb is SettingsVerb)
                     {
-                        if (verb is SettingsVerb)
-                        {
-                            await ShowSettings().ConfigureAwait(true);
-                        }
-                        else if (verb is NewVerb newVerb)
-                        {
-                            if (_applicationSettings.NewTerminalLocation == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
-                            {
-                                await _mainViewModels.Last().AddTerminal(newVerb.Path, false, Guid.Empty, newVerb.Command).ConfigureAwait(true);
-                            }
-                            else
-                            {
-                                await CreateNewTerminalWindow(newVerb.Path, false, newVerb.Command).ConfigureAwait(true);
-                            }
-                        }
+                        await ShowSettings().ConfigureAwait(true);
                     }
-                    else
+                    else if (verb is NewVerb newVerb)
                     {
-                        if (verb is SettingsVerb)
+                        var profile = default(ShellProfile);
+                        if (!string.IsNullOrWhiteSpace(newVerb.Profile))
                         {
-                            var viewModel = _container.Resolve<SettingsViewModel>();
-                            await CreateMainView(typeof(SettingsPage), viewModel, true).ConfigureAwait(true);
+                            profile = _settingsService.GetShellProfiles().FirstOrDefault(x => x.Name.Equals(newVerb.Profile, StringComparison.CurrentCultureIgnoreCase));
                         }
-                        else if (verb is NewVerb newVerb)
+
+                        if (profile == null)
                         {
-                            var viewModel = _container.Resolve<MainViewModel>();
-                            await viewModel.AddTerminal(newVerb.Path, false, Guid.Empty, newVerb.Command).ConfigureAwait(true);
-                            await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
+                            profile = _settingsService.GetDefaultShellProfile();
                         }
+
+                        if (!string.IsNullOrWhiteSpace(newVerb.Directory))
+                        {
+                            profile.WorkingDirectory = newVerb.Directory;
+                        }
+
+                        var location = newVerb.Target == Target.Default ? _applicationSettings.NewTerminalLocation
+                            : newVerb.Target == Target.Tab ? NewTerminalLocation.Tab
+                            : NewTerminalLocation.Window;
+
+                        await CreateTerminal(profile, location).ConfigureAwait(true);
+                    }
+                    else if (verb is RunVerb runVerb)
+                    {
+                        var profile = new ShellProfile
+                        {
+                            Id = Guid.Empty,
+                            Location = null,
+                            Arguments = runVerb.Command,
+                            WorkingDirectory = runVerb.Directory
+                        };
+
+                        if (!string.IsNullOrWhiteSpace(runVerb.Theme))
+                        {
+                            var theme = _settingsService.GetThemes().FirstOrDefault(x => x.Name.Equals(runVerb.Theme, StringComparison.CurrentCultureIgnoreCase));
+                            if (theme != null)
+                            {
+                                profile.TerminalThemeId = theme.Id;
+                            }
+                        }
+
+                        var location = runVerb.Target == Target.Default ? _applicationSettings.NewTerminalLocation
+                            : runVerb.Target == Target.Tab ? NewTerminalLocation.Tab
+                            : NewTerminalLocation.Window;
+
+                        await CreateTerminal(profile, location).ConfigureAwait(true);
                     }
                 });
             }
@@ -189,13 +211,13 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminal(null, false, Guid.Empty).ConfigureAwait(true);
+                viewModel.AddTerminal();
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Count == 0)
             {
-                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, false, string.Empty).ConfigureAwait(true);
+                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
             }
         }
 
@@ -256,13 +278,19 @@ namespace FluentTerminal.App
             Window.Current.Activate();
         }
 
-        private async Task CreateNewTerminalWindow(string startupDirectory, bool showProfileSelection, string additionalArguments= "")
+        private async Task<MainViewModel> CreateNewTerminalWindow()
         {
-            var id = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true, showProfileSelection, startupDirectory, additionalArguments).ConfigureAwait(true);
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(id);
+            var viewModel = await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
+            viewModel.Closed += OnMainViewModelClosed;
+            viewModel.NewWindowRequested += OnNewWindowRequested;
+            viewModel.ShowSettingsRequested += OnShowSettingsRequested;
+            viewModel.ShowAboutRequested += OnShowAboutRequested;
+            _mainViewModels.Add(viewModel);
+
+            return viewModel;
         }
 
-        private async Task<int> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar, bool showProfileSelection, object parameter, string additionalArguments = "")
+        private async Task<TViewModel> CreateSecondaryView<TViewModel>(Type pageType, bool ExtendViewIntoTitleBar)
         {
             int windowId = 0;
             TViewModel viewModel = default;
@@ -279,23 +307,16 @@ namespace FluentTerminal.App
                 windowId = ApplicationView.GetForCurrentView().Id;
             });
 
-            if (viewModel is MainViewModel mainViewModel && parameter is string directory)
-            {
-                mainViewModel.Closed += OnMainViewModelClosed;
-                mainViewModel.NewWindowRequested += OnNewWindowRequested;
-                mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
-                mainViewModel.ShowAboutRequested += OnShowAboutRequested;
-                _mainViewModels.Add(mainViewModel);
-                await mainViewModel.AddTerminal(directory, showProfileSelection, Guid.Empty, additionalArguments).ConfigureAwait(true);
-            }
-
             if (viewModel is SettingsViewModel settingsViewModel)
             {
                 _settingsViewModel = settingsViewModel;
                 _settingsViewModel.Closed += OnSettingsClosed;
+                _settingsWindowId = windowId;
             }
 
-            return windowId;
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(windowId);
+
+            return viewModel;
         }
 
         private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
@@ -320,7 +341,16 @@ namespace FluentTerminal.App
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
-            await CreateNewTerminalWindow(string.Empty, e.ShowProfileSelection).ConfigureAwait(true);
+            var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+
+            if (e.ShowProfileSelection)
+            {
+                await viewModel.AddConfigurableTerminal().ConfigureAwait(true);
+            }
+            else
+            {
+                viewModel.AddTerminal();
+            }
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)
@@ -346,13 +376,40 @@ namespace FluentTerminal.App
             _settingsViewModel.NavigateToAboutPage();
         }
 
+        private async Task CreateTerminal(ShellProfile profile, NewTerminalLocation location)
+        {
+            if (!_alreadyLaunched)
+            {
+                var viewModel = _container.Resolve<MainViewModel>();
+                viewModel.AddTerminal(profile);
+                await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
+            }
+            else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
+            {
+                _mainViewModels.Last().AddTerminal(profile);
+            }
+            else
+            {
+                var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+                viewModel.AddTerminal(profile);
+            }
+        }
+
         private async Task ShowSettings()
         {
-            if (_settingsViewModel == null)
+            if (!_alreadyLaunched)
             {
-                _settingsWindowId = await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true, false, null).ConfigureAwait(true);
+                var viewModel = _container.Resolve<SettingsViewModel>();
+                await CreateMainView(typeof(SettingsPage), viewModel, true).ConfigureAwait(true);
             }
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+            else if (_settingsViewModel == null)
+            {
+                await CreateSecondaryView<SettingsViewModel>(typeof(SettingsPage), true).ConfigureAwait(true);
+            }
+            else
+            {
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_settingsWindowId.Value);
+            }
         }
 
         private async Task StartSystemTray()
