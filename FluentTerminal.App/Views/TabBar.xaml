@@ -189,7 +189,7 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
-                                <Grid Height="32" Visibility="{x:Bind NewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                <Grid Height="32" Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                                     <Viewbox
                                         Width="12"
                                         Height="12"

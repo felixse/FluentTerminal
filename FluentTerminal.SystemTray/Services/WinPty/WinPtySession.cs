@@ -41,10 +41,15 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     throw new Exception(winpty_error_msg(errorHandle));
                 }
 
-                string exe = request.Profile.Location;
-                string args = $"\"{exe}\" {request.Profile.Arguments}";
-                string cwd = GetWorkingDirectory(request.Profile);
-                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, exe, args, cwd, null, out errorHandle);
+                var cwd = GetWorkingDirectory(request.Profile);
+                var args = request.Profile.Arguments;
+
+                if (!string.IsNullOrWhiteSpace(request.Profile.Location))
+                {
+                    args = $"\"{request.Profile.Location}\" {args}";
+                }
+
+                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
@@ -55,7 +60,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
                 if (!winpty_spawn(_handle, spawnConfigHandle, out IntPtr process, out IntPtr thread, out int procError, out errorHandle))
                 {
-                    throw new Exception($"Failed to start the shell process. Please check your shell settings.\nTried to start: {args}");
+                    throw new Exception($@"Failed to start the shell process. Please check your shell settings.\nTried to start: {request.Profile.Location} ""{request.Profile.Arguments}""");
                 }
 
                 var shellProcessId = ProcessApi.GetProcessId(process);
@@ -63,7 +68,14 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 _shellProcess.EnableRaisingEvents = true;
                 _shellProcess.Exited += _shellProcess_Exited;
 
-                ShellExecutableName = Path.GetFileNameWithoutExtension(exe);
+                if (!string.IsNullOrWhiteSpace(request.Profile.Location))
+                {
+                    ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
+                }
+                else
+                {
+                    ShellExecutableName = request.Profile.Arguments.Split(' ')[0];
+                }
             }
             finally
             {

@@ -35,7 +35,16 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
             ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
             var cwd = GetWorkingDirectory(request.Profile);
-            string args = $"\"{request.Profile.Location}\" {request.Profile.Arguments}";
+
+            var args = string.Empty;
+            if (!string.IsNullOrWhiteSpace(request.Profile.Location))
+            {
+                args = $"\"{request.Profile.Location}\" {request.Profile.Arguments}";
+            }
+            else
+            {
+                args = request.Profile.Arguments;
+            }
 
             _terminal = new Terminal();
             _terminal.OutputReady += _terminal_OutputReady;

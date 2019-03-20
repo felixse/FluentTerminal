@@ -42,8 +42,8 @@ namespace FluentTerminal.App.ViewModels
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal(null, false, Guid.Empty));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddTerminal(null, true, Guid.Empty));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), () => SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
 
@@ -67,7 +67,7 @@ namespace FluentTerminal.App.ViewModels
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.WorkingDirectory, false, profile.Id));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -77,7 +77,7 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal(null, false, Guid.Empty));
+            AddTerminalCommand = new RelayCommand(() => AddTerminal());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -98,7 +98,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnShellProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.WorkingDirectory, false, e.Id));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.Id));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -173,41 +173,44 @@ namespace FluentTerminal.App.ViewModels
 
         public IApplicationView ApplicationView { get; }
 
-        /// <summary>
-        /// Add a new terminal window, either with a specified terminal profile, with the default, or by showing the profile selection dialog.
-        /// </summary>
-        /// <returns></returns>
-        public Task AddTerminal(string startupDirectory, bool showProfileSelection, Guid profileId)
+        public Task AddConfigurableTerminal()
         {
             return ApplicationView.RunOnDispatcherThread(async () =>
             {
-                ShellProfile profile = null;
+                var profile = await _dialogService.ShowProfileSelectionDialogAsync();
 
-                if (showProfileSelection)
+                if (profile == null)
                 {
-                    profile = await _dialogService.ShowProfileSelectionDialogAsync();
-
-                    if (profile == null)
+                    if (Terminals.Count == 0)
                     {
-                        if (Terminals.Count == 0)
-                        {
-                            ApplicationView.TryClose();
-                        }
-
-                        return;
+                        await ApplicationView.TryClose();
                     }
-                }
-                else if (profileId == Guid.Empty)
-                {
-                    profile = _settingsService.GetDefaultShellProfile();
-                }
-                else
-                {
-                    profile = _settingsService.GetShellProfile(profileId);
+
+                    return;
                 }
 
+                AddTerminal(profile);
+            });
+        }
+
+        public void AddTerminal()
+        {
+            var profile = _settingsService.GetDefaultShellProfile();
+            AddTerminal(profile);
+        }
+
+        public void AddTerminal(Guid shellProfileId)
+        {
+            var profile = _settingsService.GetShellProfile(shellProfileId);
+            AddTerminal(profile);
+        }
+
+        public void AddTerminal(ShellProfile profile)
+        {
+            ApplicationView.RunOnDispatcherThread(() =>
+            {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, startupDirectory, profile, ApplicationView, _dispatcherTimer, _clipboardService);
+                    _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService);
                 terminal.Closed += OnTerminalClosed;
                 Terminals.Add(terminal);
 

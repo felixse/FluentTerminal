@@ -111,6 +111,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\MiddleClickBehavior.cs" />
+    <Compile Include="CommandLineArguments\NewVerb.cs" />
+    <Compile Include="CommandLineArguments\RunVerb.cs" />
+    <Compile Include="CommandLineArguments\SettingsVerb.cs" />
+    <Compile Include="CommandLineArguments\Target.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
@@ -368,6 +372,9 @@
   <ItemGroup>
     <PackageReference Include="Autofac">
       <Version>4.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="CommandLineParser">
+      <Version>2.4.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
