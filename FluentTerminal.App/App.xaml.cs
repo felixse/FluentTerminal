@@ -192,6 +192,11 @@ namespace FluentTerminal.App
                             }
                         }
 
+                        if (string.IsNullOrWhiteSpace(profile.WorkingDirectory))
+                        {
+                            profile.WorkingDirectory = commandLineActivated.Operation.CurrentDirectoryPath;
+                        }
+
                         var location = runVerb.Target == Target.Default ? _applicationSettings.NewTerminalLocation
                             : runVerb.Target == Target.Tab ? NewTerminalLocation.Tab
                             : NewTerminalLocation.Window;
