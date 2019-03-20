@@ -2,11 +2,14 @@
 using FluentTerminal.Models.Requests;
 using FluentTerminal.SystemTray.Native;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using static winpty.WinPty;
 
 namespace FluentTerminal.SystemTray.Services.WinPty
@@ -49,7 +52,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     args = $"\"{request.Profile.Location}\" {args}";
                 }
 
-                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, null, out errorHandle);
+                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, GetDefaultEnvironmentVariables(), out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
@@ -96,6 +99,24 @@ namespace FluentTerminal.SystemTray.Services.WinPty
         ~WinPtySession()
         {
             Dispose(false);
+        }
+
+        private string GetDefaultEnvironmentVariables()
+        {
+            var environmentVariables = Environment.GetEnvironmentVariables();
+            environmentVariables.Add("TERM", "xterm");
+            environmentVariables.Add("TERM_PROGRAM", "FluentTerminal");
+            environmentVariables.Add("TERM_PROGRAM_VERSION", $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}");
+
+            var builder = new StringBuilder();
+
+            foreach (DictionaryEntry item in environmentVariables)
+            {
+                builder.Append(item.Key).Append("=").Append(item.Value).Append("\0");
+            }
+            builder.Append('\0');
+
+            return builder.ToString();
         }
 
         private string GetWorkingDirectory(ShellProfile configuration)
