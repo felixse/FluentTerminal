@@ -41,8 +41,15 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     throw new Exception(winpty_error_msg(errorHandle));
                 }
 
-                string cwd = GetWorkingDirectory(request.Profile);
-                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, request.Profile.Arguments, cwd, null, out errorHandle);
+                var cwd = GetWorkingDirectory(request.Profile);
+                var args = request.Profile.Arguments;
+
+                if (!string.IsNullOrWhiteSpace(request.Profile.Location))
+                {
+                    args = $"\"{request.Profile.Location}\" {args}";
+                }
+
+                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, null, out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
