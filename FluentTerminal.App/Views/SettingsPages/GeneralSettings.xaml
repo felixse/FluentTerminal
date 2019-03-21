@@ -86,6 +86,11 @@
 
                 <ToggleSwitch
                     Margin="{StaticResource ItemMargin}"
+                    Header="Show custom tab title also in titlebar"
+                    IsOn="{x:Bind ViewModel.ShowCustomTitleInTitlebar, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    Margin="{StaticResource ItemMargin}"
                     Header="Underline selected tab"
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
 

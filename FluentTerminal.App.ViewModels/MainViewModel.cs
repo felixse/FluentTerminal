@@ -25,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private double _backgroundOpacity;
         private TerminalViewModel _selectedTerminal;
         private TabsPosition _tabsPosition;
+        private string _windowTitle;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
@@ -117,6 +118,18 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand AddTerminalCommand { get; }
 
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set
+            {
+                if (Set(ref _windowTitle, value))
+                {
+                    ApplicationView.Title = value;
+                }
+            }
+        }
+
         public bool ShowTabsOnTop
         {
             get => TabsPosition == TabsPosition.Top && (Terminals.Count > 1 || _applicationSettings.AlwaysShowTabs);
@@ -154,6 +167,14 @@ namespace FluentTerminal.App.ViewModels
                     if (SelectedTerminal != null)
                     {
                         SelectedTerminal.IsSelected = true;
+                        if (_applicationSettings.ShowCustomTitleInTitlebar)
+                        {
+                            WindowTitle = SelectedTerminal.TabTitle;
+                        }
+                        else
+                        {
+                            WindowTitle = SelectedTerminal.ShellTitle;
+                        }
                     }
                 }
             }
@@ -212,10 +233,38 @@ namespace FluentTerminal.App.ViewModels
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService);
                 terminal.Closed += OnTerminalClosed;
+                terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
+                terminal.CustomTitleChanged += Terminal_CustomTitleChanged;
                 Terminals.Add(terminal);
 
                 SelectedTerminal = terminal;
             });
+        }
+
+        private void Terminal_CustomTitleChanged(object sender, string e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                if (terminal.IsSelected && _applicationSettings.ShowCustomTitleInTitlebar)
+                {
+                    if (string.IsNullOrWhiteSpace(e))
+                    {
+                        WindowTitle = terminal.ShellTitle;
+                    }
+                    else
+                    {
+                        WindowTitle = e;
+                    }
+                }
+            }
+        }
+
+        private void Terminal_ShellTitleChanged(object sender, string e)
+        {
+            if (sender is TerminalViewModel terminal && terminal.IsSelected && !_applicationSettings.ShowCustomTitleInTitlebar)
+            {
+                WindowTitle = e;
+            }
         }
 
         public async Task CloseAllTerminals()
@@ -223,6 +272,8 @@ namespace FluentTerminal.App.ViewModels
             foreach (var terminal in Terminals)
             {
                 terminal.Closed -= OnTerminalClosed;
+                terminal.ShellTitleChanged -= Terminal_ShellTitleChanged;
+                terminal.CustomTitleChanged -= Terminal_CustomTitleChanged;
                 await terminal.Close();
             }
         }
@@ -250,6 +301,15 @@ namespace FluentTerminal.App.ViewModels
                 TabsPosition = e.TabsPosition;
                 RaisePropertyChanged(nameof(ShowTabsOnTop));
                 RaisePropertyChanged(nameof(ShowTabsOnBottom));
+
+                if (e.ShowCustomTitleInTitlebar)
+                {
+                    WindowTitle = SelectedTerminal?.TabTitle;
+                }
+                else
+                {
+                    WindowTitle = SelectedTerminal?.ShellTitle;
+                }
             });
         }
 
