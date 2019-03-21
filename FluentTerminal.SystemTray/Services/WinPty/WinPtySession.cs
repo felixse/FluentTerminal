@@ -2,11 +2,14 @@
 using FluentTerminal.Models.Requests;
 using FluentTerminal.SystemTray.Native;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using static winpty.WinPty;
 
 namespace FluentTerminal.SystemTray.Services.WinPty
@@ -49,7 +52,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     args = $"\"{request.Profile.Location}\" {args}";
                 }
 
-                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, null, out errorHandle);
+                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, terminalsManager.GetDefaultEnvironmentVariableString(), out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
@@ -97,6 +100,8 @@ namespace FluentTerminal.SystemTray.Services.WinPty
         {
             Dispose(false);
         }
+
+        
 
         private string GetWorkingDirectory(ShellProfile configuration)
         {
