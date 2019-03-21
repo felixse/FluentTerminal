@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentTerminal.App.Services;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static FluentTerminal.SystemTray.Services.ConPty.Native.ProcessApi;
@@ -16,10 +17,10 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
         /// <summary>
         /// Start and configure a process. The return value represents the process and should be disposed.
         /// </summary>
-        internal static Process Start(string command, string directory, IntPtr attributes, IntPtr hPC)
+        internal static Process Start(string command, string directory, string environment, IntPtr attributes, IntPtr hPC)
         {
             var startupInfo = ConfigureProcessThread(hPC, attributes);
-            var processInfo = RunProcess(ref startupInfo, command, directory);
+            var processInfo = RunProcess(ref startupInfo, command, directory, environment);
             return new Process(startupInfo, processInfo);
         }
 
@@ -71,8 +72,9 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
             return startupInfo;
         }
 
-        private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine, string directory)
+        private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine, string directory, string environment)
         {
+            var lpEnvironment = Marshal.StringToHGlobalAnsi(environment);
             int securityAttributeSize = Marshal.SizeOf<SECURITY_ATTRIBUTES>();
             var pSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
             var tSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
@@ -83,16 +85,20 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
                 lpThreadAttributes: ref tSec,
                 bInheritHandles: false,
                 dwCreationFlags: EXTENDED_STARTUPINFO_PRESENT,
-                lpEnvironment: IntPtr.Zero,
+                lpEnvironment: lpEnvironment,
                 lpCurrentDirectory: directory,
                 lpStartupInfo: ref sInfoEx,
                 lpProcessInformation: out PROCESS_INFORMATION pInfo
             );
             if (!success)
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not create process.");
+                var errorCode = Marshal.GetLastWin32Error();
+                Logger.Instance.Error("RunProcess: Could not create Process. Win32 Error: {@errorCode}", errorCode);
+                Marshal.FreeHGlobal(lpEnvironment);
+                throw new Win32Exception(errorCode, "Could not create process.");
             }
 
+            Marshal.FreeHGlobal(lpEnvironment);
             return pInfo;
         }
     }

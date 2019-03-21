@@ -6,9 +6,11 @@ using FluentTerminal.Models.Responses;
 using FluentTerminal.SystemTray.Services.ConPty;
 using FluentTerminal.SystemTray.Services.WinPty;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Text;
+using Windows.ApplicationModel;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -101,6 +103,24 @@ namespace FluentTerminal.SystemTray.Services
                 _terminals.Remove(terminal.Id);
                 terminal.Close();
             }
+        }
+
+        public string GetDefaultEnvironmentVariableString()
+        {
+            var environmentVariables = Environment.GetEnvironmentVariables();
+            environmentVariables.Add("TERM", "xterm");
+            environmentVariables.Add("TERM_PROGRAM", "FluentTerminal");
+            environmentVariables.Add("TERM_PROGRAM_VERSION", $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}");
+
+            var builder = new StringBuilder();
+
+            foreach (DictionaryEntry item in environmentVariables)
+            {
+                builder.Append(item.Key).Append("=").Append(item.Value).Append("\0");
+            }
+            builder.Append('\0');
+
+            return builder.ToString();
         }
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)

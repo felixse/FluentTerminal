@@ -75,13 +75,13 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// <param name="command">the command to run, e.g. cmd.exe</param>
         /// <param name="consoleHeight">The height (in characters) to start the pseudoconsole with. Defaults to 80.</param>
         /// <param name="consoleWidth">The width (in characters) to start the pseudoconsole with. Defaults to 30.</param>
-        public void Start(string command, string directory, int consoleWidth = 80, int consoleHeight = 30)
+        public void Start(string command, string directory, string environment, int consoleWidth = 80, int consoleHeight = 30)
         {
             _inputPipe = new PseudoConsolePipe();
             _outputPipe = new PseudoConsolePipe();
             _pseudoConsole = PseudoConsole.Create(_inputPipe.ReadSide, _outputPipe.WriteSide, consoleWidth, consoleHeight);
 
-            using (var process = ProcessFactory.Start(command, directory, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle))
+            using (var process = ProcessFactory.Start(command, directory, environment, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle))
             {
                 // copy all pseudoconsole output to a FileStream and expose it to the rest of the app
                 ConsoleOutStream = new FileStream(_outputPipe.ReadSide, FileAccess.Read);
