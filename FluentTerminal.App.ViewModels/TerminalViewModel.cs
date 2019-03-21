@@ -79,6 +79,8 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler<TerminalOptions> OptionsChanged;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
+        public event EventHandler<string> ShellTitleChanged;
+        public event EventHandler<string> CustomTitleChanged;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -116,7 +118,6 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
-                        ApplicationView.Title = ShellTitle ?? string.Empty;
                         HasNewOutput = false;
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
@@ -201,9 +202,9 @@ namespace FluentTerminal.App.ViewModels
             get => _tabTitle;
             set
             {
-                if (Set(ref _tabTitle, value) && IsSelected)
+                if (Set(ref _tabTitle, value))
                 {
-                    ApplicationView.Title = value;
+                    CustomTitleChanged?.Invoke(this, value);
                 }
             }
         }
@@ -390,6 +391,7 @@ namespace FluentTerminal.App.ViewModels
         private void Terminal_TitleChanged(object sender, string e)
         {
             ShellTitle = e;
+            ShellTitleChanged?.Invoke(this, e);
         }
 
         private async Task TryClose()

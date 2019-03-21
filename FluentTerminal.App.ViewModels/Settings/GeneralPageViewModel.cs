@@ -68,6 +68,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool ShowCustomTitleInTitlebar
+        {
+            get => _applicationSettings.ShowCustomTitleInTitlebar;
+            set
+            {
+                if (_applicationSettings.ShowCustomTitleInTitlebar != value)
+                {
+                    _applicationSettings.ShowCustomTitleInTitlebar = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool EnableTrayIcon
         {
             get => _applicationSettings.EnableTrayIcon;
@@ -281,6 +295,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 AlwaysUseWinPty = defaults.AlwaysUseWinPty;
                 ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
                 EnableTrayIcon = defaults.EnableTrayIcon;
+                ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;
             }
         }
 

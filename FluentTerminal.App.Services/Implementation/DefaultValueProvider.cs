@@ -23,7 +23,8 @@ namespace FluentTerminal.App.Services.Implementation
                 AlwaysShowTabs = false,
                 AlwaysUseWinPty = true,
                 ShowNewOutputIndicator = false,
-                EnableTrayIcon = true
+                EnableTrayIcon = true,
+                ShowCustomTitleInTitlebar = true
             };
         }
 

@@ -39,7 +39,7 @@ namespace FluentTerminal.App.Adapters
         public string Title
         {
             get => _applicationView.Title;
-            set => _applicationView.Title = value;
+            set => _applicationView.Title = value ?? string.Empty;
         }
 
         public bool IsApiContractPresent(string api, ushort version)
