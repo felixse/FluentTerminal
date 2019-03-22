@@ -108,7 +108,7 @@ namespace FluentTerminal.SystemTray.Services
         public string GetDefaultEnvironmentVariableString()
         {
             var environmentVariables = Environment.GetEnvironmentVariables();
-            environmentVariables.Add("TERM", "xterm");
+            environmentVariables.Add("TERM", "xterm-256color");
             environmentVariables.Add("TERM_PROGRAM", "FluentTerminal");
             environmentVariables.Add("TERM_PROGRAM_VERSION", $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}");
 
