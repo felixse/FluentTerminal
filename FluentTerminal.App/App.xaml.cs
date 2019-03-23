@@ -12,6 +12,9 @@ using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -97,6 +100,17 @@ namespace FluentTerminal.App
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
+
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                };
+                settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+
+                return settings;
+            };
 
             _commandLineParser = new Parser(settings =>
             {
@@ -211,9 +225,20 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
-                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
+                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
                 var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
-                Logger.Instance.Initialize(logFile);
+                var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
+                var configContent = await FileIO.ReadTextAsync(configFile);
+
+                if (string.IsNullOrWhiteSpace(configContent))
+                {
+                    configContent = JsonConvert.SerializeObject(new Logger.Configuration());
+                    await FileIO.WriteTextAsync(configFile, configContent);
+                }
+
+                var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
+
+                Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
                 viewModel.AddTerminal();

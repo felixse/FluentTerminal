@@ -1,10 +1,26 @@
 ﻿using Serilog;
+using Serilog.Events;
 using System;
 
 namespace FluentTerminal.App.Services
 {
     public sealed class Logger
     {
+        public enum LogLevel
+        {
+            Verbose = 0,
+            Debug = 1,
+            Information = 2,
+            Warning = 3,
+            Error = 4,
+            Fatal = 5
+        }
+
+        public class Configuration
+        {
+            public LogLevel LogLevel { get; set; } = LogLevel.Error;
+        }
+
         public static Logger Instance { get; } = new Logger();
 
         private Logger()
@@ -12,11 +28,11 @@ namespace FluentTerminal.App.Services
 
         }
 
-        public void Initialize(string filePath)
+        public void Initialize(string filePath, Configuration configuration)
         {
             Log.Logger = new LoggerConfiguration()
-            .WriteTo.Async(a => a.File(filePath))
-            .MinimumLevel.Debug()
+            .WriteTo.Async(a => a.File(filePath, rollingInterval: RollingInterval.Day, retainedFileCountLimit: 7))
+            .MinimumLevel.Is((LogEventLevel)configuration.LogLevel)
             .CreateLogger();
 
             Log.Information("Initialized");

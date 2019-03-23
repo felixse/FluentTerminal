@@ -4,6 +4,9 @@ using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.SystemTray.Services;
 using GlobalHotKey;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using System.Threading;
@@ -19,7 +22,7 @@ namespace FluentTerminal.SystemTray
         private const string MutexName = "FluentTerminalMutex";
 
         [STAThread]
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
             {
@@ -28,11 +31,16 @@ namespace FluentTerminal.SystemTray
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("logs", CreationCollisionOption.OpenIfExists);
-                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
-                Logger.Instance.Initialize(logFile);
+                JsonConvert.DefaultSettings = () =>
+                {
+                    var settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    };
+                    settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
 
-                AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+                    return settings;
+                };
 
                 var applicationDataContainers = new ApplicationDataContainers
                 {
@@ -49,7 +57,7 @@ namespace FluentTerminal.SystemTray
                 containerBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
                 containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
                 containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
-                containerBuilder.RegisterType<HotKeyManager>().SingleInstance();
+                containerBuilder.RegisterInstance(new HotKeyManager()).SingleInstance();
                 containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
                 containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
                 containerBuilder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>();
@@ -58,6 +66,19 @@ namespace FluentTerminal.SystemTray
                 containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
                 var container = containerBuilder.Build();
+
+                Task.Run(async () =>
+                {
+
+                    var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
+                    var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
+                    var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
+                    var configContent = await FileIO.ReadTextAsync(configFile).AsTask().ConfigureAwait(true);
+                    var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
+                    Logger.Instance.Initialize(logFile, config);
+
+                    AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+                });
 
                 var appCommunicationService = container.Resolve<AppCommunicationService>();
 

@@ -63,17 +63,6 @@ namespace FluentTerminal.App.Views
                 Items = { _copyMenuItem, _pasteMenuItem }
             };
 
-            JsonConvert.DefaultSettings = () =>
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                };
-                settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
-
-                return settings;
-            };
-
             _optionsChanged = new DebouncedAction<TerminalOptions>(Dispatcher, TimeSpan.FromMilliseconds(800), async options =>
             {
                 var serialized = JsonConvert.SerializeObject(options);
