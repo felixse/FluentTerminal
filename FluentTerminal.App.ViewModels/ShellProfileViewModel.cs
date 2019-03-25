@@ -208,6 +208,7 @@ namespace FluentTerminal.App.ViewModels
                     _lineEndingStyle = value;
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(DoNotModifyIsSelected));
+                    RaisePropertyChanged(nameof(ToCRIsSelected));
                     RaisePropertyChanged(nameof(ToCRLFIsSelected));
                     RaisePropertyChanged(nameof(ToLFIsSelected));
                     _editingLineEndingStyle = false;
@@ -231,6 +232,12 @@ namespace FluentTerminal.App.ViewModels
         {
             get => LineEndingStyle == LineEndingStyle.ToLF;
             set => LineEndingStyle = LineEndingStyle.ToLF;
+        }
+
+        public bool ToCRIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCR;
+            set => LineEndingStyle = LineEndingStyle.ToCR;
         }
 
         public void SaveChanges()

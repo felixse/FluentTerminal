@@ -45,6 +45,8 @@ namespace FluentTerminal.Models
         {
             switch (LineEndingTranslation)
             {
+                case LineEndingStyle.ToCR:
+                    return NewlinePattern.Replace(content, "\r");
                 case LineEndingStyle.ToCRLF:
                     return NewlinePattern.Replace(content, "\r\n");
                 case LineEndingStyle.ToLF:
