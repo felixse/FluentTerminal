@@ -289,13 +289,13 @@
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        Content="Convert line endings to CR"
-                                        GroupName="LineEndingStyle"
-                                        IsChecked="{x:Bind ToCRIsSelected, Mode=TwoWay}" />
-                                    <RadioButton
                                         Content="Convert line endings to CR+LF"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
+                                    <RadioButton
+                                        Content="Convert line endings to CR"
+                                        GroupName="LineEndingStyle"
+                                        IsChecked="{x:Bind ToCRIsSelected, Mode=TwoWay}" />
                                     <RadioButton
                                         Content="Convert line endings to LF"
                                         GroupName="LineEndingStyle"
