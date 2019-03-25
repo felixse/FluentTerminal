@@ -356,6 +356,7 @@ namespace FluentTerminal.App.ViewModels
             _fallbackProfile = new ShellProfile
             {
                 Arguments = Model.Arguments,
+                LineEndingTranslation = Model.LineEndingTranslation,
                 Location = Model.Location,
                 Name = Model.Name,
                 WorkingDirectory = Model.WorkingDirectory,
