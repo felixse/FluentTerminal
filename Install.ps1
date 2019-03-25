@@ -497,19 +497,19 @@ function InstallContextMenuIntegration
         -RegistryPath "hkcu:\Software\Classes\Directory\shell\Open Fluent Terminal here\command"`
         -Name "(Default)"`
         -Type "ExpandString"`
-        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new %1"
+        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new `"%1`""
 
     ForceAddRegKeyValue `
         -RegistryPath "hkcu:\Software\Classes\Directory\Background\shell\Open Fluent Terminal here\command"`
         -Name "(Default)"`
         -Type "ExpandString"`
-        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new %V"
+        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new `"%V`""
 
     ForceAddRegKeyValue `
         -RegistryPath "hkcu:\Software\Classes\Directory\LibraryFolder\shell\Open Fluent Terminal here\command"`
         -Name "(Default)"`
         -Type "ExpandString"`
-        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new %V"
+        -Value "`"%LOCALAPPDATA%\Microsoft\WindowsApps\flute.exe`" new `"%V`""
 }
 
 #
