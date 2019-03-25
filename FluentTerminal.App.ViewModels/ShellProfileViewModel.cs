@@ -30,7 +30,6 @@ namespace FluentTerminal.App.ViewModels
         private string _workingDirectory;
         private readonly IApplicationView _applicationView;
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private bool _editingLineEndingStyle;
 
         public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider, Boolean isNew)
         {
@@ -200,44 +199,31 @@ namespace FluentTerminal.App.ViewModels
         public LineEndingStyle LineEndingStyle
         {
             get => _lineEndingStyle;
-            set
-            {
-                if (_lineEndingStyle != value && !_editingLineEndingStyle)
-                {
-                    _editingLineEndingStyle = true;
-                    _lineEndingStyle = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(DoNotModifyIsSelected));
-                    RaisePropertyChanged(nameof(ToCRIsSelected));
-                    RaisePropertyChanged(nameof(ToCRLFIsSelected));
-                    RaisePropertyChanged(nameof(ToLFIsSelected));
-                    _editingLineEndingStyle = false;
-                }
-            }
+            set => _lineEndingStyle = value;
         }
 
         public bool DoNotModifyIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set => LineEndingStyle = LineEndingStyle.DoNotModify;
+            set { if (value) LineEndingStyle = LineEndingStyle.DoNotModify; }
         }
 
         public bool ToCRLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set => LineEndingStyle = LineEndingStyle.ToCRLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
         }
 
         public bool ToLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToLF;
-            set => LineEndingStyle = LineEndingStyle.ToLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
         }
 
         public bool ToCRIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCR;
-            set => LineEndingStyle = LineEndingStyle.ToCR;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCR; }
         }
 
         public void SaveChanges()
