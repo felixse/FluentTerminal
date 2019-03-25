@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Responses;
 using System;
 using System.Threading.Tasks;
 
@@ -114,7 +115,7 @@ namespace FluentTerminal.App.Services
         /// <param name="shellProfile"></param>
         /// <param name="size"></param>
         /// <param name="sessionType"></param>
-        public async Task StartShellProcess(ShellProfile shellProfile, TerminalSize size, SessionType sessionType)
+        public async Task<CreateTerminalResponse> StartShellProcess(ShellProfile shellProfile, TerminalSize size, SessionType sessionType)
         {
             _trayProcessCommunicationService.SubscribeForTerminalOutput(Id, t => OutputReceived?.Invoke(this, t));
             var response = await _trayProcessCommunicationService.CreateTerminal(Id, size, shellProfile, sessionType).ConfigureAwait(true);
@@ -124,11 +125,20 @@ namespace FluentTerminal.App.Services
                 FallbackTitle = response.ShellExecutableName;
                 SetTitle(FallbackTitle);
             }
+            return response;
         }
 
         public Task Write(byte[] data)
         {
             return _trayProcessCommunicationService.Write(Id, data);
+        }
+
+        /// <summary>
+        /// Tells the ViewModel that this view failed to launch and can be closed.
+        /// </summary>
+        public void ReportLauchFailed()
+        {
+            Closed?.Invoke(this, System.EventArgs.Empty);
         }
     }
 }
