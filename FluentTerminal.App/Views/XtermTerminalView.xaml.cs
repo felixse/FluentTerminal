@@ -142,7 +142,13 @@ namespace FluentTerminal.App.Views
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
             _connectedEvent.Wait();
-            await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType).ConfigureAwait(true);
+            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType).ConfigureAwait(true);
+            if (!response.Success)
+            {
+                await ViewModel.DialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
+                ViewModel.Terminal.ReportLauchFailed();
+                return;
+            }
             _webView.Focus(FocusState.Programmatic);
         }
 
