@@ -199,7 +199,7 @@ namespace FluentTerminal.App.ViewModels
         public LineEndingStyle LineEndingStyle
         {
             get => _lineEndingStyle;
-            set => _lineEndingStyle = value;
+            set => Set(ref _lineEndingStyle, value);
         }
 
         public bool DoNotModifyIsSelected
