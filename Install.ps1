@@ -328,7 +328,7 @@ function CheckIfNeedToEnableSideloading
     if (Test-Path $RegistryPath)
     {
         $SideloadingEnabledProperty = (Get-ItemProperty -Path $RegistryPath -Name $ValueName -ErrorAction SilentlyContinue)
-        if ($SideloadingEnabledProperty -ne $null -and $SideloadingEnabledProperty.$ValueName -eq 1)
+        if ($null -ne $SideloadingEnabledProperty -and $SideloadingEnabledProperty.$ValueName -eq 1)
         {
             $Result = $false
         }
