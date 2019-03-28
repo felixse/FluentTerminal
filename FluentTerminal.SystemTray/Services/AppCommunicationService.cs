@@ -7,6 +7,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using System;
+using FluentTerminal.Models.Responses;
+using FluentTerminal.App.Services;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -44,7 +46,7 @@ namespace FluentTerminal.SystemTray.Services
                 TerminalId = e
             };
 
-            _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            _appServiceConnection?.SendMessageAsync(CreateMessage(request));
         }
 
         private void _terminalsManager_DisplayOutputRequested(object sender, DisplayTerminalOutputRequest e)
@@ -83,7 +85,12 @@ namespace FluentTerminal.SystemTray.Services
                 var deferral = args.GetDeferral();
 
                 var request = JsonConvert.DeserializeObject<CreateTerminalRequest>(messageContent);
+
+                Logger.Instance.Debug("Received CreateTerminalRequest: {@request}", request);
+
                 var response = _terminalsManager.CreateTerminal(request);
+
+                Logger.Instance.Debug("Sending CreateTerminalResponse: {@response}", response);
 
                 await args.Request.SendResponseAsync(CreateMessage(response));
 
@@ -101,16 +108,26 @@ namespace FluentTerminal.SystemTray.Services
 
                 _toggleWindowService.SetHotKeys(request.KeyBindings);
             }
-            else if (messageType == nameof(WriteTextRequest))
+            else if (messageType == nameof(WriteDataRequest))
             {
-                var request = JsonConvert.DeserializeObject<WriteTextRequest>(messageContent);
-                _terminalsManager.WriteText(request.TerminalId, request.Text);
+                var request = JsonConvert.DeserializeObject<WriteDataRequest>(messageContent);
+                _terminalsManager.Write(request.TerminalId, request.Data);
             }
             else if (messageType == nameof(TerminalExitedRequest))
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
                 _terminalsManager.CloseTerminal(request.TerminalId);
-            }           
+            }
+            else if (messageType == nameof(GetAvailablePortRequest))
+            {
+                var deferral = args.GetDeferral();
+
+                var response = new GetAvailablePortResponse { Port = Utilities.GetAvailablePort().Value };
+
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
+            }
         }
 
         private ValueSet CreateMessage(object content)

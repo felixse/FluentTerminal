@@ -92,5 +92,18 @@ namespace FluentTerminal.App.Services.Test
 
             shellProfileSelectionDialog.Verify(x => x.SelectProfile(), Times.Once);
         }
+        
+        [Fact]
+        public void ShowInputDialogAsync_UsesIInputDialogSetTitle()
+        {
+            var title = "title";
+            var inputDialog = new Mock<IInputDialog>();            
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, () => inputDialog.Object);
+
+            dialogService.ShowInputDialogAsync(title);
+
+            inputDialog.Verify(x => x.SetTitle(title), Times.Once);
+            inputDialog.Verify(x => x.GetInput(), Times.Once);
+        }
     }
 }

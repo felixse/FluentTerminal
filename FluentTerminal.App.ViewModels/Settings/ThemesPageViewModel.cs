@@ -40,7 +40,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
             {
-                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, fileSystemService);
+                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, fileSystemService, false);
                 viewModel.Activated += OnThemeActivated;
                 viewModel.Deleted += OnThemeDeleted;
 
@@ -139,7 +139,8 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             _settingsService.SaveTheme(theme, true);
 
-            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService);
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService, true);
+            viewModel.EditCommand.Execute(null);
             viewModel.Activated += OnThemeActivated;
             viewModel.Deleted += OnThemeDeleted;
             Themes.Add(viewModel);

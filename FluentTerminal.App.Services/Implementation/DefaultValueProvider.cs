@@ -23,7 +23,8 @@ namespace FluentTerminal.App.Services.Implementation
                 AlwaysShowTabs = false,
                 AlwaysUseWinPty = true,
                 ShowNewOutputIndicator = false,
-                EnableTrayIcon = true
+                EnableTrayIcon = true,
+                ShowCustomTitleInTitlebar = true
             };
         }
 
@@ -152,6 +153,19 @@ namespace FluentTerminal.App.Services.Implementation
                         Ctrl = true,
                         Alt = false,
                         Shift = false,
+                        Key = (int)ExtendedVirtualKey.N
+                    }
+                };
+
+                case Command.ConfigurableNewWindow:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ConfigurableNewWindow),
+                        Ctrl = true,
+                        Alt = false,
+                        Shift = true,
                         Key = (int)ExtendedVirtualKey.N
                     }
                 };

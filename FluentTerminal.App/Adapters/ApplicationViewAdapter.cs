@@ -14,20 +14,32 @@ namespace FluentTerminal.App.Adapters
     {
         private readonly ApplicationView _applicationView;
         private readonly CoreDispatcher _dispatcher;
+        private bool _closed;
 
         public event CloseRequestedHandler CloseRequested;
+        public event EventHandler Closed;
 
         public ApplicationViewAdapter()
         {
             _applicationView = ApplicationView.GetForCurrentView();
+            _applicationView.Consolidated += _applicationView_Consolidated;
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+
+            Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
         }
+
+        private void _applicationView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public int Id => _applicationView.Id;
 
         public string Title
         {
             get => _applicationView.Title;
-            set => _applicationView.Title = value;
+            set => _applicationView.Title = value ?? string.Empty;
         }
 
         public bool IsApiContractPresent(string api, ushort version)
@@ -40,9 +52,16 @@ namespace FluentTerminal.App.Adapters
             return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action()).AsTask();
         }
 
-        public Task<bool> TryClose()
+        public async Task<bool> TryClose()
         {
-            return _applicationView.TryConsolidateAsync().AsTask();
+            if (_closed)
+            {
+                Logger.Instance.Debug("ApplicationViewAdapter.TryClose was called, but was already closed. ApplicationView.Id: {Id}", _applicationView.Id);
+                return true;
+            }
+            Logger.Instance.Debug("TryClose ApplicationView with Id: {Id}", _applicationView.Id);
+            _closed = await _applicationView.TryConsolidateAsync().AsTask();
+            return _closed;
         }
 
         public bool ToggleFullScreen()
@@ -63,12 +82,18 @@ namespace FluentTerminal.App.Adapters
             var deferral = e.GetDeferral();
 
             var args = new CancelableEventArgs();
+
             if (CloseRequested != null)
             {
                 await CloseRequested.Invoke(this, args);
             }
 
             e.Handled = args.Cancelled;
+
+            if (!e.Handled)
+            {
+                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
+            }
 
             deferral.Complete();
         }

@@ -58,7 +58,7 @@
                             Margin="0"
                             VerticalAlignment="Stretch"
                             Background="Transparent"
-                            ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                            ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
                                     <behaviors:MiddleClickBehavior.Actions>
@@ -171,7 +171,7 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.LeftOf="CloseButton"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind Title, Mode=OneWay}"
+                                Text="{x:Bind TabTitle, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                             <Grid
@@ -189,7 +189,7 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
-                                <Grid Height="32" Visibility="{x:Bind NewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                <Grid Height="32" Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                                     <Viewbox
                                         Width="12"
                                         Height="12"

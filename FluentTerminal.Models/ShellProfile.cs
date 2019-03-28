@@ -45,6 +45,8 @@ namespace FluentTerminal.Models
         {
             switch (LineEndingTranslation)
             {
+                case LineEndingStyle.ToCR:
+                    return NewlinePattern.Replace(content, "\r");
                 case LineEndingStyle.ToCRLF:
                     return NewlinePattern.Replace(content, "\r\n");
                 case LineEndingStyle.ToLF:
@@ -57,5 +59,23 @@ namespace FluentTerminal.Models
 
         public Guid TerminalThemeId { get; set; }
         public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ShellProfile other)
+            {
+                return other.Id.Equals(Id)
+                    && other.PreInstalled.Equals(PreInstalled)
+                    && other.Name.Equals(Name)
+                    && other.Arguments.Equals(Arguments)
+                    && other.Location.Equals(Location)
+                    && other.WorkingDirectory.Equals(WorkingDirectory)
+                    && other.TabThemeId.Equals(TabThemeId)
+                    && other.TerminalThemeId.Equals(TerminalThemeId)
+                    && other.LineEndingTranslation == LineEndingTranslation
+                    && other.KeyBindings.SequenceEqual(KeyBindings);
+            }
+            return false;
+        }
     }
 }

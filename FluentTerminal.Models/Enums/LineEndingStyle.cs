@@ -7,6 +7,9 @@ namespace FluentTerminal.Models.Enums
         [Description("Do not modify")]
         DoNotModify,
 
+        [Description("Convert to CR")]
+        ToCR,
+
         [Description("Convert to CRLF")]
         ToCRLF,
 

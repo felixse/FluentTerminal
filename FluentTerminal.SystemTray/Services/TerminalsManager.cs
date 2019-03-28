@@ -6,8 +6,11 @@ using FluentTerminal.Models.Responses;
 using FluentTerminal.SystemTray.Services.ConPty;
 using FluentTerminal.SystemTray.Services.WinPty;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
+using Windows.ApplicationModel;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -25,7 +28,7 @@ namespace FluentTerminal.SystemTray.Services
             _settingsService = settingsService;
         }
 
-        public void DisplayTerminalOutput(int terminalId, string output)
+        public void DisplayTerminalOutput(int terminalId, byte[] output)
         {
             DisplayOutputRequested?.Invoke(this, new DisplayTerminalOutputRequest
             {
@@ -36,6 +39,16 @@ namespace FluentTerminal.SystemTray.Services
 
         public CreateTerminalResponse CreateTerminal(CreateTerminalRequest request)
         {
+            if (_terminals.ContainsKey(request.Id))
+            {
+                // App terminated without cleaning up, removing orphaned sessions
+                foreach (var item in _terminals.Values)
+                {
+                    item.Dispose();
+                }
+                _terminals.Clear();
+            }
+
             ITerminalSession terminal = null;
             try
             {
@@ -59,16 +72,15 @@ namespace FluentTerminal.SystemTray.Services
             return new CreateTerminalResponse
             {
                 Success = true,
-                Id = terminal.Id,
                 ShellExecutableName = terminal.ShellExecutableName
             };
         }
 
-        public void WriteText(int id, string text)
+        public void Write(int id, byte[] data)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
-                terminal.WriteText(text);
+                terminal.Write(data);
             }
         }
 
@@ -89,8 +101,26 @@ namespace FluentTerminal.SystemTray.Services
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
                 _terminals.Remove(terminal.Id);
-                terminal.Dispose();
+                terminal.Close();
             }
+        }
+
+        public string GetDefaultEnvironmentVariableString()
+        {
+            var environmentVariables = Environment.GetEnvironmentVariables();
+            environmentVariables["TERM"] = "xterm-256color";
+            environmentVariables["TERM_PROGRAM"] = "FluentTerminal";
+            environmentVariables["TERM_PROGRAM_VERSION"] = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+
+            var builder = new StringBuilder();
+
+            foreach (DictionaryEntry item in environmentVariables)
+            {
+                builder.Append(item.Key).Append("=").Append(item.Value).Append("\0");
+            }
+            builder.Append('\0');
+
+            return builder.ToString();
         }
 
         private void OnTerminalConnectionClosed(object sender, System.EventArgs e)

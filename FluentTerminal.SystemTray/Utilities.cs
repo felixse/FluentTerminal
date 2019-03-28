@@ -10,6 +10,7 @@ namespace FluentTerminal.SystemTray
     public static class Utilities
     {
         private const int FirstDynamicPort = 49151;
+        private static readonly List<int> _sentOutPorts = new List<int>();
 
         public static int? GetAvailablePort()
         {
@@ -26,12 +27,15 @@ namespace FluentTerminal.SystemTray
             endPoints = properties.GetActiveUdpListeners();
             usedPorts.AddRange(endPoints.Where(e => e.Port >= FirstDynamicPort).Select(e => e.Port));
 
+            usedPorts.AddRange(_sentOutPorts);
+
             usedPorts.Sort();
 
             for (var i = FirstDynamicPort; i < UInt16.MaxValue; i++)
             {
                 if (!usedPorts.Contains(i))
                 {
+                    _sentOutPorts.Add(i);
                     return i;
                 }
             }

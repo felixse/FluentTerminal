@@ -24,14 +24,14 @@ namespace FluentTerminal.App.ViewModels
         private string _location;
         private LineEndingStyle _lineEndingStyle;
         private string _name;
+        private bool _isNew;
         private TabTheme _selectedTabTheme;
         private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
         private readonly IApplicationView _applicationView;
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private bool _editingLineEndingStyle;
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider)
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider, Boolean isNew)
         {
             Model = shellProfile;
             _settingsService = settingsService;
@@ -39,6 +39,7 @@ namespace FluentTerminal.App.ViewModels
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
             _defaultValueProvider = defaultValueProvider;
+            _isNew = isNew;
 
             _settingsService.ThemeAdded += OnThemeAdded;
             _settingsService.ThemeDeleted += OnThemeDeleted;
@@ -198,37 +199,31 @@ namespace FluentTerminal.App.ViewModels
         public LineEndingStyle LineEndingStyle
         {
             get => _lineEndingStyle;
-            set
-            {
-                if (_lineEndingStyle != value && !_editingLineEndingStyle)
-                {
-                    _editingLineEndingStyle = true;
-                    _lineEndingStyle = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(DoNotModifyIsSelected));
-                    RaisePropertyChanged(nameof(ToCRLFIsSelected));
-                    RaisePropertyChanged(nameof(ToLFIsSelected));
-                    _editingLineEndingStyle = false;
-                }
-            }
+            set => Set(ref _lineEndingStyle, value);
         }
 
         public bool DoNotModifyIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set => LineEndingStyle = LineEndingStyle.DoNotModify;
+            set { if (value) LineEndingStyle = LineEndingStyle.DoNotModify; }
         }
 
         public bool ToCRLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set => LineEndingStyle = LineEndingStyle.ToCRLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
         }
 
         public bool ToLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToLF;
-            set => LineEndingStyle = LineEndingStyle.ToLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
+        }
+
+        public bool ToCRIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCR;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCR; }
         }
 
         public void SaveChanges()
@@ -245,6 +240,7 @@ namespace FluentTerminal.App.ViewModels
 
             KeyBindings.Editable = false;
             InEditMode = false;
+            _isNew = false;
         }
 
         private async Task RestoreDefaults()
@@ -289,27 +285,53 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
+            if (_isNew)
             {
-                Arguments = _fallbackProfile.Arguments;
-                Location = _fallbackProfile.Location;
-                Name = _fallbackProfile.Name;
-                WorkingDirectory = _fallbackProfile.WorkingDirectory;
-                LineEndingStyle = _fallbackProfile.LineEndingTranslation;
-                SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
-                SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
-                
-
-                KeyBindings.KeyBindings.Clear();
-                foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                await Delete();
+            }
+            else
+            {
+                ShellProfile changedProfile = new ShellProfile
                 {
-                    KeyBindings.Add(keyBinding);
-                }
+                    Arguments = Arguments,
+                    Location = Location,
+                    Name = Name,
+                    WorkingDirectory = WorkingDirectory,
+                    TabThemeId = SelectedTabTheme.Id,
+                    TerminalThemeId = SelectedTerminalTheme.Id,
+                    LineEndingTranslation = _lineEndingStyle,
+                    KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
+                };
 
-                KeyBindings.Editable = false;
-                InEditMode = false;
+                if (!_fallbackProfile.Equals(changedProfile))
+                {
+                    var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+                    if (result == DialogButton.OK)
+                    {
+                        Arguments = _fallbackProfile.Arguments;
+                        Location = _fallbackProfile.Location;
+                        Name = _fallbackProfile.Name;
+                        WorkingDirectory = _fallbackProfile.WorkingDirectory;
+                        LineEndingStyle = _fallbackProfile.LineEndingTranslation;
+                        SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
+                        SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
+
+                        KeyBindings.KeyBindings.Clear();
+                        foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
+                        {
+                            KeyBindings.Add(keyBinding);
+                        }
+
+                        KeyBindings.Editable = false;
+                        InEditMode = false;
+                    }
+                }
+                else
+                {
+                    KeyBindings.Editable = false;
+                    InEditMode = false;
+                }
             }
         }
 
@@ -334,6 +356,7 @@ namespace FluentTerminal.App.ViewModels
             _fallbackProfile = new ShellProfile
             {
                 Arguments = Model.Arguments,
+                LineEndingTranslation = Model.LineEndingTranslation,
                 Location = Model.Location,
                 Name = Model.Name,
                 WorkingDirectory = Model.WorkingDirectory,

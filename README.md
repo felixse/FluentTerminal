@@ -26,7 +26,7 @@ A Terminal Emulator based on UWP and web technologies.
 
 ## Up Next
 
-- Launch shell profile with a custom defined keybinding
+- ~~Launch shell profile with a custom defined keybinding~~
 - Copy&Paste options
 - Improved tabs
 - Split screen support
@@ -38,6 +38,7 @@ A Terminal Emulator based on UWP and web technologies.
 
 ### Chocolatey package manager installation
 
+- In **Settings**, click **For Developers**, and select **Developer mode**.
 - Install [Chocolatey](https://chocolatey.org/)
 - From an elevated/admin shell, execute `choco install fluent-terminal`
 

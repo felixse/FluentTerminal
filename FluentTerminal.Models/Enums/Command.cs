@@ -28,6 +28,9 @@ namespace FluentTerminal.Models.Enums
         [Description("New window")]
         NewWindow,
 
+        [Description("Configurable new window")]
+        ConfigurableNewWindow,
+
         [Description("Show settings")]
         ShowSettings,
 
