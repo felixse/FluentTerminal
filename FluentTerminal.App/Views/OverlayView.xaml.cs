@@ -14,30 +14,13 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Windows.Input;
+using System.ComponentModel;
+using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.Views
 {
-    /*
-    public sealed partial class OverlayView : UserControl
-    {
-
-        public int MyProperty
-        {
-            get { return (int)GetValue(MyPropertyProperty); }
-            set { SetValue(MyPropertyProperty, value); }
-        }
-
-         Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register("MyProperty", typeof(int), typeof(ownerclass), new PropertyMetadata(0));
-
-        public OverlayView()
-        {
-           InitializeComponent();
-            DataContext = this;
-        }
-    }*/
-
+    /**    
     public sealed partial class OverlayView : UserControl
     {
         private readonly IOverlayView _overlayView;
@@ -47,6 +30,35 @@ namespace FluentTerminal.App.Views
             ViewModel = viewModel;
             InitializeComponent();
             _overlayView.Initialize(ViewModel);
+            DataContext = viewModel;
+        }
+
+
+        public OverlayViewModel ViewModel { get; }
+    }
+    **/
+
+    public sealed partial class OverlayView : UserControl, INotifyPropertyChanged
+    {
+        public RelayCommand<string> UpdateOverlay { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public OverlayView()
+        {
+            InitializeComponent();
+            UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
+            DataContext = this;
+        }
+
+        // Not triggered
+        private void UpdateOverlayText(string obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public OverlayViewModel ViewModel { get; }

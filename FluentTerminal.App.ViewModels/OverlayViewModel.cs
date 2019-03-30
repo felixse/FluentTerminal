@@ -18,8 +18,11 @@ namespace FluentTerminal.App.ViewModels
             _resizeOverlayTimer = dispatcherTimer;
             _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
             _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
+            UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
         }
 
+        public RelayCommand<string> UpdateOverlay { get; set; }
+        
         public bool ShowResizeOverlay
         {
             get => _showResizeOverlay;
@@ -47,6 +50,11 @@ namespace FluentTerminal.App.ViewModels
         {
             _resizeOverlayTimer.Stop();
             ShowResizeOverlay = false;
+        }
+
+        private void UpdateOverlayText(string test)
+        {
+            throw new NotImplementedException();
         }
 
     }
