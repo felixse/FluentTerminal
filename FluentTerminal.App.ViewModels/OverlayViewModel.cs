@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -13,16 +14,20 @@ namespace FluentTerminal.App.ViewModels
         private bool _showResizeOverlay = true;
         private string _resizeOverlayContent = "Test";
 
-        public OverlayViewModel(IDispatcherTimer dispatcherTimer)
+        public OverlayViewModel()
         {
-            _resizeOverlayTimer = dispatcherTimer;
-            _resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
-            _resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
-            UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
+            //_resizeOverlayTimer = dispatcherTimer;
+            //_resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
+            //_resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
+            //UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
         }
 
         public RelayCommand<string> UpdateOverlay { get; set; }
-        
+
+        public delegate void ParameterChange(object sender, TerminalSize e);
+
+        public ParameterChange OnParameterChange { get; set; }
+
         public bool ShowResizeOverlay
         {
             get => _showResizeOverlay;

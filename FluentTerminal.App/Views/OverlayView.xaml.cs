@@ -20,7 +20,15 @@ using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.Views
 {
-    /**    
+    public sealed partial class OverlayView : UserControl
+    {
+        public OverlayView()
+        {
+            InitializeComponent();
+        }
+    }
+
+    /**
     public sealed partial class OverlayView : UserControl
     {
         private readonly IOverlayView _overlayView;
@@ -33,12 +41,11 @@ namespace FluentTerminal.App.Views
             DataContext = viewModel;
         }
 
-
         public OverlayViewModel ViewModel { get; }
-    }
-    **/
+    }**/
 
-    public sealed partial class OverlayView : UserControl, INotifyPropertyChanged
+
+    /**public sealed partial class OverlayView : UserControl, INotifyPropertyChanged
     {
         public RelayCommand<string> UpdateOverlay { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -62,6 +69,5 @@ namespace FluentTerminal.App.Views
         }
 
         public OverlayViewModel ViewModel { get; }
-
-    }
+    }**/
 }

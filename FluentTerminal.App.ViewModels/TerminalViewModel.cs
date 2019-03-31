@@ -24,6 +24,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
+        private OverlayViewModel _overlay;
         private string _tabTitle;
         private string _shellTitle;
         private bool _hasCustomTitle;
@@ -69,6 +70,10 @@ namespace FluentTerminal.App.ViewModels
             Terminal.SizeChanged += Terminal_SizeChanged;
             Terminal.TitleChanged += Terminal_TitleChanged;
             Terminal.Closed += Terminal_Closed;
+
+            Overlay = new OverlayViewModel();
+            Overlay.ResizeOverlayContent = "Ref Test";
+            // Overlay.OnParameterChange += Terminal_SizeChanged;
         }
 
         public event EventHandler Activated;
@@ -195,6 +200,12 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _terminalTheme;
             set => Set(ref _terminalTheme, value);
+        }
+
+        public OverlayViewModel Overlay
+        {
+            get => _overlay;
+            set => Set(ref _overlay, value);
         }
 
         public string TabTitle
@@ -386,6 +397,7 @@ namespace FluentTerminal.App.ViewModels
         {
             ResizeOverlayContent = $"{e.Columns} x {e.Rows}";
             ShowResizeOverlay = true;
+            Overlay.ResizeOverlayContent = ResizeOverlayContent;
         }
 
         private void Terminal_TitleChanged(object sender, string e)
