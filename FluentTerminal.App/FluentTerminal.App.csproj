@@ -154,6 +154,26 @@
     <Compile Include="Dialogs\CreateKeyBindingDialog.xaml.cs">
       <DependentUpon>CreateKeyBindingDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NativeFrontend\Ansi\AnsiParser.cs" />
+    <Compile Include="Views\NativeFrontend\Ansi\C0.cs" />
+    <Compile Include="Views\NativeFrontend\Ansi\CharAttributes.cs" />
+    <Compile Include="Views\NativeFrontend\Ansi\TerminalCode.cs" />
+    <Compile Include="Views\NativeFrontend\Ansi\TerminalCodeType.cs" />
+    <Compile Include="Views\NativeFrontend\TerminalColorHelper.cs" />
+    <Compile Include="Views\NativeFrontend\TerminalControl.xaml.cs">
+      <DependentUpon>TerminalControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NativeFrontend\Terminal\SelectionMode.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\SpecialColorIds.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalBuffer.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalBufferChar.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalBufferLine.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalPoint.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalSelection.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalSize.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalTag.cs" />
+    <Compile Include="Views\NativeFrontend\Terminal\TerminalTagArray.cs" />
+    <Compile Include="Views\NativeFrontend\Utility\ArrayReader.cs" />
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -192,6 +212,9 @@
     <Compile Include="Views\ITerminalView.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VtNetCoreFrontend\VtNetCoreTerminal.xaml.cs">
+      <DependentUpon>VtNetCoreTerminal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\XtermTerminalView.xaml.cs">
       <DependentUpon>XtermTerminalView.xaml</DependentUpon>
@@ -320,6 +343,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\NativeFrontend\TerminalControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -364,6 +391,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VtNetCoreFrontend\VtNetCoreTerminal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\XtermTerminalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -390,6 +421,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="VtNetCore">
+      <Version>1.0.15</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.21.0</Version>
