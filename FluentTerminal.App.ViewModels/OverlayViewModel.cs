@@ -1,10 +1,6 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FluentTerminal.App.ViewModels
 {
