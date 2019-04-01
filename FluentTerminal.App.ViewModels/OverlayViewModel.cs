@@ -10,56 +10,48 @@ namespace FluentTerminal.App.ViewModels
 {
     public class OverlayViewModel : ViewModelBase
     {
-        private readonly IDispatcherTimer _resizeOverlayTimer;
-        private bool _showResizeOverlay = true;
-        private string _resizeOverlayContent = "Test";
+        private readonly IDispatcherTimer _overlayTimer;
+        private bool _showOverlay;
+        private string _overlayContent;
 
-        public OverlayViewModel()
+        public OverlayViewModel(IDispatcherTimer dispatcherTimer)
         {
-            //_resizeOverlayTimer = dispatcherTimer;
-            //_resizeOverlayTimer.Interval = new TimeSpan(0, 0, 2);
-            //_resizeOverlayTimer.Tick += OnResizeOverlayTimerFinished;
-            //UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
+            _overlayTimer = dispatcherTimer;
+            _overlayTimer.Interval = new TimeSpan(0, 0, 2);
+            _overlayTimer.Tick += OnResizeOverlayTimerFinished;
         }
 
-        public RelayCommand<string> UpdateOverlay { get; set; }
-
-        public delegate void ParameterChange(object sender, TerminalSize e);
-
-        public ParameterChange OnParameterChange { get; set; }
-
-        public bool ShowResizeOverlay
+        public bool ShowOverlay
         {
-            get => _showResizeOverlay;
+            get => _showOverlay;
             set
             {
-                Set(ref _showResizeOverlay, value);
+                Set(ref _showOverlay, value);
                 if (value)
                 {
-                    if (_resizeOverlayTimer.IsEnabled)
+                    if (_overlayTimer.IsEnabled)
                     {
-                        _resizeOverlayTimer.Stop();
+                        _overlayTimer.Stop();
                     }
-                    _resizeOverlayTimer.Start();
+                    _overlayTimer.Start();
                 }
             }
         }
 
-        public string ResizeOverlayContent
+        public string OverlayContent
         {
-            get => _resizeOverlayContent;
-            set => Set(ref _resizeOverlayContent, value);
+            get => _overlayContent;
+            set
+            {
+                ShowOverlay = true;
+                Set(ref _overlayContent, value);
+            }
         }
 
         private void OnResizeOverlayTimerFinished(object sender, object e)
         {
-            _resizeOverlayTimer.Stop();
-            ShowResizeOverlay = false;
-        }
-
-        private void UpdateOverlayText(string test)
-        {
-            throw new NotImplementedException();
+            _overlayTimer.Stop();
+            ShowOverlay = false;
         }
 
     }

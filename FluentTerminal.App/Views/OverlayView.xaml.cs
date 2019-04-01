@@ -27,47 +27,4 @@ namespace FluentTerminal.App.Views
             InitializeComponent();
         }
     }
-
-    /**
-    public sealed partial class OverlayView : UserControl
-    {
-        private readonly IOverlayView _overlayView;
-
-        public OverlayView(OverlayViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            InitializeComponent();
-            _overlayView.Initialize(ViewModel);
-            DataContext = viewModel;
-        }
-
-        public OverlayViewModel ViewModel { get; }
-    }**/
-
-
-    /**public sealed partial class OverlayView : UserControl, INotifyPropertyChanged
-    {
-        public RelayCommand<string> UpdateOverlay { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public OverlayView()
-        {
-            InitializeComponent();
-            UpdateOverlay = new RelayCommand<string>(UpdateOverlayText);
-            DataContext = this;
-        }
-
-        // Not triggered
-        private void UpdateOverlayText(string obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public OverlayViewModel ViewModel { get; }
-    }**/
 }
