@@ -27,12 +27,13 @@ namespace FluentTerminal.App.Views.NativeFrontend
         private double _characterHeight;
         private double _characterWidth;
         private TerminalColorHelper _colorHelper = new TerminalColorHelper();
+        private readonly TerminalOptions _terminalOptions;
         private int _cols;
         private CanvasTextFormat _format;
         private Ansi.AnsiParser _parser;
         private int _rows;
 
-        public TerminalControl()
+        public TerminalControl(ISettingsService settingsService)
         {
             InitializeComponent();
             canvas.Draw += _canvas_Draw;
@@ -40,6 +41,8 @@ namespace FluentTerminal.App.Views.NativeFrontend
             canvas.GotFocus += _canvas_GotFocus;
             canvas.Tapped += _canvas_Tapped;
             canvas.CharacterReceived += Canvas_CharacterReceived;
+            scroll.SizeChanged += Canvas_SizeChanged;
+            _terminalOptions = settingsService.GetTerminalOptions();
         }
 
         public TerminalViewModel ViewModel { get; private set; }
@@ -124,8 +127,9 @@ namespace FluentTerminal.App.Views.NativeFrontend
                 {
                     _format = new CanvasTextFormat
                     {
-                        FontSize = 13,
-                        FontFamily = "Consolas NF"
+                        FontSize = _terminalOptions.FontSize,
+                        FontFamily = _terminalOptions.FontFamily,
+                        FontWeight = _terminalOptions.FontWeight
                     };
 
                     var textLayout = new CanvasTextLayout(ds, "\u2560", _format, 0.0f, 0.0f);
@@ -164,6 +168,11 @@ namespace FluentTerminal.App.Views.NativeFrontend
                     x += item.Text.Length * _characterWidth;
                 }
             }
+        }
+
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            canvas.Invalidate();
         }
 
         private void _canvas_GotFocus(object sender, RoutedEventArgs e)

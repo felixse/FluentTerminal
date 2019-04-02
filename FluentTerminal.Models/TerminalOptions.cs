@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.Models.Enums;
+using Windows.UI.Text;
 
 namespace FluentTerminal.Models
 {
@@ -23,5 +24,10 @@ namespace FluentTerminal.Models
         public int Padding { get; set; }
 
         public uint ScrollBackLimit { get; set; }
+        
+        public FontWeight FontWeight
+        {
+            get => BoldText ? FontWeights.Bold : FontWeights.Normal;
+        }
     }
 }
