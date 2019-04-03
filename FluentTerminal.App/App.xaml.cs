@@ -72,7 +72,7 @@ namespace FluentTerminal.App
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
             builder.RegisterType<TrayProcessCommunicationService>().As<ITrayProcessCommunicationService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
-            builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
+            builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().SingleInstance();
             builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
             builder.RegisterType<UpdateService>().As<IUpdateService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
@@ -90,6 +90,7 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
+            builder.RegisterType<TerminalFactoryService>().As<ITerminalFactory>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -241,7 +242,7 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal();
+                await viewModel.AddTerminalAsync();
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
@@ -379,7 +380,7 @@ namespace FluentTerminal.App
             }
             else
             {
-                viewModel.AddTerminal();
+                await viewModel.AddTerminalAsync();
             }
         }
 
@@ -411,17 +412,17 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal(profile);
+                await viewModel.AddTerminalAsync(profile);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
             }
             else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
             {
-                _mainViewModels.Last().AddTerminal(profile);
+                await _mainViewModels.Last().AddTerminalAsync(profile);
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-                viewModel.AddTerminal(profile);
+                await viewModel.AddTerminalAsync(profile);
             }
         }
 
@@ -448,5 +449,9 @@ namespace FluentTerminal.App
             await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
+
+        #region Adding terminal
+
+        #endregion Adding terminal
     }
 }

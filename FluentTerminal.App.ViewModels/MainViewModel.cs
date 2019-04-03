@@ -9,17 +9,17 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.App.Services.Implementation;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
-        private readonly IDispatcherTimer _dispatcherTimer;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
-        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly ITerminalFactory _terminalFactoryService;
+        private readonly IDefaultValueProvider _defaultValueProvider;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -27,8 +27,8 @@ namespace FluentTerminal.App.ViewModels
         private TabsPosition _tabsPosition;
         private string _windowTitle;
 
-        public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
+        public MainViewModel(ISettingsService settingsService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
+            IApplicationView applicationView, ITerminalFactory terminalFactoryService, IDefaultValueProvider defaultValueProvider)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -37,13 +37,12 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.ShellProfileAdded += OnShellProfileAdded;
             _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
 
-            _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             ApplicationView = applicationView;
-            _dispatcherTimer = dispatcherTimer;
-            _clipboardService = clipboardService;
+            _terminalFactoryService = terminalFactoryService;
+            _defaultValueProvider = defaultValueProvider;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminalAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), () => SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
@@ -68,7 +67,7 @@ namespace FluentTerminal.App.ViewModels
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.Id));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminalAsync(profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -78,7 +77,7 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal());
+            AddTerminalCommand = new RelayCommand(() => AddTerminalAsync());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -99,7 +98,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnShellProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminalAsync(e.Id));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -210,28 +209,40 @@ namespace FluentTerminal.App.ViewModels
                     return;
                 }
 
-                AddTerminal(profile);
+                await AddTerminalAsync(profile);
             });
         }
 
-        public void AddTerminal()
+        public Task AddTerminalAsync()
         {
             var profile = _settingsService.GetDefaultShellProfile();
-            AddTerminal(profile);
+            return AddTerminalAsync(profile);
         }
 
-        public void AddTerminal(Guid shellProfileId)
+        public Task AddTerminalAsync(Guid shellProfileId)
         {
             var profile = _settingsService.GetShellProfile(shellProfileId);
-            AddTerminal(profile);
+            return AddTerminalAsync(profile);
         }
 
-        public void AddTerminal(ShellProfile profile)
+        public async Task AddTerminalAsync(ShellProfile profile)
         {
-            ApplicationView.RunOnDispatcherThread(() =>
+            var terminal = await _terminalFactoryService.InitializeTerminalAsync(profile);
+
+            await ApplicationView.RunOnDispatcherThread(() =>
             {
-                var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService);
+                if (terminal == null)
+                {
+                    if (Terminals.Any())
+                        return;
+
+                    // If it is the first tab, we'll fallback to CMD.
+                    profile = _defaultValueProvider.GetPreinstalledShellProfiles()
+                        .First(p => p.Id.Equals(DefaultValueProvider.CmdShellProfileId));
+
+                    terminal = _terminalFactoryService.InitializeTerminalAsync(profile).Result;
+                }
+
                 terminal.Closed += OnTerminalClosed;
                 terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged += Terminal_CustomTitleChanged;
