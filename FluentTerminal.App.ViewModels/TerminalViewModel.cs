@@ -165,16 +165,12 @@ namespace FluentTerminal.App.ViewModels
 
         public Terminal Terminal { get; private set; }
 
+        public OverlayViewModel Overlay { get; private set; }
+
         public TerminalTheme TerminalTheme
         {
             get => _terminalTheme;
             set => Set(ref _terminalTheme, value);
-        }
-
-        public OverlayViewModel Overlay
-        {
-            get => _overlay;
-            set => Set(ref _overlay, value);
         }
 
         public string TabTitle
