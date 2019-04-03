@@ -434,6 +434,8 @@ namespace FluentTerminal.App.Views.NativeFrontend.Terminal
             _history.Add(line);
         }
 
+        public int CurrentHistoryLength => _history.Count;
+
         public void Scroll(int scroll)
         {
             int top = WindowTop + scroll;

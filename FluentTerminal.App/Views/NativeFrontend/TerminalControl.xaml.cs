@@ -37,6 +37,7 @@ namespace FluentTerminal.App.Views.NativeFrontend
         private Ansi.AnsiParser _parser;
         private int _rows;
         private int _gridSize = 150;
+        private CoreDispatcher _dispatcher;
 
         public TerminalControl(ISettingsService settingsService)
         {
@@ -45,8 +46,8 @@ namespace FluentTerminal.App.Views.NativeFrontend
             canvas.GotFocus += _canvas_GotFocus;
             canvas.CharacterReceived += Canvas_CharacterReceived;
 
-            scroll.SizeChanged += Scroll_SizeChanged;
             _terminalOptions = settingsService.GetTerminalOptions();
+            _dispatcher = Window.Current.CoreWindow.Dispatcher;
         }
 
         int regionsInvalidatedEventCount = 0;
@@ -67,11 +68,13 @@ namespace FluentTerminal.App.Views.NativeFrontend
 
         private void DrawRegion(CanvasVirtualControl sender, Rect region)
         {
-            var lines = _buffer.Size.Rows;
+            var top = (int)(region.Top / _characterHeight);
+            var bottom = top + (int)(region.Height / _characterHeight);
 
             using (var ds = sender.CreateDrawingSession(region))
             {
-                for (int i = 0; i < lines; i++)
+                var y = 0.0;
+                for (int i = top; i < bottom; i++)
                 {
                     var x = 0.0;
                     var line = _buffer.GetFormattedLine(i);
@@ -79,7 +82,7 @@ namespace FluentTerminal.App.Views.NativeFrontend
                     {
                         if (item.Attributes.BackgroundColor != 0)
                         {
-                            ds.FillRectangle(new Windows.Foundation.Rect { Height = _characterHeight, Width = _characterWidth * item.Text.Length, X = x, Y = i * 16 }, _colorHelper.GetColour(item.Attributes.BackgroundColor));
+                            ds.FillRectangle(new Windows.Foundation.Rect { Height = _characterHeight, Width = _characterWidth * item.Text.Length, X = x, Y = y }, _colorHelper.GetColour(item.Attributes.BackgroundColor));
                         }
 
                         var foreground = Colors.White;
@@ -87,11 +90,12 @@ namespace FluentTerminal.App.Views.NativeFrontend
                         {
                             foreground = _colorHelper.GetColour(item.Attributes.ForegroundColor);
                         }
-                        var pos = new System.Numerics.Vector2 { X = (float)x, Y = i * 16 };
+                        var pos = new System.Numerics.Vector2 { X = (float)x, Y = (float)y };
                 
                         ds.DrawText(item.Text, pos, foreground, _format);
                         x += item.Text.Length * _characterWidth;
                     }
+                    y += _characterHeight;
                 }
             }
         }
@@ -198,11 +202,6 @@ namespace FluentTerminal.App.Views.NativeFrontend
             }
 
             canvas.Focus(FocusState.Keyboard);
-        }
-
-        private void Scroll_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            canvas.Invalidate();
         }
 
         private void _canvas_GotFocus(object sender, RoutedEventArgs e)
@@ -466,9 +465,11 @@ namespace FluentTerminal.App.Views.NativeFrontend
                 ProcessTerminalCode(code);
             }
 
-            // The application called an interface that was marshalled for a different thread. (Exception from HRESULT: 0x8001010E (RPC_E_WRONG_THREAD))
-            // canvas.Invalidate();
-            // Msfot-Docs :  gET CoreDispatcher object in order to get across the deliberate separation between the app UI thread and any other threads running on the system. 
+            _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                canvas.Height = Math.Max(_buffer.CurrentHistoryLength * _characterHeight, _buffer.Size.Rows * _characterHeight);
+                canvas.Invalidate();
+            });
         }
 
     }
