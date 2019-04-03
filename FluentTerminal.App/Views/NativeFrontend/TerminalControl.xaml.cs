@@ -9,9 +9,13 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
@@ -27,19 +31,101 @@ namespace FluentTerminal.App.Views.NativeFrontend
         private double _characterHeight;
         private double _characterWidth;
         private TerminalColorHelper _colorHelper = new TerminalColorHelper();
+        private readonly TerminalOptions _terminalOptions;
         private int _cols;
         private CanvasTextFormat _format;
         private Ansi.AnsiParser _parser;
         private int _rows;
+        private int _gridSize = 150;
 
-        public TerminalControl()
+        public TerminalControl(ISettingsService settingsService)
         {
             InitializeComponent();
-            canvas.Draw += _canvas_Draw;
             canvas.KeyUp += _canvas_KeyUp;
             canvas.GotFocus += _canvas_GotFocus;
-            canvas.Tapped += _canvas_Tapped;
             canvas.CharacterReceived += Canvas_CharacterReceived;
+
+            scroll.SizeChanged += Scroll_SizeChanged;
+            _terminalOptions = settingsService.GetTerminalOptions();
+        }
+
+        int regionsInvalidatedEventCount = 0;
+        int regionsInvalidatedCount = 0;
+
+        private void OnRegionsInvalidated(CanvasVirtualControl sender, CanvasRegionsInvalidatedEventArgs args)
+        {
+            ++regionsInvalidatedEventCount;
+
+            var invalidatedRegions = args.InvalidatedRegions;
+            regionsInvalidatedCount += invalidatedRegions.Count();
+
+            foreach (var region in invalidatedRegions)
+            {
+                DrawRegion(sender, region);
+            }
+        }
+
+        private void DrawRegion(CanvasVirtualControl sender, Rect region)
+        {
+            var lines = _buffer.Size.Rows;
+
+            using (var ds = sender.CreateDrawingSession(region))
+            {
+                for (int i = 0; i < lines; i++)
+                {
+                    var x = 0.0;
+                    var line = _buffer.GetFormattedLine(i);
+                    foreach (var item in line)
+                    {
+                        if (item.Attributes.BackgroundColor != 0)
+                        {
+                            ds.FillRectangle(new Windows.Foundation.Rect { Height = _characterHeight, Width = _characterWidth * item.Text.Length, X = x, Y = i * 16 }, _colorHelper.GetColour(item.Attributes.BackgroundColor));
+                        }
+
+                        var foreground = Colors.White;
+                        if (item.Attributes.ForegroundColor != 0)
+                        {
+                            foreground = _colorHelper.GetColour(item.Attributes.ForegroundColor);
+                        }
+                        var pos = new System.Numerics.Vector2 { X = (float)x, Y = i * 16 };
+                
+                        ds.DrawText(item.Text, pos, foreground, _format);
+                        x += item.Text.Length * _characterWidth;
+                    }
+                }
+            }
+        }
+
+        public void Measure()
+        {
+            var device = CanvasDevice.GetSharedDevice();
+            using (CanvasRenderTarget offscreen = new CanvasRenderTarget(device, (float)256, (float)256, canvas.Dpi))
+            {
+                using (CanvasDrawingSession ds = offscreen.CreateDrawingSession())
+                {
+                    _format = new CanvasTextFormat
+                    {
+                        FontSize = _terminalOptions.FontSize,
+                        FontFamily = _terminalOptions.FontFamily,
+                        FontWeight = _terminalOptions.FontWeight
+                    };
+
+                    var textLayout = new CanvasTextLayout(ds, "\u2560", _format, 0.0f, 0.0f);
+                    _characterWidth = textLayout.DrawBounds.Right;
+                    _characterHeight = textLayout.DrawBounds.Bottom;
+
+                    _cols = (int)Math.Floor(Window.Current.CoreWindow.Bounds.Width / _characterWidth);
+                    _rows = (int)Math.Floor((Window.Current.CoreWindow.Bounds.Height - 32) / _characterHeight);
+                }
+            }
+        }
+
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs args)
+        {
+            // Explicitly remove references to allow the Win2D controls to get garbage collected
+            canvas.RemoveFromVisualTree();
+            canvas = null;
         }
 
         public TerminalViewModel ViewModel { get; private set; }
@@ -81,7 +167,6 @@ namespace FluentTerminal.App.Views.NativeFrontend
         public async Task Initialize(TerminalViewModel viewModel)
         {
             Measure();
-
             ViewModel = viewModel;
             ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;
             //ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
@@ -115,55 +200,9 @@ namespace FluentTerminal.App.Views.NativeFrontend
             canvas.Focus(FocusState.Keyboard);
         }
 
-        public void Measure()
+        private void Scroll_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var device = CanvasDevice.GetSharedDevice();
-            using (CanvasRenderTarget offscreen = new CanvasRenderTarget(device, (float)256, (float)256, canvas.Dpi))
-            {
-                using (CanvasDrawingSession ds = offscreen.CreateDrawingSession())
-                {
-                    _format = new CanvasTextFormat
-                    {
-                        FontSize = 13,
-                        FontFamily = "Consolas NF"
-                    };
-
-                    var textLayout = new CanvasTextLayout(ds, "\u2560", _format, 0.0f, 0.0f);
-                    _characterWidth = textLayout.DrawBounds.Right;
-                    _characterHeight = textLayout.DrawBounds.Bottom;
-
-                    _cols = (int)Math.Floor(Window.Current.CoreWindow.Bounds.Width / _characterWidth);
-                    _rows = (int)Math.Floor((Window.Current.CoreWindow.Bounds.Height - 32) / _characterHeight);
-                }
-            }
-        }
-
-        private void _canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
-        {
-            var lines = _buffer.Size.Rows;
-
-            for (int i = 0; i < lines; i++)
-            {
-                var x = 0.0;
-                var line = _buffer.GetFormattedLine(i);
-                foreach (var item in line)
-                {
-                    if (item.Attributes.BackgroundColor != 0)
-                    {
-                        
-                        args.DrawingSession.FillRectangle(new Windows.Foundation.Rect { Height = _characterHeight, Width = _characterWidth * item.Text.Length, X = x, Y = i * 16 }, _colorHelper.GetColour(item.Attributes.BackgroundColor));
-                    }
-
-                    var foreground = Colors.White;
-                    if (item.Attributes.ForegroundColor != 0)
-                    {
-                        foreground = _colorHelper.GetColour(item.Attributes.ForegroundColor);
-                    }
-
-                    args.DrawingSession.DrawText(item.Text, new System.Numerics.Vector2 { X = (float)x, Y = i * 16 }, foreground, _format);
-                    x += item.Text.Length * _characterWidth;
-                }
-            }
+            canvas.Invalidate();
         }
 
         private void _canvas_GotFocus(object sender, RoutedEventArgs e)
@@ -336,12 +375,6 @@ namespace FluentTerminal.App.Views.NativeFrontend
             }
         }
 
-        private void _canvas_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Debug.WriteLine("tapped");
-            canvas.Focus(FocusState.Pointer);
-        }
-
         private void Canvas_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             var text = Encoding.UTF8.GetBytes(new[] { args.Character });
@@ -424,6 +457,7 @@ namespace FluentTerminal.App.Views.NativeFrontend
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
+  
             var text = Encoding.UTF8.GetString(e, 0, e.Length);
             var reader = new ArrayReader<char>(text.ToCharArray());
             var codes = _parser.Parse(reader);
@@ -431,7 +465,11 @@ namespace FluentTerminal.App.Views.NativeFrontend
             {
                 ProcessTerminalCode(code);
             }
-            canvas.Invalidate();
+
+            // The application called an interface that was marshalled for a different thread. (Exception from HRESULT: 0x8001010E (RPC_E_WRONG_THREAD))
+            // canvas.Invalidate();
+            // Msfot-Docs :  gET CoreDispatcher object in order to get across the deliberate separation between the app UI thread and any other threads running on the system. 
         }
+
     }
 }

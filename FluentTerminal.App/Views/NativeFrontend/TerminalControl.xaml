@@ -10,5 +10,7 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <xaml:CanvasControl x:Name="canvas" IsTabStop="True" />
+    <ScrollViewer x:Name="scroll">
+        <xaml:CanvasVirtualControl x:Name="canvas" IsTabStop="True" RegionsInvalidated="OnRegionsInvalidated"/>
+    </ScrollViewer>
 </UserControl>

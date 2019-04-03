@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Views
             ViewModel.FindNextRequested += OnFindNextRequested;
             ViewModel.FindPreviousRequested += OnFindPreviousRequested;
             InitializeComponent();
-            _terminalView = new NativeFrontend.TerminalControl();
+            _terminalView = new NativeFrontend.TerminalControl(ViewModel.SettingsService);
             //_terminalView = new VtNetCoreFrontend.VtNetCoreTerminal();
             //_terminalView = new XtermTerminalView();
             TerminalContainer.Children.Add((UIElement)_terminalView);
