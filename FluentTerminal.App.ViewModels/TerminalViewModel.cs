@@ -309,7 +309,7 @@ namespace FluentTerminal.App.ViewModels
                     {
                         var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
                         ClipboardService.SetText(selection);
-                        Overlay.OverlayContent = "Text copied";
+                        Overlay.Show("Text copied");
                         break;
                     }
                 case nameof(Command.Paste):
@@ -359,7 +359,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_SizeChanged(object sender, TerminalSize e)
         {
-            Overlay.OverlayContent = $"{e.Columns} x {e.Rows}";
+            Overlay.Show($"{e.Columns} x {e.Rows}");
         }
 
         private void Terminal_TitleChanged(object sender, string e)

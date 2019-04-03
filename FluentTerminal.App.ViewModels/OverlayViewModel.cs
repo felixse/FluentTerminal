@@ -20,28 +20,25 @@ namespace FluentTerminal.App.ViewModels
         public bool ShowOverlay
         {
             get => _showOverlay;
-            set
-            {
-                Set(ref _showOverlay, value);
-                if (value)
-                {
-                    if (_overlayTimer.IsEnabled)
-                    {
-                        _overlayTimer.Stop();
-                    }
-                    _overlayTimer.Start();
-                }
-            }
+            set => Set(ref _showOverlay, value);
         }
 
         public string OverlayContent
         {
             get => _overlayContent;
-            set
+            set => Set(ref _overlayContent, value);
+        }
+
+        public void Show(string message)
+        {
+            OverlayContent = message; 
+            ShowOverlay = true;
+
+            if (_overlayTimer.IsEnabled)
             {
-                ShowOverlay = true;
-                Set(ref _overlayContent, value);
+                _overlayTimer.Stop();
             }
+            _overlayTimer.Start();
         }
 
         private void OnResizeOverlayTimerFinished(object sender, object e)
