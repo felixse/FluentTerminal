@@ -72,7 +72,7 @@ namespace FluentTerminal.App
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
             builder.RegisterType<TrayProcessCommunicationService>().As<ITrayProcessCommunicationService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
-            builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().SingleInstance();
+            builder.RegisterType<KeyboardCommandService>().As<IKeyboardCommandService>().InstancePerDependency();
             builder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
             builder.RegisterType<UpdateService>().As<IUpdateService>().InstancePerDependency();
             builder.RegisterType<MainViewModel>().InstancePerDependency();
@@ -242,7 +242,7 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminalAsync();
+                viewModel.AddTerminal();
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
@@ -380,7 +380,7 @@ namespace FluentTerminal.App
             }
             else
             {
-                await viewModel.AddTerminalAsync();
+                viewModel.AddTerminal();
             }
         }
 
@@ -412,17 +412,17 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminalAsync(profile);
+                viewModel.AddTerminal(profile);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
             }
             else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
             {
-                await _mainViewModels.Last().AddTerminalAsync(profile);
+                _mainViewModels.Last().AddTerminal(profile);
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-                await viewModel.AddTerminalAsync(profile);
+                viewModel.AddTerminal(profile);
             }
         }
 
@@ -449,9 +449,5 @@ namespace FluentTerminal.App
             await Task.WhenAll(launch, _trayReady.Task).ConfigureAwait(true);
             _trayProcessCommunicationService.Initialize(_appServiceConnection);
         }
-
-        #region Adding terminal
-
-        #endregion Adding terminal
     }
 }

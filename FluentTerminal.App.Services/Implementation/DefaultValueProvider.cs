@@ -7,14 +7,6 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class DefaultValueProvider : IDefaultValueProvider
     {
-        private const string SshShellProfileCommand = "0ea0e624-14a1-40ee-8091-38402ef6c8f3";
-
-        public static readonly Guid SshShellProfileId = Guid.Parse(SshShellProfileCommand);
-
-        private const string CmdShellProfileCommand = "ab942a61-7673-4755-9bd8-765aff91d9a3";
-
-        public static readonly Guid CmdShellProfileId = Guid.Parse(CmdShellProfileCommand);
-
         public ApplicationSettings GetDefaultApplicationSettings()
         {
             return new ApplicationSettings
@@ -125,6 +117,19 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)ExtendedVirtualKey.T
                     }
                 };
+
+                case Command.NewRemoteTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewRemoteTab),
+                            Ctrl = false,
+                            Alt = true,
+                            Shift = false,
+                            Key = (int)ExtendedVirtualKey.T
+                        }
+                    };
 
                 case Command.ChangeTabTitle:
                     return new List<KeyBinding>
@@ -395,7 +400,7 @@ namespace FluentTerminal.App.Services.Implementation
                 },
                 new ShellProfile
                 {
-                    Id = CmdShellProfileId,
+                    Id = Guid.Parse("ab942a61-7673-4755-9bd8-765aff91d9a3"),
                     Name = "CMD",
                     Arguments = string.Empty,
                     Location = @"C:\Windows\System32\cmd.exe",
@@ -406,7 +411,7 @@ namespace FluentTerminal.App.Services.Implementation
                     {
                         new KeyBinding
                         {
-                            Command = CmdShellProfileCommand,
+                            Command = "ab942a61-7673-4755-9bd8-765aff91d9a3",
                             Ctrl=true,
                             Alt=true,
                             Shift=false,
@@ -434,28 +439,6 @@ namespace FluentTerminal.App.Services.Implementation
                             Shift=false,
                             Meta=false,
                             Key=(int)ExtendedVirtualKey.Number3
-                        }
-                    }
-                },
-                new ShellProfile
-                {
-                    Id = SshShellProfileId,
-                    Name = "SSH",
-                    Arguments = string.Empty,
-                    Location = @"C:\Windows\System32\OpenSSH\ssh.exe",
-                    PreInstalled = true,
-                    WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
-                    KeyBindings = new []
-                    {
-                        new KeyBinding
-                        {
-                            Command = SshShellProfileCommand,
-                            Ctrl=true,
-                            Alt=true,
-                            Shift=false,
-                            Meta=false,
-                            Key=(int)ExtendedVirtualKey.Number4
                         }
                     }
                 }

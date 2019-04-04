@@ -46,7 +46,8 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _defaultValueProvider = defaultValueProvider;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminalAsync());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewRemoteTab), () => AddRemoteTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), () => SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
@@ -71,7 +72,7 @@ namespace FluentTerminal.App.ViewModels
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminalAsync(profile.Id));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -81,7 +82,7 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminalAsync());
+            AddTerminalCommand = new RelayCommand(() => AddTerminal());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -102,7 +103,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnShellProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminalAsync(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.Id));
         }
 
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -213,43 +214,53 @@ namespace FluentTerminal.App.ViewModels
                     return;
                 }
 
-                await AddTerminalAsync(profile);
+                AddTerminal(profile);
             });
         }
 
-        public Task AddTerminalAsync()
+        public Task AddRemoteTerminal()
+        {
+            return ApplicationView.RunOnDispatcherThread(async () =>
+            {
+                var connectionInfo = await _dialogService.ShowSshConnectionInfoDialogAsync();
+
+                if (connectionInfo == null)
+                {
+                    if (Terminals.Count == 0)
+                    {
+                        await ApplicationView.TryClose();
+                    }
+
+                    return;
+                }
+
+                var profile = new ShellProfile
+                {
+                    Arguments = $"-p {connectionInfo.Port:#####} {connectionInfo.Username}@{connectionInfo.Host}",
+                    Location = @"C:\Windows\System32\OpenSSH\ssh.exe",
+                    WorkingDirectory = string.Empty,
+                    LineEndingTranslation = LineEndingStyle.DoNotModify,
+                };
+
+                AddTerminal(profile);
+            });
+        }
+
+        public void AddTerminal()
         {
             var profile = _settingsService.GetDefaultShellProfile();
-            return AddTerminalAsync(profile);
+            AddTerminal(profile);
         }
 
-        public Task AddTerminalAsync(Guid shellProfileId)
+        public void AddTerminal(Guid shellProfileId)
         {
             var profile = _settingsService.GetShellProfile(shellProfileId);
-            return AddTerminalAsync(profile);
+            AddTerminal(profile);
         }
 
-        public async Task AddTerminalAsync(ShellProfile profile)
+        public void AddTerminal(ShellProfile profile)
         {
-            if (profile.Id.Equals(DefaultValueProvider.SshShellProfileId))
-            {
-                var sshConnectionInfo = await _dialogService.ShowSshConnectionInfoDialogAsync();
-
-                if (sshConnectionInfo == null)
-                {
-                    // User clicked "Cancel". If it isn't the first terminal, then simply return, otherwise fallback to CMD.
-
-                    if (Terminals.Any())
-                        return;
-
-                    profile = _defaultValueProvider.GetPreinstalledShellProfiles()
-                        .First(p => p.Id.Equals(DefaultValueProvider.CmdShellProfileId));
-                }
-                else
-                    profile.Arguments = $"-p {sshConnectionInfo.Port:#####} {sshConnectionInfo.Username}@{sshConnectionInfo.Host}";
-            }
-
-            await ApplicationView.RunOnDispatcherThread(() =>
+            ApplicationView.RunOnDispatcherThread(() =>
             {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService);

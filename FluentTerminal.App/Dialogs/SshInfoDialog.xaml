@@ -4,21 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:FluentTerminal.App.ViewModels.Settings"
-    mc:Ignorable="d"
+    xmlns:vm="using:FluentTerminal.App.ViewModels"
     Title="SSH Info"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    mc:Ignorable="d">
     <ContentDialog.DataContext>
         <vm:SshConnectionInfoViewModel />
     </ContentDialog.DataContext>
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="user" Width="50"/>
-        <TextBlock Text="@" FontSize="22" Width="20"/>
-        <TextBox Text="{Binding Host, Mode=TwoWay}" PlaceholderText="host" Width="120"/>
-        <TextBlock Text=":" FontSize="22" Width="20"/>
-        <TextBox  Text="{Binding Port, Mode=TwoWay}" PlaceholderText="port" Width="50"/>
+    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+        <TextBox
+            Width="50"
+            PlaceholderText="user"
+            Text="{Binding Username, Mode=TwoWay}" />
+        <TextBlock
+            Width="20"
+            FontSize="22"
+            Text="@" />
+        <TextBox
+            Width="120"
+            PlaceholderText="host"
+            Text="{Binding Host, Mode=TwoWay}" />
+        <TextBlock
+            Width="20"
+            FontSize="22"
+            Text=":" />
+        <TextBox
+            Width="50"
+            PlaceholderText="port"
+            Text="{Binding Port, Mode=TwoWay}" />
     </StackPanel>
 </ContentDialog>

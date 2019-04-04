@@ -2,25 +2,18 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Services.Dialogs;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using FluentTerminal.App.Utilities;
+using FluentTerminal.App.Services;
 
 namespace FluentTerminal.App.Dialogs
 {
-    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SshInfoDialog : ContentDialog, ISshConnectionInfoDialog
     {
-        public SshInfoDialog()
+        public SshInfoDialog(ISettingsService settingsService)
         {
             InitializeComponent();
-        }
-
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+            var currentTheme = settingsService.GetCurrentTheme();
+            RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
         public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync()
