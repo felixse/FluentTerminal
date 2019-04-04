@@ -23,7 +23,7 @@ deploy:
   description: 'Build ${APPVEYOR_REPO_COMMIT} on master branch'
   provider: GitHub
   auth_token:
-    secure: rwuDF3ROrdEzxJ9HaT/aedOWRuiDPDp6T5a7WmdGBl54bm4d5z9S2L6SLMYD9WRo
+    secure: bpe1pOH5cgXfb5MrVDh9yUiwDeydqWlk9GOR8VB598VKQgiWU3lcwS8CJOT172YU
   draft: false
   prerelease: false
   on:
