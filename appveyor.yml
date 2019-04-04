@@ -4,19 +4,27 @@ pull_requests:
 os: Visual Studio 2017
 configuration: Release
 platform:
-- x86
 - x64
-assembly_info:
-  patch: true
-  file: 'FluentTerminal.App\Properties\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+skip_tags: true
 before_build:
-- cmd: pushd . && cd FluentTerminal.Client && npm install && npm run-script build && popd && nuget restore
-build:
-  project: FluentTerminal.sln
-  parallel: true
-  verbosity: minimal
+- cmd: git rev-parse --short HEAD>commit.txt && set /p GIT_COMMIT_SHORT=<commit.txt
+- cmd: pushd . && cd FluentTerminal.Client && npm install && npm run-script build && popd && nuget restore FluentTerminal.sln
+after_build:
+- cmd: '7z a FluentTerminal-v%APPVEYOR_BUILD_VERSION%-%GIT_COMMIT_SHORT%.zip FluentTerminal.App\AppPackages\*'
+artifacts:
+  - path: 'FluentTerminal-v%APPVEYOR_BUILD_VERSION%-${GIT_COMMIT_SHORT}.zip'
+    name: AppPackage
+build_script:
+  - msbuild /maxcpucount:%NUMBER_OF_PROCESSORS% /t:Build /p:Configuration=Release /p:AppxBundle=Always /p:Platform="x64" /v:q /nologo FluentTerminal.sln
 test_script:
   - echo Skipt tests run
+deploy:
+  release: 'FluentTerminal-%APPVEYOR_BUILD_VERSION%-${GIT_COMMIT_SHORT}'
+  description: 'Build ${APPVEYOR_REPO_COMMIT} on master branch'
+  provider: GitHub
+  auth_token:
+    secure: rwuDF3ROrdEzxJ9HaT/aedOWRuiDPDp6T5a7WmdGBl54bm4d5z9S2L6SLMYD9WRo
+  draft: false
+  prerelease: false
+  on:
+    branch: master
