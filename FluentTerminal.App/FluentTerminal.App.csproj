@@ -141,7 +141,6 @@
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\StartupTaskService.cs" />
     <Compile Include="Services\SystemFontService.cs" />
-    <Compile Include="Services\TerminalFactoryService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
@@ -179,7 +178,7 @@
     <Compile Include="Views\SettingsPages\ShellProfileSettings.xaml.cs">
       <DependentUpon>ShellProfileSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SshInfoDialog.xaml.cs">
+    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
       <DependentUpon>SshInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBar.xaml.cs">
@@ -355,7 +354,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SshInfoDialog.xaml">
+    <Page Include="Dialogs\SshInfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

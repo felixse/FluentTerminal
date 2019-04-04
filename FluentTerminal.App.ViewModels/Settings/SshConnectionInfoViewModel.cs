@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Headers;
+﻿using FluentTerminal.App.Services.Dialogs;
 using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class SshConnectionInfoViewModel : ViewModelBase
+    public class SshConnectionInfoViewModel : ViewModelBase, ISshConnectionInfo
     {
         private string _host = string.Empty;
 
