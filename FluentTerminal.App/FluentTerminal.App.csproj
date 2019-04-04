@@ -291,7 +291,6 @@
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -357,8 +356,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SshInfoDialog.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TabBar.xaml">
       <SubType>Designer</SubType>

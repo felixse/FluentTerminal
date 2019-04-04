@@ -204,6 +204,7 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+!FluentTerminal.App/FluentTerminal.App_TemporaryKey.pfx
 *.publishsettings
 orleans.codegen.cs
 
