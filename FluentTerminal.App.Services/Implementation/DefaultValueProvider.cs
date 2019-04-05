@@ -118,6 +118,19 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.NewRemoteTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewRemoteTab),
+                            Ctrl = false,
+                            Alt = true,
+                            Shift = false,
+                            Key = (int)ExtendedVirtualKey.T
+                        }
+                    };
+
                 case Command.ChangeTabTitle:
                     return new List<KeyBinding>
                 {
