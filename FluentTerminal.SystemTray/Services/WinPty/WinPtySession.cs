@@ -63,7 +63,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
                 if (!winpty_spawn(_handle, spawnConfigHandle, out IntPtr process, out IntPtr thread, out int procError, out errorHandle))
                 {
-                    throw new Exception($@"Failed to start the shell process. Please check your shell settings.\nTried to start: {request.Profile.Location} ""{request.Profile.Arguments}""");
+                    throw new Exception($@"Failed to start the shell process. Please check your shell settings.{Environment.NewLine}Tried to start: {request.Profile.Location} ""{request.Profile.Arguments}""");
                 }
 
                 var shellProcessId = ProcessApi.GetProcessId(process);
