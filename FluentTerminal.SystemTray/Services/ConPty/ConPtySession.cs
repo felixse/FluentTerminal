@@ -11,6 +11,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         private TerminalsManager _terminalsManager;
         private Terminal _terminal;
         private bool _exited;
+        private TerminalSize _terminalSize;
 
         public int Id { get; private set; }
 
@@ -26,12 +27,14 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         public void Resize(TerminalSize size)
         {
             _terminal.Resize(size.Columns, size.Rows);
+            _terminalSize = size;
         }
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
             Id = request.Id;
             _terminalsManager = terminalsManager;
+            _terminalSize = request.Size;
 
             ShellExecutableName = Path.GetFileNameWithoutExtension(request.Profile.Location);
             var cwd = GetWorkingDirectory(request.Profile);
@@ -80,7 +83,8 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                 {
                     do
                     {
-                        var buffer = new byte[1024];
+                        int bufferSize = 1024 > _terminalSize.Columns * _terminalSize.Rows * 4 ? 1024 : _terminalSize.Columns * _terminalSize.Rows * 4;
+                        var buffer = new byte[bufferSize];
                         var readBytes = await _terminal.ConsoleOutStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                         var read = new byte[readBytes];
                         Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
