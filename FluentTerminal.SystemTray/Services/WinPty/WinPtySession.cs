@@ -23,11 +23,13 @@ namespace FluentTerminal.SystemTray.Services.WinPty
         private TerminalsManager _terminalsManager;
         private Process _shellProcess;
         private bool _exited;
+        private TerminalSize _terminalSize;
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
             Id = request.Id;
             _terminalsManager = terminalsManager;
+            _terminalSize = request.Size;
 
             var configHandle = IntPtr.Zero;
             var spawnConfigHandle = IntPtr.Zero;
@@ -145,6 +147,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
                 }
+                _terminalSize = size;
             }
             finally
             {
@@ -198,7 +201,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 {
                     do
                     {
-                        var buffer = new byte[1024];
+                        var buffer = new byte[Math.Max(1024, _terminalSize.Columns * _terminalSize.Rows * 4)];
                         var readBytes = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                         var read = new byte[readBytes];
                         Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
