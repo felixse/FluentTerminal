@@ -21,7 +21,6 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
-        private OverlayViewModel _overlay;
         private string _tabTitle;
         private string _shellTitle;
         private bool _hasCustomTitle;
@@ -305,7 +304,10 @@ namespace FluentTerminal.App.ViewModels
                     {
                         var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
                         ClipboardService.SetText(selection);
-                        Overlay.Show("Text copied");
+                        if(SettingsService.GetTerminalOptions().ShowTextCopied)
+                        {
+                            Overlay.Show("Text copied");
+                        }
                         break;
                     }
                 case nameof(Command.Paste):
