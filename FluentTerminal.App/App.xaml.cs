@@ -87,6 +87,7 @@ namespace FluentTerminal.App
             builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
+            builder.RegisterType<SshInfoDialog>().As<ISshConnectionInfoDialog>().InstancePerDependency();
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();

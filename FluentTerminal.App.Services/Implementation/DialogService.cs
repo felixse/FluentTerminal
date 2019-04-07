@@ -11,13 +11,17 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Func<IMessageDialog> _messageDialogFactory;
         private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
         private readonly Func<IInputDialog> _inputDialogFactory;
+        private readonly Func<ISshConnectionInfoDialog> _sshConnectionInfoDialogFactory;
 
-        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory, Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory, Func<IInputDialog> inputDialogFactory)
+        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory,
+            Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory,
+            Func<IInputDialog> inputDialogFactory, Func<ISshConnectionInfoDialog> sshConnectionInfoDialogFactory)
         {
             _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
             _messageDialogFactory = messageDialogFactory;
             _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
             _inputDialogFactory = inputDialogFactory;
+            _sshConnectionInfoDialogFactory = sshConnectionInfoDialogFactory;
         }
 
         public Task<KeyBinding> ShowCreateKeyBindingDialog()
@@ -70,5 +74,8 @@ namespace FluentTerminal.App.Services.Implementation
 
             return dialog.SelectProfile();
         }
+
+        public Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync() =>
+            _sshConnectionInfoDialogFactory().GetSshConnectionInfoAsync();
     }
 }

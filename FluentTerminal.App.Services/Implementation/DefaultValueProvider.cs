@@ -118,6 +118,19 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.NewRemoteTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewRemoteTab),
+                            Ctrl = false,
+                            Alt = true,
+                            Shift = false,
+                            Key = (int)ExtendedVirtualKey.T
+                        }
+                    };
+
                 case Command.ChangeTabTitle:
                     return new List<KeyBinding>
                 {
@@ -578,18 +591,18 @@ namespace FluentTerminal.App.Services.Implementation
                     Black = "#300A24",
                     Red = "#CC0000",
                     Green = "#4E9A06",
-                    Yellow = "#06989A",
+                    Yellow = "#C4A000",
                     Blue = "#3465A4",
                     Magenta = "#75507B",
-                    Cyan = "#C4A000",
+                    Cyan = "#06989A",
                     White = "#D3D7CF",
                     BrightBlack = "#554E53",
                     BrightRed = "#EF2929",
                     BrightGreen = "#8AE234",
-                    BrightYellow = "#34E2E2",
+                    BrightYellow = "#FCE94F",
                     BrightBlue = "#729FCF",
                     BrightMagenta = "#AD7FA8",
-                    BrightCyan = "#FCE94F",
+                    BrightCyan = "#34E2E2",
                     BrightWhite = "#EEEEEE"
                 }
             };

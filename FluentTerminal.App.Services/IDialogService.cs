@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.Models;
 using System.Threading.Tasks;
+using FluentTerminal.App.Services.Dialogs;
 
 namespace FluentTerminal.App.Services
 {
@@ -17,5 +18,7 @@ namespace FluentTerminal.App.Services
 
         Task<KeyBinding> ShowCreateKeyBindingDialog();
         Task<string> ShowInputDialogAsync(string title);
+
+        Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync();
     }
 }
