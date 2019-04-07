@@ -201,8 +201,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 {
                     do
                     {
-                        int bufferSize = 1024 > _terminalSize.Columns * _terminalSize.Rows * 4 ? 1024 : _terminalSize.Columns * _terminalSize.Rows * 4;
-                        var buffer = new byte[bufferSize];
+                        var buffer = new byte[Math.Max(1024, _terminalSize.Columns * _terminalSize.Rows * 4)];
                         var readBytes = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                         var read = new byte[readBytes];
                         Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
