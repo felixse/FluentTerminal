@@ -178,6 +178,9 @@
     <Compile Include="Views\SettingsPages\ShellProfileSettings.xaml.cs">
       <DependentUpon>ShellProfileSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
+      <DependentUpon>SshInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TabBar.xaml.cs">
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
@@ -350,6 +353,10 @@
     <Page Include="Views\SettingsPages\ShellProfileSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SshInfoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TabBar.xaml">
       <SubType>Designer</SubType>
