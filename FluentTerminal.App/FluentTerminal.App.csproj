@@ -144,7 +144,6 @@
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
-    <Compile Include="Views\IOverlayView.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>
@@ -181,6 +180,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\ShellProfileSettings.xaml.cs">
       <DependentUpon>ShellProfileSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
+      <DependentUpon>SshInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBar.xaml.cs">
       <DependentUpon>TabBar.xaml</DependentUpon>
@@ -238,7 +240,6 @@
     <Content Include="Win32\winpty.dll" />
     <Content Include="Win32\winpty.NET.dll" />
     <None Include="FluentTerminal.App_StoreKey.pfx" />
-    <None Include="FluentTerminal.App_TemporaryKey.pfx" />
     <Content Include="Client\bundle.js" />
     <Content Include="Client\index.html" />
     <Content Include="Client\style.css" />
@@ -291,7 +292,6 @@
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +359,10 @@
     <Page Include="Views\SettingsPages\ShellProfileSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SshInfoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TabBar.xaml">
       <SubType>Designer</SubType>
