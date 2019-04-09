@@ -259,6 +259,14 @@ namespace FluentTerminal.App.Services.Implementation
                         Alt = true,
                         Shift = false,
                         Key = (int)ExtendedVirtualKey.Enter
+                    },
+                      new KeyBinding
+                    {
+                        Command = nameof(Command.ToggleFullScreen),
+                        Ctrl = false,
+                        Alt = false,
+                        Shift = false,
+                        Key = (int)ExtendedVirtualKey.F11
                     }
                 };
 
