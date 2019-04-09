@@ -150,6 +150,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool ShowTextCopied
+        {
+            get => _terminalOptions.ShowTextCopied;
+            set
+            {
+                if (_terminalOptions.ShowTextCopied != value)
+                {
+                    _terminalOptions.ShowTextCopied = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public IEnumerable<FontInfo> Fonts { get; }
 
         public int FontSize
@@ -223,6 +237,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 BoldText = defaults.BoldText;
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();
+                ShowTextCopied = defaults.ShowTextCopied;
             }
         }
 
