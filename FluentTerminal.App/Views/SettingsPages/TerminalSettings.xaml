@@ -135,7 +135,7 @@
 
                 <ToggleSwitch
                     Margin="{StaticResource ItemMargin}"
-                    Header="Enable text copied notification"
+                    Header="Text copied notification"
                     IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
 
             </StackPanel>

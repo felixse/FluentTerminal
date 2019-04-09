@@ -21,6 +21,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
+        private TerminalOptions _terminalOptions;
         private string _tabTitle;
         private string _shellTitle;
         private bool _hasCustomTitle;
@@ -34,6 +35,8 @@ namespace FluentTerminal.App.ViewModels
             SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             SettingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
+
+            _terminalOptions = SettingsService.GetTerminalOptions();
 
             TrayProcessCommunicationService = trayProcessCommunicationService;
 
@@ -283,6 +286,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
         {
+            _terminalOptions = e;
             await ApplicationView.RunOnDispatcherThread(() => OptionsChanged?.Invoke(this, e));
         }
 
@@ -304,7 +308,7 @@ namespace FluentTerminal.App.ViewModels
                     {
                         var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
                         ClipboardService.SetText(selection);
-                        if(SettingsService.GetTerminalOptions().ShowTextCopied)
+                        if(_terminalOptions.ShowTextCopied)
                         {
                             Overlay.Show("Text copied");
                         }
