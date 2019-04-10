@@ -132,6 +132,12 @@
                         GroupName="ScrollBar"
                         IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
                 </StackPanel>
+
+                <ToggleSwitch
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Text copied notification"
+                    IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
