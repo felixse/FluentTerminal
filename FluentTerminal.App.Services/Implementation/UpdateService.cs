@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Services.Implementation
             if (latest > GetCurrentVersion())
             {
                 _notificationService.ShowNotification("Update available",
-                    "Click to open the releases page.", "https://github.com/felixse/FluentTerminal/releases");
+                    "Click to open the releases page.", "https://github.com/jumptrading/FluentTerminal/releases");
             }
             else if (notifyNoUpdate)
             {
@@ -40,15 +40,18 @@ namespace FluentTerminal.App.Services.Implementation
         public async Task<Version> GetLatestVersionAsync()
         {
             var restClient = new RestClient(apiEndpoint);
-            var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
+            var restRequest = new RestRequest("/repos/jumptrading/fluentterminal/releases", Method.GET);
 
             var restResponse = await restClient.ExecuteTaskAsync(restRequest);
             if (restResponse.IsSuccessful)
             {
                 dynamic restResponseData = JsonConvert.DeserializeObject(restResponse.Content);
                 string tag = restResponseData[0].tag_name;
-                var latestVersion = new Version(tag);
-                return new Version(latestVersion.Major, latestVersion.Minor, latestVersion.Build, latestVersion.Revision);
+                if (tag.Split('-').Length == 3)
+                {
+                    var latestVersion = new Version(tag.Split('-')[1]);
+                    return new Version(latestVersion.Major, latestVersion.Minor, latestVersion.Build, latestVersion.Revision);
+                }
             }
             return new Version(0, 0, 0, 0);
         }

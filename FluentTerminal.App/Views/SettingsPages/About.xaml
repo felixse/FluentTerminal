@@ -75,7 +75,7 @@
 
                     <StackPanel Margin="{StaticResource ItemMargin}">
                         <TextBlock Margin="0,0,0,8" Text="License" />
-                        <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
+                        <TextBlock><Hyperlink NavigateUri="https://github.com/jumptrading/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel

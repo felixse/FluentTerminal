@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 1.0.{build}.0
 pull_requests:
   do_not_increment_build_number: true
 os: Visual Studio 2017
@@ -8,6 +8,10 @@ platform:
 skip_tags: true
 before_build:
 - cmd: git rev-parse --short HEAD>commit.txt && set /p GIT_COMMIT_SHORT=<commit.txt
+- ps: |
+    [xml]$manifest = Get-Content './FluentTerminal.App/Package.appxmanifest'
+    $manifest.Package.Identity.Version = "1.0.$Env:APPVEYOR_BUILD_NUMBER.0"
+    $manifest.Save((Resolve-Path './FluentTerminal.App/Package.appxmanifest'))
 - cmd: pushd . && cd FluentTerminal.Client && npm install && npm run-script build && popd && nuget restore FluentTerminal.sln
 after_build:
 - cmd: '7z a FluentTerminal-v%APPVEYOR_BUILD_VERSION%-%GIT_COMMIT_SHORT%.zip FluentTerminal.App\AppPackages\*'
