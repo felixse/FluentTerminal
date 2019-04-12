@@ -35,8 +35,8 @@ namespace FluentTerminal.Models
         public Guid Id { get; set; }
         public bool PreInstalled { get; set; }
         public string Name { get; set; }
-        public string Arguments { get; set; }
-        public string Location { get; set; }
+        public virtual string Arguments { get; set; }
+        public virtual string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }

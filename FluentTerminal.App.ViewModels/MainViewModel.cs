@@ -234,11 +234,11 @@ namespace FluentTerminal.App.ViewModels
                     return;
                 }
 
-                var profile = new ShellProfile
+                var profile = new SshProfile
                 {
-                    Arguments = $"-p {connectionInfo.Port:#####} {connectionInfo.Username}@{connectionInfo.Host}",
-                    Location = @"C:\Windows\System32\OpenSSH\ssh.exe",
-                    WorkingDirectory = string.Empty,
+                    Username = connectionInfo.Username,
+                    Host = connectionInfo.Host,
+                    Port = connectionInfo.Port,
                     LineEndingTranslation = LineEndingStyle.DoNotModify,
                 };
 
