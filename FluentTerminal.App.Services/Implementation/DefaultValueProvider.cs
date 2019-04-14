@@ -260,7 +260,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Shift = false,
                         Key = (int)ExtendedVirtualKey.Enter
                     },
-                      new KeyBinding
+                    new KeyBinding
                     {
                         Command = nameof(Command.ToggleFullScreen),
                         Ctrl = false,
