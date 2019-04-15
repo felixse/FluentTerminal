@@ -240,7 +240,6 @@
     <Content Include="Win32\winpty.dll" />
     <Content Include="Win32\winpty.NET.dll" />
     <None Include="FluentTerminal.App_StoreKey.pfx" />
-    <None Include="FluentTerminal.App_TemporaryKey.pfx" />
     <Content Include="Client\bundle.js" />
     <Content Include="Client\index.html" />
     <Content Include="Client\style.css" />
