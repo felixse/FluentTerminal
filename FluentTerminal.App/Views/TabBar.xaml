@@ -59,6 +59,7 @@
                             VerticalAlignment="Stretch"
                             Background="Transparent"
                             ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
+                            
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
                                     <behaviors:MiddleClickBehavior.Actions>
@@ -66,6 +67,7 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
+                            
                             <RelativePanel.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutSubItem Text="Color">
