@@ -242,7 +242,15 @@ namespace FluentTerminal.App.ViewModels
                     LineEndingTranslation = LineEndingStyle.DoNotModify,
                 };
 
-                AddTerminal(profile);
+                var error = profile.ValidateAndGetErrors();
+                if( ! String.IsNullOrEmpty(error) )
+                {
+                    await _dialogService.ShowMessageDialogAsnyc("Error", "The operation cannot be completed due to the following error: " + error, DialogButton.OK).ConfigureAwait(false);
+                }
+                else
+                {
+                    AddTerminal(profile);
+                }
             });
         }
 
