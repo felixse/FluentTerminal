@@ -35,8 +35,8 @@ namespace FluentTerminal.Models
         public Guid Id { get; set; }
         public bool PreInstalled { get; set; }
         public string Name { get; set; }
-        public string Arguments { get; set; }
-        public string Location { get; set; }
+        public virtual string Arguments { get; set; }
+        public virtual string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
@@ -76,6 +76,15 @@ namespace FluentTerminal.Models
                     && other.KeyBindings.SequenceEqual(KeyBindings);
             }
             return false;
+        }
+
+        /// <summary>
+        /// Checks the profile for errors and returns string describing the found errors, if any.
+        /// Returns null if no errors found.
+        /// </summary>
+        public virtual string ValidateAndGetErrors()
+        {
+            return null;
         }
     }
 }
