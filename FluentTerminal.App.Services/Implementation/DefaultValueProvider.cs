@@ -114,9 +114,7 @@ namespace FluentTerminal.App.Services.Implementation
                         new KeyBinding
                         {
                             Command = nameof(Command.NewRemoteTab),
-                            Ctrl = false,
                             Alt = true,
-                            Shift = false,
                             Key = (int)ExtendedVirtualKey.T
                         }
                     };
@@ -242,9 +240,6 @@ namespace FluentTerminal.App.Services.Implementation
                     new KeyBinding
                     {
                         Command = nameof(Command.ToggleFullScreen),
-                        Ctrl = false,
-                        Alt = false,
-                        Shift = false,
                         Key = (int)ExtendedVirtualKey.F11
                     }
                 };
