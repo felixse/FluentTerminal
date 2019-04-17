@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Windows.ApplicationModel;
 
@@ -105,12 +106,28 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
-        public string GetDefaultEnvironmentVariableString()
+        public string GetDefaultEnvironmentVariableString(Dictionary<string, string> additionalVariables)
         {
             var environmentVariables = Environment.GetEnvironmentVariables();
             environmentVariables["TERM"] = "xterm-256color";
             environmentVariables["TERM_PROGRAM"] = "FluentTerminal";
             environmentVariables["TERM_PROGRAM_VERSION"] = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+
+            if (additionalVariables != null)
+                foreach (var kvp in additionalVariables)
+                {
+                    // TODO: Check this issue!
+                    // For some reason MOSH_USER and MOSH_KEY env variable names are changed to mosH_USER and mosH_KEY, probably during serialization
+                    // For this reason I need to make them uppercase again here.
+                    string key = kvp.Key;
+
+                    if (key.Equals("MOSH_USER", StringComparison.OrdinalIgnoreCase))
+                        key = "MOSH_USER";
+                    else if (key.Equals("MOSH_KEY", StringComparison.OrdinalIgnoreCase))
+                        key = "MOSH_KEY";
+
+                    environmentVariables.Add(key, kvp.Value);
+                }
 
             var builder = new StringBuilder();
 

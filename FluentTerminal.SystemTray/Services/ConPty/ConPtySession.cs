@@ -52,7 +52,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             _terminal = new Terminal();
             _terminal.OutputReady += _terminal_OutputReady;
             _terminal.Exited += _terminal_Exited;
-            Task.Run(() => _terminal.Start(args, cwd, terminalsManager.GetDefaultEnvironmentVariableString(), request.Size.Columns, request.Size.Rows));
+            Task.Run(() => _terminal.Start(args, cwd, terminalsManager.GetDefaultEnvironmentVariableString(request.Profile.EnvironmentVariables), request.Size.Columns, request.Size.Rows));
         }
 
         private void _terminal_Exited(object sender, EventArgs e)

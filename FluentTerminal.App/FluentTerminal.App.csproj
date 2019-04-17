@@ -137,6 +137,7 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Protocols\SshProtocolHandler.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\StartupTaskService.cs" />

@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.Services.Dialogs;
+﻿using FluentTerminal.App.Services;
 using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels
@@ -13,12 +13,12 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _host, value);
         }
 
-        private ushort _port = 22;
+        private ushort _sshPort = 22;
 
-        public ushort Port
+        public ushort SshPort
         {
-            get => _port;
-            set => Set(ref _port, value);
+            get => _sshPort;
+            set => Set(ref _sshPort, value);
         }
 
         private string _username = string.Empty;
@@ -27,6 +27,30 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _username;
             set => Set(ref _username, value);
+        }
+
+        private string _identityFile = string.Empty;
+
+        public string IdentityFile
+        {
+            get => _identityFile;
+            set => Set(ref _identityFile, value);
+        }
+
+        private bool _useMosh;
+
+        public bool UseMosh
+        {
+            get => _useMosh;
+            set => Set(ref _useMosh, value);
+        }
+
+        private string _moshPorts = "60000:60050";
+
+        public string MoshPorts
+        {
+            get => _moshPorts;
+            set => Set(ref _moshPorts, value);
         }
     }
 }

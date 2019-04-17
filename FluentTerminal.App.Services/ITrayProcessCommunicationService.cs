@@ -12,7 +12,8 @@ namespace FluentTerminal.App.Services
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
-        Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
+        Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile,
+            SessionType sessionType);
 
         Task ResizeTerminal(int id, TerminalSize size);
 

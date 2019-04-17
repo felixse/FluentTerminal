@@ -8,30 +8,54 @@
     Title="SSH Info"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
+    PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
+    DefaultButton="Primary"
     mc:Ignorable="d">
     <ContentDialog.DataContext>
         <vm:SshConnectionInfoViewModel />
     </ContentDialog.DataContext>
-    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-        <TextBox
-            Width="50"
-            PlaceholderText="user"
-            Text="{Binding Username, Mode=TwoWay}" />
-        <TextBlock
-            Width="20"
-            FontSize="22"
-            Text="@" />
-        <TextBox
-            Width="120"
-            PlaceholderText="host"
-            Text="{Binding Host, Mode=TwoWay}" />
-        <TextBlock
-            Width="20"
-            FontSize="22"
-            Text=":" />
-        <TextBox
-            Width="50"
-            PlaceholderText="port"
-            Text="{Binding Port, Mode=TwoWay}" />
-    </StackPanel>
+    <Grid Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="22" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Column="0" Grid.Row="0"
+                 PlaceholderText="user"
+                 Text="{Binding Username, Mode=TwoWay}" />
+        <TextBlock Grid.Column="1" Grid.Row="0"
+                   FontSize="22"
+                   Text="@" />
+        <TextBox Grid.Column="2" Grid.Row="0"
+                 PlaceholderText="host"
+                 Text="{Binding Host, Mode=TwoWay}"/>
+        <TextBlock Grid.Column="3" Grid.Row="0"
+                   Margin="2 0 0 0"
+                   FontSize="22"
+                   Text=":" />
+        <TextBox Grid.Column="4" Grid.Row="0"
+                 Width="76"
+                 PlaceholderText="port"
+                 Text="{Binding SshPort, Mode=TwoWay}" BeforeTextChanging="SshPort_OnBeforeTextChanging"/>
+        <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                 Text="{Binding IdentityFile, Mode=TwoWay}"
+                 PlaceholderText="Identity file path"
+                 Margin="0 10 0 0" IsReadOnly="True" />
+        <Button Grid.Column="4" Grid.Row="1"
+                Content="Browse"
+                Width="76"
+                Margin="0 10 0 0"
+                Click="BrowseButtonOnClick" />
+        <CheckBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5"
+                  IsChecked="{Binding UseMosh, Mode=TwoWay}"
+                  Content="Use MOSH"
+                  Margin="0 10 0 0" />
+    </Grid>
 </ContentDialog>
