@@ -162,7 +162,7 @@ namespace FluentTerminal.App
 
                     if (profile != null)
 #pragma warning disable 4014
-                        CreateTerminal(profile, NewTerminalLocation.Tab);
+                        CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
 #pragma warning restore 4014
                 }
 
