@@ -41,7 +41,8 @@ namespace FluentTerminal.App.Services.Implementation
             return response;
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
+        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile,
+            SessionType sessionType)
         {
             var request = new CreateTerminalRequest
             {

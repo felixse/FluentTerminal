@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Protocols;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -151,6 +152,22 @@ namespace FluentTerminal.App
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
+            if (args is ProtocolActivatedEventArgs protocolActivated)
+            {
+                // TODO: Check what happens if ssh link is invalid?
+                if (SshProtocolHandler.IsSshProtocol(protocolActivated))
+                {
+                    var profile = SshProtocolHandler.GetSshShellProfile(protocolActivated);
+
+                    if (profile != null)
+#pragma warning disable 4014
+                        CreateTerminal(profile, NewTerminalLocation.Tab);
+#pragma warning restore 4014
+                }
+
+                return;
+            }
+
             if (args is CommandLineActivatedEventArgs commandLineActivated)
             {
                 if (string.IsNullOrWhiteSpace(commandLineActivated.Operation.Arguments))

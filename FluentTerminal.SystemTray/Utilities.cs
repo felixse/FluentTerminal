@@ -1,8 +1,11 @@
 ﻿using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace FluentTerminal.SystemTray
@@ -490,6 +493,29 @@ namespace FluentTerminal.SystemTray
                 default:
                     return Key.None;
             }
+        }
+
+        internal static string GetMoshClientPath()
+        {
+            DirectoryInfo dir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory;
+
+            while (dir != null)
+            {
+                string moshClientPath = Path.Combine(dir.FullName, @"mosh-client\bin\mosh-client.exe");
+
+                if (File.Exists(moshClientPath))
+                    return moshClientPath;
+
+                dir = dir.Parent;
+            }
+
+            return null;
+        }
+
+        private static void Log(string message)
+        {
+            using (StreamWriter writer = new StreamWriter(@"C:\Users\peske\Desktop\f.log", true))
+                writer.WriteLine(message);
         }
     }
 }
