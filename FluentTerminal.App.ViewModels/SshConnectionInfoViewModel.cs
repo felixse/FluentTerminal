@@ -52,5 +52,8 @@ namespace FluentTerminal.App.ViewModels
             get => _moshPorts;
             set => Set(ref _moshPorts, value);
         }
+
+        public string FirstMoshPort { get; set; }
+        public string LastMoshPort { get; set; }
     }
 }

@@ -47,6 +47,11 @@
             <uap:DisplayName>SSH Session</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="mosh">
+            <uap:DisplayName>Mobile Shell Session</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

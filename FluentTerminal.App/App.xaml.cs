@@ -164,6 +164,14 @@ namespace FluentTerminal.App
 #pragma warning disable 4014
                         CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
 #pragma warning restore 4014
+                } else if (MoshProtocolHandler.IsMoshProtocol(protocolActivated))
+                {
+                    var profile = MoshProtocolHandler.GetSshShellProfile(protocolActivated);
+
+                    if (profile != null)
+#pragma warning disable 4014
+                        CreateTerminal(profile, NewTerminalLocation.Tab);
+#pragma warning restore 4014
                 }
 
                 return;
