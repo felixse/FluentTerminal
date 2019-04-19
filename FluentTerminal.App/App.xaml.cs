@@ -166,98 +166,18 @@ namespace FluentTerminal.App
                         {
                             await ShowSettings().ConfigureAwait(true);
                         }
-
-                        if (settingsVerb.Export)
+                        else if (settingsVerb.Export)
                         {
                             var exportFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
-                            var stream = await exportFile.OpenStreamForWriteAsync();
-                            JsonSerializer s = new JsonSerializer();
-                            using (StreamWriter sw = new StreamWriter(stream))
-                            using (JsonWriter writer = new JsonTextWriter(sw))
-                            {
-                                var config = new
-                                {
-                                    App = _settingsService.GetApplicationSettings(),
-                                    KeyBindings = _settingsService.GetCommandKeyBindings(),
-                                    TerminalOptions = _settingsService.GetTerminalOptions(),
-                                    Themes = new List<TerminalTheme>(),
-                                    Profiles = new List<ShellProfile>()
-                                };
 
-                                foreach (var theme in _settingsService.GetThemes().Where(x => !x.PreInstalled))
-                                {
-                                    config.Themes.Add(theme);
-                                }
-
-                                foreach (var profile in _settingsService.GetShellProfiles().Where(x => !x.PreInstalled))
-                                {
-                                    config.Profiles.Add(profile);
-                                }
-
-                                s.Serialize(writer, config);
-                            }
-                            stream.Dispose();
+                            var settings = _settingsService.ExportSettings();
+                            await FileIO.WriteTextAsync(exportFile, settings);
                         }
-
-                        if (settingsVerb.Import)
+                        else if (settingsVerb.Import)
                         {
-                            var stream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("config.json");
-                            JsonSerializer s = new JsonSerializer();
-                            using (StreamReader sr = new StreamReader(stream))
-                            using (JsonReader reader = new JsonTextReader(sr))
-                            {
-                                var config = new
-                                {
-                                    App = _settingsService.GetApplicationSettings(),
-                                    KeyBindings = new Dictionary<string, ICollection<KeyBinding>>(),
-                                    Themes = new List<TerminalTheme>(),
-                                    Profiles = new List<ShellProfile>(),
-                                    TerminalOptions = _settingsService.GetTerminalOptions()
-                                };
-                                s.Populate(reader, config);
-                                _settingsService.SaveApplicationSettings(config.App);
-                                
-                                // Since we set each command sepaartely, we don't need all existing settings
-                                foreach (var pair in config.KeyBindings)
-                                {
-                                    _settingsService.SaveKeyBindings(pair.Key, pair.Value);
-                                }
-
-                                // Can't create/modify pre-installed themes
-                                foreach (var theme in config.Themes.Where(x => !x.PreInstalled))
-                                {
-                                    var existingTheme =_settingsService.GetTheme(theme.Id);
-                                    if (existingTheme.PreInstalled)
-                                    {
-                                        continue;
-                                    }
-                                    _settingsService.SaveTheme(theme, !existingTheme.Equals(default(TerminalTheme)));
-                                }
-
-                                // Can't create pre-installed profiles
-                                foreach (var profile in config.Profiles.Where(x => !x.PreInstalled))
-                                {
-                                    var existingProfile = _settingsService.GetShellProfile(profile.Id);
-                                    var isNew = existingProfile.Equals(default(ShellProfile));
-
-                                    // You can only edit certain parts of preinstalled profiles
-                                    if (!isNew && existingProfile.PreInstalled)
-                                    {
-                                        existingProfile.WorkingDirectory = profile.WorkingDirectory;
-                                        existingProfile.Arguments = profile.Arguments;
-                                        existingProfile.TabThemeId = profile.TabThemeId;
-                                        existingProfile.TerminalThemeId = profile.TerminalThemeId;
-                                        existingProfile.LineEndingTranslation = profile.LineEndingTranslation;
-                                        existingProfile.KeyBindings = profile.KeyBindings;
-                                        _settingsService.SaveShellProfile(profile, isNew);
-                                        continue;
-                                    }
-                                    _settingsService.SaveShellProfile(profile, isNew);
-                                }
-
-                                _settingsService.SaveTerminalOptions(config.TerminalOptions);
-                            }
-                            stream.Dispose();
+                            var file = await ApplicationData.Current.LocalFolder.GetFileAsync("config.json");
+                            var content = await FileIO.ReadTextAsync(file);
+                            _settingsService.ImportSettings(content);
                         }
                     }
                     else if (verb is NewVerb newVerb)

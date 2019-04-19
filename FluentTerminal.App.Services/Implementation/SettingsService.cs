@@ -47,6 +47,86 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
+        public string ExportSettings()
+        {
+            var config = new
+            {
+                App = GetApplicationSettings(),
+                KeyBindings = GetCommandKeyBindings(),
+                TerminalOptions = GetTerminalOptions(),
+                Themes = new List<TerminalTheme>(),
+                Profiles = new List<ShellProfile>()
+            };
+
+            foreach (var theme in GetThemes().Where(x => !x.PreInstalled))
+            {
+                config.Themes.Add(theme);
+            }
+
+            foreach (var profile in GetShellProfiles().Where(x => !x.PreInstalled))
+            {
+                config.Profiles.Add(profile);
+            }
+
+            return JsonConvert.SerializeObject(config);
+        }
+
+        public void ImportSettings(string serializedSettings)
+        {
+            var config = new
+            {
+                App = GetApplicationSettings(),
+                KeyBindings = new Dictionary<string, ICollection<KeyBinding>>(),
+                Themes = new List<TerminalTheme>(),
+                Profiles = new List<ShellProfile>(),
+                TerminalOptions = GetTerminalOptions()
+            };
+
+            JsonConvert.PopulateObject(serializedSettings, config);
+
+            SaveApplicationSettings(config.App);
+
+            // Since we set each command sepaartely, we don't need all existing settings
+            foreach (var pair in config.KeyBindings)
+            {
+                SaveKeyBindings(pair.Key, pair.Value);
+            }
+
+            // Can't create/modify pre-installed themes
+            foreach (var theme in config.Themes.Where(x => !x.PreInstalled))
+            {
+                var existingTheme = GetTheme(theme.Id);
+                if (existingTheme?.PreInstalled == true)
+                {
+                    continue;
+                }
+                SaveTheme(theme, existingTheme != null);
+            }
+
+            // Can't create pre-installed profiles
+            foreach (var profile in config.Profiles.Where(x => !x.PreInstalled))
+            {
+                var existingProfile = GetShellProfile(profile.Id);
+                var isNew = existingProfile.Equals(default(ShellProfile));
+
+                // You can only edit certain parts of preinstalled profiles
+                if (!isNew && existingProfile.PreInstalled)
+                {
+                    existingProfile.WorkingDirectory = profile.WorkingDirectory;
+                    existingProfile.Arguments = profile.Arguments;
+                    existingProfile.TabThemeId = profile.TabThemeId;
+                    existingProfile.TerminalThemeId = profile.TerminalThemeId;
+                    existingProfile.LineEndingTranslation = profile.LineEndingTranslation;
+                    existingProfile.KeyBindings = profile.KeyBindings;
+                    SaveShellProfile(profile, isNew);
+                    continue;
+                }
+                SaveShellProfile(profile, isNew);
+            }
+
+            SaveTerminalOptions(config.TerminalOptions);
+        }
+
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
 
         public event EventHandler<TerminalTheme> ThemeAdded;
@@ -202,12 +282,12 @@ namespace FluentTerminal.App.Services.Implementation
 
         public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)
         {
-            if (!Enum.IsDefined(typeof(Command), command))
+            if (!Enum.TryParse<Command>(command, true, out var enumValue))
             {
                 throw new InvalidOperationException();
             }
 
-            _keyBindings.WriteValueAsJson(command.ToString(), keyBindings);
+            _keyBindings.WriteValueAsJson(enumValue.ToString(), keyBindings);
             KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
         }
 
