@@ -29,10 +29,10 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using FluentTerminal.App.Protocols;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -42,6 +42,7 @@ namespace FluentTerminal.App
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly ISshHelperService _sshHelperService;
         private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
@@ -93,6 +94,7 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
+            builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -101,6 +103,8 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
+
+            _sshHelperService = _container.Resolve<ISshHelperService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
@@ -151,27 +155,17 @@ namespace FluentTerminal.App
             }
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
             if (args is ProtocolActivatedEventArgs protocolActivated)
             {
                 // TODO: Check what happens if ssh link is invalid?
-                if (SshProtocolHandler.IsSshProtocol(protocolActivated))
+                if (_sshHelperService.IsSsh(protocolActivated.Uri))
                 {
-                    var profile = SshProtocolHandler.GetSshShellProfile(protocolActivated);
-
+                    ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(protocolActivated.Uri);
+                    
                     if (profile != null)
-#pragma warning disable 4014
-                        CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
-#pragma warning restore 4014
-                } else if (MoshProtocolHandler.IsMoshProtocol(protocolActivated))
-                {
-                    var profile = MoshProtocolHandler.GetSshShellProfile(protocolActivated);
-
-                    if (profile != null)
-#pragma warning disable 4014
-                        CreateTerminal(profile, NewTerminalLocation.Tab);
-#pragma warning restore 4014
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
                 }
 
                 return;
@@ -340,7 +334,7 @@ namespace FluentTerminal.App
                     mainViewModel.NewWindowRequested += OnNewWindowRequested;
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                     mainViewModel.ShowAboutRequested += OnShowAboutRequested;
-                    mainViewModel.ActivatedMV += OnMainViewActivated;
+                    mainViewModel.ActivatedMv += OnMainViewActivated;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -357,7 +351,7 @@ namespace FluentTerminal.App
             viewModel.NewWindowRequested += OnNewWindowRequested;
             viewModel.ShowSettingsRequested += OnShowSettingsRequested;
             viewModel.ShowAboutRequested += OnShowAboutRequested;
-            viewModel.ActivatedMV += OnMainViewActivated;
+            viewModel.ActivatedMv += OnMainViewActivated;
             _mainViewModels.Add(viewModel);
 
             return viewModel;
@@ -407,7 +401,7 @@ namespace FluentTerminal.App
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
                 viewModel.ShowAboutRequested -= OnShowAboutRequested;
-                viewModel.ActivatedMV -= OnMainViewActivated;
+                viewModel.ActivatedMv -= OnMainViewActivated;
                 if (_activeWindowId == viewModel.ApplicationView.Id)
                     _activeWindowId = 0;
                 _mainViewModels.Remove(viewModel);

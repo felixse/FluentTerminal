@@ -12,6 +12,10 @@
 
         bool UseMosh { get; set; }
 
-        string MoshPorts { get; set; }
+        ushort MoshPortFrom { get; set; }
+
+        ushort MoshPortTo { get; set; }
+
+        string Validate(bool allowNoUser = false);
     }
 }

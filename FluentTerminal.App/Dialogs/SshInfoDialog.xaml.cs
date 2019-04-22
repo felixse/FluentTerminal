@@ -67,7 +67,12 @@ namespace FluentTerminal.App.Dialogs
         private void SshPort_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
             args.Cancel = string.IsNullOrEmpty(args.NewText) || args.NewText.Any(c => !char.IsDigit(c));
 
-        public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync() =>
-            await ShowAsync() == ContentDialogResult.Primary ? (ISshConnectionInfo) DataContext : null;
+        public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync(ISshConnectionInfo input = null)
+        {
+            if (input != null)
+                DataContext = ((SshConnectionInfoViewModel)input).Clone();
+
+            return await ShowAsync() == ContentDialogResult.Primary ? (SshConnectionInfoViewModel) DataContext : null;
+        }
     }
 }
