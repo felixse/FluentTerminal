@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,8 +18,18 @@ namespace FluentTerminal.App.Dialogs
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SshInfoDialog : ContentDialog, ISshConnectionInfoDialog
     {
-        public SshInfoDialog(ISettingsService settingsService)
+        private const string ShortcutFileFormat = @"[{{000214A0-0000-0000-C000-000000000046}}]
+Prop3=19,0
+[InternetShortcut]
+IDList=
+URL={0}
+";
+
+        private readonly ISshHelperService _sshHelperService;
+
+        public SshInfoDialog(ISettingsService settingsService, ISshHelperService sshHelperService)
         {
+            _sshHelperService = sshHelperService;
             InitializeComponent();
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
@@ -35,6 +47,42 @@ namespace FluentTerminal.App.Dialogs
                 ((SshConnectionInfoViewModel)DataContext).IdentityFile = file.Path;
         }
 
+        private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
+        {
+            SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel) DataContext;
+
+            string error = vm.Validate(true);
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                await new MessageDialog(error, "Invalid Form").ShowAsync();
+
+                return;
+            }
+
+            string content = string.Format(ShortcutFileFormat, _sshHelperService.ConvertToUri(vm));
+
+            string fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
+
+            FileSavePicker savePicker = new FileSavePicker {SuggestedFileName = fileName, SuggestedStartLocation = PickerLocationId.Desktop};
+
+            savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
+
+            StorageFile file = await savePicker.PickSaveFileAsync();
+
+            if (file != null)
+            {
+                CachedFileManager.DeferUpdates(file);
+
+                await FileIO.WriteTextAsync(file, content);
+
+                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+                if (status != FileUpdateStatus.Complete)
+                    await new MessageDialog($"Saving '{file.Name}' failed.", "Failed to Save").ShowAsync();
+            }
+        }
+
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
@@ -43,9 +91,7 @@ namespace FluentTerminal.App.Dialogs
             {
                 args.Cancel = true;
 
-                MessageDialog d = new MessageDialog("User and host are mandatory fields.", "Invalid Form");
-
-                await d.ShowAsync();
+                await new MessageDialog("User and host are mandatory fields.", "Invalid Form").ShowAsync();
 
                 return;
             }
@@ -64,7 +110,7 @@ namespace FluentTerminal.App.Dialogs
             args.Cancel = false;
         }
 
-        private void SshPort_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
+        private void Port_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
             args.Cancel = string.IsNullOrEmpty(args.NewText) || args.NewText.Any(c => !char.IsDigit(c));
 
         public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync(ISshConnectionInfo input = null)

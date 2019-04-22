@@ -251,11 +251,11 @@ namespace FluentTerminal.App.Services
             return GetShellProfile(sshConnectionInfo);
         }
 
-        public string ToUri(ISshConnectionInfo sshConnectionInfo)
+        public string ConvertToUri(ISshConnectionInfo sshConnectionInfo)
         {
             string error = sshConnectionInfo.Validate(true);
 
-            if (string.IsNullOrEmpty(error))
+            if (!string.IsNullOrEmpty(error))
                 throw new ArgumentException(error, nameof(sshConnectionInfo));
 
             SshConnectionInfoViewModel sshConnectionInfoVm = (SshConnectionInfoViewModel) sshConnectionInfo;
