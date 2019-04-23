@@ -58,7 +58,7 @@
                 Click="BrowseButtonOnClick" />
         <CheckBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5"
                   IsChecked="{Binding UseMosh, Mode=TwoWay}"
-                  Content="Use MOSH"
+                  Content="Use Mosh"
                   Margin="0 10 0 0" />
         <controls:Expander Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" 
                            Margin="0 10 0 0"
