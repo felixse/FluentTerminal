@@ -7,5 +7,8 @@ namespace FluentTerminal.SystemTray.Native
     {
         [DllImport("kernel32.dll")]
         public static extern int GetProcessId(IntPtr handle);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool GetExitCodeProcess(IntPtr hProcess, out uint ExitCode);
     }
 }

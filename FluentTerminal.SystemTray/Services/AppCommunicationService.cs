@@ -39,13 +39,9 @@ namespace FluentTerminal.SystemTray.Services
             });
         }
 
-        private void _terminalsManager_TerminalExited(object sender, int e)
+        private void _terminalsManager_TerminalExited(object sender, TerminalExitStatus status)
         {
-            var request = new TerminalExitedRequest
-            {
-                TerminalId = e
-            };
-
+            var request = new TerminalExitedRequest(status);
             _appServiceConnection?.SendMessageAsync(CreateMessage(request));
         }
 
