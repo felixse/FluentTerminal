@@ -172,9 +172,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BinaryDependencies\x64\mosh-client.exe" />
     <Content Include="BinaryDependencies\x64\winpty-agent.exe" />
     <Content Include="BinaryDependencies\x64\winpty-debugserver.exe" />
     <Content Include="BinaryDependencies\x64\winpty.dll" />
+    <Content Include="BinaryDependencies\x86\mosh-client.exe" />
     <Content Include="BinaryDependencies\x86\winpty-agent.exe" />
     <Content Include="BinaryDependencies\x86\winpty-debugserver.exe" />
     <Content Include="BinaryDependencies\x86\winpty.dll" />

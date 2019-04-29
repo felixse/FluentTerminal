@@ -8,7 +8,6 @@ using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Implementation;
-using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
@@ -29,10 +28,10 @@ using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Protocols;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -42,7 +41,6 @@ namespace FluentTerminal.App
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly ISshHelperService _sshHelperService;
         private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
@@ -70,6 +68,7 @@ namespace FluentTerminal.App
                 ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
                 Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always))
             };
+
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
@@ -94,7 +93,6 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
-            builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -103,8 +101,6 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
-
-            _sshHelperService = _container.Resolve<ISshHelperService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
@@ -160,12 +156,24 @@ namespace FluentTerminal.App
             if (args is ProtocolActivatedEventArgs protocolActivated)
             {
                 // TODO: Check what happens if ssh link is invalid?
-                if (_sshHelperService.IsSsh(protocolActivated.Uri))
+                if (SshProtocolHandler.IsSshProtocol(protocolActivated.Uri))
                 {
-                    ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(protocolActivated.Uri);
-                    
+                    var profile = SshProtocolHandler.GetSshShellProfile(protocolActivated.Uri);
+
                     if (profile != null)
-                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+#pragma warning disable 4014
+                        CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+#pragma warning restore 4014
+                } else if (MoshProtocolHandler.IsMoshProtocol(protocolActivated.Uri))
+                {
+                    var moshConnectionInfo = MoshProtocolHandler.GetMoshConnectionInfo(protocolActivated.Uri);
+                    var connectionCredentials = await _trayProcessCommunicationService.GetMoshConnectionCredentials(moshConnectionInfo).ConfigureAwait(true);
+                    var profile = MoshProtocolHandler.GetMoshShellProfile(moshConnectionInfo, connectionCredentials.Port, connectionCredentials.Key, connectionCredentials.FilePath);
+
+                    if (profile != null)
+#pragma warning disable 4014
+                        CreateTerminal(profile, NewTerminalLocation.Tab);
+#pragma warning restore 4014
                 }
 
                 return;
@@ -250,7 +258,6 @@ namespace FluentTerminal.App
                 var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
                 var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
                 var configContent = await FileIO.ReadTextAsync(configFile);
-                Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
 
                 if (string.IsNullOrWhiteSpace(configContent))
                 {
@@ -263,26 +270,13 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                if(args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
-                {
-                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
-                }
-                else
-                {
-                    viewModel.AddTerminal();
-                }
+                viewModel.AddTerminal();
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Count == 0)
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
-            }
-            else if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
-            {
-                var location = _applicationSettings.NewTerminalLocation;
-                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
-                await CreateTerminal(profile, location).ConfigureAwait(true);
             }
         }
 
@@ -334,7 +328,7 @@ namespace FluentTerminal.App
                     mainViewModel.NewWindowRequested += OnNewWindowRequested;
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                     mainViewModel.ShowAboutRequested += OnShowAboutRequested;
-                    mainViewModel.ActivatedMv += OnMainViewActivated;
+                    mainViewModel.ActivatedMV += OnMainViewActivated;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -351,7 +345,7 @@ namespace FluentTerminal.App
             viewModel.NewWindowRequested += OnNewWindowRequested;
             viewModel.ShowSettingsRequested += OnShowSettingsRequested;
             viewModel.ShowAboutRequested += OnShowAboutRequested;
-            viewModel.ActivatedMv += OnMainViewActivated;
+            viewModel.ActivatedMV += OnMainViewActivated;
             _mainViewModels.Add(viewModel);
 
             return viewModel;
@@ -401,7 +395,7 @@ namespace FluentTerminal.App
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
                 viewModel.ShowAboutRequested -= OnShowAboutRequested;
-                viewModel.ActivatedMv -= OnMainViewActivated;
+                viewModel.ActivatedMV -= OnMainViewActivated;
                 if (_activeWindowId == viewModel.ApplicationView.Id)
                     _activeWindowId = 0;
                 _mainViewModels.Remove(viewModel);
@@ -433,7 +427,6 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
-            Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;
