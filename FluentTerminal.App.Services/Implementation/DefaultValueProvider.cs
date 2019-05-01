@@ -408,7 +408,7 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
+                    LineEndingTranslation = LineEndingStyle.ToLF,
                     KeyBindings = new []
                     {
                         new KeyBinding
