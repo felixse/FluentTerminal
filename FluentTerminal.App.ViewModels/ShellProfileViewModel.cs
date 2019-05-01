@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
@@ -250,7 +251,7 @@ namespace FluentTerminal.App.ViewModels
                 throw new InvalidOperationException();
             }
 
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore this profile?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -305,7 +306,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (!_fallbackProfile.Equals(changedProfile))
                 {
-                    var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to discard all changes?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                    var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                     if (result == DialogButton.OK)
                     {
@@ -342,7 +343,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to delete this theme?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

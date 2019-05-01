@@ -22,6 +22,7 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
+                x:Uid="About"
                 Text="About" />
             <CommandBar
                 Grid.Column="1"
@@ -32,6 +33,7 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.CheckForUpdatesCommand}"
                     Icon="Sync"
+                    x:Uid="CheckUpdates"
                     Label="Check for updates" />
             </CommandBar>
         </Grid>
@@ -51,30 +53,30 @@
                         Stretch="None" />
 
                     <StackPanel Margin="{StaticResource ItemMargin}">
-                        <TextBlock Margin="0,0,0,8" Text="Current version" />
+                        <TextBlock Margin="0,0,0,8" x:Uid="CurrentVersion" Text="Current version" />
                         <TextBlock>
                             <Run Text="{x:Bind ViewModel.CurrentVersion}" />
-                            -<Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}">Release notes</Hyperlink>
+                            -<Hyperlink NavigateUri="{x:Bind ViewModel.CurrentVersionReleaseNotesURL}"><Run x:Uid="ReleaseNotes" Text="Release notes"></Run></Hyperlink>
                         </TextBlock>
                     </StackPanel>
 
                     <StackPanel Margin="{StaticResource ItemMargin}">
-                        <TextBlock Margin="0,0,0,8" Text="Latest version" />
+                        <TextBlock Margin="0,0,0,8" x:Uid="LatestVersion" Text="Latest version" />
                         <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.LatestVersionLoading, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                             <ProgressRing Margin="0,0,8,0" IsActive="True" />
-                            <TextBlock><Italic>Checking for updates...</Italic></TextBlock>
+                            <TextBlock><Italic><Run x:Uid="CheckingUpdates" Text="Checking for updates..."></Run></Italic></TextBlock>
                         </StackPanel>
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionNotFound, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                             <Italic>Not found</Italic>
                         </TextBlock>
                         <TextBlock Visibility="{x:Bind ViewModel.LatestVersionFound, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                             <Run Text="{x:Bind ViewModel.LatestVersion, Mode=OneWay}" />
-                            -<Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL, Mode=OneWay}">Release notes</Hyperlink>
+                            -<Hyperlink NavigateUri="{x:Bind ViewModel.LatestVersionReleaseNotesURL, Mode=OneWay}"><Run x:Uid="ReleaseNotes" Text="Release notes"></Run></Hyperlink>
                         </TextBlock>
                     </StackPanel>
 
                     <StackPanel Margin="{StaticResource ItemMargin}">
-                        <TextBlock Margin="0,0,0,8" Text="License" />
+                        <TextBlock Margin="0,0,0,8" x:Uid="License" Text="License" />
                         <TextBlock><Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">GNU General Public License v3.0</Hyperlink></TextBlock>
                     </StackPanel>
                 </StackPanel>

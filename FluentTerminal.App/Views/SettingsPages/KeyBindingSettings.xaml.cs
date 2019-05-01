@@ -29,7 +29,7 @@ namespace FluentTerminal.App.Views.SettingsPages
                     Command command = (Command)value;
                     AddCommandMenu.Items.Add(new MenuFlyoutItem
                     {
-                        Text = EnumHelper.GetEnumDescription(command),
+                        Text = StringsHelper.GetString(EnumHelper.GetEnumDescription(command)),
                         Command = ViewModel.AddCommand,
                         CommandParameter = command.ToString()
                     });

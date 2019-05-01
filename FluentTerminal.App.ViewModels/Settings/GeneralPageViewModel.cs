@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -281,7 +282,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the general settings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -317,13 +318,13 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 case StartupTaskStatus.DisabledByUser:
                     StartupTaskEnabled = false;
-                    StartupTaskErrorMessage = "Disabled by user. Please reactivate it in the Startup tab of the Task Manager.";
+                    StartupTaskErrorMessage = StringsHelper.GetString("DisabledByUser");
                     CanEnableStartupTask = false;
                     break;
 
                 case StartupTaskStatus.DisabledByPolicy:
                     StartupTaskEnabled = false;
-                    StartupTaskErrorMessage = "Disabled by policy.";
+                    StartupTaskErrorMessage = StringsHelper.GetString("DisabledByPolicy");
                     CanEnableStartupTask = false;
                     break;
             }
