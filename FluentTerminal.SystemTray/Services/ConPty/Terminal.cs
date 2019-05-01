@@ -1,12 +1,12 @@
-﻿using FluentTerminal.SystemTray.Services.ConPty.Processes;
-using Microsoft.Win32.SafeHandles;
+﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using static FluentTerminal.SystemTray.Services.ConPty.Native.ConsoleApi;
+using FluentTerminal.SystemTray.Services.ConPty.Processes;
 using static FluentTerminal.SystemTray.Native.WindowApi;
+using static FluentTerminal.SystemTray.Services.ConPty.Native.ConsoleApi;
 
 namespace FluentTerminal.SystemTray.Services.ConPty
 {
@@ -31,6 +31,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// </summary>
         public event EventHandler OutputReady;
         public event EventHandler Exited;
+
+        /// <summary>
+        /// The exit code of the terminal's process. -1 if the process hasn't exited yet.
+        /// </summary>
+        public int ExitCode { get; private set; } = -1;
 
         public Terminal()
         {
@@ -95,6 +100,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                 OnClose(() => DisposeResources(process, _pseudoConsole, _outputPipe, _inputPipe, _consoleInputWriter));
 
                 WaitForExit(process).WaitOne(Timeout.Infinite);
+                this.ExitCode = (int)process.GetExitCode();
             }
             Exited?.Invoke(this, EventArgs.Empty);
         }

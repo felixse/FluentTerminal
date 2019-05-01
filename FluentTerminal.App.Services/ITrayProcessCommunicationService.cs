@@ -8,7 +8,7 @@ namespace FluentTerminal.App.Services
 {
     public interface ITrayProcessCommunicationService
     {
-        event EventHandler<int> TerminalExited;
+        event EventHandler<TerminalExitStatus> TerminalExited;
 
         void Initialize(IAppServiceConnection appServiceConnection);
 

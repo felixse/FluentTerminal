@@ -1,8 +1,8 @@
-﻿using FluentTerminal.Models;
-using FluentTerminal.Models.Requests;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Requests;
 
 namespace FluentTerminal.SystemTray.Services.ConPty
 {
@@ -17,11 +17,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public string ShellExecutableName { get; private set; }
 
-        public event EventHandler ConnectionClosed;
+        public event EventHandler<int> ConnectionClosed;
 
         public void Close()
         {
-            ConnectionClosed?.Invoke(this, EventArgs.Empty);
+            ConnectionClosed?.Invoke(this, _terminal.ExitCode);
         }
 
         public void Resize(TerminalSize size)

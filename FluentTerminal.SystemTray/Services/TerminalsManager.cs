@@ -21,7 +21,7 @@ namespace FluentTerminal.SystemTray.Services
 
         public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
 
-        public event EventHandler<int> TerminalExited;
+        public event EventHandler<TerminalExitStatus> TerminalExited;
 
         public TerminalsManager(ISettingsService settingsService)
         {
@@ -123,13 +123,13 @@ namespace FluentTerminal.SystemTray.Services
             return builder.ToString();
         }
 
-        private void OnTerminalConnectionClosed(object sender, System.EventArgs e)
+        private void OnTerminalConnectionClosed(object sender, int exitcode)
         {
             if (sender is ITerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
                 terminal.Dispose();
-                TerminalExited?.Invoke(this, terminal.Id);
+                TerminalExited?.Invoke(this, new TerminalExitStatus(terminal.Id, exitcode));
             }
         }
     }
