@@ -11,7 +11,7 @@
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     DefaultButton="Primary"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loading="OnLoading">
     <ContentDialog.DataContext>
         <vm:SshConnectionInfoViewModel />
     </ContentDialog.DataContext>

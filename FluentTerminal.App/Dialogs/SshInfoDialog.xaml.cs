@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Provider;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,21 +17,40 @@ namespace FluentTerminal.App.Dialogs
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class SshInfoDialog : ContentDialog, ISshConnectionInfoDialog
     {
-        private const string ShortcutFileFormat = @"[{{000214A0-0000-0000-C000-000000000046}}]
-Prop3=19,0
-[InternetShortcut]
-IDList=
-URL={0}
-";
-
-        private readonly ISshHelperService _sshHelperService;
-
-        public SshInfoDialog(ISettingsService settingsService, ISshHelperService sshHelperService)
+        public SshInfoDialog(ISettingsService settingsService)
         {
-            _sshHelperService = sshHelperService;
             InitializeComponent();
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
+        }
+
+        private async void OnLoading(FrameworkElement sender, object args)
+        {
+            SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
+            vm.Username = await GetUsername();
+        }
+
+        private static async Task<string> GetUsername()
+        {
+            // FindAllAsync seems to return users associated with just the
+            // current session. There's usually just one but there are
+            // apparently ways for multiple users to share a session. This is
+            // poorly documented however.
+            // Somewhat related: https://docs.microsoft.com/en-us/gaming/xbox-live/using-xbox-live/auth/retrieving-windows-system-user-on-uwp
+            var users = await User.FindAllAsync();
+            var user = users.FirstOrDefault();
+
+            string domainWithUser = (string)await user.GetPropertyAsync(KnownUserProperties.DomainName); 
+            if (String.IsNullOrEmpty(domainWithUser))  {
+                // Fallback for non-domain account
+                string accountName = ((string)await user.GetPropertyAsync(KnownUserProperties.AccountName)).ToLower();
+                if (String.IsNullOrEmpty(accountName))
+                {
+                    return ((string)await user.GetPropertyAsync(KnownUserProperties.DisplayName)).ToLower();
+                }
+                return accountName;
+            }
+            return domainWithUser.Split(@"\", 1).Last(); // @"domain\user" form 
         }
 
         private async void BrowseButtonOnClick(object sender, RoutedEventArgs e)
@@ -47,42 +65,6 @@ URL={0}
                 ((SshConnectionInfoViewModel)DataContext).IdentityFile = file.Path;
         }
 
-        private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
-        {
-            SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel) DataContext;
-
-            string error = vm.Validate(true);
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                await new MessageDialog(error, "Invalid Form").ShowAsync();
-
-                return;
-            }
-
-            string content = string.Format(ShortcutFileFormat, _sshHelperService.ConvertToUri(vm));
-
-            string fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
-
-            FileSavePicker savePicker = new FileSavePicker {SuggestedFileName = fileName, SuggestedStartLocation = PickerLocationId.Desktop};
-
-            savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
-
-            StorageFile file = await savePicker.PickSaveFileAsync();
-
-            if (file != null)
-            {
-                CachedFileManager.DeferUpdates(file);
-
-                await FileIO.WriteTextAsync(file, content);
-
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-
-                if (status != FileUpdateStatus.Complete)
-                    await new MessageDialog($"Saving '{file.Name}' failed.", "Failed to Save").ShowAsync();
-            }
-        }
-
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
@@ -91,7 +73,9 @@ URL={0}
             {
                 args.Cancel = true;
 
-                await new MessageDialog("User and host are mandatory fields.", "Invalid Form").ShowAsync();
+                MessageDialog d = new MessageDialog("User and host are mandatory fields.", "Invalid Form");
+
+                await d.ShowAsync();
 
                 return;
             }
@@ -110,15 +94,10 @@ URL={0}
             args.Cancel = false;
         }
 
-        private void Port_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
+        private void SshPort_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
             args.Cancel = string.IsNullOrEmpty(args.NewText) || args.NewText.Any(c => !char.IsDigit(c));
 
-        public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync(ISshConnectionInfo input = null)
-        {
-            if (input != null)
-                DataContext = ((SshConnectionInfoViewModel)input).Clone();
-
-            return await ShowAsync() == ContentDialogResult.Primary ? (SshConnectionInfoViewModel) DataContext : null;
-        }
+        public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync() =>
+            await ShowAsync() == ContentDialogResult.Primary ? (ISshConnectionInfo) DataContext : null;
     }
 }
