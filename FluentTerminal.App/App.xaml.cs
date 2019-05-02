@@ -230,6 +230,7 @@ namespace FluentTerminal.App
                 var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
                 var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
                 var configContent = await FileIO.ReadTextAsync(configFile);
+                Utilities.JumpListHelper.Update(_settingsService.GetShellProfiles());
 
                 if (string.IsNullOrWhiteSpace(configContent))
                 {
@@ -242,13 +243,26 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal();
+                if(args.Arguments.StartsWith("JumpList:"))
+                {
+                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace("JumpList:","")));
+                }
+                else
+                {
+                    viewModel.AddTerminal();
+                }
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Count == 0)
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
+            }
+            else if (args.Arguments.StartsWith("JumpList:"))
+            {
+                var location = _applicationSettings.NewTerminalLocation;
+                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace("JumpList:", "")));
+                await CreateTerminal(profile, location).ConfigureAwait(true);
             }
         }
 
@@ -386,6 +400,7 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
+            Utilities.JumpListHelper.Update(_settingsService.GetShellProfiles());
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;
