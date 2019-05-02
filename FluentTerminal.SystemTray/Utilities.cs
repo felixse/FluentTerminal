@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Reflection;
 using System.Windows.Input;
 
 namespace FluentTerminal.SystemTray
@@ -512,23 +511,6 @@ namespace FluentTerminal.SystemTray
                 default:
                     return Key.None;
             }
-        }
-
-        internal static string GetMoshClientPath()
-        {
-            DirectoryInfo dir = new FileInfo(Assembly.GetEntryAssembly().Location).Directory;
-
-            while (dir != null)
-            {
-                string moshClientPath = Path.Combine(dir.FullName, @"Win32\mosh-client.exe");
-
-                if (File.Exists(moshClientPath))
-                    return moshClientPath;
-
-                dir = dir.Parent;
-            }
-
-            return null;
         }
 
         private static void Log(string message)
