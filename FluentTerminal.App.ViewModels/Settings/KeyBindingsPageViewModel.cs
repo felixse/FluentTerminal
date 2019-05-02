@@ -61,7 +61,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var value in Enum.GetValues(typeof(Command)))
             {
                 var command = (Command)value;
-                var viewModel = new KeyBindingsViewModel(command.ToString(), _dialogService, EnumHelper.GetEnumDescription(command), true);
+                var viewModel = new KeyBindingsViewModel(command.ToString(), _dialogService, StringsHelper.GetString(EnumHelper.GetEnumDescription(command)), true);
                 foreach (var keyBinding in _keyBindings[command.ToString()])
                 {
                     viewModel.Add(keyBinding);
@@ -79,7 +79,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default keybindings?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmRestoreKeybindings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

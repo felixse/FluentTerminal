@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
@@ -217,7 +218,7 @@ namespace FluentTerminal.App.ViewModels
 
         public async Task EditTitle()
         {
-            var result = await DialogService.ShowInputDialogAsync("Edit Title");
+            var result = await DialogService.ShowInputDialogAsync(StringsHelper.GetString("EditTitleString"));
             if (result != null)
             {
                 if (string.IsNullOrWhiteSpace(result))
@@ -310,7 +311,7 @@ namespace FluentTerminal.App.ViewModels
                         ClipboardService.SetText(selection);
                         if(_terminalOptions.ShowTextCopied)
                         {
-                            Overlay.Show("Text copied");
+                            Overlay.Show(StringsHelper.GetString("TextCopied"));
                         }
                         break;
                     }
@@ -374,7 +375,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (ApplicationSettings.ConfirmClosingTabs)
             {
-                var result = await DialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this tab?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await DialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmCloseTab"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {

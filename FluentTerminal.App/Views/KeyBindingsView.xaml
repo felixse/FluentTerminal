@@ -84,11 +84,13 @@
                         <HyperlinkButton
                             Margin="12,0,0,0"
                             Command="{x:Bind EditCommand}"
+                            x:Uid="KeyBindingsViewEdit"
                             Content="Edit"
                             Visibility="{x:Bind Parent.Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
                         <HyperlinkButton
                             Margin="12,0,0,0"
                             Command="{x:Bind DeleteCommand}"
+                            x:Uid="KeyBindingsViewDelete"
                             Content="Delete"
                             Visibility="{x:Bind Parent.Editable, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
                     </StackPanel>

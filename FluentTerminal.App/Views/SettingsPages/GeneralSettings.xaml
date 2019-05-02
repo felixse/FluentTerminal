@@ -21,7 +21,8 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="General" />
+                Text="General"
+                x:Uid="General" />
             <CommandBar
                 Grid.Column="1"
                 HorizontalAlignment="Right"
@@ -31,6 +32,7 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
+                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
@@ -38,6 +40,7 @@
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <StackPanel Margin="{StaticResource ItemMargin}">
                     <ToggleSwitch
+                        x:Uid="RunOnStartup"
                         Header="Run on startup"
                         IsEnabled="{x:Bind ViewModel.CanEnableStartupTask, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.StartupTaskEnabled, Mode=TwoWay}" />
@@ -48,80 +51,94 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <ToggleSwitch Header="Show in system tray" IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
+                    <ToggleSwitch x:Uid="SystemTray" Header="Show in system tray" IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
                     <TextBlock
+                        x:Uid="NeedRelaunch"
                         Foreground="Red"
                         Text="Relaunch required to apply setting"
                         Visibility="{x:Bind ViewModel.ShouldRestartForTrayMessage, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Open new terminals as" />
+                    <TextBlock x:Uid="OpenNewTerminalAs" Margin="0,0,0,8" Text="Open new terminals as" />
                     <RadioButton
+                        x:Uid="ONTA_Tabs"
                         Content="Tabs"
                         GroupName="NewTerminalLocation"
                         IsChecked="{x:Bind ViewModel.TabIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="ONTA_Windows"
                         Content="Windows"
                         GroupName="NewTerminalLocation"
                         IsChecked="{x:Bind ViewModel.WindowIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Show tabs on" />
+                    <TextBlock x:Uid="TabsPostion" Margin="0,0,0,8" Text="Show tabs on" />
                     <RadioButton
+                        x:Uid="TP_Top"
                         Content="Top"
                         GroupName="TabsPosition"
                         IsChecked="{x:Bind ViewModel.TopIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="TP_Bottom"
                         Content="Bottom"
                         GroupName="TabsPosition"
                         IsChecked="{x:Bind ViewModel.BottomIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <ToggleSwitch
+                    x:Uid="AlwaysShowTabs"
                     Margin="{StaticResource ItemMargin}"
                     Header="Always show tabs"
                     IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="CustomTitle"
                     Margin="{StaticResource ItemMargin}"
                     Header="Show custom tab title also in titlebar"
                     IsOn="{x:Bind ViewModel.ShowCustomTitleInTitlebar, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="UnderlineTab"
                     Margin="{StaticResource ItemMargin}"
                     Header="Underline selected tab"
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Color on inactive tabs" />
+                    <TextBlock Margin="0,0,0,8" x:Uid="ColorInactiveTabs" Text="Color on inactive tabs" />
                     <RadioButton
+                        x:Uid="Background"
                         Content="Background"
                         GroupName="InactiveTabColorMode"
                         IsChecked="{x:Bind ViewModel.BackgroundIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="Underline"
                         Content="Underline"
                         GroupName="InactiveTabColorMode"
                         IsChecked="{x:Bind ViewModel.UnderlinedIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <ToggleSwitch
+                    x:Uid="CloseWindowBeforeAsk"
                     Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing windows"
                     IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="CloseTabBeforeAsk"
                     Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing tabs"
                     IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="IndicatorOutput"
                     Margin="{StaticResource ItemMargin}"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="UseWinPty"
                     Margin="{StaticResource ItemMargin}"
                     Header="Windows 10 1809+: Always use WinPty"
                     IsOn="{x:Bind ViewModel.AlwaysUseWinPty, Mode=TwoWay}" />
