@@ -294,5 +294,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-!FluentTerminal.SystemTray/BinaryDependencies/*
-
+!FluentTerminal.App/MoshExecutables/*

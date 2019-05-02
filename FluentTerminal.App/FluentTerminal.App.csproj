@@ -220,6 +220,18 @@
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
+    <Content Include="MoshExecutables\x64\mosh-client.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x64\mosh.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x86\mosh-client.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x86\mosh.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Win32\Newtonsoft.Json.dll" />
     <Content Include="Win32\PListNet.dll" />
     <Content Include="Win32\RestSharp.dll" />

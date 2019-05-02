@@ -7,7 +7,6 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows.Input;
 using FluentTerminal.Models;
-using File = System.IO.File;
 
 namespace FluentTerminal.SystemTray
 {
@@ -531,9 +530,9 @@ namespace FluentTerminal.SystemTray
 
             while (dir != null)
             {
-                string path = Path.Combine(dir.FullName, "BinaryDependencies", MoshArchDir, "mosh.exe");
+                string path = Path.Combine(dir.FullName, "MoshExecutables", MoshArchDir, "mosh.exe");
 
-                if (File.Exists(path))
+                if (System.IO.File.Exists(path))
                     return path;
 
                 dir = dir.Parent;
