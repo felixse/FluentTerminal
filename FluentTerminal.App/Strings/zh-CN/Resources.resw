@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About.Text" xml:space="preserve">
+    <value>关于</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="AlwaysShowTabs.Header" xml:space="preserve">
+    <value>始终显示标签栏</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="AlwaysShowTabs.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="AlwaysShowTabs.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Background.Content" xml:space="preserve">
+    <value>背景色</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Blue.Text" xml:space="preserve">
+    <value>蓝色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Close.Text" xml:space="preserve">
+    <value>关闭</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="CloseBeforeAsk.Header" xml:space="preserve">
+    <value>在关闭窗口之前询问</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseBeforeAsk.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseBeforeAsk.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseTabBeforeAsk.Header" xml:space="preserve">
+    <value>在关闭标签页之前询问</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseTabBeforeAsk.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseTabBeforeAsk.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Color.Text" xml:space="preserve">
+    <value>标签颜色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ColorInactiveTabs.Text" xml:space="preserve">
+    <value>非活动选项卡上的颜色</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="CustomTitle.Header" xml:space="preserve">
+    <value>在标题栏显示自定义标题</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CustomTitle.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CustomTitle.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="EditTitle.Text" xml:space="preserve">
+    <value>修改标题</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>常规</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Green.Text" xml:space="preserve">
+    <value>绿色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.Header" xml:space="preserve">
+    <value>非活动选项卡输出提示</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NeedRelaunch.Text" xml:space="preserve">
+    <value>下次启动生效</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NewTab.Text" xml:space="preserve">
+    <value>新标签页</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>无</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ONTA_Tabs.Content" xml:space="preserve">
+    <value>新的标签页</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ONTA_Windows.Content" xml:space="preserve">
+    <value>新的窗口</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
+    <value>打开新的终端</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Orange.Text" xml:space="preserve">
+    <value>橙色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>粘贴</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="Purple.Text" xml:space="preserve">
+    <value>紫色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Red.Text" xml:space="preserve">
+    <value>红色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Restore.Label" xml:space="preserve">
+    <value>恢复默认</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.Header" xml:space="preserve">
+    <value>开机自启</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>设置</value>
+    <comment>SettingsPage.xaml.cs</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>设置</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="SystemTray.Header" xml:space="preserve">
+    <value>在系统托盘中显示</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="SystemTray.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="SystemTray.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabsPostion.Text" xml:space="preserve">
+    <value>标签栏位置</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Teal.Text" xml:space="preserve">
+    <value>青色</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TP_Bottom.Content" xml:space="preserve">
+    <value>底部</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TP_Top.Content" xml:space="preserve">
+    <value>顶部</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Underline.Content" xml:space="preserve">
+    <value>下划线</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.Header" xml:space="preserve">
+    <value>当前标签栏下划线</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UseWinPty.Header" xml:space="preserve">
+    <value>Windows 10 1809+: 始终使用 WinPty</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UseWinPty.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UseWinPty.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting_About.Content" xml:space="preserve">
+    <value>关于</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_General.Content" xml:space="preserve">
+    <value>常规</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Keybindings.Content" xml:space="preserve">
+    <value>快捷键</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Mouse.Content" xml:space="preserve">
+    <value>鼠标</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Profiles.Content" xml:space="preserve">
+    <value>配置文件</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Terminal.Content" xml:space="preserve">
+    <value>终端</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Themes.Content" xml:space="preserve">
+    <value>主题</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="AddKeyShort.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Arguments.Header" xml:space="preserve">
+    <value>参数</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="BackgroundOpacity.Header" xml:space="preserve">
+    <value>背景不透明度</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.Header" xml:space="preserve">
+    <value>光标闪烁</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.Header" xml:space="preserve">
+    <value>黑体</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.OffContent" xml:space="preserve">
+    <value>开</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.OnContent" xml:space="preserve">
+    <value>关</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>取消</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CheckingUpdates.Text" xml:space="preserve">
+    <value>正在检查更新 ...</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CheckUpdates.Label" xml:space="preserve">
+    <value>检查更新</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="ClickColorEdit.Text" xml:space="preserve">
+    <value>单击要编辑的颜色</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CloneAppBarButton.Label" xml:space="preserve">
+    <value>复制</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ColorPalette.Text" xml:space="preserve">
+    <value>调色板</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.Header" xml:space="preserve">
+    <value>文本复制提示</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.Header" xml:space="preserve">
+    <value>自动复制选中的文本</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CreateProfile.Text" xml:space="preserve">
+    <value>新建</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CurrentVersion.Text" xml:space="preserve">
+    <value>当前版本</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CursorBar.Content" xml:space="preserve">
+    <value>垂直</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorBlock.Content" xml:space="preserve">
+    <value>块状</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorStyle.Text" xml:space="preserve">
+    <value>光标样式</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorUnderline.Content" xml:space="preserve">
+    <value>下划线</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="DeleteAppBarButton.Label" xml:space="preserve">
+    <value>删除</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="DoNotModifyEndings.Content" xml:space="preserve">
+    <value>不改变</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="EditAppBarButton.Label" xml:space="preserve">
+    <value>编辑</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ExportAppBarButton.Label" xml:space="preserve">
+    <value>导出</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="FontFamily.Header" xml:space="preserve">
+    <value>字体</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="FontSize.Header" xml:space="preserve">
+    <value>字体大小</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ImportTheme.Text" xml:space="preserve">
+    <value>导入</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut.Header" xml:space="preserve">
+    <value>快捷键</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut1.Text" xml:space="preserve">
+    <value>快捷键</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LatestVersion.Text" xml:space="preserve">
+    <value>最新版本</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="License.Text" xml:space="preserve">
+    <value>许可</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="LineEndingMode.Header" xml:space="preserve">
+    <value>行结束标志转换</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
+    <value>粘贴时转换行结束标识符</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="MiddleButtonAction.Text" xml:space="preserve">
+    <value>鼠标中键动作</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="Mouse.Text" xml:space="preserve">
+    <value>鼠标</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseContextMenu.Content" xml:space="preserve">
+    <value>打开弹出式菜单</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseNothing.Content" xml:space="preserve">
+    <value>没做什么</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MousePaste.Content" xml:space="preserve">
+    <value>粘贴剪切板内容</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="NewTheme.Text" xml:space="preserve">
+    <value>新建</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="Padding.Header" xml:space="preserve">
+    <value>内边距</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ProfileName.Header" xml:space="preserve">
+    <value>名称</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>终端配置</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ProfileTheme.Header" xml:space="preserve">
+    <value>主题</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ReleaseNotes.Text" xml:space="preserve">
+    <value>发行说明</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="RightButtonAction.Text" xml:space="preserve">
+    <value>鼠标右键动作</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>保存</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ScrollbackLimit.Header" xml:space="preserve">
+    <value>滚动限制</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarAuto.Content" xml:space="preserve">
+    <value>自动隐藏</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarHidden.Content" xml:space="preserve">
+    <value>隐藏</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollbarStyle.Text" xml:space="preserve">
+    <value>滚动条样式</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarVisible.Content" xml:space="preserve">
+    <value>显示</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="SetActiveAppBarButton.Label" xml:space="preserve">
+    <value>应用</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
+    <value>设为默认</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ShellLocation.Header" xml:space="preserve">
+    <value>可执行程序位置</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="TabColor.Header" xml:space="preserve">
+    <value>标签栏颜色</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Terminal.Text" xml:space="preserve">
+    <value>终端</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>主题</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeAuthor.Header" xml:space="preserve">
+    <value>作者</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeName.Header" xml:space="preserve">
+    <value>主题名</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ToCR.Content" xml:space="preserve">
+    <value>转换行结尾为 CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ToCRLF.Content" xml:space="preserve">
+    <value>转换行结尾为 CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ToLF.Content" xml:space="preserve">
+    <value>转换行结尾为 LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="WorkingDir.Header" xml:space="preserve">
+    <value>工作目录</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ConfirmCloseTab" xml:space="preserve">
+    <value>是否要关闭此标签页？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmCloseWindow" xml:space="preserve">
+    <value>你确定要关闭这个窗口吗？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteKeybindings" xml:space="preserve">
+    <value>是否删除此快捷键绑定？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteTheme" xml:space="preserve">
+    <value>是否要删除此主题？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDiscardChanges" xml:space="preserve">
+    <value>是否要放弃所有更改</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
+    <value>是否要还原常规设置？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreKeybindings" xml:space="preserve">
+    <value>是否还原默认的快捷键绑定？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
+    <value>是否要还原鼠标设置？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreProfile" xml:space="preserve">
+    <value>是否要还原此配置？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
+    <value>是否要还原默认终端选项？</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByPolicy" xml:space="preserve">
+    <value>已被组策略禁止。</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByUser" xml:space="preserve">
+    <value>已被用户禁用。请在任务管理器的“启动”选项卡中重新激活它。</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="EditTitleString" xml:space="preserve">
+    <value>编辑标题</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ErrorString1" xml:space="preserve">
+    <value>由于以下错误，操作无法完成：</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ImportThemeFailed" xml:space="preserve">
+    <value>导入主题失败</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="NoSuitableParserFound" xml:space="preserve">
+    <value>解析失败</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="PleaseConfirm" xml:space="preserve">
+    <value>请确认</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="KeybindingDialogTitle.Text" xml:space="preserve">
+    <value>请键入要绑定的快捷键</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ResetBtn.Text" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="TextCopied" xml:space="preserve">
+    <value>已复制</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>添加</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Change tab title" xml:space="preserve">
+    <value>修改标签页标题</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>清屏</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Close tab" xml:space="preserve">
+    <value>关闭标签页</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Configurable new tab" xml:space="preserve">
+    <value>新的标签页（自定义配置）</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Configurable new window" xml:space="preserve">
+    <value>新的窗口（自定义配置）</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Keybindings.Text" xml:space="preserve">
+    <value>快捷键</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="KeyBindingsViewDelete.Content" xml:space="preserve">
+    <value>删除</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
+    <value>编辑</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="New remote tab" xml:space="preserve">
+    <value>新的远程标签页</value>
+    <comment>Command</comment>
+  </data>
+  <data name="New tab" xml:space="preserve">
+    <value>下一个标签页</value>
+    <comment>Command</comment>
+  </data>
+  <data name="New window" xml:space="preserve">
+    <value>新的窗口</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Next tab" xml:space="preserve">
+    <value>切换标签页</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Paste without newlines" xml:space="preserve">
+    <value>粘贴（不换行）</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Previous tab" xml:space="preserve">
+    <value>上一个标签页</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜索</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Select all" xml:space="preserve">
+    <value>全选</value>
+    <comment>Command</comment>
+  </data>
+  <data name="SelectProfileUI.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+    <comment>ShellProfileSelectionDialog.xaml</comment>
+  </data>
+  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
+    <value>启动</value>
+    <comment>ShellProfileSelectionDialog.xaml</comment>
+  </data>
+  <data name="SelectProfileUI.Title" xml:space="preserve">
+    <value>选择一个配置</value>
+    <comment>ShellProfileSelectionDialog.xaml</comment>
+  </data>
+  <data name="Show settings" xml:space="preserve">
+    <value>显示设置</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 1" xml:space="preserve">
+    <value>切换到终端 #1</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 2" xml:space="preserve">
+    <value>切换到终端 #2</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 3" xml:space="preserve">
+    <value>切换到终端 #3</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 4" xml:space="preserve">
+    <value>切换到终端 #4</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 5" xml:space="preserve">
+    <value>切换到终端 #5</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 6" xml:space="preserve">
+    <value>切换到终端 #6</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 7" xml:space="preserve">
+    <value>切换到终端 #7</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 8" xml:space="preserve">
+    <value>切换到终端 #8</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Switch to Terminal 9" xml:space="preserve">
+    <value>切换到终端 #9</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Toggle Fullscreen" xml:space="preserve">
+    <value>切换全屏</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Toggle window" xml:space="preserve">
+    <value>切换窗口</value>
+    <comment>Command</comment>
+  </data>
+</root>

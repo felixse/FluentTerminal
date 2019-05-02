@@ -18,9 +18,9 @@ namespace FluentTerminal.App.Services
             Id = _trayProcessCommunicationService.GetNextTerminalId();
         }
 
-        private void OnTerminalExited(object sender, int e)
+        private void OnTerminalExited(object sender, TerminalExitStatus status)
         {
-            if (e == Id)
+            if (status.TerminalId == Id)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
             }

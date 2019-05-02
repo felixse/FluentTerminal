@@ -10,7 +10,7 @@
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
     <StackPanel>
-        <TextBlock Margin="0,0,0,24" Text="Enter your keybinding now" />
+        <TextBlock Margin="0,0,0,24" x:Uid="KeybindingDialogTitle" Text="Enter your keybinding now" />
         <StackPanel x:Name="Root" Orientation="Horizontal">
             <Grid
                 Width="48"
@@ -72,6 +72,7 @@
                 x:Name="ResetButton"
                 Margin="24,0,0,0"
                 Command="{x:Bind ResetCommand}"
+                x:Uid="ResetBtn"
                 Content="Reset"
                 PreviewKeyDown="OnResetButtonPreviewKeyDown" />
         </StackPanel>

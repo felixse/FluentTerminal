@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -118,7 +119,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 if (parser == null)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc("Import theme failed", "No suitable parser found", DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("ImportThemeFailed"), StringsHelper.GetString("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
                     return;
                 }
 
@@ -130,7 +131,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 catch (Exception exception)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc("Import theme failed", exception.Message, DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
                 }
             }
         }

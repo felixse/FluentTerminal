@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
+using static FluentTerminal.SystemTray.Native.ProcessApi;
 using static FluentTerminal.SystemTray.Services.ConPty.Native.ProcessApi;
 
 namespace FluentTerminal.SystemTray.Services.ConPty.Processes
@@ -17,6 +19,17 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
 
         public STARTUPINFOEX StartupInfo { get; }
         public PROCESS_INFORMATION ProcessInfo { get; }
+
+        /// <summary>
+        /// Returns the exit code for the process.
+        /// </summary>
+        public uint GetExitCode() {
+            if (!GetExitCodeProcess(ProcessInfo.hProcess, out uint exitCode))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error(), "could not retrieve process exit code");
+            }
+            return exitCode;
+        }
 
         #region IDisposable Support
 

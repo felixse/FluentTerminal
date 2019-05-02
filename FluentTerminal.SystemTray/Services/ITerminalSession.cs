@@ -9,7 +9,7 @@ namespace FluentTerminal.SystemTray.Services
         int Id { get; }
         string ShellExecutableName { get; }
 
-        event EventHandler ConnectionClosed;
+        event EventHandler<int> ConnectionClosed;
 
         void Close();
         void Resize(TerminalSize size);

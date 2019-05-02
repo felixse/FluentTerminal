@@ -22,6 +22,7 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
+                x:Uid="Mouse"
                 Text="Mouse" />
             <CommandBar
                 Grid.Column="1"
@@ -32,6 +33,7 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
+                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
@@ -39,36 +41,43 @@
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ToggleSwitch
                     Margin="{StaticResource ItemMargin}"
+                    x:Uid="CopyOnSelect"
                     Header="Copy on select"
                     IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Middle button action" />
+                    <TextBlock Margin="0,0,0,8" x:Uid="MiddleButtonAction"  Text="Middle button action" />
                     <RadioButton
+                        x:Uid="MouseNothing"
                         Content="Nothing"
                         GroupName="MiddleButton"
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickNoneIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="MouseContextMenu"
                         Content="Context menu"
                         GroupName="MiddleButton"
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickContextMenuIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="MousePaste"
                         Content="Paste"
                         GroupName="MiddleButton"
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Right button action" />
+                    <TextBlock Margin="0,0,0,8" x:Uid="RightButtonAction" Text="Right button action" />
                     <RadioButton
+                        x:Uid="MouseNothing"
                         Content="Nothing"
                         GroupName="RightButton"
                         IsChecked="{x:Bind ViewModel.MouseRightClickNoneIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="MouseContextMenu"
                         Content="Context menu"
                         GroupName="RightButton"
                         IsChecked="{x:Bind ViewModel.MouseRightClickContextMenuIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="MousePaste"
                         Content="Paste"
                         GroupName="RightButton"
                         IsChecked="{x:Bind ViewModel.MouseRightClickPasteIsSelected, Mode=TwoWay}" />

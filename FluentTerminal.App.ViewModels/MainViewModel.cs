@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.App.Services.Implementation;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -245,7 +246,7 @@ namespace FluentTerminal.App.ViewModels
                 var error = profile.ValidateAndGetErrors();
                 if( ! String.IsNullOrEmpty(error) )
                 {
-                    await _dialogService.ShowMessageDialogAsnyc("Error", "The operation cannot be completed due to the following error: " + error, DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("Error"), StringsHelper.GetString("ErrorString1") + error, DialogButton.OK).ConfigureAwait(false);
                 }
                 else
                 {
@@ -358,7 +359,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {
