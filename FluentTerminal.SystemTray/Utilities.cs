@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows.Input;
+using FluentTerminal.Models;
+using File = System.IO.File;
 
 namespace FluentTerminal.SystemTray
 {
@@ -12,26 +15,6 @@ namespace FluentTerminal.SystemTray
     {
         private const int FirstDynamicPort = 49151;
         private static readonly List<int> _sentOutPorts = new List<int>();
-
-        public static string GetSshLocation()
-        {
-            //
-            // See https://stackoverflow.com/a/25919981
-            //
-
-            string system32Folder;
-
-            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-            {
-                system32Folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Sysnative");
-            }
-            else
-            {
-                system32Folder = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            }
-
-            return Path.Combine(system32Folder, @"OpenSSH\ssh.exe");
-        }
 
         public static int? GetAvailablePort()
         {
@@ -513,10 +496,52 @@ namespace FluentTerminal.SystemTray
             }
         }
 
-        private static void Log(string message)
+        #region Mosh locator
+
+#if X64
+        private const string MoshArchDir = @"x64";
+#else
+        private const string MoshArchDir = @"x86";
+#endif
+
+        internal static string CheckIfMosh(this ShellProfile profile)
         {
-            using (StreamWriter writer = new StreamWriter(@"C:\Users\peske\Desktop\f.log", true))
-                writer.WriteLine(message);
+            if (profile?.Location == null)
+                return null;
+
+            string location = profile.Location.Trim();
+
+            if (location.Equals("mosh.exe", StringComparison.OrdinalIgnoreCase) ||
+                location.Equals("mosh", StringComparison.OrdinalIgnoreCase))
+            {
+                location = GetMoshPath();
+
+                if (string.IsNullOrEmpty(location))
+                    return "mosh.exe not found.";
+
+                profile.Location = location;
+            }
+
+            return null;
         }
+
+        private static string GetMoshPath()
+        {
+            DirectoryInfo dir = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
+
+            while (dir != null)
+            {
+                string path = Path.Combine(dir.FullName, "BinaryDependencies", MoshArchDir, "mosh.exe");
+
+                if (File.Exists(path))
+                    return path;
+
+                dir = dir.Parent;
+            }
+
+            return null;
+        }
+
+        #endregion Mosh locator
     }
 }

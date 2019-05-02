@@ -22,6 +22,7 @@ namespace FluentTerminal.App.Services
 
         private const string SshUriScheme = "ssh";
         private const string MoshUriScheme = "mosh";
+        private const string MoshExe = "mosh.exe";
 
         // Constant derived from https://man.openbsd.org/ssh
         private const string IdentityFileOptionName = "IdentityFile";
@@ -160,7 +161,6 @@ namespace FluentTerminal.App.Services
             return $"{name}={value}";
         }
 
-        // TODO: For now it always returns SSH since MOSH isn't implemented yet. We should change that.
         private static string GetArgumentsString(SshConnectionInfoViewModel sshConnectionInfo)
         {
             StringBuilder sb = new StringBuilder();
@@ -176,15 +176,17 @@ namespace FluentTerminal.App.Services
 
             sb.Append($"{sshConnectionInfo.Username}@{sshConnectionInfo.Host}");
 
+            if (sshConnectionInfo.UseMosh)
+                sb.Append($" {sshConnectionInfo.MoshPortFrom}:{sshConnectionInfo.MoshPortTo}");
+
             return sb.ToString();
         }
 
-        // TODO: For now it always returns SSH since MOSH isn't implemented yet. We should change that.
         private static ShellProfile GetShellProfile(SshConnectionInfoViewModel sshConnectionInfo) =>
             new ShellProfile
             {
                 Arguments = GetArgumentsString(sshConnectionInfo),
-                Location = SshExeLocationLazy.Value,
+                Location = sshConnectionInfo.UseMosh ? MoshExe : SshExeLocationLazy.Value,
                 WorkingDirectory = string.Empty,
                 LineEndingTranslation = LineEndingStyle.DoNotModify
             };

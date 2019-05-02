@@ -9,7 +9,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using Windows.ApplicationModel;
 
@@ -49,6 +48,12 @@ namespace FluentTerminal.SystemTray.Services
                 }
                 _terminals.Clear();
             }
+
+            string error = request.Profile?.CheckIfMosh();
+
+            if (!string.IsNullOrEmpty(error))
+                return new CreateTerminalResponse
+                    {Error = error, ShellExecutableName = request.Profile.Location, Success = false};
 
             ITerminalSession terminal = null;
             try
@@ -115,19 +120,7 @@ namespace FluentTerminal.SystemTray.Services
 
             if (additionalVariables != null)
                 foreach (var kvp in additionalVariables)
-                {
-                    // TODO: Check this issue!
-                    // For some reason MOSH_USER and MOSH_KEY env variable names are changed to mosH_USER and mosH_KEY, probably during serialization
-                    // For this reason I need to make them uppercase again here.
-                    string key = kvp.Key;
-
-                    if (key.Equals("MOSH_USER", StringComparison.OrdinalIgnoreCase))
-                        key = "MOSH_USER";
-                    else if (key.Equals("MOSH_KEY", StringComparison.OrdinalIgnoreCase))
-                        key = "MOSH_KEY";
-
-                    environmentVariables.Add(key, kvp.Value);
-                }
+                    environmentVariables[kvp.Key] = kvp.Value;
 
             var builder = new StringBuilder();
 
