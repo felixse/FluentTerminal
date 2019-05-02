@@ -209,6 +209,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\AppIcons\Square106x106Logo.black.png" />
+    <Content Include="Assets\AppIcons\Full-transparent.png" />
     <Content Include="Assets\settingsicons.ttf" />
     <Content Include="Win32\Autofac.dll" />
     <Content Include="Win32\FluentTerminal.App.Services.dll" />

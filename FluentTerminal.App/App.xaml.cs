@@ -8,6 +8,7 @@ using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Implementation;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
@@ -230,7 +231,7 @@ namespace FluentTerminal.App
                 var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
                 var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
                 var configContent = await FileIO.ReadTextAsync(configFile);
-                Utilities.JumpListHelper.Update(_settingsService.GetShellProfiles());
+                Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
 
                 if (string.IsNullOrWhiteSpace(configContent))
                 {
@@ -243,9 +244,9 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                if(args.Arguments.StartsWith("JumpList:"))
+                if(args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
                 {
-                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace("JumpList:","")));
+                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
                 }
                 else
                 {
@@ -258,10 +259,10 @@ namespace FluentTerminal.App
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
             }
-            else if (args.Arguments.StartsWith("JumpList:"))
+            else if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
             {
                 var location = _applicationSettings.NewTerminalLocation;
-                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace("JumpList:", "")));
+                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
                 await CreateTerminal(profile, location).ConfigureAwait(true);
             }
         }
@@ -400,7 +401,7 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
-            Utilities.JumpListHelper.Update(_settingsService.GetShellProfiles());
+            Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;
