@@ -36,7 +36,7 @@
         <TextBlock Grid.Column="1" Grid.Row="0"
                    FontSize="22"
                    Text="@" />
-        <TextBox Grid.Column="2" Grid.Row="0"
+        <TextBox x:Name="hostTextBox"  Grid.Column="2" Grid.Row="0"
                  PlaceholderText="host"
                  Text="{Binding Host, Mode=TwoWay}"/>
         <TextBlock Grid.Column="3" Grid.Row="0"

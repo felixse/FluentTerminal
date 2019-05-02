@@ -57,7 +57,6 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
-    <uap:Capability Name="userAccountInformation" />
     <rescap:Capability Name="runFullTrust" />
     <rescap:Capability Name="confirmAppClose" />
   </Capabilities>
