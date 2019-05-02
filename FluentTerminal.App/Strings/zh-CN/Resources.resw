@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -145,8 +145,20 @@
     <value>关闭</value>
     <comment>TabBar.xaml</comment>
   </data>
+  <data name="CloseBeforeAsk.Header" xml:space="preserve">
+    <value>在关闭窗口之前询问</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseBeforeAsk.OffContent" xml:space="preserve">
+    <value>关</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="CloseBeforeAsk.OnContent" xml:space="preserve">
+    <value>开</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
   <data name="CloseTabBeforeAsk.Header" xml:space="preserve">
-    <value>关闭标签页前提示</value>
+    <value>在关闭标签页之前询问</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="CloseTabBeforeAsk.OffContent" xml:space="preserve">
@@ -154,18 +166,6 @@
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="CloseTabBeforeAsk.OnContent" xml:space="preserve">
-    <value>开</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseWindowBeforeAsk.Header" xml:space="preserve">
-    <value>关闭窗口前提示</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseWindowBeforeAsk.OffContent" xml:space="preserve">
-    <value>关</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseWindowBeforeAsk.OnContent" xml:space="preserve">
     <value>开</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
@@ -717,10 +717,6 @@
     <value>请确认</value>
     <comment>ViewModel</comment>
   </data>
-  <data name="TextCopied" xml:space="preserve">
-    <value>已复制</value>
-    <comment>ViewModel</comment>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -733,11 +729,9 @@
   <data name="ResetBtn.Text" xml:space="preserve">
     <value>重置</value>
   </data>
-  <data name="SelectProfile" xml:space="preserve">
-    <value>选择配置</value>
-  </data>
-  <data name="Start" xml:space="preserve">
-    <value>启动</value>
+  <data name="TextCopied" xml:space="preserve">
+    <value>已复制</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>添加</value>
