@@ -542,5 +542,11 @@ namespace FluentTerminal.SystemTray
         }
 
         #endregion Mosh locator
+
+        internal static void SaveFile(string path, string content)
+        {
+            using (StreamWriter writer = new StreamWriter(path, false))
+                writer.Write(content);
+        }
     }
 }

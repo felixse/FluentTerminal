@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Provider;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -71,7 +70,7 @@ URL={0}
 
             if (!string.IsNullOrEmpty(error))
             {
-                await new MessageDialog(error, "Invalid Form").ShowAsync();
+                await new MessageDialog(error, "Invalid Input").ShowAsync();
 
                 return;
             }
@@ -86,17 +85,22 @@ URL={0}
 
             StorageFile file = await savePicker.PickSaveFileAsync();
 
-            if (file != null)
+            if (file == null)
+                return;
+
+            error = null;
+
+            try
             {
-                CachedFileManager.DeferUpdates(file);
-
-                await FileIO.WriteTextAsync(file, content);
-
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-
-                if (status != FileUpdateStatus.Complete)
-                    await new MessageDialog($"Saving '{file.Name}' failed.", "Failed to Save").ShowAsync();
+                await _trayProcessCommunicationService.SaveTextFileAsync(file.Path, content);
             }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            if (error != null)
+                await new MessageDialog(error, "Error").ShowAsync();
         }
 
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

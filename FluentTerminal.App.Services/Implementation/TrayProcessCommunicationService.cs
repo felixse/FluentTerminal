@@ -71,6 +71,19 @@ namespace FluentTerminal.App.Services.Implementation
             return _userName;
         }
 
+        public async Task SaveTextFileAsync(string path, string content)
+        {
+            IDictionary<string, string> responseMessage =
+                await _appServiceConnection.SendMessageAsync(CreateMessage(new SaveTextFileRequest
+                    {Path = path, Content = content}));
+
+            CommonResponse response =
+                JsonConvert.DeserializeObject<CommonResponse>(responseMessage[MessageKeys.Content]);
+
+            if (!response.Success)
+                throw new Exception(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
+        }
+
         public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile,
             SessionType sessionType)
         {

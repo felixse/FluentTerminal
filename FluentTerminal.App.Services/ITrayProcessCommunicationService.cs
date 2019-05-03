@@ -28,5 +28,7 @@ namespace FluentTerminal.App.Services
         int GetNextTerminalId();
 
         Task<string> GetUserName();
+
+        Task SaveTextFileAsync(string path, string content);
     }
 }
