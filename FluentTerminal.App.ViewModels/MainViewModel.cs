@@ -269,6 +269,14 @@ namespace FluentTerminal.App.ViewModels
 
         public void AddTerminal(ShellProfile profile)
         {
+            if(Terminals!=null && Terminals.Count > 0)
+            {
+                var currentProfile = Terminals[0].ShellProfile;
+                var originProfile = _settingsService.GetShellProfile(currentProfile.Id);
+                if(originProfile.WorkingDirectory != currentProfile.WorkingDirectory)
+                    profile.WorkingDirectory = currentProfile.WorkingDirectory;
+            }
+
             ApplicationView.RunOnDispatcherThread(() =>
             {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
