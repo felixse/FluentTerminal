@@ -262,9 +262,9 @@ namespace FluentTerminal.App.Services
 
             SshConnectionInfoViewModel sshConnectionInfoVm = (SshConnectionInfoViewModel) sshConnectionInfo;
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
 
-            sb.Append(sshConnectionInfoVm.UseMosh ? "mosh://" : "ssh://");
+            sb.Append("://");
 
             bool containsUserInfo = false;
 

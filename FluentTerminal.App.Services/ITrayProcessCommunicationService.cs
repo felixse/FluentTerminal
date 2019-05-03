@@ -27,8 +27,6 @@ namespace FluentTerminal.App.Services
         Task<GetAvailablePortResponse> GetAvailablePort();
         int GetNextTerminalId();
 
-        Task<GetMoshConnectionResponse> GetMoshConnectionCredentials(ISshConnectionInfo connectionInfo);
-
-        Task<GetUserNameResponse> GetUserName();
+        Task<string> GetUserName();
     }
 }
