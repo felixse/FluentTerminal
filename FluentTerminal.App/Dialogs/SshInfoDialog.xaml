@@ -30,7 +30,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBox Grid.Column="0" Grid.Row="0"
+        <TextBox x:Name="userTextBox" Grid.Column="0" Grid.Row="0"
                  PlaceholderText="user"
                  Text="{Binding Username, Mode=TwoWay}" />
         <TextBlock Grid.Column="1" Grid.Row="0"
@@ -38,7 +38,7 @@
                    Text="@" />
         <TextBox x:Name="hostTextBox"  Grid.Column="2" Grid.Row="0"
                  PlaceholderText="host"
-                 Text="{Binding Host, Mode=TwoWay}"/>
+                 Text="{Binding Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Column="3" Grid.Row="0"
                    Margin="2 0 0 0"
                    FontSize="22"
@@ -82,7 +82,7 @@
                 <ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" 
                          HorizontalAlignment="Stretch"
                          Margin="0 10 0 0"
-                         Height="200"/>
+                         Height="100"/>
                 <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
                       Margin="0 10 0 0"
                       Visibility="{Binding UseMosh}">
@@ -104,6 +104,25 @@
                              BeforeTextChanging="Port_OnBeforeTextChanging"/>
                 </Grid>
                 <TextBlock Grid.Column="0" Grid.Row="3" Text=" " />
+                <StackPanel Grid.Row="4" Grid.ColumnSpan="4">
+                    <TextBlock Margin="0,10,0,8" Text="Select line ending translation mode on paste:" />
+                    <RadioButton
+                                        Content="Do not modify line endings"
+                                        GroupName="LineEndingStyle"
+                                        IsChecked="{Binding DoNotModifyIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                                        Content="Convert line endings to CR+LF"
+                                        GroupName="LineEndingStyle"
+                                        IsChecked="{Binding ToCRLFIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                                        Content="Convert line endings to CR"
+                                        GroupName="LineEndingStyle"
+                                        IsChecked="{Binding ToCRIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                                        Content="Convert line endings to LF"
+                                        GroupName="LineEndingStyle"
+                                        IsChecked="{Binding ToLFIsSelected, Mode=TwoWay}" />
+                </StackPanel>
             </Grid>
         </controls:Expander>
         <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5"

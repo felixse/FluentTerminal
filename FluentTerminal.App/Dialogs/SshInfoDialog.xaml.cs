@@ -37,6 +37,24 @@ URL={0}
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
+        private void SetupFocus()
+        {
+            SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
+
+            if (string.IsNullOrEmpty(vm.Username))
+            {
+                userTextBox.Focus(FocusState.Programmatic);
+            }
+            else if (string.IsNullOrEmpty(vm.Host))
+            {
+                hostTextBox.Focus(FocusState.Programmatic);
+            }
+            else
+            {
+                Focus(FocusState.Programmatic);
+            }
+        }
+
         private async void OnLoading(FrameworkElement sender, object args)
         {
             SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
@@ -46,8 +64,7 @@ URL={0}
 
             vm.Username = await _trayProcessCommunicationService.GetUserName();
 
-            if (string.IsNullOrEmpty(vm.Host) && !string.IsNullOrEmpty(vm.Username))
-                hostTextBox.Focus(FocusState.Programmatic);
+            SetupFocus();
         }
 
         private async void BrowseButtonOnClick(object sender, RoutedEventArgs e)
@@ -113,6 +130,7 @@ URL={0}
 
                 await new MessageDialog("User and host are mandatory fields.", "Invalid Form").ShowAsync();
 
+                SetupFocus();
                 return;
             }
 
@@ -120,10 +138,9 @@ URL={0}
             {
                 args.Cancel = true;
 
-                MessageDialog d = new MessageDialog("Port cannot be 0.", "Invalid Form");
+                await new MessageDialog("Port cannot be 0.", "Invalid Form").ShowAsync();
 
-                await d.ShowAsync();
-
+                SetupFocus();
                 return;
             }
 
@@ -138,6 +155,7 @@ URL={0}
             if (input != null)
                 DataContext = ((SshConnectionInfoViewModel)input).Clone();
 
+            this.Focus(FocusState.Programmatic);
             return await ShowAsync() == ContentDialogResult.Primary ? (SshConnectionInfoViewModel) DataContext : null;
         }
     }

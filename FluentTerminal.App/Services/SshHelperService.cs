@@ -188,7 +188,7 @@ namespace FluentTerminal.App.Services
                 Arguments = GetArgumentsString(sshConnectionInfo),
                 Location = sshConnectionInfo.UseMosh ? MoshExe : SshExeLocationLazy.Value,
                 WorkingDirectory = string.Empty,
-                LineEndingTranslation = LineEndingStyle.DoNotModify
+                LineEndingTranslation = sshConnectionInfo.LineEndingStyle
             };
 
         #endregion Static

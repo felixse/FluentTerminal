@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FluentTerminal.App.Services;
 using GalaSoft.MvvmLight;
+using FluentTerminal.Models.Enums;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -64,6 +65,37 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _moshPortTo;
             set => Set(ref _moshPortTo, value);
+        }
+
+        private LineEndingStyle _lineEndingStyle = LineEndingStyle.ToLF;
+        public LineEndingStyle LineEndingStyle
+        {
+            get => _lineEndingStyle;
+            set => Set(ref _lineEndingStyle, value);
+        }
+
+        public bool DoNotModifyIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.DoNotModify;
+            set { if (value) LineEndingStyle = LineEndingStyle.DoNotModify; }
+        }
+
+        public bool ToCRLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCRLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
+        }
+
+        public bool ToLFIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToLF;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
+        }
+
+        public bool ToCRIsSelected
+        {
+            get => LineEndingStyle == LineEndingStyle.ToCR;
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCR; }
         }
 
         public ObservableCollection<SshOptionViewModel> SshOptions { get; } =
