@@ -68,34 +68,11 @@ namespace FluentTerminal.App.ViewModels
         }
 
         private LineEndingStyle _lineEndingStyle = LineEndingStyle.ToLF;
+
         public LineEndingStyle LineEndingStyle
         {
             get => _lineEndingStyle;
             set => Set(ref _lineEndingStyle, value);
-        }
-
-        public bool DoNotModifyIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set { if (value) LineEndingStyle = LineEndingStyle.DoNotModify; }
-        }
-
-        public bool ToCRLFIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
-        }
-
-        public bool ToLFIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
-        }
-
-        public bool ToCRIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToCR;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToCR; }
         }
 
         public ObservableCollection<SshOptionViewModel> SshOptions { get; } =
@@ -129,7 +106,8 @@ namespace FluentTerminal.App.ViewModels
             SshConnectionInfoViewModel clone = new SshConnectionInfoViewModel
             {
                 _host = _host, _sshPort = _sshPort, _username = _username, _identityFile = _identityFile,
-                _useMosh = _useMosh, _moshPortFrom = _moshPortFrom, _moshPortTo = _moshPortTo
+                _useMosh = _useMosh, _moshPortFrom = _moshPortFrom, _moshPortTo = _moshPortTo,
+                _lineEndingStyle = _lineEndingStyle
             };
 
             foreach (SshOptionViewModel option in SshOptions)

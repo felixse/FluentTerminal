@@ -43,11 +43,11 @@ URL={0}
 
             if (string.IsNullOrEmpty(vm.Username))
             {
-                userTextBox.Focus(FocusState.Programmatic);
+                UserTextBox.Focus(FocusState.Programmatic);
             }
             else if (string.IsNullOrEmpty(vm.Host))
             {
-                hostTextBox.Focus(FocusState.Programmatic);
+                HostTextBox.Focus(FocusState.Programmatic);
             }
             else
             {
