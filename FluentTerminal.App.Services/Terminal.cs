@@ -22,13 +22,18 @@ namespace FluentTerminal.App.Services
 
         private void OnTerminalExited(object sender, TerminalExitStatus status)
         {
-            if (status.TerminalId == Id &&
-                (_closingFromUI == true || status.ExitCode == 0 || status.ExitCode == -1))
+            if (status.TerminalId != Id) return;
+
+            _exited = true;
+            Exited?.Invoke(this, status.ExitCode);
+
+            if (_closingFromUI == true || status.ExitCode <= 0)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
             }
-            _exited = true;
         }
+
+        public event EventHandler<int> Exited;
 
         /// <summary>
         /// To be observed by both view and viewmodel

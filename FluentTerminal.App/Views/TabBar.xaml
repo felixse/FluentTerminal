@@ -176,11 +176,27 @@
                                 Text="{x:Bind TabTitle, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
-                            <Grid
+                            <StackPanel
                                 x:Name="CloseButton"
                                 Grid.Column="2"
-                                Width="32"
+                                Height="32"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="3,0,3,0"
                                 RelativePanel.AlignRightWithPanel="True">
+                                <Viewbox Visibility="{x:Bind HasExitedWithError, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                    Width="12"
+                                    Height="12"
+                                    ToolTipService.ToolTip="Exited with error">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;" />
+                                </Viewbox>
+                                <Viewbox Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                    Width="12"
+                                    Height="12"
+                                    VerticalAlignment="Center"
+                                    ToolTipService.ToolTip="New output">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
+                                </Viewbox>
                                 <Button
                                     HorizontalAlignment="Center"
                                     Command="{x:Bind CloseCommand}"
@@ -191,16 +207,7 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
-                                <Grid Height="32" Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
-                                    <Viewbox
-                                        Width="12"
-                                        Height="12"
-                                        VerticalAlignment="Center"
-                                        ToolTipService.ToolTip="New output">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
-                                    </Viewbox>
-                                </Grid>
-                            </Grid>
+                            </StackPanel>
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

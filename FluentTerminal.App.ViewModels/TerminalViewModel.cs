@@ -18,6 +18,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private bool _isSelected;
         private bool _hasNewOutput;
+        private bool _hasExitedWithError;
         private string _searchText;
         private bool _showSearchPanel;
         private TabTheme _tabTheme;
@@ -65,6 +66,7 @@ namespace FluentTerminal.App.ViewModels
             Terminal.OutputReceived += Terminal_OutputReceived;
             Terminal.SizeChanged += Terminal_SizeChanged;
             Terminal.TitleChanged += Terminal_TitleChanged;
+            Terminal.Exited += Terminal_Exited;
             Terminal.Closed += Terminal_Closed;
 
             Overlay = new OverlayViewModel(dispatcherTimer);
@@ -133,6 +135,12 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _hasNewOutput;
             set => Set(ref _hasNewOutput, value);
+        }
+
+        public bool HasExitedWithError
+        {
+            get => _hasExitedWithError;
+            set => Set(ref _hasExitedWithError, value);
         }
 
         public string SearchText
@@ -294,6 +302,11 @@ namespace FluentTerminal.App.ViewModels
         private void SelectTabTheme(string name)
         {
             TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
+        }
+
+        private void Terminal_Exited(object sender, int exitCode)
+        {
+            ApplicationView.RunOnDispatcherThread(() => HasExitedWithError = exitCode > 0);
         }
 
         private void Terminal_Closed(object sender, EventArgs e)
