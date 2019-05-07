@@ -82,6 +82,7 @@ namespace FluentTerminal.App.ViewModels
 
             AddLocalShellCommand = new RelayCommand(() => AddTerminal());
             AddRemoteShellCommand = new RelayCommand(() => AddRemoteTerminal());
+            AddTerminalCommand = new RelayCommand(() => AddTerminal());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -129,6 +130,8 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand AddLocalShellCommand { get; }
         public RelayCommand AddRemoteShellCommand { get; }
+
+        public RelayCommand AddTerminalCommand { get; }
 
         public string WindowTitle
         {
