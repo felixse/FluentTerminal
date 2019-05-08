@@ -31,7 +31,6 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using FluentTerminal.App.Protocols;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -41,6 +40,7 @@ namespace FluentTerminal.App
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly ISshHelperService _sshHelperService;
         private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
@@ -93,6 +93,7 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
+            builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -101,6 +102,8 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
+
+            _sshHelperService = _container.Resolve<ISshHelperService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
@@ -156,24 +159,12 @@ namespace FluentTerminal.App
             if (args is ProtocolActivatedEventArgs protocolActivated)
             {
                 // TODO: Check what happens if ssh link is invalid?
-                if (SshProtocolHandler.IsSshProtocol(protocolActivated.Uri))
+                if (_sshHelperService.IsSsh(protocolActivated.Uri))
                 {
-                    var profile = SshProtocolHandler.GetSshShellProfile(protocolActivated.Uri);
+                    ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(protocolActivated.Uri);
 
                     if (profile != null)
-#pragma warning disable 4014
-                        CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
-#pragma warning restore 4014
-                } else if (MoshProtocolHandler.IsMoshProtocol(protocolActivated.Uri))
-                {
-                    var moshConnectionInfo = MoshProtocolHandler.GetMoshConnectionInfo(protocolActivated.Uri);
-                    var connectionCredentials = await _trayProcessCommunicationService.GetMoshConnectionCredentials(moshConnectionInfo).ConfigureAwait(true);
-                    var profile = MoshProtocolHandler.GetMoshShellProfile(moshConnectionInfo, connectionCredentials.Port, connectionCredentials.Key, connectionCredentials.FilePath);
-
-                    if (profile != null)
-#pragma warning disable 4014
-                        CreateTerminal(profile, NewTerminalLocation.Tab);
-#pragma warning restore 4014
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
                 }
 
                 return;

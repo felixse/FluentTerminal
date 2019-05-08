@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentTerminal.App.ViewModels.Utilities;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -21,6 +20,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly ISshHelperService _sshHelperService;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -29,7 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private string _windowTitle;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ISshHelperService sshHelperService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -43,6 +43,7 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView = applicationView;
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
+            _sshHelperService = sshHelperService;
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), () => AddRemoteTerminal());
@@ -231,44 +232,16 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task AddRemoteTerminal()
         {
-            var sshConnectionInfo = await _dialogService.ShowSshConnectionInfoDialogAsync();
+            ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync();
 
-            if (sshConnectionInfo == null)
+            if (profile == null)
             {
                 // User selected "Cancel"
                 if (Terminals.Count == 0)
-                {
                     await ApplicationView.TryClose();
-                }
-
-                return;
-            }
-
-            ShellProfile profile = null;
-            if (sshConnectionInfo.UseMosh)
-            {
-                var connectionCredentials = await _trayProcessCommunicationService.GetMoshConnectionCredentials(sshConnectionInfo).ConfigureAwait(true);
-                profile = FluentTerminal.App.Protocols.MoshProtocolHandler.GetMoshShellProfile(sshConnectionInfo, connectionCredentials.Port, connectionCredentials.Key, connectionCredentials.FilePath);
             }
             else
-            {
-                string arguments = sshConnectionInfo.SshPort == 22 ? "" : $"-p {sshConnectionInfo.SshPort:#####} ";
-
-                if (!string.IsNullOrEmpty(sshConnectionInfo.IdentityFile))
-                    arguments += $"-i {sshConnectionInfo.IdentityFile} ";
-
-                arguments += $"{sshConnectionInfo.Username}@{sshConnectionInfo.Host}";
-
-                profile = new ShellProfile
-                {
-                    Arguments = arguments,
-                    Location = Helpers.SshExeLocation,
-                    WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
-                };
-            }
-
-            await ApplicationView.RunOnDispatcherThread( () => AddTerminal(profile));
+                await ApplicationView.RunOnDispatcherThread(() => AddTerminal(profile));
         }
 
         public void AddTerminal()
