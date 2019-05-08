@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -418,6 +419,7 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
+            Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;

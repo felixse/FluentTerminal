@@ -84,8 +84,7 @@ namespace FluentTerminal.App.Services.Implementation
                 throw new Exception(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile,
-            SessionType sessionType)
+        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest
             {

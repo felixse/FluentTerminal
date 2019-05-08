@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -83,7 +84,6 @@ namespace FluentTerminal.App.ViewModels
 
             AddLocalShellCommand = new RelayCommand(() => AddTerminal());
             AddRemoteShellCommand = new RelayCommand(() => AddRemoteTerminal());
-            AddTerminalCommand = new RelayCommand(() => AddTerminal());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -131,8 +131,6 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand AddLocalShellCommand { get; }
         public RelayCommand AddRemoteShellCommand { get; }
-
-        public RelayCommand AddTerminalCommand { get; }
 
         public string WindowTitle
         {
@@ -348,7 +346,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {

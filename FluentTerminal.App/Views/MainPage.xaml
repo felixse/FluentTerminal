@@ -48,14 +48,6 @@
                     <MenuFlyout>
                         <MenuFlyoutItem
                             Width="160"
-                            Command="{x:Bind ViewModel.AddTerminalCommand}"
-                            x:Uid="NewTab">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Width="170"
                             Command="{x:Bind ViewModel.AddLocalShellCommand}"
                             Text="New local shell">
                             <MenuFlyoutItem.Icon>
@@ -63,7 +55,7 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            Width="170"
+                            Width="160"
                             Command="{x:Bind ViewModel.AddRemoteShellCommand}"
                             Text="New remote shell">
                             <MenuFlyoutItem.Icon>
@@ -71,7 +63,7 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            Width="170"
+                            Width="160"
                             Command="{x:Bind ViewModel.ShowSettingsCommand}"
                             x:Uid="Settings">
                             <MenuFlyoutItem.Icon>
@@ -79,7 +71,7 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            Width="170"
+                            Width="160"
                             Command="{x:Bind ViewModel.ShowAboutCommand}"
                             x:Uid="About">
                             <MenuFlyoutItem.Icon>
