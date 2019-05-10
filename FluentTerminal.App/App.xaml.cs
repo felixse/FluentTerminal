@@ -8,7 +8,6 @@ using FluentTerminal.App.Services.Adapters;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Implementation;
-using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views;
 using FluentTerminal.Models;
@@ -32,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 
 namespace FluentTerminal.App
@@ -41,6 +41,7 @@ namespace FluentTerminal.App
         public TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly ISshHelperService _sshHelperService;
         private bool _alreadyLaunched;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
@@ -50,6 +51,7 @@ namespace FluentTerminal.App
         private IAppServiceConnection _appServiceConnection;
         private BackgroundTaskDeferral _appServiceDeferral;
         private Parser _commandLineParser;
+        private int? _activeWindowId;
 
         public App()
         {
@@ -67,6 +69,7 @@ namespace FluentTerminal.App
                 ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
                 Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always))
             };
+
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
@@ -91,6 +94,7 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
+            builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -99,6 +103,8 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
+
+            _sshHelperService = _container.Resolve<ISshHelperService>();
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
@@ -149,8 +155,22 @@ namespace FluentTerminal.App
             }
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
+            if (args is ProtocolActivatedEventArgs protocolActivated)
+            {
+                // TODO: Check what happens if ssh link is invalid?
+                if (_sshHelperService.IsSsh(protocolActivated.Uri))
+                {
+                    ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(protocolActivated.Uri);
+
+                    if (profile != null)
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                }
+
+                return;
+            }
+
             if (args is CommandLineActivatedEventArgs commandLineActivated)
             {
                 if (string.IsNullOrWhiteSpace(commandLineActivated.Operation.Arguments))
@@ -243,9 +263,9 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                if(args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
+                if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
                 {
-                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
+                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 }
                 else
                 {
@@ -261,7 +281,7 @@ namespace FluentTerminal.App
             else if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
             {
                 var location = _applicationSettings.NewTerminalLocation;
-                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, "")));
+                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 await CreateTerminal(profile, location).ConfigureAwait(true);
             }
         }
@@ -314,6 +334,7 @@ namespace FluentTerminal.App
                     mainViewModel.NewWindowRequested += OnNewWindowRequested;
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                     mainViewModel.ShowAboutRequested += OnShowAboutRequested;
+                    mainViewModel.ActivatedMV += OnMainViewActivated;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -330,6 +351,7 @@ namespace FluentTerminal.App
             viewModel.NewWindowRequested += OnNewWindowRequested;
             viewModel.ShowSettingsRequested += OnShowSettingsRequested;
             viewModel.ShowAboutRequested += OnShowAboutRequested;
+            viewModel.ActivatedMV += OnMainViewActivated;
             _mainViewModels.Add(viewModel);
 
             return viewModel;
@@ -379,8 +401,19 @@ namespace FluentTerminal.App
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
                 viewModel.ShowAboutRequested -= OnShowAboutRequested;
-
+                viewModel.ActivatedMV -= OnMainViewActivated;
+                if (_activeWindowId == viewModel.ApplicationView.Id)
+                    _activeWindowId = 0;
                 _mainViewModels.Remove(viewModel);
+            }
+        }
+
+        private void OnMainViewActivated(object sender, EventArgs e)
+        {
+            if (sender is MainViewModel viewModel)
+            {
+                Logger.Instance.Debug("MainViewModel with ApplicationView Id: {@id} activated.", viewModel.ApplicationView.Id);
+                _activeWindowId = viewModel.ApplicationView.Id;
             }
         }
 
@@ -432,7 +465,16 @@ namespace FluentTerminal.App
             }
             else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
             {
-                _mainViewModels.Last().AddTerminal(profile);
+                
+                MainViewModel item = _mainViewModels.FirstOrDefault(o => o.ApplicationView.Id == _activeWindowId);
+                if (item != null)
+                {
+                    item.AddTerminal(profile);
+                }
+                else
+                {
+                    _mainViewModels.Last().AddTerminal(profile);
+                }
             }
             else
             {

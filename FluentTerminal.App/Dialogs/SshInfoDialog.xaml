@@ -5,33 +5,134 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:FluentTerminal.App.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     Title="SSH Info"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
-    mc:Ignorable="d">
+    PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
+    DefaultButton="Primary"
+    mc:Ignorable="d" Loading="OnLoading">
     <ContentDialog.DataContext>
         <vm:SshConnectionInfoViewModel />
     </ContentDialog.DataContext>
-    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-        <TextBox
-            Width="50"
-            PlaceholderText="user"
-            Text="{Binding Username, Mode=TwoWay}" />
-        <TextBlock
-            Width="20"
-            FontSize="22"
-            Text="@" />
-        <TextBox
-            Width="120"
-            PlaceholderText="host"
-            Text="{Binding Host, Mode=TwoWay}" />
-        <TextBlock
-            Width="20"
-            FontSize="22"
-            Text=":" />
-        <TextBox
-            Width="50"
-            PlaceholderText="port"
-            Text="{Binding Port, Mode=TwoWay}" />
-    </StackPanel>
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <converters:LineEndingStyleConverter x:Key="LineEndingStyleConverter"/>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <Grid Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="22" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBox x:Name="UserTextBox" Grid.Column="0" Grid.Row="0"
+                 PlaceholderText="user"
+                 Text="{Binding Username, Mode=TwoWay}" />
+        <TextBlock Grid.Column="1" Grid.Row="0"
+                   FontSize="22"
+                   Text="@" />
+        <TextBox x:Name="HostTextBox"  Grid.Column="2" Grid.Row="0"
+                 PlaceholderText="host"
+                 Text="{Binding Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Column="3" Grid.Row="0"
+                   Margin="2 0 0 0"
+                   FontSize="22"
+                   Text=":" />
+        <TextBox Grid.Column="4" Grid.Row="0"
+                 Width="76"
+                 PlaceholderText="port"
+                 Text="{Binding SshPort, Mode=TwoWay}" BeforeTextChanging="Port_OnBeforeTextChanging"/>
+        <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                 Text="{Binding IdentityFile, Mode=TwoWay}"
+                 PlaceholderText="Identity file path"
+                 Margin="0 10 0 0" IsReadOnly="True" />
+        <Button Grid.Column="4" Grid.Row="1"
+                Content="Browse"
+                Width="76"
+                Margin="0 10 0 0"
+                Click="BrowseButtonOnClick" />
+        <CheckBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5"
+                  IsChecked="{Binding UseMosh, Mode=TwoWay}"
+                  Content="Use Mosh"
+                  Margin="0 10 0 0" />
+        <controls:Expander Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" 
+                           Margin="0 10 0 0"
+                           Header="Advanced" 
+                           IsExpanded="False"
+                           HorizontalContentAlignment="Stretch" Padding="0 10 0 10">
+            <Grid Margin="5 20 5 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" 
+                           Text="Line ending on paste:"
+                           Margin="0 0 8 0"
+                           VerticalAlignment="Center"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" 
+                          ItemsSource="{x:Bind converters:LineEndingStyleConverter.LineEndingStyles}" 
+                          SelectedItem="{Binding LineEndingStyle, Mode=TwoWay}"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource LineEndingStyleConverter}}" 
+                                       HorizontalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Grid.Column="0" Grid.Row="1"
+                           Text="Mosh ports:"
+                           Margin="0 8 8 0"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding UseMosh}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" 
+                         Text="{Binding MoshPortFrom, Mode=TwoWay}" 
+                         Margin="0 8 0 0"
+                         BeforeTextChanging="Port_OnBeforeTextChanging"
+                         VerticalAlignment="Center"
+                         Visibility="{Binding UseMosh}"/>
+                <TextBlock Grid.Column="2" Grid.Row="1" 
+                           Text=":"
+                           Margin="2 8 0 0"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding UseMosh}"/>
+                <TextBox Grid.Column="3" Grid.Row="1" 
+                         Text="{Binding MoshPortTo, Mode=TwoWay}" 
+                         BeforeTextChanging="Port_OnBeforeTextChanging"
+                         Margin="0 8 0 0"
+                         VerticalAlignment="Center"
+                         Visibility="{Binding UseMosh}"/>
+            </Grid>
+        </controls:Expander>
+        <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5"
+              Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Grid.Row="0" 
+                    HorizontalAlignment="Stretch"
+                    Margin="0 0 2 0"
+                    Content="Save Shortcut"
+                    Click="SaveLink_OnClick"/>
+        </Grid>
+    </Grid>
 </ContentDialog>

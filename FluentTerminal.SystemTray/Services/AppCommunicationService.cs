@@ -124,6 +124,40 @@ namespace FluentTerminal.SystemTray.Services
 
                 deferral.Complete();
             }
+            else if (messageType == nameof(GetUserNameRequest))
+            {
+                var deferral = args.GetDeferral();
+
+                var response = new GetUserNameResponse { UserName = Environment.UserName };
+
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
+            }
+            else if (messageType == nameof(SaveTextFileRequest))
+            {
+                var deferral = args.GetDeferral();
+
+                SaveTextFileRequest request = JsonConvert.DeserializeObject<SaveTextFileRequest>(messageContent);
+
+                CommonResponse response = new CommonResponse();
+
+                try
+                {
+                    Utilities.SaveFile(request.Path, request.Content);
+
+                    response.Success = true;
+                }
+                catch (Exception e)
+                {
+                    response.Success = false;
+                    response.Error = e.Message;
+                }
+
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
+            }
         }
 
         private ValueSet CreateMessage(object content)

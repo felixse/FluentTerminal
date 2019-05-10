@@ -25,5 +25,9 @@ namespace FluentTerminal.App.Services
         Task CloseTerminal(int terminalId);
         Task<GetAvailablePortResponse> GetAvailablePort();
         int GetNextTerminalId();
+
+        Task<string> GetUserName();
+
+        Task SaveTextFileAsync(string path, string content);
     }
 }

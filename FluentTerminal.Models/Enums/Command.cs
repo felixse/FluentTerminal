@@ -19,8 +19,8 @@ namespace FluentTerminal.Models.Enums
         [Description("Configurable new tab")]
         ConfigurableNewTab,
 
-        [Description("New remote tab")]
-        NewRemoteTab,
+        [Description("New SSH tab")]
+        NewSshTab,
 
         [Description("Change tab title")]
         ChangeTabTitle,

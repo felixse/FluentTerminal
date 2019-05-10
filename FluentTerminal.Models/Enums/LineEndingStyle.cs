@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+// ReSharper disable InconsistentNaming
 
 namespace FluentTerminal.Models.Enums
 {
     public enum LineEndingStyle
     {
         [Description("Do not modify")]
-        DoNotModify,
+        DoNotModify = 0,
 
         [Description("Convert to CR")]
         ToCR,
