@@ -250,6 +250,7 @@ namespace FluentTerminal.App
                 var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
                 var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
                 var configContent = await FileIO.ReadTextAsync(configFile);
+                Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
 
                 if (string.IsNullOrWhiteSpace(configContent))
                 {
@@ -262,13 +263,26 @@ namespace FluentTerminal.App
                 Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal();
+                if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
+                {
+                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
+                }
+                else
+                {
+                    viewModel.AddTerminal();
+                }
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
             else if (_mainViewModels.Count == 0)
             {
                 await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
+            }
+            else if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
+            {
+                var location = _applicationSettings.NewTerminalLocation;
+                var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
+                await CreateTerminal(profile, location).ConfigureAwait(true);
             }
         }
 
