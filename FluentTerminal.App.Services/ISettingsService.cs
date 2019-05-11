@@ -37,5 +37,7 @@ namespace FluentTerminal.App.Services
         void SaveTerminalOptions(TerminalOptions terminalOptions);
         void SaveTheme(TerminalTheme theme, bool newTheme = false);
         ShellProfile GetShellProfile(Guid id);
+        string ExportSettings();
+        void ImportSettings(string serializedSettings);
     }
 }

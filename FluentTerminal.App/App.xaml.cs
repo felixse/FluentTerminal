@@ -184,9 +184,25 @@ namespace FluentTerminal.App
 
                 _commandLineParser.ParseArguments(SplitArguments(commandLineActivated.Operation.Arguments), typeof(NewVerb), typeof(RunVerb), typeof(SettingsVerb)).WithParsed(async verb =>
                 {
-                    if (verb is SettingsVerb)
+                    if (verb is SettingsVerb settingsVerb)
                     {
-                        await ShowSettings().ConfigureAwait(true);
+                        if (!settingsVerb.Import && !settingsVerb.Export)
+                        {
+                            await ShowSettings().ConfigureAwait(true);
+                        }
+                        else if (settingsVerb.Export)
+                        {
+                            var exportFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
+
+                            var settings = _settingsService.ExportSettings();
+                            await FileIO.WriteTextAsync(exportFile, settings);
+                        }
+                        else if (settingsVerb.Import)
+                        {
+                            var file = await ApplicationData.Current.LocalFolder.GetFileAsync("config.json");
+                            var content = await FileIO.ReadTextAsync(file);
+                            _settingsService.ImportSettings(content);
+                        }
                     }
                     else if (verb is NewVerb newVerb)
                     {
