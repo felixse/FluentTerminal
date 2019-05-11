@@ -1,4 +1,5 @@
-﻿using FluentTerminal.App.Utilities;
+﻿using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views.SettingsPages;
 using System;
@@ -27,8 +28,8 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
             Root.DataContext = this;
-
-            ApplicationView.GetForCurrentView().Title = "Settings";
+            var asd= I18N.Translate("Setting");
+            ApplicationView.GetForCurrentView().Title = I18N.Translate("Setting");
 
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;

@@ -100,6 +100,7 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
+                x:Uid="Profiles"
                 Text="Profiles" />
             <CommandBar
                 Grid.Column="1"
@@ -112,24 +113,29 @@
                     Command="{x:Bind ViewModel.SelectedShellProfile.SetDefaultCommand, Mode=OneWay}"
                     Icon="Accept"
                     IsEnabled="{x:Bind ViewModel.SelectedShellProfile.IsDefault, Mode=OneWay, Converter={StaticResource NegateConverter}}"
+                    x:Uid="SetDefaultAppBarButton"
                     Label="Set Default" />
                 <AppBarButton
                     Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
                     CommandParameter="{x:Bind ViewModel.SelectedShellProfile, Mode=OneWay}"
                     Icon="Copy"
+                    x:Uid="CloneAppBarButton"
                     Label="Clone" />
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.EditCommand, Mode=OneWay}"
                     Icon="Edit"
+                    x:Uid="EditAppBarButton"
                     Label="Edit" />
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.DeleteCommand, Mode=OneWay}"
                     Icon="Delete"
+                    x:Uid="DeleteAppBarButton"
                     Label="Delete"
                     Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.RestoreDefaultsCommand, Mode=OneWay}"
                     Icon="Undo"
+                    x:Uid="Restore"
                     Label="Restore Defaults"
                     Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
             </CommandBar>
@@ -143,10 +149,12 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.SaveChangesCommand, Mode=OneWay}"
                     Icon="Save"
+                    x:Uid="SaveAppBarButton"
                     Label="Save" />
                 <AppBarButton
                     Command="{x:Bind ViewModel.SelectedShellProfile.CancelEditCommand, Mode=OneWay}"
                     Icon="Cancel"
+                    x:Uid="CancelAppBarButton"
                     Label="Cancel" />
             </CommandBar>
         </Grid>
@@ -196,7 +204,7 @@
                                 Margin="0,0,6,0">
                                 <SymbolIcon Symbol="Add" />
                             </Viewbox>
-                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Create new" />
+                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" x:Uid="CreateProfile" Text="Create new" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -219,6 +227,7 @@
                                     Width="300"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
+                                    x:Uid="ProfileName"
                                     Header="Name"
                                     IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
@@ -227,6 +236,7 @@
                                 <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
+                                        x:Uid="ShellLocation"
                                         Header="Shell executable location"
                                         IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
@@ -243,6 +253,7 @@
                                 <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
+                                        x:Uid="WorkingDir"
                                         Header="Working directory"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
@@ -259,6 +270,7 @@
                                     Width="300"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
+                                    x:Uid="Arguments"
                                     Header="Arguments"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
@@ -267,6 +279,7 @@
                                 <ComboBox
                                     Width="150"
                                     Margin="{StaticResource ItemMargin}"
+                                    x:Uid="TabColor"
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
@@ -276,6 +289,7 @@
                                 <ComboBox
                                     Width="150"
                                     Margin="{StaticResource ItemMargin}"
+                                    x:Uid="ProfileTheme"
                                     Header="Theme"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
@@ -283,21 +297,21 @@
                                     SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
 
                                 <StackPanel Margin="{StaticResource ItemMargin}">
-                                    <TextBlock Margin="0,0,0,8" Text="Line ending translation mode on paste" />
+                                    <TextBlock Margin="0,0,0,8" x:Uid="LineEndingModeOnPaste" Text="Line ending translation mode on paste" />
                                     <RadioButton
-                                        Content="Do not modify line endings"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.DoNotModify}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        Content="Convert line endings to CR+LF"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCRLF}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        Content="Convert line endings to CR"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCR}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToCRIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        Content="Convert line endings to LF"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToLF}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
                                 </StackPanel>
@@ -306,8 +320,9 @@
                                     <TextBlock
                                         Margin="0,0,6,0"
                                         VerticalAlignment="Center"
+                                        x:Uid="KeyboardShortcut1"
                                         Text="Keyboard shortcut" />
-                                    <HyperlinkButton Command="{x:Bind AddKeyboardShortcutCommand}" Content="Add" />
+                                    <HyperlinkButton Command="{x:Bind AddKeyboardShortcutCommand}" x:Uid="AddKeyShort" Content="Add" />
                                     <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                                 </StackPanel>
                             </StackPanel>
@@ -319,12 +334,14 @@
 
                                 <controls:HeaderedTextBlock
                                     Margin="{StaticResource ItemMargin}"
+                                    x:Uid="ShellLocation"
                                     Header="Shell executable location"
                                     Text="{x:Bind Location, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    x:Uid="WorkingDir"
                                     Header="Working directory">
                                     <ContentControl
                                         Content="{x:Bind WorkingDirectory, Mode=OneWay}"
@@ -336,6 +353,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    x:Uid="Arguments"
                                     Header="Arguments">
                                     <ContentControl
                                         Content="{x:Bind Arguments, Mode=OneWay}"
@@ -347,6 +365,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    x:Uid="TabColor"
                                     Header="Tab color">
                                     <ContentControl
                                         Margin="0,6,0,0"
@@ -359,9 +378,10 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    x:Uid="LineEndingMode"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
+                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -370,6 +390,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    x:Uid="KeyboardShortcut"
                                     Header="Keyboard shortcut">
                                     <ContentControl
                                         Content="{x:Bind KeyBindings, Mode=OneWay}"

@@ -41,6 +41,41 @@ namespace FluentTerminal.App.Services.Test
 
             invoke.Should().Throw<InvalidOperationException>();
         }
+        
+        [Fact]
+        public void DeregisterCommandHandler_CommandIsNull_ThrowsArgumentNullException()
+        {
+            var keyboardCommandService = new KeyboardCommandService();
+
+            Action invoke = () => keyboardCommandService.DeregisterCommandHandler(null);
+
+            invoke.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void DeregisterCommandHandler_CommandRegistered_HandlerGetsRemoved()
+        {
+            var command = ((Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length)).ToString();
+            var handler = _fixture.Create<Action>();
+            var keyboardCommandService = new KeyboardCommandService();
+
+            keyboardCommandService.RegisterCommandHandler(command, handler);
+
+            Action invoke = () => keyboardCommandService.DeregisterCommandHandler(command);
+
+            invoke.Should().NotThrow();
+        }
+
+        [Fact]
+        public void DeregisterCommandHandler_CommandNotRegistered_ShouldNotThrow()
+        {
+            var command = ((Command)new Random().Next(1, Enum.GetValues(typeof(Command)).Length)).ToString();
+            var keyboardCommandService = new KeyboardCommandService();
+
+            Action invoke = () => keyboardCommandService.DeregisterCommandHandler(command);
+
+            invoke.Should().NotThrow();
+        }
 
         [Fact]
         public void SendCommand_CommandIsRegistered_HandlerGetsInvoked()

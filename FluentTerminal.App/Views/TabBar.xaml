@@ -59,6 +59,7 @@
                             VerticalAlignment="Stretch"
                             Background="Transparent"
                             ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
+                            
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
                                     <behaviors:MiddleClickBehavior.Actions>
@@ -66,14 +67,15 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
+                            
                             <RelativePanel.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutSubItem Text="Color">
+                                    <MenuFlyoutSubItem x:Uid="Color">
                                         <ToggleMenuFlyoutItem
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="None"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=None}"
-                                            Text="None">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.None}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF126;" />
                                             </ToggleMenuFlyoutItem.Icon>
@@ -82,7 +84,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Red"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Red}"
-                                            Text="Red">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Red}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -94,7 +96,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Green"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Green}"
-                                            Text="Green">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Green}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -106,7 +108,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Blue"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Blue}"
-                                            Text="Blue">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Blue}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -118,7 +120,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Purple"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Purple}"
-                                            Text="Purple">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Purple}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -130,7 +132,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Orange"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Orange}"
-                                            Text="Orange">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Orange}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -142,7 +144,7 @@
                                             Command="{x:Bind SelectTabThemeCommand}"
                                             CommandParameter="Teal"
                                             IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Teal}"
-                                            Text="Teal">
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Teal}">
                                             <ToggleMenuFlyoutItem.Icon>
                                                 <FontIcon
                                                     FontFamily="Segoe MDL2 Assets"
@@ -151,9 +153,9 @@
                                             </ToggleMenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
                                     </MenuFlyoutSubItem>
-                                    <MenuFlyoutItem Command="{x:Bind EditTitleCommand}" Text="Edit Title" />
+                                    <MenuFlyoutItem Command="{x:Bind EditTitleCommand}" x:Uid="EditTitle" />
                                     <MenuFlyoutSeparator />
-                                    <MenuFlyoutItem Command="{x:Bind CloseCommand}" Text="Close" />
+                                    <MenuFlyoutItem Command="{x:Bind CloseCommand}" x:Uid="Close" />
                                 </MenuFlyout>
                             </RelativePanel.ContextFlyout>
                             <Border
@@ -174,11 +176,27 @@
                                 Text="{x:Bind TabTitle, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
-                            <Grid
+                            <StackPanel
                                 x:Name="CloseButton"
                                 Grid.Column="2"
-                                Width="32"
+                                Height="32"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="3,0,3,0"
                                 RelativePanel.AlignRightWithPanel="True">
+                                <Viewbox Visibility="{x:Bind HasExitedWithError, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                    Width="12"
+                                    Height="12"
+                                    ToolTipService.ToolTip="Exited with error">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;" />
+                                </Viewbox>
+                                <Viewbox Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                    Width="12"
+                                    Height="12"
+                                    VerticalAlignment="Center"
+                                    ToolTipService.ToolTip="New output">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
+                                </Viewbox>
                                 <Button
                                     HorizontalAlignment="Center"
                                     Command="{x:Bind CloseCommand}"
@@ -189,16 +207,7 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
-                                <Grid Height="32" Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
-                                    <Viewbox
-                                        Width="12"
-                                        Height="12"
-                                        VerticalAlignment="Center"
-                                        ToolTipService.ToolTip="New output">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
-                                    </Viewbox>
-                                </Grid>
-                            </Grid>
+                            </StackPanel>
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

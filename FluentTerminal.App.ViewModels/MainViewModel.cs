@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentTerminal.App.Services.Implementation;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -21,7 +21,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly IDefaultValueProvider _defaultValueProvider;
+        private readonly ISshHelperService _sshHelperService;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -30,7 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private string _windowTitle;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, IDefaultValueProvider defaultValueProvider)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ISshHelperService sshHelperService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -44,10 +44,10 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView = applicationView;
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
-            _defaultValueProvider = defaultValueProvider;
+            _sshHelperService = sshHelperService;
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), () => AddTerminal());
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewRemoteTab), () => AddRemoteTerminal());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), () => AddRemoteTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), () => SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
@@ -82,7 +82,8 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddTerminalCommand = new RelayCommand(() => AddTerminal());
+            AddLocalShellCommand = new RelayCommand(() => AddTerminal());
+            AddRemoteShellCommand = new RelayCommand(() => AddRemoteTerminal());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -120,7 +121,16 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler ShowAboutRequested;
 
-        public RelayCommand AddTerminalCommand { get; }
+        public event EventHandler ActivatedMV;
+
+        public void FocusWindow()
+        {
+            ActivatedMV?.Invoke(this, EventArgs.Empty);
+        }
+
+
+        public RelayCommand AddLocalShellCommand { get; }
+        public RelayCommand AddRemoteShellCommand { get; }
 
         public string WindowTitle
         {
@@ -218,32 +228,22 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        public Task AddRemoteTerminal()
+        private async Task AddRemoteTerminal()
         {
-            return ApplicationView.RunOnDispatcherThread(async () =>
+            ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync();
+
+            if (profile == null)
             {
-                var connectionInfo = await _dialogService.ShowSshConnectionInfoDialogAsync();
-
-                if (connectionInfo == null)
+                // User selected "Cancel"
+                if (Terminals.Count == 0)
                 {
-                    if (Terminals.Count == 0)
-                    {
-                        await ApplicationView.TryClose();
-                    }
-
-                    return;
+                    await ApplicationView.TryClose();
                 }
-
-                var profile = new ShellProfile
-                {
-                    Arguments = $"-p {connectionInfo.Port:#####} {connectionInfo.Username}@{connectionInfo.Host}",
-                    Location = @"C:\Windows\System32\OpenSSH\ssh.exe",
-                    WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
-                };
-
-                AddTerminal(profile);
-            });
+            }
+            else
+            {
+                await ApplicationView.RunOnDispatcherThread(() => AddTerminal(profile));
+            }
         }
 
         public void AddTerminal()
@@ -350,7 +350,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to close this window?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -55,6 +56,9 @@ namespace FluentTerminal.App.Dialogs
             ResetCommand = new RelayCommand(Reset);
             PreviewKeyDown += RegisterKeyBindingDialog_PreviewKeyDown;
             Reset();
+
+            this.PrimaryButtonText = I18N.Translate("OK");
+            this.SecondaryButtonText = I18N.Translate("Cancel");
         }
 
         public RelayCommand ResetCommand { get; }

@@ -117,7 +117,7 @@
     <Compile Include="CommandLineArguments\Target.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
-    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
+    <Compile Include="Converters\I18NConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
@@ -137,13 +137,16 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ApplicationLanguageService.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
+    <Compile Include="Services\SshHelperService.cs" />
     <Compile Include="Services\StartupTaskService.cs" />
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
+    <Compile Include="Utilities\JumpListHelper.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dialogs\CreateKeyBindingDialog.xaml.cs">
       <DependentUpon>CreateKeyBindingDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OverlayView.xaml.cs">
+      <DependentUpon>OverlayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -205,6 +211,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\AppIcons\Square106x106Logo.black.png" />
+    <Content Include="Assets\AppIcons\Full-transparent.png" />
     <Content Include="Assets\settingsicons.ttf" />
     <Content Include="Win32\Autofac.dll" />
     <Content Include="Win32\FluentTerminal.App.Services.dll" />
@@ -214,6 +221,18 @@
     <Content Include="Win32\FluentTerminal.SystemTray.exe" />
     <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
     <Content Include="Win32\GlobalHotKey.dll" />
+    <Content Include="MoshExecutables\x64\mosh-client.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x64\mosh.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x86\mosh-client.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MoshExecutables\x86\mosh.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Win32\Newtonsoft.Json.dll" />
     <Content Include="Win32\PListNet.dll" />
     <Content Include="Win32\RestSharp.dll" />
@@ -242,6 +261,8 @@
     <Content Include="Client\style.css" />
     <Content Include="Client\xterm.css" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
+    <PRIResource Include="Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
@@ -318,6 +339,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Dialogs\CreateKeyBindingDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OverlayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

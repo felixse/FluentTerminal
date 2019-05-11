@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Controls;
 using System;
 using Windows.UI.Xaml.Input;
 using Windows.System;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -16,6 +17,8 @@ namespace FluentTerminal.App.Dialogs
         public InputDialog()
         {
             this.InitializeComponent();
+            this.PrimaryButtonText = I18N.Translate("OK");
+            this.CloseButtonText = I18N.Translate("Cancel");
         }
 
         public async Task<string> GetInput()

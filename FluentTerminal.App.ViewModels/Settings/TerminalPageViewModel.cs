@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -150,6 +151,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool ShowTextCopied
+        {
+            get => _terminalOptions.ShowTextCopied;
+            set
+            {
+                if (_terminalOptions.ShowTextCopied != value)
+                {
+                    _terminalOptions.ShowTextCopied = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public IEnumerable<FontInfo> Fonts { get; }
 
         public int FontSize
@@ -210,7 +225,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc("Please confirm", "Are you sure you want to restore the default terminal options?", DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreTerminalOptions"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -223,6 +238,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 BoldText = defaults.BoldText;
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();
+                ShowTextCopied = defaults.ShowTextCopied;
             }
         }
 

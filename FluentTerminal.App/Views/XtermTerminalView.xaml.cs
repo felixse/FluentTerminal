@@ -1,5 +1,6 @@
 ﻿using Fleck;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
@@ -52,10 +53,10 @@ namespace FluentTerminal.App.Views
             _webView.NavigationCompleted += _webView_NavigationCompleted;
             _webView.NavigationStarting += _webView_NavigationStarting;
 
-            _copyMenuItem = new MenuFlyoutItem { Text = "Copy" };
+            _copyMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Copy") };
             _copyMenuItem.Click += Copy_Click;
 
-            _pasteMenuItem = new MenuFlyoutItem { Text = "Paste" };
+            _pasteMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Paste") };
             _pasteMenuItem.Click += Paste_Click;
 
             _webView.ContextFlyout = new MenuFlyout

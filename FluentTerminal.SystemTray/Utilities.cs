@@ -1,9 +1,12 @@
 ﻿using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows.Input;
+using FluentTerminal.Models;
 
 namespace FluentTerminal.SystemTray
 {
@@ -489,6 +492,68 @@ namespace FluentTerminal.SystemTray
 
                 default:
                     return Key.None;
+            }
+        }
+
+        #region Mosh locator
+
+#if X64
+        private const string MoshArchDir = @"x64";
+#else
+        private const string MoshArchDir = @"x86";
+#endif
+
+        internal static string CheckIfMosh(this ShellProfile profile)
+        {
+            if (profile?.Location == null)
+            {
+                return null;
+            }
+
+            string location = profile.Location.Trim();
+
+            if (location.Equals("mosh.exe", StringComparison.OrdinalIgnoreCase) ||
+                location.Equals("mosh", StringComparison.OrdinalIgnoreCase))
+            {
+                location = GetMoshPath();
+
+                if (string.IsNullOrEmpty(location))
+                {
+                    return "mosh.exe not found.";
+                }
+
+                profile.Location = location;
+            }
+
+            return null;
+        }
+
+        private static string GetMoshPath()
+        {
+            DirectoryInfo dir = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
+
+            while (dir != null)
+            {
+                string path = Path.Combine(dir.FullName, "MoshExecutables", MoshArchDir, "mosh.exe");
+
+                if (System.IO.File.Exists(path))
+                {
+                    return path;
+                }
+
+                dir = dir.Parent;
+            }
+
+            return null;
+        }
+
+        #endregion Mosh locator
+
+        internal static void SaveFile(string path, string content)
+        {
+            using (StreamWriter writer = new StreamWriter(path, false))
+            {
+                writer.Write(content);
             }
         }
     }

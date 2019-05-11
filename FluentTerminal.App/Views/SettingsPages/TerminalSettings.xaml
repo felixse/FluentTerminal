@@ -26,6 +26,7 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
+                x:Uid="Terminal"
                 Text="Terminal" />
             <CommandBar
                 Grid.Column="1"
@@ -36,6 +37,7 @@
                 <AppBarButton
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
+                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
@@ -44,6 +46,7 @@
                 <ComboBox
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
+                    x:Uid="FontFamily"
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
                     SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}"
@@ -58,11 +61,13 @@
                 <ComboBox
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
+                    x:Uid="FontSize"
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="BoldText"
                     Margin="{StaticResource ItemMargin}"
                     Header="Bold text"
                     IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
@@ -71,6 +76,7 @@
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
+                    x:Uid="BackgroundOpacity"
                     Header="Background opacity"
                     Maximum="1"
                     Minimum="0"
@@ -81,6 +87,7 @@
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
+                    x:Uid="Padding"
                     Header="Padding"
                     Maximum="64"
                     Minimum="0"
@@ -92,46 +99,61 @@
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
+                    x:Uid="ScrollbackLimit"
                     Header="Scrollback limit"
                     KeyDown="ScrollBackTextBoxOnKeyDown"
                     Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     Margin="{StaticResource ItemMargin}"
+                    x:Uid="BlinkingCursor"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Cursor style" />
+                    <TextBlock Margin="0,0,0,8" x:Uid="CursorStyle" Text="Cursor style" />
                     <RadioButton
+                        x:Uid="CursorBlock"
                         Content="Block"
                         GroupName="Cursor"
                         IsChecked="{x:Bind ViewModel.BlockIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="CursorUnderline"
                         Content="Underline"
                         GroupName="Cursor"
                         IsChecked="{x:Bind ViewModel.UnderlineIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="CursorBar"
                         Content="Bar"
                         GroupName="Cursor"
                         IsChecked="{x:Bind ViewModel.BarIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" Text="Scrollbar style" />
+                    <TextBlock Margin="0,0,0,8" x:Uid="ScrollbarStyle" Text="Scrollbar style" />
                     <RadioButton
+                        x:Uid="ScrollBarHidden"
                         Content="Hidden"
                         GroupName="ScrollBar"
                         IsChecked="{x:Bind ViewModel.HiddenIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="ScrollBarAuto"
                         Content="Auto hiding"
                         GroupName="ScrollBar"
                         IsChecked="{x:Bind ViewModel.AutoHidingIsSelected, Mode=TwoWay}" />
                     <RadioButton
+                        x:Uid="ScrollBarVisible"
                         Content="Visible"
                         GroupName="ScrollBar"
                         IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
                 </StackPanel>
+
+                <ToggleSwitch
+                    Margin="{StaticResource ItemMargin}"
+                    x:Uid="CopiedNotification"
+                    Header="Text copied notification"
+                    IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

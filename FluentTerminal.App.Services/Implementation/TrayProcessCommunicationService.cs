@@ -16,7 +16,7 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Dictionary<int, Action<byte[]>> _terminalOutputHandlers;
         private int _nextTerminalId = 0;
 
-        public event EventHandler<int> TerminalExited;
+        public event EventHandler<TerminalExitStatus> TerminalExited;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
@@ -39,6 +39,53 @@ namespace FluentTerminal.App.Services.Implementation
             Logger.Instance.Debug("Received GetAvailablePortResponse: {@response}", response);
 
             return response;
+        }
+
+        private string _userName;
+
+        public async Task<string> GetUserName()
+        {
+            if (!string.IsNullOrEmpty(_userName))
+            {
+                // Returning the username from cache
+                return _userName;
+            }
+
+            GetUserNameResponse response;
+
+            // No need to crash for username, so try/catch
+            try
+            {
+                var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(new GetUserNameRequest()));
+                response = JsonConvert.DeserializeObject<GetUserNameResponse>(responseMessage[MessageKeys.Content]);
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Error(e, "Error while trying to get username.");
+
+                return null;
+            }
+
+            Logger.Instance.Debug("Received GetUserNameResponse: {@response}", response);
+
+            _userName = response.UserName;
+
+            return _userName;
+        }
+
+        public async Task SaveTextFileAsync(string path, string content)
+        {
+            IDictionary<string, string> responseMessage =
+                await _appServiceConnection.SendMessageAsync(CreateMessage(new SaveTextFileRequest
+                    {Path = path, Content = content}));
+
+            CommonResponse response =
+                JsonConvert.DeserializeObject<CommonResponse>(responseMessage[MessageKeys.Content]);
+
+            if (!response.Success)
+            {
+                throw new Exception(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
+            }
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
@@ -88,10 +135,9 @@ namespace FluentTerminal.App.Services.Implementation
             else if (messageType == nameof(TerminalExitedRequest))
             {
                 var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
-
                 Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 
-                TerminalExited?.Invoke(this, request.TerminalId);
+                TerminalExited?.Invoke(this, request.ToStatus());
             }
         }
 
@@ -136,10 +182,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task CloseTerminal(int terminalId)
         {
-            var request = new TerminalExitedRequest
-            {
-                TerminalId = terminalId
-            };
+            var request = new TerminalExitedRequest(terminalId, -1);
 
             Logger.Instance.Debug("Sending TerminalExitedRequest: {@request}", request);
 

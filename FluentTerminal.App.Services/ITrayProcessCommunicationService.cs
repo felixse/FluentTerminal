@@ -8,7 +8,7 @@ namespace FluentTerminal.App.Services
 {
     public interface ITrayProcessCommunicationService
     {
-        event EventHandler<int> TerminalExited;
+        event EventHandler<TerminalExitStatus> TerminalExited;
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
@@ -25,5 +25,9 @@ namespace FluentTerminal.App.Services
         Task CloseTerminal(int terminalId);
         Task<GetAvailablePortResponse> GetAvailablePort();
         int GetNextTerminalId();
+
+        Task<string> GetUserName();
+
+        Task SaveTextFileAsync(string path, string content);
     }
 }

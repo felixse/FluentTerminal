@@ -2,14 +2,10 @@
 using FluentTerminal.Models.Requests;
 using FluentTerminal.SystemTray.Native;
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using static winpty.WinPty;
 
 namespace FluentTerminal.SystemTray.Services.WinPty
@@ -54,7 +50,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                     args = $"\"{request.Profile.Location}\" {args}";
                 }
 
-                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, terminalsManager.GetDefaultEnvironmentVariableString(), out errorHandle);
+                spawnConfigHandle = winpty_spawn_config_new(WINPTY_SPAWN_FLAG_AUTO_SHUTDOWN, request.Profile.Location, args, cwd, terminalsManager.GetDefaultEnvironmentVariableString(request.Profile.EnvironmentVariables), out errorHandle);
                 if (errorHandle != IntPtr.Zero)
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
@@ -114,7 +110,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
             return configuration.WorkingDirectory;
         }
 
-        public event EventHandler ConnectionClosed;
+        public event EventHandler<int> ConnectionClosed;
 
         public int Id { get; private set; }
 
@@ -129,7 +125,12 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Close()
         {
-            ConnectionClosed?.Invoke(this, EventArgs.Empty);
+            int exitCode = -1;
+            if (_shellProcess != null && _shellProcess.HasExited)
+            {
+                exitCode = _shellProcess.ExitCode;
+            }
+            ConnectionClosed?.Invoke(this, exitCode);
         }
 
         public void Write(byte[] data)
