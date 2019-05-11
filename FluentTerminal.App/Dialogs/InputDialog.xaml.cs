@@ -17,8 +17,8 @@ namespace FluentTerminal.App.Dialogs
         public InputDialog()
         {
             this.InitializeComponent();
-            this.PrimaryButtonText = StringsHelper.GetString("OK");
-            this.CloseButtonText = StringsHelper.GetString("Cancel");
+            this.PrimaryButtonText = I18N.Translate("OK");
+            this.CloseButtonText = I18N.Translate("Cancel");
         }
 
         public async Task<string> GetInput()

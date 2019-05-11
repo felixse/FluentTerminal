@@ -206,25 +206,41 @@ namespace FluentTerminal.App.ViewModels
         public bool DoNotModifyIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set { if (value) LineEndingStyle = LineEndingStyle.DoNotModify; }
+            set { if (value)
+                {
+                    LineEndingStyle = LineEndingStyle.DoNotModify;
+                }
+            }
         }
 
         public bool ToCRLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
+            set { if (value)
+                {
+                    LineEndingStyle = LineEndingStyle.ToCRLF;
+                }
+            }
         }
 
         public bool ToLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
+            set { if (value)
+                {
+                    LineEndingStyle = LineEndingStyle.ToLF;
+                }
+            }
         }
 
         public bool ToCRIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCR;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToCR; }
+            set { if (value)
+                {
+                    LineEndingStyle = LineEndingStyle.ToCR;
+                }
+            }
         }
 
         public void SaveChanges()
@@ -251,7 +267,7 @@ namespace FluentTerminal.App.ViewModels
                 throw new InvalidOperationException();
             }
 
-            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -306,7 +322,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (!_fallbackProfile.Equals(changedProfile))
                 {
-                    var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                    var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                     if (result == DialogButton.OK)
                     {
@@ -343,7 +359,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

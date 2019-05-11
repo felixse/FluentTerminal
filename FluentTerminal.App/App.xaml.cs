@@ -33,6 +33,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
+using Windows.Globalization;
 
 namespace FluentTerminal.App
 {
@@ -95,6 +96,7 @@ namespace FluentTerminal.App
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
+            builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
@@ -165,7 +167,9 @@ namespace FluentTerminal.App
                     ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(protocolActivated.Uri);
 
                     if (profile != null)
+                    {
                         await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                    }
                 }
 
                 return;
@@ -246,21 +250,9 @@ namespace FluentTerminal.App
         {
             if (!_alreadyLaunched)
             {
-                var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
-                var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
-                var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
-                var configContent = await FileIO.ReadTextAsync(configFile);
+                await InitializeLogger();
+
                 Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
-
-                if (string.IsNullOrWhiteSpace(configContent))
-                {
-                    configContent = JsonConvert.SerializeObject(new Logger.Configuration());
-                    await FileIO.WriteTextAsync(configFile, configContent);
-                }
-
-                var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
-
-                Logger.Instance.Initialize(logFile, config);
 
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
@@ -284,6 +276,25 @@ namespace FluentTerminal.App
                 var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 await CreateTerminal(profile, location).ConfigureAwait(true);
             }
+        }
+
+        private static async Task InitializeLogger()
+        {
+            var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
+            var logFile = Path.Combine(logDirectory.Path, "fluentterminal.app.log");
+            var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
+            var configContent = await FileIO.ReadTextAsync(configFile);
+
+
+            if (string.IsNullOrWhiteSpace(configContent))
+            {
+                configContent = JsonConvert.SerializeObject(new Logger.Configuration());
+                await FileIO.WriteTextAsync(configFile, configContent);
+            }
+
+            var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
+
+            Logger.Instance.Initialize(logFile, config);
         }
 
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
@@ -403,7 +414,10 @@ namespace FluentTerminal.App
                 viewModel.ShowAboutRequested -= OnShowAboutRequested;
                 viewModel.ActivatedMV -= OnMainViewActivated;
                 if (_activeWindowId == viewModel.ApplicationView.Id)
+                {
                     _activeWindowId = 0;
+                }
+
                 _mainViewModels.Remove(viewModel);
             }
         }

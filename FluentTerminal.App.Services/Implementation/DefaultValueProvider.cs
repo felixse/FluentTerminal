@@ -1,4 +1,5 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -284,7 +285,7 @@ namespace FluentTerminal.App.Services.Implementation
                 new TabTheme
                 {
                     Id = 0,
-                    Name = "None",
+                    Name = I18N.Translate("TabTheme.None"),
                     BackgroundOpacity = double.NaN,
                     BackgroundPointerOverOpacity = double.NaN,
                     BackgroundPressedOpacity = double.NaN,
@@ -295,37 +296,37 @@ namespace FluentTerminal.App.Services.Implementation
                 new TabTheme
                 {
                     Id = 1,
-                    Name = "Red",
+                    Name = I18N.Translate("TabTheme.Red"),
                     Color = "#E81123"
                 },
                 new TabTheme
                 {
                     Id = 2,
-                    Name = "Green",
+                    Name = I18N.Translate("TabTheme.Green"),
                     Color = "#10893E"
                 },
                 new TabTheme
                 {
                     Id = 3,
-                    Name = "Blue",
+                    Name = I18N.Translate("TabTheme.Blue"),
                     Color = "#0078D7"
                 },
                 new TabTheme
                 {
                     Id = 4,
-                    Name = "Purple",
+                    Name = I18N.Translate("TabTheme.Purple"),
                     Color = "#881798"
                 },
                 new TabTheme
                 {
                     Id = 5,
-                    Name = "Orange",
+                    Name = I18N.Translate("TabTheme.Orange"),
                     Color = "#FF8C00"
                 },
                 new TabTheme
                 {
                     Id = 6,
-                    Name = "Teal",
+                    Name = I18N.Translate("TabTheme.Teal"),
                     Color = "#00B7C3"
                 }
             };

@@ -39,6 +39,14 @@
         <ScrollViewer Grid.Row="2">
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <StackPanel Margin="{StaticResource ItemMargin}">
+                    <ComboBox
+                    Width="200"
+                    Header="Language"
+                        ItemsSource="{x:Bind ViewModel.Languages}"
+                        SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}" />
+                    <TextBlock Foreground="Red" x:Uid="NeedsToRestart" Visibility="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+                </StackPanel>
+                <StackPanel Margin="{StaticResource ItemMargin}">
                     <ToggleSwitch
                         x:Uid="RunOnStartup"
                         Header="Run on startup"

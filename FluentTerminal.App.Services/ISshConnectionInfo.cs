@@ -1,4 +1,6 @@
-﻿namespace FluentTerminal.App.Services
+﻿using FluentTerminal.Models.Enums;
+
+namespace FluentTerminal.App.Services
 {
     public interface ISshConnectionInfo
     {
@@ -16,6 +18,6 @@
 
         ushort MoshPortTo { get; set; }
 
-        string Validate(bool allowNoUser = false);
+        SshConnectionInfoValidationResult Validate(bool allowNoUser = false);
     }
 }

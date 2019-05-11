@@ -57,8 +57,8 @@ namespace FluentTerminal.App.Dialogs
             PreviewKeyDown += RegisterKeyBindingDialog_PreviewKeyDown;
             Reset();
 
-            this.PrimaryButtonText = StringsHelper.GetString("OK");
-            this.SecondaryButtonText = StringsHelper.GetString("Cancel");
+            this.PrimaryButtonText = I18N.Translate("OK");
+            this.SecondaryButtonText = I18N.Translate("Cancel");
         }
 
         public RelayCommand ResetCommand { get; }

@@ -53,10 +53,10 @@ namespace FluentTerminal.App.Views
             _webView.NavigationCompleted += _webView_NavigationCompleted;
             _webView.NavigationStarting += _webView_NavigationStarting;
 
-            _copyMenuItem = new MenuFlyoutItem { Text = StringsHelper.GetString("Copy") };
+            _copyMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Copy") };
             _copyMenuItem.Click += Copy_Click;
 
-            _pasteMenuItem = new MenuFlyoutItem { Text = StringsHelper.GetString("Paste") };
+            _pasteMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Paste") };
             _pasteMenuItem.Click += Paste_Click;
 
             _webView.ContextFlyout = new MenuFlyout

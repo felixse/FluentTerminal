@@ -299,23 +299,19 @@
                                 <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock Margin="0,0,0,8" x:Uid="LineEndingModeOnPaste" Text="Line ending translation mode on paste" />
                                     <RadioButton
-                                        x:Uid="DoNotModifyEndings"
-                                        Content="Do not modify line endings"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.DoNotModify}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        x:Uid="ToCRLF"
-                                        Content="Convert line endings to CR+LF"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCRLF}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        x:Uid="ToCR"
-                                        Content="Convert line endings to CR"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCR}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToCRIsSelected, Mode=TwoWay}" />
                                     <RadioButton
-                                        x:Uid="ToLF"
-                                        Content="Convert line endings to LF"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToLF}"
                                         GroupName="LineEndingStyle"
                                         IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
                                 </StackPanel>
@@ -385,7 +381,7 @@
                                     x:Uid="LineEndingMode"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource EnumToDescriptionConverter}}"
+                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />

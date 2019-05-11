@@ -28,8 +28,8 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
             Root.DataContext = this;
-            var asd= StringsHelper.GetString("Setting");
-            ApplicationView.GetForCurrentView().Title = StringsHelper.GetString("Setting");
+            var asd= I18N.Translate("Setting");
+            ApplicationView.GetForCurrentView().Title = I18N.Translate("Setting");
 
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
