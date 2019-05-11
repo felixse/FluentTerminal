@@ -11,6 +11,8 @@ using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models.Enums;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -27,12 +29,16 @@ URL={0}
         private readonly ISshHelperService _sshHelperService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
+        public IEnumerable<LineEndingStyle> LineEndingStyles { get; } = (LineEndingStyle[])Enum.GetValues(typeof(LineEndingStyle));
+
         public SshInfoDialog(ISettingsService settingsService, ISshHelperService sshHelperService,
             ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _sshHelperService = sshHelperService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             InitializeComponent();
+            PrimaryButtonText = I18N.Translate("OK");
+            SecondaryButtonText = I18N.Translate("Cancel");
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
@@ -60,7 +66,9 @@ URL={0}
             SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel)DataContext;
 
             if (!string.IsNullOrEmpty(vm.Username))
+            {
                 return;
+            }
 
             vm.Username = await _trayProcessCommunicationService.GetUserName();
 
@@ -76,36 +84,38 @@ URL={0}
             StorageFile file = await openPicker.PickSingleFileAsync();
 
             if (file != null)
+            {
                 ((SshConnectionInfoViewModel)DataContext).IdentityFile = file.Path;
+            }
         }
 
         private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
         {
             SshConnectionInfoViewModel vm = (SshConnectionInfoViewModel) DataContext;
 
-            string error = vm.Validate(true);
+            var validationResult = vm.Validate(true);
 
-            if (!string.IsNullOrEmpty(error))
+            if (validationResult != SshConnectionInfoValidationResult.Valid)
             {
-                await new MessageDialog(error, "Invalid Input").ShowAsync();
+                await new MessageDialog(I18N.Translate($"{nameof(SshConnectionInfoValidationResult)}.{validationResult}"), I18N.Translate("InvalidInput")).ShowAsync();
 
                 return;
             }
 
-            string content = string.Format(ShortcutFileFormat, _sshHelperService.ConvertToUri(vm));
+            var content = string.Format(ShortcutFileFormat, _sshHelperService.ConvertToUri(vm));
 
-            string fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
+            var fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
 
-            FileSavePicker savePicker = new FileSavePicker {SuggestedFileName = fileName, SuggestedStartLocation = PickerLocationId.Desktop};
+            var savePicker = new FileSavePicker {SuggestedFileName = fileName, SuggestedStartLocation = PickerLocationId.Desktop};
 
             savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
 
             StorageFile file = await savePicker.PickSaveFileAsync();
 
             if (file == null)
+            {
                 return;
-
-            error = null;
+            }
 
             try
             {
@@ -113,11 +123,8 @@ URL={0}
             }
             catch (Exception ex)
             {
-                error = ex.Message;
+                await new MessageDialog(ex.Message, I18N.Translate("Error")).ShowAsync();
             }
-
-            if (error != null)
-                await new MessageDialog(error, "Error").ShowAsync();
         }
 
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -128,7 +135,7 @@ URL={0}
             {
                 args.Cancel = true;
 
-                await new MessageDialog("User and host are mandatory fields.", "Invalid Form").ShowAsync();
+                await new MessageDialog(I18N.Translate("UserAndHostMandatory"), I18N.Translate("InvalidInput")).ShowAsync();
 
                 SetupFocus();
                 return;
@@ -138,7 +145,7 @@ URL={0}
             {
                 args.Cancel = true;
 
-                await new MessageDialog("Port cannot be 0.", "Invalid Form").ShowAsync();
+                await new MessageDialog(I18N.Translate("PortCannotBeZero"), I18N.Translate("InvalidInput")).ShowAsync();
 
                 SetupFocus();
                 return;
@@ -153,7 +160,9 @@ URL={0}
         public async Task<ISshConnectionInfo> GetSshConnectionInfoAsync(ISshConnectionInfo input = null)
         {
             if (input != null)
+            {
                 DataContext = ((SshConnectionInfoViewModel)input).Clone();
+            }
 
             this.Focus(FocusState.Programmatic);
             return await ShowAsync() == ContentDialogResult.Primary ? (SshConnectionInfoViewModel) DataContext : null;

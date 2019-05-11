@@ -78,27 +78,39 @@ namespace FluentTerminal.App.ViewModels
         public ObservableCollection<SshOptionViewModel> SshOptions { get; } =
             new ObservableCollection<SshOptionViewModel>();
 
-        public string Validate(bool allowNoUser = false)
+        public SshConnectionInfoValidationResult Validate(bool allowNoUser = false)
         {
             if (!allowNoUser && string.IsNullOrEmpty(_username))
-                return "Username cannot be empty.";
+            {
+                return SshConnectionInfoValidationResult.UsernameEmpty;
+            }
 
             if (string.IsNullOrEmpty(_host))
-                return "Host cannot be empty.";
+            {
+                return SshConnectionInfoValidationResult.HostEmpty;
+            }
 
             if (_sshPort < 1)
-                return "SSH port has to be greater than zero.";
+            {
+                return SshConnectionInfoValidationResult.SshPortZeroOrNegative;
+            }
 
             if (!_useMosh)
-                return null;
+            {
+                return SshConnectionInfoValidationResult.Valid;
+            }
 
             if (_moshPortFrom < 1)
-                return "Mosh port cannot be zero.";
+            {
+                return SshConnectionInfoValidationResult.MoshPortZeroOrNegative;
+            }
 
             if (_moshPortFrom > _moshPortTo)
-                return "Mosh port range is invalid.";
+            {
+                return SshConnectionInfoValidationResult.MoshPortRangeInvalid;
+            }
 
-            return null;
+            return SshConnectionInfoValidationResult.Valid;
         }
 
         public SshConnectionInfoViewModel Clone()
@@ -111,7 +123,9 @@ namespace FluentTerminal.App.ViewModels
             };
 
             foreach (SshOptionViewModel option in SshOptions)
+            {
                 clone.SshOptions.Add(option);
+            }
 
             return clone;
         }

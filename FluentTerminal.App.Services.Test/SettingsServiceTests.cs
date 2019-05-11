@@ -471,10 +471,6 @@ namespace FluentTerminal.App.Services.Test
             var commands = _fixture.CreateMany<Command>(5);
             var defaultValueProvider = new Mock<IDefaultValueProvider>();
             var keyBindingsContainer = new Mock<IApplicationDataContainer>();
-            foreach (var command in commands)
-            {
-                keyBindingsContainer.Setup(x => x.ReadValueFromJson<Collection<KeyBinding>>(EnumHelper.GetEnumDescription(command), null)).Returns(new Collection<KeyBinding> { });
-            }
             var applicationDataContainers = new ApplicationDataContainers
             {
                 KeyBindings = keyBindingsContainer.Object,

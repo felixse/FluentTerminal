@@ -125,21 +125,14 @@
     <value>Always show tabs</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="AlwaysShowTabs.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="AlwaysShowTabs.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Background</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="Blue.Text" xml:space="preserve">
+  <data name="TabTheme.Blue" xml:space="preserve">
     <value>Blue</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="Close.Text" xml:space="preserve">
     <value>Close</value>
@@ -149,24 +142,8 @@
     <value>Ask before closing windows</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="CloseBeforeAsk.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseBeforeAsk.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="CloseTabBeforeAsk.Header" xml:space="preserve">
     <value>Ask before closing tabs</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseTabBeforeAsk.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CloseTabBeforeAsk.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
@@ -177,20 +154,13 @@
     <value>Color on inactive tabs</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="Copy" xml:space="preserve">
+  <data name="Command.Copy" xml:space="preserve">
     <value>Copy</value>
-    <comment>XtermTerminalView.xaml.cs</comment>
+    <comment>XtermTerminalView.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
     <value>Show custom tab title also in titlebar</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CustomTitle.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="CustomTitle.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
@@ -201,20 +171,13 @@
     <value>General</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="Green.Text" xml:space="preserve">
+  <data name="TabTheme.Green" xml:space="preserve">
     <value>Green</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
     <value>Show new output indicator on background tabs</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="IndicatorOutput.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="IndicatorOutput.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
@@ -225,9 +188,10 @@
     <value>New tab</value>
     <comment>MainPage.xaml</comment>
   </data>
-  <data name="None.Text" xml:space="preserve">
+  <data name="TabTheme.None" xml:space="preserve">
     <value>None</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
     <value>Tabs</value>
@@ -241,21 +205,25 @@
     <value>Open new terminals as</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="Orange.Text" xml:space="preserve">
+  <data name="TabTheme.Orange" xml:space="preserve">
     <value>Orange</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
-  <data name="Paste" xml:space="preserve">
+  <data name="Command.Paste" xml:space="preserve">
     <value>Paste</value>
-    <comment>XtermTerminalView.xaml.cs</comment>
+    <comment>XtermTerminalView.xaml.cs
+Fuzzy</comment>
   </data>
-  <data name="Purple.Text" xml:space="preserve">
+  <data name="TabTheme.Purple" xml:space="preserve">
     <value>Purple</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
-  <data name="Red.Text" xml:space="preserve">
+  <data name="TabTheme.Red" xml:space="preserve">
     <value>Red</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
     <value>Restore Defaults</value>
@@ -263,14 +231,6 @@
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
     <value>Run on startup</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="RunOnStartup.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="RunOnStartup.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
@@ -285,21 +245,14 @@
     <value>Show in system tray</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="SystemTray.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="SystemTray.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="TabsPostion.Text" xml:space="preserve">
     <value>Show tabs on</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="Teal.Text" xml:space="preserve">
+  <data name="TabTheme.Teal" xml:space="preserve">
     <value>Teal</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
     <value>Bottom</value>
@@ -317,24 +270,8 @@
     <value>Underline selected tab</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="UnderlineTab.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="UnderlineTab.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="UseWinPty.Header" xml:space="preserve">
     <value>Windows 10 1809+: Always use WinPty</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="UseWinPty.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="UseWinPty.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
@@ -381,24 +318,8 @@
     <value>Blinking cursor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
-  <data name="BlinkingCursor.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
-  <data name="BlinkingCursor.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
   <data name="BoldText.Header" xml:space="preserve">
     <value>Bold text</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
-  <data name="BoldText.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
-  <data name="BoldText.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
@@ -429,24 +350,8 @@
     <value>Text copied notification</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
-  <data name="CopiedNotification.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
-  <data name="CopiedNotification.OnContent" xml:space="preserve">
-    <value>On</value>
-    <comment>TerminalSettings.xaml</comment>
-  </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
     <value>Copy on select</value>
-    <comment>MouseSettings.xaml</comment>
-  </data>
-  <data name="CopyOnSelect.OffContent" xml:space="preserve">
-    <value>Off</value>
-    <comment>MouseSettings.xaml</comment>
-  </data>
-  <data name="CopyOnSelect.OnContent" xml:space="preserve">
-    <value>On</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
@@ -477,9 +382,10 @@
     <value>Delete</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
-  <data name="DoNotModifyEndings.Content" xml:space="preserve">
+  <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
     <value>Do not modify line endings</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
     <value>Edit</value>
@@ -629,17 +535,20 @@
     <value>Name</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
-  <data name="ToCR.Content" xml:space="preserve">
+  <data name="LineEndingStyle.ToCR" xml:space="preserve">
     <value>Convert line endings to CR</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
-  <data name="ToCRLF.Content" xml:space="preserve">
+  <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
     <value>Convert line endings to CR+LF</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
-  <data name="ToLF.Content" xml:space="preserve">
+  <data name="LineEndingStyle.ToLF" xml:space="preserve">
     <value>Convert line endings to LF</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>Working directory</value>
@@ -737,25 +646,30 @@
     <value>Add</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
-  <data name="Change tab title" xml:space="preserve">
+  <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>Change tab title</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Clear" xml:space="preserve">
+  <data name="Command.Clear" xml:space="preserve">
     <value>Clear</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Close tab" xml:space="preserve">
+  <data name="Command.CloseTab" xml:space="preserve">
     <value>Close tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Configurable new tab" xml:space="preserve">
+  <data name="Command.ConfigurableNewTab" xml:space="preserve">
     <value>Configurable new tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Configurable new window" xml:space="preserve">
+  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
     <value>Configurable new window</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Keybindings</value>
@@ -769,41 +683,40 @@
     <value>Edit</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
-  <data name="New remote tab" xml:space="preserve">
-    <value>New remote tab</value>
-    <comment>Command</comment>
-  </data>
-  <data name="New tab" xml:space="preserve">
+  <data name="Command.NewTab" xml:space="preserve">
     <value>New tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="New window" xml:space="preserve">
+  <data name="Command.NewWindow" xml:space="preserve">
     <value>New window</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Next tab" xml:space="preserve">
+  <data name="Command.NextTab" xml:space="preserve">
     <value>Next tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Paste without newlines" xml:space="preserve">
+  <data name="Command.PasteWithoutNewlines" xml:space="preserve">
     <value>Paste without newlines</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Previous tab" xml:space="preserve">
+  <data name="Command.PreviousTab" xml:space="preserve">
     <value>Previous tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Search" xml:space="preserve">
+  <data name="Command.Search" xml:space="preserve">
     <value>Search</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Select all" xml:space="preserve">
+  <data name="Command.SelectAll" xml:space="preserve">
     <value>Select all</value>
-    <comment>Command</comment>
-  </data>
-  <data name="SelectProfileUI.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
     <value>Start</value>
@@ -813,52 +726,128 @@
     <value>Select Profile</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
-  <data name="Show settings" xml:space="preserve">
+  <data name="Command.ShowSettings" xml:space="preserve">
     <value>Show settings</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 1" xml:space="preserve">
+  <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>Switch to Terminal 1</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 2" xml:space="preserve">
+  <data name="Command.SwitchToTerm2" xml:space="preserve">
     <value>Switch to Terminal 2</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 3" xml:space="preserve">
+  <data name="Command.SwitchToTerm3" xml:space="preserve">
     <value>Switch to Terminal 3</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 4" xml:space="preserve">
+  <data name="Command.SwitchToTerm4" xml:space="preserve">
     <value>Switch to Terminal 4</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 5" xml:space="preserve">
+  <data name="Command.SwitchToTerm5" xml:space="preserve">
     <value>Switch to Terminal 5</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 6" xml:space="preserve">
+  <data name="Command.SwitchToTerm6" xml:space="preserve">
     <value>Switch to Terminal 6</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 7" xml:space="preserve">
+  <data name="Command.SwitchToTerm7" xml:space="preserve">
     <value>Switch to Terminal 7</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 8" xml:space="preserve">
+  <data name="Command.SwitchToTerm8" xml:space="preserve">
     <value>Switch to Terminal 8</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Switch to Terminal 9" xml:space="preserve">
+  <data name="Command.SwitchToTerm9" xml:space="preserve">
     <value>Switch to Terminal 9</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Toggle Fullscreen" xml:space="preserve">
+  <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>Toggle Fullscreen</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
-  <data name="Toggle window" xml:space="preserve">
+  <data name="Command.ToggleWindow" xml:space="preserve">
     <value>Toggle window</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="NewRemoteTab.Text" xml:space="preserve">
+    <value>New remote tab</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Command.NewSshTab" xml:space="preserve">
+    <value>New SSH Tab</value>
+  </data>
+  <data name="SshInfoDialog.Title" xml:space="preserve">
+    <value>SSH Info</value>
+  </data>
+  <data name="UserTextBox.PlaceholderText" xml:space="preserve">
+    <value>user</value>
+  </data>
+  <data name="HostTextBox.PlaceholderText" xml:space="preserve">
+    <value>host</value>
+  </data>
+  <data name="PortTextBox.PlaceholderText" xml:space="preserve">
+    <value>port</value>
+  </data>
+  <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
+    <value>Identity file path</value>
+  </data>
+  <data name="BrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="UseMoshCheckBox.Content" xml:space="preserve">
+    <value>Use Mosh</value>
+  </data>
+  <data name="AdvancedExpander.Header" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="MoshPorts.Text" xml:space="preserve">
+    <value>Mosh ports:</value>
+  </data>
+  <data name="SaveShortcutButton.Content" xml:space="preserve">
+    <value>Save Shortcut</value>
+  </data>
+  <data name="NeedsToRestart.Text" xml:space="preserve">
+    <value>Application needs to restart for this change to take effect.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Invalid Input</value>
+  </data>
+  <data name="PortCannotBeZero" xml:space="preserve">
+    <value>Port cannot be 0.</value>
+  </data>
+  <data name="UserAndHostMandatory" xml:space="preserve">
+    <value>User and host are mandatory fields.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
+    <value>Username cannot be empty.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
+    <value>Host cannot be empty.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
+    <value>SSH port has to be greater than zero.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
+    <value>Mosh port cannot be zero.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
+    <value>Mosh port range is invalid.</value>
   </data>
 </root>

@@ -6,21 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:FluentTerminal.App.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:FluentTerminal.App.Converters"
+    xmlns:enums="using:FluentTerminal.Models.Enums"
     Title="SSH Info"
-    PrimaryButtonText="OK"
-    SecondaryButtonText="Cancel"
+    x:Uid="SshInfoDialog"
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     DefaultButton="Primary"
     mc:Ignorable="d" Loading="OnLoading">
     <ContentDialog.DataContext>
         <vm:SshConnectionInfoViewModel />
     </ContentDialog.DataContext>
-    <ContentDialog.Resources>
-        <ResourceDictionary>
-            <converters:LineEndingStyleConverter x:Key="LineEndingStyleConverter"/>
-        </ResourceDictionary>
-    </ContentDialog.Resources>
     <Grid Width="500">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -36,13 +30,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBox x:Name="UserTextBox" Grid.Column="0" Grid.Row="0"
+        <TextBox x:Name="UserTextBox" Grid.Column="0" Grid.Row="0" x:Uid="UserTextBox"
                  PlaceholderText="user"
                  Text="{Binding Username, Mode=TwoWay}" />
         <TextBlock Grid.Column="1" Grid.Row="0"
                    FontSize="22"
                    Text="@" />
-        <TextBox x:Name="HostTextBox"  Grid.Column="2" Grid.Row="0"
+        <TextBox x:Name="HostTextBox"  Grid.Column="2" Grid.Row="0" x:Uid="HostTextBox"
                  PlaceholderText="host"
                  Text="{Binding Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Column="3" Grid.Row="0"
@@ -51,24 +45,29 @@
                    Text=":" />
         <TextBox Grid.Column="4" Grid.Row="0"
                  Width="76"
+                 x:Uid="PortTextBox"
                  PlaceholderText="port"
                  Text="{Binding SshPort, Mode=TwoWay}" BeforeTextChanging="Port_OnBeforeTextChanging"/>
         <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                  Text="{Binding IdentityFile, Mode=TwoWay}"
+                 x:Uid="IdentityFileTextBox"
                  PlaceholderText="Identity file path"
                  Margin="0 10 0 0" IsReadOnly="True" />
         <Button Grid.Column="4" Grid.Row="1"
+                x:Uid="BrowseButton"
                 Content="Browse"
                 Width="76"
                 Margin="0 10 0 0"
                 Click="BrowseButtonOnClick" />
         <CheckBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5"
                   IsChecked="{Binding UseMosh, Mode=TwoWay}"
+                  x:Uid="UseMoshCheckBox"
                   Content="Use Mosh"
                   Margin="0 10 0 0" />
         <controls:Expander Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" 
                            Margin="0 10 0 0"
                            Header="Advanced" 
+                           x:Uid="AdvancedExpander"
                            IsExpanded="False"
                            HorizontalContentAlignment="Stretch" Padding="0 10 0 10">
             <Grid Margin="5 20 5 20">
@@ -82,23 +81,25 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" 
+                <TextBlock Grid.Column="0" Grid.Row="0"
+                           x:Uid="LineEndingModeOnPaste"
                            Text="Line ending on paste:"
                            Margin="0 0 8 0"
                            VerticalAlignment="Center"/>
-                <ComboBox Grid.Column="1" Grid.Row="0" 
-                          ItemsSource="{x:Bind converters:LineEndingStyleConverter.LineEndingStyles}" 
+                <ComboBox Grid.Column="1" Grid.Row="0"
+                          Grid.ColumnSpan="3"
+                          Margin="0 0 0 0"
+                          ItemsSource="{x:Bind LineEndingStyles}" 
                           SelectedItem="{Binding LineEndingStyle, Mode=TwoWay}"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Stretch">
+                          VerticalAlignment="Center">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={StaticResource LineEndingStyleConverter}}" 
-                                       HorizontalAlignment="Stretch"/>
+                        <DataTemplate x:DataType="enums:LineEndingStyle">
+                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock Grid.Column="0" Grid.Row="1"
+                           x:Uid="MoshPorts"
                            Text="Mosh ports:"
                            Margin="0 8 8 0"
                            VerticalAlignment="Center"
@@ -131,6 +132,7 @@
             <Button Grid.Column="1" Grid.Row="0" 
                     HorizontalAlignment="Stretch"
                     Margin="0 0 2 0"
+                    x:Uid="SaveShortcutButton"
                     Content="Save Shortcut"
                     Click="SaveLink_OnClick"/>
         </Grid>

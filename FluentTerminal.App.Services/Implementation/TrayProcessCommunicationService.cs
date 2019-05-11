@@ -46,8 +46,10 @@ namespace FluentTerminal.App.Services.Implementation
         public async Task<string> GetUserName()
         {
             if (!string.IsNullOrEmpty(_userName))
+            {
                 // Returning the username from cache
                 return _userName;
+            }
 
             GetUserNameResponse response;
 
@@ -81,7 +83,9 @@ namespace FluentTerminal.App.Services.Implementation
                 JsonConvert.DeserializeObject<CommonResponse>(responseMessage[MessageKeys.Content]);
 
             if (!response.Success)
+            {
                 throw new Exception(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
+            }
         }
 
         public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)

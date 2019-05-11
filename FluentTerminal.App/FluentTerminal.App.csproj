@@ -117,8 +117,7 @@
     <Compile Include="CommandLineArguments\Target.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
-    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
-    <Compile Include="Converters\LineEndingStyleConverter.cs" />
+    <Compile Include="Converters\I18NConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
@@ -138,6 +137,7 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ApplicationLanguageService.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
     <Compile Include="Services\SshHelperService.cs" />

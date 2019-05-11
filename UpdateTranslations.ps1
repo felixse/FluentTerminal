@@ -11,7 +11,6 @@ function DownloadLanguageFile($language)
         id = $projectId
         language = $language
         type = "resw"
-        filters = "translated"
     }
     
     $response = Invoke-RestMethod -Uri "https://api.poeditor.com/v2/projects/export" -Method Post -Body $body -ContentType $contentType

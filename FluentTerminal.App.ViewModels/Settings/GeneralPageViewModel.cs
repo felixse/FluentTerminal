@@ -1,9 +1,11 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
@@ -22,17 +24,39 @@ namespace FluentTerminal.App.ViewModels.Settings
         private bool _startupTaskEnabled;
         private bool _shouldRestartForTrayMessage;
         private string _startupTaskErrorMessage;
+        private bool _needsToRestart;
+        private readonly IApplicationLanguageService _applicationLanguageService;
 
-        public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, IStartupTaskService startupTaskService)
+        public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
+            IStartupTaskService startupTaskService, IApplicationLanguageService applicationLanguageService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _startupTaskService = startupTaskService;
+            _applicationLanguageService = applicationLanguageService;
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+        }
+
+        public IEnumerable<string> Languages => _applicationLanguageService.Languages;
+
+        public bool NeedsToRestart
+        {
+            get => _needsToRestart;
+            set => Set(ref _needsToRestart, value);
+        }
+
+        public string SelectedLanguage
+        {
+            get => _applicationLanguageService.GetCurrentLanguage();
+            set
+            {
+                _applicationLanguageService.SetLanguage(value);
+                NeedsToRestart = true;
+            }
         }
 
         public async Task OnNavigatedTo()
@@ -282,7 +306,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("PleaseConfirm"), StringsHelper.GetString("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -318,13 +342,13 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 case StartupTaskStatus.DisabledByUser:
                     StartupTaskEnabled = false;
-                    StartupTaskErrorMessage = StringsHelper.GetString("DisabledByUser");
+                    StartupTaskErrorMessage = I18N.Translate("DisabledByUser");
                     CanEnableStartupTask = false;
                     break;
 
                 case StartupTaskStatus.DisabledByPolicy:
                     StartupTaskEnabled = false;
-                    StartupTaskErrorMessage = StringsHelper.GetString("DisabledByPolicy");
+                    StartupTaskErrorMessage = I18N.Translate("DisabledByPolicy");
                     CanEnableStartupTask = false;
                     break;
             }

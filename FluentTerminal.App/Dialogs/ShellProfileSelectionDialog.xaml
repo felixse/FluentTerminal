@@ -7,7 +7,6 @@
     x:Uid="SelectProfileUI"
     Title="Select Profile"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    CloseButtonText="Cancel"
     PrimaryButtonText="Start"
     mc:Ignorable="d">
     <ComboBox

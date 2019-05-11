@@ -22,7 +22,10 @@ namespace FluentTerminal.App.Services
 
         private void OnTerminalExited(object sender, TerminalExitStatus status)
         {
-            if (status.TerminalId != Id) return;
+            if (status.TerminalId != Id)
+            {
+                return;
+            }
 
             _exited = true;
             Exited?.Invoke(this, status.ExitCode);

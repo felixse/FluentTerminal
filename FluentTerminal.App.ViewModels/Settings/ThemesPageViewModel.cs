@@ -119,7 +119,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 if (parser == null)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("ImportThemeFailed"), StringsHelper.GetString("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("ImportThemeFailed"), I18N.Translate("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
                     return;
                 }
 
@@ -131,7 +131,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 catch (Exception exception)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc(StringsHelper.GetString("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
                 }
             }
         }
