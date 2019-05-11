@@ -11,6 +11,7 @@ namespace FluentTerminal.App.Services
         {
             [""] = "System default",
             ["zh-Hans-CN"] = "Chinese (Traditional)",
+            ["de"] = "Deutsch",
             ["en"] = "English",
         };
 

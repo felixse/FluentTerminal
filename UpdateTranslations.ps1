@@ -20,3 +20,4 @@ function DownloadLanguageFile($language)
 
 DownloadLanguageFile("en");
 DownloadLanguageFile("zh-CN");
+DownloadLanguageFile("de");

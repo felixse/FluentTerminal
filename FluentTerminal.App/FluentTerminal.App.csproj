@@ -261,6 +261,7 @@
     <Content Include="Client\style.css" />
     <Content Include="Client\xterm.css" />
     <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
+    <PRIResource Include="Strings\de\Resources.resw" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <PRIResource Include="Strings\en\Resources.resw" />
   </ItemGroup>
