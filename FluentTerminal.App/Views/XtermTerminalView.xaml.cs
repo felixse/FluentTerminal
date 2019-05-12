@@ -139,7 +139,7 @@ namespace FluentTerminal.App.Views
                 sessionType = SessionType.WinPty;
             }
             await _navigationCompleted.WaitAsync().ConfigureAwait(true);
-            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles), sessionType).ConfigureAwait(true);
+            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
             _connectedEvent.Wait();
@@ -279,12 +279,12 @@ namespace FluentTerminal.App.Views
             await ExecuteScriptAsync($"connectToWebSocket('{webSocketUrl}');").ConfigureAwait(true);
         }
 
-        private async Task<TerminalSize> CreateXtermView(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings, SessionType sessionType)
+        private async Task<TerminalSize> CreateXtermView(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);
             var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
-            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}', '{sessionType}')").ConfigureAwait(true);
+            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')").ConfigureAwait(true);
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 

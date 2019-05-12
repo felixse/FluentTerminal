@@ -1,18 +1,16 @@
 import { Terminal } from "xterm";
 import * as attach from "xterm/lib/addons/attach/attach";
 import * as fit from "xterm/lib/addons/fit/fit";
-import * as winptyCompat from "xterm/lib/addons/winptyCompat/winptyCompat";
 import * as search from "xterm/lib/addons/search/search";
 
 Terminal.applyAddon(attach);
 Terminal.applyAddon(fit);
-Terminal.applyAddon(winptyCompat);
 Terminal.applyAddon(search);
 
 var term, socket;
 var terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings, sessionType) {
+function createTerminal(options, theme, keyBindings) {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -36,32 +34,28 @@ function createTerminal(options, theme, keyBindings, sessionType) {
     scrollback: options.scrollBackLimit,
     allowTransparency: true,
     theme: theme,
-    experimentalCharAtlas: 'dynamic'
+    experimentalCharAtlas: 'dynamic',
+    windowsMode: true
   };
 
   term = new Terminal(terminalOptions);
 
   window.term = term;
 
-  term.on('resize', function (size) {
-    terminalBridge.notifySizeChanged(term.cols, term.rows);
+  term.onResize((cols, rows) => {
+    terminalBridge.notifySizeChanged(cols, rows);
   });
 
-  term.on('title', function (title) {
+  term.onTitleChange((title) => {
     terminalBridge.notifyTitleChanged(title);
   });
 
-  term.on('selection', function () {
+  term.onSelectionChange(() => {
     terminalBridge.notifySelectionChanged(term.getSelection());
   });
 
   term.open(terminalContainer);
   term.fit();
-
-  if (sessionType === 'WinPty') {
-    term.winptyCompatInit();
-  }
-
   term.focus();
   
   setPadding(options.padding);
