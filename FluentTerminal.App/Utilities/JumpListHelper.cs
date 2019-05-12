@@ -23,12 +23,13 @@ namespace FluentTerminal.App.Utilities
                     {
                         var item = JumpListItem.CreateWithArguments(ShellProfileFlag + profile.Id.ToString(), profile.Name);
                         item.Description = profile.Location;
-                        item.Logo = new Uri("ms-appx:///Assets/AppIcons/Full-transparent.png");
                         jumpList.Items.Add(item);
                     }
                     await jumpList.SaveAsync();
                 }
-            }catch (Exception e){
+            }
+            catch (Exception e)
+            {
                 Logger.Instance.Error(e, "JumpList Update Exception");
             }
         }

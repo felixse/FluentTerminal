@@ -29,6 +29,7 @@ namespace FluentTerminal.Models
             TabThemeId = other.TabThemeId;
             TerminalThemeId = other.TerminalThemeId;
             LineEndingTranslation = other.LineEndingTranslation;
+            UseConPty = other.UseConPty;
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
 
@@ -41,6 +42,8 @@ namespace FluentTerminal.Models
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>();
+
+        public bool UseConPty { get; set; }
 
         public string TranslateLineEndings(string content)
         {
@@ -74,6 +77,7 @@ namespace FluentTerminal.Models
                     && other.TabThemeId.Equals(TabThemeId)
                     && other.TerminalThemeId.Equals(TerminalThemeId)
                     && other.LineEndingTranslation == LineEndingTranslation
+                    && other.UseConPty == UseConPty
                     && other.KeyBindings.SequenceEqual(KeyBindings);
             }
             return false;

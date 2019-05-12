@@ -3,6 +3,7 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
+using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -22,7 +23,6 @@ namespace FluentTerminal.App.Services.Implementation
                 MouseMiddleClickAction = MouseAction.None,
                 MouseRightClickAction = MouseAction.ContextMenu,
                 AlwaysShowTabs = false,
-                AlwaysUseWinPty = true,
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true,
                 ShowCustomTitleInTitlebar = true
@@ -366,6 +366,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     LineEndingTranslation = LineEndingStyle.DoNotModify,
+                    UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8), // Windows 10 1903+
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -388,6 +389,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     LineEndingTranslation = LineEndingStyle.DoNotModify,
+                    UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
                     KeyBindings = new []
                     {
                         new KeyBinding
@@ -410,6 +412,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     LineEndingTranslation = LineEndingStyle.ToLF,
+                    UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
                     KeyBindings = new []
                     {
                         new KeyBinding

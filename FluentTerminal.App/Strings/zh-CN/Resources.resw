@@ -138,13 +138,15 @@ Fuzzy</comment>
     <value>关闭</value>
     <comment>TabBar.xaml</comment>
   </data>
-  <data name="CloseBeforeAsk.Header" xml:space="preserve">
+  <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>在关闭窗口之前询问</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
-  <data name="CloseTabBeforeAsk.Header" xml:space="preserve">
+  <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>在关闭标签页之前询问</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
     <value>标签颜色</value>
@@ -270,10 +272,6 @@ Fuzzy</comment>
     <value>当前标签栏下划线</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
-  <data name="UseWinPty.Header" xml:space="preserve">
-    <value>Windows 10 1809+: 始终使用 WinPty</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Setting_About.Content" xml:space="preserve">
     <value>关于</value>
     <comment>SettingsPage.xaml</comment>
@@ -383,7 +381,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>不改变</value>
+    <value>不改变换行符</value>
     <comment>ShellProfileSettings.xaml
 Fuzzy</comment>
   </data>
@@ -536,17 +534,17 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>转换行结尾为 CR</value>
+    <value>转换换行符为 CR</value>
     <comment>ShellProfileSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>转换行结尾为 CR+LF</value>
+    <value>转换换行符为 CR+LF</value>
     <comment>ShellProfileSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>转换行结尾为 LF</value>
+    <value>转换换行符为 LF</value>
     <comment>ShellProfileSettings.xaml
 Fuzzy</comment>
   </data>
@@ -684,7 +682,7 @@ Fuzzy</comment>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>下一个标签页</value>
+    <value>新标签页</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -791,63 +789,75 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>New SSH Tab</value>
+    <value>新的 SSH 标签页</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Info</value>
+    <value>SSH 信息</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>user</value>
+    <value>用户</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>host</value>
+    <value>主机</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>port</value>
+    <value>端口</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Identity file path</value>
+    <value>SSH IdentityFile 文件地址</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
+    <value>浏览</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Use Mosh</value>
+    <value>使用 Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Advanced</value>
+    <value>高级</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh ports:</value>
+    <value>Mosh 端口</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Save Shortcut</value>
+    <value>保存快捷方式</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Application needs to restart for this change to take effect.</value>
+    <value>应用需要重启才能让更改生效</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Invalid Input</value>
+    <value>无效输入</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Port cannot be 0.</value>
+    <value>端口不能为 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>User and host are mandatory fields.</value>
+    <value>用户名和主机名必须填写</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Username cannot be empty.</value>
+    <value>用户名不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host cannot be empty.</value>
+    <value>主机名不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH port has to be greater than zero.</value>
+    <value>SSH 端口必须大于 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh port cannot be zero.</value>
+    <value>Mosh 端口不能为 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh port range is invalid.</value>
+    <value>Mosh 端口范围无效</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>None</value>
   </data>
 </root>

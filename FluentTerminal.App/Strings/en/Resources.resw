@@ -138,13 +138,15 @@ Fuzzy</comment>
     <value>Close</value>
     <comment>TabBar.xaml</comment>
   </data>
-  <data name="CloseBeforeAsk.Header" xml:space="preserve">
+  <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>Ask before closing windows</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
-  <data name="CloseTabBeforeAsk.Header" xml:space="preserve">
+  <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>Ask before closing tabs</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
     <value>Color</value>
@@ -268,10 +270,6 @@ Fuzzy</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
     <value>Underline selected tab</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="UseWinPty.Header" xml:space="preserve">
-    <value>Windows 10 1809+: Always use WinPty</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
@@ -849,5 +847,17 @@ Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Mosh port range is invalid.</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>None</value>
   </data>
 </root>

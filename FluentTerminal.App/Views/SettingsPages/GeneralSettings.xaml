@@ -17,12 +17,12 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
+                x:Uid="General"
                 Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="General"
-                x:Uid="General" />
+                Text="General" />
             <CommandBar
                 Grid.Column="1"
                 HorizontalAlignment="Right"
@@ -30,9 +30,9 @@
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
+                    x:Uid="Restore"
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
-                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
@@ -40,11 +40,15 @@
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <StackPanel Margin="{StaticResource ItemMargin}">
                     <ComboBox
-                    Width="200"
-                    Header="Language"
+                        x:Uid="Language"
+                        Width="200"
+                        Header="Language"
                         ItemsSource="{x:Bind ViewModel.Languages}"
                         SelectedItem="{x:Bind ViewModel.SelectedLanguage, Mode=TwoWay}" />
-                    <TextBlock Foreground="Red" x:Uid="NeedsToRestart" Visibility="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+                    <TextBlock
+                        x:Uid="NeedsToRestart"
+                        Foreground="Red"
+                        Visibility="{x:Bind ViewModel.NeedsToRestart, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                 </StackPanel>
                 <StackPanel Margin="{StaticResource ItemMargin}">
                     <ToggleSwitch
@@ -59,7 +63,10 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <ToggleSwitch x:Uid="SystemTray" Header="Show in system tray" IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="SystemTray"
+                        Header="Show in system tray"
+                        IsOn="{x:Bind ViewModel.EnableTrayIcon, Mode=TwoWay}" />
                     <TextBlock
                         x:Uid="NeedRelaunch"
                         Foreground="Red"
@@ -68,7 +75,10 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock x:Uid="OpenNewTerminalAs" Margin="0,0,0,8" Text="Open new terminals as" />
+                    <TextBlock
+                        x:Uid="OpenNewTerminalAs"
+                        Margin="0,0,0,8"
+                        Text="Open new terminals as" />
                     <RadioButton
                         x:Uid="ONTA_Tabs"
                         Content="Tabs"
@@ -82,7 +92,10 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock x:Uid="TabsPostion" Margin="0,0,0,8" Text="Show tabs on" />
+                    <TextBlock
+                        x:Uid="TabsPostion"
+                        Margin="0,0,0,8"
+                        Text="Show tabs on" />
                     <RadioButton
                         x:Uid="TP_Top"
                         Content="Top"
@@ -114,7 +127,10 @@
                     IsOn="{x:Bind ViewModel.UnderlineSelectedTab, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" x:Uid="ColorInactiveTabs" Text="Color on inactive tabs" />
+                    <TextBlock
+                        x:Uid="ColorInactiveTabs"
+                        Margin="0,0,0,8"
+                        Text="Color on inactive tabs" />
                     <RadioButton
                         x:Uid="Background"
                         Content="Background"
@@ -128,13 +144,13 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    x:Uid="CloseWindowBeforeAsk"
+                    x:Uid="ConfirmWindowClosing"
                     Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing windows"
                     IsOn="{x:Bind ViewModel.ConfirmClosingWindows, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="CloseTabBeforeAsk"
+                    x:Uid="ConfirmTabClosing"
                     Margin="{StaticResource ItemMargin}"
                     Header="Ask before closing tabs"
                     IsOn="{x:Bind ViewModel.ConfirmClosingTabs, Mode=TwoWay}" />
@@ -144,12 +160,6 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Uid="UseWinPty"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Windows 10 1809+: Always use WinPty"
-                    IsOn="{x:Bind ViewModel.AlwaysUseWinPty, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

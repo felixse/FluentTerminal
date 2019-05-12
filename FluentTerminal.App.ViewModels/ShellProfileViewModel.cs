@@ -29,6 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private TabTheme _selectedTabTheme;
         private TerminalTheme _selectedTerminalTheme;
         private string _workingDirectory;
+        private bool _useConPty;
         private readonly IApplicationView _applicationView;
         private readonly IDefaultValueProvider _defaultValueProvider;
 
@@ -84,6 +85,7 @@ namespace FluentTerminal.App.ViewModels
             SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
             PreInstalled = shellProfile.PreInstalled;
             LineEndingStyle = shellProfile.LineEndingTranslation;
+            UseConPty = shellProfile.UseConPty;
 
             KeyBindings.Clear();
             foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
@@ -134,6 +136,12 @@ namespace FluentTerminal.App.ViewModels
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }
         public ShellProfile Model { get; private set; }
         public bool PreInstalled { get; private set; }
+
+        public bool UseConPty
+        {
+            get => _useConPty;
+            set => Set(ref _useConPty, value);
+        }
 
         public string Arguments
         {
@@ -252,6 +260,7 @@ namespace FluentTerminal.App.ViewModels
             Model.TabThemeId = SelectedTabTheme.Id;
             Model.TerminalThemeId = SelectedTerminalTheme.Id;
             Model.LineEndingTranslation = _lineEndingStyle;
+            Model.UseConPty = UseConPty;
             Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
             _settingsService.SaveShellProfile(Model);
 
@@ -310,6 +319,8 @@ namespace FluentTerminal.App.ViewModels
             {
                 ShellProfile changedProfile = new ShellProfile
                 {
+                    Id = Model.Id,
+                    PreInstalled = Model.PreInstalled,
                     Arguments = Arguments,
                     Location = Location,
                     Name = Name,
@@ -317,6 +328,7 @@ namespace FluentTerminal.App.ViewModels
                     TabThemeId = SelectedTabTheme.Id,
                     TerminalThemeId = SelectedTerminalTheme.Id,
                     LineEndingTranslation = _lineEndingStyle,
+                    UseConPty = UseConPty,
                     KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
                 };
 
@@ -331,6 +343,7 @@ namespace FluentTerminal.App.ViewModels
                         Name = _fallbackProfile.Name;
                         WorkingDirectory = _fallbackProfile.WorkingDirectory;
                         LineEndingStyle = _fallbackProfile.LineEndingTranslation;
+                        UseConPty = _fallbackProfile.UseConPty;
                         SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
                         SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
 
@@ -369,17 +382,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            // todo write copy ctor
-            _fallbackProfile = new ShellProfile
-            {
-                Arguments = Model.Arguments,
-                LineEndingTranslation = Model.LineEndingTranslation,
-                Location = Model.Location,
-                Name = Model.Name,
-                WorkingDirectory = Model.WorkingDirectory,
-                TabThemeId = Model.TabThemeId,
-                TerminalThemeId = Model.TerminalThemeId
-            };
+            _fallbackProfile = new ShellProfile(Model);
 
             KeyBindings.Editable = true;
             InEditMode = true;

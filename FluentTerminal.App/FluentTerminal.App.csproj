@@ -147,6 +147,7 @@
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
+    <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>

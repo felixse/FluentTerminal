@@ -79,20 +79,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public bool AlwaysUseWinPty
-        {
-            get => _applicationSettings.AlwaysUseWinPty;
-            set
-            {
-                if (_applicationSettings.AlwaysUseWinPty != value)
-                {
-                    _applicationSettings.AlwaysUseWinPty = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         public bool ShowCustomTitleInTitlebar
         {
             get => _applicationSettings.ShowCustomTitleInTitlebar;
@@ -317,7 +303,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 InactiveTabColorMode = defaults.InactiveTabColorMode;
                 NewTerminalLocation = defaults.NewTerminalLocation;
                 AlwaysShowTabs = defaults.AlwaysShowTabs;
-                AlwaysUseWinPty = defaults.AlwaysUseWinPty;
                 ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
                 EnableTrayIcon = defaults.EnableTrayIcon;
                 ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;
