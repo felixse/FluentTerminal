@@ -35,7 +35,9 @@ namespace FluentTerminal.App.Services
             .MinimumLevel.Is((LogEventLevel)configuration.LogLevel)
             .CreateLogger();
 
-            Log.Information("Initialized");
+            // Log file is not created during unhandled exception processing.
+            // Force log file creation with the highest severity initialization record.
+            Log.Fatal("Initialized");
         }
 
         public void Debug(string text, params object[] propertyValues)
