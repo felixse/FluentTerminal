@@ -138,12 +138,12 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Fenster geschloßen wird</value>
+    <value>Nachfragen bevor Fenster geschlossen wird</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Tab geschloßen wird</value>
+    <value>Nachfragen bevor Tab geschlossen wird</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
@@ -620,8 +620,9 @@ Fuzzy</comment>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="ResetBtn.Text" xml:space="preserve">
+  <data name="ResetBtn.Content" xml:space="preserve">
     <value>Zurücksetzen</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="TextCopied" xml:space="preserve">
     <value>Text kopiert</value>

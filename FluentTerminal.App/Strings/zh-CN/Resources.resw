@@ -633,8 +633,9 @@ Fuzzy</comment>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
   </data>
-  <data name="ResetBtn.Text" xml:space="preserve">
+  <data name="ResetBtn.Content" xml:space="preserve">
     <value>重置</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="TextCopied" xml:space="preserve">
     <value>已复制</value>
@@ -849,15 +850,15 @@ Fuzzy</comment>
     <value>Mosh 端口范围无效</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Yes</value>
+    <value>是</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>No</value>
+    <value>否</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>None</value>
+    <value>无</value>
   </data>
 </root>
