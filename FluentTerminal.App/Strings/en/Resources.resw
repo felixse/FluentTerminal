@@ -633,8 +633,9 @@ Fuzzy</comment>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="ResetBtn.Text" xml:space="preserve">
+  <data name="ResetBtn.Content" xml:space="preserve">
     <value>Reset</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="TextCopied" xml:space="preserve">
     <value>Text copied</value>
