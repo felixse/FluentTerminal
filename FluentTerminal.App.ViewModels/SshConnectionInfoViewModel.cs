@@ -8,8 +8,8 @@ namespace FluentTerminal.App.ViewModels
     public class SshConnectionInfoViewModel : ViewModelBase, ISshConnectionInfo
     {
         public const ushort DefaultSshPort = 22;
-        public const ushort DefaultMoshPortsFrom = 60000;
-        public const ushort DefaultMoshPortsTo = 60050;
+        public const ushort DefaultMoshPortsFrom = 60001;
+        public const ushort DefaultMoshPortsTo = 60999;
 
         private string _host = string.Empty;
 
