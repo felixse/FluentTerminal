@@ -121,4 +121,7 @@
   <data name="Square44x44Logo_scale_100" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Square44x44Logo.scale-100.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Square44x44Logo_scale_100_altform_lightunplated" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Square44x44Logo.scale-100_altform-lightunplated.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

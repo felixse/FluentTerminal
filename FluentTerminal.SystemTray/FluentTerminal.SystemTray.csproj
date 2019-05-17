@@ -178,6 +178,7 @@
     <Content Include="BinaryDependencies\x86\winpty-agent.exe" />
     <Content Include="BinaryDependencies\x86\winpty-debugserver.exe" />
     <Content Include="BinaryDependencies\x86\winpty.dll" />
+    <None Include="Resources\Square44x44Logo.scale-100_altform-lightunplated.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">

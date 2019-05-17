@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,7 +25,16 @@ namespace FluentTerminal.SystemTray
             _notifyIcon = new NotifyIcon();
             _notifyIcon.DoubleClick += OpenApp;
             _notifyIcon.Text = "Fluent Terminal";
-            _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
+
+            if (SystemUsesLightTheme())
+            {
+                _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100_altform_lightunplated;
+            }
+            else
+            {
+                _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
+            }
+
             _notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });
             _notifyIcon.Visible = true;
         }
@@ -48,6 +58,32 @@ namespace FluentTerminal.SystemTray
         private void ShowSettings(object sender, EventArgs e)
         {
             Process.Start("flute.exe", "settings");
+        }
+
+        /// <summary>
+        /// Checks whether the new light system theme in Windows 10 1903+ is used
+        /// </summary>
+        private bool SystemUsesLightTheme()
+        {
+            try
+            {
+                using (var regKey = RegistryKey.OpenRemoteBaseKey(RegistryHive.CurrentUser, string.Empty).OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
+                {
+                    if (regKey.GetValueNames().Contains("SystemUsesLightTheme"))
+                    {
+                        var value = regKey.GetValue("SystemUsesLightTheme");
+                        return value is int intValue && intValue == 1;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
