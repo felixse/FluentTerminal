@@ -42,7 +42,7 @@ function createTerminal(options, theme, keyBindings) {
 
   window.term = term;
 
-  term.onResize((cols, rows) => {
+  term.onResize(({ cols, rows }) => {
     terminalBridge.notifySizeChanged(cols, rows);
   });
 
@@ -57,7 +57,7 @@ function createTerminal(options, theme, keyBindings) {
   term.open(terminalContainer);
   term.fit();
   term.focus();
-  
+
   setPadding(options.padding);
 
   var resizeTimeout;
@@ -77,7 +77,7 @@ function createTerminal(options, theme, keyBindings) {
   term.attachCustomKeyEventHandler(function (e) {
     for (var i = 0; i < window.keyBindings.length; i++) {
       var keyBinding = window.keyBindings[i];
-        if (keyBinding.ctrl == e.ctrlKey
+      if (keyBinding.ctrl == e.ctrlKey
         && keyBinding.meta == e.metaKey
         && keyBinding.alt == e.altKey
         && keyBinding.shift == e.shiftKey
@@ -119,10 +119,10 @@ function attachTerminal() {
 
 function connectToWebSocket(url) {
   socket = new WebSocket(url);
-  socket.onerror = function(event) {
+  socket.onerror = function (event) {
     terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
   }
-  socket.onclose = function(event) {
+  socket.onclose = function (event) {
     terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
   };
   socket.onopen = attachTerminal;
@@ -150,9 +150,9 @@ function changeOptions(options) {
 
 function setScrollBarStyle(scrollBarStyle) {
   switch (scrollBarStyle) {
-  	case 'hidden':     return terminalContainer.style['-ms-overflow-style'] = 'none';
-  	case 'autoHiding': return terminalContainer.style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
-  	case 'visible':    return terminalContainer.style['-ms-overflow-style'] = 'scrollbar';
+    case 'hidden': return terminalContainer.style['-ms-overflow-style'] = 'none';
+    case 'autoHiding': return terminalContainer.style['-ms-overflow-style'] = '-ms-autohiding-scrollbar';
+    case 'visible': return terminalContainer.style['-ms-overflow-style'] = 'scrollbar';
   }
 }
 
