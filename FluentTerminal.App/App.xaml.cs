@@ -208,14 +208,12 @@ namespace FluentTerminal.App
                         return;
                     }
 
-                    SshConnectionInfoValidationResult result = connectionInfo.Validate();
+                    var result = connectionInfo.Validate();
 
                     if (result != SshConnectionInfoValidationResult.Valid)
                     {
                         // Link is valid, but incomplete (i.e. username missing), so we need to show dialog.
-                        connectionInfo =
-                            (SshConnectionInfoViewModel)await _dialogService.ShowSshConnectionInfoDialogAsync(
-                                connectionInfo);
+                        connectionInfo = await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
 
                         if (connectionInfo == null)
                         {
@@ -226,12 +224,16 @@ namespace FluentTerminal.App
                         }
                     }
 
-                    ShellProfile profile = _sshHelperService.CreateShellProfile(connectionInfo);
+                    var profile = _sshHelperService.CreateShellProfile(connectionInfo);
 
                     if (mainViewModel == null)
+                    {
                         await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                    }
                     else
+                    {
                         mainViewModel.AddTerminal(profile);
+                    }
 
                     return;
                 }

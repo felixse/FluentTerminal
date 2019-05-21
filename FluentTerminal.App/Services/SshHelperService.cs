@@ -60,16 +60,24 @@ namespace FluentTerminal.App.Services
             vm.SshOptions.Clear();
 
             if (string.IsNullOrEmpty(optsString))
+            {
                 return;
+            }
 
             foreach (SshOptionViewModel option in ParseSshOptionsFromUri(optsString, ','))
             {
                 if (option.Name.Equals(IdentityFileOptionName, StringComparison.OrdinalIgnoreCase))
+                {
                     vm.IdentityFile = option.Value;
+                }
                 else if (vm.SshOptions.Any(opt => string.Equals(opt.Name, option.Name, StringComparison.OrdinalIgnoreCase)))
+                {
                     throw new FormatException($"SSH option '{option.Name}' is defined more than once.");
+                }
                 else
+                {
                     vm.SshOptions.Add(option);
+                }
             }
         }
 
@@ -78,48 +86,62 @@ namespace FluentTerminal.App.Services
 
         private static SshOptionViewModel ParseSshOptionFromUri(string option)
         {
-            string[] nv = option.Split('=');
+            var nv = option.Split('=');
 
             if (nv.Length != 2 || string.IsNullOrEmpty(nv[0]))
+            {
                 throw new FormatException($"Invalid SSH option '{option}'.");
+            }
 
             return new SshOptionViewModel { Name = HttpUtility.UrlDecode(nv[0]), Value = HttpUtility.UrlDecode(nv[1]) };
         }
-        
+
         private static string ToUriOption(SshOptionViewModel option)
         {
-            string name = option.Name;
+            var name = option.Name;
 
             if (string.IsNullOrEmpty(name))
+            {
                 throw new ArgumentException($"{nameof(SshOptionViewModel.Name)} must contain non empty string.");
+            }
 
             name = HttpUtility.UrlEncode(name);
 
-            string value = option.Value;
+            var value = option.Value;
 
             if (!string.IsNullOrEmpty(value))
+            {
                 value = HttpUtility.UrlEncode(value);
+            }
 
             return $"{name}={value}";
         }
 
         private static string GetArgumentsString(SshConnectionInfoViewModel sshConnectionInfo)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             if (sshConnectionInfo.SshPort != SshConnectionInfoViewModel.DefaultSshPort)
+            {
                 sb.Append($"-p {sshConnectionInfo.SshPort:#####} ");
+            }
 
             if (!string.IsNullOrEmpty(sshConnectionInfo.IdentityFile))
+            {
                 sb.Append($"-i \"{sshConnectionInfo.IdentityFile}\" ");
+            }
 
             foreach (SshOptionViewModel option in sshConnectionInfo.SshOptions)
+            {
                 sb.Append($"-o \"{option.Name}={option.Value}\" ");
+            }
 
             sb.Append($"{sshConnectionInfo.Username}@{sshConnectionInfo.Host}");
 
             if (sshConnectionInfo.UseMosh)
+            {
                 sb.Append($" {sshConnectionInfo.MoshPortFrom}:{sshConnectionInfo.MoshPortTo}");
+            }
 
             return sb.ToString();
         }
@@ -141,61 +163,79 @@ namespace FluentTerminal.App.Services
         #region Methods
 
         public bool IsSsh(Uri uri) =>
-            SshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase) ||
-            MoshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
+            SshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase)
+            || MoshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
         public ISshConnectionInfo ParseSsh(Uri uri)
         {
-            SshConnectionInfoViewModel vm = new SshConnectionInfoViewModel
+            var vm = new SshConnectionInfoViewModel
             {
                 Host = uri.Host,
                 UseMosh = MoshUriScheme.Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase)
             };
 
             if (uri.Port >= 0)
+            {
                 vm.SshPort = (ushort)uri.Port;
+            }
 
             if (!string.IsNullOrEmpty(uri.UserInfo))
             {
-                string[] parts = uri.UserInfo.Split(';');
+                var parts = uri.UserInfo.Split(';');
 
                 if (parts.Length > 2)
+                {
                     throw new FormatException($"UserInfo part contains {parts.Length} elements.");
+                }
 
                 vm.Username = HttpUtility.UrlDecode(parts[0]);
 
                 if (parts.Length > 1)
+                {
                     LoadSshOptionsFromUri(vm, parts[1]);
+                }
             }
 
             if (string.IsNullOrEmpty(uri.Query))
+            {
                 return vm;
+            }
 
             if (!vm.UseMosh)
+            {
                 throw new FormatException("Query parameters are not supported in SSH links.");
+            }
 
-            string queryString = uri.Query;
+            var queryString = uri.Query;
 
             if (queryString.StartsWith("?", StringComparison.Ordinal))
+            {
                 queryString = queryString.Substring(1);
+            }
 
             if (string.IsNullOrEmpty(queryString))
+            {
                 return vm;
+            }
 
             foreach (SshOptionViewModel option in ParseSshOptionsFromUri(queryString, '&'))
             {
                 if (ValidMoshPortsNames.Any(n => n.Equals(option.Name, StringComparison.OrdinalIgnoreCase)))
                 {
-                    Match match = MoshRangeRx.Match(option.Value);
+                    var match = MoshRangeRx.Match(option.Value);
 
                     if (!match.Success)
+                    {
                         throw new FormatException($"Invalid mosh ports range '{option.Value}'.");
+                    }
 
                     vm.MoshPortFrom = ushort.Parse(match.Groups["from"].Value);
                     vm.MoshPortTo = ushort.Parse(match.Groups["to"].Value);
                 }
                 else
+                {
                     throw new FormatException($"Unknown query parameter '{option.Name}'.");
+                }
             }
 
             return vm;
@@ -221,18 +261,20 @@ namespace FluentTerminal.App.Services
 
         public string ConvertToUri(ISshConnectionInfo sshConnectionInfo)
         {
-            SshConnectionInfoValidationResult result = sshConnectionInfo.Validate(true);
+            var result = sshConnectionInfo.Validate(true);
 
             if (result != SshConnectionInfoValidationResult.Valid)
+            {
                 throw new ArgumentException(result.ToString(), nameof(sshConnectionInfo));
+            }
 
-            SshConnectionInfoViewModel sshConnectionInfoVm = (SshConnectionInfoViewModel) sshConnectionInfo;
+            var sshConnectionInfoVm = (SshConnectionInfoViewModel) sshConnectionInfo;
 
-            StringBuilder sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
+            var sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
 
             sb.Append("://");
 
-            bool containsUserInfo = false;
+            var containsUserInfo = false;
 
             if (!string.IsNullOrEmpty(sshConnectionInfoVm.Username))
             {
@@ -243,7 +285,7 @@ namespace FluentTerminal.App.Services
 
             if (!string.IsNullOrEmpty(sshConnectionInfoVm.IdentityFile) || sshConnectionInfoVm.SshOptions.Any())
             {
-                bool first = true;
+                var first = true;
 
                 sb.Append(";");
 
@@ -257,7 +299,9 @@ namespace FluentTerminal.App.Services
                 foreach (string option in sshConnectionInfoVm.SshOptions.Select(ToUriOption))
                 {
                     if (!first)
+                    {
                         sb.Append(",");
+                    }
 
                     sb.Append(option);
 
@@ -268,7 +312,9 @@ namespace FluentTerminal.App.Services
             }
 
             if (containsUserInfo)
+            {
                 sb.Append("@");
+            }
 
             sb.Append(sshConnectionInfoVm.Host);
 
