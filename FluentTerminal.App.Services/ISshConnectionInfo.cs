@@ -18,6 +18,8 @@ namespace FluentTerminal.App.Services
 
         ushort MoshPortTo { get; set; }
 
+        LineEndingStyle LineEndingStyle { get; set; }
+
         SshConnectionInfoValidationResult Validate(bool allowNoUser = false);
     }
 }

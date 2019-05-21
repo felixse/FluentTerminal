@@ -8,9 +8,11 @@ namespace FluentTerminal.App.Services
     {
         bool IsSsh(Uri uri);
 
-        Task<ShellProfile> GetSshShellProfileAsync();
+        ISshConnectionInfo ParseSsh(Uri uri);
 
-        Task<ShellProfile> GetSshShellProfileAsync(Uri uri);
+        ShellProfile CreateShellProfile(ISshConnectionInfo sshConnectionInfo);
+
+        Task<ShellProfile> GetSshShellProfileAsync();
 
         string ConvertToUri(ISshConnectionInfo sshConnectionInfo);
     }

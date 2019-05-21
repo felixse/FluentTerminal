@@ -78,6 +78,7 @@ namespace FluentTerminal.App.ViewModels
         public ObservableCollection<SshOptionViewModel> SshOptions { get; } =
             new ObservableCollection<SshOptionViewModel>();
 
+
         public SshConnectionInfoValidationResult Validate(bool allowNoUser = false)
         {
             if (!allowNoUser && string.IsNullOrEmpty(_username))
@@ -117,8 +118,13 @@ namespace FluentTerminal.App.ViewModels
         {
             SshConnectionInfoViewModel clone = new SshConnectionInfoViewModel
             {
-                _host = _host, _sshPort = _sshPort, _username = _username, _identityFile = _identityFile,
-                _useMosh = _useMosh, _moshPortFrom = _moshPortFrom, _moshPortTo = _moshPortTo,
+                _host = _host,
+                _sshPort = _sshPort,
+                _username = _username,
+                _identityFile = _identityFile,
+                _useMosh = _useMosh,
+                _moshPortFrom = _moshPortFrom,
+                _moshPortTo = _moshPortTo,
                 _lineEndingStyle = _lineEndingStyle
             };
 
