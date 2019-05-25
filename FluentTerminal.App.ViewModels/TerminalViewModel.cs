@@ -305,9 +305,9 @@ namespace FluentTerminal.App.ViewModels
             await ApplicationView.RunOnDispatcherThread(() => OptionsChanged?.Invoke(this, e));
         }
 
-        private void SelectTabTheme(string name)
+        private void SelectTabTheme(string id)
         {
-            TabTheme = TabThemes.FirstOrDefault(t => t.Name == name);
+            TabTheme = TabThemes.FirstOrDefault(t => t.Id == int.Parse(id));
         }
 
         private void Terminal_Exited(object sender, int exitCode)

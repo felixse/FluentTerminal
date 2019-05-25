@@ -92,7 +92,7 @@
                         <MenuFlyoutSubItem x:Uid="Color">
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="None"
+                                CommandParameter="0"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=None}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.None}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -101,7 +101,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Red"
+                                CommandParameter="1"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Red}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Red}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -113,7 +113,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Green"
+                                CommandParameter="2"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Green}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Green}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -125,7 +125,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Blue"
+                                CommandParameter="3"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Blue}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Blue}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -137,7 +137,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Purple"
+                                CommandParameter="4"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Purple}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Purple}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -149,7 +149,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Orange"
+                                CommandParameter="5"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Orange}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Orange}">
                                 <ToggleMenuFlyoutItem.Icon>
@@ -161,7 +161,7 @@
                             </ToggleMenuFlyoutItem>
                             <ToggleMenuFlyoutItem
                                 Command="{x:Bind ViewModel.SelectedTerminal.SelectTabThemeCommand}"
-                                CommandParameter="Teal"
+                                CommandParameter="6"
                                 IsChecked="{x:Bind ViewModel.SelectedTerminal.TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Teal}"
                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Teal}">
                                 <ToggleMenuFlyoutItem.Icon>
