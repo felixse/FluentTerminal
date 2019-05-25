@@ -46,7 +46,7 @@ namespace FluentTerminal.App
         private readonly ISshHelperService _sshHelperService;
         private readonly IDialogService _dialogService;
         private bool _alreadyLaunched;
-        private bool _isLaunching = false;
+        private bool _isLaunching;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
         private readonly List<MainViewModel> _mainViewModels;
@@ -336,7 +336,9 @@ namespace FluentTerminal.App
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             if (_isLaunching)
+            {
                 return;
+            }
 
             _isLaunching = true;
             if (!_alreadyLaunched)
