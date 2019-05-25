@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using System;
@@ -21,6 +22,7 @@ namespace FluentTerminal.App.Dialogs
             Profiles = settingsService.GetShellProfiles();
             SelectedProfile = Profiles.First();
             this.InitializeComponent();
+            SecondaryButtonText = I18N.Translate("Cancel");
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
