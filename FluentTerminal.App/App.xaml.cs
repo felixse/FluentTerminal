@@ -46,6 +46,7 @@ namespace FluentTerminal.App
         private readonly ISshHelperService _sshHelperService;
         private readonly IDialogService _dialogService;
         private bool _alreadyLaunched;
+        private bool _isLaunching;
         private ApplicationSettings _applicationSettings;
         private readonly IContainer _container;
         private readonly List<MainViewModel> _mainViewModels;
@@ -334,6 +335,12 @@ namespace FluentTerminal.App
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            if (_isLaunching)
+            {
+                return;
+            }
+
+            _isLaunching = true;
             if (!_alreadyLaunched)
             {
                 await InitializeLogger();
@@ -362,6 +369,7 @@ namespace FluentTerminal.App
                 var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 await CreateTerminal(profile, location).ConfigureAwait(true);
             }
+            _isLaunching = false;
         }
 
         private static async Task InitializeLogger()
