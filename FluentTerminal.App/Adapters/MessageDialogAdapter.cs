@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.Utilities;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -29,14 +30,19 @@ namespace FluentTerminal.App.Adapters
 
         public void AddButton(DialogButton button)
         {
-            _messageDialog.Commands.Add(new UICommand(button.ToString()));
+            var command = new UICommand
+            {
+                Label = I18N.Translate(button.ToString()),
+                Id = button
+            };
+            _messageDialog.Commands.Add(command);
         }
 
         public async Task<DialogButton> ShowAsync()
         {
             var result = await _messageDialog.ShowAsync();
 
-            return Enum.Parse<DialogButton>(result.Label);
+            return (DialogButton)result.Id;
         }
     }
 }
