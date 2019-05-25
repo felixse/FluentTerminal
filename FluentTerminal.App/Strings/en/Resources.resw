@@ -867,4 +867,7 @@ Fuzzy</comment>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>Exited with error</value>
   </data>
+  <data name="ConfirmDeleteProfile" xml:space="preserve">
+    <value>Are you sure you want to delete this profile?</value>
+  </data>
 </root>
