@@ -140,7 +140,13 @@ namespace FluentTerminal.App.ViewModels
         public bool HasExitedWithError
         {
             get => _hasExitedWithError;
-            set => Set(ref _hasExitedWithError, value);
+            set
+            {
+                if (Set(ref _hasExitedWithError, value) && value)
+                {
+                    HasNewOutput = false;
+                }
+            }
         }
 
         public string SearchText

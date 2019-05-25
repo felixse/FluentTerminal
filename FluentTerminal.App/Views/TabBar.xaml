@@ -59,7 +59,7 @@
                             VerticalAlignment="Stretch"
                             Background="Transparent"
                             ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
-                            
+
                             <Interactivity:Interaction.Behaviors>
                                 <behaviors:MiddleClickBehavior>
                                     <behaviors:MiddleClickBehavior.Actions>
@@ -67,7 +67,7 @@
                                     </behaviors:MiddleClickBehavior.Actions>
                                 </behaviors:MiddleClickBehavior>
                             </Interactivity:Interaction.Behaviors>
-                            
+
                             <RelativePanel.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutSubItem x:Uid="Color">
@@ -153,13 +153,12 @@
                                             </ToggleMenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
                                     </MenuFlyoutSubItem>
-                                    <MenuFlyoutItem Command="{x:Bind EditTitleCommand}" x:Uid="EditTitle" />
+                                    <MenuFlyoutItem x:Uid="EditTitle" Command="{x:Bind EditTitleCommand}" />
                                     <MenuFlyoutSeparator />
-                                    <MenuFlyoutItem Command="{x:Bind CloseCommand}" x:Uid="Close" />
+                                    <MenuFlyoutItem x:Uid="Close" Command="{x:Bind CloseCommand}" />
                                 </MenuFlyout>
                             </RelativePanel.ContextFlyout>
                             <Border
-                                Grid.ColumnSpan="3"
                                 Height="3"
                                 VerticalAlignment="Bottom"
                                 Background="{x:Bind TabTheme.Color, Mode=OneWay, Converter={StaticResource ColorResourceKeyFallbackConverter}, ConverterParameter=SystemControlHighlightAccentBrush}"
@@ -167,37 +166,35 @@
                                 RelativePanel.AlignLeftWithPanel="True"
                                 RelativePanel.AlignRightWithPanel="True"
                                 Visibility="{x:Bind IsUnderlined, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
-                            <TextBlock
-                                Grid.Column="0"
-                                Margin="12,8,6,0"
+                            <Grid
+                                x:Name="HasExitedWithError"
+                                Height="32"
+                                Margin="6,0,0,0"
                                 RelativePanel.AlignLeftWithPanel="True"
+                                Visibility="{x:Bind HasExitedWithError, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                <Viewbox
+                                    x:Uid="ExitedWithError"
+                                    Width="12"
+                                    Height="12"
+                                    VerticalAlignment="Center"
+                                    ToolTipService.ToolTip="Exited with error">
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;" />
+                                </Viewbox>
+                            </Grid>
+                            <TextBlock
+                                Margin="12,8,6,0"
                                 RelativePanel.LeftOf="CloseButton"
+                                RelativePanel.RightOf="HasExitedWithError"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{x:Bind TabTitle, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
-                            <StackPanel
+                            <Grid
                                 x:Name="CloseButton"
-                                Grid.Column="2"
-                                Height="32"
-                                Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                Margin="3,0,3,0"
+                                Width="32"
                                 RelativePanel.AlignRightWithPanel="True">
-                                <Viewbox Visibility="{x:Bind HasExitedWithError, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
-                                    Width="12"
-                                    Height="12"
-                                    ToolTipService.ToolTip="Exited with error">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;" />
-                                </Viewbox>
-                                <Viewbox Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
-                                    Width="12"
-                                    Height="12"
-                                    VerticalAlignment="Center"
-                                    ToolTipService.ToolTip="New output">
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
-                                </Viewbox>
                                 <Button
+                                    Width="32"
                                     HorizontalAlignment="Center"
                                     Command="{x:Bind CloseCommand}"
                                     Style="{StaticResource TitleBarButtonStyle}"
@@ -207,7 +204,17 @@
                                         <SymbolIcon Symbol="Cancel" />
                                     </Viewbox>
                                 </Button>
-                            </StackPanel>
+                                <Grid Height="32" Visibility="{x:Bind HasNewOutput, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                    <Viewbox
+                                        x:Uid="NewOutput"
+                                        Width="12"
+                                        Height="12"
+                                        VerticalAlignment="Center"
+                                        ToolTipService.ToolTip="New output">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
+                                    </Viewbox>
+                                </Grid>
+                            </Grid>
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

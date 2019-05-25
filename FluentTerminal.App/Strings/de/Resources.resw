@@ -164,7 +164,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Titel anpassen</value>
+    <value>Titel ändern</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
@@ -348,7 +348,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Aktuelle Version</value>
+    <value>Installierte Version</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
@@ -404,7 +404,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Aktuelle Version</value>
+    <value>Neueste Version</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
@@ -588,7 +588,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Titel anpassen</value>
+    <value>Titel ändern</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
@@ -822,5 +822,11 @@ Fuzzy</comment>
   </data>
   <data name="None.Text" xml:space="preserve">
     <value>Keine</value>
+  </data>
+  <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Neue Ausgabe</value>
+  </data>
+  <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mit Fehler beendet</value>
   </data>
 </root>
