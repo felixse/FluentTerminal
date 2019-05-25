@@ -861,4 +861,10 @@ Fuzzy</comment>
   <data name="None.Text" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>New output</value>
+  </data>
+  <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Exited with error</value>
+  </data>
 </root>
