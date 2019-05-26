@@ -13,6 +13,7 @@ namespace FluentTerminal.App.Services
             ["zh-Hans-CN"] = "Chinese (Traditional)",
             ["de"] = "Deutsch",
             ["en"] = "English",
+            ["es"] = "Español"
         };
 
         public IEnumerable<string> Languages => _languages.Values;
