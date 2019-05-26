@@ -85,7 +85,6 @@ namespace FluentTerminal.App.Views
                     return new SolidColorBrush((Color)GetValue(SelectedColorProperty));
                 }
             }
-            set { }
         }
 
         private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)

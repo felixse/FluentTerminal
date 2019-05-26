@@ -47,30 +47,24 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.AddLocalShellCommand}"
                             x:Uid="NewTab"
+                            Command="{x:Bind ViewModel.AddLocalShellCommand}"
                             Text="New local shell">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.AddRemoteShellCommand}"
-                            x:Uid="NewRemoteTab">
+                        <MenuFlyoutItem x:Uid="NewRemoteTab" Command="{x:Bind ViewModel.AddRemoteShellCommand}">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ShowSettingsCommand}"
-                            x:Uid="Settings">
+                        <MenuFlyoutItem x:Uid="Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Setting" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ShowAboutCommand}"
-                            x:Uid="About">
+                        <MenuFlyoutItem x:Uid="About" Command="{x:Bind ViewModel.ShowAboutCommand}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
@@ -172,7 +166,7 @@
                                 </ToggleMenuFlyoutItem.Icon>
                             </ToggleMenuFlyoutItem>
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedTerminal.EditTitleCommand}" x:Uid="EditTitle" />
+                        <MenuFlyoutItem x:Uid="EditTitle" Command="{x:Bind ViewModel.SelectedTerminal.EditTitleCommand}" />
                     </MenuFlyout>
                 </RelativePanel.ContextFlyout>
                 <TextBlock

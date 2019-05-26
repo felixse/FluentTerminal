@@ -4,9 +4,6 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
@@ -17,8 +14,6 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ApplicationSettings _applicationSettings;
-        private bool _editingMouseRightClickAction;
-        private bool _editingMouseMiddleClickAction;
 
         public MousePageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider)
         {
@@ -49,16 +44,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _applicationSettings.MouseRightClickAction;
             set
             {
-                if (_applicationSettings.MouseRightClickAction != value && !_editingMouseRightClickAction)
+                if (_applicationSettings.MouseRightClickAction != value)
                 {
-                    _editingMouseRightClickAction = true;
                     _applicationSettings.MouseRightClickAction = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(MouseRightClickNoneIsSelected));
-                    RaisePropertyChanged(nameof(MouseRightClickContextMenuIsSelected));
-                    RaisePropertyChanged(nameof(MouseRightClickPasteIsSelected));
-                    _editingMouseRightClickAction = false;
                 }
             }
         }
@@ -66,19 +56,19 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool MouseRightClickNoneIsSelected
         {
             get => MouseRightClickAction == MouseAction.None;
-            set => MouseRightClickAction = MouseAction.None;
+            set { if (value) MouseRightClickAction = MouseAction.None; }
         }
 
         public bool MouseRightClickContextMenuIsSelected
         {
             get => MouseRightClickAction == MouseAction.ContextMenu;
-            set => MouseRightClickAction = MouseAction.ContextMenu;
+            set { if (value) MouseRightClickAction = MouseAction.ContextMenu; }
         }
 
         public bool MouseRightClickPasteIsSelected
         {
             get => MouseRightClickAction == MouseAction.Paste;
-            set => MouseRightClickAction = MouseAction.Paste;
+            set { if (value) MouseRightClickAction = MouseAction.Paste; }
         }
 
         public MouseAction MouseMiddleClickAction
@@ -86,16 +76,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _applicationSettings.MouseMiddleClickAction;
             set
             {
-                if (_applicationSettings.MouseMiddleClickAction != value && !_editingMouseMiddleClickAction)
+                if (_applicationSettings.MouseMiddleClickAction != value)
                 {
-                    _editingMouseMiddleClickAction = true;
                     _applicationSettings.MouseMiddleClickAction = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(MouseMiddleClickNoneIsSelected));
-                    RaisePropertyChanged(nameof(MouseMiddleClickContextMenuIsSelected));
-                    RaisePropertyChanged(nameof(MouseMiddleClickPasteIsSelected));
-                    _editingMouseMiddleClickAction = false;
                 }
             }
         }
@@ -103,19 +88,19 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool MouseMiddleClickNoneIsSelected
         {
             get => MouseMiddleClickAction == MouseAction.None;
-            set => MouseMiddleClickAction = MouseAction.None;
+            set { if (value) MouseMiddleClickAction = MouseAction.None; }
         }
 
         public bool MouseMiddleClickContextMenuIsSelected
         {
             get => MouseMiddleClickAction == MouseAction.ContextMenu;
-            set => MouseMiddleClickAction = MouseAction.ContextMenu;
+            set { if (value) MouseMiddleClickAction = MouseAction.ContextMenu; }
         }
 
         public bool MouseMiddleClickPasteIsSelected
         {
             get => MouseMiddleClickAction == MouseAction.Paste;
-            set => MouseMiddleClickAction = MouseAction.Paste;
+            set { if (value) MouseMiddleClickAction = MouseAction.Paste; }
         }
 
         public RelayCommand RestoreDefaultsCommand { get; }

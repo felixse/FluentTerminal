@@ -214,41 +214,26 @@ namespace FluentTerminal.App.ViewModels
         public bool DoNotModifyIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set { if (value)
-                {
-                    LineEndingStyle = LineEndingStyle.DoNotModify;
-                }
+            set { if (value) { LineEndingStyle = LineEndingStyle.DoNotModify; }
             }
         }
 
         public bool ToCRLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set { if (value)
-                {
-                    LineEndingStyle = LineEndingStyle.ToCRLF;
-                }
-            }
+            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
         }
 
         public bool ToLFIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToLF;
-            set { if (value)
-                {
-                    LineEndingStyle = LineEndingStyle.ToLF;
-                }
-            }
+            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
         }
 
         public bool ToCRIsSelected
         {
             get => LineEndingStyle == LineEndingStyle.ToCR;
-            set { if (value)
-                {
-                    LineEndingStyle = LineEndingStyle.ToCR;
-                }
-            }
+            set { if (value) { LineEndingStyle = LineEndingStyle.ToCR; } }
         }
 
         public void SaveChanges()
@@ -259,7 +244,7 @@ namespace FluentTerminal.App.ViewModels
             Model.WorkingDirectory = WorkingDirectory;
             Model.TabThemeId = SelectedTabTheme.Id;
             Model.TerminalThemeId = SelectedTerminalTheme.Id;
-            Model.LineEndingTranslation = _lineEndingStyle;
+            Model.LineEndingTranslation = LineEndingStyle;
             Model.UseConPty = UseConPty;
             Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
             _settingsService.SaveShellProfile(Model);

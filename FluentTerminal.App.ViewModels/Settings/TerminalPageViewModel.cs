@@ -16,43 +16,41 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
         private readonly IDefaultValueProvider _defaultValueProvider;
-        private bool _isEditingCursorStyle;
-        private bool _isEditingScrollBarStyle;
 
         public bool BarIsSelected
         {
             get => CursorStyle == CursorStyle.Bar;
-            set => CursorStyle = CursorStyle.Bar;
+            set { if (value) CursorStyle = CursorStyle.Bar; }
         }
 
         public bool BlockIsSelected
         {
             get => CursorStyle == CursorStyle.Block;
-            set => CursorStyle = CursorStyle.Block;
+            set { if (value) CursorStyle = CursorStyle.Block; }
         }
 
         public bool UnderlineIsSelected
         {
             get => CursorStyle == CursorStyle.Underline;
-            set => CursorStyle = CursorStyle.Underline;
+            set { if (value) CursorStyle = CursorStyle.Underline; }
         }
 
         public bool HiddenIsSelected
         {
             get => ScrollBarStyle == ScrollBarStyle.Hidden;
-            set => ScrollBarStyle = ScrollBarStyle.Hidden;
+            set { if (value) ScrollBarStyle = ScrollBarStyle.Hidden; }
         }
 
         public bool AutoHidingIsSelected
         {
             get => ScrollBarStyle == ScrollBarStyle.AutoHiding;
-            set => ScrollBarStyle = ScrollBarStyle.AutoHiding;
+            set { if (value) ScrollBarStyle = ScrollBarStyle.AutoHiding; }
         }
 
         public bool VisibleIsSelected
         {
             get => ScrollBarStyle == ScrollBarStyle.Visible;
-            set => ScrollBarStyle = ScrollBarStyle.Visible;
+            set { if (value) ScrollBarStyle = ScrollBarStyle.Visible; }
         }
 
         public bool CursorBlink
@@ -190,16 +188,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _terminalOptions.CursorStyle;
             set
             {
-                if (_terminalOptions.CursorStyle != value && !_isEditingCursorStyle)
+                if (_terminalOptions.CursorStyle != value)
                 {
-                    _isEditingCursorStyle = true;
                     _terminalOptions.CursorStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
                     RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(BlockIsSelected));
-                    RaisePropertyChanged(nameof(BarIsSelected));
-                    RaisePropertyChanged(nameof(UnderlineIsSelected));
-                    _isEditingCursorStyle = false;
                 }
             }
         }
@@ -209,16 +202,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _terminalOptions.ScrollBarStyle;
             set
             {
-                if (_terminalOptions.ScrollBarStyle != value && !_isEditingScrollBarStyle)
+                if (_terminalOptions.ScrollBarStyle != value)
                 {
-                    _isEditingScrollBarStyle = true;
                     _terminalOptions.ScrollBarStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
                     RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(HiddenIsSelected));
-                    RaisePropertyChanged(nameof(AutoHidingIsSelected));
-                    RaisePropertyChanged(nameof(VisibleIsSelected));
-                    _isEditingScrollBarStyle = false;
                 }
             }
         }
