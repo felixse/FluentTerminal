@@ -146,6 +146,7 @@
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
+    <Compile Include="Utilities\DisabledContextMenuTextBox.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
     <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
