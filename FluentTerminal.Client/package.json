@@ -10,6 +10,8 @@
   "author": "FS Apps",
   "license": "GPL-3.0",
   "devDependencies": {
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.5.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   },

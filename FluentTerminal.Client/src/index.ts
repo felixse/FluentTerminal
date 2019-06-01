@@ -1,16 +1,33 @@
-import { Terminal } from "xterm";
+import { Terminal, ITerminalOptions } from 'xterm';
 import * as attach from "xterm/lib/addons/attach/attach";
 import * as fit from "xterm/lib/addons/fit/fit";
 import * as search from "xterm/lib/addons/search/search";
+
+interface ExtendedWindow extends Window {
+  keyBindings: any[];
+  term: any;
+  terminalBridge: any;
+
+  createTerminal(options: any, theme: any, keyBindings: any): void;
+  connectToWebSocket(url: string): void;
+  changeTheme(theme: any): void;
+  changeOptions(options: any): void;
+  changeKeyBindings(keyBindings: any): void;
+  findNext(content: string): void;
+  findPrevious(content: string): void;
+}
+
+declare var window: ExtendedWindow;
 
 Terminal.applyAddon(attach);
 Terminal.applyAddon(fit);
 Terminal.applyAddon(search);
 
-var term, socket;
-var terminalContainer = document.getElementById('terminal-container');
+let term: any;
+let socket: WebSocket;
+const terminalContainer = document.getElementById('terminal-container');
 
-function createTerminal(options, theme, keyBindings) {
+window.createTerminal = (options, theme, keyBindings) => {
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
   }
@@ -23,19 +40,19 @@ function createTerminal(options, theme, keyBindings) {
 
   setScrollBarStyle(options.scrollBarStyle);
 
-  var terminalOptions = {
+  var terminalOptions: ITerminalOptions = {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
     fontWeight: options.boldText ? 'bold' : 'normal',
-    fontWeightBold: options.boldText ? 'bolder' : 'bold',
+    fontWeightBold: options.boldText ? '400' : 'bold',
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
     scrollback: options.scrollBackLimit,
     allowTransparency: true,
     theme: theme,
-    experimentalCharAtlas: 'dynamic',
-    windowsMode: true
+    windowsMode: true,
+    experimentalCharAtlas: "dynamic"
   };
 
   term = new Terminal(terminalOptions);
@@ -43,15 +60,15 @@ function createTerminal(options, theme, keyBindings) {
   window.term = term;
 
   term.onResize(({ cols, rows }) => {
-    terminalBridge.notifySizeChanged(cols, rows);
+    window.terminalBridge.notifySizeChanged(cols, rows);
   });
 
-  term.onTitleChange((title) => {
-    terminalBridge.notifyTitleChanged(title);
+  term.onTitleChange((title: string) => {
+    window.terminalBridge.notifyTitleChanged(title);
   });
 
   term.onSelectionChange(() => {
-    terminalBridge.notifySelectionChanged(term.getSelection());
+    window.terminalBridge.notifySelectionChanged(term.getSelection());
   });
 
   term.open(terminalContainer);
@@ -60,7 +77,7 @@ function createTerminal(options, theme, keyBindings) {
 
   setPadding(options.padding);
 
-  var resizeTimeout;
+  let resizeTimeout: any;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(term.fit(), 500);
@@ -68,9 +85,9 @@ function createTerminal(options, theme, keyBindings) {
 
   window.onmouseup = function (e) {
     if (e.button == 1) {
-      terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
+      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
     } else if (e.button == 2) {
-      terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
+      window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
     }
   }
 
@@ -98,7 +115,7 @@ function createTerminal(options, theme, keyBindings) {
 
 
           e.preventDefault();
-          terminalBridge.invokeCommand(keyBinding.command);
+          window.terminalBridge.invokeCommand(keyBinding.command);
         }
         return false;
       }
@@ -117,23 +134,23 @@ function attachTerminal() {
   term._initialized = true;
 }
 
-function connectToWebSocket(url) {
+window.connectToWebSocket =  (url: string) => {
   socket = new WebSocket(url);
   socket.onerror = function (event) {
-    terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
+    window.terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
   }
   socket.onclose = function (event) {
-    terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
+    window.terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
   };
   socket.onopen = attachTerminal;
 }
 
-function changeTheme(theme) {
+window.changeTheme = (theme) => {
   theme = JSON.parse(theme);
   term.setOption('theme', theme);
 }
 
-function changeOptions(options) {
+window.changeOptions = (options) => {
   options = JSON.parse(options);
 
   term.setOption('bellStyle', options.bellStyle);
@@ -157,37 +174,23 @@ function setScrollBarStyle(scrollBarStyle) {
 }
 
 function setPadding(padding) {
-  document.querySelector('.terminal').style.padding = padding + 'px';
+  document.querySelector('.terminal')["style"].padding = padding + 'px';
   term.fit();
 }
 
-function changeKeyBindings(keyBindings) {
+window.changeKeyBindings = (keyBindings) => {
   keyBindings = JSON.parse(keyBindings);
-  window.keyBindings = keyBindings;
+  window["keyBindings"] = keyBindings;
 }
 
-function b64DecodeUnicode(str) {
-  return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-  }).join(''))
-}
-
-function findNext(content) {
+window.findNext = (content: string) => {
   term.findNext(content);
 }
 
-function findPrevious(content) {
+window.findPrevious = (content: string) => {
   term.findPrevious(content);
 }
 
 document.oncontextmenu = function () {
   return false;
 };
-
-window.createTerminal = createTerminal;
-window.connectToWebSocket = connectToWebSocket;
-window.changeTheme = changeTheme;
-window.changeOptions = changeOptions;
-window.changeKeyBindings = changeKeyBindings;
-window.findNext = findNext;
-window.findPrevious = findPrevious;
