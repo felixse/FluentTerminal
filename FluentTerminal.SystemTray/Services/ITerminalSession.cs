@@ -6,7 +6,7 @@ namespace FluentTerminal.SystemTray.Services
 {
     public interface ITerminalSession : IDisposable
     {
-        int Id { get; }
+        byte Id { get; }
         string ShellExecutableName { get; }
 
         event EventHandler<int> ConnectionClosed;

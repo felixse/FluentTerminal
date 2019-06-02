@@ -13,7 +13,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         private bool _exited;
         private TerminalSize _terminalSize;
 
-        public int Id { get; private set; }
+        public byte Id { get; private set; }
 
         public string ShellExecutableName { get; private set; }
 

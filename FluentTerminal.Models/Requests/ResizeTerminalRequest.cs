@@ -6,7 +6,7 @@
 
         byte IMessage.Identifier => Identifier;
 
-        public int TerminalId { get; set; }
+        public byte TerminalId { get; set; }
 
         public TerminalSize NewSize { get; set; }
     }

@@ -44,7 +44,7 @@ namespace FluentTerminal.App.Services.Test
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
             var sessionType = _fixture.Create<SessionType>();
-            var id = _fixture.Create<int>();
+            var id = _fixture.Create<byte>();
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
@@ -56,7 +56,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public async Task ResizeTerminal_Default_SendsResizeTerminalRequest()
         {
-            var terminalId = _fixture.Create<int>();
+            var terminalId = _fixture.Create<byte>();
             var terminalSize = _fixture.Create<TerminalSize>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
@@ -76,7 +76,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public async Task Write_Default_SendsWriteDataRequest()
         {
-            var terminalId = _fixture.Create<int>();
+            var terminalId = _fixture.Create<byte>();
             var data = _fixture.Create<byte[]>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
@@ -96,7 +96,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public async Task CloseTerminal_Default_SendsTerminalExitedRequest()
         {
-            var terminalId = _fixture.Create<int>();
+            var terminalId = _fixture.Create<byte>();
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);
             settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
@@ -115,7 +115,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void OnMessageReceived_TerminalExitedRequest_InvokesTerminalExitedEvent()
         {
-            var request = new TerminalExitedRequest(_fixture.Create<int>(), _fixture.Create<int>());
+            var request = new TerminalExitedRequest(_fixture.Create<byte>(), _fixture.Create<int>());
 
             var receivedExitStatus = (TerminalExitStatus) null;
 
@@ -148,7 +148,7 @@ namespace FluentTerminal.App.Services.Test
         [Fact]
         public void OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
         {
-            var terminalId = _fixture.Create<int>();
+            var terminalId = _fixture.Create<byte>();
             var output = _fixture.Create<byte[]>();
             var receivedOutput = default(byte[]);
             var message = new ValueSet

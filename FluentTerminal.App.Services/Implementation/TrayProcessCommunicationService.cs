@@ -14,18 +14,18 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private readonly Dictionary<int, Action<byte[]>> _terminalOutputHandlers;
-        private int _nextTerminalId = 0;
+        private readonly Dictionary<byte, Action<byte[]>> _terminalOutputHandlers;
+        private byte _nextTerminalId = 0;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _terminalOutputHandlers = new Dictionary<int, Action<byte[]>>();
+            _terminalOutputHandlers = new Dictionary<byte, Action<byte[]>>();
         }
 
-        public int GetNextTerminalId()
+        public byte GetNextTerminalId()
         {
             return _nextTerminalId++;
         }
@@ -86,7 +86,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
-        public async Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
+        public async Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest
             {
@@ -120,7 +120,7 @@ namespace FluentTerminal.App.Services.Implementation
             switch (messageType)
             {
                 case Constants.TerminalBufferRequestIdentifier:
-                    var terminalId = (int)e[MessageKeys.TerminalId];
+                    var terminalId = (byte)e[MessageKeys.TerminalId];
 
                     if (_terminalOutputHandlers.ContainsKey(terminalId))
                     {
@@ -143,7 +143,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
-        public Task ResizeTerminal(int id, TerminalSize size)
+        public Task ResizeTerminal(byte id, TerminalSize size)
         {
             var request = new ResizeTerminalRequest
             {
@@ -154,7 +154,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback)
+        public void SubscribeForTerminalOutput(byte terminalId, Action<byte[]> callback)
         {
             _terminalOutputHandlers[terminalId] = callback;
         }
@@ -171,7 +171,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
         }
 
-        public Task Write(int id, byte[] data)
+        public Task Write(byte id, byte[] data)
         {
             var message = new ValueSet
             {
@@ -183,7 +183,7 @@ namespace FluentTerminal.App.Services.Implementation
             return _appServiceConnection.SendMessageAsync(message);
         }
 
-        public Task CloseTerminal(int terminalId)
+        public Task CloseTerminal(byte terminalId)
         {
             var request = new TerminalExitedRequest(terminalId, -1);
 

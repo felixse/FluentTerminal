@@ -8,7 +8,7 @@ namespace FluentTerminal.Models.Requests
 
         byte IMessage.Identifier => Identifier;
 
-        public int Id { get; set; }
+        public byte Id { get; set; }
         public TerminalSize Size { get; set; }
         public ShellProfile Profile { get; set; }
         public SessionType SessionType { get; set; }

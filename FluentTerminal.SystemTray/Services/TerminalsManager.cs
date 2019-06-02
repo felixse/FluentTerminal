@@ -16,13 +16,13 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalsManager
     {
-        private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
+        private readonly Dictionary<byte, ITerminalSession> _terminals = new Dictionary<byte, ITerminalSession>();
 
         public event EventHandler<TerminalOutput> DisplayOutputRequested;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
-        public void DisplayTerminalOutput(int terminalId, byte[] output)
+        public void DisplayTerminalOutput(byte terminalId, byte[] output)
         {
             DisplayOutputRequested?.Invoke(this, new TerminalOutput
             {
@@ -78,7 +78,7 @@ namespace FluentTerminal.SystemTray.Services
             };
         }
 
-        public void Write(int id, byte[] data)
+        public void Write(byte id, byte[] data)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
@@ -86,7 +86,7 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
-        public void ResizeTerminal(int id, TerminalSize size)
+        public void ResizeTerminal(byte id, TerminalSize size)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
@@ -98,7 +98,7 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
-        public void CloseTerminal(int id)
+        public void CloseTerminal(byte id)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {

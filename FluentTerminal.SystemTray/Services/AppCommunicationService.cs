@@ -117,7 +117,7 @@ namespace FluentTerminal.SystemTray.Services
 
         private void HandleWriteDataMessage(AppServiceRequestReceivedEventArgs args)
         {
-            var terminalId = (int)args.Request.Message[MessageKeys.TerminalId];
+            var terminalId = (byte)args.Request.Message[MessageKeys.TerminalId];
             var content = (byte[])args.Request.Message[MessageKeys.Content];
             _terminalsManager.Write(terminalId, content);
         }

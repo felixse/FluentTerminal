@@ -12,19 +12,19 @@ namespace FluentTerminal.App.Services
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
-        Task<CreateTerminalResponse> CreateTerminal(int id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
+        Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
 
-        Task ResizeTerminal(int id, TerminalSize size);
+        Task ResizeTerminal(byte id, TerminalSize size);
 
         Task UpdateToggleWindowKeyBindings();
 
-        Task Write(int terminalId, byte[] data);
+        Task Write(byte terminalId, byte[] data);
 
-        void SubscribeForTerminalOutput(int terminalId, Action<byte[]> callback);
+        void SubscribeForTerminalOutput(byte terminalId, Action<byte[]> callback);
 
-        Task CloseTerminal(int terminalId);
+        Task CloseTerminal(byte terminalId);
         Task<GetAvailablePortResponse> GetAvailablePort();
-        int GetNextTerminalId();
+        byte GetNextTerminalId();
 
         Task<string> GetUserName();
 
