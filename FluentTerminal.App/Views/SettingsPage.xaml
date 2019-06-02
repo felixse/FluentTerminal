@@ -49,6 +49,14 @@
                             ToolTipService.ToolTip="Shell" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="Setting_SShProfiles" Content="SSH Profiles" Tag="sshprofiles">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="a"
+                            ToolTipService.ToolTip="Shell" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem x:Uid="Setting_Keybindings" Content="Keybindings" Tag="keyBindings">
                     <NavigationViewItem.Icon>
                         <FontIcon

@@ -158,6 +158,27 @@ namespace FluentTerminal.SystemTray.Services
 
                 deferral.Complete();
             }
+            else if (messageType == nameof(GetMoshSshExecutablePathRequest))
+            {
+                var deferral = args.GetDeferral();
+
+                GetMoshSshExecutablePathRequest request = JsonConvert.DeserializeObject<GetMoshSshExecutablePathRequest>(messageContent);
+
+                GetMoshSshExecutablePathResponse response;
+
+                try
+                {
+                    response = request.GetResponse();
+                }
+                catch (Exception e)
+                {
+                    response = new GetMoshSshExecutablePathResponse{Error = e.Message};
+                }
+
+                await args.Request.SendResponseAsync(CreateMessage(response));
+
+                deferral.Complete();
+            }
         }
 
         private ValueSet CreateMessage(object content)

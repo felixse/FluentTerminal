@@ -73,6 +73,62 @@ namespace FluentTerminal.App.Services.Implementation
             return _userName;
         }
 
+        private string _moshPath;
+        private string _sshPath;
+
+        public async Task<string> GetMoshSshPath(bool isMosh)
+        {
+            if (isMosh)
+            {
+                if (_moshPath != null)
+                {
+                    return _moshPath;
+                }
+            }
+            else if (_sshPath != null)
+            {
+                return _sshPath;
+            }
+
+            GetMoshSshExecutablePathResponse response;
+
+            try
+            {
+                var responseMessage =
+                    await _appServiceConnection.SendMessageAsync(CreateMessage(new GetMoshSshExecutablePathRequest
+                        { IsMosh = isMosh }));
+
+                response = JsonConvert.DeserializeObject<GetMoshSshExecutablePathResponse>(
+                    responseMessage[MessageKeys.Content]);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error(ex, "Error while trying to get mosh path.");
+
+                return null;
+            }
+
+            if (!response.Success)
+            {
+                Logger.Instance.Error($"Error while trying to get username. Message: {response.Error}");
+
+                return null;
+            }
+
+            var path = string.IsNullOrEmpty(response.Path) ? string.Empty : response.Path;
+
+            if (isMosh)
+            {
+                _moshPath = path;
+            }
+            else
+            {
+                _sshPath = path;
+            }
+
+            return path;
+        }
+
         public async Task SaveTextFileAsync(string path, string content)
         {
             IDictionary<string, string> responseMessage =
@@ -194,7 +250,11 @@ namespace FluentTerminal.App.Services.Implementation
             return new Dictionary<string, string>
             {
                 [MessageKeys.Type] = content.GetType().Name,
-                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
+                [MessageKeys.Content] = JsonConvert.SerializeObject(content, new JsonSerializerSettings()
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.All,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                })
             };
         }
     }

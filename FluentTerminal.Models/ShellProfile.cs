@@ -36,8 +36,8 @@ namespace FluentTerminal.Models
         public Guid Id { get; set; }
         public bool PreInstalled { get; set; }
         public string Name { get; set; }
-        public virtual string Arguments { get; set; }
-        public virtual string Location { get; set; }
+        public string Arguments { get; set; }
+        public string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
@@ -64,23 +64,29 @@ namespace FluentTerminal.Models
         public Guid TerminalThemeId { get; set; }
         public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
 
-        public override bool Equals(object obj)
+        public virtual bool EqualTo(ShellProfile other)
         {
-            if (obj is ShellProfile other)
+            if (other == null)
             {
-                return other.Id.Equals(Id)
-                    && other.PreInstalled.Equals(PreInstalled)
-                    && other.Name.Equals(Name)
-                    && other.Arguments.Equals(Arguments)
-                    && other.Location.Equals(Location)
-                    && other.WorkingDirectory.Equals(WorkingDirectory)
-                    && other.TabThemeId.Equals(TabThemeId)
-                    && other.TerminalThemeId.Equals(TerminalThemeId)
-                    && other.LineEndingTranslation == LineEndingTranslation
-                    && other.UseConPty == UseConPty
-                    && other.KeyBindings.SequenceEqual(KeyBindings);
+                return false;
             }
-            return false;
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.Id.Equals(Id)
+                   && other.PreInstalled.Equals(PreInstalled)
+                   && other.Name.Equals(Name)
+                   && other.Arguments.Equals(Arguments)
+                   && other.Location.Equals(Location)
+                   && other.WorkingDirectory.Equals(WorkingDirectory)
+                   && other.TabThemeId.Equals(TabThemeId)
+                   && other.TerminalThemeId.Equals(TerminalThemeId)
+                   && other.LineEndingTranslation == LineEndingTranslation
+                   && other.UseConPty == UseConPty
+                   && other.KeyBindings.SequenceEqual(KeyBindings);
         }
 
         /// <summary>

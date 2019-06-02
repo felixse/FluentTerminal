@@ -48,12 +48,14 @@ namespace FluentTerminal.App.ViewModels
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
-            TerminalThemes = new ObservableCollection<TerminalTheme>();
-            TerminalThemes.Add(new TerminalTheme
+            TerminalThemes = new ObservableCollection<TerminalTheme>
             {
-                Id = Guid.Empty,
-                Name = "Default"
-            });
+                new TerminalTheme
+                {
+                    Id = Guid.Empty,
+                    Name = "Default"
+                }
+            };
             foreach (var theme in _settingsService.GetThemes())
             {
                 TerminalThemes.Add(theme);
@@ -317,7 +319,7 @@ namespace FluentTerminal.App.ViewModels
                     KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
                 };
 
-                if (!_fallbackProfile.Equals(changedProfile))
+                if (!_fallbackProfile.EqualTo(changedProfile))
                 {
                     var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 

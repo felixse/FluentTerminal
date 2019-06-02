@@ -830,4 +830,8 @@ Fuzzy</comment>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>Are you sure you want to delete this profile?</value>
   </data>
+  <data name="SshProfiles.Text" xml:space="preserve">
+    <value>SSH Perfiles</value>
+    <comment>SshProfileSettings.xaml</comment>
+  </data>
 </root>

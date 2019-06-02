@@ -82,7 +82,8 @@ namespace FluentTerminal.App.Views
         {
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
-            var serialized = JsonConvert.SerializeObject(FlattenKeyBindings(keyBindings, profiles));
+            var sshprofiles = ViewModel.SettingsService.GetSshShellProfiles();
+            var serialized = JsonConvert.SerializeObject(FlattenKeyBindings(keyBindings, profiles, sshprofiles));
             return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
         }
 
@@ -127,6 +128,7 @@ namespace FluentTerminal.App.Views
             var options = ViewModel.SettingsService.GetTerminalOptions();
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
+            var sshprofiles = ViewModel.SettingsService.GetSshShellProfiles();
             var settings = ViewModel.SettingsService.GetApplicationSettings();
             var theme = ViewModel.TerminalTheme;
             var sessionType = SessionType.Unknown;
@@ -139,7 +141,7 @@ namespace FluentTerminal.App.Views
                 sessionType = SessionType.WinPty;
             }
             await _navigationCompleted.WaitAsync().ConfigureAwait(true);
-            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles)).ConfigureAwait(true);
+            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
             _connectedEvent.Wait();
@@ -301,9 +303,9 @@ namespace FluentTerminal.App.Views
             return Task.FromResult(string.Empty);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshShellProfile> sshprofiles)
         {
-            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings));
+            return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings).Concat(sshprofiles.SelectMany(x => x.KeyBindings)));
         }
 
         private void Paste_Click(object sender, RoutedEventArgs e)

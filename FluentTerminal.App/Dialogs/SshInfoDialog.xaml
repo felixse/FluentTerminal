@@ -7,17 +7,57 @@
     xmlns:vm="using:FluentTerminal.App.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:enums="using:FluentTerminal.Models.Enums"
+    xmlns:models="using:FluentTerminal.Models"
+    xmlns:views="using:FluentTerminal.App.Views"
     Title="SSH Info"
     x:Uid="SshInfoDialog"
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     DefaultButton="Primary"
+    d:DataContext="{d:DesignInstance vm:SshShellProfileViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d" Loading="OnLoading">
-    <ContentDialog.DataContext>
-        <vm:SshConnectionInfoViewModel />
-    </ContentDialog.DataContext>
+    <ContentDialog.Resources>
+        <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
+            <views:TabThemeTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="models:TabTheme">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xF126;" />
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </views:TabThemeTemplateSelector.DefaultTemplate>
+            <views:TabThemeTemplateSelector.ColoredTemplate>
+                <DataTemplate x:DataType="models:TabTheme">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Foreground="{x:Bind Color}"
+                            Glyph="&#xF127;" />
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </views:TabThemeTemplateSelector.ColoredTemplate>
+        </views:TabThemeTemplateSelector>
+        <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
+            <views:TerminalThemeTemplateSelector.DefaultTemplate>
+                <DataTemplate x:DataType="models:TerminalTheme">
+                    <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
+                </DataTemplate>
+            </views:TerminalThemeTemplateSelector.DefaultTemplate>
+            <views:TerminalThemeTemplateSelector.ThemeTemplate>
+                <DataTemplate x:DataType="models:TerminalTheme">
+                    <TextBlock Text="{x:Bind Name}" />
+                </DataTemplate>
+            </views:TerminalThemeTemplateSelector.ThemeTemplate>
+        </views:TerminalThemeTemplateSelector>
+
+    </ContentDialog.Resources>
     <Grid Width="500">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="140" />
             <ColumnDefinition Width="22" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="8" />
@@ -80,17 +120,20 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0"
+                <TextBlock Grid.Column="0" Grid.Row="0" 
                            x:Uid="LineEndingModeOnPaste"
                            Text="Line ending on paste:"
                            Margin="0 0 8 0"
                            VerticalAlignment="Center"/>
-                <ComboBox Grid.Column="1" Grid.Row="0"
+                <ComboBox Grid.Column="1" Grid.Row="0" 
                           Grid.ColumnSpan="3"
                           Margin="0 0 0 0"
-                          ItemsSource="{x:Bind LineEndingStyles}" 
-                          SelectedItem="{Binding LineEndingStyle, Mode=TwoWay}"
+                          ItemsSource="{x:Bind LineEndingStyles}"
+                          SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}"
                           VerticalAlignment="Center">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="enums:LineEndingStyle">
@@ -121,6 +164,41 @@
                          Margin="0 8 0 0"
                          VerticalAlignment="Center"
                          Visibility="{Binding UseMosh}"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" 
+                           x:Uid="TabColor1"
+                           Text="Tab color:"
+                           Margin="0 8 8 0"
+                           VerticalAlignment="Center"/>
+                <ComboBox
+                    Grid.Column="1" Grid.Row="2" 
+                    Grid.ColumnSpan="3"
+                    Margin="0 8 0 0"
+                    ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
+                    ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}"
+                    HorizontalAlignment="Stretch"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="3" 
+                           x:Uid="Theme"
+                           Text="Theme:"
+                           Margin="0 8 8 0"
+                           VerticalAlignment="Center"/>
+                <ComboBox
+                    Grid.Column="1" Grid.Row="3" 
+                    Grid.ColumnSpan="3"
+                    Margin="0 8 0 0"
+                    ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
+                    ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}"
+                    HorizontalAlignment="Stretch" />
+
+                <CheckBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="4"
+                          IsChecked="{Binding UseConPty, Mode=TwoWay}"
+                          x:Uid="UseConPtyCheckBox"
+                          Content="Use ConPty"
+                          Margin="0 8 0 0" />
+
             </Grid>
         </controls:Expander>
         <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5"

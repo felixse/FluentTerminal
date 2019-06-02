@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -9,7 +10,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -38,6 +38,8 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded += OnShellProfileAdded;
             _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
+            _settingsService.SshShellProfileAdded += OnSshShellProfileAdded;
+            _settingsService.SshShellProfileDeleted += OnSshShellProfileDeleted;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
@@ -51,7 +53,10 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), () => AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), () => SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
-
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewTab), () => AddSavedShhRemoteTerminal());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(ProfileSelection.ShowSshProfileSelection));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(ProfileSelection.ShowNewSshTab));
+            
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
@@ -64,8 +69,8 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(false));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(true));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(ProfileSelection.DoNotShowSelection));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(ProfileSelection.ShowProfileSelection));
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
@@ -73,6 +78,11 @@ namespace FluentTerminal.App.ViewModels
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
                 _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddTerminal(profile.Id));
+            }
+
+            foreach (SshShellProfile profile in _settingsService.GetSshShellProfiles())
+            {
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), () => AddRemoteTerminal(profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -107,6 +117,15 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminal(e.Id));
         }
 
+        private void OnSshShellProfileAdded(object sender, ShellProfile e)
+        {
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddRemoteTerminal(e.Id));
+        }
+        private void OnSshShellProfileDeleted(object sender, Guid e)
+        {
+            _keyboardCommandService.DeregisterCommandHandler(e.ToString());
+        }
+        
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(ShowTabsOnTop));
@@ -121,13 +140,12 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler ShowAboutRequested;
 
-        public event EventHandler ActivatedMV;
+        public event EventHandler ActivatedMv;
 
         public void FocusWindow()
         {
-            ActivatedMV?.Invoke(this, EventArgs.Empty);
+            ActivatedMv?.Invoke(this, EventArgs.Empty);
         }
-
 
         public RelayCommand AddLocalShellCommand { get; }
         public RelayCommand AddRemoteShellCommand { get; }
@@ -228,9 +246,32 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private async Task AddRemoteTerminal()
+        public async Task AddRemoteTerminal()
         {
-            ShellProfile profile = await _sshHelperService.GetSshShellProfileAsync();
+            SshShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(new SshShellProfile());
+
+            if (profile == null)
+            {
+                // User selected "Cancel"
+                if (Terminals.Count == 0)
+                {
+                    await ApplicationView.TryClose();
+                }
+            }
+            else
+            {
+                await ApplicationView.RunOnDispatcherThread(() => AddTerminal(profile));
+            }
+        }
+        public void AddRemoteTerminal(Guid shellProfileId)
+        {
+            var profile = _settingsService.GetSshShellProfile(shellProfileId);
+            AddTerminal(profile);
+        }
+
+        public async Task AddSavedShhRemoteTerminal()
+        {
+            ShellProfile profile = await _sshHelperService.GetSavedSshShellProfileAsync();
 
             if (profile == null)
             {
@@ -316,11 +357,11 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseCommand.Execute(null);
         }
 
-        private void NewWindow(bool showProfileSelection)
+        private void NewWindow(ProfileSelection showSelection)
         {
             var args = new NewWindowRequestedEventArgs
             {
-                ShowProfileSelection = showProfileSelection
+                ShowSelection = showSelection
             };
 
             NewWindowRequested?.Invoke(this, args);

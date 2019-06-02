@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,7 +20,8 @@ namespace FluentTerminal.App.Services
 
         private const string SshUriScheme = "ssh";
         private const string MoshUriScheme = "mosh";
-        private const string MoshExe = "mosh.exe";
+        private const string ThemeQueryStringParam = "theme";
+        private const string TabQueryStringParam = "tab";
 
         // Constant derived from https://man.openbsd.org/ssh
         private const string IdentityFileOptionName = "IdentityFile";
@@ -35,164 +35,83 @@ namespace FluentTerminal.App.Services
 
         #region Static
 
-        private static readonly Lazy<string> SshExeLocationLazy = new Lazy<string>(() =>
+        private static IEnumerable<Tuple<string, string>> ParseParams(string uriOpts, char separator) =>
+            uriOpts.Split(separator).Select(ParseSshOptionFromUri).Where(p => p != null);
+
+        private static Tuple<string, string> ParseSshOptionFromUri(string option)
         {
-            //
-            // See https://stackoverflow.com/a/25919981
-            //
-
-            string system32Folder;
-
-            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-            {
-                system32Folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Sysnative");
-            }
-            else
-            {
-                system32Folder = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            }
-
-            return Path.Combine(system32Folder, @"OpenSSH\ssh.exe");
-        });
-
-        private static void LoadSshOptionsFromUri(SshConnectionInfoViewModel vm, string optsString)
-        {
-            vm.SshOptions.Clear();
-
-            if (string.IsNullOrEmpty(optsString))
-            {
-                return;
-            }
-
-            foreach (SshOptionViewModel option in ParseSshOptionsFromUri(optsString, ','))
-            {
-                if (option.Name.Equals(IdentityFileOptionName, StringComparison.OrdinalIgnoreCase))
-                {
-                    vm.IdentityFile = option.Value;
-                }
-                else if (vm.SshOptions.Any(opt => string.Equals(opt.Name, option.Name, StringComparison.OrdinalIgnoreCase)))
-                {
-                    throw new FormatException($"SSH option '{option.Name}' is defined more than once.");
-                }
-                else
-                {
-                    vm.SshOptions.Add(option);
-                }
-            }
-        }
-
-        private static IEnumerable<SshOptionViewModel> ParseSshOptionsFromUri(string uriOpts, char separator) =>
-            uriOpts.Split(separator).Select(ParseSshOptionFromUri);
-
-        private static SshOptionViewModel ParseSshOptionFromUri(string option)
-        {
-            var nv = option.Split('=');
+            string[] nv = option.Split('=');
 
             if (nv.Length != 2 || string.IsNullOrEmpty(nv[0]))
             {
-                throw new FormatException($"Invalid SSH option '{option}'.");
+                // For now simply ignore invalid options
+                return null;
+                //throw new FormatException($"Invalid SSH option '{option}'.");
             }
 
-            return new SshOptionViewModel { Name = HttpUtility.UrlDecode(nv[0]), Value = HttpUtility.UrlDecode(nv[1]) };
-        }
-
-        private static string ToUriOption(SshOptionViewModel option)
-        {
-            var name = option.Name;
-
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException($"{nameof(SshOptionViewModel.Name)} must contain non empty string.");
-            }
-
-            name = HttpUtility.UrlEncode(name);
-
-            var value = option.Value;
-
-            if (!string.IsNullOrEmpty(value))
-            {
-                value = HttpUtility.UrlEncode(value);
-            }
-
-            return $"{name}={value}";
-        }
-
-        private static string GetArgumentsString(SshConnectionInfoViewModel sshConnectionInfo)
-        {
-            var sb = new StringBuilder();
-
-            if (sshConnectionInfo.SshPort != SshConnectionInfoViewModel.DefaultSshPort)
-            {
-                sb.Append($"-p {sshConnectionInfo.SshPort:#####} ");
-            }
-
-            if (!string.IsNullOrEmpty(sshConnectionInfo.IdentityFile))
-            {
-                sb.Append($"-i \"{sshConnectionInfo.IdentityFile}\" ");
-            }
-
-            foreach (SshOptionViewModel option in sshConnectionInfo.SshOptions)
-            {
-                sb.Append($"-o \"{option.Name}={option.Value}\" ");
-            }
-
-            sb.Append($"{sshConnectionInfo.Username}@{sshConnectionInfo.Host}");
-
-            if (sshConnectionInfo.UseMosh)
-            {
-                sb.Append($" {sshConnectionInfo.MoshPortFrom}:{sshConnectionInfo.MoshPortTo}");
-            }
-
-            return sb.ToString();
+            return Tuple.Create(HttpUtility.UrlDecode(nv[0]), HttpUtility.UrlDecode(nv[1]));
         }
 
         #endregion Static
 
         #region Fields
 
+        private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
+        private readonly IFileSystemService _fileSystemService;
+        private readonly IApplicationView _applicationView;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
         #endregion Fields
 
         #region Constructor
 
-        public SshHelperService(IDialogService dialogService) => _dialogService = dialogService;
+        public SshHelperService(ISettingsService settingsService, IDialogService dialogService,
+            IFileSystemService fileSystemService, IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService)
+        {
+            _settingsService = settingsService;
+            _dialogService = dialogService;
+            _fileSystemService = fileSystemService;
+            _applicationView = applicationView;
+            _trayProcessCommunicationService = trayProcessCommunicationService;
+        }
 
         #endregion Constructor
 
         #region Methods
 
         public bool IsSsh(Uri uri) =>
-            SshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase)
-            || MoshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
+            SshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase) ||
+            MoshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
         public ISshConnectionInfo ParseSsh(Uri uri)
         {
-            var vm = new SshConnectionInfoViewModel
+            SshShellProfileViewModel vm = new SshShellProfileViewModel(null, _settingsService, _dialogService,
+                _fileSystemService, _applicationView, _trayProcessCommunicationService, true)
             {
                 Host = uri.Host,
                 UseMosh = MoshUriScheme.Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase)
             };
 
             if (uri.Port >= 0)
-            {
                 vm.SshPort = (ushort)uri.Port;
-            }
 
             if (!string.IsNullOrEmpty(uri.UserInfo))
             {
-                var parts = uri.UserInfo.Split(';');
+                string[] parts = uri.UserInfo.Split(';');
 
                 if (parts.Length > 2)
-                {
                     throw new FormatException($"UserInfo part contains {parts.Length} elements.");
-                }
 
                 vm.Username = HttpUtility.UrlDecode(parts[0]);
 
                 if (parts.Length > 1)
                 {
-                    LoadSshOptionsFromUri(vm, parts[1]);
+                    // For now we are only interested in IdentityFile option
+                    Tuple<string, string> identityFileOption = ParseParams(parts[1], ',').FirstOrDefault(p =>
+                        string.Equals(p.Item1, IdentityFileOptionName, StringComparison.OrdinalIgnoreCase));
+
+                    vm.IdentityFile = identityFileOption?.Item2;
                 }
             }
 
@@ -201,80 +120,91 @@ namespace FluentTerminal.App.Services
                 return vm;
             }
 
-            if (!vm.UseMosh)
-            {
-                throw new FormatException("Query parameters are not supported in SSH links.");
-            }
-
-            var queryString = uri.Query;
-
-            if (queryString.StartsWith("?", StringComparison.Ordinal))
-            {
-                queryString = queryString.Substring(1);
-            }
+            string queryString = uri.Query?.Trim();
 
             if (string.IsNullOrEmpty(queryString))
             {
                 return vm;
             }
 
-            foreach (SshOptionViewModel option in ParseSshOptionsFromUri(queryString, '&'))
+            if (queryString.StartsWith('?'))
             {
-                if (ValidMoshPortsNames.Any(n => n.Equals(option.Name, StringComparison.OrdinalIgnoreCase)))
-                {
-                    var match = MoshRangeRx.Match(option.Value);
+                queryString = queryString.Substring(1);
+            }
 
-                    if (!match.Success)
+            foreach (Tuple<string, string> param in ParseParams(queryString, '&'))
+            {
+                string paramName = param.Item1.ToLower();
+
+                if (ValidMoshPortsNames.Contains(paramName))
+                {
+                    Match match = MoshRangeRx.Match(param.Item2);
+
+                    if (match.Success)
                     {
-                        throw new FormatException($"Invalid mosh ports range '{option.Value}'.");
+                        vm.MoshPortFrom = ushort.Parse(match.Groups["from"].Value);
+                        vm.MoshPortFrom = ushort.Parse(match.Groups["to"].Value);
                     }
 
-                    vm.MoshPortFrom = ushort.Parse(match.Groups["from"].Value);
-                    vm.MoshPortTo = ushort.Parse(match.Groups["to"].Value);
+                    continue;
                 }
-                else
+
+                if (param.Item1.Equals(ThemeQueryStringParam, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new FormatException($"Unknown query parameter '{option.Name}'.");
+                    if (Guid.TryParse(param.Item2, out Guid themeId))
+                    {
+                        vm.TerminalThemeId = themeId;
+                    }
+
+                    continue;
                 }
+
+                if (param.Item2.Equals(TabQueryStringParam, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (int.TryParse(param.Item2, out int tabThemeId))
+                    {
+                        vm.TabThemeId = tabThemeId;
+                    }
+                }
+
+                // For now we are ignoring unknown query string arguments
             }
 
             return vm;
         }
 
-        public ShellProfile CreateShellProfile(ISshConnectionInfo sshConnectionInfo) =>
-            new ShellProfile
-            {
-                Arguments = GetArgumentsString((SshConnectionInfoViewModel) sshConnectionInfo),
-                Location = sshConnectionInfo.UseMosh ? MoshExe : SshExeLocationLazy.Value,
-                WorkingDirectory = string.Empty,
-                LineEndingTranslation = sshConnectionInfo.LineEndingStyle
-            };
-
-        public async Task<ShellProfile> GetSshShellProfileAsync()
+        public async Task<SshShellProfile> GetSshShellProfileAsync(SshShellProfile profile)
         {
-            SshConnectionInfoViewModel sshConnectionInfo =
-                (SshConnectionInfoViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync();
+            SshShellProfileViewModel vm = new SshShellProfileViewModel(profile, _settingsService, _dialogService,
+                _fileSystemService, _applicationView, _trayProcessCommunicationService, true);
 
-            // sshConnectionInfo can be null if user clicks "Cancel".
-            return sshConnectionInfo == null ? null : CreateShellProfile(sshConnectionInfo);
+            vm = (SshShellProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
+
+            if (vm != null)
+            {
+                await vm.AcceptChangesAsync();
+            }
+
+            return vm?.Model;
         }
+
+        public Task<SshShellProfile> GetSavedSshShellProfileAsync() =>
+            _dialogService.ShowSshProfileSelectionDialogAsync();
 
         public string ConvertToUri(ISshConnectionInfo sshConnectionInfo)
         {
-            var result = sshConnectionInfo.Validate(true);
+            SshConnectionInfoValidationResult result = sshConnectionInfo.Validate(true);
 
             if (result != SshConnectionInfoValidationResult.Valid)
-            {
-                throw new ArgumentException(result.ToString(), nameof(sshConnectionInfo));
-            }
+                throw new ArgumentException(result.GetErrorString(), nameof(sshConnectionInfo));
 
-            var sshConnectionInfoVm = (SshConnectionInfoViewModel) sshConnectionInfo;
+            SshShellProfileViewModel sshConnectionInfoVm = (SshShellProfileViewModel) sshConnectionInfo;
 
-            var sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
+            StringBuilder sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
 
             sb.Append("://");
 
-            var containsUserInfo = false;
+            bool containsUserInfo = false;
 
             if (!string.IsNullOrEmpty(sshConnectionInfoVm.Username))
             {
@@ -283,55 +213,67 @@ namespace FluentTerminal.App.Services
                 containsUserInfo = true;
             }
 
-            if (!string.IsNullOrEmpty(sshConnectionInfoVm.IdentityFile) || sshConnectionInfoVm.SshOptions.Any())
+            if (!string.IsNullOrEmpty(sshConnectionInfoVm.IdentityFile))
             {
-                var first = true;
-
                 sb.Append(";");
 
                 if (!string.IsNullOrEmpty(sshConnectionInfoVm.IdentityFile))
                 {
                     sb.Append($"{IdentityFileOptionName}={HttpUtility.UrlEncode(sshConnectionInfoVm.IdentityFile)}");
-
-                    first = false;
-                }
-
-                foreach (string option in sshConnectionInfoVm.SshOptions.Select(ToUriOption))
-                {
-                    if (!first)
-                    {
-                        sb.Append(",");
-                    }
-
-                    sb.Append(option);
-
-                    first = false;
                 }
 
                 containsUserInfo = true;
             }
 
             if (containsUserInfo)
-            {
                 sb.Append("@");
-            }
 
             sb.Append(sshConnectionInfoVm.Host);
 
-            if (sshConnectionInfoVm.SshPort != SshConnectionInfoViewModel.DefaultSshPort)
+            if (sshConnectionInfoVm.SshPort != SshShellProfile.DefaultSshPort)
             {
                 sb.Append(":");
                 sb.Append(sshConnectionInfoVm.SshPort.ToString("#####"));
             }
 
+            bool queryStringAdded = false;
+
             if (sshConnectionInfoVm.UseMosh)
             {
-                sb.Append("?");
-                sb.Append(ValidMoshPortsNames[0]);
-                sb.Append("=");
-                sb.Append(sshConnectionInfoVm.MoshPortFrom.ToString("#####"));
-                sb.Append("-");
-                sb.Append(sshConnectionInfoVm.MoshPortTo.ToString("#####"));
+                sb.Append(
+                    $"?{ValidMoshPortsNames[0]}={sshConnectionInfo.MoshPortFrom:#####}-{sshConnectionInfo.MoshPortTo:#####}");
+
+                queryStringAdded = true;
+            }
+
+            if (!sshConnectionInfo.TerminalThemeId.Equals(Guid.Empty))
+            {
+                if (!queryStringAdded)
+                {
+                    sb.Append("?");
+
+                    queryStringAdded = true;
+                }
+                else
+                {
+                    sb.Append("&");
+                }
+
+                sb.Append($"{ThemeQueryStringParam}={sshConnectionInfo.TerminalThemeId}" );
+            }
+
+            if (sshConnectionInfo.TabThemeId != 0)
+            {
+                if (!queryStringAdded)
+                {
+                    sb.Append("?");
+                }
+                else
+                {
+                    sb.Append("&");
+                }
+
+                sb.Append($"{TabQueryStringParam}={sshConnectionInfo.TabThemeId:##########}");
             }
 
             return sb.ToString();

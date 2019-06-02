@@ -49,14 +49,6 @@ namespace FluentTerminal.SystemTray.Services
                 _terminals.Clear();
             }
 
-            string error = request.Profile?.CheckIfMosh();
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                return new CreateTerminalResponse
-                    {Error = error, ShellExecutableName = request.Profile.Location, Success = false};
-            }
-
             ITerminalSession terminal = null;
             try
             {

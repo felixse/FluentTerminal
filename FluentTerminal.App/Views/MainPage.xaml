@@ -54,7 +54,9 @@
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="NewRemoteTab" Command="{x:Bind ViewModel.AddRemoteShellCommand}">
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.AddRemoteShellCommand}"
+                            x:Uid="NewRemoteTab">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
@@ -64,7 +66,9 @@
                                 <SymbolIcon Symbol="Setting" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="About" Command="{x:Bind ViewModel.ShowAboutCommand}">
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ShowAboutCommand}"
+                            x:Uid="About">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"

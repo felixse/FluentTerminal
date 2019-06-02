@@ -12,16 +12,19 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
         private readonly Func<IInputDialog> _inputDialogFactory;
         private readonly Func<ISshConnectionInfoDialog> _sshConnectionInfoDialogFactory;
+        private readonly Func<ISshShellProfileSelectionDialog> _sshShellProfileSelectionDialogFactory;
 
         public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory,
             Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory,
-            Func<IInputDialog> inputDialogFactory, Func<ISshConnectionInfoDialog> sshConnectionInfoDialogFactory)
+            Func<IInputDialog> inputDialogFactory, Func<ISshConnectionInfoDialog> sshConnectionInfoDialogFactory,
+            Func<ISshShellProfileSelectionDialog> sshShellProfileSelectionDialogFactory)
         {
             _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
             _messageDialogFactory = messageDialogFactory;
             _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
             _inputDialogFactory = inputDialogFactory;
             _sshConnectionInfoDialogFactory = sshConnectionInfoDialogFactory;
+            _sshShellProfileSelectionDialogFactory = sshShellProfileSelectionDialogFactory;
         }
 
         public Task<KeyBinding> ShowCreateKeyBindingDialog()
@@ -75,7 +78,14 @@ namespace FluentTerminal.App.Services.Implementation
             return dialog.SelectProfile();
         }
 
-        public Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync(ISshConnectionInfo input = null) =>
+        public Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync(ISshConnectionInfo input) =>
             _sshConnectionInfoDialogFactory().GetSshConnectionInfoAsync(input);
+
+        public Task<SshShellProfile> ShowSshProfileSelectionDialogAsync()
+        {
+            var dialog = _sshShellProfileSelectionDialogFactory();
+
+            return dialog.SelectProfile();
+        }
     }
 }

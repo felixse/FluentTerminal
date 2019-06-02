@@ -128,6 +128,10 @@ namespace FluentTerminal.App.Views
                     case "mouse":
                         ContentFrame.Navigate(typeof(MouseSettings), ViewModel.Mouse);
                         break;
+
+                    case "sshprofiles":
+                        ContentFrame.Navigate(typeof(SshProfileSettings), ViewModel.SshShell);
+                        break;
                 }
             }
 
