@@ -2,8 +2,12 @@
 
 namespace FluentTerminal.Models.Requests
 {
-    public class CreateTerminalRequest
+    public class CreateTerminalRequest : IMessage
     {
+        public const byte Identifier = 1;
+
+        byte IMessage.Identifier => Identifier;
+
         public int Id { get; set; }
         public TerminalSize Size { get; set; }
         public ShellProfile Profile { get; set; }

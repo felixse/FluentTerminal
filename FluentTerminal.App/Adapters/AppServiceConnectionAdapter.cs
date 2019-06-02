@@ -12,7 +12,7 @@ namespace FluentTerminal.App.Adapters
     {
         private readonly AppServiceConnection _appServiceConnection;
 
-        public event EventHandler<IDictionary<string, string>> MessageReceived;
+        public event EventHandler<ValueSet> MessageReceived;
 
         public AppServiceConnectionAdapter(AppServiceConnection appServiceConnection)
         {
@@ -22,35 +22,16 @@ namespace FluentTerminal.App.Adapters
 
         private void OnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            var messageType = (string)args.Request.Message[MessageKeys.Type];
-            var messageContent = (string)args.Request.Message[MessageKeys.Content];
-
-            MessageReceived?.Invoke(this, new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = messageType,
-                [MessageKeys.Content] = messageContent
-            });
+            MessageReceived?.Invoke(this, args.Request.Message);
         }
 
-        public async Task<IDictionary<string, string>> SendMessageAsync(IDictionary<string, string> message)
+        public async Task<ValueSet> SendMessageAsync(ValueSet message)
         {
-            var valueSet = new ValueSet();
-
-            foreach (var pair in message)
-            {
-                valueSet.Add(pair.Key, pair.Value);
-            }
-
-            var response = await _appServiceConnection.SendMessageAsync(valueSet).AsTask();
+            var response = await _appServiceConnection.SendMessageAsync(message).AsTask();
 
             if (response.Status == AppServiceResponseStatus.Success)
             {
-                var responseDict = new Dictionary<string, string>();
-                foreach (var pair in response.Message)
-                {
-                    responseDict.Add(pair.Key, (string)pair.Value);
-                }
-                return responseDict;
+                return response.Message;
             }
             return null;
         }

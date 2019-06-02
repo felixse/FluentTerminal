@@ -1,6 +1,10 @@
 ﻿namespace FluentTerminal.Models.Requests
 {
-    public class TerminalExitedRequest {
+    public class TerminalExitedRequest : IMessage
+    {
+        public const byte Identifier = 7;
+
+        byte IMessage.Identifier => Identifier;
 
         public int TerminalId { get; set; }
         public int ExitCode { get; set; }

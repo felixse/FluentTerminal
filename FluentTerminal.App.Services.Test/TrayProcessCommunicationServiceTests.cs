@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Xunit;
 
 namespace FluentTerminal.App.Services.Test
@@ -34,12 +35,12 @@ namespace FluentTerminal.App.Services.Test
             });
             var appServiceConnection = new Mock<IAppServiceConnection>();
             var response = _fixture.Create<CreateTerminalResponse>();
-            var responseMessage = new Dictionary<string, string>
+            var responseMessage = new ValueSet
             {
                 [MessageKeys.Type] = _fixture.Create<string>(),
                 [MessageKeys.Content] = JsonConvert.SerializeObject(response)
             };
-            appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<IDictionary<string, string>>())).Returns(Task.FromResult((IDictionary<string, string>)responseMessage));
+            appServiceConnection.Setup(x => x.SendMessageAsync(It.IsAny<ValueSet>())).Returns(Task.FromResult(responseMessage));
             var terminalSize = _fixture.Create<TerminalSize>();
             var shellProfile = _fixture.Create<ShellProfile>();
             var sessionType = _fixture.Create<SessionType>();
@@ -69,7 +70,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(ResizeTerminalRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == ResizeTerminalRequest.Identifier)), Times.Once);
         }
 
         [Fact]
@@ -89,7 +90,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.Write(terminalId, data);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(WriteDataRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == Constants.TerminalBufferRequestIdentifier)), Times.Once);
         }
 
         [Fact]
@@ -108,7 +109,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.CloseTerminal(terminalId);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<IDictionary<string, string>>(d => d[MessageKeys.Type] == nameof(TerminalExitedRequest))), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == TerminalExitedRequest.Identifier)), Times.Once);
         }
 
         [Fact]
@@ -118,9 +119,9 @@ namespace FluentTerminal.App.Services.Test
 
             var receivedExitStatus = (TerminalExitStatus) null;
 
-            var message = new Dictionary<string, string>
+            var message = new ValueSet
             {
-                [MessageKeys.Type] = nameof(TerminalExitedRequest),
+                [MessageKeys.Type] = TerminalExitedRequest.Identifier,
                 [MessageKeys.Content] = JsonConvert.SerializeObject(request)
             };
             var settingsService = new Mock<ISettingsService>();
@@ -150,15 +151,11 @@ namespace FluentTerminal.App.Services.Test
             var terminalId = _fixture.Create<int>();
             var output = _fixture.Create<byte[]>();
             var receivedOutput = default(byte[]);
-            var request = new DisplayTerminalOutputRequest
+            var message = new ValueSet
             {
-                TerminalId = terminalId,
-                Output = output
-            };
-            var message = new Dictionary<string, string>
-            {
-                [MessageKeys.Type] = nameof(DisplayTerminalOutputRequest),
-                [MessageKeys.Content] = JsonConvert.SerializeObject(request)
+                [MessageKeys.Type] = Constants.TerminalBufferRequestIdentifier,
+                [MessageKeys.TerminalId] = terminalId,
+                [MessageKeys.Content] = output
             };
             var settingsService = new Mock<ISettingsService>();
             var keyBindings = _fixture.CreateMany<KeyBinding>(3);

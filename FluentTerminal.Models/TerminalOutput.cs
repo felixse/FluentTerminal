@@ -1,9 +1,8 @@
-﻿namespace FluentTerminal.Models.Requests
+﻿namespace FluentTerminal.Models
 {
-    public class WriteDataRequest
+    public class TerminalOutput
     {
         public int TerminalId { get; set; }
-
         public byte[] Data { get; set; }
     }
 }

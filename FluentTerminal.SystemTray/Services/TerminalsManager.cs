@@ -17,23 +17,17 @@ namespace FluentTerminal.SystemTray.Services
     public class TerminalsManager
     {
         private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
-        private readonly ISettingsService _settingsService;
 
-        public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
+        public event EventHandler<TerminalOutput> DisplayOutputRequested;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
-        public TerminalsManager(ISettingsService settingsService)
-        {
-            _settingsService = settingsService;
-        }
-
         public void DisplayTerminalOutput(int terminalId, byte[] output)
         {
-            DisplayOutputRequested?.Invoke(this, new DisplayTerminalOutputRequest
+            DisplayOutputRequested?.Invoke(this, new TerminalOutput
             {
                 TerminalId = terminalId,
-                Output = output
+                Data = output
             });
         }
 

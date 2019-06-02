@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentTerminal.Models.Requests
+﻿namespace FluentTerminal.Models.Requests
 {
-    public class GetUserNameRequest
+    public class GetUserNameRequest : IMessage
     {
+        public const byte Identifier = 3;
+
+        byte IMessage.Identifier => Identifier;
     }
 }
