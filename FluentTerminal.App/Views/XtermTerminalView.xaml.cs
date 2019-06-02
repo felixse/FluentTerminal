@@ -351,7 +351,7 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
-            _socket.Send(Encoding.UTF8.GetString(e));
+            _socket.Send(e);
         }
 
         void IxtermEventListener.OnError(string error)

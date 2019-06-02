@@ -1,5 +1,5 @@
 import { Terminal, ITerminalOptions } from 'xterm';
-import * as attach from "xterm/lib/addons/attach/attach";
+import * as attach from "./attach/attach";
 import * as fit from "xterm/lib/addons/fit/fit";
 import * as search from "xterm/lib/addons/search/search";
 
@@ -136,6 +136,7 @@ function attachTerminal() {
 
 window.connectToWebSocket =  (url: string) => {
   socket = new WebSocket(url);
+  socket.binaryType = 'arraybuffer';
   socket.onerror = function (event) {
     window.terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
   }
