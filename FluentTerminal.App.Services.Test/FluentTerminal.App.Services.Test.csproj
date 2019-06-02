@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -32,6 +32,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\References\10.0.16299.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
 </Project>

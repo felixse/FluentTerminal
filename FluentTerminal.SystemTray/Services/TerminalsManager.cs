@@ -16,24 +16,18 @@ namespace FluentTerminal.SystemTray.Services
 {
     public class TerminalsManager
     {
-        private readonly Dictionary<int, ITerminalSession> _terminals = new Dictionary<int, ITerminalSession>();
-        private readonly ISettingsService _settingsService;
+        private readonly Dictionary<byte, ITerminalSession> _terminals = new Dictionary<byte, ITerminalSession>();
 
-        public event EventHandler<DisplayTerminalOutputRequest> DisplayOutputRequested;
+        public event EventHandler<TerminalOutput> DisplayOutputRequested;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
-        public TerminalsManager(ISettingsService settingsService)
+        public void DisplayTerminalOutput(byte terminalId, byte[] output)
         {
-            _settingsService = settingsService;
-        }
-
-        public void DisplayTerminalOutput(int terminalId, byte[] output)
-        {
-            DisplayOutputRequested?.Invoke(this, new DisplayTerminalOutputRequest
+            DisplayOutputRequested?.Invoke(this, new TerminalOutput
             {
                 TerminalId = terminalId,
-                Output = output
+                Data = output
             });
         }
 
@@ -84,7 +78,7 @@ namespace FluentTerminal.SystemTray.Services
             };
         }
 
-        public void Write(int id, byte[] data)
+        public void Write(byte id, byte[] data)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
@@ -92,7 +86,7 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
-        public void ResizeTerminal(int id, TerminalSize size)
+        public void ResizeTerminal(byte id, TerminalSize size)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {
@@ -104,7 +98,7 @@ namespace FluentTerminal.SystemTray.Services
             }
         }
 
-        public void CloseTerminal(int id)
+        public void CloseTerminal(byte id)
         {
             if (_terminals.TryGetValue(id, out ITerminalSession terminal))
             {

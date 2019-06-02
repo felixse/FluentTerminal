@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
 namespace FluentTerminal.App.Services
 {
     public interface IAppServiceConnection
     {
-        event EventHandler<IDictionary<string, string>> MessageReceived;
+        event EventHandler<ValueSet> MessageReceived;
 
-        Task<IDictionary<string, string>> SendMessageAsync(IDictionary<string, string> message);
+        Task<ValueSet> SendMessageAsync(ValueSet message);
     }
 }
