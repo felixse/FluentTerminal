@@ -15,6 +15,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -38,6 +39,12 @@ namespace FluentTerminal.App.Views
         private WebView _webView;
         private readonly DebouncedAction<TerminalOptions> _optionsChanged;
         private IWebSocketConnection _socket;
+
+        // Members related to resize handling
+        private readonly DebouncedAction<TerminalSize> _sizeChanged;
+        private ManualResetEventSlim _outputBlocked;
+        private MemoryStream _outputBlockedBuffer;
+        private readonly DebouncedAction<bool> _unblockOutput;
 
         public XtermTerminalView()
         {
@@ -69,6 +76,25 @@ namespace FluentTerminal.App.Views
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
             });
+
+            // _sizedChanged is used to debounce terminal resize events to
+            // avoid spamming the terminal with them (this can result in
+            // buffer corruption).
+            _sizeChanged = new DebouncedAction<TerminalSize>(Dispatcher, TimeSpan.FromMilliseconds(1000), async size => {
+                await ViewModel.Terminal.SetSize(size).ConfigureAwait(true);
+
+                // Allow output to the terminal soon (hopefully, once the resize event has been processed).
+                _unblockOutput.Invoke(true);
+            });
+
+            _outputBlockedBuffer = new MemoryStream();
+            _outputBlocked = new ManualResetEventSlim();
+
+            // _unblockOutput allows output to the terminal again, 500ms after it invoked.
+            _unblockOutput = new DebouncedAction<bool>(Dispatcher, TimeSpan.FromMilliseconds(500), x => {
+                _outputBlocked.Reset();
+            });
+
 
             _navigationCompleted = new SemaphoreSlim(0, 1);
             _connectedEvent = new ManualResetEventSlim(false);
@@ -214,7 +240,10 @@ namespace FluentTerminal.App.Views
         {
             if (_connectedEvent.IsSet) // only propagate after xterm.js is finished with fitting
             {
-                _dispatcherJobs.Add(async () => await ViewModel.Terminal.SetSize(new TerminalSize { Columns = columns, Rows = rows }).ConfigureAwait(true));
+                // Prevent output from being sent during the terminal while
+                // resize events are being processed (to avoid buffer corruption).
+                _outputBlocked.Set(); 
+                _dispatcherJobs.Add(() => _sizeChanged.Invoke(new TerminalSize { Columns = columns, Rows = rows }));
             }
         }
 
@@ -353,7 +382,22 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
-            _socket.Send(e);
+            if (_outputBlocked.IsSet)
+            {
+                // Output to the terminal is currently blocked. Hold on to the output.
+                _outputBlockedBuffer.Write(e, 0, e.Length);
+            }
+            else
+            {
+                // Output to the terminal is not blocked. Send any previously
+                // buffered output first, and then the output for the current
+                // event.
+                if (_outputBlockedBuffer.Length > 0) {
+                    _socket.Send(_outputBlockedBuffer.ToArray());
+                    _outputBlockedBuffer.SetLength(0);
+                }
+                _socket.Send(e);
+            }
         }
 
         void IxtermEventListener.OnError(string error)

@@ -112,7 +112,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public event EventHandler<int> ConnectionClosed;
 
-        public int Id { get; private set; }
+        public byte Id { get; private set; }
 
         public string ShellExecutableName { get; private set; }
 

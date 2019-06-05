@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentTerminal.Models
+﻿namespace FluentTerminal.Models
 {
     public class TerminalExitStatus
     {
-        public TerminalExitStatus(int terminalId, int exitCode)
+        public TerminalExitStatus(byte terminalId, int exitCode)
         {
             TerminalId = terminalId;
             ExitCode = exitCode;
         }
 
-        public int TerminalId { get; set; }
+        public byte TerminalId { get; set; }
         public int ExitCode { get; set; }
     }
 }

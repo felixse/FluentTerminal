@@ -2,8 +2,10 @@
 {
     public static class MessageKeys
     {
-        public static string Type => nameof(Type);
+        public static string Type => "T";
 
-        public static string Content => nameof(Content);
+        public static string Content => "C";
+
+        public static string TerminalId => "I";
     }
 }
