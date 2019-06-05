@@ -230,7 +230,7 @@ namespace FluentTerminal.App
                     if (mainViewModel == null)
                         await CreateTerminal(connectionInfo, _applicationSettings.NewTerminalLocation);
                     else
-                        mainViewModel.AddTerminal(connectionInfo);
+                        await mainViewModel.AddTerminalAsync(connectionInfo);
 
                     return;
                 }
@@ -347,11 +347,11 @@ namespace FluentTerminal.App
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
                 {
-                    viewModel.AddTerminal(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
+                    await viewModel.AddTerminalAsync(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 }
                 else
                 {
-                    viewModel.AddTerminal();
+                    await viewModel.AddTerminalAsync();
                 }
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
@@ -412,6 +412,7 @@ namespace FluentTerminal.App
             _appServiceDeferral = null;
             _appServiceConnection = null;
 
+            // ReSharper disable once ArrangeStaticMemberQualifier
             Application.Current.Exit();
         }
 
@@ -531,15 +532,15 @@ namespace FluentTerminal.App
             }
             else if (e.ShowSelection == ProfileSelection.ShowSshProfileSelection)
             {
-                await viewModel.AddSavedShhRemoteTerminal().ConfigureAwait(true);
+                await viewModel.AddSavedShhRemoteTerminalAsync().ConfigureAwait(true);
             }
             else if (e.ShowSelection == ProfileSelection.ShowNewSshTab)
             {
-                await viewModel.AddRemoteTerminal().ConfigureAwait(true);
+                await viewModel.AddRemoteTerminalAsync().ConfigureAwait(true);
             }
             else
             {
-                viewModel.AddTerminal();
+                await viewModel.AddTerminalAsync();
             }
         }
 
@@ -572,7 +573,7 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                viewModel.AddTerminal(profile);
+                await viewModel.AddTerminalAsync(profile);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
             }
             else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
@@ -581,17 +582,17 @@ namespace FluentTerminal.App
                 MainViewModel item = _mainViewModels.FirstOrDefault(o => o.ApplicationView.Id == _activeWindowId);
                 if (item != null)
                 {
-                    item.AddTerminal(profile);
+                    await item.AddTerminalAsync(profile);
                 }
                 else
                 {
-                    _mainViewModels.Last().AddTerminal(profile);
+                    await _mainViewModels.Last().AddTerminalAsync(profile);
                 }
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-                viewModel.AddTerminal(profile);
+                await viewModel.AddTerminalAsync(profile);
             }
         }
 
