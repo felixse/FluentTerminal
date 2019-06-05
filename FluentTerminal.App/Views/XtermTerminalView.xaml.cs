@@ -224,7 +224,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnSelectionChanged(string selection)
         {
-            if (ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
+            if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
             {
                 _dispatcherJobs.Add(async () =>
                 {
