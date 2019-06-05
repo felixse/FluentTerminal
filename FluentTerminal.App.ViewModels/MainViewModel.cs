@@ -258,7 +258,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await ApplicationView.RunOnDispatcherThread(() => AddTerminalAsync(profile));
+                await AddTerminalAsync(profile);
             }
         }
         public Task AddRemoteTerminalAsync(Guid shellProfileId)

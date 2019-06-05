@@ -524,23 +524,48 @@ namespace FluentTerminal.App
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
-            var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+            ShellProfile profile = null;
 
             if (e.ShowSelection == ProfileSelection.ShowProfileSelection)
             {
-                await viewModel.AddConfigurableTerminal().ConfigureAwait(true);
+                profile = await _dialogService.ShowProfileSelectionDialogAsync();
+
+                if (profile == null)
+                {
+                    // Nothing to do if user cancels.
+                    return;
+                }
             }
             else if (e.ShowSelection == ProfileSelection.ShowSshProfileSelection)
             {
-                await viewModel.AddSavedShhRemoteTerminalAsync().ConfigureAwait(true);
+                profile = await _sshHelperService.Value.GetSavedSshShellProfileAsync();
+
+                if (profile == null)
+                {
+                    // Nothing to do if user cancels.
+                    return;
+                }
             }
             else if (e.ShowSelection == ProfileSelection.ShowNewSshTab)
             {
-                await viewModel.AddRemoteTerminalAsync().ConfigureAwait(true);
+                profile = await _sshHelperService.Value.GetSshShellProfileAsync(new SshShellProfile());
+
+                if (profile == null)
+                {
+                    // Nothing to do if user cancels.
+                    return;
+                }
+            }
+
+            var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+
+            if (profile == null)
+            {
+                await viewModel.AddTerminalAsync();
             }
             else
             {
-                await viewModel.AddTerminalAsync();
+                await viewModel.AddTerminalAsync(profile);
             }
         }
 
