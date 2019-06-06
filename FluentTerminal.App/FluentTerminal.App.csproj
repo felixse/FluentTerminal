@@ -137,6 +137,12 @@
     <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
       <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
+      <DependentUpon>SshInfoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SshProfileSelectionDialog.xaml.cs">
+      <DependentUpon>SshProfileSelectionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\ApplicationLanguageService.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
@@ -170,6 +176,9 @@
     <Compile Include="Views\SettingsPages\MouseSettings.xaml.cs">
       <DependentUpon>MouseSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsPages\SshProfileSettings.xaml.cs">
+      <DependentUpon>SshProfileSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPages\ThemeSettings.xaml.cs">
       <DependentUpon>ThemeSettings.xaml</DependentUpon>
     </Compile>
@@ -184,9 +193,6 @@
     </Compile>
     <Compile Include="Views\SettingsPages\ShellProfileSettings.xaml.cs">
       <DependentUpon>ShellProfileSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
-      <DependentUpon>SshInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBar.xaml.cs">
       <DependentUpon>TabBar.xaml</DependentUpon>
@@ -373,6 +379,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\SshInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SshProfileSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\KeyBindingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -406,6 +420,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SettingsPages\SshProfileSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingsPages\ThemeSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,10 +443,6 @@
     <Page Include="Views\SettingsPages\ShellProfileSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\SshInfoDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TabBar.xaml">
       <SubType>Designer</SubType>

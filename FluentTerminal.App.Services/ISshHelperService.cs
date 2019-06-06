@@ -10,9 +10,9 @@ namespace FluentTerminal.App.Services
 
         ISshConnectionInfo ParseSsh(Uri uri);
 
-        ShellProfile CreateShellProfile(ISshConnectionInfo sshConnectionInfo);
+        Task<SshProfile> GetSshProfileAsync(SshProfile profile);
 
-        Task<ShellProfile> GetSshShellProfileAsync();
+        Task<SshProfile> GetSavedSshProfileAsync();
 
         string ConvertToUri(ISshConnectionInfo sshConnectionInfo);
     }

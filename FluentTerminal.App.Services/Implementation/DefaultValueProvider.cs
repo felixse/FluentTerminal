@@ -115,8 +115,9 @@ namespace FluentTerminal.App.Services.Implementation
                         new KeyBinding
                         {
                             Command = nameof(Command.NewSshTab),
-                            Alt = true,
-                            Key = (int)ExtendedVirtualKey.T
+                            Ctrl = true,
+                            Shift = true,
+                            Key = (int)ExtendedVirtualKey.Y
                         }
                     };
 
@@ -268,6 +269,47 @@ namespace FluentTerminal.App.Services.Implementation
                         Key = (int)ExtendedVirtualKey.L
                     }
                 };
+
+                case Command.SavedSshNewTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.SavedSshNewTab),
+                            Ctrl = true,
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.Y
+                        }
+                    };
+
+                case Command.SavedSshNewWindow:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.SavedSshNewWindow),
+                            Ctrl = true,
+                            Alt = true,
+                            Shift = true,
+                            Key = (int)ExtendedVirtualKey.Z
+                        }
+                    };
+
+                case Command.NewSshWindow:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewSshWindow),
+                            Ctrl = true,
+                            Alt = true,
+                            Shift = true,
+                            Key = (int)ExtendedVirtualKey.Y
+                        }
+                    };
+
+
+                    
             }
 
             return null;
@@ -331,6 +373,7 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             };
         }
+
         public TerminalOptions GetDefaultTerminalOptions()
         {
             return new TerminalOptions

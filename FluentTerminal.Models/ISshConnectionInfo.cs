@@ -1,6 +1,8 @@
-﻿using FluentTerminal.Models.Enums;
+﻿using System;
+using FluentTerminal.Models.Enums;
 
-namespace FluentTerminal.App.Services
+
+namespace FluentTerminal.Models
 {
     public interface ISshConnectionInfo
     {
@@ -12,14 +14,20 @@ namespace FluentTerminal.App.Services
 
         string IdentityFile { get; set; }
 
+        LineEndingStyle LineEndingTranslation { get; set; }
+
         bool UseMosh { get; set; }
 
         ushort MoshPortFrom { get; set; }
 
         ushort MoshPortTo { get; set; }
 
-        LineEndingStyle LineEndingStyle { get; set; }
+        Guid TerminalThemeId { get; set; }
+
+        int TabThemeId { get; set; }
 
         SshConnectionInfoValidationResult Validate(bool allowNoUser = false);
+
+        bool UseConPty { get; set; }
     }
 }

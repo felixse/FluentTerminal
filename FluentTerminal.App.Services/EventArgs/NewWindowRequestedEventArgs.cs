@@ -2,6 +2,6 @@
 {
     public class NewWindowRequestedEventArgs : System.EventArgs
     {
-        public bool ShowProfileSelection { get; set; }
+        public Models.Enums.ProfileSelection ShowSelection { get; set; }
     }
 }

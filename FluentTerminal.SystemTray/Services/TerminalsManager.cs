@@ -1,5 +1,4 @@
-﻿using FluentTerminal.App.Services;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
@@ -41,14 +40,6 @@ namespace FluentTerminal.SystemTray.Services
                     item.Dispose();
                 }
                 _terminals.Clear();
-            }
-
-            string error = request.Profile?.CheckIfMosh();
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                return new CreateTerminalResponse
-                    {Error = error, ShellExecutableName = request.Profile.Location, Success = false};
             }
 
             ITerminalSession terminal = null;

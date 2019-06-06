@@ -9,10 +9,10 @@
     <Grid x:Name="Root">
         <TextBlock
             x:Name="AppTitle"
+            x:Uid="Settings"
             Canvas.ZIndex="1"
             IsHitTestVisible="False"
             Style="{StaticResource CaptionTextBlockStyle}"
-            x:Uid="Settings"
             Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}" />
         <NavigationView
             x:Name="NavigationView"
@@ -25,7 +25,10 @@
             OpenPaneLength="200"
             SelectionChanged="NavigationView_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Uid="Setting_General" Content="General" Tag="general">
+                <NavigationViewItem
+                    x:Uid="Setting_General"
+                    Content="General"
+                    Tag="general">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -33,7 +36,10 @@
                             ToolTipService.ToolTip="General" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Setting_Terminal" Content="Terminal" Tag="terminal">
+                <NavigationViewItem
+                    x:Uid="Setting_Terminal"
+                    Content="Terminal"
+                    Tag="terminal">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -41,7 +47,10 @@
                             ToolTipService.ToolTip="Terminal" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Setting_Profiles" Content="Profiles" Tag="profiles">
+                <NavigationViewItem
+                    x:Uid="Setting_Profiles"
+                    Content="Profiles"
+                    Tag="profiles">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -49,7 +58,21 @@
                             ToolTipService.ToolTip="Shell" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Setting_Keybindings" Content="Keybindings" Tag="keyBindings">
+                <NavigationViewItem
+                    x:Uid="Setting_SShProfiles"
+                    Content="SSH Profiles"
+                    Tag="sshprofiles">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
+                            Glyph="a"
+                            ToolTipService.ToolTip="Shell" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Uid="Setting_Keybindings"
+                    Content="Keybindings"
+                    Tag="keyBindings">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -57,7 +80,10 @@
                             ToolTipService.ToolTip="Keybindings" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Setting_Mouse" Content="Mouse" Tag="mouse">
+                <NavigationViewItem
+                    x:Uid="Setting_Mouse"
+                    Content="Mouse"
+                    Tag="mouse">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -65,7 +91,10 @@
                             ToolTipService.ToolTip="Keybindings" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Setting_Themes" Content="Themes" Tag="themes">
+                <NavigationViewItem
+                    x:Uid="Setting_Themes"
+                    Content="Themes"
+                    Tag="themes">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
@@ -75,7 +104,10 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
-                <NavigationViewItem x:Uid="Setting_About" Content="About" Tapped="AboutTapped">
+                <NavigationViewItem
+                    x:Uid="Setting_About"
+                    Content="About"
+                    Tapped="AboutTapped">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="Segoe MDL2 Assets"
@@ -87,10 +119,10 @@
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
                 <TextBlock
+                    x:Uid="Settings"
                     Margin="12,8,0,0"
                     IsHitTestVisible="False"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    x:Uid="Settings"
                     Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource FalseToVisibleConverter}}" />
             </Grid>
         </NavigationView>

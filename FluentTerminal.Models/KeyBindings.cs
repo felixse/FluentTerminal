@@ -17,5 +17,7 @@ namespace FluentTerminal.Models
         public ICollection<KeyBinding> Copy { get; set; }
         public ICollection<KeyBinding> Paste { get; set; }
         public ICollection<KeyBinding> Search { get; set; }
+        public ICollection<KeyBinding> SavedSshNewTab { get; set; }
+        public ICollection<KeyBinding> SavedSshNewWindow { get; set; }
     }
 }

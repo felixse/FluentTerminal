@@ -1,12 +1,17 @@
-﻿using FluentTerminal.Models.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows.Input;
-using FluentTerminal.Models;
+
+using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Requests;
+using FluentTerminal.Models.Responses;
+
 
 namespace FluentTerminal.SystemTray
 {
@@ -495,37 +500,51 @@ namespace FluentTerminal.SystemTray
             }
         }
 
-        #region Mosh locator
+        #region Mosh/SSH locator
 
 #if X64
         private const string MoshArchDir = @"x64";
 #else
         private const string MoshArchDir = @"x86";
 #endif
-
-        internal static string CheckIfMosh(this ShellProfile profile)
+        internal static GetMoshSshExecutablePathResponse GetResponse(this GetMoshSshExecutablePathRequest request)
         {
-            if (profile?.Location == null)
+            var response = new GetMoshSshExecutablePathResponse();
+
+            try
             {
-                return null;
+                response.Path = request.IsMosh ? GetMoshPath() : GetSshPath();
+
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Error = ex.Message;
+            }
+            
+            return response;
+        }
+
+        private static string GetSshPath()
+        {
+            //
+            // See https://stackoverflow.com/a/25919981
+            //
+
+            string path;
+
+            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+            {
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Sysnative");
+            }
+            else
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.System);
             }
 
-            string location = profile.Location.Trim();
+            path = Path.Combine(path, @"OpenSSH\ssh.exe");
 
-            if (location.Equals("mosh.exe", StringComparison.OrdinalIgnoreCase) ||
-                location.Equals("mosh", StringComparison.OrdinalIgnoreCase))
-            {
-                location = GetMoshPath();
-
-                if (string.IsNullOrEmpty(location))
-                {
-                    return "mosh.exe not found.";
-                }
-
-                profile.Location = location;
-            }
-
-            return null;
+            return System.IO.File.Exists(path) ? path : null;
         }
 
         private static string GetMoshPath()
@@ -547,7 +566,7 @@ namespace FluentTerminal.SystemTray
             return null;
         }
 
-        #endregion Mosh locator
+        #endregion Mosh/SSH locator
 
         internal static void SaveFile(string path, string content)
         {
