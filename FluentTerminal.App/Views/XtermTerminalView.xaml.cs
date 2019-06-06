@@ -108,7 +108,7 @@ namespace FluentTerminal.App.Views
         {
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
-            var sshprofiles = ViewModel.SettingsService.GetSshShellProfiles();
+            var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
             var serialized = JsonConvert.SerializeObject(FlattenKeyBindings(keyBindings, profiles, sshprofiles));
             return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
         }
@@ -154,7 +154,7 @@ namespace FluentTerminal.App.Views
             var options = ViewModel.SettingsService.GetTerminalOptions();
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
-            var sshprofiles = ViewModel.SettingsService.GetSshShellProfiles();
+            var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
             var settings = ViewModel.SettingsService.GetApplicationSettings();
             var theme = ViewModel.TerminalTheme;
             var sessionType = SessionType.Unknown;
@@ -332,7 +332,7 @@ namespace FluentTerminal.App.Views
             return Task.FromResult(string.Empty);
         }
 
-        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshShellProfile> sshprofiles)
+        private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshProfile> sshprofiles)
         {
             return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings).Concat(sshprofiles.SelectMany(x => x.KeyBindings)));
         }

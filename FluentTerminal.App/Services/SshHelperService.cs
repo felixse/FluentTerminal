@@ -86,7 +86,7 @@ namespace FluentTerminal.App.Services
 
         public ISshConnectionInfo ParseSsh(Uri uri)
         {
-            SshShellProfileViewModel vm = new SshShellProfileViewModel(null, _settingsService, _dialogService,
+            SshProfileViewModel vm = new SshProfileViewModel(null, _settingsService, _dialogService,
                 _fileSystemService, _applicationView, _trayProcessCommunicationService, true)
             {
                 Host = uri.Host,
@@ -173,12 +173,12 @@ namespace FluentTerminal.App.Services
             return vm;
         }
 
-        public async Task<SshShellProfile> GetSshShellProfileAsync(SshShellProfile profile)
+        public async Task<SshProfile> GetSshProfileAsync(SshProfile profile)
         {
-            SshShellProfileViewModel vm = new SshShellProfileViewModel(profile, _settingsService, _dialogService,
+            SshProfileViewModel vm = new SshProfileViewModel(profile, _settingsService, _dialogService,
                 _fileSystemService, _applicationView, _trayProcessCommunicationService, true);
 
-            vm = (SshShellProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
+            vm = (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
 
             if (vm != null)
             {
@@ -188,7 +188,7 @@ namespace FluentTerminal.App.Services
             return vm?.Model;
         }
 
-        public Task<SshShellProfile> GetSavedSshShellProfileAsync() =>
+        public Task<SshProfile> GetSavedSshProfileAsync() =>
             _dialogService.ShowSshProfileSelectionDialogAsync();
 
         public string ConvertToUri(ISshConnectionInfo sshConnectionInfo)
@@ -198,7 +198,7 @@ namespace FluentTerminal.App.Services
             if (result != SshConnectionInfoValidationResult.Valid)
                 throw new ArgumentException(result.GetErrorString(), nameof(sshConnectionInfo));
 
-            SshShellProfileViewModel sshConnectionInfoVm = (SshShellProfileViewModel) sshConnectionInfo;
+            SshProfileViewModel sshConnectionInfoVm = (SshProfileViewModel) sshConnectionInfo;
 
             StringBuilder sb = new StringBuilder(sshConnectionInfoVm.UseMosh ? MoshUriScheme : SshUriScheme);
 
@@ -230,7 +230,7 @@ namespace FluentTerminal.App.Services
 
             sb.Append(sshConnectionInfoVm.Host);
 
-            if (sshConnectionInfoVm.SshPort != SshShellProfile.DefaultSshPort)
+            if (sshConnectionInfoVm.SshPort != SshProfile.DefaultSshPort)
             {
                 sb.Append(":");
                 sb.Append(sshConnectionInfoVm.SshPort.ToString("#####"));

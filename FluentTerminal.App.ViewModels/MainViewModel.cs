@@ -38,8 +38,8 @@ namespace FluentTerminal.App.ViewModels
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded += OnShellProfileAdded;
             _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
-            _settingsService.SshShellProfileAdded += OnSshShellProfileAdded;
-            _settingsService.SshShellProfileDeleted += OnSshShellProfileDeleted;
+            _settingsService.SshProfileAdded += OnSshProfileAdded;
+            _settingsService.SshProfileDeleted += OnSshProfileDeleted;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
@@ -81,7 +81,7 @@ namespace FluentTerminal.App.ViewModels
                 _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddTerminalAsync(profile.Id));
             }
 
-            foreach (SshShellProfile profile in _settingsService.GetSshShellProfiles())
+            foreach (SshProfile profile in _settingsService.GetSshProfiles())
             {
                 _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddRemoteTerminalAsync(profile.Id));
             }
@@ -118,11 +118,11 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminalAsync(e.Id));
         }
 
-        private void OnSshShellProfileAdded(object sender, ShellProfile e)
+        private void OnSshProfileAdded(object sender, ShellProfile e)
         {
             _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddRemoteTerminalAsync(e.Id));
         }
-        private void OnSshShellProfileDeleted(object sender, Guid e)
+        private void OnSshProfileDeleted(object sender, Guid e)
         {
             _keyboardCommandService.DeregisterCommandHandler(e.ToString());
         }
@@ -246,7 +246,7 @@ namespace FluentTerminal.App.ViewModels
 
         public async Task AddRemoteTerminalAsync()
         {
-            SshShellProfile profile = await _sshHelperService.GetSshShellProfileAsync(new SshShellProfile());
+            SshProfile profile = await _sshHelperService.GetSshProfileAsync(new SshProfile());
 
             if (profile == null)
             {
@@ -263,13 +263,13 @@ namespace FluentTerminal.App.ViewModels
         }
         public Task AddRemoteTerminalAsync(Guid shellProfileId)
         {
-            var profile = _settingsService.GetSshShellProfile(shellProfileId);
+            var profile = _settingsService.GetSshProfile(shellProfileId);
             return AddTerminalAsync(profile);
         }
 
         public async Task AddSavedShhRemoteTerminalAsync()
         {
-            ShellProfile profile = await _sshHelperService.GetSavedSshShellProfileAsync();
+            ShellProfile profile = await _sshHelperService.GetSavedSshProfileAsync();
 
             if (profile == null)
             {

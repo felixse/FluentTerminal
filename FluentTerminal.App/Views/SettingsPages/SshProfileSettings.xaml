@@ -4,12 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FluentTerminal.Models"
     xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
-    xmlns:views="using:FluentTerminal.App.Views" 
-    xmlns:enums="using:FluentTerminal.Models.Enums"
+    xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
 
 
@@ -126,27 +126,27 @@
                 VerticalAlignment="Top"
                 Background="Transparent"
                 DefaultLabelPosition="Right"
-                Visibility="{x:Bind ViewModel.SelectedSshShellProfile.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                Visibility="{x:Bind ViewModel.SelectedSshProfile.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                 <AppBarButton
                     x:Uid="SetDefaultAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshShellProfile.SetDefaultCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.SelectedSshProfile.SetDefaultCommand, Mode=OneWay}"
                     Icon="Accept"
-                    IsEnabled="{x:Bind ViewModel.SelectedSshShellProfile.IsDefault, Mode=OneWay, Converter={StaticResource NegateConverter}}"
+                    IsEnabled="{x:Bind ViewModel.SelectedSshProfile.IsDefault, Mode=OneWay, Converter={StaticResource NegateConverter}}"
                     Label="Set Default" />
                 <AppBarButton
                     x:Uid="CloneAppBarButton"
                     Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
-                    CommandParameter="{x:Bind ViewModel.SelectedSshShellProfile, Mode=OneWay}"
+                    CommandParameter="{x:Bind ViewModel.SelectedSshProfile, Mode=OneWay}"
                     Icon="Copy"
                     Label="Clone" />
                 <AppBarButton
                     x:Uid="EditAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshShellProfile.EditCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.SelectedSshProfile.EditCommand, Mode=OneWay}"
                     Icon="Edit"
                     Label="Edit" />
                 <AppBarButton
                     x:Uid="DeleteAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshShellProfile.DeleteCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.SelectedSshProfile.DeleteCommand, Mode=OneWay}"
                     Icon="Delete"
                     Label="Delete" />
 
@@ -157,15 +157,15 @@
                 VerticalAlignment="Top"
                 Background="Transparent"
                 DefaultLabelPosition="Right"
-                Visibility="{x:Bind ViewModel.SelectedSshShellProfile.InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                Visibility="{x:Bind ViewModel.SelectedSshProfile.InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <AppBarButton
                     x:Uid="SaveAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshShellProfile.SaveChangesCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.SelectedSshProfile.SaveChangesCommand, Mode=OneWay}"
                     Icon="Save"
                     Label="Save" />
                 <AppBarButton
                     x:Uid="CancelAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshShellProfile.CancelEditCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.SelectedSshProfile.CancelEditCommand, Mode=OneWay}"
                     Icon="Cancel"
                     Label="Cancel" />
             </CommandBar>
@@ -175,9 +175,9 @@
             Grid.Column="0"
             VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="{StaticResource ItemMargin}">
-                <ListView ItemsSource="{x:Bind ViewModel.SshShellProfiles}" SelectedItem="{x:Bind ViewModel.SelectedSshShellProfile, Mode=TwoWay}">
+                <ListView ItemsSource="{x:Bind ViewModel.SshProfiles}" SelectedItem="{x:Bind ViewModel.SelectedSshProfile, Mode=TwoWay}">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:SshShellProfileViewModel">
+                        <DataTemplate x:DataType="viewmodels:SshProfileViewModel">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -206,7 +206,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Background="Transparent"
-                    Command="{x:Bind ViewModel.CreateSshShellProfileCommand}"
+                    Command="{x:Bind ViewModel.CreateSshProfileCommand}"
                     Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
@@ -233,9 +233,9 @@
             <ContentControl
                 Margin="{StaticResource ContainerMargin}"
                 HorizontalContentAlignment="Stretch"
-                Content="{x:Bind ViewModel.SelectedSshShellProfile, Mode=OneWay}">
+                Content="{x:Bind ViewModel.SelectedSshProfile, Mode=OneWay}">
                 <ContentControl.ContentTemplate>
-                    <DataTemplate x:DataType="viewmodels:SshShellProfileViewModel">
+                    <DataTemplate x:DataType="viewmodels:SshProfileViewModel">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <StackPanel Visibility="{x:Bind InEditMode, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                 <TextBox
@@ -247,7 +247,10 @@
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                <Grid Margin="{StaticResource ItemMargin}" Width="340" HorizontalAlignment="Left">
+                                <Grid
+                                    Width="340"
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90" />
                                         <ColumnDefinition Width="20" />
@@ -264,32 +267,36 @@
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Column="1"
-                                               FontSize="19"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
-                                               Margin="0 0 0 4"
-                                               Text="@" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="0,0,0,4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="19"
+                                        Text="@" />
 
-                                    <TextBox Grid.Column="2"
+                                    <TextBox
                                         x:Uid="Host"
+                                        Grid.Column="2"
                                         HorizontalAlignment="Stretch"
                                         Header="Host"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Column="3" 
-                                               FontSize="22"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
-                                               Margin="0 0 0 4"
-                                               Text=":" />
+                                    <TextBlock
+                                        Grid.Column="3"
+                                        Margin="0,0,0,4"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="22"
+                                        Text=":" />
 
-                                    <TextBox Grid.Column="4"
+                                    <TextBox
                                         x:Uid="SshPort"
+                                        Grid.Column="4"
+                                        Margin="0,0,4,0"
                                         HorizontalAlignment="Stretch"
-                                        Margin="0 0 4 0"
                                         Header="SSH Port"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
@@ -317,30 +324,34 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal" Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
-                                    <TextBox
-                                    x:Uid="MoshPortFrom"
-                                    Width="120"
+                                <StackPanel
                                     Margin="{StaticResource ItemMargin}"
-                                    HorizontalAlignment="Left"
-                                    Header="Mosh Port From"
-                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsSpellCheckEnabled="False"
-                                    Text="{x:Bind MoshPortFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    <TextBlock Width="8" 
-                                               Margin="3,50,0,0"
-                                               FontSize="22"
-                                               HorizontalAlignment="Center"
-                                               Text=":" />
+                                    Orientation="Horizontal"
+                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBox
-                                    x:Uid="MoshPortTo"
-                                    Width="120"
-                                    Margin="{StaticResource ItemMargin}"
-                                    HorizontalAlignment="Left"
-                                    Header="Mosh Port To"
-                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsSpellCheckEnabled="False"
-                                    Text="{x:Bind MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        x:Uid="MoshPortFrom"
+                                        Width="120"
+                                        Margin="{StaticResource ItemMargin}"
+                                        HorizontalAlignment="Left"
+                                        Header="Mosh Port From"
+                                        IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                        IsSpellCheckEnabled="False"
+                                        Text="{x:Bind MoshPortFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock
+                                        Width="8"
+                                        Margin="3,50,0,0"
+                                        HorizontalAlignment="Center"
+                                        FontSize="22"
+                                        Text=":" />
+                                    <TextBox
+                                        x:Uid="MoshPortTo"
+                                        Width="120"
+                                        Margin="{StaticResource ItemMargin}"
+                                        HorizontalAlignment="Left"
+                                        Header="Mosh Port To"
+                                        IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                        IsSpellCheckEnabled="False"
+                                        Text="{x:Bind MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                                 <ComboBox
                                     x:Uid="TabColor"
@@ -368,10 +379,11 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
 
-                                <ComboBox Margin="{StaticResource ItemMargin}"
-                                          ItemsSource="{x:Bind LineEndingStyles}"
-                                          SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}"
-                                          VerticalAlignment="Center">
+                                <ComboBox
+                                    Margin="{StaticResource ItemMargin}"
+                                    VerticalAlignment="Center"
+                                    ItemsSource="{x:Bind LineEndingStyles}"
+                                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="enums:LineEndingStyle">
                                             <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
@@ -397,53 +409,51 @@
                                     Margin="{StaticResource ItemMargin}"
                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                     Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock 
-                                    Margin="0,30,0,0"
-                                    Text="Connection Info" />
+                                <TextBlock Margin="0,30,0,0" Text="Connection Info" />
                                 <StackPanel Margin="0,-20,0,0" Orientation="Horizontal">
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind Username, Mode=OneWay}"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind Username, Mode=OneWay}" />
                                     <TextBlock
                                         Margin="0,23,4,0"
+                                        FontSize="18"
+                                        FontWeight="Light"
                                         Style="{StaticResource SubtitleTextBlockStyle}"
-                                        TextAlignment="Center"
                                         Text="@"
-                                        FontSize="18"
-                                        FontWeight="Light" />
+                                        TextAlignment="Center" />
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind Host, Mode=OneWay}"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind Host, Mode=OneWay}" />
                                     <TextBlock
                                         Margin="0,23,4,0"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        TextAlignment="Center"
-                                        Text=":"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text=":"
+                                        TextAlignment="Center" />
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind SshPort, Mode=OneWay}"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind SshPort, Mode=OneWay}" />
                                 </StackPanel>
-                                    <controls:HeaderedContentControl
+                                <controls:HeaderedContentControl
                                     x:Uid="IdentityLocation"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Identity file location">
                                     <ContentControl
-                                    Content="{x:Bind IdentityFile, Mode=OneWay}"
-                                    ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
-                                    FontSize="18"
-                                    FontWeight="Light" />
+                                        Content="{x:Bind IdentityFile, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
@@ -458,31 +468,33 @@
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
-                                <TextBlock 
+                                <TextBlock
                                     Margin="0,30,0,0"
                                     Text="Mosh Port Range"
-                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"/>
-                                <StackPanel Margin="0,-20,0,0" Orientation="Horizontal"
-                                            Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
+                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
+                                <StackPanel
+                                    Margin="0,-20,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind MoshPortFrom, Mode=OneWay}"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind MoshPortFrom, Mode=OneWay}" />
                                     <TextBlock
                                         Margin="0,23,3,0"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        TextAlignment="Center"
-                                        Text=":"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text=":"
+                                        TextAlignment="Center" />
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind MoshPortTo, Mode=OneWay}"
                                         FontSize="18"
-                                        FontWeight="Light" />
+                                        FontWeight="Light"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                        Text="{x:Bind MoshPortTo, Mode=OneWay}" />
                                 </StackPanel>
 
                                 <controls:HeaderedContentControl

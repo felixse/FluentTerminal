@@ -72,7 +72,7 @@ namespace FluentTerminal.App
                 KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
                 ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
                 Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always)),
-                SshShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.SshShellProfilesContainerName, ApplicationDataCreateDisposition.Always))
+                SshProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.SshProfilesContainerName, ApplicationDataCreateDisposition.Always))
             };
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
@@ -91,7 +91,7 @@ namespace FluentTerminal.App
             builder.RegisterType<FileSystemService>().As<IFileSystemService>().SingleInstance();
             builder.RegisterType<SystemFontService>().As<ISystemFontService>().SingleInstance();
             builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
-            builder.RegisterType<SshShellProfileSelectionDialog>().As<ISshShellProfileSelectionDialog>().InstancePerDependency();
+            builder.RegisterType<SshProfileSelectionDialog>().As<ISshProfileSelectionDialog>().InstancePerDependency();
             builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
@@ -195,11 +195,11 @@ namespace FluentTerminal.App
 
                 if (isSsh)
                 {
-                    SshShellProfile connectionInfo;
+                    SshProfile connectionInfo;
 
                     try
                     {
-                        connectionInfo = (SshShellProfile) _sshHelperService.Value.ParseSsh(protocolActivated.Uri);
+                        connectionInfo = (SshProfile) _sshHelperService.Value.ParseSsh(protocolActivated.Uri);
                     }
                     catch (Exception ex)
                     {
@@ -216,7 +216,7 @@ namespace FluentTerminal.App
                     {
                         // Link is valid, but incomplete (i.e. username missing), so we need to show dialog.
                         connectionInfo =
-                            (SshShellProfile) await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
+                            (SshProfile) await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
 
                         if (connectionInfo == null)
                         {
@@ -538,7 +538,7 @@ namespace FluentTerminal.App
             }
             else if (e.ShowSelection == ProfileSelection.ShowSshProfileSelection)
             {
-                profile = await _sshHelperService.Value.GetSavedSshShellProfileAsync();
+                profile = await _sshHelperService.Value.GetSavedSshProfileAsync();
 
                 if (profile == null)
                 {
@@ -548,7 +548,7 @@ namespace FluentTerminal.App
             }
             else if (e.ShowSelection == ProfileSelection.ShowNewSshTab)
             {
-                profile = await _sshHelperService.Value.GetSshShellProfileAsync(new SshShellProfile());
+                profile = await _sshHelperService.Value.GetSshProfileAsync(new SshProfile());
 
                 if (profile == null)
                 {

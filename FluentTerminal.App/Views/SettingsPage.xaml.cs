@@ -109,7 +109,7 @@ namespace FluentTerminal.App.Views
                         break;
 
                     case "profiles":
-                        ContentFrame.Navigate(typeof(ShellProfileSettings), ViewModel.Shell);
+                        ContentFrame.Navigate(typeof(ShellProfileSettings), ViewModel.Profiles);
                         break;
 
                     case "themes":
@@ -130,7 +130,7 @@ namespace FluentTerminal.App.Views
                         break;
 
                     case "sshprofiles":
-                        ContentFrame.Navigate(typeof(SshProfileSettings), ViewModel.SshShell);
+                        ContentFrame.Navigate(typeof(SshProfileSettings), ViewModel.SshProfiles);
                         break;
                 }
             }

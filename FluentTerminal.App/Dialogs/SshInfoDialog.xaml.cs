@@ -69,7 +69,7 @@ URL={0}
 
         private void SetupFocus()
         {
-            SshShellProfileViewModel vm = (SshShellProfileViewModel)DataContext;
+            SshProfileViewModel vm = (SshProfileViewModel)DataContext;
 
             if (string.IsNullOrEmpty(vm.Username))
             {
@@ -87,7 +87,7 @@ URL={0}
 
         private async void OnLoading(FrameworkElement sender, object args)
         {
-            SshShellProfileViewModel vm = (SshShellProfileViewModel)DataContext;
+            SshProfileViewModel vm = (SshProfileViewModel)DataContext;
 
             if (!string.IsNullOrEmpty(vm.Username))
                 return;
@@ -106,13 +106,13 @@ URL={0}
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                ((SshShellProfileViewModel)DataContext).IdentityFile = file.Path;
+                ((SshProfileViewModel)DataContext).IdentityFile = file.Path;
             }
         }
 
         private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
         {
-            SshShellProfileViewModel vm = (SshShellProfileViewModel) DataContext;
+            SshProfileViewModel vm = (SshProfileViewModel) DataContext;
 
             var validationResult = vm.Validate(true);
 
@@ -168,7 +168,7 @@ URL={0}
             DataContext = input;
 
             Focus(FocusState.Programmatic);
-            return await ShowAsync() == ContentDialogResult.Primary ? (SshShellProfileViewModel) DataContext : null;
+            return await ShowAsync() == ContentDialogResult.Primary ? (SshProfileViewModel) DataContext : null;
         }
     }
 }

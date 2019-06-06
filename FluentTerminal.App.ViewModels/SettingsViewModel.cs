@@ -14,11 +14,11 @@ namespace FluentTerminal.App.ViewModels
             About = new AboutPageViewModel(settingsService, updateService, applicationView);
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService, applicationLanguageService);
-            Shell = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, applicationView);
+            Profiles = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, applicationView);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
             Mouse = new MousePageViewModel(settingsService, dialogService, defaultValueProvider);
-            SshShell = new SshProfilesPageViewModel(settingsService, dialogService, fileSystemService, applicationView, trayProcessCommunicationService);
+            SshProfiles = new SshProfilesPageViewModel(settingsService, dialogService, fileSystemService, applicationView, trayProcessCommunicationService);
         }
 
         public event EventHandler Closed;
@@ -26,12 +26,12 @@ namespace FluentTerminal.App.ViewModels
 
         public GeneralPageViewModel General { get; }
         public KeyBindingsPageViewModel KeyBindings { get; }
-        public ProfilesPageViewModel Shell { get; }
+        public ProfilesPageViewModel Profiles { get; }
         public TerminalPageViewModel Terminal { get; }
         public ThemesPageViewModel Themes { get; }
         public MousePageViewModel Mouse { get; }
         public AboutPageViewModel About { get; }
-        public SshProfilesPageViewModel SshShell { get; }
+        public SshProfilesPageViewModel SshProfiles { get; }
 
         public void NavigateToAboutPage()
         {

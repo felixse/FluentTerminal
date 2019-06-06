@@ -140,8 +140,8 @@
     <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
       <DependentUpon>SshInfoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\SshShellProfileSelectionDialog.xaml.cs">
-      <DependentUpon>SshShellProfileSelectionDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\SshProfileSelectionDialog.xaml.cs">
+      <DependentUpon>SshProfileSelectionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ApplicationLanguageService.cs" />
     <Compile Include="Services\ClipboardService.cs" />
@@ -383,7 +383,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\SshShellProfileSelectionDialog.xaml">
+    <Page Include="Dialogs\SshProfileSelectionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
