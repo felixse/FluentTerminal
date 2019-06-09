@@ -34,7 +34,10 @@ namespace FluentTerminal.Models
 
         #region Constructors
 
-        public SshProfile() { }
+        public SshProfile()
+        {
+            LineEndingTranslation = LineEndingStyle.ToLF;
+        }
 
         public SshProfile(SshProfile other) : base(other)
         {

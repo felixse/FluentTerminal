@@ -16,12 +16,6 @@ namespace FluentTerminal.App.ViewModels
 {
     public class SshProfileViewModel : ViewModelBase, ISshConnectionInfo
     {
-        #region Constants
-
-        private const string MoshExe = "mosh.exe";
-
-        #endregion Constants
-
         #region Fields
 
         private readonly IDialogService _dialogService;
@@ -192,7 +186,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _useConPty, value);
         }
 
-        private LineEndingStyle _lineEndingTranslation;
+        private LineEndingStyle _lineEndingTranslation = LineEndingStyle.ToLF;
 
         public LineEndingStyle LineEndingTranslation
         {
@@ -303,7 +297,20 @@ namespace FluentTerminal.App.ViewModels
 
             Host = sshProfile.Host;
             SshPort = sshProfile.SshPort;
+
             Username = sshProfile.Username;
+
+            if (string.IsNullOrEmpty(Username))
+            {
+                _trayProcessCommunicationService.GetUserName().ContinueWith(t =>
+                {
+                    if (string.IsNullOrEmpty(Username))
+                    {
+                        Username = t.Result;
+                    }
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
+
             IdentityFile = sshProfile.IdentityFile;
             UseMosh = sshProfile.UseMosh;
             MoshPortFrom = sshProfile.MoshPortFrom;
