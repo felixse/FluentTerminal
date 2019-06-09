@@ -38,7 +38,6 @@ namespace FluentTerminal.App.Services
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
         void SaveCurrentThemeId(Guid id);
         void SaveDefaultShellProfileId(Guid id);
-        void SaveDefaultSshProfileId(Guid id);
         void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings);
         void SaveShellProfile(ShellProfile shellProfile, bool newShell = false);
         void SaveSshProfile(SshProfile shellProfile, bool newShell = false);

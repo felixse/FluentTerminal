@@ -58,7 +58,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             if (sender is SshProfileViewModel defaultSshProfile)
             {
-                _settingsService.SaveDefaultSshProfileId(defaultSshProfile.Id);
+                _settingsService.SaveDefaultShellProfileId(defaultSshProfile.Id);
 
                 foreach (var shellProfile in SshProfiles)
                 {
@@ -77,10 +77,10 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 SshProfiles.Remove(shellProfile);
 
-                if (shellProfile.IsDefault)
+                if (shellProfile.IsDefault && SshProfiles.FirstOrDefault() is SshProfileViewModel newDefault)
                 {
-                    SshProfiles.First().IsDefault = true;
-                    _settingsService.SaveDefaultSshProfileId(SshProfiles.First().Id);
+                    newDefault.IsDefault = true;
+                    _settingsService.SaveDefaultShellProfileId(newDefault.Id);
                 }
                 _settingsService.DeleteSshProfile(shellProfile.Id);
             }
