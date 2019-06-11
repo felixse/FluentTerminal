@@ -121,6 +121,43 @@ namespace FluentTerminal.App.Services.Implementation
                         }
                     };
 
+                case Command.NewSshWindow:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewSshWindow),
+                            Ctrl = true,
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.Y
+                        }
+                    };
+
+                case Command.SavedSshNewTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.SavedSshNewTab),
+                            Ctrl = true,
+                            Shift = true,
+                            Key = (int)ExtendedVirtualKey.U
+                        }
+                    };
+
+                case Command.SavedSshNewWindow:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.SavedSshNewWindow),
+                            Ctrl = true,
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.U
+                        }
+                    };
+
+
                 case Command.ChangeTabTitle:
                     return new List<KeyBinding>
                 {
@@ -270,46 +307,6 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case Command.SavedSshNewTab:
-                    return new List<KeyBinding>
-                    {
-                        new KeyBinding
-                        {
-                            Command = nameof(Command.SavedSshNewTab),
-                            Ctrl = true,
-                            Alt = true,
-                            Key = (int)ExtendedVirtualKey.Y
-                        }
-                    };
-
-                case Command.SavedSshNewWindow:
-                    return new List<KeyBinding>
-                    {
-                        new KeyBinding
-                        {
-                            Command = nameof(Command.SavedSshNewWindow),
-                            Ctrl = true,
-                            Alt = true,
-                            Shift = true,
-                            Key = (int)ExtendedVirtualKey.Z
-                        }
-                    };
-
-                case Command.NewSshWindow:
-                    return new List<KeyBinding>
-                    {
-                        new KeyBinding
-                        {
-                            Command = nameof(Command.NewSshWindow),
-                            Ctrl = true,
-                            Alt = true,
-                            Shift = true,
-                            Key = (int)ExtendedVirtualKey.Y
-                        }
-                    };
-
-
-                    
             }
 
             return null;
