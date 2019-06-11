@@ -347,11 +347,11 @@ namespace FluentTerminal.App
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
                 {
-                    await viewModel.AddTerminalAsync(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
+                    await viewModel.AddLocalTabOrWindowAsync(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 }
                 else
                 {
-                    await viewModel.AddTerminalAsync();
+                    await viewModel.AddLocalTabAsync();
                 }
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
@@ -525,43 +525,49 @@ namespace FluentTerminal.App
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
             ShellProfile profile = null;
-
-            if (e.ShowSelection == ProfileSelection.ShowProfileSelection)
+            switch (e.Action)
             {
-                profile = await _dialogService.ShowProfileSelectionDialogAsync();
-
-                if (profile == null)
-                {
-                    // Nothing to do if user cancels.
-                    return;
-                }
-            }
-            else if (e.ShowSelection == ProfileSelection.ShowSshProfileSelection)
-            {
-                profile = await _sshHelperService.Value.GetSavedSshProfileAsync();
-
-                if (profile == null)
-                {
-                    // Nothing to do if user cancels.
-                    return;
-                }
-            }
-            else if (e.ShowSelection == ProfileSelection.ShowNewSshTab)
-            {
-                profile = await _sshHelperService.Value.GetSshProfileAsync(new SshProfile());
-
-                if (profile == null)
-                {
-                    // Nothing to do if user cancels.
-                    return;
-                }
+                case NewWindowAction.StartDefaultLocalTerminal:
+                    break;
+                case NewWindowAction.ShowProfileSelection:
+                    profile = await _dialogService.ShowProfileSelectionDialogAsync();
+                    if (profile == null)
+                    {
+                        // Nothing to do if user cancels.
+                        return;
+                    }
+                    break;
+                case NewWindowAction.ShowSshProfileSelection:
+                    profile = await _sshHelperService.Value.GetSavedSshProfileAsync();
+                    if (profile == null)
+                    {
+                        // Nothing to do if user cancels.
+                        return;
+                    }
+                    break;
+                case NewWindowAction.ShowSshInfoDialog:
+                    profile = await _sshHelperService.Value.GetSshProfileAsync(new SshProfile());
+                    if (profile == null)
+                    {
+                        // Nothing to do if user cancels.
+                        return;
+                    }
+                    break;
+                case NewWindowAction.StartLocalTerminal:
+                    profile = _settingsService.GetShellProfile(e.ProfileId);
+                    break;
+                case NewWindowAction.StartSshTerminal:
+                    profile = _settingsService.GetSshProfile(e.ProfileId);
+                    break;
+                default:
+                    throw new NotImplementedException("this ProfileSelection not implemented yet");
             }
 
             var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
 
             if (profile == null)
             {
-                await viewModel.AddTerminalAsync();
+                await viewModel.AddLocalTabAsync();
             }
             else
             {
