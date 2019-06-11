@@ -48,14 +48,14 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _sshHelperService = sshHelperService;
             _keyboardCommandService = keyboardCommandService;
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddTerminalAsync());
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddRemoteTerminalAsync());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewTab), async () => await AddSavedShhRemoteTerminalAsync());
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(ProfileSelection.ShowSshProfileSelection));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(ProfileSelection.ShowNewSshTab));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewTab), async () => await AddSavedSshTerminalAsync());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(NewWindowAction.ShowSshProfileSelection));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(NewWindowAction.ShowSshInfoDialog));
             
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
@@ -70,20 +70,20 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NextTab), SelectNextTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.PreviousTab), SelectPreviousTab);
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(ProfileSelection.DoNotShowSelection));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(ProfileSelection.ShowProfileSelection));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), () => NewWindow(NewWindowAction.StartDefaultLocalTerminal));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), () => NewWindow(NewWindowAction.ShowProfileSelection));
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
 
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddTerminalAsync(profile.Id));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddLocalTabOrWindowAsync(profile.Id));
             }
 
             foreach (SshProfile profile in _settingsService.GetSshProfiles())
             {
-                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddRemoteTerminalAsync(profile.Id));
+                _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddSshTabOrWindowAsync(profile.Id));
             }
 
             var currentTheme = _settingsService.GetCurrentTheme();
@@ -93,8 +93,8 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
 
-            AddLocalShellCommand = new RelayCommand(async () => await AddTerminalAsync());
-            AddRemoteShellCommand = new RelayCommand(async () => await AddRemoteTerminalAsync());
+            AddLocalShellCommand = new RelayCommand(async () => await AddLocalTabAsync());
+            AddRemoteShellCommand = new RelayCommand(async () => await AddSshTabAsync());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -115,12 +115,12 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnShellProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddTerminalAsync(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddLocalTabOrWindowAsync(e.Id));
         }
 
         private void OnSshProfileAdded(object sender, ShellProfile e)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddRemoteTerminalAsync(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddSshTabOrWindowAsync(e.Id));
         }
         private void OnSshProfileDeleted(object sender, Guid e)
         {
@@ -244,10 +244,9 @@ namespace FluentTerminal.App.ViewModels
             await AddTerminalAsync(profile);
         }
 
-        public async Task AddRemoteTerminalAsync()
+        public async Task AddSshTabAsync()
         {
             SshProfile profile = await _sshHelperService.GetSshProfileAsync(new SshProfile());
-
             if (profile == null)
             {
                 // User selected "Cancel"
@@ -261,13 +260,22 @@ namespace FluentTerminal.App.ViewModels
                 await AddTerminalAsync(profile);
             }
         }
-        public Task AddRemoteTerminalAsync(Guid shellProfileId)
+        public Task AddSshTabOrWindowAsync(Guid shellProfileId)
         {
-            var profile = _settingsService.GetSshProfile(shellProfileId);
-            return AddTerminalAsync(profile);
+            switch (_applicationSettings.NewTerminalLocation)
+            {
+                case NewTerminalLocation.Tab:
+                    var profile = _settingsService.GetSshProfile(shellProfileId);
+                    return AddTerminalAsync(profile);
+                case NewTerminalLocation.Window:
+                    NewWindow(NewWindowAction.StartSshTerminal, shellProfileId);
+                    return Task.FromResult(0);
+                default:
+                    throw new ArgumentException("unknown NewTerminalLocation");
+            }
         }
 
-        public async Task AddSavedShhRemoteTerminalAsync()
+        public async Task AddSavedSshTerminalAsync()
         {
             ShellProfile profile = await _sshHelperService.GetSavedSshProfileAsync();
 
@@ -285,16 +293,25 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public Task AddTerminalAsync()
+        public Task AddLocalTabAsync()
         {
             var profile = _settingsService.GetDefaultShellProfile();
             return AddTerminalAsync(profile);
         }
 
-        public Task AddTerminalAsync(Guid shellProfileId)
+        public Task AddLocalTabOrWindowAsync(Guid shellProfileId)
         {
-            var profile = _settingsService.GetShellProfile(shellProfileId);
-            return AddTerminalAsync(profile);
+            switch (_applicationSettings.NewTerminalLocation)
+            {
+                case NewTerminalLocation.Tab:
+                    var profile = _settingsService.GetShellProfile(shellProfileId);
+                    return AddTerminalAsync(profile);
+                case NewTerminalLocation.Window:
+                    NewWindow(NewWindowAction.StartLocalTerminal, shellProfileId);
+                    return Task.FromResult(0);
+                default:
+                    throw new ArgumentException("unknown NewTerminalLocation");
+            }
         }
 
         public Task AddTerminalAsync(ShellProfile profile)
@@ -355,13 +372,18 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseCommand.Execute(null);
         }
 
-        private void NewWindow(ProfileSelection showSelection)
+        private void NewWindow(NewWindowAction showSelection)
+        {
+            NewWindow(showSelection, Guid.Empty);
+        }
+
+        private void NewWindow(NewWindowAction showSelection, Guid profileId)
         {
             var args = new NewWindowRequestedEventArgs
             {
-                ShowSelection = showSelection
+                Action = showSelection,
+                ProfileId = profileId
             };
-
             NewWindowRequested?.Invoke(this, args);
         }
 
