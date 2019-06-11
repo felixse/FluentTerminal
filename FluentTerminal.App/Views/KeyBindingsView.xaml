@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Column="0"
-            Width="180"
+            Width="200"
             Margin="0,6,24,0"
             Text="{x:Bind ViewModel.CommandName, Mode=OneWay}"
             Visibility="{x:Bind ShowCommandName, Mode=OneWay}" />
