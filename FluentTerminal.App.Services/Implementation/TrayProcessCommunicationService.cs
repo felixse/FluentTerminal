@@ -253,11 +253,7 @@ namespace FluentTerminal.App.Services.Implementation
             return new ValueSet
             {
                 [MessageKeys.Type] = content.Identifier,
-                [MessageKeys.Content] = JsonConvert.SerializeObject(content, new JsonSerializerSettings()
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.All,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-                })
+                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
             };
         }
     }
