@@ -96,7 +96,7 @@ namespace FluentTerminal.App.ViewModels
 
         public TabTheme SelectedTabTheme
         {
-            get => _selectedTabTheme;
+            get => _selectedTabTheme ?? (_selectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(_tabThemeId)));
             set
             {
                 if (value != null && Set(ref _selectedTabTheme, value))
@@ -124,7 +124,8 @@ namespace FluentTerminal.App.ViewModels
 
         public TerminalTheme SelectedTerminalTheme
         {
-            get => _selectedTerminalTheme;
+            get => _selectedTerminalTheme ??
+                   (_selectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(_terminalThemeId)));
             set
             {
                 if (value != null && Set(ref _selectedTerminalTheme, value))
@@ -289,8 +290,8 @@ namespace FluentTerminal.App.ViewModels
             profile.Arguments = Arguments;
             profile.Location = Location;
             profile.WorkingDirectory = WorkingDirectory;
-            profile.TerminalThemeId = SelectedTerminalTheme.Id;
-            profile.TabThemeId = SelectedTabTheme.Id;
+            profile.TerminalThemeId = TerminalThemeId;
+            profile.TabThemeId = TabThemeId;
             profile.PreInstalled = PreInstalled;
             profile.LineEndingTranslation = LineEndingTranslation;
             profile.UseConPty = UseConPty;
