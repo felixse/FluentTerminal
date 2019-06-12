@@ -98,12 +98,11 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void Clone(ShellProfileViewModel shellProfile)
         {
-            var cloned = new ShellProfile(shellProfile.Model)
-            {
-                Id = Guid.NewGuid(),
-                PreInstalled = false,
-                Name = $"Copy of {shellProfile.Name}"
-            };
+            var cloned = shellProfile.Model.Clone();
+
+            cloned.Id = Guid.NewGuid();
+            cloned.PreInstalled = false;
+            cloned.Name = $"Copy of {shellProfile.Name}";
 
             AddShellProfile(cloned);
         }

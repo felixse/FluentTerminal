@@ -12,6 +12,7 @@ namespace FluentTerminal.App.Services.Implementation
     {
         public const string CurrentThemeKey = "CurrentTheme";
         public const string DefaultShellProfileKey = "DefaultShellProfile";
+        public const string DefaultSshProfileKey = "DefaultSshProfile";
 
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IApplicationDataContainer _keyBindings;
@@ -221,14 +222,12 @@ namespace FluentTerminal.App.Services.Implementation
         public ShellProfile GetDefaultShellProfile()
         {
             var id = GetDefaultShellProfileId();
-            var profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile)) ??
-                          _sshProfiles.ReadValueFromJson(id.ToString(), default(SshProfile));
+            var profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
             if (profile == null)
             {
                 id = _defaultValueProvider.GetDefaultShellProfileId();
                 SaveDefaultShellProfileId(id);
-                profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile)) ??
-                          _sshProfiles.ReadValueFromJson(id.ToString(), default(SshProfile));
+                profile = _shellProfiles.ReadValueFromJson(id.ToString(), default(ShellProfile));
             }
             return profile;
         }
@@ -259,7 +258,7 @@ namespace FluentTerminal.App.Services.Implementation
         }
         public Guid GetDefaultSshProfileId()
         {
-            if (_localSettings.TryGetValue(DefaultShellProfileKey, out object value))
+            if (_localSettings.TryGetValue(DefaultSshProfileKey, out object value))
             {
                 return (Guid)value;
             }
@@ -336,6 +335,10 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveDefaultShellProfileId(Guid id)
         {
             _localSettings.SetValue(DefaultShellProfileKey, id);
+        }
+        public void SaveDefaultSshProfileId(Guid id)
+        {
+            _localSettings.SetValue(DefaultSshProfileKey, id);
         }
 
         public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)

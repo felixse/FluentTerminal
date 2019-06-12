@@ -5,7 +5,6 @@ namespace FluentTerminal.Models
 {
     public class SshProfile : ShellProfile, ISshConnectionInfo
     {
-
         #region Constants
 
         public const ushort DefaultSshPort = 22;
@@ -39,7 +38,7 @@ namespace FluentTerminal.Models
             LineEndingTranslation = LineEndingStyle.ToLF;
         }
 
-        public SshProfile(SshProfile other) : base(other)
+        protected SshProfile(SshProfile other) : base(other)
         {
             Host = other.Host;
             SshPort = other.SshPort;
@@ -60,7 +59,7 @@ namespace FluentTerminal.Models
 
         public override bool EqualTo(ShellProfile other)
         {
-            if (!(other is SshProfile otherSsh))
+            if (!(other is SshProfile otherSsh) || !base.EqualTo(other))
             {
                 return false;
             }
@@ -70,15 +69,17 @@ namespace FluentTerminal.Models
                 return true;
             }
 
-            return otherSsh.Id.Equals(Id) && string.Equals(otherSsh.Name, Name) && string.Equals(otherSsh.Host, Host) &&
-                   otherSsh.SshPort.Equals(SshPort) && string.Equals(otherSsh.Username, Username) &&
-                   (string.IsNullOrEmpty(IdentityFile)
+            return string.Equals(otherSsh.Host, Host)
+                   && otherSsh.SshPort.Equals(SshPort)
+                   && string.Equals(otherSsh.Username, Username)
+                   && (string.IsNullOrEmpty(IdentityFile)
                        ? string.IsNullOrEmpty(otherSsh.IdentityFile)
-                       : string.Equals(otherSsh.IdentityFile, IdentityFile)) && otherSsh.UseMosh.Equals(UseMosh) &&
-                   otherSsh.MoshPortFrom.Equals(MoshPortFrom) && otherSsh.MoshPortTo.Equals(MoshPortTo) &&
-                   otherSsh.TabThemeId.Equals(TabThemeId) && otherSsh.TerminalThemeId.Equals(TerminalThemeId) &&
-                   otherSsh.LineEndingTranslation == LineEndingTranslation && otherSsh.KeyBindings.SequenceEqual(KeyBindings);
+                       : string.Equals(otherSsh.IdentityFile, IdentityFile)) && otherSsh.UseMosh.Equals(UseMosh)
+                   && otherSsh.MoshPortFrom.Equals(MoshPortFrom)
+                   && otherSsh.MoshPortTo.Equals(MoshPortTo);
         }
+
+        public override ShellProfile Clone() => new SshProfile(this);
 
         public SshConnectionInfoValidationResult Validate(bool allowNoUser = false) =>
             this.GetValidationResult(allowNoUser);

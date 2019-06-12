@@ -16,16 +16,19 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IFileSystemService _fileSystemService;
         private SshProfileViewModel _selectedShellProfile;
         private readonly IApplicationView _applicationView;
+        private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
         public SshProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService,
             IFileSystemService fileSystemService, IApplicationView applicationView,
+            IDefaultValueProvider defaultValueProvider,
             ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
+            _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
 
             CreateSshProfileCommand = new RelayCommand(CreateSshProfile);
@@ -35,7 +38,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var sshProfile in _settingsService.GetSshProfiles())
             {
                 var viewModel = new SshProfileViewModel(sshProfile, settingsService, dialogService,
-                    fileSystemService, applicationView, _trayProcessCommunicationService, false);
+                    fileSystemService, applicationView, defaultValueProvider, _trayProcessCommunicationService, false);
                 viewModel.Deleted += OnSshProfileDeleted;
                 viewModel.SetAsDefault += OnSshProfileSetAsDefault;
 
@@ -49,16 +52,15 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             if (SshProfiles.Count == 0)
                 CreateSshProfile();
-            SelectedSshProfile = SshProfiles.FirstOrDefault(p => p.IsDefault);
-            if (SelectedSshProfile == null)
-                SelectedSshProfile = SshProfiles.First();
+
+            SelectedSshProfile = SshProfiles.FirstOrDefault(p => p.IsDefault) ?? SshProfiles.First();
         }
 
         private void OnSshProfileSetAsDefault(object sender, EventArgs e)
         {
             if (sender is SshProfileViewModel defaultSshProfile)
             {
-                _settingsService.SaveDefaultShellProfileId(defaultSshProfile.Id);
+                _settingsService.SaveDefaultSshProfileId(defaultSshProfile.Id);
 
                 foreach (var shellProfile in SshProfiles)
                 {
@@ -77,10 +79,10 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 SshProfiles.Remove(shellProfile);
 
-                if (shellProfile.IsDefault && SshProfiles.FirstOrDefault() is SshProfileViewModel newDefault)
+                if (shellProfile.IsDefault)
                 {
-                    newDefault.IsDefault = true;
-                    _settingsService.SaveDefaultShellProfileId(newDefault.Id);
+                    SshProfiles.First().IsDefault = true;
+                    _settingsService.SaveDefaultSshProfileId(SshProfiles.First().Id);
                 }
                 _settingsService.DeleteSshProfile(shellProfile.Id);
             }
@@ -105,12 +107,12 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void Clone(SshProfileViewModel shellProfile)
         {
-            var cloned = new SshProfile(shellProfile.Model)
-            {
-                Id = Guid.NewGuid(),
-                PreInstalled = false,
-                Name = $"Copy of {shellProfile.Name}"
-            };
+            var cloned = (SshProfile) shellProfile.Model.Clone();
+
+            cloned.Id = Guid.NewGuid();
+            cloned.PreInstalled = false;
+            cloned.Name = $"Copy of {shellProfile.Name}";
+
             foreach (KeyBinding keyBinding in cloned.KeyBindings)
             {
                 keyBinding.Command = cloned.Id.ToString();
@@ -120,8 +122,9 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void AddSshProfile(SshProfile sshProfile)
         {
-            var viewModel = new SshProfileViewModel(sshProfile, _settingsService, _dialogService,
-                _fileSystemService, _applicationView, _trayProcessCommunicationService, true);
+            var viewModel = new SshProfileViewModel(sshProfile, _settingsService, _dialogService, _fileSystemService,
+                _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true);
+
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnSshProfileSetAsDefault;
             viewModel.Deleted += OnSshProfileDeleted;

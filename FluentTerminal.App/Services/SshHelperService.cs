@@ -60,6 +60,7 @@ namespace FluentTerminal.App.Services
         private readonly IDialogService _dialogService;
         private readonly IFileSystemService _fileSystemService;
         private readonly IApplicationView _applicationView;
+        private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
         #endregion Fields
@@ -67,12 +68,15 @@ namespace FluentTerminal.App.Services
         #region Constructor
 
         public SshHelperService(ISettingsService settingsService, IDialogService dialogService,
-            IFileSystemService fileSystemService, IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService)
+            IFileSystemService fileSystemService, IApplicationView applicationView,
+            IDefaultValueProvider defaultValueProvider,
+            ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
+            _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
         }
 
@@ -87,7 +91,7 @@ namespace FluentTerminal.App.Services
         public ISshConnectionInfo ParseSsh(Uri uri)
         {
             SshProfileViewModel vm = new SshProfileViewModel(null, _settingsService, _dialogService,
-                _fileSystemService, _applicationView, _trayProcessCommunicationService, true)
+                _fileSystemService, _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true)
             {
                 Host = uri.Host,
                 UseMosh = MoshUriScheme.Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase)
@@ -176,7 +180,7 @@ namespace FluentTerminal.App.Services
         public async Task<SshProfile> GetSshProfileAsync(SshProfile profile)
         {
             SshProfileViewModel vm = new SshProfileViewModel(profile, _settingsService, _dialogService,
-                _fileSystemService, _applicationView, _trayProcessCommunicationService, true);
+                _fileSystemService, _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true);
 
             vm = (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
 
@@ -185,7 +189,7 @@ namespace FluentTerminal.App.Services
                 await vm.AcceptChangesAsync();
             }
 
-            return vm?.Model;
+            return (SshProfile) vm?.Model;
         }
 
         public Task<SshProfile> GetSavedSshProfileAsync() =>

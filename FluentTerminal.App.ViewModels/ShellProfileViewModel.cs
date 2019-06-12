@@ -15,36 +15,212 @@ namespace FluentTerminal.App.ViewModels
 {
     public class ShellProfileViewModel : ViewModelBase
     {
-        private readonly IDialogService _dialogService;
-        private readonly IFileSystemService _fileSystemService;
-        private readonly ISettingsService _settingsService;
-        private string _arguments;
-        private ShellProfile _fallbackProfile;
-        private bool _inEditMode;
-        private bool _isDefault;
-        private string _location;
-        private LineEndingStyle _lineEndingStyle;
-        private string _name;
-        private bool _isNew;
-        private TabTheme _selectedTabTheme;
-        private TerminalTheme _selectedTerminalTheme;
-        private string _workingDirectory;
-        private bool _useConPty;
-        private readonly IApplicationView _applicationView;
-        private readonly IDefaultValueProvider _defaultValueProvider;
+        #region Static
 
-        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView, IDefaultValueProvider defaultValueProvider, Boolean isNew)
+        private static readonly LineEndingStyle[] LineEndingStylesArray =
+            Enum.GetValues(typeof(LineEndingStyle)).Cast<LineEndingStyle>().ToArray();
+
+        #endregion Static
+
+        #region Fields
+
+        private ShellProfile _fallbackProfile;
+
+        protected readonly IDialogService DialogService;
+        protected readonly IFileSystemService FileSystemService;
+        protected readonly ISettingsService SettingsService;
+        protected readonly IApplicationView ApplicationView;
+        protected readonly IDefaultValueProvider DefaultValueProvider;
+
+        #endregion Fields
+
+        #region Properties
+
+        protected bool IsNew { get; set; }
+
+        public Guid Id { get; private set; }
+
+        public ShellProfile Model { get; private set; }
+
+        public bool PreInstalled { get; private set; }
+
+        private bool _useConPty;
+
+        public bool UseConPty
+        {
+            get => _useConPty;
+            set => Set(ref _useConPty, value);
+        }
+
+        private string _arguments;
+
+        public string Arguments
+        {
+            get => _arguments;
+            set => Set(ref _arguments, value);
+        }
+
+        private bool _inEditMode;
+
+        public bool InEditMode
+        {
+            get => _inEditMode;
+            set => Set(ref _inEditMode, value);
+        }
+
+        private bool _isDefault;
+
+        public bool IsDefault
+        {
+            get => _isDefault;
+            set => Set(ref _isDefault, value);
+        }
+
+        private string _location;
+
+        public string Location
+        {
+            get => _location;
+            set => Set(ref _location, value);
+        }
+
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
+
+        private TabTheme _selectedTabTheme;
+
+        public TabTheme SelectedTabTheme
+        {
+            get => _selectedTabTheme;
+            set
+            {
+                if (value != null && Set(ref _selectedTabTheme, value))
+                {
+                    _tabThemeId = value.Id;
+                }
+            }
+        }
+
+        private int _tabThemeId;
+
+        public int TabThemeId
+        {
+            get => _tabThemeId;
+            set
+            {
+                if (Set(ref _tabThemeId, value))
+                {
+                    SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(value));
+                }
+            }
+        }
+
+        private TerminalTheme _selectedTerminalTheme;
+
+        public TerminalTheme SelectedTerminalTheme
+        {
+            get => _selectedTerminalTheme;
+            set
+            {
+                if (value != null && Set(ref _selectedTerminalTheme, value))
+                {
+                    _terminalThemeId = value.Id;
+                }
+            }
+        }
+
+        private Guid _terminalThemeId;
+
+        public Guid TerminalThemeId
+        {
+            get => _terminalThemeId;
+            set
+            {
+                if (Set(ref _terminalThemeId, value))
+                {
+                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(value));
+                }
+            }
+        }
+
+        private string _workingDirectory;
+
+        public string WorkingDirectory
+        {
+            get => _workingDirectory;
+            set => Set(ref _workingDirectory, value);
+        }
+
+        private LineEndingStyle _lineEndingTranslation;
+
+        public LineEndingStyle LineEndingTranslation
+        {
+            get => _lineEndingTranslation;
+            set => Set(ref _lineEndingTranslation, value);
+        }
+
+        public ObservableCollection<TabTheme> TabThemes { get; }
+
+        public KeyBindingsViewModel KeyBindings { get; }
+
+        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
+
+        public ObservableCollection<LineEndingStyle> LineEndingStyles { get; } =
+            new ObservableCollection<LineEndingStyle>(LineEndingStylesArray);
+
+        #endregion Properties
+
+        #region Events
+
+        public event EventHandler Deleted;
+
+        public event EventHandler SetAsDefault;
+
+        #endregion Events
+
+        #region Commands
+
+        public IAsyncCommand BrowseForCustomShellCommand { get; }
+
+        public IAsyncCommand BrowseForWorkingDirectoryCommand { get; }
+
+        public IAsyncCommand CancelEditCommand { get; }
+
+        public IAsyncCommand DeleteCommand { get; }
+
+        public RelayCommand EditCommand { get; }
+
+        public IAsyncCommand SaveChangesCommand { get; }
+
+        public RelayCommand SetDefaultCommand { get; }
+
+        public IAsyncCommand RestoreDefaultsCommand { get; }
+
+        public IAsyncCommand AddKeyboardShortcutCommand { get; }
+
+        #endregion Commands
+
+        #region Constrcutor
+
+        public ShellProfileViewModel(ShellProfile shellProfile, ISettingsService settingsService,
+            IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView,
+            IDefaultValueProvider defaultValueProvider, bool isNew)
         {
             Model = shellProfile;
-            _settingsService = settingsService;
-            _dialogService = dialogService;
-            _fileSystemService = fileSystemService;
-            _applicationView = applicationView;
-            _defaultValueProvider = defaultValueProvider;
-            _isNew = isNew;
+            SettingsService = settingsService;
+            DialogService = dialogService;
+            FileSystemService = fileSystemService;
+            ApplicationView = applicationView;
+            DefaultValueProvider = defaultValueProvider;
+            IsNew = isNew;
 
-            _settingsService.ThemeAdded += OnThemeAdded;
-            _settingsService.ThemeDeleted += OnThemeDeleted;
+            SettingsService.ThemeAdded += OnThemeAdded;
+            SettingsService.ThemeDeleted += OnThemeDeleted;
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
@@ -56,37 +232,42 @@ namespace FluentTerminal.App.ViewModels
                     Name = "Default"
                 }
             };
-            foreach (var theme in _settingsService.GetThemes())
+            foreach (var theme in SettingsService.GetThemes())
             {
                 TerminalThemes.Add(theme);
             }
 
-            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), _dialogService, string.Empty, false);
+            KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), DialogService, string.Empty, false);
 
-            InitializeViewModelProperties(shellProfile);
+            InitializeViewModelPropertiesPrivate(shellProfile);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
             DeleteCommand = new AsyncCommand(Delete, CanDelete);
             EditCommand = new RelayCommand(Edit);
             CancelEditCommand = new AsyncCommand(CancelEdit);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
+            SaveChangesCommand = new AsyncCommand(SaveChangesAsync);
             AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
             BrowseForCustomShellCommand = new AsyncCommand(BrowseForCustomShell);
             BrowseForWorkingDirectoryCommand = new AsyncCommand(BrowseForWorkingDirectory);
             RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
         }
 
-        private void InitializeViewModelProperties(ShellProfile shellProfile)
+        #endregion Constrcutor
+
+        #region Methods
+
+        // Loads view model properties from the input shellProfile
+        private void InitializeViewModelPropertiesPrivate(ShellProfile shellProfile)
         {
-            SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == shellProfile.TerminalThemeId);
             Id = shellProfile.Id;
             Name = shellProfile.Name;
             Arguments = shellProfile.Arguments;
             Location = shellProfile.Location;
             WorkingDirectory = shellProfile.WorkingDirectory;
-            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == shellProfile.TabThemeId);
+            TerminalThemeId = shellProfile.TerminalThemeId;
+            TabThemeId = shellProfile.TabThemeId;
             PreInstalled = shellProfile.PreInstalled;
-            LineEndingStyle = shellProfile.LineEndingTranslation;
+            LineEndingTranslation = shellProfile.LineEndingTranslation;
             UseConPty = shellProfile.UseConPty;
 
             KeyBindings.Clear();
@@ -96,9 +277,41 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        // Loads view model properties from the input shellProfile
+        protected virtual void InitializeViewModelProperties(ShellProfile shellProfile) =>
+            InitializeViewModelPropertiesPrivate(shellProfile);
+
+        // Fills the input profile properties the view model properties. (Inverse of InitializeViewModelProperties()).
+        protected virtual Task FillProfileAsync(ShellProfile profile)
+        {
+            profile.Id = Id;
+            profile.Name = Name;
+            profile.Arguments = Arguments;
+            profile.Location = Location;
+            profile.WorkingDirectory = WorkingDirectory;
+            profile.TerminalThemeId = SelectedTerminalTheme.Id;
+            profile.TabThemeId = SelectedTabTheme.Id;
+            profile.PreInstalled = PreInstalled;
+            profile.LineEndingTranslation = LineEndingTranslation;
+            profile.UseConPty = UseConPty;
+            profile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
+
+            return Task.CompletedTask;
+        }
+
+        // Used to "remember" the current state.
+        protected virtual async Task<ShellProfile> CreateProfileAsync()
+        {
+            var profile = new ShellProfile();
+
+            await FillProfileAsync(profile);
+
+            return profile;
+        }
+
         private void OnThemeAdded(object sender, TerminalTheme e)
         {
-            _applicationView.RunOnDispatcherThread(() =>
+            ApplicationView.RunOnDispatcherThread(() =>
             {
                 TerminalThemes.Add(e);
             });
@@ -108,7 +321,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (SelectedTerminalTheme.Id == e)
             {
-                _applicationView.RunOnDispatcherThread(() =>
+                ApplicationView.RunOnDispatcherThread(() =>
                 {
                     SelectedTerminalTheme = TerminalThemes.FirstOrDefault(x => x.Id == Guid.Empty);
                     Model.TerminalThemeId = Guid.Empty;
@@ -120,140 +333,15 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public event EventHandler Deleted;
-        public event EventHandler SetAsDefault;
-
-        public IAsyncCommand BrowseForCustomShellCommand { get; }
-        public IAsyncCommand BrowseForWorkingDirectoryCommand { get; }
-        public IAsyncCommand CancelEditCommand { get; }
-        public IAsyncCommand DeleteCommand { get; }
-        public RelayCommand EditCommand { get; }
-        public RelayCommand SaveChangesCommand { get; }
-        public RelayCommand SetDefaultCommand { get; }
-        public IAsyncCommand RestoreDefaultsCommand { get; }
-        public IAsyncCommand AddKeyboardShortcutCommand { get; }
-        public ObservableCollection<TabTheme> TabThemes { get; }
-        public KeyBindingsViewModel KeyBindings { get; }
-
-        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-        public ShellProfile Model { get; private set; }
-        public bool PreInstalled { get; private set; }
-
-        public bool UseConPty
+        public virtual async Task SaveChangesAsync()
         {
-            get => _useConPty;
-            set => Set(ref _useConPty, value);
-        }
+            await FillProfileAsync(Model);
 
-        public string Arguments
-        {
-            get => _arguments;
-            set => Set(ref _arguments, value);
-        }
-
-        public Guid Id { get; private set; }
-
-        public bool InEditMode
-        {
-            get => _inEditMode;
-            set => Set(ref _inEditMode, value);
-        }
-
-        public bool IsDefault
-        {
-            get => _isDefault;
-            set => Set(ref _isDefault, value);
-        }
-
-        public string Location
-        {
-            get => _location;
-            set => Set(ref _location, value);
-        }
-
-        public string Name
-        {
-            get => _name;
-            set => Set(ref _name, value);
-        }
-
-        public TabTheme SelectedTabTheme
-        {
-            get => _selectedTabTheme;
-            set
-            {
-                if (value != null)
-                {
-                    Set(ref _selectedTabTheme, value);
-                }
-            }
-        }
-
-        public TerminalTheme SelectedTerminalTheme
-        {
-            get => _selectedTerminalTheme;
-            set
-            {
-                if (value != null)
-                {
-                    Set(ref _selectedTerminalTheme, value);
-                }
-            }
-        }
-
-        public string WorkingDirectory
-        {
-            get => _workingDirectory;
-            set => Set(ref _workingDirectory, value);
-        }
-
-        public LineEndingStyle LineEndingStyle
-        {
-            get => _lineEndingStyle;
-            set => Set(ref _lineEndingStyle, value);
-        }
-
-        public bool DoNotModifyIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.DoNotModify;
-            set { if (value) { LineEndingStyle = LineEndingStyle.DoNotModify; }
-            }
-        }
-
-        public bool ToCRLFIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToCRLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToCRLF; }
-        }
-
-        public bool ToLFIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToLF;
-            set { if (value) LineEndingStyle = LineEndingStyle.ToLF; }
-        }
-
-        public bool ToCRIsSelected
-        {
-            get => LineEndingStyle == LineEndingStyle.ToCR;
-            set { if (value) { LineEndingStyle = LineEndingStyle.ToCR; } }
-        }
-
-        public void SaveChanges()
-        {
-            Model.Arguments = Arguments;
-            Model.Location = Location;
-            Model.Name = Name;
-            Model.WorkingDirectory = WorkingDirectory;
-            Model.TabThemeId = SelectedTabTheme.Id;
-            Model.TerminalThemeId = SelectedTerminalTheme.Id;
-            Model.LineEndingTranslation = LineEndingStyle;
-            Model.UseConPty = UseConPty;
-            Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
-            _settingsService.SaveShellProfile(Model);
+            SettingsService.SaveShellProfile(Model);
 
             KeyBindings.Editable = false;
             InEditMode = false;
-            _isNew = false;
+            IsNew = false;
         }
 
         private async Task RestoreDefaults()
@@ -263,13 +351,14 @@ namespace FluentTerminal.App.ViewModels
                 throw new InvalidOperationException();
             }
 
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
-                Model = _defaultValueProvider.GetPreinstalledShellProfiles().FirstOrDefault(x => x.Id == Model.Id);
+                Model = DefaultValueProvider.GetPreinstalledShellProfiles().FirstOrDefault(x => x.Id == Model.Id);
                 InitializeViewModelProperties(Model);
-                _settingsService.SaveShellProfile(Model);
+                SettingsService.SaveShellProfile(Model);
             }
         }
 
@@ -280,7 +369,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task BrowseForCustomShell()
         {
-            var file = await _fileSystemService.OpenFile(new[] { ".exe" }).ConfigureAwait(true);
+            var file = await FileSystemService.OpenFile(new[] { ".exe" }).ConfigureAwait(true);
             if (file != null)
             {
                 Location = file.Path;
@@ -289,7 +378,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task BrowseForWorkingDirectory()
         {
-            var directory = await _fileSystemService.BrowseForDirectory().ConfigureAwait(true);
+            var directory = await FileSystemService.BrowseForDirectory().ConfigureAwait(true);
             if (directory != null)
             {
                 WorkingDirectory = directory;
@@ -298,47 +387,22 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task CancelEdit()
         {
-            if (_isNew)
+            if (IsNew)
             {
                 await Delete();
             }
             else
             {
-                ShellProfile changedProfile = new ShellProfile
-                {
-                    Id = Model.Id,
-                    PreInstalled = Model.PreInstalled,
-                    Arguments = Arguments,
-                    Location = Location,
-                    Name = Name,
-                    WorkingDirectory = WorkingDirectory,
-                    TabThemeId = SelectedTabTheme.Id,
-                    TerminalThemeId = SelectedTerminalTheme.Id,
-                    LineEndingTranslation = _lineEndingStyle,
-                    UseConPty = UseConPty,
-                    KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
-                };
+                ShellProfile changedProfile = await CreateProfileAsync();
 
                 if (!_fallbackProfile.EqualTo(changedProfile))
                 {
-                    var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                    var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                     if (result == DialogButton.OK)
                     {
-                        Arguments = _fallbackProfile.Arguments;
-                        Location = _fallbackProfile.Location;
-                        Name = _fallbackProfile.Name;
-                        WorkingDirectory = _fallbackProfile.WorkingDirectory;
-                        LineEndingStyle = _fallbackProfile.LineEndingTranslation;
-                        UseConPty = _fallbackProfile.UseConPty;
-                        SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
-                        SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
-
-                        KeyBindings.KeyBindings.Clear();
-                        foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
-                        {
-                            KeyBindings.Add(keyBinding);
-                        }
+                        // Cancelled, so rollback
+                        InitializeViewModelProperties(_fallbackProfile);
 
                         KeyBindings.Editable = false;
                         InEditMode = false;
@@ -359,7 +423,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -369,7 +433,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Edit()
         {
-            _fallbackProfile = new ShellProfile(Model);
+            _fallbackProfile = Model.Clone();
 
             KeyBindings.Editable = true;
             InEditMode = true;
@@ -379,5 +443,7 @@ namespace FluentTerminal.App.ViewModels
         {
             SetAsDefault?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion Methods
     }
 }

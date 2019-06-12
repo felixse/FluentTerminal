@@ -18,7 +18,7 @@ namespace FluentTerminal.Models
 
         }
 
-        public ShellProfile(ShellProfile other)
+        protected ShellProfile(ShellProfile other)
         {
             Id = other.Id;
             PreInstalled = other.PreInstalled;
@@ -88,6 +88,8 @@ namespace FluentTerminal.Models
                    && other.UseConPty == UseConPty
                    && other.KeyBindings.SequenceEqual(KeyBindings);
         }
+
+        public virtual ShellProfile Clone() => new ShellProfile(this);
 
         /// <summary>
         /// Checks the profile for errors and returns string describing the found errors, if any.

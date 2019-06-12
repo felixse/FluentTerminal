@@ -8,7 +8,8 @@
     xmlns:models="using:FluentTerminal.Models"
     xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
-    xmlns:views="using:FluentTerminal.App.Views"
+    xmlns:views="using:FluentTerminal.App.Views" 
+    xmlns:enums="using:FluentTerminal.Models.Enums"
     mc:Ignorable="d">
     <Page.Resources>
         <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
@@ -320,28 +321,18 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
 
-                                <StackPanel Margin="{StaticResource ItemMargin}">
-                                    <TextBlock
-                                        x:Uid="LineEndingModeOnPaste"
-                                        Margin="0,0,0,8"
-                                        Text="Line ending translation mode on paste" />
-                                    <RadioButton
-                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.DoNotModify}"
-                                        GroupName="LineEndingStyle"
-                                        IsChecked="{x:Bind DoNotModifyIsSelected, Mode=TwoWay}" />
-                                    <RadioButton
-                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCRLF}"
-                                        GroupName="LineEndingStyle"
-                                        IsChecked="{x:Bind ToCRLFIsSelected, Mode=TwoWay}" />
-                                    <RadioButton
-                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToCR}"
-                                        GroupName="LineEndingStyle"
-                                        IsChecked="{x:Bind ToCRIsSelected, Mode=TwoWay}" />
-                                    <RadioButton
-                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle.ToLF}"
-                                        GroupName="LineEndingStyle"
-                                        IsChecked="{x:Bind ToLFIsSelected, Mode=TwoWay}" />
-                                </StackPanel>
+                                <ComboBox
+                                    x:Uid="LineEndingModeOnPaste"
+                                    Margin="{StaticResource ItemMargin}"
+                                    VerticalAlignment="Center"
+                                    ItemsSource="{x:Bind LineEndingStyles}"
+                                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="enums:LineEndingStyle">
+                                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
 
                                 <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock
@@ -435,7 +426,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingStyle, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
+                                        Content="{x:Bind LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
