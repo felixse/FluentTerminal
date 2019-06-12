@@ -118,7 +118,7 @@ namespace FluentTerminal.App.Services.Implementation
             foreach (var profile in config.Profiles.Where(x => !x.PreInstalled))
             {
                 var existingProfile = GetShellProfile(profile.Id);
-                var isNew = existingProfile.EqualTo(default(ShellProfile));
+                var isNew = existingProfile.EqualTo(default);
 
                 // You can only edit certain parts of preinstalled profiles
                 if (!isNew && existingProfile.PreInstalled)

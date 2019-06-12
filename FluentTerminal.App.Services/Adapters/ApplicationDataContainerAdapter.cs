@@ -51,12 +51,7 @@ namespace FluentTerminal.App.Services.Adapters
 
         public void WriteValueAsJson<T>(string name, T value)
         {
-            //_applicationDataContainer.Values[name] = JsonConvert.SerializeObject(value);
-            _applicationDataContainer.Values[name] = JsonConvert.SerializeObject(value, new JsonSerializerSettings()
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-            });
+            _applicationDataContainer.Values[name] = JsonConvert.SerializeObject(value);
         }
     }
 }

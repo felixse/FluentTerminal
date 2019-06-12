@@ -790,7 +790,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>New SSH Tab</value>
+    <value>New SSH tab</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>SSH Info</value>
@@ -869,5 +869,14 @@ Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>Are you sure you want to delete this profile?</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>New SSH window</value>
+  </data>
+  <data name="Command.SavedSshNewTab" xml:space="preserve">
+    <value>New tab for SSH profile</value>
+  </data>
+  <data name="Command.SavedSshNewWindow" xml:space="preserve">
+    <value>New window for SSH profile</value>
   </data>
 </root>

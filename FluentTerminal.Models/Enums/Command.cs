@@ -6,12 +6,15 @@
         NextTab,
         PreviousTab,
         NewTab,
+        NewWindow,
         ConfigurableNewTab,
+        ConfigurableNewWindow,
         NewSshTab,
+        NewSshWindow,
+        SavedSshNewTab,
+        SavedSshNewWindow,
         ChangeTabTitle,
         CloseTab,
-        NewWindow,
-        ConfigurableNewWindow,
         ShowSettings,
         Copy,
         Paste,
@@ -28,9 +31,6 @@
         SwitchToTerm6,
         SwitchToTerm7,
         SwitchToTerm8,
-        SwitchToTerm9,
-        SavedSshNewTab,
-        SavedSshNewWindow,
-        NewSshWindow
+        SwitchToTerm9
     }
 }
