@@ -184,11 +184,6 @@ namespace FluentTerminal.App.Services
 
             vm = (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
 
-            if (vm != null)
-            {
-                await vm.AcceptChangesAsync();
-            }
-
             return (SshProfile) vm?.Model;
         }
 

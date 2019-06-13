@@ -94,7 +94,7 @@ namespace FluentTerminal.App.ViewModels
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
 
-            InitializeViewModelPropertiesPrivate(sshProfile);
+            InitializeViewModelPropertiesPrivate(sshProfile ?? new SshProfile());
 
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
         }
