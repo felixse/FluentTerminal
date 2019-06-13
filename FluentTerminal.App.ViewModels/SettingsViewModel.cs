@@ -18,7 +18,7 @@ namespace FluentTerminal.App.ViewModels
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
             Mouse = new MousePageViewModel(settingsService, dialogService, defaultValueProvider);
-            SshProfiles = new SshProfilesPageViewModel(settingsService, dialogService, fileSystemService, applicationView, trayProcessCommunicationService);
+            SshProfiles = new SshProfilesPageViewModel(settingsService, dialogService, fileSystemService, applicationView, defaultValueProvider, trayProcessCommunicationService);
         }
 
         public event EventHandler Closed;

@@ -195,11 +195,11 @@ namespace FluentTerminal.App
 
                 if (isSsh)
                 {
-                    SshProfile connectionInfo;
+                    SshProfileViewModel connectionInfo;
 
                     try
                     {
-                        connectionInfo = (SshProfile) _sshHelperService.Value.ParseSsh(protocolActivated.Uri);
+                        connectionInfo = (SshProfileViewModel) _sshHelperService.Value.ParseSsh(protocolActivated.Uri);
                     }
                     catch (Exception ex)
                     {
@@ -212,11 +212,15 @@ namespace FluentTerminal.App
 
                     SshConnectionInfoValidationResult result = connectionInfo.Validate();
 
-                    if (result != SshConnectionInfoValidationResult.Valid)
+                    if (result == SshConnectionInfoValidationResult.Valid)
+                    {
+                        await connectionInfo.AcceptChangesAsync();
+                    }
+                    else
                     {
                         // Link is valid, but incomplete (i.e. username missing), so we need to show dialog.
                         connectionInfo =
-                            (SshProfile) await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
+                            (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
 
                         if (connectionInfo == null)
                         {
@@ -228,9 +232,9 @@ namespace FluentTerminal.App
                     }
 
                     if (mainViewModel == null)
-                        await CreateTerminal(connectionInfo, _applicationSettings.NewTerminalLocation);
+                        await CreateTerminal(connectionInfo.Model, _applicationSettings.NewTerminalLocation);
                     else
-                        await mainViewModel.AddTerminalAsync(connectionInfo);
+                        await mainViewModel.AddTerminalAsync(connectionInfo.Model);
 
                     return;
                 }

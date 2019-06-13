@@ -168,7 +168,17 @@ URL={0}
             DataContext = input;
 
             Focus(FocusState.Programmatic);
-            return await ShowAsync() == ContentDialogResult.Primary ? (SshProfileViewModel) DataContext : null;
+
+            if (await ShowAsync() != ContentDialogResult.Primary)
+            {
+                return null;
+            }
+
+            var vm = (SshProfileViewModel) DataContext;
+
+            await vm.AcceptChangesAsync();
+
+            return vm;
         }
     }
 }

@@ -1,132 +1,23 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
-using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class SshProfileViewModel : ViewModelBase, ISshConnectionInfo
+    public class SshProfileViewModel : ShellProfileViewModel, ISshConnectionInfo
     {
-        #region Constants
-
-        private const string MoshExe = "mosh.exe";
-
-        #endregion Constants
-
         #region Fields
 
-        private readonly IDialogService _dialogService;
-        private readonly IFileSystemService _fileSystemService;
-        private readonly ISettingsService _settingsService;
-        private SshProfile _fallbackProfile;
-        private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private bool _isNew;
 
         #endregion Fields
 
         #region Properties
-
-        private Guid _id;
-
-        public Guid Id
-        {
-            get => _id;
-            private set => Set(ref _id, value);
-        }
-
-        public SshProfile Model { get; private set; }
-
-        public KeyBindingsViewModel KeyBindings { get; }
-
-        private bool _inEditMode;
-
-        public bool InEditMode
-        {
-            get => _inEditMode;
-            set => Set(ref _inEditMode, value);
-        }
-
-        private bool _isDefault;
-
-        public bool IsDefault
-        {
-            get => _isDefault;
-            set => Set(ref _isDefault, value);
-        }
-
-        private string _name;
-
-        public string Name
-        {
-            get => _name;
-            set => Set(ref _name, value);
-        }
-
-        private TabTheme _selectedTabTheme;
-
-        public TabTheme SelectedTabTheme
-        {
-            get => _selectedTabTheme;
-            set
-            {
-                if (value != null && Set(ref _selectedTabTheme, value))
-                {
-                    TabThemeId = value.Id;
-                }
-            }
-        }
-
-        private int _tabThemeId;
-
-        public int TabThemeId
-        {
-            get => _tabThemeId;
-            set
-            {
-                if (Set(ref _tabThemeId, value))
-                {
-                    SelectedTabTheme = TabThemes.First(t => t.Id.Equals(value));
-                }
-            }
-        }
-
-        private TerminalTheme _selectedTerminalTheme;
-
-        public TerminalTheme SelectedTerminalTheme
-        {
-            get => _selectedTerminalTheme;
-            set
-            {
-                if (value != null && Set(ref _selectedTerminalTheme, value))
-                {
-                    TerminalThemeId = value.Id;
-                }
-            }
-        }
-
-        private Guid _terminalThemeId;
-
-        public Guid TerminalThemeId
-        {
-            get => _terminalThemeId;
-            set
-            {
-                if (Set(ref _terminalThemeId, value))
-                {
-                    SelectedTerminalTheme = TerminalThemes.First(t => t.Id.Equals(value));
-                }
-            }
-        }
 
         private string _host;
 
@@ -184,97 +75,95 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _moshPortTo, value);
         }
 
-        private bool _useConPty;
-
-        public bool UseConPty
-        {
-            get => _useConPty;
-            set => Set(ref _useConPty, value);
-        }
-
-        private LineEndingStyle _lineEndingTranslation;
-
-        public LineEndingStyle LineEndingTranslation
-        {
-            get => _lineEndingTranslation;
-            set => Set(ref _lineEndingTranslation, value);
-        }
-
-        public ObservableCollection<LineEndingStyle> LineEndingStyles { get; } =
-            new ObservableCollection<LineEndingStyle>(Enum.GetValues(typeof(LineEndingStyle)).Cast<LineEndingStyle>());
-
-        public ObservableCollection<TabTheme> TabThemes { get; }
-
-        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-
         #endregion Properties
 
         #region Commands
 
         public IAsyncCommand BrowseForIdentityFileCommand { get; }
 
-        public IAsyncCommand CancelEditCommand { get; }
-
-        public IAsyncCommand DeleteCommand { get; }
-
-        public RelayCommand EditCommand { get; }
-
-        public AsyncCommand SaveChangesCommand { get; }
-
-        public RelayCommand SetDefaultCommand { get; }
-
-        //public IAsyncCommand RestoreDefaultsCommand { get; }
-
-        public IAsyncCommand AddKeyboardShortcutCommand { get; }
-
-        public object CloneCommand
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         #endregion Commands
 
-        #region Events
-
-        public event EventHandler Deleted;
-        public event EventHandler SetAsDefault;
-
-        #endregion Events
+        #region Constructor
 
         public SshProfileViewModel(SshProfile sshProfile, ISettingsService settingsService,
             IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService, bool isNew)
+            IDefaultValueProvider defaultValueProvider,
+            ITrayProcessCommunicationService trayProcessCommunicationService, bool isNew) : base(
+            sshProfile ?? new SshProfile(), settingsService, dialogService, fileSystemService, applicationView,
+            defaultValueProvider, isNew)
         {
-            Model = sshProfile ?? new SshProfile();
-            _settingsService = settingsService;
-            _dialogService = dialogService;
-            _fileSystemService = fileSystemService;
-            _applicationView = applicationView;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            _isNew = isNew;
 
-            _settingsService.ThemeAdded += OnThemeAdded;
-            _settingsService.ThemeDeleted += OnThemeDeleted;
+            InitializeViewModelPropertiesPrivate(sshProfile ?? new SshProfile());
 
-            TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
-
-            TerminalThemes = new ObservableCollection<TerminalTheme>(_settingsService.GetThemes());
-            TerminalThemes.Insert(0, new TerminalTheme {Id = Guid.Empty, Name = "Default"});
-
-            KeyBindings = new KeyBindingsViewModel(sshProfile.Id.ToString(), _dialogService, string.Empty, false);
-
-            InitializeViewModelProperties(sshProfile);
-
-            SetDefaultCommand = new RelayCommand(SetDefault);
-            DeleteCommand = new AsyncCommand(Delete, CanDelete);
-            EditCommand = new RelayCommand(Edit);
-            CancelEditCommand = new AsyncCommand(CancelEdit);
-            SaveChangesCommand = new AsyncCommand(SaveChanges);
-            AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
         }
 
+        #endregion Constructor
+
         #region Methods
+
+        // Fills the remaining view model properties (those which aren't filled by the base method) from the input sshProfile
+        private void InitializeViewModelPropertiesPrivate(SshProfile sshProfile)
+        {
+            Host = sshProfile.Host;
+            SshPort = sshProfile.SshPort;
+
+            Username = sshProfile.Username;
+
+            if (string.IsNullOrEmpty(Username))
+            {
+                _trayProcessCommunicationService.GetUserName().ContinueWith(t =>
+                {
+                    if (string.IsNullOrEmpty(Username))
+                    {
+                        Username = t.Result;
+                    }
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
+
+            IdentityFile = sshProfile.IdentityFile;
+            UseMosh = sshProfile.UseMosh;
+            MoshPortFrom = sshProfile.MoshPortFrom;
+            MoshPortTo = sshProfile.MoshPortTo;
+        }
+
+        protected override void InitializeViewModelProperties(ShellProfile sshProfile)
+        {
+            base.InitializeViewModelProperties(sshProfile);
+
+            InitializeViewModelPropertiesPrivate((SshProfile)sshProfile);
+        }
+
+        protected override async Task FillProfileAsync(ShellProfile profile)
+        {
+            await base.FillProfileAsync(profile);
+
+            profile.Location = await _trayProcessCommunicationService.GetMoshSshPath(_useMosh);
+            profile.Arguments = GetArgumentsString();
+            profile.WorkingDirectory = null;
+
+            var sshProfile = (SshProfile)profile;
+
+            sshProfile.Host = Host;
+            sshProfile.SshPort = SshPort;
+            sshProfile.Username = Username;
+            sshProfile.IdentityFile = IdentityFile;
+            sshProfile.UseMosh = UseMosh;
+            sshProfile.MoshPortFrom = MoshPortFrom;
+            sshProfile.MoshPortTo = MoshPortTo;
+        }
+
+        public virtual Task AcceptChangesAsync() => FillProfileAsync(Model);
+
+        protected override async Task<ShellProfile> CreateProfileAsync()
+        {
+            var profile = new SshProfile();
+
+            await FillProfileAsync(profile);
+
+            return profile;
+        }
 
         private string GetArgumentsString()
         {
@@ -295,63 +184,13 @@ namespace FluentTerminal.App.ViewModels
             return sb.ToString();
         }
 
-        private void InitializeViewModelProperties(SshProfile sshProfile)
-        {
-            SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == sshProfile.TerminalThemeId);
-            Id = sshProfile.Id;
-            Name = sshProfile.Name;
-
-            Host = sshProfile.Host;
-            SshPort = sshProfile.SshPort;
-            Username = sshProfile.Username;
-            IdentityFile = sshProfile.IdentityFile;
-            UseMosh = sshProfile.UseMosh;
-            MoshPortFrom = sshProfile.MoshPortFrom;
-            MoshPortTo = sshProfile.MoshPortTo;
-
-            UseConPty = sshProfile.UseConPty;
-
-            SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == sshProfile.TabThemeId);
-            LineEndingTranslation = sshProfile.LineEndingTranslation;
-
-            KeyBindings.Clear();
-            foreach (var keyBinding in sshProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
-            {
-                KeyBindings.Add(keyBinding);
-            }
-        }
-
-        private void OnThemeAdded(object sender, TerminalTheme e)
-        {
-            _applicationView.RunOnDispatcherThread(() =>
-            {
-                TerminalThemes.Add(e);
-            });
-        }
-
-        private void OnThemeDeleted(object sender, Guid e)
-        {
-            if (SelectedTerminalTheme.Id == e)
-            {
-                _applicationView.RunOnDispatcherThread(() =>
-                {
-                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(x => x.Id == Guid.Empty);
-                    Model.TerminalThemeId = Guid.Empty;
-                    if (_fallbackProfile != null)
-                    {
-                        _fallbackProfile.TerminalThemeId = Guid.Empty;
-                    }
-                });
-            }
-        }
-
-        public async Task SaveChanges()
+        public override async Task SaveChangesAsync()
         {
             var result = Validate();
 
             if (result != SshConnectionInfoValidationResult.Valid)
             {
-                await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"),
+                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"),
                     result.GetErrorString(Environment.NewLine), DialogButton.OK);
 
                 return;
@@ -359,165 +198,20 @@ namespace FluentTerminal.App.ViewModels
 
             await AcceptChangesAsync();
 
-            _settingsService.SaveSshProfile(Model, _isNew);
+            SettingsService.SaveSshProfile((SshProfile) Model, IsNew);
 
             KeyBindings.Editable = false;
             InEditMode = false;
-            _isNew = false;
-        }
-
-        public async Task AcceptChangesAsync()
-        {
-            Model.Location = await _trayProcessCommunicationService.GetMoshSshPath(_useMosh);
-            Model.Arguments = GetArgumentsString();
-            Model.Host = Host;
-            Model.SshPort = SshPort;
-            Model.Username = Username;
-            Model.IdentityFile = IdentityFile;
-            Model.UseMosh = UseMosh;
-            Model.MoshPortFrom = MoshPortFrom;
-            Model.MoshPortTo = MoshPortTo;
-
-            Model.UseConPty = UseConPty;
-
-            Model.Name = Name;
-            Model.TabThemeId = SelectedTabTheme.Id;
-            Model.TerminalThemeId = SelectedTerminalTheme.Id;
-            Model.LineEndingTranslation = LineEndingTranslation;
-            Model.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
-        }
-
-        public Task AddKeyboardShortcut()
-        {
-            return KeyBindings.ShowAddKeyBindingDialog();
+            IsNew = false;
         }
 
         private async Task BrowseForIdentityFile()
         {
-            var file = await _fileSystemService.OpenFile(new[] { "*" }).ConfigureAwait(true);
+            var file = await FileSystemService.OpenFile(new[] { "*" }).ConfigureAwait(true);
             if (file != null)
             {
                 IdentityFile = file.Path;
             }
-        }
-
-        private async Task CancelEdit()
-        {
-            if (_isNew)
-            {
-                await Delete();
-            }
-            else
-            {
-                SshProfile changedProfile = new SshProfile
-                {
-                    Id = Id,
-                    Name = Name,
-                    TabThemeId = SelectedTabTheme.Id,
-                    TerminalThemeId = SelectedTerminalTheme.Id,
-                    LineEndingTranslation = LineEndingTranslation,
-
-                    Host = Host,
-                    SshPort = SshPort,
-                    Username = Username,
-                    IdentityFile = IdentityFile,
-                    UseMosh = UseMosh,
-                    MoshPortFrom = MoshPortFrom,
-                    MoshPortTo = MoshPortTo,
-
-                    UseConPty = UseConPty,
-
-                    KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList()
-                };
-
-                if (!_fallbackProfile.EqualTo(changedProfile))
-                {
-                    var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-                    if (result == DialogButton.OK)
-                    {
-                        Name = _fallbackProfile.Name;
-
-                        Host = _fallbackProfile.Host;
-                        SshPort = _fallbackProfile.SshPort;
-                        Username = _fallbackProfile.Username;
-                        IdentityFile = _fallbackProfile.IdentityFile;
-                        UseMosh = _fallbackProfile.UseMosh;
-                        MoshPortFrom = _fallbackProfile.MoshPortFrom;
-                        MoshPortTo = _fallbackProfile.MoshPortTo;
-
-                        UseConPty = _fallbackProfile.UseConPty;
-
-                        LineEndingTranslation = _fallbackProfile.LineEndingTranslation;
-                        SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TerminalThemeId);
-                        SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id == _fallbackProfile.TabThemeId);
-
-                        KeyBindings.KeyBindings.Clear();
-                        foreach (var keyBinding in _fallbackProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
-                        {
-                            KeyBindings.Add(keyBinding);
-                        }
-
-                        KeyBindings.Editable = false;
-                        InEditMode = false;
-                    }
-                }
-                else
-                {
-                    KeyBindings.Editable = false;
-                    InEditMode = false;
-                }
-            }
-        }
-
-        private bool CanDelete()
-        {
-            return !Model.PreInstalled;
-        }
-
-        private async Task Delete()
-        {
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
-
-            if (result == DialogButton.OK)
-            {
-                Deleted?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private void Edit()
-        {
-            _fallbackProfile = new SshProfile
-            {
-                Id = Id,
-                Name = Name,
-                Host = Host,
-                SshPort = SshPort,
-                Username = Username,
-                IdentityFile = IdentityFile,
-                UseMosh = UseMosh,
-                MoshPortFrom = MoshPortFrom,
-                MoshPortTo = MoshPortTo,
-                UseConPty = UseConPty,
-                LineEndingTranslation = LineEndingTranslation,
-                // ReSharper disable PossibleNullReferenceException
-                TerminalThemeId = TerminalThemes.FirstOrDefault(t => t.Id == SelectedTerminalTheme.Id).Id,
-                TabThemeId = TabThemes.FirstOrDefault(t => t.Id == SelectedTabTheme.Id).Id
-                // ReSharper restore PossibleNullReferenceException
-            };
-
-            foreach (var keyBinding in Model.KeyBindings.Select(x => new KeyBinding(x)).ToList())
-            {
-                _fallbackProfile.KeyBindings.Add(keyBinding);
-            }
-
-            KeyBindings.Editable = true;
-            InEditMode = true;
-        }
-
-        private void SetDefault()
-        {
-            SetAsDefault?.Invoke(this, EventArgs.Empty);
         }
 
         public SshConnectionInfoValidationResult Validate(bool allowNoUser = false) =>
