@@ -78,10 +78,10 @@ namespace FluentTerminal.Models
 
             return other.Id.Equals(Id)
                    && other.PreInstalled.Equals(PreInstalled)
-                   && other.Name.Equals(Name)
-                   && other.Arguments.Equals(Arguments)
-                   && other.Location.Equals(Location)
-                   && other.WorkingDirectory.Equals(WorkingDirectory)
+                   && other.Name.NullableEqualTo(Name)
+                   && other.Arguments.NullableEqualTo(Arguments)
+                   && other.Location.NullableEqualTo(Location)
+                   && other.WorkingDirectory.NullableEqualTo(WorkingDirectory)
                    && other.TabThemeId.Equals(TabThemeId)
                    && other.TerminalThemeId.Equals(TerminalThemeId)
                    && other.LineEndingTranslation == LineEndingTranslation

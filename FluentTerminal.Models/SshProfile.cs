@@ -69,12 +69,11 @@ namespace FluentTerminal.Models
                 return true;
             }
 
-            return string.Equals(otherSsh.Host, Host)
+            return otherSsh.Host.NullableEqualTo(Host)
                    && otherSsh.SshPort.Equals(SshPort)
-                   && string.Equals(otherSsh.Username, Username)
-                   && (string.IsNullOrEmpty(IdentityFile)
-                       ? string.IsNullOrEmpty(otherSsh.IdentityFile)
-                       : string.Equals(otherSsh.IdentityFile, IdentityFile)) && otherSsh.UseMosh.Equals(UseMosh)
+                   && otherSsh.Username.NullableEqualTo(Username)
+                   && otherSsh.IdentityFile.NullableEqualTo(IdentityFile)
+                   && otherSsh.UseMosh.Equals(UseMosh)
                    && otherSsh.MoshPortFrom.Equals(MoshPortFrom)
                    && otherSsh.MoshPortTo.Equals(MoshPortTo);
         }

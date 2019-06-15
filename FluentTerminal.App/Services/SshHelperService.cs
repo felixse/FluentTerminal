@@ -147,7 +147,7 @@ namespace FluentTerminal.App.Services
                     if (match.Success)
                     {
                         vm.MoshPortFrom = ushort.Parse(match.Groups["from"].Value);
-                        vm.MoshPortFrom = ushort.Parse(match.Groups["to"].Value);
+                        vm.MoshPortTo = ushort.Parse(match.Groups["to"].Value);
                     }
 
                     continue;
@@ -234,6 +234,8 @@ namespace FluentTerminal.App.Services
                 sb.Append(":");
                 sb.Append(sshConnectionInfoVm.SshPort.ToString("#####"));
             }
+
+            sb.Append("/");
 
             bool queryStringAdded = false;
 
