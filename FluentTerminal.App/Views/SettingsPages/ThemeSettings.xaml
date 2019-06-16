@@ -28,7 +28,10 @@
             Grid.RowSpan="3"
             Grid.Column="0"
             Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="{StaticResource HeaderMargin}">
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -38,8 +41,7 @@
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                x:Uid="Theme"
-                Text="Themes" />
+                Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Setting_Themes.Content}" />
             <CommandBar
                 Grid.Column="1"
                 HorizontalAlignment="Right"
@@ -49,15 +51,15 @@
                 Visibility="{x:Bind ViewModel.SelectedTheme.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                 <AppBarButton
                     Name="SetActiveButton"
+                    x:Uid="SetActiveAppBarButton"
                     Command="{x:Bind ViewModel.SelectedTheme.SetActiveCommand, Mode=OneWay}"
                     Icon="Accept"
                     IsEnabled="{Binding ViewModel.SelectedTheme.IsActive, Mode=OneWay, Converter={StaticResource NegateConverter}}"
-                    x:Uid="SetActiveAppBarButton"
                     Label="Set Active" />
                 <AppBarButton
                     Name="ExportButton"
-                    Command="{x:Bind ViewModel.SelectedTheme.ExportCommand, Mode=OneWay}"
                     x:Uid="ExportAppBarButton"
+                    Command="{x:Bind ViewModel.SelectedTheme.ExportCommand, Mode=OneWay}"
                     Label="Export">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEE71;" />
@@ -65,22 +67,22 @@
                 </AppBarButton>
                 <AppBarButton
                     Name="CloneButton"
+                    x:Uid="CloneAppBarButton"
                     Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
                     CommandParameter="{x:Bind ViewModel.SelectedTheme, Mode=OneWay}"
                     Icon="Copy"
-                    x:Uid="CloneAppBarButton"
                     Label="Clone" />
                 <AppBarButton
                     Name="EditButton"
+                    x:Uid="EditAppBarButton"
                     Command="{x:Bind ViewModel.SelectedTheme.EditCommand, Mode=OneWay}"
                     Icon="Edit"
-                    x:Uid="EditAppBarButton"
                     Label="Edit" />
                 <AppBarButton
                     Name="DeleteButton"
+                    x:Uid="DeleteAppBarButton"
                     Command="{x:Bind ViewModel.SelectedTheme.DeleteCommand, Mode=OneWay}"
                     Icon="Delete"
-                    x:Uid="DeleteAppBarButton"
                     Label="Delete" />
             </CommandBar>
             <CommandBar
@@ -92,15 +94,15 @@
                 Visibility="{x:Bind ViewModel.SelectedTheme.InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                 <AppBarButton
                     Name="SaveButton"
+                    x:Uid="SaveAppBarButton"
                     Command="{x:Bind ViewModel.SelectedTheme.SaveChangesCommand, Mode=OneWay}"
                     Icon="Save"
-                    x:Uid="SaveAppBarButton"
                     Label="Save" />
                 <AppBarButton
                     Name="CancelButton"
+                    x:Uid="CancelAppBarButton"
                     Command="{x:Bind ViewModel.SelectedTheme.CancelEditCommand, Mode=OneWay}"
                     Icon="Cancel"
-                    x:Uid="CancelAppBarButton"
                     Label="Cancel" />
             </CommandBar>
         </Grid>
@@ -150,7 +152,10 @@
                                 Margin="0,0,6,0">
                                 <SymbolIcon Symbol="Add" />
                             </Viewbox>
-                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" x:Uid="NewTheme" Text="Create new" />
+                            <TextBlock
+                                x:Uid="NewTheme"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="Create new" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -170,7 +175,10 @@
                                 Margin="0,0,6,0">
                                 <SymbolIcon Symbol="OpenFile" />
                             </Viewbox>
-                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" x:Uid="ImportTheme" Text="Import" />
+                            <TextBlock
+                                x:Uid="ImportTheme"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="Import" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -211,19 +219,19 @@
 
                             <!--  EDIT THEME  -->
                             <TextBox
+                                x:Uid="ThemeName"
                                 Width="200"
                                 Margin="{StaticResource ItemMargin}"
                                 HorizontalAlignment="Left"
-                                x:Uid="ThemeName"
                                 Header="Name"
                                 Text="{x:Bind Name, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
 
                             <TextBox
+                                x:Uid="ThemeAuthor"
                                 Width="200"
                                 Margin="{StaticResource ItemMargin}"
                                 HorizontalAlignment="Left"
-                                x:Uid="ThemeAuthor"
                                 Header="Author"
                                 Text="{x:Bind Author, Mode=TwoWay}"
                                 Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
@@ -243,14 +251,17 @@
                                         <Setter Property="Height" Value="24" />
                                     </Style>
                                 </Grid.Resources>
-                                <TextBlock Grid.Row="0" x:Uid="ColorPalette" Text="Color palette" />
                                 <TextBlock
+                                    x:Uid="ColorPalette"
+                                    Grid.Row="0"
+                                    Text="Color palette" />
+                                <TextBlock
+                                    x:Uid="ClickColorEdit"
                                     Grid.Row="1"
                                     Margin="0,0,0,8"
                                     FontSize="14"
                                     FontStyle="Italic"
                                     Foreground="LightGray"
-                                    x:Uid="ClickColorEdit"
                                     Text="Click on a color to edit"
                                     Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                                 <StackPanel Grid.Row="2" Orientation="Horizontal">

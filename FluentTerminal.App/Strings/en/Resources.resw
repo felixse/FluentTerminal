@@ -426,7 +426,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Line ending translation mode on paste</value>
+    <value>Line ending translation mode on paste:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
@@ -522,7 +522,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>Theme:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
@@ -878,5 +878,32 @@ Fuzzy</comment>
   </data>
   <data name="Command.SavedSshNewWindow" xml:space="preserve">
     <value>New window for SSH profile</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>SSH Profiles</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>Tab color:</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>Use ConPty</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>Username</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>From port</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>to port</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>Mosh port range</value>
   </data>
 </root>

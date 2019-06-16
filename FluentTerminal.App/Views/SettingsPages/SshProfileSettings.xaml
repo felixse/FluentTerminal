@@ -114,12 +114,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock
-                x:Uid="SshProfiles"
                 Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="SSH Profiles" />
+                Text="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=Setting_SShProfiles.Content}" />
             <CommandBar
                 Grid.Column="1"
                 HorizontalAlignment="Right"
@@ -293,11 +292,10 @@
                                         Text=":" />
 
                                     <TextBox
-                                        x:Uid="SshPort"
                                         Grid.Column="4"
                                         Margin="0,0,4,0"
                                         HorizontalAlignment="Stretch"
-                                        Header="SSH Port"
+                                        Header="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=PortTextBox.PlaceholderText}"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind SshPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -305,9 +303,8 @@
 
                                 <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
-                                        x:Uid="IdentityLocation"
                                         Width="300"
-                                        Header="Identity file location"
+                                        Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind IdentityFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
@@ -320,7 +317,7 @@
 
                                 <ToggleSwitch
                                     Margin="{StaticResource ItemMargin}"
-                                    Header="Use Mosh"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -375,7 +372,7 @@
 
                                 <ToggleSwitch
                                     Margin="{StaticResource ItemMargin}"
-                                    Header="Use ConPty"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
 
@@ -409,7 +406,7 @@
                                     Margin="{StaticResource ItemMargin}"
                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                     Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Margin="0,30,0,0" Text="Connection Info" />
+                                <TextBlock Margin="0,30,0,0" Text="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=SshInfoDialog.Title}" />
                                 <StackPanel Margin="0,-20,0,0" Orientation="Horizontal">
                                     <TextBlock
                                         Margin="{StaticResource ItemMargin}"
@@ -445,10 +442,9 @@
                                         Text="{x:Bind SshPort, Mode=OneWay}" />
                                 </StackPanel>
                                 <controls:HeaderedContentControl
-                                    x:Uid="IdentityLocation"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="Identity file location">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}">
                                     <ContentControl
                                         Content="{x:Bind IdentityFile, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
@@ -459,7 +455,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="Use Mosh">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}">
                                     <ContentControl
                                         Margin="0,6,0,0"
                                         Content="{x:Bind UseMosh, Mode=OneWay}"
@@ -469,6 +465,7 @@
                                 </controls:HeaderedContentControl>
 
                                 <TextBlock
+                                    x:Uid="MoshPortRange"
                                     Margin="0,30,0,0"
                                     Text="Mosh Port Range"
                                     Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
@@ -525,7 +522,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="Use ConPty">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}">
                                     <ContentControl
                                         Margin="0,6,0,0"
                                         Content="{x:Bind UseConPty, Mode=OneWay}"

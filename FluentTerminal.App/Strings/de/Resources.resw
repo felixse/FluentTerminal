@@ -336,7 +336,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Text kopiert</value>
+    <value>Informieren wenn Text kopiert wurde</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
@@ -396,7 +396,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Tastaturkürzel</value>
+    <value>Tastaturbelegung</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
@@ -416,7 +416,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Zeilenenden-Anpassung bei Einfügen</value>
+    <value>Zeilenenden-Anpassung beim Einfügen:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
@@ -436,7 +436,7 @@ Fuzzy</comment>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>EInfügen</value>
+    <value>Einfügen</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
@@ -512,7 +512,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>Theme:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
@@ -637,7 +637,7 @@ Fuzzy</comment>
     <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Leeren</value>
+    <value>Bildschirm leeren</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
@@ -831,5 +831,41 @@ Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>Sind Sie sicher dass Sie dieses Profil löschen wollen?</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>Neues SSH-Fenster</value>
+  </data>
+  <data name="Command.SavedSshNewTab" xml:space="preserve">
+    <value>Neuer Tab mit SSH-Profil</value>
+  </data>
+  <data name="Command.SavedSshNewWindow" xml:space="preserve">
+    <value>Neues Fenster mit SSH-Profil</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>SSH-Profile</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>Tab-Farbe:</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>ConPty verwenden</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>Benutzer</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>Von Port</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>bis Port</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>Mosh-Ports</value>
   </data>
 </root>

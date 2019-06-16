@@ -223,8 +223,7 @@
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
     <value>Arrancar al encender</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>Opciones</value>
@@ -822,12 +821,42 @@ Fuzzy</comment>
     <value>Ninguno</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>New output</value>
+    <value>Nueva entrada</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Exited with error</value>
+    <value>Se salió con error</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Are you sure you want to delete this profile?</value>
+    <value>¿Quieres eliminar este perfil?</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>New SSH window</value>
+  </data>
+  <data name="Command.SavedSshNewTab" xml:space="preserve">
+    <value>New tab for SSH profile</value>
+  </data>
+  <data name="Command.SavedSshNewWindow" xml:space="preserve">
+    <value>New window for SSH profile</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>SSH Profiles</value>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>Tab color:</value>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>Use ConPty</value>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>From port</value>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>to port</value>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>Mosh port range</value>
   </data>
 </root>
