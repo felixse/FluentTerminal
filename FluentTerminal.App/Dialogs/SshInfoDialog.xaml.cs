@@ -63,8 +63,6 @@ URL={0}
             {
                 TerminalThemes.Add(theme);
             }
-
-
         }
 
         private void SetupFocus()
