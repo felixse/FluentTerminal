@@ -1,0 +1,3 @@
+# Git will handle the files in whatever way it thinks is best.
+# Overwrites global core.autocrlf git setting
+* text=auto
