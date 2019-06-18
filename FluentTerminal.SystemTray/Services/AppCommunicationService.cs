@@ -109,9 +109,6 @@ namespace FluentTerminal.SystemTray.Services
                 case SaveTextFileRequest.Identifier:
                     await HandleSaveTextFileRequest(args);
                     break;
-                case GetMoshSshExecutablePathRequest.Identifier:
-                    await HandleGetMoshSshExecutablePathRequest(args);
-                    break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
                     break;
@@ -188,29 +185,6 @@ namespace FluentTerminal.SystemTray.Services
             {
                 response.Success = false;
                 response.Error = e.Message;
-            }
-
-            await args.Request.SendResponseAsync(CreateMessage(response));
-
-            deferral.Complete();
-        }
-
-        private async Task HandleGetMoshSshExecutablePathRequest(AppServiceRequestReceivedEventArgs args)
-        {
-            var deferral = args.GetDeferral();
-            var messageContent = (string)args.Request.Message[MessageKeys.Content];
-
-            GetMoshSshExecutablePathRequest request = JsonConvert.DeserializeObject<GetMoshSshExecutablePathRequest>(messageContent);
-
-            GetMoshSshExecutablePathResponse response;
-
-            try
-            {
-                response = request.GetResponse();
-            }
-            catch (Exception e)
-            {
-                response = new GetMoshSshExecutablePathResponse { Error = e.Message };
             }
 
             await args.Request.SendResponseAsync(CreateMessage(response));

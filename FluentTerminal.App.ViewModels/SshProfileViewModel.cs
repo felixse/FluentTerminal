@@ -139,7 +139,7 @@ namespace FluentTerminal.App.ViewModels
         {
             await base.FillProfileAsync(profile);
 
-            profile.Location = await _trayProcessCommunicationService.GetMoshSshPath(_useMosh);
+            profile.Location = _useMosh ? ShellLocation.Mosh : ShellLocation.SSH;
             profile.Arguments = GetArgumentsString();
             profile.WorkingDirectory = null;
 
