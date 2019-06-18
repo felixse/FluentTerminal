@@ -57,6 +57,7 @@
         </views:TerminalThemeTemplateSelector>
 
     </ContentDialog.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid Width="500">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -271,4 +272,5 @@
                 Content="Save Shortcut" />
         </Grid>
     </Grid>
+    </ScrollViewer>
 </ContentDialog>
