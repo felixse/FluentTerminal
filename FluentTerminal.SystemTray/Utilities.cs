@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows.Input;
-
+using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using FluentTerminal.Models.Requests;
-using FluentTerminal.Models.Responses;
 
 
 namespace FluentTerminal.SystemTray
@@ -502,27 +498,17 @@ namespace FluentTerminal.SystemTray
 
         #region Mosh/SSH locator
 
-#if X64
-        private const string MoshArchDir = @"x64";
-#else
-        private const string MoshArchDir = @"x86";
-#endif
-        internal static GetMoshSshExecutablePathResponse GetResponse(this GetMoshSshExecutablePathRequest request)
+        public static string ResolveLocation(string location)
         {
-            var response = new GetMoshSshExecutablePathResponse();
-
-            try
+            switch (location)
             {
-                response.Path = request.IsMosh ? GetMoshPath() : GetSshPath();
-
-                response.Success = true;
+                case ShellLocation.SSH:
+                    return GetSshPath();
+                case ShellLocation.Mosh:
+                    return GetMoshPath();
+                default:
+                    return location;
             }
-            catch (Exception ex)
-            {
-                response.Error = ex.Message;
-            }
-            
-            return response;
         }
 
         private static string GetSshPath()
@@ -546,6 +532,12 @@ namespace FluentTerminal.SystemTray
 
             return System.IO.File.Exists(path) ? path : null;
         }
+
+#if X64
+        private const string MoshArchDir = @"x64";
+#else
+        private const string MoshArchDir = @"x86";
+#endif
 
         private static string GetMoshPath()
         {

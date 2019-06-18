@@ -42,6 +42,8 @@ namespace FluentTerminal.SystemTray.Services
                 _terminals.Clear();
             }
 
+            request.Profile.Location = Utilities.ResolveLocation(request.Profile.Location);
+
             ITerminalSession terminal = null;
             try
             {

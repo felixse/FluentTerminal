@@ -28,8 +28,6 @@ namespace FluentTerminal.App.Services
 
         Task<string> GetUserName();
 
-        Task<string> GetMoshSshPath(bool isMosh);
-
         Task SaveTextFileAsync(string path, string content);
     }
 }
