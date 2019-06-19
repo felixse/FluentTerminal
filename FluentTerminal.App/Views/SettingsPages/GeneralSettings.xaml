@@ -160,6 +160,12 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Show new output indicator on background tabs"
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="UseMoshByDefault"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Default to Mosh for SSH connections"
+                    IsOn="{x:Bind ViewModel.UseMoshByDefault, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

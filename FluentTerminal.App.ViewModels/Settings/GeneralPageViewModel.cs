@@ -126,6 +126,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool UseMoshByDefault
+        {
+            get => _applicationSettings.UseMoshByDefault;
+            set
+            {
+                if (_applicationSettings.UseMoshByDefault != value)
+                {
+                    _applicationSettings.UseMoshByDefault = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool BottomIsSelected
         {
             get => TabsPosition == TabsPosition.Bottom;
@@ -290,6 +304,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
                 EnableTrayIcon = defaults.EnableTrayIcon;
                 ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;
+                UseMoshByDefault = defaults.UseMoshByDefault;
             }
         }
 
