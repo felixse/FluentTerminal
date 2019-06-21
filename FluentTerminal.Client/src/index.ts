@@ -52,7 +52,8 @@ window.createTerminal = (options, theme, keyBindings) => {
     allowTransparency: true,
     theme: theme,
     windowsMode: true,
-    experimentalCharAtlas: "dynamic"
+    experimentalCharAtlas: "dynamic",
+    wordSeparator: ' ()[]{}\'":;'
   };
 
   term = new Terminal(terminalOptions);
