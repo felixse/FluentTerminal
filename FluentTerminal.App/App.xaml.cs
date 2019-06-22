@@ -34,6 +34,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App
 {
@@ -267,12 +268,14 @@ namespace FluentTerminal.App
 
                             var settings = _settingsService.ExportSettings();
                             await FileIO.WriteTextAsync(exportFile, settings);
+                            await new MessageDialog($"{I18N.Translate("SettingsExported")} {exportFile.Path}").ShowAsync();
                         }
                         else if (settingsVerb.Import)
                         {
                             var file = await ApplicationData.Current.LocalFolder.GetFileAsync("config.json");
                             var content = await FileIO.ReadTextAsync(file);
                             _settingsService.ImportSettings(content);
+                            await new MessageDialog($"{I18N.Translate("SettingsImported")} {file.Path}").ShowAsync();
                         }
                     }
                     else if (verb is NewVerb newVerb)
