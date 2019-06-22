@@ -25,7 +25,8 @@ namespace FluentTerminal.App.Services.Implementation
                 AlwaysShowTabs = false,
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true,
-                ShowCustomTitleInTitlebar = true
+                ShowCustomTitleInTitlebar = true,
+                UseMoshByDefault = true
             };
         }
 

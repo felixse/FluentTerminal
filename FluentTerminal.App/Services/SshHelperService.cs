@@ -182,6 +182,8 @@ namespace FluentTerminal.App.Services
             SshProfileViewModel vm = new SshProfileViewModel(profile, _settingsService, _dialogService,
                 _fileSystemService, _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true);
 
+            vm.UseMosh = _settingsService.GetApplicationSettings().UseMoshByDefault;
+
             vm = (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(vm);
 
             return (SshProfile) vm?.Model;
