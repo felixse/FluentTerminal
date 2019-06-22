@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd node_modules\\xterm && npm install && npm run build && ren build dist",
     "build": "xcopy /y /s node_modules\\xterm\\dist\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
   },
   "author": "FS Apps",
@@ -16,6 +17,6 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "xterm": "^3.14.1"
+    "xterm": "https://github.com/MaxRis/xterm.js.git#3.14.1-patched"
   }
 }
