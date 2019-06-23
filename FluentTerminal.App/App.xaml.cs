@@ -210,6 +210,12 @@ namespace FluentTerminal.App
                         return;
                     }
 
+                    if (_applicationSettings.AutoFallbackToWindowsUsernameInLinks &&
+                        string.IsNullOrEmpty(connectionInfo.Username))
+                    {
+                        connectionInfo.Username = await _trayProcessCommunicationService.GetUserName();
+                    }
+
                     SshConnectionInfoValidationResult result = connectionInfo.Validate();
 
                     if (result == SshConnectionInfoValidationResult.Valid)
