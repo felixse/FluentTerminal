@@ -115,9 +115,11 @@ namespace FluentTerminal.App.ViewModels
             {
                 _trayProcessCommunicationService.GetUserName().ContinueWith(t =>
                 {
-                    if (string.IsNullOrEmpty(Username))
+                    var username = t.Result;
+
+                    if (string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(username))
                     {
-                        Username = t.Result;
+                        ApplicationView.RunOnDispatcherThread(() => Username = username);
                     }
                 }, TaskContinuationOptions.OnlyOnRanToCompletion);
             }
