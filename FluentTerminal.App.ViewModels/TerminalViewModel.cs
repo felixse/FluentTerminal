@@ -9,12 +9,19 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class TerminalViewModel : ViewModelBase
     {
+        #region Static
+
+        private static readonly Regex SshTitleRx = new Regex(@"^\w+@\S+:", RegexOptions.Compiled);
+
+        #endregion Static
+
         private readonly IKeyboardCommandService _keyboardCommandService;
         private bool _isSelected;
         private bool _hasNewOutput;
@@ -195,9 +202,26 @@ namespace FluentTerminal.App.ViewModels
             get => _tabTitle;
             set
             {
-                if (Set(ref _tabTitle, value))
+                var title = value?.Trim() ?? string.Empty;
+
+                if (title.Equals("ssh", StringComparison.OrdinalIgnoreCase) ||
+                    title.EndsWith("\\ssh.exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    CustomTitleChanged?.Invoke(this, value);
+                    title = $"[ssh] {I18N.Translate("Authenticate")}";
+                }
+                else if (title.Equals("mosh", StringComparison.OrdinalIgnoreCase) ||
+                         title.EndsWith("\\mosh.exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    title = $"[mosh] {I18N.Translate("Authenticate")}";
+                }
+                else if (SshTitleRx.IsMatch(title))
+                {
+                    title = $"[ssh] {title}";
+                }
+
+                if (Set(ref _tabTitle, title))
+                {
+                    CustomTitleChanged?.Invoke(this, title);
                 }
             }
         }
