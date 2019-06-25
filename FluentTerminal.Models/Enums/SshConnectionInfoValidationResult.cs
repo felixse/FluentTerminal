@@ -10,6 +10,7 @@ namespace FluentTerminal.Models.Enums
         HostEmpty = 2,
         SshPortZeroOrNegative = 4,
         MoshPortZeroOrNegative = 8,
-        MoshPortRangeInvalid = 16
+        MoshPortRangeInvalid = 16, 
+        IdentityFileDoesNotExist = 32
     }
 }

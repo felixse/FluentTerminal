@@ -130,6 +130,14 @@ namespace FluentTerminal.App.Services.Implementation
                 (string) responseMessage[MessageKeys.Content]);
         }
 
+        public async Task<bool> CheckFileExistsAsync(string path)
+        {
+            var responseMessage =
+                await _appServiceConnection.SendMessageAsync(CreateMessage(new CheckFileExistsRequest {Path = path}));
+
+            return JsonConvert.DeserializeObject<CommonResponse>((string) responseMessage[MessageKeys.Content]).Success;
+        }
+
         public async Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest

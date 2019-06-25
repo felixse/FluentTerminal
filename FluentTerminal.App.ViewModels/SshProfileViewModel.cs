@@ -15,6 +15,9 @@ namespace FluentTerminal.App.ViewModels
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
+        // To prevent validating the existence of the same file multiple times because it's kinda expensive
+        private string _validatedIdentityFile;
+
         #endregion Fields
 
         #region Properties
@@ -186,7 +189,7 @@ namespace FluentTerminal.App.ViewModels
 
         public override async Task SaveChangesAsync()
         {
-            var result = Validate();
+            var result = await ValidateAsync();
 
             if (result != SshConnectionInfoValidationResult.Valid)
             {
@@ -214,8 +217,33 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public SshConnectionInfoValidationResult Validate(bool allowNoUser = false) =>
-            this.GetValidationResult(allowNoUser);
+        public async Task<SshConnectionInfoValidationResult> ValidateAsync()
+        {
+            var result = this.GetValidationResult();
+
+            var identityFile = _identityFile;
+
+            if (!string.IsNullOrEmpty(identityFile) && !string.Equals(identityFile, _validatedIdentityFile,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                if (await _trayProcessCommunicationService.CheckFileExistsAsync(identityFile))
+                {
+                    _validatedIdentityFile = identityFile;
+                }
+                else
+                {
+                    result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
+                }
+            }
+
+            return result;
+        }
+
+        public void SetValidatedIdentityFile(string identityFile)
+        {
+            _validatedIdentityFile = identityFile;
+            IdentityFile = identityFile;
+        }
 
         #endregion Methods
     }

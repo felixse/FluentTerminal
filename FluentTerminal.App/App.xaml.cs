@@ -210,7 +210,7 @@ namespace FluentTerminal.App
                         return;
                     }
 
-                    SshConnectionInfoValidationResult result = connectionInfo.Validate();
+                    SshConnectionInfoValidationResult result = await connectionInfo.ValidateAsync();
 
                     if (result == SshConnectionInfoValidationResult.Valid)
                     {

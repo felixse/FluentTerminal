@@ -4,12 +4,11 @@ namespace FluentTerminal.Models
 {
     public static class SshConnectionInfoExtensions
     {
-        public static SshConnectionInfoValidationResult GetValidationResult(this ISshConnectionInfo sshConnectionInfo,
-            bool allowNoUser = false)
+        public static SshConnectionInfoValidationResult GetValidationResult(this ISshConnectionInfo sshConnectionInfo)
         {
             var result = SshConnectionInfoValidationResult.Valid;
 
-            if (!allowNoUser && string.IsNullOrEmpty(sshConnectionInfo.Username))
+            if (string.IsNullOrEmpty(sshConnectionInfo.Username))
             {
                 result |= SshConnectionInfoValidationResult.UsernameEmpty;
             }

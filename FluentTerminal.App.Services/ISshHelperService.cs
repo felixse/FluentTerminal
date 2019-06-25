@@ -14,6 +14,6 @@ namespace FluentTerminal.App.Services
 
         Task<SshProfile> GetSavedSshProfileAsync();
 
-        string ConvertToUri(ISshConnectionInfo sshConnectionInfo);
+        Task<string> ConvertToUriAsync(ISshConnectionInfo sshConnectionInfo);
     }
 }

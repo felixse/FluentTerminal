@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.Models.Enums;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FluentTerminal.Models
 {
@@ -80,8 +81,11 @@ namespace FluentTerminal.Models
 
         public override ShellProfile Clone() => new SshProfile(this);
 
-        public SshConnectionInfoValidationResult Validate(bool allowNoUser = false) =>
-            this.GetValidationResult(allowNoUser);
+        public Task<SshConnectionInfoValidationResult> ValidateAsync()
+        {
+            return Task.FromResult(this.GetValidationResult());
+            // Here we don't check if IdentityFile exists because this class isn't used in UI (if it's saved - it exists).
+        }
 
         public override string ValidateAndGetErrors() => this.GetValidationResult().GetErrorString();
 
