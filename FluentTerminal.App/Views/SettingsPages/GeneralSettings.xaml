@@ -170,7 +170,7 @@
                 <ToggleSwitch
                     x:Uid="AutoFallbackToWindowsUsername"
                     Margin="{StaticResource ItemMargin}"
-                    Header="Auto-fallback to Windows username if a link doesn't contain it"
+                    Header="Use Windows username when opening SSH URLs that don't specify one"
                     IsOn="{x:Bind ViewModel.AutoFallbackToWindowsUsernameInLinks, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
