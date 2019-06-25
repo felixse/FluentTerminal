@@ -34,39 +34,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             CreateSshProfileCommand = new RelayCommand(CreateSshProfile);
             CloneCommand = new RelayCommand<SshProfileViewModel>(Clone);
 
-            var defaultSshProfileId = _settingsService.GetDefaultSshProfileId();
             foreach (var sshProfile in _settingsService.GetSshProfiles())
             {
                 var viewModel = new SshProfileViewModel(sshProfile, settingsService, dialogService,
                     fileSystemService, applicationView, defaultValueProvider, _trayProcessCommunicationService, false);
                 viewModel.Deleted += OnSshProfileDeleted;
-                viewModel.SetAsDefault += OnSshProfileSetAsDefault;
-
-                if (sshProfile.Id == defaultSshProfileId)
-                {
-                    viewModel.IsDefault = true;
-                }
-
                 SshProfiles.Add(viewModel);
             }
 
             if (SshProfiles.Count == 0)
-                CreateSshProfile();
-
-            SelectedSshProfile = SshProfiles.FirstOrDefault(p => p.IsDefault) ?? SshProfiles.First();
-        }
-
-        private void OnSshProfileSetAsDefault(object sender, EventArgs e)
-        {
-            if (sender is SshProfileViewModel defaultSshProfile)
             {
-                _settingsService.SaveDefaultSshProfileId(defaultSshProfile.Id);
-
-                foreach (var shellProfile in SshProfiles)
-                {
-                    shellProfile.IsDefault = shellProfile.Id == defaultSshProfile.Id;
-                }
+                CreateSshProfile();
             }
+
+            SelectedSshProfile = SshProfiles.First();
         }
 
         private void OnSshProfileDeleted(object sender, EventArgs e)
@@ -78,12 +59,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                     SelectedSshProfile = SshProfiles.First();
                 }
                 SshProfiles.Remove(shellProfile);
-
-                if (shellProfile.IsDefault)
-                {
-                    SshProfiles.First().IsDefault = true;
-                    _settingsService.SaveDefaultSshProfileId(SshProfiles.First().Id);
-                }
                 _settingsService.DeleteSshProfile(shellProfile.Id);
             }
         }
@@ -127,7 +102,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true);
 
             viewModel.EditCommand.Execute(null);
-            viewModel.SetAsDefault += OnSshProfileSetAsDefault;
             viewModel.Deleted += OnSshProfileDeleted;
             SshProfiles.Add(viewModel);
             SelectedSshProfile = viewModel;
