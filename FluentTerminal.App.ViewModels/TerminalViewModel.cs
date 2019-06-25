@@ -205,16 +205,14 @@ namespace FluentTerminal.App.ViewModels
                 var title = value?.Trim() ?? string.Empty;
 
                 if (title.Equals("ssh", StringComparison.OrdinalIgnoreCase) ||
-                    title.Equals("mosh", StringComparison.OrdinalIgnoreCase) ||
-                    title.EndsWith("\\ssh.exe", StringComparison.OrdinalIgnoreCase) ||
-                    title.EndsWith("\\mosh.exe", StringComparison.OrdinalIgnoreCase))
+                    title.EndsWith("\\ssh.exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    title = I18N.Translate("Authenticate");
-
-                    if (string.IsNullOrEmpty(title))
-                    {
-                        title = "Authenticate";
-                    }
+                    title = $"[ssh] {I18N.Translate("Authenticate")}";
+                }
+                else if (title.Equals("mosh", StringComparison.OrdinalIgnoreCase) ||
+                         title.EndsWith("\\mosh.exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    title = $"[mosh] {I18N.Translate("Authenticate")}";
                 }
                 else if (SshTitleRx.IsMatch(title))
                 {
