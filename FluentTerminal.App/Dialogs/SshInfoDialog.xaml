@@ -114,7 +114,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Margin="0,10,0,0"
-            IsReadOnly="True"
+            IsReadOnly="False"
             PlaceholderText="Identity file path"
             Text="{Binding IdentityFile, Mode=TwoWay}" />
         <Button

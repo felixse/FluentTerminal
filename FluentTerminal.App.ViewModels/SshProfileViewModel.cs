@@ -4,6 +4,8 @@ using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,9 @@ namespace FluentTerminal.App.ViewModels
         #region Fields
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+
+        // To prevent validating the existence of the same file multiple times because it's kinda expensive
+        private string _validatedIdentityFile;
 
         #endregion Fields
 
@@ -188,7 +193,7 @@ namespace FluentTerminal.App.ViewModels
 
         public override async Task SaveChangesAsync()
         {
-            var result = Validate();
+            var result = await ValidateAsync();
 
             if (result != SshConnectionInfoValidationResult.Valid)
             {
@@ -216,8 +221,56 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public SshConnectionInfoValidationResult Validate(bool allowNoUser = false) =>
-            this.GetValidationResult(allowNoUser);
+        public async Task<SshConnectionInfoValidationResult> ValidateAsync()
+        {
+            var result = this.GetValidationResult();
+
+            var identityFile = _identityFile;
+
+            if (!string.IsNullOrEmpty(identityFile) && !string.Equals(identityFile, _validatedIdentityFile,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                // Here we need to take into account that files from ssh config dir can be provided by name, without full path.
+                string fullPath;
+
+                if (identityFile.Contains(Path.PathSeparator))
+                {
+                    fullPath = identityFile;
+                }
+                else
+                {
+                    var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync();
+
+                    if (string.IsNullOrEmpty(sshConfigDir))
+                    {
+                        result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
+
+                        return result;
+                    }
+
+                    fullPath = Path.Combine(sshConfigDir, identityFile);
+                }
+
+                if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath))
+                {
+                    _validatedIdentityFile = identityFile;
+
+                    IdentityFile = fullPath;
+                }
+                else
+                {
+                    result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
+                }
+            }
+
+            return result;
+        }
+
+        public void SetValidatedIdentityFile(string identityFile)
+        {
+            _validatedIdentityFile = identityFile;
+            IdentityFile = identityFile;
+        }
 
         #endregion Methods
     }

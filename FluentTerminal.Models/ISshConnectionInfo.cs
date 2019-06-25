@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentTerminal.Models.Enums;
 
 
@@ -26,7 +27,7 @@ namespace FluentTerminal.Models
 
         int TabThemeId { get; set; }
 
-        SshConnectionInfoValidationResult Validate(bool allowNoUser = false);
+        Task<SshConnectionInfoValidationResult> ValidateAsync();
 
         bool UseConPty { get; set; }
     }

@@ -192,11 +192,13 @@ namespace FluentTerminal.App.Services
         public Task<SshProfile> GetSavedSshProfileAsync() =>
             _dialogService.ShowSshProfileSelectionDialogAsync();
 
-        public string ConvertToUri(ISshConnectionInfo sshConnectionInfo)
+        public async Task<string> ConvertToUriAsync(ISshConnectionInfo sshConnectionInfo)
         {
-            SshConnectionInfoValidationResult result = sshConnectionInfo.Validate(true);
+            var result = await sshConnectionInfo.ValidateAsync();
 
-            if (result != SshConnectionInfoValidationResult.Valid)
+            if (result != SshConnectionInfoValidationResult.Valid &&
+                // We can ignore empty username here
+                result != SshConnectionInfoValidationResult.UsernameEmpty)
                 throw new ArgumentException(result.GetErrorString(), nameof(sshConnectionInfo));
 
             SshProfileViewModel sshConnectionInfoVm = (SshProfileViewModel) sshConnectionInfo;

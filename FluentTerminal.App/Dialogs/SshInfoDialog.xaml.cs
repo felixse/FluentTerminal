@@ -104,7 +104,7 @@ URL={0}
             StorageFile file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                ((SshProfileViewModel)DataContext).IdentityFile = file.Path;
+                ((SshProfileViewModel)DataContext).SetValidatedIdentityFile(file.Path);
             }
         }
 
@@ -112,15 +112,18 @@ URL={0}
         {
             SshProfileViewModel vm = (SshProfileViewModel) DataContext;
 
-            var validationResult = vm.Validate(true);
+            var validationResult = await vm.ValidateAsync();
 
-            if (validationResult != SshConnectionInfoValidationResult.Valid)
+            if (validationResult != SshConnectionInfoValidationResult.Valid &&
+                // We may ignore empty username for links
+                validationResult != SshConnectionInfoValidationResult.UsernameEmpty)
             {
-                await new MessageDialog(validationResult.GetErrorString(Environment.NewLine), I18N.Translate("InvalidInput")).ShowAsync();
+                await new MessageDialog(validationResult.GetErrorString(Environment.NewLine),
+                    I18N.Translate("InvalidInput")).ShowAsync();
                 return;
             }
 
-            string content = string.Format(ShortcutFileFormat, _sshHelperService.ConvertToUri(vm));
+            string content = string.Format(ShortcutFileFormat, await _sshHelperService.ConvertToUriAsync(vm));
 
             string fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
 
@@ -146,7 +149,9 @@ URL={0}
 
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var result = ((ISshConnectionInfo) DataContext).Validate();
+            var deferral = args.GetDeferral();
+
+            var result = await ((ISshConnectionInfo) DataContext).ValidateAsync();
 
             if (result != SshConnectionInfoValidationResult.Valid)
             {
@@ -156,6 +161,8 @@ URL={0}
 
                 SetupFocus();
             }
+
+            deferral.Complete();
         }
 
         private void Port_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
