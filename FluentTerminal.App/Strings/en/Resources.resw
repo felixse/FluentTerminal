@@ -906,4 +906,10 @@ Fuzzy</comment>
   <data name="MoshPortRange.Text" xml:space="preserve">
     <value>Mosh port range</value>
   </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>Settings were exported to file</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>Settings were imported from file</value>
+  </data>
 </root>

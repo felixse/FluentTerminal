@@ -26,7 +26,8 @@ namespace FluentTerminal.App.Services.Implementation
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true,
                 ShowCustomTitleInTitlebar = true,
-                UseMoshByDefault = true
+                UseMoshByDefault = true,
+                AutoFallbackToWindowsUsernameInLinks = true
             };
         }
 

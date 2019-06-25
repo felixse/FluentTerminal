@@ -127,12 +127,6 @@
                 DefaultLabelPosition="Right"
                 Visibility="{x:Bind ViewModel.SelectedSshProfile.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                 <AppBarButton
-                    x:Uid="SetDefaultAppBarButton"
-                    Command="{x:Bind ViewModel.SelectedSshProfile.SetDefaultCommand, Mode=OneWay}"
-                    Icon="Accept"
-                    IsEnabled="{x:Bind ViewModel.SelectedSshProfile.IsDefault, Mode=OneWay, Converter={StaticResource NegateConverter}}"
-                    Label="Set Default" />
-                <AppBarButton
                     x:Uid="CloneAppBarButton"
                     Command="{x:Bind ViewModel.CloneCommand, Mode=OneWay}"
                     CommandParameter="{x:Bind ViewModel.SelectedSshProfile, Mode=OneWay}"
@@ -183,13 +177,6 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{x:Bind Name, Mode=OneWay}" />
-                                <Viewbox
-                                    Grid.Column="1"
-                                    Width="16"
-                                    Height="16"
-                                    HorizontalAlignment="Right">
-                                    <SymbolIcon Symbol="Accept" Visibility="{x:Bind IsDefault, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
-                                </Viewbox>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
