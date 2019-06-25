@@ -4,6 +4,8 @@ using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -226,9 +228,32 @@ namespace FluentTerminal.App.ViewModels
             if (!string.IsNullOrEmpty(identityFile) && !string.Equals(identityFile, _validatedIdentityFile,
                     StringComparison.OrdinalIgnoreCase))
             {
-                if (await _trayProcessCommunicationService.CheckFileExistsAsync(identityFile))
+                // Here we need to take into account that files from ssh config dir can be provided by name, without full path.
+                string fullPath;
+
+                if (identityFile.Contains(Path.PathSeparator))
+                {
+                    fullPath = identityFile;
+                }
+                else
+                {
+                    var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync();
+
+                    if (string.IsNullOrEmpty(sshConfigDir))
+                    {
+                        result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
+
+                        return result;
+                    }
+
+                    fullPath = Path.Combine(sshConfigDir, identityFile);
+                }
+
+                if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath))
                 {
                     _validatedIdentityFile = identityFile;
+
+                    IdentityFile = fullPath;
                 }
                 else
                 {

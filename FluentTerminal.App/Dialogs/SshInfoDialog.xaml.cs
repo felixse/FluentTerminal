@@ -149,6 +149,8 @@ URL={0}
 
         private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var deferral = args.GetDeferral();
+
             var result = await ((ISshConnectionInfo) DataContext).ValidateAsync();
 
             if (result != SshConnectionInfoValidationResult.Valid)
@@ -159,6 +161,8 @@ URL={0}
 
                 SetupFocus();
             }
+
+            deferral.Complete();
         }
 
         private void Port_OnBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args) =>
