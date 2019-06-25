@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.Models.Enums;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.Models
 {
@@ -37,6 +38,7 @@ namespace FluentTerminal.Models
         public SshProfile()
         {
             LineEndingTranslation = LineEndingStyle.ToLF;
+            UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7); // Windows 10 1809+
         }
 
         protected SshProfile(SshProfile other) : base(other)
