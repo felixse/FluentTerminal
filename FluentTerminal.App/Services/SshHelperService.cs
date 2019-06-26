@@ -157,7 +157,7 @@ namespace FluentTerminal.App.Services
                 {
                     if (Guid.TryParse(param.Item2, out Guid themeId))
                     {
-                        vm.TerminalThemeId = themeId;
+                        vm.TerminalInfoViewModel.TerminalThemeId = themeId;
                     }
 
                     continue;
@@ -167,7 +167,7 @@ namespace FluentTerminal.App.Services
                 {
                     if (int.TryParse(param.Item2, out int tabThemeId))
                     {
-                        vm.TabThemeId = tabThemeId;
+                        vm.TerminalInfoViewModel.TabThemeId = tabThemeId;
                     }
                 }
 
@@ -251,7 +251,7 @@ namespace FluentTerminal.App.Services
                 queryStringAdded = true;
             }
 
-            if (!sshConnectionInfo.TerminalThemeId.Equals(Guid.Empty))
+            if (!sshConnectionInfoVm.TerminalInfoViewModel.TerminalThemeId.Equals(Guid.Empty))
             {
                 if (!queryStringAdded)
                 {
@@ -264,21 +264,14 @@ namespace FluentTerminal.App.Services
                     sb.Append("&");
                 }
 
-                sb.Append($"{ThemeQueryStringParam}={sshConnectionInfo.TerminalThemeId}" );
+                sb.Append($"{ThemeQueryStringParam}={sshConnectionInfoVm.TerminalInfoViewModel.TerminalThemeId}" );
             }
 
-            if (sshConnectionInfo.TabThemeId != 0)
+            if (sshConnectionInfoVm.TerminalInfoViewModel.TabThemeId != 0)
             {
-                if (!queryStringAdded)
-                {
-                    sb.Append("?");
-                }
-                else
-                {
-                    sb.Append("&");
-                }
+                sb.Append(queryStringAdded ? "&" : "?");
 
-                sb.Append($"{TabQueryStringParam}={sshConnectionInfo.TabThemeId:##########}");
+                sb.Append($"{TabQueryStringParam}={sshConnectionInfoVm.TerminalInfoViewModel.TabThemeId:##########}");
             }
 
             return sb.ToString();

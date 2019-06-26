@@ -3,11 +3,9 @@ using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,13 +13,6 @@ namespace FluentTerminal.App.ViewModels
 {
     public class ShellProfileViewModel : ViewModelBase
     {
-        #region Static
-
-        private static readonly LineEndingStyle[] LineEndingStylesArray =
-            Enum.GetValues(typeof(LineEndingStyle)).Cast<LineEndingStyle>().ToArray();
-
-        #endregion Static
-
         #region Fields
 
         private ShellProfile _fallbackProfile;
@@ -44,13 +35,7 @@ namespace FluentTerminal.App.ViewModels
 
         public bool PreInstalled { get; private set; }
 
-        private bool _useConPty;
-
-        public bool UseConPty
-        {
-            get => _useConPty;
-            set => Set(ref _useConPty, value);
-        }
+        public TerminalInfoViewModel TerminalInfoViewModel { get; }
 
         private string _arguments;
 
@@ -92,63 +77,6 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _name, value);
         }
 
-        private TabTheme _selectedTabTheme;
-
-        public TabTheme SelectedTabTheme
-        {
-            get => _selectedTabTheme ?? (_selectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(_tabThemeId)));
-            set
-            {
-                if (value != null && Set(ref _selectedTabTheme, value))
-                {
-                    _tabThemeId = value.Id;
-                }
-            }
-        }
-
-        private int _tabThemeId;
-
-        public int TabThemeId
-        {
-            get => _tabThemeId;
-            set
-            {
-                if (Set(ref _tabThemeId, value))
-                {
-                    SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(value));
-                }
-            }
-        }
-
-        private TerminalTheme _selectedTerminalTheme;
-
-        public TerminalTheme SelectedTerminalTheme
-        {
-            get => _selectedTerminalTheme ??
-                   (_selectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(_terminalThemeId)));
-            set
-            {
-                if (value != null && Set(ref _selectedTerminalTheme, value))
-                {
-                    _terminalThemeId = value.Id;
-                }
-            }
-        }
-
-        private Guid _terminalThemeId;
-
-        public Guid TerminalThemeId
-        {
-            get => _terminalThemeId;
-            set
-            {
-                if (Set(ref _terminalThemeId, value))
-                {
-                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(value));
-                }
-            }
-        }
-
         private string _workingDirectory;
 
         public string WorkingDirectory
@@ -157,22 +85,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _workingDirectory, value);
         }
 
-        private LineEndingStyle _lineEndingTranslation;
-
-        public LineEndingStyle LineEndingTranslation
-        {
-            get => _lineEndingTranslation;
-            set => Set(ref _lineEndingTranslation, value);
-        }
-
-        public ObservableCollection<TabTheme> TabThemes { get; }
-
         public KeyBindingsViewModel KeyBindings { get; }
-
-        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-
-        public ObservableCollection<LineEndingStyle> LineEndingStyles { get; } =
-            new ObservableCollection<LineEndingStyle>(LineEndingStylesArray);
 
         #endregion Properties
 
@@ -220,23 +133,10 @@ namespace FluentTerminal.App.ViewModels
             DefaultValueProvider = defaultValueProvider;
             IsNew = isNew;
 
+            TerminalInfoViewModel = new TerminalInfoViewModel(settingsService);
+
             SettingsService.ThemeAdded += OnThemeAdded;
             SettingsService.ThemeDeleted += OnThemeDeleted;
-
-            TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
-
-            TerminalThemes = new ObservableCollection<TerminalTheme>
-            {
-                new TerminalTheme
-                {
-                    Id = Guid.Empty,
-                    Name = "Default"
-                }
-            };
-            foreach (var theme in SettingsService.GetThemes())
-            {
-                TerminalThemes.Add(theme);
-            }
 
             KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), DialogService, string.Empty, false);
 
@@ -265,11 +165,11 @@ namespace FluentTerminal.App.ViewModels
             Arguments = shellProfile.Arguments;
             Location = shellProfile.Location;
             WorkingDirectory = shellProfile.WorkingDirectory;
-            TerminalThemeId = shellProfile.TerminalThemeId;
-            TabThemeId = shellProfile.TabThemeId;
+            TerminalInfoViewModel.TerminalThemeId = shellProfile.TerminalThemeId;
+            TerminalInfoViewModel.TabThemeId = shellProfile.TabThemeId;
             PreInstalled = shellProfile.PreInstalled;
-            LineEndingTranslation = shellProfile.LineEndingTranslation;
-            UseConPty = shellProfile.UseConPty;
+            TerminalInfoViewModel.LineEndingTranslation = shellProfile.LineEndingTranslation;
+            TerminalInfoViewModel.UseConPty = shellProfile.UseConPty;
 
             KeyBindings.Clear();
             foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
@@ -290,11 +190,11 @@ namespace FluentTerminal.App.ViewModels
             profile.Arguments = Arguments;
             profile.Location = Location;
             profile.WorkingDirectory = WorkingDirectory;
-            profile.TerminalThemeId = TerminalThemeId;
-            profile.TabThemeId = TabThemeId;
+            profile.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
+            profile.TabThemeId = TerminalInfoViewModel.TabThemeId;
             profile.PreInstalled = PreInstalled;
-            profile.LineEndingTranslation = LineEndingTranslation;
-            profile.UseConPty = UseConPty;
+            profile.LineEndingTranslation = TerminalInfoViewModel.LineEndingTranslation;
+            profile.UseConPty = TerminalInfoViewModel.UseConPty;
             profile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
 
             return Task.CompletedTask;
@@ -314,24 +214,21 @@ namespace FluentTerminal.App.ViewModels
         {
             ApplicationView.RunOnDispatcherThread(() =>
             {
-                TerminalThemes.Add(e);
+                TerminalInfoViewModel.AddTheme(e);
             });
         }
 
         private void OnThemeDeleted(object sender, Guid e)
         {
-            if (SelectedTerminalTheme.Id == e)
+            ApplicationView.RunOnDispatcherThread(() =>
             {
-                ApplicationView.RunOnDispatcherThread(() =>
+                TerminalInfoViewModel.RemoveTheme(e);
+                Model.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
+                if (_fallbackProfile != null)
                 {
-                    SelectedTerminalTheme = TerminalThemes.FirstOrDefault(x => x.Id == Guid.Empty);
-                    Model.TerminalThemeId = Guid.Empty;
-                    if (_fallbackProfile != null)
-                    {
-                        _fallbackProfile.TerminalThemeId = Guid.Empty;
-                    }
-                });
-            }
+                    _fallbackProfile.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
+                }
+            });
         }
 
         public virtual async Task SaveChangesAsync()

@@ -344,8 +344,8 @@
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind TerminalInfoViewModel.TabThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTabTheme, Mode=TwoWay}" />
 
                                 <ComboBox
                                     x:Uid="ProfileTheme"
@@ -354,20 +354,20 @@
                                     Header="Theme"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind TerminalInfoViewModel.TerminalThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTerminalTheme, Mode=TwoWay}" />
 
                                 <ToggleSwitch
                                     Margin="{StaticResource ItemMargin}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
+                                    IsOn="{x:Bind TerminalInfoViewModel.UseConPty, Mode=TwoWay}" />
 
                                 <ComboBox
                                     Margin="{StaticResource ItemMargin}"
                                     VerticalAlignment="Center"
-                                    ItemsSource="{x:Bind LineEndingStyles}"
-                                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
+                                    ItemsSource="{x:Bind TerminalInfoViewModel.LineEndingStyles}"
+                                    SelectedItem="{Binding TerminalInfoViewModel.LineEndingTranslation, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="enums:LineEndingStyle">
                                             <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
@@ -488,7 +488,7 @@
                                     Header="Tab color">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
+                                        Content="{x:Bind TerminalInfoViewModel.SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -500,7 +500,7 @@
                                     Header="Theme">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTerminalTheme, Mode=OneWay}"
+                                        Content="{x:Bind TerminalInfoViewModel.SelectedTerminalTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -512,7 +512,7 @@
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind UseConPty, Mode=OneWay}"
+                                        Content="{x:Bind TerminalInfoViewModel.UseConPty, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -524,7 +524,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
+                                        Content="{x:Bind TerminalInfoViewModel.LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />

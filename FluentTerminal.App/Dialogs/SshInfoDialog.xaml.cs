@@ -14,7 +14,6 @@ using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models;
-using System.Collections.ObjectModel;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -31,13 +30,6 @@ URL={0}
         private readonly ISshHelperService _sshHelperService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
-        public IEnumerable<LineEndingStyle> LineEndingStyles { get; } = (LineEndingStyle[])Enum.GetValues(typeof(LineEndingStyle));
-
-        public ObservableCollection<TabTheme> TabThemes { get; }
-
-        public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-
-
         public SshInfoDialog(ISettingsService settingsService, ISshHelperService sshHelperService,
             ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -48,21 +40,6 @@ URL={0}
             SecondaryButtonText = I18N.Translate("Cancel");
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
-
-            TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
-
-            TerminalThemes = new ObservableCollection<TerminalTheme>
-            {
-                new TerminalTheme
-                {
-                    Id = Guid.Empty,
-                    Name = "Default"
-                }
-            };
-            foreach (var theme in settingsService.GetThemes())
-            {
-                TerminalThemes.Add(theme);
-            }
         }
 
         private void SetupFocus()
