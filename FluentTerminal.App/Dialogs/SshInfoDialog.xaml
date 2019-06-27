@@ -18,7 +18,7 @@
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     mc:Ignorable="d">
     <ContentDialog.Resources>
-        <ResourceDictionary Source="../Views/ThemeTemplateSelectors.xaml"/>
+        <ResourceDictionary Source="../Views/TemplateSelectors.xaml"/>
     </ContentDialog.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">

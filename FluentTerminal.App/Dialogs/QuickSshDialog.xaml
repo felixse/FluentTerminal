@@ -15,7 +15,7 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     DefaultButton="Primary">
     <ContentDialog.Resources>
-        <ResourceDictionary Source="Views/ThemeTemplateSelectors.xaml"/>
+        <ResourceDictionary Source="Views/TemplateSelectors.xaml"/>
     </ContentDialog.Resources>
     <Grid>
     </Grid>

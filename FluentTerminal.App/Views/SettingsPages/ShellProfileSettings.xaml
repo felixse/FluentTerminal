@@ -12,7 +12,7 @@
     xmlns:enums="using:FluentTerminal.Models.Enums"
     mc:Ignorable="d">
     <Page.Resources>
-        <ResourceDictionary Source="../ThemeTemplateSelectors.xaml"/>
+        <ResourceDictionary Source="../TemplateSelectors.xaml"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
