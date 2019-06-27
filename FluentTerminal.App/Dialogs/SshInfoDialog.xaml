@@ -6,8 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentTerminal.Models"
-    xmlns:views="using:FluentTerminal.App.Views"
     xmlns:vm="using:FluentTerminal.App.ViewModels"
     x:Uid="SshInfoDialog"
     Title="SSH Info"
