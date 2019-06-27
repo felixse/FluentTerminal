@@ -18,45 +18,9 @@
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     mc:Ignorable="d">
     <ContentDialog.Resources>
-        <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
-            <views:TabThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Glyph="&#xF126;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.DefaultTemplate>
-            <views:TabThemeTemplateSelector.ColoredTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Foreground="{x:Bind Color}"
-                            Glyph="&#xF127;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.ColoredTemplate>
-        </views:TabThemeTemplateSelector>
-        <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
-            <views:TerminalThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.DefaultTemplate>
-            <views:TerminalThemeTemplateSelector.ThemeTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.ThemeTemplate>
-        </views:TerminalThemeTemplateSelector>
-
+        <ResourceDictionary Source="../Views/ThemeTemplateSelectors.xaml"/>
     </ContentDialog.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid Width="500">
         <Grid.ColumnDefinitions>

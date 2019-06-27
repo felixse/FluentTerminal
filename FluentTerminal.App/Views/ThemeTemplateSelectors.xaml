@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FluentTerminal.App.Views"
+    xmlns:models="using:FluentTerminal.Models">
+    <local:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
+        <local:TabThemeTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="models:TabTheme">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xF126;" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </local:TabThemeTemplateSelector.DefaultTemplate>
+        <local:TabThemeTemplateSelector.ColoredTemplate>
+            <DataTemplate x:DataType="models:TabTheme">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon
+                            Margin="0,0,6,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Foreground="{x:Bind Color}"
+                            Glyph="&#xF127;" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                </StackPanel>
+            </DataTemplate>
+        </local:TabThemeTemplateSelector.ColoredTemplate>
+    </local:TabThemeTemplateSelector>
+    <local:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
+        <local:TerminalThemeTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="models:TerminalTheme">
+                <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
+            </DataTemplate>
+        </local:TerminalThemeTemplateSelector.DefaultTemplate>
+        <local:TerminalThemeTemplateSelector.ThemeTemplate>
+            <DataTemplate x:DataType="models:TerminalTheme">
+                <TextBlock Text="{x:Bind Name}" />
+            </DataTemplate>
+        </local:TerminalThemeTemplateSelector.ThemeTemplate>
+    </local:TerminalThemeTemplateSelector>
+</ResourceDictionary>
