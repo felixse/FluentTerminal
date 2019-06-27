@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class TerminalInfoViewModel : ViewModelBase, ITerminalInfo
+    public class TerminalInfoViewModel : ViewModelBase
     {
         #region Static
 
