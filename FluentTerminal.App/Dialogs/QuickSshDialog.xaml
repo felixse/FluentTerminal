@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:FluentTerminal.App.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:enums="using:FluentTerminal.Models.Enums"
     mc:Ignorable="d"
     x:Uid="QuickSshDialog"
     Title="Quick SSH"
@@ -12,11 +14,91 @@
     PrimaryButtonText="Execute"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    DefaultButton="Primary">
+    DefaultButton="Primary"
+    Loading="OnLoading">
     <ContentDialog.Resources>
         <ResourceDictionary Source="../Views/TemplateSelectors.xaml"/>
     </ContentDialog.Resources>
-    <Grid>
-    </Grid>
+    <StackPanel Orientation="Vertical" Width="500">
+        <TextBox x:Name="CommandTextBox" 
+                 PlaceholderText="Enter SSH command to execute"
+                 Text="{Binding Command}"/>
+        <controls:Expander
+            x:Uid="AdvancedExpander"
+            Margin="0,10,0,0"
+            Padding="0,10,0,10"
+            HorizontalContentAlignment="Stretch"
+            Header="Advanced"
+            IsExpanded="False">
+            <Grid Margin="5,20,5,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    x:Uid="LineEndingModeOnPaste"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="Line ending on paste:" />
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding TerminalInfoViewModel.LineEndingStyles}"
+                    SelectedItem="{Binding TerminalInfoViewModel.LineEndingTranslation, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="enums:LineEndingStyle">
+                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock
+                    x:Uid="SshInfoDialog_TabColor"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="Tab color:" />
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
+                    ItemsSource="{Binding TerminalInfoViewModel.TabThemes, Mode=OneWay}"
+                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTabTheme, Mode=TwoWay}" />
+
+                <TextBlock
+                    x:Uid="Theme"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="Theme:" />
+                <ComboBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Stretch"
+                    ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
+                    ItemsSource="{Binding TerminalInfoViewModel.TerminalThemes, Mode=OneWay}"
+                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTerminalTheme, Mode=TwoWay}" />
+
+                <CheckBox
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,8,0,0"
+                    Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
+                    IsChecked="{Binding TerminalInfoViewModel.UseConPty, Mode=TwoWay}" />
+
+            </Grid>
+        </controls:Expander>
+    </StackPanel>
 </ContentDialog>

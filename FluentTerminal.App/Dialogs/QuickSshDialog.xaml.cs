@@ -1,35 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Dialogs;
+using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace FluentTerminal.App.Dialogs
 {
-    public sealed partial class QuickSshDialog : ContentDialog
+    // ReSharper disable once RedundantExtendsListEntry
+    public sealed partial class QuickSshDialog : ContentDialog, IQuickSshDialog
     {
-        public QuickSshDialog()
+        private readonly ISettingsService _settingsService;
+        private readonly IApplicationView _applicationView;
+
+        public QuickSshDialog(ISettingsService settingsService, IApplicationView applicationView)
         {
-            this.InitializeComponent();
+            _settingsService = settingsService;
+            _applicationView = applicationView;
+
+            InitializeComponent();
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            var deferral = args.GetDeferral();
+
+            var error = await((QuickSshViewModel)DataContext).ValidateAsync();
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                args.Cancel = true;
+
+                await new MessageDialog(error, I18N.Translate("InvalidInput")).ShowAsync();
+
+                CommandTextBox.Focus(FocusState.Programmatic);
+            }
+
+            deferral.Complete();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void OnLoading(FrameworkElement sender, object args)
         {
+            CommandTextBox.Focus(FocusState.Programmatic);
+        }
+
+        public async Task<SshProfile> GetSshProfileAsync(SshProfile input = null)
+        {
+            var vm = new QuickSshViewModel(_settingsService, _applicationView, input);
+
+            DataContext = vm;
+
+            return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.GetProfile() : null;
         }
     }
 }
