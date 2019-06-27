@@ -13,45 +13,6 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="../ThemeTemplateSelectors.xaml"/>
-        <views:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
-            <views:TerminalKeybindTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.DefaultTemplate>
-            <views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <views:KeyBindingsView
-                        Margin="0,6,0,0"
-                        ShowCommandName="False"
-                        ViewModel="{x:Bind}" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-        </views:TerminalKeybindTemplateSelector>
-        <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
-            <views:NoValueTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.DefaultTemplate>
-            <views:NoValueTemplateSelector.CustomTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock Text="{x:Bind}" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.CustomTemplate>
-        </views:NoValueTemplateSelector>
-        <views:BooleanTemplateSelector x:Key="UseConPtyTemplateSelector">
-            <views:BooleanTemplateSelector.TrueTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="Yes" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.TrueTemplate>
-            <views:BooleanTemplateSelector.FalseTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="No" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.FalseTemplate>
-        </views:BooleanTemplateSelector>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>

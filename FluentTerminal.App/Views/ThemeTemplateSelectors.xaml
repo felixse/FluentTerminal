@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FluentTerminal.App.Views"
-    xmlns:models="using:FluentTerminal.Models">
+    xmlns:models="using:FluentTerminal.Models"
+    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings">
     <local:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
         <local:TabThemeTemplateSelector.DefaultTemplate>
             <DataTemplate x:DataType="models:TabTheme">
@@ -40,4 +41,43 @@
             </DataTemplate>
         </local:TerminalThemeTemplateSelector.ThemeTemplate>
     </local:TerminalThemeTemplateSelector>
+    <local:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
+        <local:TerminalKeybindTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                <TextBlock x:Uid="None" FontStyle="Italic" />
+            </DataTemplate>
+        </local:TerminalKeybindTemplateSelector.DefaultTemplate>
+        <local:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                <local:KeyBindingsView
+                        Margin="0,6,0,0"
+                        ShowCommandName="False"
+                        ViewModel="{x:Bind}" />
+            </DataTemplate>
+        </local:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+    </local:TerminalKeybindTemplateSelector>
+    <local:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
+        <local:NoValueTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="x:String">
+                <TextBlock x:Uid="None" FontStyle="Italic" />
+            </DataTemplate>
+        </local:NoValueTemplateSelector.DefaultTemplate>
+        <local:NoValueTemplateSelector.CustomTemplate>
+            <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{x:Bind}" />
+            </DataTemplate>
+        </local:NoValueTemplateSelector.CustomTemplate>
+    </local:NoValueTemplateSelector>
+    <local:BooleanTemplateSelector x:Key="UseConPtyTemplateSelector">
+        <local:BooleanTemplateSelector.TrueTemplate>
+            <DataTemplate x:DataType="x:Boolean">
+                <TextBlock x:Uid="Yes" />
+            </DataTemplate>
+        </local:BooleanTemplateSelector.TrueTemplate>
+        <local:BooleanTemplateSelector.FalseTemplate>
+            <DataTemplate x:DataType="x:Boolean">
+                <TextBlock x:Uid="No" />
+            </DataTemplate>
+        </local:BooleanTemplateSelector.FalseTemplate>
+    </local:BooleanTemplateSelector>
 </ResourceDictionary>
