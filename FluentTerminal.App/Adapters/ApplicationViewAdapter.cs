@@ -47,8 +47,15 @@ namespace FluentTerminal.App.Adapters
             return ApiInformation.IsApiContractPresent(api, version);
         }
 
-        public Task RunOnDispatcherThread(Action action)
+        public Task RunOnDispatcherThread(Action action, bool enforceNewSchedule = true)
         {
+            if (!enforceNewSchedule && _dispatcher.HasThreadAccess)
+            {
+                action();
+
+                return Task.CompletedTask;
+            }
+
             return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action()).AsTask();
         }
 

@@ -133,10 +133,7 @@ namespace FluentTerminal.App.ViewModels
             DefaultValueProvider = defaultValueProvider;
             IsNew = isNew;
 
-            TerminalInfoViewModel = new TerminalInfoViewModel(settingsService);
-
-            SettingsService.ThemeAdded += OnThemeAdded;
-            SettingsService.ThemeDeleted += OnThemeDeleted;
+            TerminalInfoViewModel = new TerminalInfoViewModel(settingsService, applicationView);
 
             KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), DialogService, string.Empty, false);
 
@@ -165,11 +162,8 @@ namespace FluentTerminal.App.ViewModels
             Arguments = shellProfile.Arguments;
             Location = shellProfile.Location;
             WorkingDirectory = shellProfile.WorkingDirectory;
-            TerminalInfoViewModel.TerminalThemeId = shellProfile.TerminalThemeId;
-            TerminalInfoViewModel.TabThemeId = shellProfile.TabThemeId;
             PreInstalled = shellProfile.PreInstalled;
-            TerminalInfoViewModel.LineEndingTranslation = shellProfile.LineEndingTranslation;
-            TerminalInfoViewModel.UseConPty = shellProfile.UseConPty;
+            TerminalInfoViewModel.LoadFromProfile(shellProfile);
 
             KeyBindings.Clear();
             foreach (var keyBinding in shellProfile.KeyBindings.Select(x => new KeyBinding(x)).ToList())
@@ -190,11 +184,8 @@ namespace FluentTerminal.App.ViewModels
             profile.Arguments = Arguments;
             profile.Location = Location;
             profile.WorkingDirectory = WorkingDirectory;
-            profile.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
-            profile.TabThemeId = TerminalInfoViewModel.TabThemeId;
             profile.PreInstalled = PreInstalled;
-            profile.LineEndingTranslation = TerminalInfoViewModel.LineEndingTranslation;
-            profile.UseConPty = TerminalInfoViewModel.UseConPty;
+            TerminalInfoViewModel.CopyToProfile(profile);
             profile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
 
             return Task.CompletedTask;
@@ -208,27 +199,6 @@ namespace FluentTerminal.App.ViewModels
             await FillProfileAsync(profile);
 
             return profile;
-        }
-
-        private void OnThemeAdded(object sender, TerminalTheme e)
-        {
-            ApplicationView.RunOnDispatcherThread(() =>
-            {
-                TerminalInfoViewModel.AddTheme(e);
-            });
-        }
-
-        private void OnThemeDeleted(object sender, Guid e)
-        {
-            ApplicationView.RunOnDispatcherThread(() =>
-            {
-                TerminalInfoViewModel.RemoveTheme(e);
-                Model.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
-                if (_fallbackProfile != null)
-                {
-                    _fallbackProfile.TerminalThemeId = TerminalInfoViewModel.TerminalThemeId;
-                }
-            });
         }
 
         public virtual async Task SaveChangesAsync()

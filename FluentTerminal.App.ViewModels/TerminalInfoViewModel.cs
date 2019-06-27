@@ -8,7 +8,10 @@ using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class TerminalInfoViewModel : ViewModelBase
+    /// <summary>
+    /// View model used in few forms for selecting Terminal themes / behavior.
+    /// </summary>
+    public class TerminalInfoViewModel : ViewModelBase, IDisposable
     {
         #region Static
 
@@ -16,6 +19,14 @@ namespace FluentTerminal.App.ViewModels
             Enum.GetValues(typeof(LineEndingStyle)).Cast<LineEndingStyle>().ToArray();
 
         #endregion Static
+
+        #region Fields
+
+        private readonly ISettingsService _settingsService;
+
+        private readonly IApplicationView _applicationView;
+
+        #endregion Fields
 
         #region Properties
 
@@ -41,14 +52,27 @@ namespace FluentTerminal.App.ViewModels
             get => _selectedTabTheme ?? (_selectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(_tabThemeId)));
             set
             {
-                if (value == null)
+                TabTheme theme = value;
+
+                if (theme == null)
                 {
-                    throw new ArgumentNullException();
+                    // How to handle attempt to setting null theme?
+                    // 1) Throw an exception:
+                    //throw new ArgumentNullException();
+                    // 2) Ignore the attempt:
+                    //return;
+                    // 3) Use default theme (probably the best):
+                    theme = TabThemes.First();
+                }
+                else if (!TabThemes.Contains(theme))
+                {
+                    // Ensure that it's from the list
+                    theme = TabThemes.FirstOrDefault(t => t.Id == theme.Id) ?? TabThemes.First();
                 }
 
-                if (Set(ref _selectedTabTheme, value))
+                if (Set(ref _selectedTabTheme, theme))
                 {
-                    _tabThemeId = value.Id;
+                    _tabThemeId = theme.Id;
                 }
             }
         }
@@ -75,14 +99,27 @@ namespace FluentTerminal.App.ViewModels
                    (_selectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(_terminalThemeId)));
             set
             {
-                if (value == null)
+                TerminalTheme theme = value;
+
+                if (theme == null)
                 {
-                    throw new ArgumentNullException();
+                    // How to handle attempt to setting null theme?
+                    // 1) Throw an exception:
+                    //throw new ArgumentNullException();
+                    // 2) Ignore the attempt:
+                    //return;
+                    // 3) Use default theme (probably the best):
+                    theme = TerminalThemes.First();
+                }
+                else if (!TerminalThemes.Contains(theme))
+                {
+                    // Ensure that it's from the list
+                    theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(theme.Id)) ?? TerminalThemes.First();
                 }
 
-                if (Set(ref _selectedTerminalTheme, value))
+                if (Set(ref _selectedTerminalTheme, theme))
                 {
-                    _terminalThemeId = value.Id;
+                    _terminalThemeId = theme.Id;
                 }
             }
         }
@@ -113,8 +150,11 @@ namespace FluentTerminal.App.ViewModels
 
         #region Constructor
 
-        public TerminalInfoViewModel(ISettingsService settingsService)
+        public TerminalInfoViewModel(ISettingsService settingsService, IApplicationView applicationView)
         {
+            _settingsService = settingsService;
+            _applicationView = applicationView;
+            
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
             SelectedTabTheme = TabThemes.First();
@@ -124,29 +164,60 @@ namespace FluentTerminal.App.ViewModels
             TerminalThemes.Insert(0, new TerminalTheme {Id = Guid.Empty, Name = "Default"});
 
             SelectedTerminalTheme = TerminalThemes.First();
+
+            settingsService.ThemeAdded += OnThemeAdded;
+            settingsService.ThemeDeleted += OnThemeDeleted;
         }
 
         #endregion Constructor
 
         #region Methods
 
-        public void AddTheme(TerminalTheme theme) => TerminalThemes.Add(theme);
-
-        public void RemoveTheme(Guid themeId)
+        private void OnThemeDeleted(object sender, Guid e)
         {
-            var theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(themeId));
-
-            if (theme == null)
+            _applicationView.RunOnDispatcherThread(() =>
             {
-                return;
-            }
+                var theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(e));
 
-            TerminalThemes.Remove(theme);
+                if (theme == null)
+                {
+                    return;
+                }
 
-            if (_terminalThemeId.Equals(themeId))
-            {
-                SelectedTerminalTheme = TerminalThemes.First();
-            }
+                TerminalThemes.Remove(theme);
+
+                if (_terminalThemeId.Equals(e))
+                {
+                    SelectedTerminalTheme = TerminalThemes.First();
+                }
+            });
+        }
+
+        private void OnThemeAdded(object sender, TerminalTheme e)
+        {
+            _applicationView.RunOnDispatcherThread(() => TerminalThemes.Add(e));
+        }
+
+        public void LoadFromProfile(ShellProfile profile)
+        {
+            LineEndingTranslation = profile.LineEndingTranslation;
+            UseConPty = profile.UseConPty;
+            TerminalThemeId = profile.TerminalThemeId;
+            TabThemeId = profile.TabThemeId;
+        }
+
+        public void CopyToProfile(ShellProfile profile)
+        {
+            profile.LineEndingTranslation = _lineEndingTranslation;
+            profile.UseConPty = _useConPty;
+            profile.TerminalThemeId = _terminalThemeId;
+            profile.TabThemeId = _tabThemeId;
+        }
+
+        public void Dispose()
+        {
+            _settingsService.ThemeAdded -= OnThemeAdded;
+            _settingsService.ThemeDeleted -= OnThemeDeleted;
         }
 
         #endregion Methods

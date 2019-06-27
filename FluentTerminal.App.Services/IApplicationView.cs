@@ -14,7 +14,7 @@ namespace FluentTerminal.App.Services
         int Id { get; }
         string Title { get; set; }
 
-        Task RunOnDispatcherThread(Action action);
+        Task RunOnDispatcherThread(Action action, bool enforceNewSchedule = true);
 
         Task<bool> TryClose();
 
