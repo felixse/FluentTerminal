@@ -33,7 +33,11 @@ namespace FluentTerminal.App.Dialogs
 
             var error = await((QuickSshViewModel)DataContext).ValidateAsync();
 
-            if (!string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error))
+            {
+                await ((QuickSshViewModel) DataContext).AcceptChangesAsync();
+            }
+            else
             {
                 args.Cancel = true;
 
