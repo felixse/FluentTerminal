@@ -201,6 +201,9 @@
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
+    <Compile Include="Views\TemplateSelectors.xaml.cs">
+      <DependentUpon>TemplateSelectors.xaml</DependentUpon>
+	</Compile>
     <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
     <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
