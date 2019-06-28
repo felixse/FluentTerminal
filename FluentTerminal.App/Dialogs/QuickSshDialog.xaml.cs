@@ -56,11 +56,12 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<SshProfile> GetSshProfileAsync(SshProfile input = null)
         {
-            var vm = new QuickSshViewModel(_settingsService, _applicationView, input);
+            using (var vm = new QuickSshViewModel(_settingsService, _applicationView, input))
+            {
+                DataContext = vm;
 
-            DataContext = vm;
-
-            return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.GetProfile() : null;
+                return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.GetProfile() : null;
+            }
         }
     }
 }
