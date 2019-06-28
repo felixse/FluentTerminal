@@ -10,7 +10,7 @@
     xmlns:views="using:FluentTerminal.App.Views"
     x:Uid="SshInfoDialog"
     Title="SSH Info"
-    d:DataContext="{d:DesignInstance vm:SshProfileViewModel,
+    d:DataContext="{d:DesignInstance vm:FullSshViewModel,
                                      IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
     Loading="OnLoading"
@@ -137,8 +137,8 @@
                     Grid.ColumnSpan="3"
                     Margin="0,0,0,0"
                     VerticalAlignment="Center"
-                    ItemsSource="{Binding TerminalInfoViewModel.LineEndingStyles}"
-                    SelectedItem="{Binding TerminalInfoViewModel.LineEndingTranslation, Mode=TwoWay}">
+                    ItemsSource="{Binding LineEndingStyles}"
+                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="enums:LineEndingStyle">
                             <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
@@ -191,8 +191,8 @@
                     Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                    ItemsSource="{Binding TerminalInfoViewModel.TabThemes, Mode=OneWay}"
-                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTabTheme, Mode=TwoWay}" />
+                    ItemsSource="{Binding TabThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
 
                 <TextBlock
                     x:Uid="Theme"
@@ -208,8 +208,8 @@
                     Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                    ItemsSource="{Binding TerminalInfoViewModel.TerminalThemes, Mode=OneWay}"
-                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTerminalTheme, Mode=TwoWay}" />
+                    ItemsSource="{Binding TerminalThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="4"
@@ -217,7 +217,7 @@
                     Grid.ColumnSpan="4"
                     Margin="0,8,0,0"
                     Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
-                    IsChecked="{Binding TerminalInfoViewModel.UseConPty, Mode=TwoWay}" />
+                    IsChecked="{Binding UseConPty, Mode=TwoWay}" />
 
             </Grid>
         </controls:Expander>

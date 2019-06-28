@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
@@ -31,29 +32,30 @@ namespace FluentTerminal.App.ViewModels
         #region Constructor
 
         public QuickSshViewModel(ISettingsService settingsService, IApplicationView applicationView,
-            SshProfile original = null) : base(settingsService, applicationView, original ?? new SshProfile())
+            SshProfile original = null) : base(settingsService, applicationView,
+            original ?? new SshProfile {UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault})
         {
-            if (string.IsNullOrEmpty(OriginalProfile.Location))
+            if (string.IsNullOrEmpty(Model.Location))
             {
-                if (!string.IsNullOrEmpty(OriginalProfile.Arguments))
+                if (!string.IsNullOrEmpty(Model.Arguments))
                 {
                     // TODO: We have arguments without command. Strange, but as long as we support only SSH, we can easily fix:
-                    OriginalProfile.Location = Constants.SshCommandName;
+                    Model.Location = Constants.SshCommandName;
                 }
             }
-            else if (!OriginalProfile.Location.Equals(Constants.SshCommandName))
+            else if (!Model.Location.Equals(Constants.SshCommandName))
             {
                 throw new ArgumentException($"At the moment {nameof(QuickSshViewModel)} supports only SSH commands.");
             }
 
-            CommandFromProfile((SshProfile) OriginalProfile);
+            Initialize((SshProfile) Model);
         }
 
         #endregion Constructor
 
         #region Methods
 
-        private void CommandFromProfile(SshProfile profile)
+        private void Initialize(SshProfile profile)
         {
             Command = string.IsNullOrEmpty(profile.Location) ? string.Empty : $"{profile.Location} {profile.Arguments}";
         }
@@ -62,7 +64,7 @@ namespace FluentTerminal.App.ViewModels
         {
             base.LoadFromProfile(profile);
 
-            CommandFromProfile((SshProfile) profile);
+            Initialize((SshProfile) profile);
         }
 
         protected override void CopyToProfile(ShellProfile profile)
@@ -110,6 +112,43 @@ namespace FluentTerminal.App.ViewModels
             return string.IsNullOrEmpty(error) ? "Invalid command." : error;
         }
 
+        public override bool HasChanges()
+        {
+            return base.HasChanges() ||
+                   !_command.NullableEqualTo($"{Model.Location} {Model.Arguments}");
+        }
+
         #endregion Methods
+
+        #region Links/shortcuts related
+
+        private const string UriScheme = "sshft";
+        private const string UriHost = "fluent.terminal";
+        private const string CommandQueryStringName = "cmd";
+        private const string ArgumentsQueryStringName = "args";
+
+        public override async Task<Tuple<bool, string>> GetUrlAsync()
+        {
+            var error = await base.ValidateAsync();
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                return Tuple.Create(false, error);
+            }
+
+            var match = CommandValidationRx.Match(_command);
+
+            if (!match.Success)
+            {
+                error = I18N.Translate("InvalidCommand");
+
+                return Tuple.Create(false, string.IsNullOrEmpty(error) ? "Invalid command." : error);
+            }
+
+            return Tuple.Create(true,
+                $"{UriScheme}://{UriHost}/?{CommandQueryStringName}={Constants.SshCommandName}&{ArgumentsQueryStringName}={HttpUtility.UrlEncode(match.Groups["args"].Value.Trim())}&{GetBaseQueryString()}");
+        }
+
+        #endregion Links/shortcuts related
     }
 }

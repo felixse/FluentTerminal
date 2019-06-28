@@ -149,7 +149,6 @@
     <Compile Include="Services\ApplicationLanguageService.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\FileSystemService.cs" />
-    <Compile Include="Services\SshHelperService.cs" />
     <Compile Include="Services\StartupTaskService.cs" />
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
@@ -203,7 +202,7 @@
     <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
     <Compile Include="Views\TemplateSelectors.xaml.cs">
       <DependentUpon>TemplateSelectors.xaml</DependentUpon>
-	</Compile>
+    </Compile>
     <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
     <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">

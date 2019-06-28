@@ -37,7 +37,7 @@ namespace FluentTerminal.App.Dialogs
         {
             var deferral = args.GetDeferral();
 
-            var error = await((QuickSshViewModel)DataContext).AcceptChangesAsync();
+            var error = await ((QuickSshViewModel) DataContext).AcceptChangesAsync();
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -62,7 +62,7 @@ namespace FluentTerminal.App.Dialogs
             {
                 DataContext = vm;
 
-                return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.GetProfile() : null;
+                return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.Model : null;
             }
         }
     }

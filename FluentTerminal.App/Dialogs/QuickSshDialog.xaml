@@ -60,8 +60,8 @@
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
-                    ItemsSource="{Binding TerminalInfoViewModel.LineEndingStyles}"
-                    SelectedItem="{Binding TerminalInfoViewModel.LineEndingTranslation, Mode=TwoWay}"
+                    ItemsSource="{Binding LineEndingStyles}"
+                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}"
                     Margin="0 0 0 8">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="enums:LineEndingStyle">
@@ -81,8 +81,8 @@
                     Grid.Column="2"
                     HorizontalAlignment="Stretch"
                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                    ItemsSource="{Binding TerminalInfoViewModel.TabThemes, Mode=OneWay}"
-                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTabTheme, Mode=TwoWay}" />
+                    ItemsSource="{Binding TabThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
 
                 <TextBlock
                     x:Uid="Theme"
@@ -96,8 +96,8 @@
                     Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                    ItemsSource="{Binding TerminalInfoViewModel.TerminalThemes, Mode=OneWay}"
-                    SelectedItem="{Binding TerminalInfoViewModel.SelectedTerminalTheme, Mode=TwoWay}" />
+                    ItemsSource="{Binding TerminalThemes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="3"
@@ -105,7 +105,7 @@
                     Grid.ColumnSpan="3"
                     Margin="0,8,0,0"
                     Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
-                    IsChecked="{Binding TerminalInfoViewModel.UseConPty, Mode=TwoWay}" />
+                    IsChecked="{Binding UseConPty, Mode=TwoWay}" />
 
             </Grid>
         </controls:Expander>

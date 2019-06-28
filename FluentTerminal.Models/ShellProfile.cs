@@ -42,8 +42,8 @@ namespace FluentTerminal.Models
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>();
-
-        public bool UseConPty { get; set; }
+        // Setting ConPTY as default
+        public bool UseConPty { get; set; } = true;
 
         public string TranslateLineEndings(string content)
         {

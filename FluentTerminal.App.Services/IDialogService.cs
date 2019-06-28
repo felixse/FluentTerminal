@@ -18,7 +18,7 @@ namespace FluentTerminal.App.Services
         Task<KeyBinding> ShowCreateKeyBindingDialog();
         Task<string> ShowInputDialogAsync(string title);
 
-        Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync(ISshConnectionInfo input);
+        Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null);
 
         Task<SshProfile> ShowQuickSshDialogAsync(SshProfile input = null);
 
