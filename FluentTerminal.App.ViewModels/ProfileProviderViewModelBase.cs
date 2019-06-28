@@ -185,7 +185,7 @@ namespace FluentTerminal.App.ViewModels
             SettingsService = settingsService;
             ApplicationView = applicationView;
 
-            Model = original ?? new ShellProfile();
+            _model = original ?? new ShellProfile();
 
             TabThemes = new ObservableCollection<TabTheme>(settingsService.GetTabThemes());
 
