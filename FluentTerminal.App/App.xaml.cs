@@ -567,6 +567,14 @@ namespace FluentTerminal.App
                         return;
                     }
                     break;
+                case NewWindowAction.ShowQuickSshDialog:
+                    profile = await _dialogService.ShowQuickSshDialogAsync();
+                    if (profile == null)
+                    {
+                        // Nothing to do if user cancels.
+                        return;
+                    }
+                    break;
                 case NewWindowAction.StartLocalTerminal:
                     profile = _settingsService.GetShellProfile(e.ProfileId);
                     break;

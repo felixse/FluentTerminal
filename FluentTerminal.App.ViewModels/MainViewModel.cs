@@ -50,13 +50,15 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewQuickSshTab), async () => await AddQuickSshTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddConfigurableTerminal());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitle());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewTab), async () => await AddSavedSshTerminalAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(NewWindowAction.ShowSshProfileSelection));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(NewWindowAction.ShowSshInfoDialog));
-            
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewQuickSshWindow), () => NewWindow(NewWindowAction.ShowQuickSshDialog));
+
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
@@ -260,6 +262,25 @@ namespace FluentTerminal.App.ViewModels
                 await AddTerminalAsync(profile);
             }
         }
+
+        public async Task AddQuickSshTabAsync()
+        {
+            var profile = await _dialogService.ShowQuickSshDialogAsync();
+
+            if (profile == null)
+            {
+                // User selected "Cancel"
+                if (Terminals.Count == 0)
+                {
+                    await ApplicationView.TryClose();
+                }
+            }
+            else
+            {
+                await AddTerminalAsync(profile);
+            }
+        }
+
         public Task AddSshTabOrWindowAsync(Guid shellProfileId)
         {
             switch (_applicationSettings.NewTerminalLocation)

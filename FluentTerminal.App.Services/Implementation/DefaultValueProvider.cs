@@ -135,6 +135,30 @@ namespace FluentTerminal.App.Services.Implementation
                         }
                     };
 
+                case Command.NewQuickSshTab:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewQuickSshTab),
+                            Ctrl = true,
+                            Shift = true,
+                            Key = (int)ExtendedVirtualKey.Q
+                        }
+                    };
+
+                case Command.NewQuickSshWindow:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.NewQuickSshWindow),
+                            Ctrl = true,
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.Q
+                        }
+                    };
+
                 case Command.SavedSshNewTab:
                     return new List<KeyBinding>
                     {

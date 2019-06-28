@@ -11,6 +11,8 @@
         ConfigurableNewWindow,
         NewSshTab,
         NewSshWindow,
+        NewQuickSshTab, 
+        NewQuickSshWindow,
         SavedSshNewTab,
         SavedSshNewWindow,
         ChangeTabTitle,

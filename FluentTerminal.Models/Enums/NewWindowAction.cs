@@ -6,6 +6,7 @@
         ShowProfileSelection,
         ShowSshProfileSelection,
         ShowSshInfoDialog,
+        ShowQuickSshDialog,
         StartLocalTerminal,
         StartSshTerminal
     }

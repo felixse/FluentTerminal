@@ -27,7 +27,7 @@
     <StackPanel Orientation="Vertical" Width="500">
         <TextBox x:Name="CommandTextBox" 
                  PlaceholderText="Enter SSH command to execute"
-                 Text="{Binding Command}"/>
+                 Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <controls:Expander
             x:Uid="AdvancedExpander"
             Margin="0,10,0,0"
