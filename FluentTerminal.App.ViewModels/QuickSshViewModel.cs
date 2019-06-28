@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 
 namespace FluentTerminal.App.ViewModels
@@ -99,7 +100,14 @@ namespace FluentTerminal.App.ViewModels
                 return error;
             }
 
-            return CommandValidationRx.IsMatch(_command?.Trim() ?? string.Empty) ? null : "Invalid command.";
+            if (CommandValidationRx.IsMatch(_command?.Trim() ?? string.Empty))
+            {
+                return null;
+            }
+
+            error = I18N.Translate("InvalidCommand");
+
+            return string.IsNullOrEmpty(error) ? "Invalid command." : error;
         }
 
         #endregion Methods

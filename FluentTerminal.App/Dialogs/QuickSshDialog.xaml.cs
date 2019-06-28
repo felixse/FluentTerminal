@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
 
@@ -25,6 +26,11 @@ namespace FluentTerminal.App.Dialogs
             _applicationView = applicationView;
 
             InitializeComponent();
+
+            PrimaryButtonText = I18N.Translate("OK");
+            SecondaryButtonText = I18N.Translate("Cancel");
+
+            RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(settingsService.GetCurrentTheme().Colors.Background);
         }
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
