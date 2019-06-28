@@ -11,7 +11,11 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <ResourceDictionary Source="../TemplateSelectors.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>

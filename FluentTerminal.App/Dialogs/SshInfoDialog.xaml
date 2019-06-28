@@ -7,6 +7,7 @@
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:FluentTerminal.App.ViewModels"
+    xmlns:views="using:FluentTerminal.App.Views"
     x:Uid="SshInfoDialog"
     Title="SSH Info"
     d:DataContext="{d:DesignInstance vm:SshProfileViewModel,
@@ -16,7 +17,11 @@
     PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
     mc:Ignorable="d">
     <ContentDialog.Resources>
-        <ResourceDictionary Source="../Views/TemplateSelectors.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </ContentDialog.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">

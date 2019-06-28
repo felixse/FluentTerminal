@@ -7,6 +7,7 @@
     xmlns:viewModels="using:FluentTerminal.App.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:enums="using:FluentTerminal.Models.Enums"
+    xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d"
     x:Uid="QuickSshDialog"
     Title="Quick SSH"
@@ -17,7 +18,11 @@
     DefaultButton="Primary"
     Loading="OnLoading">
     <ContentDialog.Resources>
-        <ResourceDictionary Source="../Views/TemplateSelectors.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </ContentDialog.Resources>
     <StackPanel Orientation="Vertical" Width="500">
         <TextBox x:Name="CommandTextBox" 

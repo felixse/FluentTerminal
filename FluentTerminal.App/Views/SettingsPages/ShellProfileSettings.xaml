@@ -5,14 +5,16 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentTerminal.Models"
-    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views" 
     xmlns:enums="using:FluentTerminal.Models.Enums"
     mc:Ignorable="d">
     <Page.Resources>
-        <ResourceDictionary Source="../TemplateSelectors.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
