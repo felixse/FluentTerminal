@@ -37,13 +37,9 @@ namespace FluentTerminal.App.Dialogs
         {
             var deferral = args.GetDeferral();
 
-            var error = await((QuickSshViewModel)DataContext).ValidateAsync();
+            var error = await((QuickSshViewModel)DataContext).AcceptChangesAsync();
 
-            if (string.IsNullOrEmpty(error))
-            {
-                await ((QuickSshViewModel) DataContext).AcceptChangesAsync();
-            }
-            else
+            if (!string.IsNullOrEmpty(error))
             {
                 args.Cancel = true;
 

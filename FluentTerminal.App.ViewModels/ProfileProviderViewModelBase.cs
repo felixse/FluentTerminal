@@ -59,16 +59,21 @@ namespace FluentTerminal.App.ViewModels
             return Task.FromResult<string>(null);
         }
 
-        public async Task AcceptChangesAsync()
+        /// <summary>
+        /// Makes changes only if the data is valid (<see cref="ValidateAsync"/> returned <c>null</c> or empty string).
+        /// </summary>
+        /// <returns><c>null</c> or empty string if the operation was successful (the data is valid), or an error
+        /// message returned by <see cref="ValidateAsync"/> method.</returns>
+        public async Task<string> AcceptChangesAsync()
         {
             var error = await ValidateAsync();
 
-            if (!string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error))
             {
-                throw new Exception(error);
+                CopyToProfile(OriginalProfile);
             }
 
-            CopyToProfile(OriginalProfile);
+            return error;
         }
 
         public void RejectChanges()
