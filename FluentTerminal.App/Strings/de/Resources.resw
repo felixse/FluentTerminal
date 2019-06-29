@@ -868,4 +868,22 @@ Fuzzy</comment>
   <data name="MoshPortRange.Text" xml:space="preserve">
     <value>Mosh-Ports</value>
   </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>Einstellungen wurden exportiert.</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>Einstellungen wurden importiert.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
+    <value>Identittätsdatei existiert nicht</value>
+  </data>
+  <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
+    <value>Windows-Benutzernamen verwenden wenn nicht in SSH-Url angegeben</value>
+  </data>
+  <data name="UseMoshByDefault.Header" xml:space="preserve">
+    <value>Für SSH-Verbindungen standardmäßig Mosh verwenden</value>
+  </data>
 </root>
