@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows.Input;
-using FluentTerminal.Models;
+using FluentTerminal.App.Services;
 using FluentTerminal.Models.Enums;
 
 
@@ -500,11 +500,11 @@ namespace FluentTerminal.SystemTray
 
         public static string ResolveLocation(string location)
         {
-            switch (location)
+            switch (location?.ToLower())
             {
-                case ShellLocation.SSH:
+                case Constants.SshCommandName:
                     return GetSshPath();
-                case ShellLocation.Mosh:
+                case Constants.MoshCommandName:
                     return GetMoshPath();
                 default:
                     return location;
