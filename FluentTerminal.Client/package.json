@@ -17,6 +17,6 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "xterm": "https://github.com/MaxRis/xterm.js.git#3.14.1-patched"
+    "xterm": "https://github.com/MaxRis/xterm.js.git#reset-wrapped-line-flag"
   }
 }

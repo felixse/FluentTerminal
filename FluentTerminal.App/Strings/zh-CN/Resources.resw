@@ -900,4 +900,22 @@ Fuzzy</comment>
   <data name="MoshPortRange.Text" xml:space="preserve">
     <value>Mosh port range</value>
   </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>Authenticate</value>
+  </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>Settings were exported to file</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>Settings were imported from file</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
+    <value>Identify file does not exist</value>
+  </data>
+  <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
+    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
+  </data>
+  <data name="UseMoshByDefault.Header" xml:space="preserve">
+    <value>Default to Mosh for SSH connections</value>
+  </data>
 </root>
