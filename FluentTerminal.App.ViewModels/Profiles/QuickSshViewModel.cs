@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -129,6 +130,40 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private const string UriHost = "fluent.terminal";
         private const string CommandQueryStringName = "cmd";
         private const string ArgumentsQueryStringName = "args";
+
+        public static bool CheckScheme(Uri uri) => UriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
+
+        public static QuickSshViewModel ParseUri(Uri uri, ISettingsService settingsService, IApplicationView applicationView)
+        {
+            var vm = new QuickSshViewModel(settingsService, applicationView);
+
+            // ReSharper disable once ConstantConditionalAccessQualifier
+            string queryString = uri.Query?.Trim();
+
+            if (string.IsNullOrEmpty(queryString))
+            {
+                return vm;
+            }
+
+            if (queryString.StartsWith("?", StringComparison.Ordinal))
+            {
+                queryString = queryString.Substring(1);
+            }
+
+            var queryStringParams = ParseParams(queryString, '&').ToList();
+
+            var cmdParam = queryStringParams.FirstOrDefault(t =>
+                CommandQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
+
+            var argsParam = queryStringParams.FirstOrDefault(t =>
+                ArgumentsQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
+
+            vm._command =
+                $"{(string.IsNullOrEmpty(cmdParam?.Item2) ? Constants.SshCommandName : cmdParam.Item2)} {argsParam?.Item2}"
+                    .Trim();
+
+            return vm;
+        }
 
         public override async Task<Tuple<bool, string>> GetUrlAsync()
         {

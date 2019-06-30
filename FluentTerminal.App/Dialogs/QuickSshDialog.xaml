@@ -109,5 +109,19 @@
 
             </Grid>
         </controls:Expander>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Uid="SaveShortcutButton"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="0,10,4,0"
+                HorizontalAlignment="Stretch"
+                Click="SaveLink_OnClick"
+                Content="Save Shortcut" />
+        </Grid>
     </StackPanel>
 </ContentDialog>

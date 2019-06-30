@@ -252,6 +252,42 @@ namespace FluentTerminal.App
                     return;
                 }
 
+                if (QuickSshViewModel.CheckScheme(protocolActivated.Uri))
+                {
+                    QuickSshViewModel vm;
+
+                    try
+                    {
+                        vm = QuickSshViewModel.ParseUri(protocolActivated.Uri, _settingsService, applicationView);
+                    }
+                    catch (Exception ex)
+                    {
+                        await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+
+                        mainViewModel?.ApplicationView.TryClose();
+
+                        return;
+                    }
+
+                    var error = await vm.AcceptChangesAsync();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        await new MessageDialog($"Invalid link: {error}", "Invalid Link").ShowAsync();
+
+                        mainViewModel?.ApplicationView.TryClose();
+
+                        return;
+                    }
+
+                    if (mainViewModel == null)
+                        await CreateTerminal(vm.Model, _applicationSettings.NewTerminalLocation);
+                    else
+                        await mainViewModel.AddTerminalAsync(vm.Model);
+
+                    return;
+                }
+
                 await new MessageDialog($"Invalid link: {protocolActivated.Uri}", "Invalid Link").ShowAsync();
 
                 mainViewModel?.ApplicationView.TryClose();
