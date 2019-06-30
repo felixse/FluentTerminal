@@ -143,14 +143,14 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null)
         {
-            using (var vm = new FullSshViewModel(_settingsService, _applicationView, _trayProcessCommunicationService, _fileSystemService, input))
-            {
-                DataContext = vm;
+            var vm = new FullSshViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
+                _fileSystemService, input);
 
-                Focus(FocusState.Programmatic);
+            DataContext = vm;
 
-                return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile)vm.Model : null;
-            }
+            Focus(FocusState.Programmatic);
+
+            return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.Model : null;
         }
     }
 }

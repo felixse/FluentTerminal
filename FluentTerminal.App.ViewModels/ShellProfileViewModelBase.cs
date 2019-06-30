@@ -17,7 +17,7 @@ namespace FluentTerminal.App.ViewModels
     /// Base class for all shell profile view models. Implements logic for saving, editing, resetting, etc.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ShellProfileViewModelBase<T> : ViewModelBase, IDisposable where T : ProfileProviderViewModelBase
+    public abstract class ShellProfileViewModelBase<T> : ViewModelBase where T : ProfileProviderViewModelBase
     {
         #region Fields
 
@@ -211,11 +211,6 @@ namespace FluentTerminal.App.ViewModels
         public Task AddKeyboardShortcut()
         {
             return KeyBindings.ShowAddKeyBindingDialog();
-        }
-
-        public void Dispose()
-        {
-            ProfileVm.Dispose();
         }
 
         #endregion Methods

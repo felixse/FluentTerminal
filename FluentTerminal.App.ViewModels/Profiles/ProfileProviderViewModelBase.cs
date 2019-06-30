@@ -15,7 +15,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
     /// Base class for all profile view model classes. It contains properties shared by all other view models
     /// (theme-related properties, line-ending translation, and WinPTY/ConPTY selection).
     /// </summary>
-    public abstract class ProfileProviderViewModelBase : ViewModelBase, IDisposable
+    public abstract class ProfileProviderViewModelBase : ViewModelBase
     {
         #region Static
 
@@ -295,12 +295,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public void RejectChanges()
         {
             ApplicationView.RunOnDispatcherThread(() => LoadFromProfile(Model), false);
-        }
-
-        public virtual void Dispose()
-        {
-            SettingsService.ThemeAdded -= OnThemeAdded;
-            SettingsService.ThemeDeleted -= OnThemeDeleted;
         }
 
         #endregion Methods
