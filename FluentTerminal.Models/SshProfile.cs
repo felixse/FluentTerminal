@@ -1,11 +1,10 @@
 ﻿using FluentTerminal.Models.Enums;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.Models
 {
-    public class SshProfile : ShellProfile, ISshConnectionInfo
+    public class SshProfile : ShellProfile
     {
         #region Constants
 
@@ -82,12 +81,6 @@ namespace FluentTerminal.Models
         }
 
         public override ShellProfile Clone() => new SshProfile(this);
-
-        public Task<SshConnectionInfoValidationResult> ValidateAsync()
-        {
-            return Task.FromResult(this.GetValidationResult());
-            // Here we don't check if IdentityFile exists because this class isn't used in UI (if it's saved - it exists).
-        }
 
         #endregion Methods
     }
