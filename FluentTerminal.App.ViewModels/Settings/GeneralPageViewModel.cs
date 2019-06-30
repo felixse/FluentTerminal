@@ -154,6 +154,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool RTrimCopiedLines
+        {
+            get => _applicationSettings.RTrimCopiedLines;
+            set
+            {
+                if (_applicationSettings.RTrimCopiedLines != value)
+                {
+                    _applicationSettings.RTrimCopiedLines = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool BottomIsSelected
         {
             get => TabsPosition == TabsPosition.Bottom;

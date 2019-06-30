@@ -19,5 +19,6 @@ namespace FluentTerminal.Models
         public bool ShowCustomTitleInTitlebar { get; set; }
         public bool UseMoshByDefault { get; set; }
         public bool AutoFallbackToWindowsUsernameInLinks { get; set; }
+        public bool RTrimCopiedLines { get; set; }
     }
 }
