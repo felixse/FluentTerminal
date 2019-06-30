@@ -172,6 +172,12 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Use Windows username when opening SSH URLs that don't specify one"
                     IsOn="{x:Bind ViewModel.AutoFallbackToWindowsUsernameInLinks, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="RTrimCopiedLines"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Right trim copied lines"
+                    IsOn="{x:Bind ViewModel.RTrimCopiedLines, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
