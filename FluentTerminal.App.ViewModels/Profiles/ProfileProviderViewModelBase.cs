@@ -9,7 +9,7 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 
-namespace FluentTerminal.App.ViewModels
+namespace FluentTerminal.App.ViewModels.Profiles
 {
     /// <summary>
     /// Base class for all profile view model classes.

@@ -6,7 +6,7 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 
-namespace FluentTerminal.App.ViewModels
+namespace FluentTerminal.App.ViewModels.Profiles
 {
     public class QuickSshViewModel : ProfileProviderViewModelBase
     {

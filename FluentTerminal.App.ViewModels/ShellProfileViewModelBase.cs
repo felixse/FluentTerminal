@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;

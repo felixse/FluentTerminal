@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 
 namespace FluentTerminal.App.ViewModels

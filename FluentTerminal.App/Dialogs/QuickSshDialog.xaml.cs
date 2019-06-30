@@ -7,7 +7,7 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
-using FluentTerminal.App.ViewModels;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238

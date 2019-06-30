@@ -4,7 +4,7 @@ using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 
-namespace FluentTerminal.App.ViewModels
+namespace FluentTerminal.App.ViewModels.Profiles
 {
     /// <summary>
     /// Used for common profiles (PowerShell, CMD, WSL).

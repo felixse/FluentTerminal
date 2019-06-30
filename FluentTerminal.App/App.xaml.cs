@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Profiles;
 
 namespace FluentTerminal.App
 {

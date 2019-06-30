@@ -10,8 +10,8 @@ using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.Services;
-using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 
 namespace FluentTerminal.App.Dialogs

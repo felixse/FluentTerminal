@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.App.ViewModels.Profiles;
 
 namespace FluentTerminal.App.ViewModels
 {

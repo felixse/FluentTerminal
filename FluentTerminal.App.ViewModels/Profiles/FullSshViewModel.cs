@@ -10,9 +10,8 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 
-namespace FluentTerminal.App.ViewModels
+namespace FluentTerminal.App.ViewModels.Profiles
 {
     public class FullSshViewModel : ProfileProviderViewModelBase
     {

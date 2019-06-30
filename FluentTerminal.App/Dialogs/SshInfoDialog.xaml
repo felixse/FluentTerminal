@@ -6,11 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
+    xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
     x:Uid="SshInfoDialog"
     Title="SSH Info"
-    d:DataContext="{d:DesignInstance vm:FullSshViewModel,
+    d:DataContext="{d:DesignInstance profiles:FullSshViewModel,
                                      IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
     Loading="OnLoading"
