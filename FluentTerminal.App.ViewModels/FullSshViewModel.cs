@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
@@ -14,6 +16,30 @@ namespace FluentTerminal.App.ViewModels
 {
     public class FullSshViewModel : ProfileProviderViewModelBase
     {
+        #region Status
+
+        public static string GetErrorString(SshConnectionInfoValidationResult result, string separator = "; ") =>
+            string.Join(separator, GetErrors(result));
+
+        public static IEnumerable<string> GetErrors(SshConnectionInfoValidationResult result)
+        {
+            if (result == SshConnectionInfoValidationResult.Valid)
+            {
+                yield break;
+            }
+
+            foreach (var value in Enum.GetValues(typeof(SshConnectionInfoValidationResult))
+                .Cast<SshConnectionInfoValidationResult>().Where(r => r != SshConnectionInfoValidationResult.Valid))
+            {
+                if ((value & result) == value)
+                {
+                    yield return I18N.Translate($"{nameof(SshConnectionInfoValidationResult)}.{value}");
+                }
+            }
+        }
+
+        #endregion Status
+
         #region Fields
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
@@ -205,7 +231,7 @@ namespace FluentTerminal.App.ViewModels
                 return null;
             }
 
-            error = result.GetErrorString(Environment.NewLine);
+            error = GetErrorString(result, Environment.NewLine);
 
             if (string.IsNullOrEmpty(error))
             {
@@ -423,7 +449,7 @@ namespace FluentTerminal.App.ViewModels
                 result != SshConnectionInfoValidationResult.UsernameEmpty)
             {
 
-                error = result.GetErrorString(Environment.NewLine);
+                error = GetErrorString(result, Environment.NewLine);
 
                 if (string.IsNullOrEmpty(error))
                 {

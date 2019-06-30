@@ -89,8 +89,6 @@ namespace FluentTerminal.Models
             // Here we don't check if IdentityFile exists because this class isn't used in UI (if it's saved - it exists).
         }
 
-        public override string ValidateAndGetErrors() => this.GetValidationResult().GetErrorString();
-
         #endregion Methods
     }
 }

@@ -90,14 +90,5 @@ namespace FluentTerminal.Models
         }
 
         public virtual ShellProfile Clone() => new ShellProfile(this);
-
-        /// <summary>
-        /// Checks the profile for errors and returns string describing the found errors, if any.
-        /// Returns null if no errors found.
-        /// </summary>
-        public virtual string ValidateAndGetErrors()
-        {
-            return null;
-        }
     }
 }
