@@ -13,6 +13,10 @@ using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.ViewModels
 {
+    /// <summary>
+    /// Base class for all shell profile view models. Implements logic for saving, editing, resetting, etc.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class ShellProfileViewModelBase<T> : ViewModelBase, IDisposable where T : ProfileProviderViewModelBase
     {
         #region Fields

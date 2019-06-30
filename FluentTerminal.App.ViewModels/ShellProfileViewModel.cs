@@ -10,6 +10,9 @@ using FluentTerminal.App.ViewModels.Profiles;
 
 namespace FluentTerminal.App.ViewModels
 {
+    /// <summary>
+    /// Extends <see cref="ShellProfileViewModelBase{T}"/>, and implements only "Set as default" logic.
+    /// </summary>
     public class ShellProfileViewModel : ShellProfileViewModelBase<CommonProfileProviderViewModel>
     {
         #region Fields

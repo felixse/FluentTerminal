@@ -4,6 +4,10 @@ using FluentTerminal.Models;
 
 namespace FluentTerminal.App.ViewModels
 {
+    /// <summary>
+    /// Extends <see cref="ShellProfileViewModelBase{T}"/>, and doesn't implement any additional logic because in
+    /// case of SSH profiles no additional logic is needed.
+    /// </summary>
     public class SshProfileViewModel : ShellProfileViewModelBase<FullSshViewModel>
     {
         #region Constructor

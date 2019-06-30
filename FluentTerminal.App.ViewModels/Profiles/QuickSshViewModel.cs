@@ -8,6 +8,9 @@ using FluentTerminal.Models;
 
 namespace FluentTerminal.App.ViewModels.Profiles
 {
+    /// <summary>
+    /// View-model used for quick-launch based SSH profiles.
+    /// </summary>
     public class QuickSshViewModel : ProfileProviderViewModelBase
     {
         #region Static

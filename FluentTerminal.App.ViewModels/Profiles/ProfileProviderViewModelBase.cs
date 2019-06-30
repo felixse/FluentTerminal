@@ -12,7 +12,8 @@ using GalaSoft.MvvmLight;
 namespace FluentTerminal.App.ViewModels.Profiles
 {
     /// <summary>
-    /// Base class for all profile view model classes.
+    /// Base class for all profile view model classes. It contains properties shared by all other view models
+    /// (theme-related properties, line-ending translation, and WinPTY/ConPTY selection).
     /// </summary>
     public abstract class ProfileProviderViewModelBase : ViewModelBase, IDisposable
     {

@@ -13,6 +13,9 @@ using FluentTerminal.Models;
 
 namespace FluentTerminal.App.ViewModels.Profiles
 {
+    /// <summary>
+    /// View-model for rich-UI based SSH profiles.
+    /// </summary>
     public class FullSshViewModel : ProfileProviderViewModelBase
     {
         #region Status
