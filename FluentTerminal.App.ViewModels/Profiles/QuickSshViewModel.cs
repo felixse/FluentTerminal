@@ -16,7 +16,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
     {
         #region Static
 
-        private static readonly Regex CommandValidationRx = new Regex(@"^ssh(\.exe)?\s+(?<args>\S.+)$",
+        private static readonly Regex CommandValidationRx = new Regex(@"^ssh(\.exe)?\s+(?<args>\S.*)$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         #endregion Static
