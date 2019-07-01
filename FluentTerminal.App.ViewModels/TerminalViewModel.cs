@@ -204,19 +204,23 @@ namespace FluentTerminal.App.ViewModels
             {
                 var title = value?.Trim() ?? string.Empty;
 
-                if (title.Equals("ssh", StringComparison.OrdinalIgnoreCase) ||
-                    title.EndsWith("\\ssh.exe", StringComparison.OrdinalIgnoreCase))
+                if (ShellProfile is SshProfile)
                 {
-                    title = $"[ssh] {I18N.Translate("Authenticate")}";
-                }
-                else if (title.Equals("mosh", StringComparison.OrdinalIgnoreCase) ||
-                         title.EndsWith("\\mosh.exe", StringComparison.OrdinalIgnoreCase))
-                {
-                    title = $"[mosh] {I18N.Translate("Authenticate")}";
-                }
-                else if (SshTitleRx.IsMatch(title))
-                {
-                    title = $"[ssh] {title}";
+                    // For SshProfile we are adjusting title.
+                    if (title.Equals("ssh", StringComparison.OrdinalIgnoreCase) ||
+                        title.EndsWith("\\ssh.exe", StringComparison.OrdinalIgnoreCase))
+                    {
+                        title = $"[ssh] {I18N.Translate("Authenticate")}";
+                    }
+                    else if (title.Equals("mosh", StringComparison.OrdinalIgnoreCase) ||
+                             title.EndsWith("\\mosh.exe", StringComparison.OrdinalIgnoreCase))
+                    {
+                        title = $"[mosh] {I18N.Translate("Authenticate")}";
+                    }
+                    else if (SshTitleRx.IsMatch(title))
+                    {
+                        title = $"[ssh] {title}";
+                    }
                 }
 
                 if (Set(ref _tabTitle, title))
