@@ -26,7 +26,7 @@
     </ContentDialog.Resources>
     <StackPanel Orientation="Vertical" Width="500">
         <TextBox x:Name="CommandTextBox" 
-                 PlaceholderText="Enter SSH command to execute"
+                 PlaceholderText="Enter SSH command to execute (e.g. 'ssh username@host')"
                  Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="0 0 2 0"/>
         <controls:Expander
