@@ -116,7 +116,8 @@ namespace FluentTerminal.App.ViewModels
         protected virtual bool HasChanges()
         {
             return ProfileVm.HasChanges() || !_nameBeforeEdit.NullableEqualTo(_name) ||
-                   (_bindingsBeforeEdit?.SequenceEqual(KeyBindings.KeyBindings.Select(x => x.Model).ToList()) ?? true);
+                   !(_bindingsBeforeEdit?.SequenceEqual(KeyBindings.KeyBindings.Select(x => x.Model).ToList()) ??
+                     false);
         }
 
         private async Task Delete()
