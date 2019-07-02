@@ -653,6 +653,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 $"{(string.IsNullOrEmpty(cmdParam?.Item2) ? Constants.SshCommandName : cmdParam.Item2)} {argsParam?.Item2}"
                     .Trim();
 
+            vm.LoadBaseFromQueryString(queryStringParams);
+
             return vm;
         }
 
