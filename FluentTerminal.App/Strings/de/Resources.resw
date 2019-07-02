@@ -886,4 +886,7 @@ Fuzzy</comment>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>Für SSH-Verbindungen standardmäßig Mosh verwenden</value>
   </data>
+  <data name="RTrimCopiedLines.Header" xml:space="preserve">
+    <value>Nachfolgende Leerzeichen aus kopierten Zeilen entfernen</value>
+  </data>
 </root>

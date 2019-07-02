@@ -918,4 +918,7 @@ Fuzzy</comment>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>Default to Mosh for SSH connections</value>
   </data>
+  <data name="RTrimCopiedLines.Header" xml:space="preserve">
+    <value>Right trim copied lines</value>
+  </data>
 </root>
