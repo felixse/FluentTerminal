@@ -169,7 +169,7 @@
                                     Width="340"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
-                                    Visibility="{Binding ProfileVm.FullUiVisible}">
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90" />
                                         <ColumnDefinition Width="20" />
@@ -224,7 +224,7 @@
                                 <StackPanel 
                                     Margin="{StaticResource ItemMargin}" 
                                     Orientation="Horizontal"
-                                    Visibility="{Binding ProfileVm.FullUiVisible}">
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <TextBox
                                         Width="300"
                                         Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
@@ -243,7 +243,7 @@
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Visibility="{Binding ProfileVm.FullUiVisible}" />
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}" />
 
                                 <StackPanel
                                     Margin="{StaticResource ItemMargin}"
@@ -277,7 +277,7 @@
 
                                 <TextBox PlaceholderText="SSH command (e.g. 'ssh username@host')"
                                          Text="{Binding ProfileVm.Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Visibility="{Binding ProfileVm.CommandInput}"
+                                         Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
                                          Margin="0 8 2 0"/>
 
                                 <ComboBox
@@ -349,7 +349,6 @@
                                         <ContentControl.ContentTemplate>
                                             <DataTemplate x:DataType="profiles:SshConnectViewModel">
                                                 <TextBlock
-                                                    Margin="{StaticResource ItemMargin}"
                                                     FontSize="18"
                                                     FontWeight="Light"
                                                     Style="{StaticResource SubtitleTextBlockStyle}"
@@ -370,33 +369,30 @@
                                             <DataTemplate x:DataType="profiles:SshConnectViewModel">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
-                                                        Margin="{StaticResource ItemMargin}"
                                                         FontSize="18"
                                                         FontWeight="Light"
                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                         Text="{Binding Username, Mode=OneWay}" />
                                                     <TextBlock
-                                                        Margin="0,23,4,0"
+                                                        Margin="0,0,4,0"
                                                         FontSize="18"
                                                         FontWeight="Light"
                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                         Text="@"
                                                         TextAlignment="Center" />
                                                     <TextBlock
-                                                        Margin="{StaticResource ItemMargin}"
                                                         FontSize="18"
                                                         FontWeight="Light"
                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                         Text="{Binding Host, Mode=OneWay}" />
                                                     <TextBlock
-                                                        Margin="0,23,4,0"
+                                                        Margin="0,0,4,0"
                                                         FontSize="18"
                                                         FontWeight="Light"
                                                         Style="{StaticResource SubtitleTextBlockStyle}"
                                                         Text=":"
                                                         TextAlignment="Center" />
                                                     <TextBlock
-                                                        Margin="{StaticResource ItemMargin}"
                                                         FontSize="18"
                                                         FontWeight="Light"
                                                         Style="{StaticResource SubtitleTextBlockStyle}"
@@ -444,7 +440,6 @@
                                         <ContentControl.ContentTemplate>
                                             <DataTemplate x:DataType="profiles:SshConnectViewModel">
                                                 <StackPanel
-                                                    Margin="{StaticResource ItemMargin}"
                                                     Orientation="Horizontal">
                                                     <TextBlock
                                                         FontSize="18"

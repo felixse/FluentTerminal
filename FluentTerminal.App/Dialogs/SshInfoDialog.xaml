@@ -33,7 +33,7 @@
                 IsChecked="{Binding CommandInput, Mode=TwoWay}" />
 
             <Grid HorizontalAlignment="Stretch" 
-                  Visibility="{Binding FullUiVisible}"
+                  Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}"
                   Margin="0 8 2 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -120,7 +120,7 @@
             <TextBox x:Name="CommandTextBox" 
                      PlaceholderText="SSH command (e.g. 'ssh username@host')"
                      Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Visibility="{Binding CommandInput}"
+                     Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
                      Margin="0 8 2 0"/>
 
             <controls:Expander

@@ -20,10 +20,10 @@ namespace FluentTerminal.App.ViewModels.Profiles
     {
         #region Static
 
-        private static readonly Regex CommandValidationRx = new Regex(@"^(?<cmd>\S+)(\s+(?<args>\S.*))?$",
+        private static readonly Regex CommandValidationRx = new Regex(@"^(?<cmd>[^\s\.]+)(\.exe)?(\s+(?<args>\S.*))?$",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly string[] AcceptableCommands = {"ssh", "ssh.exe"};
+        private static readonly string[] AcceptableCommands = { Constants.SshCommandName };
 
         public static string GetErrorString(SshConnectionInfoValidationResult result, string separator = "; ") =>
             string.Join(separator, GetErrors(result));
@@ -66,14 +66,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
             get => _commandInput;
             set
             {
-                if (Set(ref _commandInput, value))
+                if (Set(ref _commandInput, value) && _useMosh)
                 {
-                    RaisePropertyChanged(nameof(FullUiVisible));
-
-                    if (_useMosh)
-                    {
-                        RaisePropertyChanged(nameof(MoshVisible));
-                    }
+                    RaisePropertyChanged(nameof(MoshVisible));
                 }
             }
         }
@@ -157,8 +152,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         #endregion Full UI properties
 
         public bool MoshVisible => _useMosh && !_commandInput;
-
-        public bool FullUiVisible => !_commandInput;
 
         #endregion Properties
 
@@ -327,7 +320,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 throw new Exception("Invalid command.");
             }
 
-            sshProfile.Location = match.Groups["cmd"].Value.Trim();
+            sshProfile.Location = match.Groups["cmd"].Value;
             sshProfile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
             sshProfile.WorkingDirectory = null;
@@ -383,7 +376,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             var match = CommandValidationRx.Match(_command?.Trim() ?? string.Empty);
 
-            if (match.Success && match.Groups["args"].Success && AcceptableCommands.Any(c => c.Equals(match.Groups["cmd"].Value)))
+            if (match.Success && match.Groups["args"].Success && AcceptableCommands.Any(c =>
+                    c.Equals(match.Groups["cmd"].Value, StringComparison.OrdinalIgnoreCase)))
             {
                 return null;
             }

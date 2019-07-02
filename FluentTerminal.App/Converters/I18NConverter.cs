@@ -11,7 +11,7 @@ namespace FluentTerminal.App.Converters
         {
             var translation = I18N.Translate(resource);
 
-            return string.IsNullOrEmpty(translation) ? $"[[{resource}]]" : translation;
+            return string.IsNullOrEmpty(translation) ? $"[ {resource} ]" : translation;
         }
 
         public object Convert(object value, Type targetType, object parameter, string language)
