@@ -20,8 +20,6 @@ namespace FluentTerminal.App.Services
 
         Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null);
 
-        Task<SshProfile> ShowQuickSshDialogAsync(SshProfile input = null);
-
         Task<SshProfile> ShowSshProfileSelectionDialogAsync();
     }
 }

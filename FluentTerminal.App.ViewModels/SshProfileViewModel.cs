@@ -8,7 +8,7 @@ namespace FluentTerminal.App.ViewModels
     /// Extends <see cref="ShellProfileViewModelBase{T}"/>, and doesn't implement any additional logic because in
     /// case of SSH profiles no additional logic is needed.
     /// </summary>
-    public class SshProfileViewModel : ShellProfileViewModelBase<FullSshViewModel>
+    public class SshProfileViewModel : ShellProfileViewModelBase<SshConnectViewModel>
     {
         #region Constructor
 
@@ -17,7 +17,7 @@ namespace FluentTerminal.App.ViewModels
             ITrayProcessCommunicationService trayProcessCommunicationService, bool isNew) : base(sshProfile,
             settingsService, dialogService, isNew)
         {
-            ProfileVm = new FullSshViewModel(settingsService, applicationView, trayProcessCommunicationService,
+            ProfileVm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
                 fileSystemService, sshProfile);
         }
 

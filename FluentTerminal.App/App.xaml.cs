@@ -97,7 +97,6 @@ namespace FluentTerminal.App
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
             builder.RegisterType<SshInfoDialog>().As<ISshConnectionInfoDialog>().InstancePerDependency();
-            builder.RegisterType<QuickSshDialog>().As<IQuickSshDialog>().InstancePerDependency();
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
@@ -191,7 +190,7 @@ namespace FluentTerminal.App
 
                 try
                 {
-                    isSsh = FullSshViewModel.CheckScheme(protocolActivated.Uri);
+                    isSsh = SshConnectViewModel.CheckScheme(protocolActivated.Uri);
                 }
                 catch (Exception ex)
                 {
@@ -204,11 +203,11 @@ namespace FluentTerminal.App
 
                 if (isSsh)
                 {
-                    FullSshViewModel vm;
+                    SshConnectViewModel vm;
 
                     try
                     {
-                        vm = FullSshViewModel.ParseUri(protocolActivated.Uri, _settingsService,
+                        vm = SshConnectViewModel.ParseUri(protocolActivated.Uri, _settingsService,
                             applicationView, _trayProcessCommunicationService,
                             _container.Resolve<IFileSystemService>());
                     }
@@ -221,7 +220,8 @@ namespace FluentTerminal.App
                         return;
                     }
 
-                    if (_applicationSettings.AutoFallbackToWindowsUsernameInLinks && string.IsNullOrEmpty(vm.Username))
+                    if (!vm.CommandInput && _applicationSettings.AutoFallbackToWindowsUsernameInLinks &&
+                        string.IsNullOrEmpty(vm.Username))
                     {
                         vm.Username = await _trayProcessCommunicationService.GetUserName();
                     }
@@ -248,42 +248,6 @@ namespace FluentTerminal.App
                         await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
                     else
                         await mainViewModel.AddTerminalAsync(profile);
-
-                    return;
-                }
-
-                if (QuickSshViewModel.CheckScheme(protocolActivated.Uri))
-                {
-                    QuickSshViewModel vm;
-
-                    try
-                    {
-                        vm = QuickSshViewModel.ParseUri(protocolActivated.Uri, _settingsService, applicationView);
-                    }
-                    catch (Exception ex)
-                    {
-                        await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
-
-                        mainViewModel?.ApplicationView.TryClose();
-
-                        return;
-                    }
-
-                    var error = await vm.AcceptChangesAsync();
-
-                    if (!string.IsNullOrEmpty(error))
-                    {
-                        await new MessageDialog($"Invalid link: {error}", "Invalid Link").ShowAsync();
-
-                        mainViewModel?.ApplicationView.TryClose();
-
-                        return;
-                    }
-
-                    if (mainViewModel == null)
-                        await CreateTerminal(vm.Model, _applicationSettings.NewTerminalLocation);
-                    else
-                        await mainViewModel.AddTerminalAsync(vm.Model);
 
                     return;
                 }
@@ -602,14 +566,6 @@ namespace FluentTerminal.App
                     break;
                 case NewWindowAction.ShowSshInfoDialog:
                     profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
-                    if (profile == null)
-                    {
-                        // Nothing to do if user cancels.
-                        return;
-                    }
-                    break;
-                case NewWindowAction.ShowQuickSshDialog:
-                    profile = await _dialogService.ShowQuickSshDialogAsync();
                     if (profile == null)
                     {
                         // Nothing to do if user cancels.

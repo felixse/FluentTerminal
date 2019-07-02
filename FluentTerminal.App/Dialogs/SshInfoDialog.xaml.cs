@@ -40,9 +40,13 @@ namespace FluentTerminal.App.Dialogs
 
         private void SetupFocus()
         {
-            FullSshViewModel vm = (FullSshViewModel) DataContext;
+            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
 
-            if (string.IsNullOrEmpty(vm.Username))
+            if (vm.CommandInput)
+            {
+                CommandTextBox.Focus(FocusState.Programmatic);
+            }
+            else if (string.IsNullOrEmpty(vm.Username))
             {
                 UserTextBox.Focus(FocusState.Programmatic);
             }
@@ -58,12 +62,12 @@ namespace FluentTerminal.App.Dialogs
 
         private async void OnLoading(FrameworkElement sender, object args)
         {
-            FullSshViewModel vm = (FullSshViewModel) DataContext;
+            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
 
-            if (!string.IsNullOrEmpty(vm.Username))
-                return;
-
-            vm.Username = await _trayProcessCommunicationService.GetUserName();
+            if (!vm.CommandInput && string.IsNullOrEmpty(vm.Username))
+            {
+                vm.Username = await _trayProcessCommunicationService.GetUserName();
+            }
 
             SetupFocus();
         }
@@ -78,13 +82,13 @@ namespace FluentTerminal.App.Dialogs
 
             if (file != null)
             {
-                ((FullSshViewModel) DataContext).SetValidatedIdentityFile(file.Path);
+                ((SshConnectViewModel) DataContext).SetValidatedIdentityFile(file.Path);
             }
         }
 
         private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
         {
-            FullSshViewModel vm = (FullSshViewModel) DataContext;
+            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
 
             var link = await vm.GetUrlAsync();
 
@@ -95,11 +99,14 @@ namespace FluentTerminal.App.Dialogs
                 return;
             }
 
-            string content = ProfileProviderViewModelBase.GetShortcutFileContent(link.Item2);
+            var content = ProfileProviderViewModelBase.GetShortcutFileContent(link.Item2);
 
-            string fileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
+            FileSavePicker savePicker = new FileSavePicker {SuggestedStartLocation = PickerLocationId.Desktop};
 
-            FileSavePicker savePicker = new FileSavePicker {SuggestedFileName = fileName, SuggestedStartLocation = PickerLocationId.Desktop};
+            if (!vm.CommandInput)
+            {
+                savePicker.SuggestedFileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
+            }
 
             savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
 
@@ -124,7 +131,7 @@ namespace FluentTerminal.App.Dialogs
         {
             var deferral = args.GetDeferral();
 
-            var error = await ((FullSshViewModel)DataContext).AcceptChangesAsync();
+            var error = await ((SshConnectViewModel)DataContext).AcceptChangesAsync();
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -143,12 +150,10 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null)
         {
-            var vm = new FullSshViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
+            var vm = new SshConnectViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
                 _fileSystemService, input);
 
             DataContext = vm;
-
-            Focus(FocusState.Programmatic);
 
             return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.Model : null;
         }
