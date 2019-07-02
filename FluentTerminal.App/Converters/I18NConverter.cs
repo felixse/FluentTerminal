@@ -6,15 +6,23 @@ namespace FluentTerminal.App.Converters
 {
     public class I18NConverter : IValueConverter
     {
+        // To avoid empty translations
+        private static string Translate(string resource)
+        {
+            var translation = I18N.Translate(resource);
+
+            return string.IsNullOrEmpty(translation) ? $"[[{resource}]]" : translation;
+        }
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is Enum enumValue && parameter is string enumType)
             {
-                return I18N.Translate($"{enumType}.{enumValue}");
+                return Translate($"{enumType}.{enumValue}");
             }
             else if (parameter is string resource)
             {
-                return I18N.Translate(resource);
+                return Translate(resource);
             }
             return null;
         }
