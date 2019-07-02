@@ -17,8 +17,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>FluentTerminal.App_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>F96F3E0E485F07E8E98DA6E5C06AA4B6F112B498</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>FluentTerminal.App_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>8A5DE5B20B663BD6A99B44C5BA278289521F419F</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
@@ -265,6 +265,7 @@
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200_altform-lightunplated.png" />
     <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400_altform-lightunplated.png" />
     <Content Include="Assets\settingsicons.ttf" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Win32\Autofac.dll" />
     <Content Include="Win32\FluentTerminal.App.Services.dll" />
     <Content Include="Win32\FluentTerminal.App.Services.pdb" />
