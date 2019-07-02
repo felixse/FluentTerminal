@@ -159,10 +159,16 @@
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                                <CheckBox
+                                    Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseCommandInput}"
+                                    IsChecked="{Binding ProfileVm.CommandInput, Mode=TwoWay}"
+                                    Margin="{StaticResource ItemMargin}" />
+
                                 <Grid
                                     Width="340"
                                     Margin="{StaticResource ItemMargin}"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding ProfileVm.FullUiVisible}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90" />
                                         <ColumnDefinition Width="20" />
@@ -214,7 +220,10 @@
                                         Text="{x:Bind ProfileVm.SshPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
+                                <StackPanel 
+                                    Margin="{StaticResource ItemMargin}" 
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding ProfileVm.FullUiVisible}">
                                     <TextBox
                                         Width="300"
                                         Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
@@ -232,12 +241,13 @@
                                     Margin="{StaticResource ItemMargin}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding ProfileVm.FullUiVisible}" />
 
                                 <StackPanel
                                     Margin="{StaticResource ItemMargin}"
                                     Orientation="Horizontal"
-                                    Visibility="{x:Bind ProfileVm.UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
+                                    Visibility="{x:Bind ProfileVm.MoshVisible, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBox
                                         x:Uid="MoshPortFrom"
                                         Width="120"
@@ -263,6 +273,12 @@
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind ProfileVm.MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
+
+                                <TextBox PlaceholderText="SSH command (e.g. 'ssh username@host')"
+                                         Text="{Binding ProfileVm.Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Visibility="{Binding ProfileVm.CommandInput}"
+                                         Margin="0 8 2 0"/>
+
                                 <ComboBox
                                     x:Uid="TabColor"
                                     Width="150"

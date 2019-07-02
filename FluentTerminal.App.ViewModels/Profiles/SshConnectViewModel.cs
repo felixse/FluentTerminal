@@ -168,7 +168,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         #endregion Commands
 
-        #region Constructor
+        #region Constructors
 
         public SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
@@ -210,7 +210,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
         }
 
-        #endregion Constructor
+        #endregion Constructors
 
         #region Methods
 
@@ -283,36 +283,20 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             if (_commandInput)
             {
-                var command = _command?.Trim();
-
-                if (string.IsNullOrEmpty(command))
-                {
-                    profile.Location = null;
-                    profile.Arguments = null;
-
-                    return;
-                }
-
-                var match = CommandValidationRx.Match(command);
-
-                if (!match.Success)
-                {
-                    // Should not happen ever because this method gets called only if validation succeeds.
-                    throw new Exception("Invalid command.");
-                }
-
-                profile.Location = match.Groups["cmd"].Value.Trim();
-                profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
+                CopyToProfileQuick((SshProfile) profile);
             }
             else
             {
-                profile.Location = _useMosh ? Constants.MoshCommandName : Constants.SshCommandName;
-                profile.Arguments = GetArgumentsString();
+                CopyToProfileFull((SshProfile)profile);
             }
+        }
 
-            profile.WorkingDirectory = null;
+        private void CopyToProfileFull(SshProfile sshProfile)
+        {
+            sshProfile.Location = _useMosh ? Constants.MoshCommandName : Constants.SshCommandName;
+            sshProfile.Arguments = GetArgumentsString();
 
-            var sshProfile = (SshProfile) profile;
+            sshProfile.WorkingDirectory = null;
 
             sshProfile.Host = _host;
             sshProfile.SshPort = _sshPort;
@@ -321,6 +305,40 @@ namespace FluentTerminal.App.ViewModels.Profiles
             sshProfile.UseMosh = _useMosh;
             sshProfile.MoshPortFrom = _moshPortFrom;
             sshProfile.MoshPortTo = _moshPortTo;
+        }
+
+        private void CopyToProfileQuick(SshProfile sshProfile)
+        {
+            var command = _command?.Trim();
+
+            if (string.IsNullOrEmpty(command))
+            {
+                sshProfile.Location = null;
+                sshProfile.Arguments = null;
+
+                return;
+            }
+
+            var match = CommandValidationRx.Match(command);
+
+            if (!match.Success)
+            {
+                // Should not happen ever because this method gets called only if validation succeeds.
+                throw new Exception("Invalid command.");
+            }
+
+            sshProfile.Location = match.Groups["cmd"].Value.Trim();
+            sshProfile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
+
+            sshProfile.WorkingDirectory = null;
+
+            sshProfile.Host = null;
+            sshProfile.SshPort = 0;
+            sshProfile.Username = null;
+            sshProfile.IdentityFile = null;
+            sshProfile.UseMosh = false;
+            sshProfile.MoshPortFrom = 0;
+            sshProfile.MoshPortTo = 0;
         }
 
         public override Task<string> ValidateAsync()
