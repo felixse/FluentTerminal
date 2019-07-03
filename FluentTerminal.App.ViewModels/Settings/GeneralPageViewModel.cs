@@ -334,6 +334,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;
                 UseMoshByDefault = defaults.UseMoshByDefault;
                 AutoFallbackToWindowsUsernameInLinks = defaults.AutoFallbackToWindowsUsernameInLinks;
+                RTrimCopiedLines = defaults.RTrimCopiedLines;
             }
         }
 
