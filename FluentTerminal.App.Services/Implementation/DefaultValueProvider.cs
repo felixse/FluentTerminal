@@ -28,7 +28,8 @@ namespace FluentTerminal.App.Services.Implementation
                 ShowCustomTitleInTitlebar = true,
                 UseMoshByDefault = true,
                 AutoFallbackToWindowsUsernameInLinks = true,
-                RTrimCopiedLines = true
+                RTrimCopiedLines = true,
+                MuteTerminalBeeps = true
             };
         }
 

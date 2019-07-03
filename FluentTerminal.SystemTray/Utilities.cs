@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
@@ -565,6 +568,113 @@ namespace FluentTerminal.SystemTray
             using (StreamWriter writer = new StreamWriter(path, false))
             {
                 writer.Write(content);
+            }
+        }
+
+        internal static void MuteTerminal(bool mute)
+        {
+            bool? deviceMuted = VolumeControl.GetDefaultAudioEndpointMute();
+            if (deviceMuted != true)
+            {
+                VolumeControl.SetDefaultAudioEndpointMute(true);
+            }
+
+            Process cmdProcess = new Process();
+            cmdProcess.StartInfo.FileName = "cmd.exe";
+            cmdProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            cmdProcess.StartInfo.Arguments = "/k \x07";
+            cmdProcess.Start();
+
+            int conhostProcessId = 0;
+            int attempt = 0;
+            while (conhostProcessId == 0 && attempt++ < 2 && !cmdProcess.HasExited)
+            {
+                cmdProcess.WaitForExit(1500);
+
+                foreach (Process conhost in Process.GetProcessesByName("conhost"))
+                {
+                    try
+                    {
+                        Process parent = ProcessUtils.ResolveParent(conhost.Id);
+                        if (parent != null && cmdProcess.Id == parent.Id)
+                        {
+                            conhostProcessId = conhost.Id;
+                        }
+                    }
+                    catch (Exception) { }
+                }
+            }
+
+            if (conhostProcessId != 0)
+            {
+                bool? isMuted = null;
+                attempt = 0;
+                while (isMuted == null && attempt++ < 2 && !cmdProcess.HasExited)
+                {
+                    cmdProcess.WaitForExit(100);
+                    isMuted = VolumeControl.GetAudioSessionMute(conhostProcessId);
+                    if (isMuted != null && isMuted != mute)
+                    {
+                        VolumeControl.SetAudioSessionMute(conhostProcessId, mute);
+                    }
+                }
+            }
+
+            cmdProcess.Kill();
+            if (deviceMuted != true)
+            {
+                VolumeControl.SetDefaultAudioEndpointMute(false);
+            }
+        }
+
+        internal static void RunMSI(string msiPath)
+        {
+            if (string.IsNullOrEmpty(msiPath))
+                return;
+
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = "msiexec.exe";
+                process.StartInfo.Arguments = $"/i \"{msiPath}\"";
+                process.Start();
+            }
+            catch (Exception) { }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ProcessUtils
+        {
+            // PROCESS_BASIC_INFORMATION fields start
+            internal IntPtr Reserved1;
+            internal IntPtr PebBaseAddress;
+            internal IntPtr Reserved2_0;
+            internal IntPtr Reserved2_1;
+            internal IntPtr UniqueProcessId;
+            internal IntPtr InheritedFromUniqueProcessId;
+            // PROCESS_BASIC_INFORMATION fields end
+
+            [DllImport("ntdll.dll")]
+            private static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ProcessUtils processInformation, int processInformationLength, out int returnLength);
+
+            public static Process ResolveParent(int processId)
+            {
+                Process process = Process.GetProcessById(processId);
+                ProcessUtils pbi = new ProcessUtils();
+                int result = NtQueryInformationProcess(process.Handle, 0, ref pbi, Marshal.SizeOf(pbi), out var returnLength);
+                if (result != 0)
+                {
+                    throw new Win32Exception(result);
+                }
+
+                try
+                {
+                    return Process.GetProcessById(pbi.InheritedFromUniqueProcessId.ToInt32());
+                }
+                catch (ArgumentException)
+                {
+                    return null;
+                }
             }
         }
     }

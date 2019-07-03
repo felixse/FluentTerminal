@@ -22,15 +22,17 @@ namespace FluentTerminal.App.ViewModels.Settings
         private string _startupTaskErrorMessage;
         private bool _needsToRestart;
         private readonly IApplicationLanguageService _applicationLanguageService;
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
         public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
-            IStartupTaskService startupTaskService, IApplicationLanguageService applicationLanguageService)
+            IStartupTaskService startupTaskService, IApplicationLanguageService applicationLanguageService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _startupTaskService = startupTaskService;
             _applicationLanguageService = applicationLanguageService;
+            _trayProcessCommunicationService = trayProcessCommunicationService;
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
@@ -164,6 +166,22 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _applicationSettings.RTrimCopiedLines = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
+                }
+            }
+        }
+
+        public bool MuteTerminalBeeps
+        {
+            get => _applicationSettings.MuteTerminalBeeps;
+            set
+            {
+                if (_applicationSettings.MuteTerminalBeeps != value)
+                {
+                    _applicationSettings.MuteTerminalBeeps = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+
+                    _trayProcessCommunicationService.MuteTerminal(value);
                 }
             }
         }
@@ -334,6 +352,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;
                 UseMoshByDefault = defaults.UseMoshByDefault;
                 AutoFallbackToWindowsUsernameInLinks = defaults.AutoFallbackToWindowsUsernameInLinks;
+                MuteTerminalBeeps = defaults.MuteTerminalBeeps;
             }
         }
 

@@ -178,6 +178,12 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Right trim copied lines"
                     IsOn="{x:Bind ViewModel.RTrimCopiedLines, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="MuteTerminalBeeps"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Mute terminal beeps"
+                    IsOn="{x:Bind ViewModel.MuteTerminalBeeps, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
