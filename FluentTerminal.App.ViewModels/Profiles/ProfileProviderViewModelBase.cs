@@ -82,23 +82,16 @@ namespace FluentTerminal.App.ViewModels.Profiles
             get => _selectedTabTheme ?? (_selectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(_tabThemeId)));
             set
             {
-                TabTheme theme = value;
+                if (value == null)
+                {
+                    // Ignore attempt setting null.
+                    return;
+                }
 
-                if (theme == null)
-                {
-                    // How to handle attempt to setting null theme?
-                    // 1) Throw an exception:
-                    //throw new ArgumentNullException();
-                    // 2) Ignore the attempt:
-                    //return;
-                    // 3) Use default theme (probably the best):
-                    theme = TabThemes.First();
-                }
-                else if (!TabThemes.Contains(theme))
-                {
-                    // Ensure that it's from the list
-                    theme = TabThemes.FirstOrDefault(t => t.Id == theme.Id) ?? TabThemes.First();
-                }
+                // Ensure that it's from the list
+                var theme = TabThemes.Contains(value)
+                    ? value
+                    : TabThemes.FirstOrDefault(t => t.Id == value.Id) ?? TabThemes.First();
 
                 if (Set(ref _selectedTabTheme, theme))
                 {
