@@ -170,7 +170,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
             IApplicationDataContainer historyContainer, SshProfile original = null) : base(settingsService, applicationView,
-            original ?? new SshProfile {UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault})
+            original ?? new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault })
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;
@@ -180,7 +180,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             {
                 _commandInput = settingsService.GetApplicationSettings().UseQuickSshConnectByDefault;
             }
-            else if (string.IsNullOrEmpty(((SshProfile) Model).Host))
+            else if (string.IsNullOrEmpty(((SshProfile)Model).Host))
             {
                 _commandInput = true;
             }
@@ -191,18 +191,19 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             FillCommandHistory();
 
-            Initialize((SshProfile) Model);
+            Initialize((SshProfile)Model);
 
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
         }
 
         private SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
-            bool useCommandInput) : base(settingsService, applicationView,
-            new SshProfile {UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault})
+            IApplicationDataContainer historyContainer, bool useCommandInput) : base(settingsService, applicationView,
+            new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault })
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;
+            _historyContainer = historyContainer;
             _commandInput = useCommandInput;
 
             FillCommandHistory();
@@ -285,7 +286,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             if (_commandInput)
             {
-                CopyToProfileQuick((SshProfile) profile);
+                CopyToProfileQuick((SshProfile)profile);
             }
             else
             {
@@ -408,7 +409,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return !_command.NullableEqualTo($"{Model.Location} {Model.Arguments}");
             }
 
-            var original = (SshProfile) Model;
+            var original = (SshProfile)Model;
 
             return base.HasChanges() || !original.Host.NullableEqualTo(_host) || original.SshPort != _sshPort ||
                    !original.Username.NullableEqualTo(_username) ||
@@ -533,7 +534,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             var commandHistory =
                 _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
-                new ExecutedCommandHistory {ExecutedCommands = new List<ExecutedCommand>()};
+                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
 
             var command = commandHistory.ExecutedCommands.FirstOrDefault(c =>
                 string.Equals(cmd, c.Command, StringComparison.Ordinal) && args.NullableEqualTo(c.Args));
@@ -541,7 +542,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             if (command == null)
             {
                 command = new ExecutedCommand
-                    {Command = cmd, Args = args, ExecutionCount = 1, LastExecution = DateTime.UtcNow};
+                { Command = cmd, Args = args, ExecutionCount = 1, LastExecution = DateTime.UtcNow };
             }
             else
             {
@@ -595,19 +596,20 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private static bool CheckSchemeCustom(Uri uri) =>
             CustomSshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
-        public static SshConnectViewModel ParseUri(Uri uri, ISettingsService settingsService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService)
+        public static SshConnectViewModel ParseUri(Uri uri, ISettingsService settingsService,
+            IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
+            IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
         {
             if (CheckSchemeStandard(uri))
             {
                 return ParseUriStandard(uri, settingsService, applicationView, trayProcessCommunicationService,
-                    fileSystemService);
+                    fileSystemService, historyContainer);
             }
 
             if (CheckSchemeCustom(uri))
             {
                 return ParseUriCustom(uri, settingsService, applicationView, trayProcessCommunicationService,
-                    fileSystemService);
+                    fileSystemService, historyContainer);
             }
 
             // Won't happen ever
@@ -616,17 +618,17 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private static SshConnectViewModel ParseUriStandard(Uri uri, ISettingsService settingsService,
             IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
-            IFileSystemService fileSystemService)
+            IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
         {
             var vm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, false)
+                fileSystemService, historyContainer, false)
             {
                 Host = uri.Host,
                 UseMosh = MoshUriScheme.Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase)
             };
 
             if (uri.Port >= 0)
-                vm.SshPort = (ushort) uri.Port;
+                vm.SshPort = (ushort)uri.Port;
 
             if (!string.IsNullOrEmpty(uri.UserInfo))
             {
@@ -683,10 +685,10 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private static SshConnectViewModel ParseUriCustom(Uri uri, ISettingsService settingsService,
             IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
-            IFileSystemService fileSystemService)
+            IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
         {
             var vm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, true);
+                fileSystemService, historyContainer, true);
 
             // ReSharper disable once ConstantConditionalAccessQualifier
             string queryString = uri.Query?.Trim();
