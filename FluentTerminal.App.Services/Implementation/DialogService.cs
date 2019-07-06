@@ -78,7 +78,7 @@ namespace FluentTerminal.App.Services.Implementation
             return dialog.SelectProfile();
         }
 
-        public Task<ISshConnectionInfo> ShowSshConnectionInfoDialogAsync(ISshConnectionInfo input) =>
+        public Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null) =>
             _sshConnectionInfoDialogFactory().GetSshConnectionInfoAsync(input);
 
         public Task<SshProfile> ShowSshProfileSelectionDialogAsync()

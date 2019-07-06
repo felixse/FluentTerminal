@@ -42,7 +42,6 @@ namespace FluentTerminal.Models
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>();
-
         public bool UseConPty { get; set; }
 
         public string TranslateLineEndings(string content)
@@ -90,14 +89,5 @@ namespace FluentTerminal.Models
         }
 
         public virtual ShellProfile Clone() => new ShellProfile(this);
-
-        /// <summary>
-        /// Checks the profile for errors and returns string describing the found errors, if any.
-        /// Returns null if no errors found.
-        /// </summary>
-        public virtual string ValidateAndGetErrors()
-        {
-            return null;
-        }
     }
 }

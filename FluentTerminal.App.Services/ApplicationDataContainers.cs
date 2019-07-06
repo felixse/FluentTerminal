@@ -8,5 +8,6 @@
         public IApplicationDataContainer KeyBindings { get; set; }
         public IApplicationDataContainer ShellProfiles { get; set; }
         public IApplicationDataContainer SshProfiles { get; set; }
+        public IApplicationDataContainer HistoryContainer { get; set; }
     }
 }

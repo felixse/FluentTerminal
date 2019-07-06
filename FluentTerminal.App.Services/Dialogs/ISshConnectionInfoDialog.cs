@@ -5,6 +5,6 @@ namespace FluentTerminal.App.Services.Dialogs
 {
     public interface ISshConnectionInfoDialog
     {
-        Task<ISshConnectionInfo> GetSshConnectionInfoAsync(ISshConnectionInfo input);
+        Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null);
     }
 }

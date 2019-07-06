@@ -5,89 +5,16 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentTerminal.Models"
-    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views" 
     xmlns:enums="using:FluentTerminal.Models.Enums"
     mc:Ignorable="d">
     <Page.Resources>
-        <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
-            <views:TabThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Glyph="&#xF126;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.DefaultTemplate>
-            <views:TabThemeTemplateSelector.ColoredTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Foreground="{x:Bind Color}"
-                            Glyph="&#xF127;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.ColoredTemplate>
-        </views:TabThemeTemplateSelector>
-        <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
-            <views:TerminalThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.DefaultTemplate>
-            <views:TerminalThemeTemplateSelector.ThemeTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.ThemeTemplate>
-        </views:TerminalThemeTemplateSelector>
-        <views:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
-            <views:TerminalKeybindTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.DefaultTemplate>
-            <views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <views:KeyBindingsView
-                        Margin="0,6,0,0"
-                        ShowCommandName="False"
-                        ViewModel="{x:Bind}" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-        </views:TerminalKeybindTemplateSelector>
-        <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
-            <views:NoValueTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.DefaultTemplate>
-            <views:NoValueTemplateSelector.CustomTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock Text="{x:Bind}" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.CustomTemplate>
-        </views:NoValueTemplateSelector>
-        <views:BooleanTemplateSelector x:Key="UseConPtyTemplateSelector">
-            <views:BooleanTemplateSelector.TrueTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="Yes" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.TrueTemplate>
-            <views:BooleanTemplateSelector.FalseTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="No" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.FalseTemplate>
-        </views:BooleanTemplateSelector>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -147,13 +74,13 @@
                     Command="{x:Bind ViewModel.SelectedShellProfile.DeleteCommand, Mode=OneWay}"
                     Icon="Delete"
                     Label="Delete"
-                    Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
+                    Visibility="{x:Bind ViewModel.SelectedShellProfile.ProfileVm.PreInstalled, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
                 <AppBarButton
                     x:Uid="Restore"
                     Command="{x:Bind ViewModel.SelectedShellProfile.RestoreDefaultsCommand, Mode=OneWay}"
                     Icon="Undo"
                     Label="Restore Defaults"
-                    Visibility="{x:Bind ViewModel.SelectedShellProfile.PreInstalled, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
+                    Visibility="{x:Bind ViewModel.SelectedShellProfile.ProfileVm.PreInstalled, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
             </CommandBar>
             <CommandBar
                 Grid.Column="1"
@@ -248,7 +175,7 @@
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalAlignment="Left"
                                     Header="Name"
-                                    IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
+                                    IsEnabled="{x:Bind ProfileVm.PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -257,15 +184,15 @@
                                         x:Uid="ShellLocation"
                                         Width="300"
                                         Header="Shell executable location"
-                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ProfileVm.PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
-                                        Command="{x:Bind BrowseForCustomShellCommand}"
+                                        Command="{x:Bind ProfileVm.BrowseForCustomShellCommand}"
                                         Content="..."
-                                        IsEnabled="{x:Bind PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ProfileVm.PreInstalled, Converter={StaticResource NegateConverter}, Mode=OneWay}"
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
 
@@ -276,11 +203,11 @@
                                         Header="Working directory"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind WorkingDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.WorkingDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
-                                        Command="{x:Bind BrowseForWorkingDirectoryCommand}"
+                                        Command="{x:Bind ProfileVm.BrowseForWorkingDirectoryCommand}"
                                         Content="..."
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
@@ -293,7 +220,7 @@
                                     Header="Arguments"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsSpellCheckEnabled="False"
-                                    Text="{x:Bind Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{x:Bind ProfileVm.Arguments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                 <ComboBox
                                     x:Uid="TabColor"
@@ -302,8 +229,8 @@
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind ProfileVm.TabThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding ProfileVm.SelectedTabTheme, Mode=TwoWay}" />
 
                                 <ComboBox
                                     x:Uid="ProfileTheme"
@@ -312,21 +239,21 @@
                                     Header="Theme"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind ProfileVm.TerminalThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding ProfileVm.SelectedTerminalTheme, Mode=TwoWay}" />
 
                                 <ToggleSwitch
                                     Margin="{StaticResource ItemMargin}"
                                     Header="Use ConPty"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
                                 <ComboBox
                                     x:Uid="LineEndingModeOnPaste"
                                     Margin="{StaticResource ItemMargin}"
                                     VerticalAlignment="Center"
-                                    ItemsSource="{x:Bind LineEndingStyles}"
-                                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
+                                    ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
+                                    SelectedItem="{Binding ProfileVm.LineEndingTranslation, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="enums:LineEndingStyle">
                                             <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
@@ -357,7 +284,7 @@
                                     x:Uid="ShellLocation"
                                     Margin="{StaticResource ItemMargin}"
                                     Header="Shell executable location"
-                                    Text="{x:Bind Location, Mode=OneWay}" />
+                                    Text="{x:Bind ProfileVm.Location, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
                                     x:Uid="WorkingDir"
@@ -365,7 +292,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Working directory">
                                     <ContentControl
-                                        Content="{x:Bind WorkingDirectory, Mode=OneWay}"
+                                        Content="{x:Bind ProfileVm.WorkingDirectory, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -377,7 +304,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Arguments">
                                     <ContentControl
-                                        Content="{x:Bind Arguments, Mode=OneWay}"
+                                        Content="{x:Bind ProfileVm.Arguments, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -390,7 +317,7 @@
                                     Header="Tab color">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
+                                        Content="{x:Bind ProfileVm.SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -402,7 +329,7 @@
                                     Header="Theme">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTerminalTheme, Mode=OneWay}"
+                                        Content="{x:Bind ProfileVm.SelectedTerminalTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -414,7 +341,7 @@
                                     Header="Use ConPty">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind UseConPty, Mode=OneWay}"
+                                        Content="{x:Bind ProfileVm.UseConPty, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -426,7 +353,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
+                                        Content="{x:Bind ProfileVm.LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />

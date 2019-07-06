@@ -1,275 +1,34 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class SshProfileViewModel : ShellProfileViewModel, ISshConnectionInfo
+    /// <summary>
+    /// Extends <see cref="ShellProfileViewModelBase{T}"/>, and doesn't implement any additional logic because in
+    /// case of SSH profiles no additional logic is needed.
+    /// </summary>
+    public class SshProfileViewModel : ShellProfileViewModelBase<SshConnectViewModel>
     {
-        #region Fields
-
-        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-
-        // To prevent validating the existence of the same file multiple times because it's kinda expensive
-        private string _validatedIdentityFile;
-
-        #endregion Fields
-
-        #region Properties
-
-        private string _host;
-
-        public string Host
-        {
-            get => _host;
-            set => Set(ref _host, value);
-        }
-
-        private ushort _sshPort;
-        
-        public ushort SshPort
-        {
-            get => _sshPort;
-            set => Set(ref _sshPort, value);
-        }
-
-        private string _username;
-
-        public string Username
-        {
-            get => _username;
-            set => Set(ref _username, value);
-        }
-
-        private string _identityFile;
-
-        public string IdentityFile
-        {
-            get => _identityFile;
-            set => Set(ref _identityFile, value);
-        }
-
-        private bool _useMosh;
-
-        public bool UseMosh
-        {
-            get => _useMosh;
-            set => Set(ref _useMosh, value);
-        }
-
-        private ushort _moshPortFrom;
-
-        public ushort MoshPortFrom
-        {
-            get => _moshPortFrom;
-            set => Set(ref _moshPortFrom, value);
-        }
-
-        private ushort _moshPortTo;
-
-        public ushort MoshPortTo
-        {
-            get => _moshPortTo;
-            set => Set(ref _moshPortTo, value);
-        }
-
-        #endregion Properties
-
-        #region Commands
-
-        public IAsyncCommand BrowseForIdentityFileCommand { get; }
-
-        #endregion Commands
-
         #region Constructor
 
         public SshProfileViewModel(SshProfile sshProfile, ISettingsService settingsService,
             IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView,
-            IDefaultValueProvider defaultValueProvider,
-            ITrayProcessCommunicationService trayProcessCommunicationService, bool isNew) : base(
-            sshProfile ?? new SshProfile(), settingsService, dialogService, fileSystemService, applicationView,
-            defaultValueProvider, isNew)
+            ITrayProcessCommunicationService trayProcessCommunicationService,
+            IApplicationDataContainer historyContainer, bool isNew) : base(sshProfile, settingsService, dialogService,
+            isNew)
         {
-            _trayProcessCommunicationService = trayProcessCommunicationService;
-
-            InitializeViewModelPropertiesPrivate(sshProfile ?? new SshProfile());
-
-            BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
+            ProfileVm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
+                fileSystemService, historyContainer, sshProfile);
         }
 
         #endregion Constructor
 
         #region Methods
 
-        // Fills the remaining view model properties (those which aren't filled by the base method) from the input sshProfile
-        private void InitializeViewModelPropertiesPrivate(SshProfile sshProfile)
+        protected override bool CanDelete()
         {
-            Host = sshProfile.Host;
-            SshPort = sshProfile.SshPort;
-
-            Username = sshProfile.Username;
-
-            if (string.IsNullOrEmpty(Username))
-            {
-                _trayProcessCommunicationService.GetUserName().ContinueWith(t =>
-                {
-                    var username = t.Result;
-
-                    if (string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(username))
-                    {
-                        ApplicationView.RunOnDispatcherThread(() => Username = username);
-                    }
-                }, TaskContinuationOptions.OnlyOnRanToCompletion);
-            }
-
-            IdentityFile = sshProfile.IdentityFile;
-            UseMosh = sshProfile.UseMosh;
-            MoshPortFrom = sshProfile.MoshPortFrom;
-            MoshPortTo = sshProfile.MoshPortTo;
-        }
-
-        protected override void InitializeViewModelProperties(ShellProfile sshProfile)
-        {
-            base.InitializeViewModelProperties(sshProfile);
-
-            InitializeViewModelPropertiesPrivate((SshProfile)sshProfile);
-        }
-
-        protected override async Task FillProfileAsync(ShellProfile profile)
-        {
-            await base.FillProfileAsync(profile);
-
-            profile.Location = _useMosh ? ShellLocation.Mosh : ShellLocation.SSH;
-            profile.Arguments = GetArgumentsString();
-            profile.WorkingDirectory = null;
-
-            var sshProfile = (SshProfile)profile;
-
-            sshProfile.Host = Host;
-            sshProfile.SshPort = SshPort;
-            sshProfile.Username = Username;
-            sshProfile.IdentityFile = IdentityFile;
-            sshProfile.UseMosh = UseMosh;
-            sshProfile.MoshPortFrom = MoshPortFrom;
-            sshProfile.MoshPortTo = MoshPortTo;
-        }
-
-        public virtual Task AcceptChangesAsync() => FillProfileAsync(Model);
-
-        protected override async Task<ShellProfile> CreateProfileAsync()
-        {
-            var profile = new SshProfile();
-
-            await FillProfileAsync(profile);
-
-            return profile;
-        }
-
-        private string GetArgumentsString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-
-            if (_sshPort != SshProfile.DefaultSshPort)
-                sb.Append($"-p {_sshPort:#####} ");
-
-            if (!string.IsNullOrEmpty(_identityFile))
-                sb.Append($"-i \"{_identityFile}\" ");
-
-            sb.Append($"{_username}@{_host}");
-
-            if (_useMosh)
-                sb.Append($" {_moshPortFrom}:{_moshPortTo}");
-
-            return sb.ToString();
-        }
-
-        public override async Task SaveChangesAsync()
-        {
-            var result = await ValidateAsync();
-
-            if (result != SshConnectionInfoValidationResult.Valid)
-            {
-                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"),
-                    result.GetErrorString(Environment.NewLine), DialogButton.OK);
-
-                return;
-            }
-
-            await AcceptChangesAsync();
-
-            SettingsService.SaveSshProfile((SshProfile) Model, IsNew);
-
-            KeyBindings.Editable = false;
-            InEditMode = false;
-            IsNew = false;
-        }
-
-        private async Task BrowseForIdentityFile()
-        {
-            var file = await FileSystemService.OpenFile(new[] { "*" }).ConfigureAwait(true);
-            if (file != null)
-            {
-                IdentityFile = file.Path;
-            }
-        }
-
-        public async Task<SshConnectionInfoValidationResult> ValidateAsync()
-        {
-            var result = this.GetValidationResult();
-
-            var identityFile = _identityFile;
-
-            if (!string.IsNullOrEmpty(identityFile) && !string.Equals(identityFile, _validatedIdentityFile,
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                // Here we need to take into account that files from ssh config dir can be provided by name, without full path.
-                string fullPath;
-
-                if (identityFile.Contains(Path.PathSeparator))
-                {
-                    fullPath = identityFile;
-                }
-                else
-                {
-                    var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync();
-
-                    if (string.IsNullOrEmpty(sshConfigDir))
-                    {
-                        result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
-
-                        return result;
-                    }
-
-                    fullPath = Path.Combine(sshConfigDir, identityFile);
-                }
-
-                if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath))
-                {
-                    _validatedIdentityFile = identityFile;
-
-                    IdentityFile = fullPath;
-                }
-                else
-                {
-                    result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
-                }
-            }
-
-            return result;
-        }
-
-        public void SetValidatedIdentityFile(string identityFile)
-        {
-            _validatedIdentityFile = identityFile;
-            IdentityFile = identityFile;
+            return true;
         }
 
         #endregion Methods

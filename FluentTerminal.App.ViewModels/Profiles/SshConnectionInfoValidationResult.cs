@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentTerminal.Models.Enums
+namespace FluentTerminal.App.ViewModels.Profiles
 {
     [Flags]
     public enum SshConnectionInfoValidationResult

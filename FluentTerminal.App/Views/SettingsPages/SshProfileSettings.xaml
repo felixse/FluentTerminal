@@ -6,90 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:FluentTerminal.Models"
-    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
+    xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
     mc:Ignorable="d">
 
-
     <Page.Resources>
-        <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
-            <views:TabThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Glyph="&#xF126;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.DefaultTemplate>
-            <views:TabThemeTemplateSelector.ColoredTemplate>
-                <DataTemplate x:DataType="models:TabTheme">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
-                            Foreground="{x:Bind Color}"
-                            Glyph="&#xF127;" />
-                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </views:TabThemeTemplateSelector.ColoredTemplate>
-        </views:TabThemeTemplateSelector>
-        <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
-            <views:TerminalThemeTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.DefaultTemplate>
-            <views:TerminalThemeTemplateSelector.ThemeTemplate>
-                <DataTemplate x:DataType="models:TerminalTheme">
-                    <TextBlock Text="{x:Bind Name}" />
-                </DataTemplate>
-            </views:TerminalThemeTemplateSelector.ThemeTemplate>
-        </views:TerminalThemeTemplateSelector>
-        <views:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
-            <views:TerminalKeybindTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.DefaultTemplate>
-            <views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-                <DataTemplate x:DataType="settings:KeyBindingsViewModel">
-                    <views:KeyBindingsView
-                        Margin="0,6,0,0"
-                        ShowCommandName="False"
-                        ViewModel="{x:Bind}" />
-                </DataTemplate>
-            </views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
-        </views:TerminalKeybindTemplateSelector>
-        <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
-            <views:NoValueTemplateSelector.DefaultTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock x:Uid="None" FontStyle="Italic" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.DefaultTemplate>
-            <views:NoValueTemplateSelector.CustomTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock Text="{x:Bind}" />
-                </DataTemplate>
-            </views:NoValueTemplateSelector.CustomTemplate>
-        </views:NoValueTemplateSelector>
-        <views:BooleanTemplateSelector x:Key="UseConPtyTemplateSelector">
-            <views:BooleanTemplateSelector.TrueTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="Yes" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.TrueTemplate>
-            <views:BooleanTemplateSelector.FalseTemplate>
-                <DataTemplate x:DataType="x:Boolean">
-                    <TextBlock x:Uid="No" />
-                </DataTemplate>
-            </views:BooleanTemplateSelector.FalseTemplate>
-        </views:BooleanTemplateSelector>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <views:TemplateSelectors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
@@ -233,10 +160,16 @@
                                     IsSpellCheckEnabled="False"
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                                <CheckBox
+                                    Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseCommandInput}"
+                                    IsChecked="{Binding ProfileVm.CommandInput, Mode=TwoWay}"
+                                    Margin="{StaticResource ItemMargin}" />
+
                                 <Grid
                                     Width="340"
                                     Margin="{StaticResource ItemMargin}"
-                                    HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90" />
                                         <ColumnDefinition Width="20" />
@@ -251,7 +184,7 @@
                                         Header="Username"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                     <TextBlock
                                         Grid.Column="1"
@@ -268,7 +201,7 @@
                                         Header="Host"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                     <TextBlock
                                         Grid.Column="3"
@@ -285,19 +218,22 @@
                                         Header="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=PortTextBox.PlaceholderText}"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind SshPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.SshPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
+                                <StackPanel 
+                                    Margin="{StaticResource ItemMargin}" 
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <TextBox
                                         Width="300"
                                         Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind IdentityFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.IdentityFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button
                                         Margin="6,0,0,0"
                                         VerticalAlignment="Bottom"
-                                        Command="{x:Bind BrowseForIdentityFileCommand}"
+                                        Command="{x:Bind ProfileVm.BrowseForIdentityFileCommand}"
                                         Content="..."
                                         Style="{StaticResource ButtonRevealStyle}" />
                                 </StackPanel>
@@ -306,12 +242,13 @@
                                     Margin="{StaticResource ItemMargin}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsOn="{x:Bind UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}" />
 
                                 <StackPanel
                                     Margin="{StaticResource ItemMargin}"
                                     Orientation="Horizontal"
-                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
+                                    Visibility="{x:Bind ProfileVm.MoshVisible, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBox
                                         x:Uid="MoshPortFrom"
                                         Width="120"
@@ -320,7 +257,7 @@
                                         Header="Mosh Port From"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind MoshPortFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.MoshPortFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock
                                         Width="8"
                                         Margin="3,50,0,0"
@@ -335,8 +272,14 @@
                                         Header="Mosh Port To"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
-                                        Text="{x:Bind MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ProfileVm.MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
+
+                                <TextBox PlaceholderText="SSH command (e.g. 'ssh username@host')"
+                                         Text="{Binding ProfileVm.Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
+                                         Margin="0 8 2 0"/>
+
                                 <ComboBox
                                     x:Uid="TabColor"
                                     Width="150"
@@ -344,8 +287,8 @@
                                     Header="Tab color"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TabThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind ProfileVm.TabThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding ProfileVm.SelectedTabTheme, Mode=TwoWay}" />
 
                                 <ComboBox
                                     x:Uid="ProfileTheme"
@@ -354,20 +297,20 @@
                                     Header="Theme"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                                    ItemsSource="{x:Bind TerminalThemes, Mode=OneWay}"
-                                    SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}" />
+                                    ItemsSource="{x:Bind ProfileVm.TerminalThemes, Mode=OneWay}"
+                                    SelectedItem="{Binding ProfileVm.SelectedTerminalTheme, Mode=TwoWay}" />
 
                                 <ToggleSwitch
                                     Margin="{StaticResource ItemMargin}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
-                                    IsOn="{x:Bind UseConPty, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
                                 <ComboBox
                                     Margin="{StaticResource ItemMargin}"
                                     VerticalAlignment="Center"
-                                    ItemsSource="{x:Bind LineEndingStyles}"
-                                    SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}">
+                                    ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
+                                    SelectedItem="{Binding ProfileVm.LineEndingTranslation, Mode=TwoWay}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="enums:LineEndingStyle">
                                             <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
@@ -388,143 +331,187 @@
                                     <views:KeyBindingsView ShowCommandName="False" ViewModel="{x:Bind KeyBindings}" />
                                 </StackPanel>
                             </StackPanel>
-                            <StackPanel Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+
+                            <StackPanel Visibility="{Binding InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+
                                 <TextBlock
                                     Margin="{StaticResource ItemMargin}"
                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                     Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Margin="0,30,0,0" Text="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=SshInfoDialog.Title}" />
-                                <StackPanel Margin="0,-20,0,0" Orientation="Horizontal">
-                                    <TextBlock
-                                        Margin="{StaticResource ItemMargin}"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind Username, Mode=OneWay}" />
-                                    <TextBlock
-                                        Margin="0,23,4,0"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="@"
-                                        TextAlignment="Center" />
-                                    <TextBlock
-                                        Margin="{StaticResource ItemMargin}"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind Host, Mode=OneWay}" />
-                                    <TextBlock
-                                        Margin="0,23,4,0"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text=":"
-                                        TextAlignment="Center" />
-                                    <TextBlock
-                                        Margin="{StaticResource ItemMargin}"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind SshPort, Mode=OneWay}" />
-                                </StackPanel>
+
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Command}"
+                                    Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}">
+                                    <ContentControl>
+                                        <ContentControl.ContentTemplate>
+                                            <DataTemplate x:DataType="profiles:SshConnectViewModel">
+                                                <TextBlock
+                                                    FontSize="18"
+                                                    FontWeight="Light"
+                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                    Text="{Binding Command, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </ContentControl.ContentTemplate>
+                                    </ContentControl>
+                                </controls:HeaderedContentControl>
+
+                                <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Title}"
+                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
+                                    <ContentControl>
+                                        <ContentControl.ContentTemplate>
+                                            <DataTemplate x:DataType="profiles:SshConnectViewModel">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding Username, Mode=OneWay}" />
+                                                    <TextBlock
+                                                        Margin="0,0,4,0"
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="@"
+                                                        TextAlignment="Center" />
+                                                    <TextBlock
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding Host, Mode=OneWay}" />
+                                                    <TextBlock
+                                                        Margin="0,0,4,0"
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text=":"
+                                                        TextAlignment="Center" />
+                                                    <TextBlock
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding SshPort, Mode=OneWay}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ContentControl.ContentTemplate>
+                                    </ContentControl>
+                                </controls:HeaderedContentControl>
+
+                                <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
+                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <ContentControl
-                                        Content="{x:Bind IdentityFile, Mode=OneWay}"
+                                        Content="{Binding IdentityFile, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
+                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind UseMosh, Mode=OneWay}"
+                                        Content="{Binding UseMosh, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
-                                <TextBlock
-                                    x:Uid="MoshPortRange"
-                                    Margin="0,30,0,0"
-                                    Text="Mosh Port Range"
-                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
-                                <StackPanel
-                                    Margin="0,-20,0,0"
-                                    Orientation="Horizontal"
-                                    Visibility="{x:Bind UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
-                                    <TextBlock
-                                        Margin="{StaticResource ItemMargin}"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind MoshPortFrom, Mode=OneWay}" />
-                                    <TextBlock
-                                        Margin="0,23,3,0"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text=":"
-                                        TextAlignment="Center" />
-                                    <TextBlock
-                                        Margin="{StaticResource ItemMargin}"
-                                        FontSize="18"
-                                        FontWeight="Light"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{x:Bind MoshPortTo, Mode=OneWay}" />
-                                </StackPanel>
+                                <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.MoshPortRange}"
+                                    Visibility="{Binding MoshVisible, Converter={StaticResource TrueToVisibleConverter}}">
+                                    <ContentControl>
+                                        <ContentControl.ContentTemplate>
+                                            <DataTemplate x:DataType="profiles:SshConnectViewModel">
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <TextBlock
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding MoshPortFrom, Mode=OneWay}" />
+                                                    <TextBlock
+                                                        Margin="0,0,3,0"
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text=":"
+                                                        TextAlignment="Center" />
+                                                    <TextBlock
+                                                        FontSize="18"
+                                                        FontWeight="Light"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding MoshPortTo, Mode=OneWay}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ContentControl.ContentTemplate>
+                                    </ContentControl>
+                                </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     x:Uid="TabColor"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Tab color">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTabTheme, Mode=OneWay}"
+                                        Content="{Binding SelectedTabTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TabThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Theme">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind SelectedTerminalTheme, Mode=OneWay}"
+                                        Content="{Binding SelectedTerminalTheme, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}">
                                     <ContentControl
                                         Margin="0,6,0,0"
-                                        Content="{x:Bind UseConPty, Mode=OneWay}"
+                                        Content="{Binding UseConPty, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
+                                    DataContext="{Binding ProfileVm}"
                                     x:Uid="LineEndingMode"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     Header="Line ending translation mode">
                                     <ContentControl
-                                        Content="{x:Bind LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
+                                        Content="{Binding LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
                                         ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />
@@ -536,7 +523,7 @@
                                     HorizontalContentAlignment="Stretch"
                                     Header="Keyboard shortcut">
                                     <ContentControl
-                                        Content="{x:Bind KeyBindings, Mode=OneWay}"
+                                        Content="{Binding KeyBindings, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource TerminalKeybindTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />

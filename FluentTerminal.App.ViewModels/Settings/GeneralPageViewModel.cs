@@ -154,6 +154,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool UseQuickSshConnectByDefault
+        {
+            get => _applicationSettings.UseQuickSshConnectByDefault;
+            set
+            {
+                if (_applicationSettings.UseQuickSshConnectByDefault != value)
+                {
+                    _applicationSettings.UseQuickSshConnectByDefault = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool RTrimCopiedLines
         {
             get => _applicationSettings.RTrimCopiedLines;

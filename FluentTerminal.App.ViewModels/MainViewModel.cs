@@ -21,7 +21,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly ISshHelperService _sshHelperService;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -30,7 +29,7 @@ namespace FluentTerminal.App.ViewModels
         private string _windowTitle;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ISshHelperService sshHelperService)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -46,7 +45,6 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView = applicationView;
             _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
-            _sshHelperService = sshHelperService;
             _keyboardCommandService = keyboardCommandService;
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
@@ -56,7 +54,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewTab), async () => await AddSavedSshTerminalAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(NewWindowAction.ShowSshProfileSelection));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(NewWindowAction.ShowSshInfoDialog));
-            
+
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
@@ -246,7 +244,7 @@ namespace FluentTerminal.App.ViewModels
 
         public async Task AddSshTabAsync()
         {
-            SshProfile profile = await _sshHelperService.GetSshProfileAsync(new SshProfile());
+            SshProfile profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
             if (profile == null)
             {
                 // User selected "Cancel"
@@ -260,6 +258,7 @@ namespace FluentTerminal.App.ViewModels
                 await AddTerminalAsync(profile);
             }
         }
+
         public Task AddSshTabOrWindowAsync(Guid shellProfileId)
         {
             switch (_applicationSettings.NewTerminalLocation)
@@ -277,7 +276,7 @@ namespace FluentTerminal.App.ViewModels
 
         public async Task AddSavedSshTerminalAsync()
         {
-            ShellProfile profile = await _sshHelperService.GetSavedSshProfileAsync();
+            ShellProfile profile = await _dialogService.ShowSshProfileSelectionDialogAsync();
 
             if (profile == null)
             {

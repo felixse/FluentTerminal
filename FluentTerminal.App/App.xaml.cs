@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Profiles;
 
 namespace FluentTerminal.App
 {
@@ -44,7 +45,6 @@ namespace FluentTerminal.App
         private readonly TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly Lazy<ISshHelperService> _sshHelperService;
         private readonly IDialogService _dialogService;
         private bool _alreadyLaunched;
         private bool _isLaunching;
@@ -73,7 +73,8 @@ namespace FluentTerminal.App
                 KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
                 ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
                 Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always)),
-                SshProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.SshProfilesContainerName, ApplicationDataCreateDisposition.Always))
+                SshProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.SshProfilesContainerName, ApplicationDataCreateDisposition.Always)), 
+                HistoryContainer = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ExecutedCommandsContainerName, ApplicationDataCreateDisposition.Always))
             };
             var builder = new ContainerBuilder();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
@@ -100,7 +101,6 @@ namespace FluentTerminal.App
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
-            builder.RegisterType<SshHelperService>().As<ISshHelperService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
@@ -110,8 +110,6 @@ namespace FluentTerminal.App
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
-
-            _sshHelperService = new Lazy<ISshHelperService>(() => _container.Resolve<ISshHelperService>());
 
             _dialogService = _container.Resolve<IDialogService>();
 
@@ -169,21 +167,31 @@ namespace FluentTerminal.App
             if (args is ProtocolActivatedEventArgs protocolActivated)
             {
                 MainViewModel mainViewModel = null;
+                // IApplicationView to use for creating view models
+                IApplicationView applicationView;
 
-                if (!_alreadyLaunched)
+                if (_alreadyLaunched)
+                {
+                    applicationView =
+                        (_mainViewModels.FirstOrDefault(o => o.ApplicationView.Id == _activeWindowId) ??
+                         _mainViewModels.Last()).ApplicationView;
+                }
+                else
                 {
                     // App wasn't launched before double clicking a shortcut, so we have to create a window
                     // in order to be able to communicate with user.
                     mainViewModel = _container.Resolve<MainViewModel>();
 
                     await CreateMainView(typeof(MainPage), mainViewModel, true);
+
+                    applicationView = mainViewModel.ApplicationView;
                 }
 
                 bool isSsh;
 
                 try
                 {
-                    isSsh = _sshHelperService.Value.IsSsh(protocolActivated.Uri);
+                    isSsh = SshConnectViewModel.CheckScheme(protocolActivated.Uri);
                 }
                 catch (Exception ex)
                 {
@@ -196,11 +204,13 @@ namespace FluentTerminal.App
 
                 if (isSsh)
                 {
-                    SshProfileViewModel connectionInfo;
+                    SshConnectViewModel vm;
 
                     try
                     {
-                        connectionInfo = (SshProfileViewModel) _sshHelperService.Value.ParseSsh(protocolActivated.Uri);
+                        vm = SshConnectViewModel.ParseUri(protocolActivated.Uri, _settingsService,
+                            applicationView, _trayProcessCommunicationService,
+                            _container.Resolve<IFileSystemService>());
                     }
                     catch (Exception ex)
                     {
@@ -211,25 +221,22 @@ namespace FluentTerminal.App
                         return;
                     }
 
-                    if (_applicationSettings.AutoFallbackToWindowsUsernameInLinks &&
-                        string.IsNullOrEmpty(connectionInfo.Username))
+                    if (!vm.CommandInput && _applicationSettings.AutoFallbackToWindowsUsernameInLinks &&
+                        string.IsNullOrEmpty(vm.Username))
                     {
-                        connectionInfo.Username = await _trayProcessCommunicationService.GetUserName();
+                        vm.Username = await _trayProcessCommunicationService.GetUserName();
                     }
 
-                    SshConnectionInfoValidationResult result = await connectionInfo.ValidateAsync();
+                    var error = await vm.AcceptChangesAsync(true);
 
-                    if (result == SshConnectionInfoValidationResult.Valid)
-                    {
-                        await connectionInfo.AcceptChangesAsync();
-                    }
-                    else
+                    SshProfile profile = (SshProfile) vm.Model;
+
+                    if (!string.IsNullOrEmpty(error))
                     {
                         // Link is valid, but incomplete (i.e. username missing), so we need to show dialog.
-                        connectionInfo =
-                            (SshProfileViewModel) await _dialogService.ShowSshConnectionInfoDialogAsync(connectionInfo);
+                        profile = await _dialogService.ShowSshConnectionInfoDialogAsync(profile);
 
-                        if (connectionInfo == null)
+                        if (profile == null)
                         {
                             // User clicked "Cancel" in the dialog.
                             mainViewModel?.ApplicationView.TryClose();
@@ -239,9 +246,9 @@ namespace FluentTerminal.App
                     }
 
                     if (mainViewModel == null)
-                        await CreateTerminal(connectionInfo.Model, _applicationSettings.NewTerminalLocation);
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
                     else
-                        await mainViewModel.AddTerminalAsync(connectionInfo.Model);
+                        await mainViewModel.AddTerminalAsync(profile);
 
                     return;
                 }
@@ -551,7 +558,7 @@ namespace FluentTerminal.App
                     }
                     break;
                 case NewWindowAction.ShowSshProfileSelection:
-                    profile = await _sshHelperService.Value.GetSavedSshProfileAsync();
+                    profile = await _dialogService.ShowSshProfileSelectionDialogAsync();
                     if (profile == null)
                     {
                         // Nothing to do if user cancels.
@@ -559,7 +566,7 @@ namespace FluentTerminal.App
                     }
                     break;
                 case NewWindowAction.ShowSshInfoDialog:
-                    profile = await _sshHelperService.Value.GetSshProfileAsync(new SshProfile());
+                    profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
                     if (profile == null)
                     {
                         // Nothing to do if user cancels.

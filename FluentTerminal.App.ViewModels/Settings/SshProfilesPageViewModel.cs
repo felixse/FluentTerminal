@@ -16,28 +16,28 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IFileSystemService _fileSystemService;
         private SshProfileViewModel _selectedShellProfile;
         private readonly IApplicationView _applicationView;
-        private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly IApplicationDataContainer _historyContainer;
 
         public SshProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService,
             IFileSystemService fileSystemService, IApplicationView applicationView,
-            IDefaultValueProvider defaultValueProvider,
-            ITrayProcessCommunicationService trayProcessCommunicationService)
+            ITrayProcessCommunicationService trayProcessCommunicationService,
+            IApplicationDataContainer historyContainer)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
-            _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _historyContainer = historyContainer;
 
             CreateSshProfileCommand = new RelayCommand(CreateSshProfile);
             CloneCommand = new RelayCommand<SshProfileViewModel>(Clone);
 
             foreach (var sshProfile in _settingsService.GetSshProfiles())
             {
-                var viewModel = new SshProfileViewModel(sshProfile, settingsService, dialogService,
-                    fileSystemService, applicationView, defaultValueProvider, _trayProcessCommunicationService, false);
+                var viewModel = new SshProfileViewModel(sshProfile, settingsService, dialogService, fileSystemService,
+                    applicationView, _trayProcessCommunicationService, historyContainer, false);
                 viewModel.Deleted += OnSshProfileDeleted;
                 SshProfiles.Add(viewModel);
             }
@@ -83,7 +83,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void Clone(SshProfileViewModel shellProfile)
         {
-            var cloned = (SshProfile) shellProfile.Model.Clone();
+            var cloned = (SshProfile) shellProfile.ProfileVm.Model.Clone();
 
             cloned.Id = Guid.NewGuid();
             cloned.PreInstalled = false;
@@ -99,7 +99,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void AddSshProfile(SshProfile sshProfile)
         {
             var viewModel = new SshProfileViewModel(sshProfile, _settingsService, _dialogService, _fileSystemService,
-                _applicationView, _defaultValueProvider, _trayProcessCommunicationService, true);
+                _applicationView, _trayProcessCommunicationService, _historyContainer, true);
 
             viewModel.EditCommand.Execute(null);
             viewModel.Deleted += OnSshProfileDeleted;
