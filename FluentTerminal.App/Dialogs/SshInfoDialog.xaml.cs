@@ -23,17 +23,23 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly IFileSystemService _fileSystemService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly IApplicationDataContainer _historyContainer;
 
         public SshInfoDialog(ISettingsService settingsService, IApplicationView applicationView,
-            IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService)
+            IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService,
+            ApplicationDataContainers containers)
         {
             _settingsService = settingsService;
             _applicationView = applicationView;
             _fileSystemService = fileSystemService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _historyContainer = containers.HistoryContainer;
+
             InitializeComponent();
+
             PrimaryButtonText = I18N.Translate("OK");
             SecondaryButtonText = I18N.Translate("Cancel");
+
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
@@ -151,11 +157,23 @@ namespace FluentTerminal.App.Dialogs
         public async Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null)
         {
             var vm = new SshConnectViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
-                _fileSystemService, input);
+                _fileSystemService, _historyContainer, input);
 
             DataContext = vm;
 
-            return (await ShowAsync() == ContentDialogResult.Primary) ? (SshProfile) vm.Model : null;
+            if (await ShowAsync() != ContentDialogResult.Primary)
+            {
+                return null;
+            }
+
+            var profile = (SshProfile) vm.Model;
+
+            if (vm.CommandInput)
+            {
+                vm.SaveCommand(profile.Location, profile.Arguments);
+            }
+
+            return profile;
         }
     }
 }

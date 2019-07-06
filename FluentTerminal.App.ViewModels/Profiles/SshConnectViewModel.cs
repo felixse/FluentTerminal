@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -51,6 +52,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IApplicationDataContainer _historyContainer;
 
         // To prevent validating the existence of the same file multiple times because it's kinda expensive
         private string _validatedIdentityFile;
@@ -153,6 +155,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public bool MoshVisible => _useMosh && !_commandInput;
 
+        public ObservableCollection<string> CommandHistory { get; private set; }
+
         #endregion Properties
 
         #region Commands
@@ -165,11 +169,12 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
-            SshProfile original = null) : base(settingsService, applicationView,
+            IApplicationDataContainer historyContainer, SshProfile original = null) : base(settingsService, applicationView,
             original ?? new SshProfile {UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault})
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;
+            _historyContainer = historyContainer;
 
             if (string.IsNullOrEmpty(Model.Location))
             {
@@ -184,6 +189,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 _commandInput = false;
             }
 
+            FillCommandHistory();
+
             Initialize((SshProfile) Model);
 
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
@@ -197,6 +204,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;
             _commandInput = useCommandInput;
+
+            FillCommandHistory();
 
             Initialize((SshProfile)Model);
 
@@ -497,6 +506,63 @@ namespace FluentTerminal.App.ViewModels.Profiles
         }
 
         #endregion Methods
+
+        #region Command history
+
+        private const string ExecutedCommandsKey = "ExecutedCommands";
+        private const int CommandHistoryLimit = 20;
+
+        private void FillCommandHistory()
+        {
+            var commands = _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null)
+                ?.ExecutedCommands;
+
+            CommandHistory = commands == null
+                ? new ObservableCollection<string>()
+                : new ObservableCollection<string>(commands.Select(c => $"{c.Command} {c.Args}"));
+        }
+
+        public void SaveCommand(string cmd, string args)
+        {
+            cmd = cmd?.Trim();
+
+            if (string.IsNullOrEmpty(cmd))
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            var commandHistory =
+                _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
+                new ExecutedCommandHistory {ExecutedCommands = new List<ExecutedCommand>()};
+
+            var command = commandHistory.ExecutedCommands.FirstOrDefault(c =>
+                string.Equals(cmd, c.Command, StringComparison.Ordinal) && args.NullableEqualTo(c.Args));
+
+            if (command == null)
+            {
+                command = new ExecutedCommand
+                    {Command = cmd, Args = args, ExecutionCount = 1, LastExecution = DateTime.UtcNow};
+            }
+            else
+            {
+                command.ExecutionCount++;
+
+                command.LastExecution = DateTime.UtcNow;
+
+                commandHistory.ExecutedCommands.Remove(command);
+            }
+
+            commandHistory.ExecutedCommands.Insert(0, command);
+
+            while (commandHistory.ExecutedCommands.Count > CommandHistoryLimit)
+            {
+                commandHistory.ExecutedCommands.RemoveAt(CommandHistoryLimit);
+            }
+
+            _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
+        }
+
+        #endregion Command history
 
         #region Links/shortcuts related
 

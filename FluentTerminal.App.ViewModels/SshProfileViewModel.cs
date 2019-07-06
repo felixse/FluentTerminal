@@ -14,11 +14,12 @@ namespace FluentTerminal.App.ViewModels
 
         public SshProfileViewModel(SshProfile sshProfile, ISettingsService settingsService,
             IDialogService dialogService, IFileSystemService fileSystemService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService, bool isNew) : base(sshProfile,
-            settingsService, dialogService, isNew)
+            ITrayProcessCommunicationService trayProcessCommunicationService,
+            IApplicationDataContainer historyContainer, bool isNew) : base(sshProfile, settingsService, dialogService,
+            isNew)
         {
             ProfileVm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, sshProfile);
+                fileSystemService, historyContainer, sshProfile);
         }
 
         #endregion Constructor

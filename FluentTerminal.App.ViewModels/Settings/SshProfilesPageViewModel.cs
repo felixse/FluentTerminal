@@ -17,16 +17,19 @@ namespace FluentTerminal.App.ViewModels.Settings
         private SshProfileViewModel _selectedShellProfile;
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly IApplicationDataContainer _historyContainer;
 
         public SshProfilesPageViewModel(ISettingsService settingsService, IDialogService dialogService,
             IFileSystemService fileSystemService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService)
+            ITrayProcessCommunicationService trayProcessCommunicationService,
+            IApplicationDataContainer historyContainer)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
             _applicationView = applicationView;
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _historyContainer = historyContainer;
 
             CreateSshProfileCommand = new RelayCommand(CreateSshProfile);
             CloneCommand = new RelayCommand<SshProfileViewModel>(Clone);
@@ -34,7 +37,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             foreach (var sshProfile in _settingsService.GetSshProfiles())
             {
                 var viewModel = new SshProfileViewModel(sshProfile, settingsService, dialogService, fileSystemService,
-                    applicationView, _trayProcessCommunicationService, false);
+                    applicationView, _trayProcessCommunicationService, historyContainer, false);
                 viewModel.Deleted += OnSshProfileDeleted;
                 SshProfiles.Add(viewModel);
             }
@@ -96,7 +99,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void AddSshProfile(SshProfile sshProfile)
         {
             var viewModel = new SshProfileViewModel(sshProfile, _settingsService, _dialogService, _fileSystemService,
-                _applicationView, _trayProcessCommunicationService, true);
+                _applicationView, _trayProcessCommunicationService, _historyContainer, true);
 
             viewModel.EditCommand.Execute(null);
             viewModel.Deleted += OnSshProfileDeleted;
