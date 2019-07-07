@@ -395,15 +395,30 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             var match = CommandValidationRx.Match(_command?.Trim() ?? string.Empty);
 
-            if (match.Success && match.Groups["args"].Success && AcceptableCommands.Any(c =>
-                    c.Equals(match.Groups["cmd"].Value, StringComparison.OrdinalIgnoreCase)))
+            if (!match.Success)
             {
-                return null;
+                error = I18N.Translate("InvalidCommand");
+
+                return string.IsNullOrEmpty(error) ? "Invalid command." : error;
             }
 
-            error = I18N.Translate("InvalidCommand");
+            if (!AcceptableCommands.Any(c => c.Equals(match.Groups["cmd"].Value, StringComparison.OrdinalIgnoreCase)))
+            {
+                error = I18N.Translate("UnsupportedCommand");
 
-            return string.IsNullOrEmpty(error) ? "Invalid command." : error;
+                return string.IsNullOrEmpty(error)
+                    ? $"Unsupported command: {match.Groups["cmd"]}."
+                    : $"{error} {match.Groups["cmd"]}";
+            }
+
+            if (!match.Groups["args"].Success)
+            {
+                error = I18N.Translate("CommandArgumentsMandatory");
+
+                return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
+            }
+
+            return null;
         }
 
         public override bool HasChanges()
