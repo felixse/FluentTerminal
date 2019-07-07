@@ -948,4 +948,10 @@ Fuzzy</comment>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Command</value>
   </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>Unsupported command:</value>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>Command arguments are missing.</value>
+  </data>
 </root>
