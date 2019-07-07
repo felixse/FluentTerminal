@@ -29,7 +29,8 @@
         <StackPanel Orientation="Vertical" Width="500">
 
             <CheckBox
-                Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseCommandInput}"
+                x:Uid="UseCommandInput"
+                Content="Use quick SSH"
                 IsChecked="{Binding CommandInput, Mode=TwoWay}" />
 
             <Grid HorizontalAlignment="Stretch" 
@@ -118,6 +119,7 @@
             </Grid>
 
             <TextBox x:Name="CommandTextBox" 
+                     x:Uid="CommandTextBox"
                      PlaceholderText="SSH command (e.g. 'ssh username@host')"
                      Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}"

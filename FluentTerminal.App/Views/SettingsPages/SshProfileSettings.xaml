@@ -161,7 +161,8 @@
                                     Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                                 <CheckBox
-                                    Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseCommandInput}"
+                                    x:Uid="UseCommandInput"
+                                    Content="Use quick SSH"
                                     IsChecked="{Binding ProfileVm.CommandInput, Mode=TwoWay}"
                                     Margin="{StaticResource ItemMargin}" />
 
@@ -245,14 +246,18 @@
                                     IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource FalseToVisibleConverter}}" />
 
-                                <StackPanel
+                                <TextBlock 
                                     Margin="{StaticResource ItemMargin}"
+                                    x:Uid="MoshPortRange"
+                                    Text="Mosh port range"
+                                    Visibility="{x:Bind ProfileVm.MoshVisible, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"/>
+
+                                <StackPanel
                                     Orientation="Horizontal"
                                     Visibility="{x:Bind ProfileVm.MoshVisible, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBox
                                         x:Uid="MoshPortFrom"
                                         Width="120"
-                                        Margin="{StaticResource ItemMargin}"
                                         HorizontalAlignment="Left"
                                         Header="Mosh Port From"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
@@ -260,14 +265,13 @@
                                         Text="{x:Bind ProfileVm.MoshPortFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock
                                         Width="8"
-                                        Margin="3,50,0,0"
+                                        Margin="3,26,0,0"
                                         HorizontalAlignment="Center"
                                         FontSize="22"
                                         Text=":" />
                                     <TextBox
                                         x:Uid="MoshPortTo"
                                         Width="120"
-                                        Margin="{StaticResource ItemMargin}"
                                         HorizontalAlignment="Left"
                                         Header="Mosh Port To"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
@@ -275,10 +279,12 @@
                                         Text="{x:Bind ProfileVm.MoshPortTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
 
-                                <TextBox PlaceholderText="SSH command (e.g. 'ssh username@host')"
-                                         Text="{Binding ProfileVm.Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
-                                         Margin="0 8 2 0"/>
+                                <TextBox
+                                    x:Uid="CommandTextBox"
+                                    PlaceholderText="SSH command (e.g. 'ssh username@host')"
+                                    Text="{Binding ProfileVm.Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Visibility="{Binding ProfileVm.CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
+                                    Margin="0 8 2 0" />
 
                                 <ComboBox
                                     x:Uid="TabColor"
@@ -340,10 +346,11 @@
                                     Text="{x:Bind Name, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
+                                    x:Uid="CommandLine"
                                     DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Command}"
+                                    Header="Command"
                                     Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}">
                                     <ContentControl>
                                         <ContentControl.ContentTemplate>
@@ -434,7 +441,7 @@
                                     DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.MoshPortRange}"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=MoshPortRange.Text}"
                                     Visibility="{Binding MoshVisible, Converter={StaticResource TrueToVisibleConverter}}">
                                     <ContentControl>
                                         <ContentControl.ContentTemplate>

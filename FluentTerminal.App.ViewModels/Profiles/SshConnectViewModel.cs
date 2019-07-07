@@ -54,6 +54,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private readonly IFileSystemService _fileSystemService;
         private readonly IApplicationDataContainer _historyContainer;
 
+        private bool _commandInputOriginal;
+
         // To prevent validating the existence of the same file multiple times because it's kinda expensive
         private string _validatedIdentityFile;
 
@@ -189,6 +191,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 _commandInput = false;
             }
 
+            _commandInputOriginal = _commandInput;
+
             FillCommandHistory();
 
             Initialize((SshProfile)Model);
@@ -205,6 +209,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             _fileSystemService = fileSystemService;
             _historyContainer = historyContainer;
             _commandInput = useCommandInput;
+            _commandInputOriginal = useCommandInput;
 
             FillCommandHistory();
 
@@ -277,12 +282,16 @@ namespace FluentTerminal.App.ViewModels.Profiles
         {
             base.LoadFromProfile(profile);
 
+            CommandInput = _commandInputOriginal;
+
             Initialize((SshProfile)profile);
         }
 
         protected override void CopyToProfile(ShellProfile profile)
         {
             base.CopyToProfile(profile);
+
+            _commandInputOriginal = _commandInput;
 
             if (_commandInput)
             {
@@ -399,7 +408,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public override bool HasChanges()
         {
-            if (base.HasChanges())
+            // ReSharper disable once ArrangeRedundantParentheses
+            if (base.HasChanges() || (_commandInput != _commandInputOriginal))
             {
                 return true;
             }
