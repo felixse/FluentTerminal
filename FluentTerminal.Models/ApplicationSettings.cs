@@ -21,5 +21,6 @@ namespace FluentTerminal.Models
         public bool AutoFallbackToWindowsUsernameInLinks { get; set; }
         public bool UseQuickSshConnectByDefault { get; set; }
         public bool RTrimCopiedLines { get; set; }
+        public bool MuteTerminalBeeps { get; set; }
     }
 }

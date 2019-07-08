@@ -133,6 +133,7 @@
     <Compile Include="Services\WinPty\WinPtySession.cs" />
     <Compile Include="SystemTrayApplicationContext.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="VolumeControl.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

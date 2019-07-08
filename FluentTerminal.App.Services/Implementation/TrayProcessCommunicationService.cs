@@ -138,6 +138,11 @@ namespace FluentTerminal.App.Services.Implementation
             return JsonConvert.DeserializeObject<CommonResponse>((string) responseMessage[MessageKeys.Content]).Success;
         }
 
+        public void MuteTerminal(bool mute)
+        {
+            _appServiceConnection.SendMessageAsync(CreateMessage(new MuteTerminalRequest { Mute = mute }));
+        }
+
         public async Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest

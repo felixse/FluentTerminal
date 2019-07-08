@@ -29,7 +29,8 @@ namespace FluentTerminal.App.Services.Implementation
                 UseMoshByDefault = true,
                 AutoFallbackToWindowsUsernameInLinks = true,
                 UseQuickSshConnectByDefault = false,
-                RTrimCopiedLines = true
+                RTrimCopiedLines = true,
+                MuteTerminalBeeps = true
             };
         }
 
