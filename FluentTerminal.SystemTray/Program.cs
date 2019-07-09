@@ -90,6 +90,7 @@ namespace FluentTerminal.SystemTray
                 Task.Run(() => container.Resolve<IUpdateService>().CheckForUpdate());
 
                 var settingsService = container.Resolve<ISettingsService>();
+                Task.Run(() => Utilities.MuteTerminal(settingsService.GetApplicationSettings().MuteTerminalBeeps));
                 if (settingsService.GetApplicationSettings().EnableTrayIcon)
                 {
                     Application.Run(container.Resolve<SystemTrayApplicationContext>());

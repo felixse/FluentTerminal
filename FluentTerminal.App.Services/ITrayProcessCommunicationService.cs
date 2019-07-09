@@ -35,5 +35,7 @@ namespace FluentTerminal.App.Services
         Task<string[]> GetFilesFromSshConfigDirAsync();
 
         Task<bool> CheckFileExistsAsync(string path);
+
+        void MuteTerminal(bool mute);
     }
 }

@@ -117,6 +117,9 @@ namespace FluentTerminal.SystemTray.Services
                 case CheckFileExistsRequest.Identifier:
                     await HandleCheckFileExistsRequest(args);
                     break;
+                case MuteTerminalRequest.Identifier:
+                    await HandleMuteTerminalRequest(args);
+                    break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
                     break;
@@ -233,6 +236,13 @@ namespace FluentTerminal.SystemTray.Services
             await args.Request.SendResponseAsync(CreateMessage(response));
 
             deferral.Complete();
+        }
+
+        private async Task HandleMuteTerminalRequest(AppServiceRequestReceivedEventArgs args)
+        {
+            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var request = JsonConvert.DeserializeObject<MuteTerminalRequest>(messageContent);
+            Utilities.MuteTerminal(request.Mute);
         }
 
         private async Task HandleCheckFileExistsRequest(AppServiceRequestReceivedEventArgs args)

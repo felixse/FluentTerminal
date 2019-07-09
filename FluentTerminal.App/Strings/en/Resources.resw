@@ -937,7 +937,8 @@ Fuzzy</comment>
     <value>Location cannot be empty.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value></value>
+    <value>Mute terminal beeps</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UseCommandInput.Content" xml:space="preserve">
     <value>Use quick SSH</value>
