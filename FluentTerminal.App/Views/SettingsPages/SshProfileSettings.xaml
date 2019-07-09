@@ -313,6 +313,7 @@
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
                                 <ComboBox
+                                    x:Uid="LineEndingMode"
                                     Margin="{StaticResource ItemMargin}"
                                     VerticalAlignment="Center"
                                     ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
