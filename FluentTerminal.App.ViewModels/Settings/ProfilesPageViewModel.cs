@@ -109,8 +109,6 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void AddShellProfile(ShellProfile shellProfile)
         {
-            _settingsService.SaveShellProfile(shellProfile, true);
-
             var viewModel = new ShellProfileViewModel(shellProfile, _settingsService, _dialogService, _fileSystemService, _applicationView, _defaultValueProvider, true);
             viewModel.EditCommand.Execute(null);
             viewModel.SetAsDefault += OnShellProfileSetAsDefault;
