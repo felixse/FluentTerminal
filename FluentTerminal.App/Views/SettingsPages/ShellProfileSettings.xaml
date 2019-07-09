@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
-    xmlns:views="using:FluentTerminal.App.Views" 
-    xmlns:enums="using:FluentTerminal.Models.Enums"
+    xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -249,7 +249,7 @@
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
                                 <ComboBox
-                                    x:Uid="LineEndingModeOnPaste"
+                                    x:Uid="LineEndingMode"
                                     Margin="{StaticResource ItemMargin}"
                                     VerticalAlignment="Center"
                                     ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
