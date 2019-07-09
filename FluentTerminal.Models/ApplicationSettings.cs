@@ -22,5 +22,8 @@ namespace FluentTerminal.Models
         public bool UseQuickSshConnectByDefault { get; set; }
         public bool RTrimCopiedLines { get; set; }
         public bool MuteTerminalBeeps { get; set; }
+        public bool EnableLogging { get; set; }
+        public bool PrintableOutputOnly { get; set; }
+        public string LogDirectoryPath { get; set; }
     }
 }
