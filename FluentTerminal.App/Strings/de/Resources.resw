@@ -889,4 +889,31 @@ Fuzzy</comment>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
     <value>Nachfolgende Leerzeichen aus kopierten Zeilen entfernen</value>
   </data>
+  <data name="QuickSshDefault.Header" xml:space="preserve">
+    <value>Quick SSH standardmäßig benutzen</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Ungültiger Befehl</value>
+  </data>
+  <data name="LocationCantBeEmpty" xml:space="preserve">
+    <value>Dateipfad darf nicht leer sein</value>
+  </data>
+  <data name="MuteTerminalBeeps.Header" xml:space="preserve">
+    <value>Hinweistöne stummschalten</value>
+  </data>
+  <data name="UseCommandInput.Content" xml:space="preserve">
+    <value>Quick SSH verwenden</value>
+  </data>
+  <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
+    <value>SSH-Befehl (z.b. &apos;ssh username@host&apos;)</value>
+  </data>
+  <data name="CommandLine.Header" xml:space="preserve">
+    <value>Befehl</value>
+  </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>Nicht unterstüzter Befehl:</value>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>Befehlsargument fehlen</value>
+  </data>
 </root>

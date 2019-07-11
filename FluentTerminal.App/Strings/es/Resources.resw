@@ -880,4 +880,31 @@
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
     <value>Right trim copied lines</value>
   </data>
+  <data name="QuickSshDefault.Header" xml:space="preserve">
+    <value>Use quick SSH by default</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command.</value>
+  </data>
+  <data name="LocationCantBeEmpty" xml:space="preserve">
+    <value>Location cannot be empty.</value>
+  </data>
+  <data name="MuteTerminalBeeps.Header" xml:space="preserve">
+    <value>Mute terminal beeps</value>
+  </data>
+  <data name="UseCommandInput.Content" xml:space="preserve">
+    <value>Use quick SSH</value>
+  </data>
+  <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
+    <value>SSH command (e.g. &apos;ssh username@host&apos;)</value>
+  </data>
+  <data name="CommandLine.Header" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>Unsupported command:</value>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>Command arguments are missing.</value>
+  </data>
 </root>

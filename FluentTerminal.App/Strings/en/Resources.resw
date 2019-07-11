@@ -938,7 +938,6 @@ Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Mute terminal beeps</value>
-    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UseCommandInput.Content" xml:space="preserve">
     <value>Use quick SSH</value>
