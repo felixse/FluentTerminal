@@ -19,16 +19,18 @@ namespace FluentTerminal.SystemTray.Services
         private AppServiceConnection _appServiceConnection;
         private readonly TerminalsManager _terminalsManager;
         private readonly ToggleWindowService _toggleWindowService;
+        private readonly ISettingsService _settingsService;
 
         public const string EventWaitHandleName = "FluentTerminalNewInstanceEvent";
         public const byte WriteDataMessageIdentifier = 0;
 
-        public AppCommunicationService(TerminalsManager terminalsManager, ToggleWindowService toggleWindowService)
+        public AppCommunicationService(TerminalsManager terminalsManager, ToggleWindowService toggleWindowService, ISettingsService settingsService)
         {
             _terminalsManager = terminalsManager;
             _terminalsManager.DisplayOutputRequested += _terminalsManager_DisplayOutputRequested;
             _terminalsManager.TerminalExited += _terminalsManager_TerminalExited;
             _toggleWindowService = toggleWindowService;
+            _settingsService = settingsService;
 
             var eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventWaitHandleName);
 
@@ -119,6 +121,9 @@ namespace FluentTerminal.SystemTray.Services
                     break;
                 case MuteTerminalRequest.Identifier:
                     await HandleMuteTerminalRequest(args);
+                    break;
+                case UpdateSettingsRequest.Identifier:
+                    await HandleUpdateSettingsRequest(args);
                     break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
@@ -243,6 +248,13 @@ namespace FluentTerminal.SystemTray.Services
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
             var request = JsonConvert.DeserializeObject<MuteTerminalRequest>(messageContent);
             Utilities.MuteTerminal(request.Mute);
+        }
+
+        private async Task HandleUpdateSettingsRequest(AppServiceRequestReceivedEventArgs args)
+        {
+            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var request = JsonConvert.DeserializeObject<UpdateSettingsRequest>(messageContent);
+            _settingsService.NotifyApplicationSettingsChanged(request.Settings);
         }
 
         private async Task HandleCheckFileExistsRequest(AppServiceRequestReceivedEventArgs args)

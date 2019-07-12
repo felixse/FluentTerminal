@@ -31,24 +31,29 @@ namespace FluentTerminal.SystemTray.Services
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
-        private readonly ISettingsService _settingsService;
-
         private static readonly Regex EscapeSequencePattern = new Regex(@"((\x9B|\x1B\[)[0-?]*[ -\/]*[@-~])|((\x9D|\x1B\]).*\x07)", RegexOptions.Compiled);
 
         private Dictionary<byte, string> _cachedLogPath = new Dictionary<byte, string>();
 
+        private ApplicationSettings _applicationSettings;
+
         public TerminalsManager(ISettingsService settingsService)
         {
-            _settingsService = settingsService;
+            _applicationSettings = settingsService.GetApplicationSettings();
+            settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+        }
+
+        private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        {
+            _applicationSettings = e;
         }
 
         public void DisplayTerminalOutput(byte terminalId, byte[] output)
         {
-            var appSettings = _settingsService.GetApplicationSettings();
-            if (appSettings.EnableLogging && Directory.Exists(appSettings.LogDirectoryPath))
+            if (_applicationSettings.EnableLogging && Directory.Exists(_applicationSettings.LogDirectoryPath))
             {
                 var logOutput = output;
-                if (appSettings.PrintableOutputOnly)
+                if (_applicationSettings.PrintableOutputOnly)
                 {
                     string strOutput = System.Text.Encoding.UTF8.GetString(logOutput);
                     strOutput = EscapeSequencePattern.Replace(strOutput, "");
@@ -80,7 +85,7 @@ namespace FluentTerminal.SystemTray.Services
             if (_cachedLogPath.ContainsKey(terminalId) == false)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(_settingsService.GetApplicationSettings().LogDirectoryPath);
+                sb.Append(_applicationSettings.LogDirectoryPath);
                 sb.Append(Path.DirectorySeparatorChar);
                 sb.Append(_terminals[terminalId].StartTime.ToString("yyyyMMddhhmmssfff"));
                 sb.Append("_");

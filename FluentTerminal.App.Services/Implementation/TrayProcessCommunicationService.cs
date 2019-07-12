@@ -143,6 +143,11 @@ namespace FluentTerminal.App.Services.Implementation
             _appServiceConnection.SendMessageAsync(CreateMessage(new MuteTerminalRequest { Mute = mute }));
         }
 
+        public void UpdateSettings(ApplicationSettings settings)
+        {
+            _appServiceConnection.SendMessageAsync(CreateMessage(new UpdateSettingsRequest { Settings = settings }));
+        }
+
         public async Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType)
         {
             var request = new CreateTerminalRequest

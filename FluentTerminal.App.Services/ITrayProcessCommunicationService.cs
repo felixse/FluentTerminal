@@ -37,5 +37,7 @@ namespace FluentTerminal.App.Services
         Task<bool> CheckFileExistsAsync(string path);
 
         void MuteTerminal(bool mute);
+
+        void UpdateSettings(ApplicationSettings settings);
     }
 }
