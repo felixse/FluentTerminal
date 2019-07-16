@@ -5,8 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd node_modules\\xterm && npm install && npm run build && ren build dist",
-    "build": "xcopy /y /s node_modules\\xterm\\dist\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
+    "build": "xcopy /y /s node_modules\\xterm\\css\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
   },
   "author": "FS Apps",
   "license": "GPL-3.0",
@@ -17,6 +16,9 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "xterm": "https://github.com/MaxRis/xterm.js.git#reset-wrapped-line-flag"
+    "xterm": "3.15.0-beta70",
+    "xterm-addon-attach": "0.1.0",
+    "xterm-addon-fit": "0.1.0",
+    "xterm-addon-search": "0.2.0-beta2"
   }
 }
