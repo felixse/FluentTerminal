@@ -748,7 +748,7 @@ Fuzzy</comment>
     <value>Fenster ein/ausblenden</value>
     <comment>Command</comment>
   </data>
-  <data name="NewRemoteTab.Text" xml:space="preserve">
+  <data name="NewSshTab.Text" xml:space="preserve">
     <value>Neuer SSH-Tab</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">

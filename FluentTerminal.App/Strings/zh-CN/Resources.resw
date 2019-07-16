@@ -785,7 +785,7 @@ Fuzzy</comment>
     <comment>Command
 Fuzzy</comment>
   </data>
-  <data name="NewRemoteTab.Text" xml:space="preserve">
+  <data name="NewSshTab.Text" xml:space="preserve">
     <value>新的远程标签页</value>
     <comment>Fuzzy</comment>
   </data>

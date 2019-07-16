@@ -92,7 +92,7 @@ namespace FluentTerminal.App.ViewModels
             TabsPosition = _applicationSettings.TabsPosition;
 
             AddLocalShellCommand = new RelayCommand(async () => await AddLocalTabAsync());
-            AddRemoteShellCommand = new RelayCommand(async () => await AddSshTabAsync());
+            AddSshShellCommand = new RelayCommand(async () => await AddSshTabAsync());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -147,7 +147,7 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public RelayCommand AddLocalShellCommand { get; }
-        public RelayCommand AddRemoteShellCommand { get; }
+        public RelayCommand AddSshShellCommand { get; }
 
         public string WindowTitle
         {
