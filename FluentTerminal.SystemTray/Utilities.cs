@@ -569,48 +569,49 @@ namespace FluentTerminal.SystemTray
             }
         }
 
-        internal static void MuteTerminal(bool mute)
+        private static bool MuteConhost(bool mute)
         {
-            bool? deviceMuted = VolumeControl.GetDefaultAudioEndpointMute();
-            if (deviceMuted != true)
+            bool audioSessionFound = false;
+            foreach (Process conhost in Process.GetProcessesByName("conhost"))
             {
-                VolumeControl.SetDefaultAudioEndpointMute(true);
-            }
+                bool? isAudioSessionMuted = VolumeControl.GetAudioSessionMute(conhost.Id);
+                if (isAudioSessionMuted != null && isAudioSessionMuted != mute)
+                {
+                    VolumeControl.SetAudioSessionMute(conhost.Id, mute);
+                    Logger.Instance.Debug($"Mute state for conhost process with id={conhost.Id} was set to {mute}.");
+                }
 
+                if (isAudioSessionMuted != null)
+                {
+                    audioSessionFound = true;
+                }
+            }
+            return audioSessionFound;
+        }
+
+        private static void SpawnConhostProcess()
+        {
             Process cmdProcess = new Process();
             cmdProcess.StartInfo.FileName = "cmd.exe";
             cmdProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             cmdProcess.StartInfo.Arguments = "/k \x07";
             cmdProcess.Start();
 
-            bool wasConhostMuted = false;
-            int attempt = 0;
-            while (wasConhostMuted == false && attempt++ < 2 && !cmdProcess.HasExited)
-            {
-                cmdProcess.WaitForExit(1500);
+            cmdProcess.WaitForExit(1500);
+        }
 
-                foreach (Process conhost in Process.GetProcessesByName("conhost"))
-                {
-                    try
-                    {
-                        bool? isMuted = null;
-                        isMuted = VolumeControl.GetAudioSessionMute(conhost.Id);
-                        if (isMuted != null && isMuted != mute)
-                        {
-                            VolumeControl.SetAudioSessionMute(conhost.Id, mute);
-                            wasConhostMuted = true;
-                            Logger.Instance.Debug($"Mute state for conhost process with id={conhost.Id} was set to {mute}.");
-                        }
-                    }
-                    catch (Exception) { }
-                }
+        internal static void MuteTerminal(bool mute)
+        {
+            bool audioSessionFound = MuteConhost(mute);
+
+            if (audioSessionFound == true)
+            {
+                return;
             }
 
-            cmdProcess.Kill();
-            if (deviceMuted != true)
-            {
-                VolumeControl.SetDefaultAudioEndpointMute(false);
-            }
+            SpawnConhostProcess();
+
+            MuteConhost(mute);
         }
     }
 }
