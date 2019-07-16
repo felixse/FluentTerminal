@@ -36,6 +36,7 @@ namespace FluentTerminal.App.Services
         IEnumerable<TerminalTheme> GetThemes();
         void ResetKeyBindings();
         void SaveApplicationSettings(ApplicationSettings applicationSettings);
+        void NotifyApplicationSettingsChanged(ApplicationSettings applicationSettings);
         void SaveCurrentThemeId(Guid id);
         void SaveDefaultShellProfileId(Guid id);
         void SaveDefaultSshProfileId(Guid id);

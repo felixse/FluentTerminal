@@ -3,7 +3,9 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -11,6 +13,15 @@ namespace FluentTerminal.App.Services.Implementation
     {
         public ApplicationSettings GetDefaultApplicationSettings()
         {
+            var logDirectoryPath = String.Empty;
+            try
+            {
+                // Accessing ApplicationData.Current during run of unit tests causes
+                // "System.InvalidOperationException : The process has no package identity" exception.
+                logDirectoryPath = ApplicationData.Current.LocalCacheFolder.Path;
+            }
+            catch (InvalidOperationException) { }
+
             return new ApplicationSettings
             {
                 ConfirmClosingTabs = false,
@@ -30,7 +41,10 @@ namespace FluentTerminal.App.Services.Implementation
                 AutoFallbackToWindowsUsernameInLinks = true,
                 UseQuickSshConnectByDefault = false,
                 RTrimCopiedLines = true,
-                MuteTerminalBeeps = true
+                MuteTerminalBeeps = true,
+                EnableLogging = false,
+                PrintableOutputOnly = true,
+                LogDirectoryPath = logDirectoryPath
             };
         }
 

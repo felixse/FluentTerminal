@@ -511,6 +511,7 @@ namespace FluentTerminal.App
         private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
         {
             _applicationSettings = e;
+            _trayProcessCommunicationService.UpdateSettings(e);
         }
 
         private void OnMainViewModelClosed(object sender, EventArgs e)

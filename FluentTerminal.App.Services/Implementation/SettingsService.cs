@@ -325,6 +325,11 @@ namespace FluentTerminal.App.Services.Implementation
             ApplicationSettingsChanged?.Invoke(this, applicationSettings);
         }
 
+        public void NotifyApplicationSettingsChanged(ApplicationSettings applicationSettings)
+        {
+            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
+        }
+
         public void SaveCurrentThemeId(Guid id)
         {
             _roamingSettings.SetValue(CurrentThemeKey, id);

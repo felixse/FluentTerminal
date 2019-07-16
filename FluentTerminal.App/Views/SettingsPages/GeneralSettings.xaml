@@ -190,6 +190,30 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="Mute terminal beeps"
                     IsOn="{x:Bind ViewModel.MuteTerminalBeeps, Mode=TwoWay}" />
+
+                <StackPanel Margin="{StaticResource ItemMargin}">
+                    <ToggleSwitch
+                        x:Uid="EnableLogging"
+                        Header="Enable Logging"
+                        IsOn="{x:Bind ViewModel.EnableLogging, Mode=TwoWay}" />
+                    <CheckBox
+                        x:Uid="PrintableOutputOnly"
+                        Content="Printable output only"
+                        IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"
+                        IsChecked="{x:Bind ViewModel.PrintableOutputOnly, Mode=TwoWay}" />
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBox
+                            x:Uid="LogDirectoryPath"
+                            Text="{x:Bind ViewModel.LogDirectoryPath, Mode=TwoWay}"
+                            IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"
+                            MaxWidth="250" MinWidth="250" />
+                        <Button
+                            x:Uid="BrowseButton"
+                            Click="BrowseButtonOnClick"
+                            Content="Browse"
+                            IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"/>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
