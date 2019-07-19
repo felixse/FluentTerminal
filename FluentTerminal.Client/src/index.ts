@@ -1,7 +1,7 @@
 import { Terminal, ITerminalOptions } from 'xterm';
-import * as attach from "./attach/attach";
-import * as fit from "xterm/lib/addons/fit/fit";
-import * as search from "xterm/lib/addons/search/search";
+import { AttachAddon } from 'xterm-addon-attach';
+import { FitAddon } from 'xterm-addon-fit';
+import { SearchAddon } from 'xterm-addon-search';
 
 interface ExtendedWindow extends Window {
   keyBindings: any[];
@@ -19,11 +19,9 @@ interface ExtendedWindow extends Window {
 
 declare var window: ExtendedWindow;
 
-Terminal.applyAddon(attach);
-Terminal.applyAddon(fit);
-Terminal.applyAddon(search);
-
 let term: any;
+let fitAddon: any;
+let searchAddon: any;
 let socket: WebSocket;
 const terminalContainer = document.getElementById('terminal-container');
 
@@ -52,11 +50,15 @@ window.createTerminal = (options, theme, keyBindings) => {
     allowTransparency: true,
     theme: theme,
     windowsMode: true,
-    experimentalCharAtlas: "dynamic",
     wordSeparator: ' ()[]{}\'":;'
   };
 
   term = new Terminal(terminalOptions);
+
+  searchAddon = new SearchAddon();
+  term.loadAddon(searchAddon);
+  fitAddon = new FitAddon();
+  term.loadAddon(fitAddon);
 
   window.term = term;
 
@@ -73,7 +75,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   });
 
   term.open(terminalContainer);
-  term.fit();
+  fitAddon.fit();
   term.focus();
 
   setPadding(options.padding);
@@ -81,7 +83,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   let resizeTimeout: any;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(term.fit(), 500);
+    resizeTimeout = setTimeout(fitAddon.fit(), 500);
   }
 
   window.onmouseup = function (e) {
@@ -93,6 +95,9 @@ window.createTerminal = (options, theme, keyBindings) => {
   }
 
   term.attachCustomKeyEventHandler(function (e) {
+    if (e.type != "keydown"){
+      return true;
+    }
     for (var i = 0; i < window.keyBindings.length; i++) {
       var keyBinding = window.keyBindings[i];
       if (keyBinding.ctrl == e.ctrlKey
@@ -131,7 +136,7 @@ window.createTerminal = (options, theme, keyBindings) => {
 }
 
 function attachTerminal() {
-  term.attach(socket);
+  term.loadAddon(new AttachAddon(socket, {inputUtf8: true}));
   term._initialized = true;
 }
 
@@ -177,7 +182,7 @@ function setScrollBarStyle(scrollBarStyle) {
 
 function setPadding(padding) {
   document.querySelector('.terminal')["style"].padding = padding + 'px';
-  term.fit();
+  fitAddon.fit();
 }
 
 window.changeKeyBindings = (keyBindings) => {
@@ -186,11 +191,11 @@ window.changeKeyBindings = (keyBindings) => {
 }
 
 window.findNext = (content: string) => {
-  term.findNext(content);
+  searchAddon.findNext(content);
 }
 
 window.findPrevious = (content: string) => {
-  term.findPrevious(content);
+  searchAddon.findPrevious(content);
 }
 
 document.oncontextmenu = function () {
