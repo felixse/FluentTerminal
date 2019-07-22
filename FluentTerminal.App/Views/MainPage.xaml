@@ -56,7 +56,7 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             Command="{x:Bind ViewModel.AddSshShellCommand}"
-                            x:Uid="NewSshTab">
+                            x:Uid="NewRemoteTab">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>

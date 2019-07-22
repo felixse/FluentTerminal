@@ -745,7 +745,7 @@
     <value>Cambiar ventana</value>
     <comment>Command</comment>
   </data>
-  <data name="NewSshTab.Text" xml:space="preserve">
+  <data name="NewRemoteTab.Text" xml:space="preserve">
     <value>Nueva pestaña remota</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
@@ -892,9 +892,6 @@
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Mute terminal beeps</value>
   </data>
-  <data name="UseCommandInput.Content" xml:space="preserve">
-    <value>Use quick SSH</value>
-  </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
     <value>SSH command (e.g. &apos;ssh username@host&apos;)</value>
   </data>
@@ -906,5 +903,14 @@
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
     <value>Command arguments are missing.</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>Quick Launch</value>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>New quick launch tab</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>New quick launch window</value>
   </data>
 </root>

@@ -131,6 +131,9 @@
     <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
+    <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
+      <DependentUpon>CustomCommandDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
@@ -374,6 +377,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\CustomCommandDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\InputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

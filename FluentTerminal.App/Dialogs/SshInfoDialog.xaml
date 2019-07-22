@@ -28,13 +28,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical" Width="500">
 
-            <CheckBox
-                x:Uid="UseCommandInput"
-                Content="Use quick SSH"
-                IsChecked="{Binding CommandInput, Mode=TwoWay}" />
-
             <Grid HorizontalAlignment="Stretch" 
-                  Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}"
                   Margin="0 8 2 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -118,13 +112,6 @@
 
             </Grid>
 
-            <TextBox x:Name="CommandTextBox" 
-                     x:Uid="CommandTextBox"
-                     PlaceholderText="SSH command (e.g. 'ssh username@host')"
-                     Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}"
-                     Margin="0 8 2 0"/>
-
             <controls:Expander
                 x:Uid="AdvancedExpander"
                 Margin="0,10,0,0"
@@ -154,7 +141,7 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         Text="Mosh ports:"
-                        Visibility="{Binding MoshVisible}"
+                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
                         Margin="0,8,8,0" />
                     <TextBox
                         Grid.Row="0"
@@ -162,14 +149,14 @@
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
                         Text="{Binding MoshPortFrom, Mode=TwoWay}"
-                        Visibility="{Binding MoshVisible}"
+                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
                         Margin="0,8,0,0" />
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="2"
                         VerticalAlignment="Center"
                         Text=":"
-                        Visibility="{Binding MoshVisible}"
+                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
                         Margin="2,8,0,0" />
                     <TextBox
                         Grid.Row="0"
@@ -177,7 +164,7 @@
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
                         Text="{Binding MoshPortTo, Mode=TwoWay}"
-                        Visibility="{Binding MoshVisible}"
+                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
                         Margin="0,8,0,0" />
 
                     <!-- Row -->

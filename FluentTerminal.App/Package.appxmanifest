@@ -53,7 +53,7 @@
           </uap:Protocol>
         </uap:Extension>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="sshft">
+          <uap:Protocol Name="ftcmd">
             <uap:DisplayName>Fluent-specific SSH</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
