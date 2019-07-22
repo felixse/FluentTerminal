@@ -10,7 +10,7 @@
     xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
     mc:Ignorable="d"
     x:Uid="QuickCommandDialog"
-    Title="Quick Command"
+    Title="Quick Launch"
     d:DataContext="{d:DesignInstance profiles:CommandProfileProviderViewModel, IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
     Loading="OnLoading"

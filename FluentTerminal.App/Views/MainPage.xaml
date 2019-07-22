@@ -61,6 +61,13 @@
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.AddQuickShellCommand}"
+                            x:Uid="NewQuickTab">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Add" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem x:Uid="Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Setting" />

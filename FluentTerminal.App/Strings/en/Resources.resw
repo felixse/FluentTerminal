@@ -961,4 +961,7 @@ Fuzzy</comment>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>New quick launch window</value>
   </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>New quick tab</value>
+  </data>
 </root>

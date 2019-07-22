@@ -95,6 +95,7 @@ namespace FluentTerminal.App.ViewModels
 
             AddLocalShellCommand = new RelayCommand(async () => await AddLocalTabAsync());
             AddSshShellCommand = new RelayCommand(async () => await AddSshTabAsync());
+            AddQuickShellCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
             ShowAboutCommand = new RelayCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
@@ -150,6 +151,7 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand AddLocalShellCommand { get; }
         public RelayCommand AddSshShellCommand { get; }
+        public RelayCommand AddQuickShellCommand { get; }
 
         public string WindowTitle
         {
