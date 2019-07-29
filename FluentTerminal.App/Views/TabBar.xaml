@@ -218,11 +218,6 @@
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <ListView.Template>
-                    <ControlTemplate>
-                        <ItemsPresenter />
-                    </ControlTemplate>
-                </ListView.Template>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="MinWidth" Value="100" />
