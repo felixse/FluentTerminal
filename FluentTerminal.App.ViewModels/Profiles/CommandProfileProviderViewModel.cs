@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 
 namespace FluentTerminal.App.ViewModels.Profiles
 {
@@ -24,6 +26,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private readonly IApplicationDataContainer _historyContainer;
 
+        private readonly bool _checkArgs;
+
         #endregion Fields
 
         #region Properties
@@ -37,16 +41,19 @@ namespace FluentTerminal.App.ViewModels.Profiles
         }
 
         public ObservableCollection<string> CommandHistory { get; private set; }
+        public ExecutedCommandHistory CommandHistoryObjectCollection { get; private set; }
 
         #endregion Properties
 
         #region Constructor
 
         public CommandProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
-            IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
+            IApplicationDataContainer historyContainer, ShellProfile original = null, bool checkArgs = true) : base(settingsService,
             applicationView, original)
         {
             _historyContainer = historyContainer;
+
+            _checkArgs = checkArgs;
 
             FillCommandHistory();
 
@@ -98,6 +105,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             profile.Location = match.Groups["cmd"].Value;
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
+            profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
+
             profile.WorkingDirectory = null;
 
         }
@@ -120,7 +129,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return string.IsNullOrEmpty(error) ? "Invalid command." : error;
             }
 
-            if (!match.Groups["args"].Success)
+            if (!match.Groups["args"].Success && _checkArgs)
             {
                 error = I18N.Translate("CommandArgumentsMandatory");
 
@@ -149,35 +158,63 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             CommandHistory = commands == null
                 ? new ObservableCollection<string>()
-                : new ObservableCollection<string>(commands.Select(c => $"{c.Command} {c.Args}"));
+                : new ObservableCollection<string>(commands.Select(c => c.Value));
+
+            CommandHistoryObjectCollection = _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
+                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
         }
 
-        public void SaveCommand(string cmd, string args)
+        public void SaveCommand(string profileName, ProfileType profileType, ShellProfile profile)
         {
-            cmd = cmd?.Trim();
+            profileName = profileName?.Trim();
 
-            if (string.IsNullOrEmpty(cmd))
+            if (string.IsNullOrEmpty(profileName))
             {
-                throw new ArgumentNullException(nameof(cmd));
+                throw new ArgumentNullException(nameof(profileName));
             }
 
             var commandHistory =
                 _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
                 new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
 
-            var command = commandHistory.ExecutedCommands.FirstOrDefault(c =>
-                string.Equals(cmd, c.Command, StringComparison.Ordinal) && args.NullableEqualTo(c.Args));
+            var command =
+                commandHistory.ExecutedCommands.FirstOrDefault(c =>
+                    string.Equals(profileName, c.Value, StringComparison.CurrentCultureIgnoreCase));
 
             if (command == null)
             {
-                command = new ExecutedCommand
-                { Command = cmd, Args = args, ExecutionCount = 1, LastExecution = DateTime.UtcNow };
+                if (profileType == ProfileType.New)
+                    profileType = ProfileType.History;
+                if (profileType == ProfileType.SSH || profileType == ProfileType.Shell)
+                {
+                    command = new ExecutedCommand
+                    {
+                        Value = profileName, ExecutionCount = 1, LastExecution = DateTime.UtcNow,
+                        ProfileType = profileType
+                    };
+                }
+                else
+                {
+                    command = new ExecutedCommand
+                    {
+                        Value = profileName,
+                        ExecutionCount = 1,
+                        LastExecution = DateTime.UtcNow,
+                        ProfileType = profileType,
+                        ShellProfile = profile
+                    };
+                }
             }
             else
             {
                 command.ExecutionCount++;
 
                 command.LastExecution = DateTime.UtcNow;
+
+                if (profileType == ProfileType.History)
+                {
+                    command.ShellProfile = profile;
+                }
 
                 commandHistory.ExecutedCommands.Remove(command);
             }
@@ -192,6 +229,22 @@ namespace FluentTerminal.App.ViewModels.Profiles
             _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
         }
 
+        public void RemoveCommand(string profileName)
+        {
+            var commandHistory =
+                _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
+                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
+
+            var command =
+                commandHistory.ExecutedCommands.FirstOrDefault(c =>
+                    string.Equals(profileName, c.Value, StringComparison.CurrentCultureIgnoreCase));
+
+            if (command != null)
+            {
+                commandHistory.ExecutedCommands.Remove(command);
+                _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
+            }
+        }
         #endregion Command history
 
         #region Links/shortcuts related
@@ -207,7 +260,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
             IApplicationView applicationView, IApplicationDataContainer historyContainer)
         {
             var vm = new CommandProfileProviderViewModel(settingsService, applicationView, historyContainer);
-
             // ReSharper disable once ConstantConditionalAccessQualifier
             string queryString = uri.Query?.Trim();
 
@@ -241,18 +293,15 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public override async Task<Tuple<bool, string>> GetUrlAsync()
         {
             var error = await base.ValidateAsync();
-
             if (!string.IsNullOrEmpty(error))
             {
                 return Tuple.Create(false, error);
             }
 
             var match = CommandValidationRx.Match(_command);
-
             if (!match.Success)
             {
                 error = I18N.Translate("InvalidCommand");
-
                 return Tuple.Create(false, string.IsNullOrEmpty(error) ? "Invalid command." : error);
             }
 
