@@ -457,6 +457,7 @@ namespace FluentTerminal.App
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
                     mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                     mainViewModel.ActivatedMv += OnMainViewActivated;
+                    mainViewModel.TabTearedOff += OnTabTearOff;
                     _mainViewModels.Add(mainViewModel);
                 }
 
@@ -474,6 +475,7 @@ namespace FluentTerminal.App
             viewModel.ShowSettingsRequested += OnShowSettingsRequested;
             viewModel.ShowAboutRequested += OnShowAboutRequested;
             viewModel.ActivatedMv += OnMainViewActivated;
+            viewModel.TabTearedOff += OnTabTearOff;
             _mainViewModels.Add(viewModel);
 
             return viewModel;
@@ -525,6 +527,7 @@ namespace FluentTerminal.App
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
                 viewModel.ShowAboutRequested -= OnShowAboutRequested;
                 viewModel.ActivatedMv -= OnMainViewActivated;
+                viewModel.TabTearedOff -= OnTabTearOff;
                 if (_activeWindowId == viewModel.ApplicationView.Id)
                 {
                     _activeWindowId = 0;
@@ -541,6 +544,14 @@ namespace FluentTerminal.App
                 Logger.Instance.Debug("MainViewModel with ApplicationView Id: {@id} activated.", viewModel.ApplicationView.Id);
                 _activeWindowId = viewModel.ApplicationView.Id;
             }
+        }
+
+        private async void OnTabTearOff(object sender, TerminalViewModel model)
+        {
+            Logger.Instance.Debug("App.xaml.cs on tab tear off");
+
+            var newViewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+            await newViewModel.AddTerminalAsync(await model.Serialize());
         }
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)

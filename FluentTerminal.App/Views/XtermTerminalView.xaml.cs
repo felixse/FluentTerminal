@@ -125,6 +125,11 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
+        public async Task<string> SerializeXtermState()
+        {
+            return await ExecuteScriptAsync(@"serializeTerminal()");
+        }
+
         public Task FindNext(string searchText)
         {
             return ExecuteScriptAsync($"findNext('{searchText}')");
@@ -171,7 +176,7 @@ namespace FluentTerminal.App.Views
             var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
             await CreateWebSocketServer(port.Port).ConfigureAwait(true);
             _connectedEvent.Wait();
-            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType).ConfigureAwait(true);
+            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
             if (!response.Success)
             {
                 await ViewModel.DialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);

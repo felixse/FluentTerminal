@@ -187,7 +187,10 @@
                 AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" />
+                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}"
+                TabDraggedOutside="TabBar_TabDraggedOutside"
+                TabWindowChanged="TabView_Drop"
+                TabDraggingCompleted="TabBar_TabDraggingCompleted" />
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"
@@ -201,6 +204,9 @@
             AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
             ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-            Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}" />
+            Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}"
+            TabDraggedOutside="TabBar_TabDraggedOutside"
+            TabWindowChanged="TabView_Drop"
+            TabDraggingCompleted="TabBar_TabDraggingCompleted" />
     </Grid>
 </Page>

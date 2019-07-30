@@ -168,6 +168,18 @@ namespace FluentTerminal.App.Services.Implementation
             return response;
         }
 
+        public async Task<PauseTerminalOutputResponse> PauseTerminalOutput(byte id, bool pause)
+        {
+            var request = new PauseTerminalOutputRequest
+            {
+                Id = id,
+                Pause = pause
+            };
+
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            return JsonConvert.DeserializeObject<PauseTerminalOutputResponse>((string)responseMessage[MessageKeys.Content]);
+        }
+
         public void Initialize(IAppServiceConnection appServiceConnection)
         {
             _appServiceConnection = appServiceConnection;

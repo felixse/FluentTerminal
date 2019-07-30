@@ -2,6 +2,7 @@ import { Terminal, ITerminalOptions } from 'xterm';
 import { AttachAddon } from 'xterm-addon-attach';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
+import * as SerializeAddon from "./xterm-addon-serialize/src/SerializeAddon";
 
 interface ExtendedWindow extends Window {
   keyBindings: any[];
@@ -15,6 +16,7 @@ interface ExtendedWindow extends Window {
   changeKeyBindings(keyBindings: any): void;
   findNext(content: string): void;
   findPrevious(content: string): void;
+  serializeTerminal() : void;
 }
 
 declare var window: ExtendedWindow;
@@ -22,8 +24,14 @@ declare var window: ExtendedWindow;
 let term: any;
 let fitAddon: any;
 let searchAddon: any;
+let serializeAddon: any;
 let socket: WebSocket;
 const terminalContainer = document.getElementById('terminal-container');
+
+window.serializeTerminal = () => {
+  let serialized = serializeAddon.serialize();
+  return serialized;
+}
 
 window.createTerminal = (options, theme, keyBindings) => {
   while (terminalContainer.children.length) {
@@ -59,6 +67,8 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(searchAddon);
   fitAddon = new FitAddon();
   term.loadAddon(fitAddon);
+  serializeAddon = new SerializeAddon.SerializeAddon();
+  term.loadAddon(serializeAddon);
 
   window.term = term;
 
@@ -95,7 +105,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   }
 
   term.attachCustomKeyEventHandler(function (e) {
-    if (e.type != "keydown"){
+    if (e.type != "keydown") {
       return true;
     }
     for (var i = 0; i < window.keyBindings.length; i++) {

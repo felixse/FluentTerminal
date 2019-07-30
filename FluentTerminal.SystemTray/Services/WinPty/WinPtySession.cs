@@ -19,6 +19,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
         private TerminalsManager _terminalsManager;
         private Process _shellProcess;
         private bool _exited;
+        private bool _paused;
         private TerminalSize _terminalSize;
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
@@ -211,10 +212,20 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                         {
                             _terminalsManager.DisplayTerminalOutput(Id, read);
                         }
+
+                        while (_paused && !_exited)
+                        {
+                            await Task.Delay(50);
+                        }
                     }
                     while (!_exited);
                 }
             }, TaskCreationOptions.LongRunning);
+        }
+
+        public void Pause(bool value)
+        {
+            _paused = value;
         }
     }
 }

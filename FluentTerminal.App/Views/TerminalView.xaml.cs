@@ -24,6 +24,7 @@ namespace FluentTerminal.App.Views
             _terminalView = new XtermTerminalView();
             TerminalContainer.Children.Add((UIElement)_terminalView);
             _terminalView.Initialize(ViewModel);
+            ViewModel.TerminalView = _terminalView;
         }
 
         public TerminalViewModel ViewModel { get; }
