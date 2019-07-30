@@ -60,6 +60,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 LoadFromProfile(value);
             }
         }
+
         public ObservableCollection<TabTheme> TabThemes { get; }
 
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }

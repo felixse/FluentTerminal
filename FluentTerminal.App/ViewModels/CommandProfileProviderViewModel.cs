@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using Newtonsoft.Json;
 
-namespace FluentTerminal.App.ViewModels.Profiles
+namespace FluentTerminal.App.ViewModels
 {
     public class CommandProfileProviderViewModel : ProfileProviderViewModelBase
     {
@@ -26,11 +27,17 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private readonly IApplicationDataContainer _historyContainer;
 
-        private readonly bool _checkArgs;
-
         #endregion Fields
 
         #region Properties
+
+        private ProfileType _profileType = ProfileType.History;
+
+        public ProfileType ProfileType
+        {
+            get => _profileType;
+            private set => Set(ref _profileType, value);
+        }
 
         private string _command;
 
@@ -40,20 +47,17 @@ namespace FluentTerminal.App.ViewModels.Profiles
             set => Set(ref _command, value);
         }
 
-        public ObservableCollection<string> CommandHistory { get; private set; }
-        public ExecutedCommandHistory CommandHistoryObjectCollection { get; private set; }
+        public ObservableCollection<CommandItemViewModel> Commands { get; private set; }
 
         #endregion Properties
 
         #region Constructor
 
         public CommandProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
-            IApplicationDataContainer historyContainer, ShellProfile original = null, bool checkArgs = true) : base(settingsService,
+            IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
             applicationView, original)
         {
             _historyContainer = historyContainer;
-
-            _checkArgs = checkArgs;
 
             FillCommandHistory();
 
@@ -67,10 +71,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         // Fills the view model properties from the input sshProfile
         private void Initialize(ShellProfile sshProfile)
         {
-            Command = string.IsNullOrEmpty(sshProfile.Location)
-                ? string.Empty
-                : $"{sshProfile.Location} {sshProfile.Arguments}";
-
+            Command = sshProfile.Name;
         }
 
         protected override void LoadFromProfile(ShellProfile profile)
@@ -105,10 +106,10 @@ namespace FluentTerminal.App.ViewModels.Profiles
             profile.Location = match.Groups["cmd"].Value;
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
-            profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
-
-            profile.WorkingDirectory = null;
-
+            if (ProfileType != ProfileType.Shell && ProfileType != ProfileType.Ssh)
+            {
+                profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
+            }
         }
 
         public override async Task<string> ValidateAsync()
@@ -129,12 +130,12 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return string.IsNullOrEmpty(error) ? "Invalid command." : error;
             }
 
-            if (!match.Groups["args"].Success && _checkArgs)
-            {
-                error = I18N.Translate("CommandArgumentsMandatory");
+            //if (!match.Groups["args"].Success)
+            //{
+            //    error = I18N.Translate("CommandArgumentsMandatory");
 
-                return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
-            }
+            //    return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
+            //}
 
             return null;
         }
@@ -144,107 +145,167 @@ namespace FluentTerminal.App.ViewModels.Profiles
             return base.HasChanges() || !_command.NullableEqualTo($"{Model.Location} {Model.Arguments}");
         }
 
+        public void SetProfile(ProfileType profileType, ShellProfile profile)
+        {
+            Model = profile;
+
+            ProfileType = profileType;
+
+            LoadFromProfile(Model);
+        }
+
         #endregion Methods
 
         #region Command history
 
-        private const string ExecutedCommandsKey = "ExecutedCommands";
-        private const int CommandHistoryLimit = 20;
+        private const string HistoryKeyFormat = "hist_{0:##########}_{1:##########}";
+        private const int CommandHistoryLimit = 50;
+
+        private static readonly DateTime NeverUsedTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        private static string GetHash(string value)
+        {
+            value = value.ToLower();
+
+            return string.Format(HistoryKeyFormat, value.GetHashCode(), value.Length);
+        }
 
         private void FillCommandHistory()
         {
-            var commands = _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null)
-                ?.ExecutedCommands;
+            var savedCommands = _historyContainer.GetAll()
+                .Select(c => JsonConvert.DeserializeObject<ExecutedCommand>((string)c)).ToList();
 
-            CommandHistory = commands == null
-                ? new ObservableCollection<string>()
-                : new ObservableCollection<string>(commands.Select(c => c.Value));
+            var sshProfiles = SettingsService.GetSshProfiles().ToList();
 
-            CommandHistoryObjectCollection = _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
-                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
+            var shellProfiles = SettingsService.GetShellProfiles().ToList();
+
+            var counter = 0;
+
+            while (counter < savedCommands.Count)
+            {
+                var command = savedCommands[counter];
+
+                switch (command.ProfileType)
+                {
+                    case ProfileType.Ssh:
+
+                        var sshProfile = sshProfiles.FirstOrDefault(p =>
+                            string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
+
+                        if (sshProfile == null)
+                        {
+                            _historyContainer.Delete(GetHash(command.Value));
+
+                            savedCommands.RemoveAt(counter);
+
+                            counter--;
+                        }
+                        else
+                        {
+                            command.ShellProfile = sshProfile;
+
+                            sshProfiles.Remove(sshProfile);
+                        }
+
+                        break;
+
+                    case ProfileType.Shell:
+
+                        var shellProfile = shellProfiles.FirstOrDefault(p =>
+                            string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
+
+                        if (shellProfile == null)
+                        {
+                            _historyContainer.Delete(GetHash(command.Value));
+
+                            savedCommands.RemoveAt(counter);
+
+                            counter--;
+                        }
+                        else
+                        {
+                            command.ShellProfile = shellProfile;
+
+                            shellProfiles.Remove(shellProfile);
+                        }
+
+                        break;
+                }
+
+                counter++;
+            }
+
+            if (savedCommands.Count > CommandHistoryLimit)
+            {
+                var toRemove = savedCommands.OrderBy(c => c.LastExecution)
+                    .Take(savedCommands.Count - CommandHistoryLimit).ToList();
+
+                foreach (var remove in toRemove)
+                {
+                    savedCommands.Remove(remove);
+
+                    _historyContainer.Delete(GetHash(remove.Value));
+                }
+            }
+
+            IEnumerable<ExecutedCommand> commands = savedCommands
+                .Union(sshProfiles.Select(p => new ExecutedCommand
+                {
+                    Value = p.Name,
+                    ExecutionCount = 0,
+                    LastExecution = NeverUsedTime,
+                    ProfileType = ProfileType.Ssh,
+                    ShellProfile = p
+                })).Union(shellProfiles.Select(p => new ExecutedCommand
+                {
+                    Value = p.Name,
+                    ExecutionCount = 0,
+                    LastExecution = NeverUsedTime,
+                    ProfileType = ProfileType.Shell,
+                    ShellProfile = p
+                }));
+
+            Commands = new ObservableCollection<CommandItemViewModel>(commands.OrderByDescending(c => c.ExecutionCount)
+                .ThenByDescending(c => c.LastExecution).Select(c => new CommandItemViewModel(c)));
         }
 
-        public void SaveCommand(string profileName, ProfileType profileType, ShellProfile profile)
+        public void SaveCommand(string profileOrCommand, ShellProfile profile)
         {
-            profileName = profileName?.Trim();
+            profileOrCommand = profileOrCommand?.Trim();
 
-            if (string.IsNullOrEmpty(profileName))
+            if (string.IsNullOrEmpty(profileOrCommand))
             {
-                throw new ArgumentNullException(nameof(profileName));
+                throw new ArgumentNullException(nameof(profileOrCommand));
             }
 
-            var commandHistory =
-                _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
-                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
+            var key = GetHash(profileOrCommand);
 
-            var command =
-                commandHistory.ExecutedCommands.FirstOrDefault(c =>
-                    string.Equals(profileName, c.Value, StringComparison.CurrentCultureIgnoreCase));
+            var command = _historyContainer.TryGetValue(key, out var cmd)
+                ? (ExecutedCommand) cmd
+                : new ExecutedCommand {ExecutionCount = 0};
 
-            if (command == null)
-            {
-                if (profileType == ProfileType.New)
-                    profileType = ProfileType.History;
-                if (profileType == ProfileType.SSH || profileType == ProfileType.Shell)
-                {
-                    command = new ExecutedCommand
-                    {
-                        Value = profileName, ExecutionCount = 1, LastExecution = DateTime.UtcNow,
-                        ProfileType = profileType
-                    };
-                }
-                else
-                {
-                    command = new ExecutedCommand
-                    {
-                        Value = profileName,
-                        ExecutionCount = 1,
-                        LastExecution = DateTime.UtcNow,
-                        ProfileType = profileType,
-                        ShellProfile = profile
-                    };
-                }
-            }
-            else
-            {
-                command.ExecutionCount++;
+            command.Value = profileOrCommand;
+            command.ExecutionCount++;
+            command.LastExecution = DateTime.UtcNow;
+            command.ShellProfile = profile;
+            command.ProfileType = ProfileType;
 
-                command.LastExecution = DateTime.UtcNow;
-
-                if (profileType == ProfileType.History)
-                {
-                    command.ShellProfile = profile;
-                }
-
-                commandHistory.ExecutedCommands.Remove(command);
-            }
-
-            commandHistory.ExecutedCommands.Insert(0, command);
-
-            while (commandHistory.ExecutedCommands.Count > CommandHistoryLimit)
-            {
-                commandHistory.ExecutedCommands.RemoveAt(CommandHistoryLimit);
-            }
-
-            _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
+            _historyContainer.WriteValueAsJson(key, command);
         }
 
-        public void RemoveCommand(string profileName)
+        public void RemoveCommand(ExecutedCommand command)
         {
-            var commandHistory =
-                _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
-                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
+            _historyContainer.Delete(GetHash(command.Value));
 
-            var command =
-                commandHistory.ExecutedCommands.FirstOrDefault(c =>
-                    string.Equals(profileName, c.Value, StringComparison.CurrentCultureIgnoreCase));
+            CommandItemViewModel toRemove = Commands.FirstOrDefault(c =>
+                string.Equals(c.ExecutedCommand.Value, command.Value, StringComparison.Ordinal));
 
-            if (command != null)
+            if (toRemove != null)
             {
-                commandHistory.ExecutedCommands.Remove(command);
-                _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
+                Commands.Remove(toRemove);
             }
         }
+
         #endregion Command history
 
         #region Links/shortcuts related

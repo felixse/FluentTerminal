@@ -8,10 +8,12 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
+    xmlns:dialogs="using:FluentTerminal.App.Dialogs"
+    xmlns:viewModels="using:FluentTerminal.App.ViewModels"
     mc:Ignorable="d"
     x:Uid="QuickCommandDialog"
     Title="Quick Launch"
-    d:DataContext="{d:DesignInstance profiles:CommandProfileProviderViewModel, IsDesignTimeCreatable=False}"
+    d:DataContext="{d:DesignInstance viewModels:CommandProfileProviderViewModel, IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
     Loading="OnLoading"
     PrimaryButtonText="Button1"
@@ -34,19 +36,25 @@
                         QuerySubmitted="CommandTextBox_OnQuerySubmitted"
                         QueryIcon="Find" 
                         PlaceholderText="SSH command (e.g. 'ssh username@host')" 
-                        Text="{Binding Model.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         KeyUp="CommandTextBox_OnKeyUp"
-                        Margin="0 8 2 0" AutoMaximizeSuggestionArea="True" >
+                        Margin="0 8 2 0" 
+                        AutoMaximizeSuggestionArea="True" 
+                        ItemsSource="{Binding Commands, Mode=OneWay}" >
             <AutoSuggestBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
+                <DataTemplate x:DataType="viewModels:CommandItemViewModel">
+                    <Grid HorizontalAlignment="Stretch"
+                          Visibility="{Binding IsMatch, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="1" Name="RemoveHistoryButton" Content="X"
-                                    Click="RemoveHistoryButton_OnClick" ClickMode="Press" Tag="{Binding}"/>
+
+                        <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding RichTextBlock, Mode=OneWay}" HorizontalAlignment="Stretch"/>
+
+                        <Button Grid.Row="0" Grid.Column="1" Name="RemoveHistoryButton" Content="X"
+                                    Click="RemoveHistoryButton_OnClick" ClickMode="Press" Tag="{Binding ExecutedCommand}"/>
+
                     </Grid>
                 </DataTemplate>
             </AutoSuggestBox.ItemTemplate>
@@ -57,6 +65,7 @@
                 </Style>
             </AutoSuggestBox.ItemContainerStyle>
         </AutoSuggestBox>
+
         <controls:Expander
             x:Uid="AdvancedExpander"
             Margin="0,10,0,0"

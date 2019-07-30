@@ -131,6 +131,7 @@
     <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
+    <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
       <DependentUpon>CustomCommandDialog.xaml</DependentUpon>
     </Compile>
@@ -155,6 +156,7 @@
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
+    <Compile Include="ViewModels\CommandProfileProviderViewModel.cs" />
     <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>

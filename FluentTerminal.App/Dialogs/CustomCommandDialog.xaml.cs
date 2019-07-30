@@ -12,17 +12,11 @@ using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml.Input;
-using System.Text.RegularExpressions;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Documents;
+using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models.Enums;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Controls.Primitives;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,12 +29,7 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IApplicationDataContainer _historyContainer;
-        private ObservableCollection<string> _autoCompleteSuggestions;
-        private ObservableCollection<ExecutedCommand> _commandsList;
-        private List<string> _searchStrings;
         private string _oldText;
-        private int _newSearch;
-        private ProfileType _selectedProfileType;
 
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, ApplicationDataContainers containers)
@@ -57,11 +46,6 @@ namespace FluentTerminal.App.Dialogs
 
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
-
-            _oldText = "";
-            _newSearch = -1;
-
-            _selectedProfileType = ProfileType.New;
         }
 
         private void SetupFocus()
@@ -76,48 +60,16 @@ namespace FluentTerminal.App.Dialogs
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var deferral = args.GetDeferral();
+            var vm = (CommandProfileProviderViewModel) DataContext;
 
-            if (_selectedProfileType == ProfileType.New)
+            if (vm.ProfileType == ProfileType.Ssh || vm.ProfileType == ProfileType.Shell)
             {
-                ExecutedCommand executedCommand = _commandsList.SingleOrDefault(itm =>
-                    itm.Value.Equals(((CommandProfileProviderViewModel)DataContext).Model.Name, StringComparison.CurrentCultureIgnoreCase));
-                if (executedCommand != null)
-                {
-                    switch (executedCommand.ProfileType)
-                    {
-                        case ProfileType.SSH:
-                        case ProfileType.Shell:
-                            DataContext = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                                _historyContainer,
-                                executedCommand.ShellProfile, executedCommand.ProfileType != ProfileType.Shell);
-                            break;
-                        case ProfileType.History:
-                            DataContext = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                                _historyContainer,
-                                ((CommandProfileProviderViewModel)DataContext).Model, executedCommand.ProfileType != ProfileType.Shell);
-                            break;
-                    }
-
-                    _selectedProfileType = executedCommand.ProfileType;
-
-                }
-            }
-
-            if (_selectedProfileType == ProfileType.SSH || _selectedProfileType == ProfileType.Shell)
-            {
-                deferral.Complete();
-
                 return;
             }
-            if (((CommandProfileProviderViewModel)DataContext).Command == "")
-            {
-                ((CommandProfileProviderViewModel)DataContext).Command =
-                    ((CommandProfileProviderViewModel)DataContext).Model.Name;
-            }
 
+            var deferral = args.GetDeferral();
 
-            var error = await ((CommandProfileProviderViewModel)DataContext).AcceptChangesAsync();
+            var error = await vm.AcceptChangesAsync();
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -173,285 +125,122 @@ namespace FluentTerminal.App.Dialogs
 
             DataContext = vm;
 
-            _commandsList = new ObservableCollection<ExecutedCommand>();
-
-            //string x = @"{\rtf1\ansi \b bold\b0 text.}";
-            ExecutedCommand executedCommand;
-
-            foreach (SshProfile sshShellProfile in _settingsService.GetSshProfiles())
-            {
-                executedCommand =
-                    _commandsList.FirstOrDefault(c =>
-                        string.Equals(sshShellProfile.Name, c.Value, StringComparison.Ordinal));
-
-                if (executedCommand == null)
-                {
-                    executedCommand = new ExecutedCommand
-                        { Value = sshShellProfile.Name, ExecutionCount = 1, LastExecution = DateTime.UtcNow, ProfileType = ProfileType.SSH, ShellProfile = sshShellProfile};
-                    _commandsList.Add(executedCommand);
-                }
-            }
-
-            foreach (ShellProfile shellProfile in _settingsService.GetShellProfiles())
-            {
-                executedCommand =
-                    _commandsList.FirstOrDefault(c =>
-                        string.Equals(shellProfile.Name, c.Value, StringComparison.Ordinal));
-
-                if (executedCommand == null)
-                {
-                    executedCommand = new ExecutedCommand
-                        { Value = shellProfile.Name, ExecutionCount = 1, LastExecution = DateTime.UtcNow, ProfileType = ProfileType.SSH, ShellProfile = shellProfile };
-                    _commandsList.Add(executedCommand);
-                }
-            }
-
-            foreach (ExecutedCommand commandHistory in ((CommandProfileProviderViewModel)DataContext).CommandHistoryObjectCollection.ExecutedCommands)
-            {
-                executedCommand =
-                    _commandsList.FirstOrDefault(c =>
-                        string.Equals(commandHistory.Value, c.Value, StringComparison.Ordinal));
-
-                if (executedCommand == null)
-                {
-                    executedCommand = new ExecutedCommand
-                        { Value = commandHistory.Value, ExecutionCount = 1, LastExecution = DateTime.UtcNow, ProfileType = ProfileType.History, ShellProfile = commandHistory.ShellProfile };
-                    _commandsList.Add(executedCommand);
-                }
-                else
-                {
-                    //executedCommand.ShellProfile = commandHistory.ShellProfile;
-                    executedCommand.ExecutionCount = commandHistory.ExecutionCount;
-                    executedCommand.LastExecution = commandHistory.LastExecution;
-                    executedCommand.ProfileType = commandHistory.ProfileType;
-                }
-                //if (!_commandsList.Contains(commandHistory))
-                //{
-                //    _commandsList.Add(commandHistory);
-                //}
-            }
-
-
             if (await ShowAsync() != ContentDialogResult.Primary)
             {
                 return null;
             }
 
             vm = (CommandProfileProviderViewModel) DataContext;
-            vm.SaveCommand(vm.Model.Name, _selectedProfileType, vm.Model);
+            vm.SaveCommand(vm.Model.Name, vm.Model);
 
             return vm.Model;
         }
 
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                string _newText = sender.Text.Trim();
+                return;
+            }
 
-                _newSearch = -1;
+            var newText = sender.Text.Trim();
 
-                if (_oldText != "")
-                {
-                    int _oldTextPosition = _newText.IndexOf(_oldText);
-                    if (_oldTextPosition > -1)
-                    {
-                        Regex MyRegEx = new Regex(_oldText);
+            if (newText.NullableEqualTo(_oldText, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
 
-                        string _addedText = MyRegEx.Replace(_newText, "", 1);
+            _oldText = newText;
 
-                        if (_addedText.Trim() == "")
-                        {
-                            _newSearch = -2;
-                        }
-                        else if (!_addedText.Trim().Contains(" "))
-                        {
-                            if (_oldTextPosition == 0)
-                            {
-                                if (_addedText.IndexOf(" ") == 0)
-                                {
-                                    _searchStrings.Add(_addedText.Trim());
-                                }
-                                else
-                                {
-                                    _searchStrings[_searchStrings.Count - 1] =
-                                        _searchStrings[_searchStrings.Count - 1] + _addedText.Trim();
-                                }
+            var words = newText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                                _newSearch = _searchStrings.Count - 1;
-                            }
-                            else
-                            {
-                                if (_addedText.LastIndexOf(" ") == _addedText.Length - 1)
-                                {
-                                    _searchStrings.Insert(0, _addedText.Trim());
-                                }
-                                else
-                                {
-                                    _searchStrings[0] = _searchStrings[0] + _addedText.Trim();
-                                }
-
-                                _newSearch = 0;
-                            }
-                        }
-                    }
-                }
-                _oldText = _newText;
-                if (_newSearch == -1)
-                {
-                    _searchStrings = sender.Text.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                    _autoCompleteSuggestions = new ObservableCollection<string>();
-                    if (_searchStrings.Count > 0)
-                    {
-                        foreach (ExecutedCommand command in _commandsList
-                            .Where(itm =>
-                                _searchStrings.All(k => itm.Value.Contains(k, StringComparison.CurrentCultureIgnoreCase))))
-                        {
-                            if (!_autoCompleteSuggestions.Contains(command.Value))
-                            {
-                                _autoCompleteSuggestions.Add(command.Value);
-                            }
-                        }
-                    }
-                }
-                else if (_newSearch > -1)
-                {
-                    _autoCompleteSuggestions = new ObservableCollection<string>(_autoCompleteSuggestions.Where(itm => itm.Contains(_searchStrings[_newSearch], StringComparison.CurrentCultureIgnoreCase)));
-                }
-
-                sender.ItemsSource = _autoCompleteSuggestions;
-
+            foreach (var command in ((CommandProfileProviderViewModel) DataContext).Commands)
+            {
+                command.SetFilter(newText, words);
             }
         }
 
         private void CommandTextBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (args.SelectedItem != null)
-
-                CommandTextBox.Text = args.SelectedItem.ToString();
-
-            else
-
-                CommandTextBox.Text = sender.Text;
+            if (args.SelectedItem is CommandItemViewModel commandItem)
+            {
+                CommandTextBox.Text = commandItem.ExecutedCommand.Value;
+            }
         }
 
         private void CommandTextBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (args.ChosenSuggestion != null)
+            if (args.ChosenSuggestion is CommandItemViewModel commandItem)
             {
-                ExecutedCommand executedCommand = _commandsList.SingleOrDefault(itm =>
-                    itm.Value.Equals(args.ChosenSuggestion.ToString(), StringComparison.CurrentCultureIgnoreCase));
+                ExecutedCommand executedCommand = ((CommandProfileProviderViewModel) DataContext).Commands
+                    .FirstOrDefault(c =>
+                        c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value.ToString(),
+                            StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
+
                 if (executedCommand != null)
                 {
-                    DataContext = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                        _historyContainer,
-                        executedCommand.ShellProfile, executedCommand.ProfileType != ProfileType.Shell);
-
-                    _selectedProfileType = executedCommand.ProfileType;
-
-                    //CommandTextBox.Text = executedCommand.Value;
+                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ProfileType,
+                        executedCommand.ShellProfile.Clone());
                 }
             }
         }
 
         private void RemoveHistoryButton_OnClick(object sender, RoutedEventArgs e)
         {
-            string profileName = ((Button) sender).Tag.ToString();
-            if (profileName != null)
+            if (((Button)sender).Tag is ExecutedCommand command)
             {
-                var command =
-                    _commandsList.FirstOrDefault(c =>
-                        string.Equals(profileName, (c.ShellProfile == null) ? c.Value : c.ShellProfile.Name, StringComparison.CurrentCultureIgnoreCase));
-                
-                if (command != null)
-                {
-                    _commandsList.Remove(command);
-                }
-
-                _autoCompleteSuggestions.Remove(profileName);
-
-                ((CommandProfileProviderViewModel)DataContext).RemoveCommand(profileName);
-                CommandTextBox.ItemsSource = _autoCompleteSuggestions;
+                ((CommandProfileProviderViewModel)DataContext).RemoveCommand(command);
             }
         }
 
         private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
+            if (e.Key != VirtualKey.Enter)
+                return;
+
+            if (string.IsNullOrWhiteSpace(CommandTextBox.Text))
             {
-                if (CommandTextBox.Text.Trim() == "")
+                CommandTextBox.IsSuggestionListOpen = true;
+            }
+            else
+            {
+                DependencyObject candidate = null;
+
+                var options = new FindNextElementOptions()
                 {
-                    if (_searchStrings == null && _autoCompleteSuggestions == null)
-                    {
-                        _searchStrings = CommandTextBox.Text.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                        _autoCompleteSuggestions = new ObservableCollection<string>();
-                    }
-                    if (_searchStrings.Count > 0)
-                    {
-                        foreach (ExecutedCommand command in _commandsList
-                            .Where(itm =>
-                                _searchStrings.All(k => itm.Value.Contains(k, StringComparison.CurrentCultureIgnoreCase))))
-                        {
-                            if (!_autoCompleteSuggestions.Contains(command.Value))
-                            {
-                                _autoCompleteSuggestions.Add(command.Value);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (ExecutedCommand command in _commandsList)
-                        {
-                            if (!_autoCompleteSuggestions.Contains(command.Value))
-                            {
-                                _autoCompleteSuggestions.Add(command.Value);
-                            }
-                        }
-                    }
-                    CommandTextBox.ItemsSource = _autoCompleteSuggestions;
-                    CommandTextBox.IsSuggestionListOpen = true;
-                }
-                else
+                    SearchRoot = this,
+                    XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
+                };
+
+
+                candidate =
+                    FocusManager.FindLastFocusableElement(this);
+
+                if (candidate != null && candidate is Control)
                 {
-
-                    DependencyObject candidate = null;
-
-                    var options = new FindNextElementOptions()
+                    if (((Control) candidate).Name == "SecondaryButton")
                     {
-                        SearchRoot = this,
-                        XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
-                    };
+                        ((Control) candidate).Focus(FocusState.Keyboard);
 
+                        candidate =
+                            FocusManager.FindNextElement(FocusNavigationDirection.Left, options);
 
-                    candidate =
-                        FocusManager.FindLastFocusableElement(this);
-
-                    if (candidate != null && candidate is Control)
-                    {
-                        if (((Control) candidate).Name == "SecondaryButton")
+                        if (candidate != null && candidate is Control)
                         {
-                            ((Control) candidate).Focus(FocusState.Keyboard);
-
-                            candidate =
-                                FocusManager.FindNextElement(FocusNavigationDirection.Left, options);
-
-                            if (candidate != null && candidate is Control)
+                            if (((Control) candidate).Name == "PrimaryButton")
                             {
-                                if (((Control) candidate).Name == "PrimaryButton")
-                                {
-                                    ((Control) candidate).Focus(FocusState.Keyboard);
+                                ((Control) candidate).Focus(FocusState.Keyboard);
 
-                                    //var key = Key.A;                    // Key to send  
-                                    //var routedEvent = Keyboard.KeyDownEvent; // Event to send
-                                    //myText.RaiseEvent(
-                                    //    new KeyEventArgs(
-                                    //            Keyboard.PrimaryDevice,
-                                    //            PresentationSource.FromVisual(myText),
-                                    //            0,
-                                    //            key)
-                                    //        { RoutedEvent = routedEvent }
-                                    //);
-                                }
+                                //var key = Key.A;                    // Key to send  
+                                //var routedEvent = Keyboard.KeyDownEvent; // Event to send
+                                //myText.RaiseEvent(
+                                //    new KeyEventArgs(
+                                //            Keyboard.PrimaryDevice,
+                                //            PresentationSource.FromVisual(myText),
+                                //            0,
+                                //            key)
+                                //        { RoutedEvent = routedEvent }
+                                //);
                             }
                         }
                     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 
@@ -16,10 +15,5 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public ProfileType ProfileType { get; set; }
 
         public ShellProfile ShellProfile { get; set; }
-    }
-
-    public class ExecutedCommandHistory
-    {
-        public List<ExecutedCommand> ExecutedCommands { get; set; }
     }
 }

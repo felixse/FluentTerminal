@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-namespace FluentTerminal.Models.Enums
+﻿namespace FluentTerminal.Models.Enums
 {
     public enum ProfileType
     {
+        History = 0,
         Shell,
-        SSH,
-        History,
-        New
+        Ssh
     }
 }
 
