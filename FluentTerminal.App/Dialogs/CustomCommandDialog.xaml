@@ -43,8 +43,7 @@
                         ItemsSource="{Binding Commands, Mode=OneWay}" >
             <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:CommandItemViewModel">
-                    <Grid HorizontalAlignment="Stretch"
-                          Visibility="{Binding IsMatch, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                    <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>

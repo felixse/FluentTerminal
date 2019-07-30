@@ -29,7 +29,6 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IApplicationDataContainer _historyContainer;
-        private string _oldText;
 
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, ApplicationDataContainers containers)
@@ -138,25 +137,9 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                return;
-            }
-
-            var newText = sender.Text.Trim();
-
-            if (newText.NullableEqualTo(_oldText, StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-
-            _oldText = newText;
-
-            var words = newText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var command in ((CommandProfileProviderViewModel) DataContext).Commands)
-            {
-                command.SetFilter(newText, words);
+                ((CommandProfileProviderViewModel)DataContext).SetFilter(sender.Text.Trim());
             }
         }
 

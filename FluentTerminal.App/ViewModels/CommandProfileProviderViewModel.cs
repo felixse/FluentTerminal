@@ -27,6 +27,10 @@ namespace FluentTerminal.App.ViewModels
 
         private readonly IApplicationDataContainer _historyContainer;
 
+        private List<CommandItemViewModel> _allCommands;
+
+        private string _oldFilter;
+
         #endregion Fields
 
         #region Properties
@@ -47,7 +51,13 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _command, value);
         }
 
-        public ObservableCollection<CommandItemViewModel> Commands { get; private set; }
+        private ObservableCollection<CommandItemViewModel> _commands;
+
+        public ObservableCollection<CommandItemViewModel> Commands
+        {
+            get => _commands;
+            private set => Set(ref _commands, value);
+        }
 
         #endregion Properties
 
@@ -265,8 +275,61 @@ namespace FluentTerminal.App.ViewModels
                     ShellProfile = p
                 }));
 
-            Commands = new ObservableCollection<CommandItemViewModel>(commands.OrderByDescending(c => c.ExecutionCount)
-                .ThenByDescending(c => c.LastExecution).Select(c => new CommandItemViewModel(c)));
+            _allCommands = commands.OrderByDescending(c => c.ExecutionCount).ThenByDescending(c => c.LastExecution)
+                .Select(c => new CommandItemViewModel(c)).ToList();
+
+            Commands = new ObservableCollection<CommandItemViewModel>(_allCommands);
+        }
+
+        public void SetFilter(string filter)
+        {
+            if (filter.NullableEqualTo(_oldFilter, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var toCheck = !string.IsNullOrEmpty(_oldFilter) && filter.Contains(_oldFilter, StringComparison.OrdinalIgnoreCase)
+                ? (IEnumerable<CommandItemViewModel>) Commands
+                : _allCommands;
+
+            _oldFilter = filter;
+
+            var words = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var commandItem in toCheck)
+            {
+                commandItem.SetFilter(filter, words);
+            }
+
+            //if (string.IsNullOrEmpty(filter))
+            //{
+            //    Commands = new ObservableCollection<CommandItemViewModel>(_allCommands);
+
+            //    return;
+            //}
+
+            var index = 0;
+
+            foreach (var commandItem in _allCommands)
+            {
+                if (commandItem.IsMatch)
+                {
+                    if (Commands.Count <= index)
+                    {
+                        Commands.Add(commandItem);
+                    }
+                    else if (!ReferenceEquals(commandItem, Commands[index]))
+                    {
+                        Commands.Insert(index, commandItem);
+                    }
+
+                    index++;
+                }
+                else if (Commands.Count > index && ReferenceEquals(commandItem, Commands[index]))
+                {
+                    Commands.RemoveAt(index);
+                }
+            }
         }
 
         public void SaveCommand(string profileOrCommand, ShellProfile profile)
