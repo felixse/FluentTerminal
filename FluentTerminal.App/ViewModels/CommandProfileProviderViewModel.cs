@@ -360,12 +360,15 @@ namespace FluentTerminal.App.ViewModels
         {
             _historyContainer.Delete(GetHash(command.Value));
 
-            CommandItemViewModel toRemove = Commands.FirstOrDefault(c =>
+            CommandItemViewModel toRemove = _allCommands.FirstOrDefault(c =>
                 string.Equals(c.ExecutedCommand.Value, command.Value, StringComparison.Ordinal));
 
             if (toRemove != null)
             {
+                _allCommands.Remove(toRemove);
                 Commands.Remove(toRemove);
+
+                _historyContainer.Delete(GetHash(toRemove.ExecutedCommand.Value));
             }
         }
 

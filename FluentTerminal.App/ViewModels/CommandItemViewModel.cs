@@ -229,16 +229,16 @@ namespace FluentTerminal.App.ViewModels
                     if (matchingWord < 0)
                     {
                         matchingWord = j;
-                        matchingIndex = idx + _commandWordIndices[i];
+                        matchingIndex = idx + _commandWordIndices[j];
                     }
                     else if (matchingWords == null)
                     {
                         matchingWords = new Dictionary<int, int>
-                            {{matchingWord, matchingIndex}, {j, idx + _commandWordIndices[i]}};
+                            {{matchingWord, matchingIndex}, {j, idx + _commandWordIndices[j]}};
                     }
                     else
                     {
-                        matchingWords.Add(j, idx + _commandWordIndices[i]);
+                        matchingWords.Add(j, idx + _commandWordIndices[j]);
                     }
                 }
 
@@ -317,6 +317,11 @@ namespace FluentTerminal.App.ViewModels
                     commandParts.Add(SimpleText.Substring(start, length));
 
                     processedTo = start + length;
+                }
+
+                if (processedTo < SimpleText.Length)
+                {
+                    commandParts.Add(SimpleText.Substring(processedTo));
                 }
 
                 CreateRichTextBlock(commandParts, firstIsBold);
