@@ -328,6 +328,11 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public override string ToString()
+        {
+            return ExecutedCommand.Value;
+        }
+
         #endregion Methods
     }
 }

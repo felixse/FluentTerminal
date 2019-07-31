@@ -29,6 +29,8 @@ namespace FluentTerminal.App.Dialogs
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IApplicationDataContainer _historyContainer;
 
+        private ExecutedCommand _lastChosenCommand;
+
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, ApplicationDataContainers containers)
         {
@@ -141,14 +143,13 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (args.SelectedItem is CommandItemViewModel commandItem)
-            {
-                CommandTextBox.Text = commandItem.ExecutedCommand.Value;
-            }
+            _lastChosenCommand = (args.SelectedItem as CommandItemViewModel)?.ExecutedCommand;
         }
 
         private void CommandTextBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            _lastChosenCommand = null;
+
             if (args.ChosenSuggestion is CommandItemViewModel commandItem)
             {
                 ExecutedCommand executedCommand = ((CommandProfileProviderViewModel) DataContext).Commands
@@ -163,11 +164,19 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void RemoveHistoryButton_OnClick(object sender, RoutedEventArgs e)
+        private void CommandTextBox_OnPreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (((Button)sender).Tag is ExecutedCommand command)
+            var command = _lastChosenCommand;
+
+            if (e.Key == VirtualKey.Delete && command != null)
             {
                 ((CommandProfileProviderViewModel)DataContext).RemoveCommand(command);
+
+                e.Handled = true;
+            }
+            else
+            {
+                e.Handled = false;
             }
         }
 

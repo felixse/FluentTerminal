@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -73,9 +75,9 @@ namespace FluentTerminal.App.ViewModels
         #region Methods
 
         // Fills the view model properties from the input sshProfile
-        private void Initialize(ShellProfile sshProfile)
+        private void Initialize(ShellProfile profile)
         {
-            Command = sshProfile.Name;
+            Command = profile.Name;
         }
 
         protected override void LoadFromProfile(ShellProfile profile)
@@ -136,7 +138,7 @@ namespace FluentTerminal.App.ViewModels
             profile.Location = _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value).Result;
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
-            profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
+            profile.Name = command;
         }
 
         public override async Task<string> ValidateAsync()
@@ -201,7 +203,6 @@ namespace FluentTerminal.App.ViewModels
 
         #region Command history
 
-        private const string HistoryKeyFormat = "hist_{0:##########}_{1:##########}";
         private const int CommandHistoryLimit = 50;
 
         private static readonly DateTime NeverUsedTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -210,9 +211,28 @@ namespace FluentTerminal.App.ViewModels
 
         private static string GetHash(string value)
         {
-            value = value.ToLower();
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
 
-            return string.Format(HistoryKeyFormat, value.GetHashCode(), value.Length);
+            value = value.ToLowerInvariant();
+
+            byte[] hashed;
+
+            using (var md5 = MD5.Create())
+            {
+                hashed = md5.ComputeHash(Encoding.UTF32.GetBytes(value));
+            }
+
+            var builder = new StringBuilder();
+
+            foreach (var b in hashed)
+            {
+                builder.Append(b.ToString("X2"));
+            }
+
+            return $"hist_{builder}_{value.Length:##########}";
         }
 
         private void FillCommandHistory()
@@ -333,9 +353,27 @@ namespace FluentTerminal.App.ViewModels
             var isProfile =
                 _allProfiles.Any(p => string.Equals(p.Name, Model.Name, StringComparison.OrdinalIgnoreCase));
 
-            var command = _historyContainer.TryGetValue(key, out var cmd)
-                ? (ExecutedCommand) cmd
-                : new ExecutedCommand {ExecutionCount = 0};
+            ExecutedCommand command;
+
+            if (_historyContainer.TryGetValue(key, out var cmd))
+            {
+                if (cmd is string cmdStr)
+                {
+                    command = JsonConvert.DeserializeObject<ExecutedCommand>(cmdStr);
+                }
+                else if (cmd is ExecutedCommand executedCommand)
+                {
+                    command = executedCommand;
+                }
+                else
+                {
+                    throw new Exception("Unexpected history type: " + cmd.GetType());
+                }
+            }
+            else
+            {
+                command = new ExecutedCommand {ExecutionCount = 0};
+            }
 
             command.Value = Model.Name;
             command.ExecutionCount++;

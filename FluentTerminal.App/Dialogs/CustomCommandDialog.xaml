@@ -7,8 +7,6 @@
     xmlns:views="using:FluentTerminal.App.Views"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:enums="using:FluentTerminal.Models.Enums"
-    xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
-    xmlns:dialogs="using:FluentTerminal.App.Dialogs"
     xmlns:viewModels="using:FluentTerminal.App.ViewModels"
     mc:Ignorable="d"
     x:Uid="QuickCommandDialog"
@@ -34,6 +32,7 @@
                         TextChanged="CommandTextBox_OnTextChanged" 
                         SuggestionChosen="CommandTextBox_OnSuggestionChosen"
                         QuerySubmitted="CommandTextBox_OnQuerySubmitted"
+                        PreviewKeyUp="CommandTextBox_OnPreviewKeyUp"
                         QueryIcon="Find" 
                         PlaceholderText="SSH command (e.g. 'ssh username@host')" 
                         Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -43,18 +42,7 @@
                         ItemsSource="{Binding Commands, Mode=OneWay}" >
             <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:CommandItemViewModel">
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding RichTextBlock, Mode=OneWay}" HorizontalAlignment="Stretch"/>
-
-                        <Button Grid.Row="0" Grid.Column="1" Name="RemoveHistoryButton" Content="X"
-                                    Click="RemoveHistoryButton_OnClick" ClickMode="Press" Tag="{Binding ExecutedCommand}"/>
-
-                    </Grid>
+                    <ContentControl Content="{Binding RichTextBlock, Mode=OneWay}" HorizontalAlignment="Stretch"/>
                 </DataTemplate>
             </AutoSuggestBox.ItemTemplate>
 
