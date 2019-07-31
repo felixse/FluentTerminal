@@ -9,7 +9,6 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using Newtonsoft.Json;
 
 namespace FluentTerminal.App.ViewModels
@@ -25,23 +24,18 @@ namespace FluentTerminal.App.ViewModels
 
         #region Fields
 
+        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IApplicationDataContainer _historyContainer;
 
         private List<CommandItemViewModel> _allCommands;
 
         private string _oldFilter;
 
+        private bool _isProfile;
+
         #endregion Fields
 
         #region Properties
-
-        private ProfileType _profileType = ProfileType.History;
-
-        public ProfileType ProfileType
-        {
-            get => _profileType;
-            private set => Set(ref _profileType, value);
-        }
 
         private string _command;
 
@@ -64,9 +58,11 @@ namespace FluentTerminal.App.ViewModels
         #region Constructor
 
         public CommandProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
+            ITrayProcessCommunicationService trayProcessCommunicationService,
             IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
             applicationView, original)
         {
+            _trayProcessCommunicationService = trayProcessCommunicationService;
             _historyContainer = historyContainer;
 
             FillCommandHistory();
@@ -104,8 +100,38 @@ namespace FluentTerminal.App.ViewModels
 
                 profile.Name = null;
 
+                _isProfile = false;
+
                 return;
             }
+
+            var existingProfile =
+                _allProfiles.FirstOrDefault(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase));
+
+            if (existingProfile != null)
+            {
+                profile.Name = existingProfile.Name;
+                profile.Id = existingProfile.Id;
+                profile.PreInstalled = existingProfile.PreInstalled;
+                profile.Location = existingProfile.Location;
+                profile.Arguments = existingProfile.Arguments;
+                profile.WorkingDirectory = existingProfile.WorkingDirectory;
+
+                profile.EnvironmentVariables.Clear();
+
+                foreach (var kvp in existingProfile.EnvironmentVariables)
+                {
+                    profile.EnvironmentVariables.Add(kvp.Key, kvp.Value);
+                }
+
+                Command = existingProfile.Name;
+
+                _isProfile = true;
+
+                return;
+            }
+
+            _isProfile = false;
 
             var match = CommandValidationRx.Match(command);
 
@@ -115,13 +141,10 @@ namespace FluentTerminal.App.ViewModels
                 throw new Exception("Invalid command.");
             }
 
-            profile.Location = match.Groups["cmd"].Value;
+            profile.Location = _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value).Result;
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
-            if (ProfileType != ProfileType.Shell && ProfileType != ProfileType.Ssh)
-            {
-                profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
-            }
+            profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
         }
 
         public override async Task<string> ValidateAsync()
@@ -133,6 +156,17 @@ namespace FluentTerminal.App.ViewModels
                 return error;
             }
 
+            var command = _command?.Trim() ?? string.Empty;
+
+            _isProfile = !string.IsNullOrEmpty(command) &&
+                         _allProfiles.Any(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase));
+
+            if (_isProfile)
+            {
+                // It's a saved profile
+                return null;
+            }
+
             var match = CommandValidationRx.Match(_command?.Trim() ?? string.Empty);
 
             if (!match.Success)
@@ -140,6 +174,15 @@ namespace FluentTerminal.App.ViewModels
                 error = I18N.Translate("InvalidCommand");
 
                 return string.IsNullOrEmpty(error) ? "Invalid command." : error;
+            }
+
+            try
+            {
+                var unused = await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value);
+            }
+            catch (Exception e)
+            {
+                return $"{I18N.Translate("UnsupportedCommand")} '{match.Groups["cmd"].Value}'. {e.Message}";
             }
 
             //if (!match.Groups["args"].Success)
@@ -154,14 +197,14 @@ namespace FluentTerminal.App.ViewModels
 
         public override bool HasChanges()
         {
-            return base.HasChanges() || !_command.NullableEqualTo($"{Model.Location} {Model.Arguments}");
+            return base.HasChanges() || !_command.NullableEqualTo(Model.Name);
         }
 
-        public void SetProfile(ProfileType profileType, ShellProfile profile)
+        public void SetProfile(ShellProfile profile, bool isProfile)
         {
             Model = profile;
 
-            ProfileType = profileType;
+            _isProfile = isProfile;
 
             LoadFromProfile(Model);
         }
@@ -175,6 +218,8 @@ namespace FluentTerminal.App.ViewModels
 
         private static readonly DateTime NeverUsedTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
+        private List<ShellProfile> _allProfiles;
+
         private static string GetHash(string value)
         {
             value = value.ToLower();
@@ -187,9 +232,7 @@ namespace FluentTerminal.App.ViewModels
             var savedCommands = _historyContainer.GetAll()
                 .Select(c => JsonConvert.DeserializeObject<ExecutedCommand>((string)c)).ToList();
 
-            var sshProfiles = SettingsService.GetSshProfiles().ToList();
-
-            var shellProfiles = SettingsService.GetShellProfiles().ToList();
+            _allProfiles = SettingsService.GetShellProfiles().Union(SettingsService.GetSshProfiles()).ToList();
 
             var counter = 0;
 
@@ -197,51 +240,23 @@ namespace FluentTerminal.App.ViewModels
             {
                 var command = savedCommands[counter];
 
-                switch (command.ProfileType)
+                if (command.IsProfile)
                 {
-                    case ProfileType.Ssh:
+                    var profile = _allProfiles.FirstOrDefault(p =>
+                        string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
 
-                        var sshProfile = sshProfiles.FirstOrDefault(p =>
-                            string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
+                    if (profile == null)
+                    {
+                        _historyContainer.Delete(GetHash(command.Value));
 
-                        if (sshProfile == null)
-                        {
-                            _historyContainer.Delete(GetHash(command.Value));
+                        savedCommands.RemoveAt(counter);
 
-                            savedCommands.RemoveAt(counter);
-
-                            counter--;
-                        }
-                        else
-                        {
-                            command.ShellProfile = sshProfile;
-
-                            sshProfiles.Remove(sshProfile);
-                        }
-
-                        break;
-
-                    case ProfileType.Shell:
-
-                        var shellProfile = shellProfiles.FirstOrDefault(p =>
-                            string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
-
-                        if (shellProfile == null)
-                        {
-                            _historyContainer.Delete(GetHash(command.Value));
-
-                            savedCommands.RemoveAt(counter);
-
-                            counter--;
-                        }
-                        else
-                        {
-                            command.ShellProfile = shellProfile;
-
-                            shellProfiles.Remove(shellProfile);
-                        }
-
-                        break;
+                        counter--;
+                    }
+                    else
+                    {
+                        command.ShellProfile = profile;
+                    }
                 }
 
                 counter++;
@@ -260,20 +275,16 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
+            var unusedProfiles = _allProfiles.Where(p =>
+                !savedCommands.Any(c => string.Equals(p.Name, c.Value, StringComparison.OrdinalIgnoreCase))).ToList();
+
             IEnumerable<ExecutedCommand> commands = savedCommands
-                .Union(sshProfiles.Select(p => new ExecutedCommand
+                .Union(unusedProfiles.Select(p => new ExecutedCommand
                 {
                     Value = p.Name,
                     ExecutionCount = 0,
                     LastExecution = NeverUsedTime,
-                    ProfileType = ProfileType.Ssh,
-                    ShellProfile = p
-                })).Union(shellProfiles.Select(p => new ExecutedCommand
-                {
-                    Value = p.Name,
-                    ExecutionCount = 0,
-                    LastExecution = NeverUsedTime,
-                    ProfileType = ProfileType.Shell,
+                    IsProfile = true,
                     ShellProfile = p
                 }));
 
@@ -327,26 +338,19 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public void SaveCommand(string profileOrCommand, ShellProfile profile)
+        public void SaveToHistory()
         {
-            profileOrCommand = profileOrCommand?.Trim();
-
-            if (string.IsNullOrEmpty(profileOrCommand))
-            {
-                throw new ArgumentNullException(nameof(profileOrCommand));
-            }
-
-            var key = GetHash(profileOrCommand);
+            var key = GetHash(Model.Name);
 
             var command = _historyContainer.TryGetValue(key, out var cmd)
                 ? (ExecutedCommand) cmd
                 : new ExecutedCommand {ExecutionCount = 0};
 
-            command.Value = profileOrCommand;
+            command.Value = Model.Name;
             command.ExecutionCount++;
             command.LastExecution = DateTime.UtcNow;
-            command.ShellProfile = profile;
-            command.ProfileType = ProfileType;
+            command.ShellProfile = _isProfile ? null : Model;
+            command.IsProfile = _isProfile;
 
             _historyContainer.WriteValueAsJson(key, command);
         }
@@ -379,9 +383,12 @@ namespace FluentTerminal.App.ViewModels
         public static bool CheckScheme(Uri uri) => CustomSshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
         public static CommandProfileProviderViewModel ParseUri(Uri uri, ISettingsService settingsService,
-            IApplicationView applicationView, IApplicationDataContainer historyContainer)
+            IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
+            IApplicationDataContainer historyContainer)
         {
-            var vm = new CommandProfileProviderViewModel(settingsService, applicationView, historyContainer);
+            var vm = new CommandProfileProviderViewModel(settingsService, applicationView,
+                trayProcessCommunicationService, historyContainer);
+
             // ReSharper disable once ConstantConditionalAccessQualifier
             string queryString = uri.Query?.Trim();
 

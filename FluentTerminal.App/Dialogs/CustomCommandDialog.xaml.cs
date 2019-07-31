@@ -16,7 +16,6 @@ using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels;
-using FluentTerminal.Models.Enums;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -60,11 +59,6 @@ namespace FluentTerminal.App.Dialogs
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var vm = (CommandProfileProviderViewModel) DataContext;
-
-            if (vm.ProfileType == ProfileType.Ssh || vm.ProfileType == ProfileType.Shell)
-            {
-                return;
-            }
 
             var deferral = args.GetDeferral();
 
@@ -120,7 +114,8 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
         {
-            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView, _historyContainer, input);
+            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
+                _trayProcessCommunicationService, _historyContainer, input);
 
             DataContext = vm;
 
@@ -130,7 +125,8 @@ namespace FluentTerminal.App.Dialogs
             }
 
             vm = (CommandProfileProviderViewModel) DataContext;
-            vm.SaveCommand(vm.Model.Name, vm.Model);
+
+            vm.SaveToHistory();
 
             return vm.Model;
         }
@@ -162,8 +158,8 @@ namespace FluentTerminal.App.Dialogs
 
                 if (executedCommand != null)
                 {
-                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ProfileType,
-                        executedCommand.ShellProfile.Clone());
+                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ShellProfile.Clone(),
+                        executedCommand.IsProfile);
                 }
             }
         }

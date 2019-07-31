@@ -259,7 +259,8 @@ namespace FluentTerminal.App
 
                     try
                     {
-                        vm = CommandProfileProviderViewModel.ParseUri(protocolActivated.Uri, _settingsService, applicationView,
+                        vm = CommandProfileProviderViewModel.ParseUri(protocolActivated.Uri, _settingsService,
+                            applicationView, _trayProcessCommunicationService,
                             _container.Resolve<ApplicationDataContainers>().HistoryContainer);
                     }
                     catch (Exception ex)

@@ -39,5 +39,7 @@ namespace FluentTerminal.App.Services
         void MuteTerminal(bool mute);
 
         void UpdateSettings(ApplicationSettings settings);
+
+        Task<string> GetCommandPathAsync(string command);
     }
 }
