@@ -98,14 +98,6 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private void TabView_TabDraggedOutside(object sender, Microsoft.Toolkit.Uwp.UI.Controls.TabDraggedOutsideEventArgs e)
-        {
-            if (e.Item is TerminalViewModel model)
-            {
-                ViewModel.TearOffTab(model);
-            }
-        }
-
         private async void TabView_Drop(object sender, DragEventArgs e)
         {
             if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
