@@ -2,9 +2,7 @@
 {
     public class UpdateSettingsRequest : IMessage
     {
-        public const byte Identifier = 15;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.UpdateSettingsRequest;
 
         public ApplicationSettings Settings { get; set; }
     }

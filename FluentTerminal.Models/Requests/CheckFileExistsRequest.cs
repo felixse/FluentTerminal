@@ -2,9 +2,7 @@
 {
     public class CheckFileExistsRequest : IMessage
     {
-        public const byte Identifier = 12;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.CheckFileExistsRequest;
 
         public string Path { get; set; }
     }

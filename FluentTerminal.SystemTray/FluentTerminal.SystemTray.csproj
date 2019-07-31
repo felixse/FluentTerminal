@@ -113,6 +113,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileFinder.cs" />
     <Compile Include="Native\ProcessApi.cs" />
     <Compile Include="Native\WindowApi.cs" />
     <Compile Include="Program.cs" />

@@ -87,43 +87,46 @@ namespace FluentTerminal.SystemTray.Services
         {
             var messageType = (byte)args.Request.Message[MessageKeys.Type];
 
-            switch (messageType)
+            switch ((MessageIdentifiers) messageType)
             {
                 case WriteDataMessageIdentifier:
                     HandleWriteDataMessage(args);
                     break;
-                case CreateTerminalRequest.Identifier:
+                case MessageIdentifiers.CreateTerminalRequest:
                     await HandleCreateTerminalRequest(args);
                     break;
-                case ResizeTerminalRequest.Identifier:
+                case MessageIdentifiers.ResizeTerminalRequest:
                     HandleResizeTerminalRequest(args);
                     break;
-                case SetToggleWindowKeyBindingsRequest.Identifier:
+                case MessageIdentifiers.SetToggleWindowKeyBindingsRequest:
                     HandleSetToggleWindowKeyBindingsRequest(args);
                     break;
-                case TerminalExitedRequest.Identifier:
+                case MessageIdentifiers.TerminalExitedRequest:
                     HandleTerminalExitedRequest(args);
                     break;
-                case GetAvailablePortRequest.Identifier:
+                case MessageIdentifiers.GetAvailablePortRequest:
                     await HandleGetAvailablePortRequest(args);
                     break;
-                case GetUserNameRequest.Identifier:
+                case MessageIdentifiers.GetUserNameRequest:
                     await HandleGetUserNameRequest(args);
                     break;
-                case SaveTextFileRequest.Identifier:
+                case MessageIdentifiers.SaveTextFileRequest:
                     await HandleSaveTextFileRequest(args);
                     break;
-                case GetSshConfigFolderRequest.Identifier:
+                case MessageIdentifiers.GetSshConfigFolderRequest:
                     await HandleGetSshConfigFolderRequest(args);
                     break;
-                case CheckFileExistsRequest.Identifier:
+                case MessageIdentifiers.CheckFileExistsRequest:
                     await HandleCheckFileExistsRequest(args);
                     break;
-                case MuteTerminalRequest.Identifier:
-                    await HandleMuteTerminalRequest(args);
+                case MessageIdentifiers.MuteTerminalRequest:
+                    HandleMuteTerminalRequest(args);
                     break;
-                case UpdateSettingsRequest.Identifier:
-                    await HandleUpdateSettingsRequest(args);
+                case MessageIdentifiers.UpdateSettingsRequest:
+                    HandleUpdateSettingsRequest(args);
+                    break;
+                case MessageIdentifiers.GetCommandPathRequest:
+                    await GetCommandPathRequestHandler(args);
                     break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
@@ -180,7 +183,7 @@ namespace FluentTerminal.SystemTray.Services
         private async Task HandleGetUserNameRequest(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
-            var response = new GetUserNameResponse { UserName = Environment.UserName };
+            var response = new StringValueResponse { Success = !string.IsNullOrEmpty(Environment.UserName), Value = Environment.UserName };
             await args.Request.SendResponseAsync(CreateMessage(response));
             deferral.Complete();
         }
@@ -243,14 +246,14 @@ namespace FluentTerminal.SystemTray.Services
             deferral.Complete();
         }
 
-        private async Task HandleMuteTerminalRequest(AppServiceRequestReceivedEventArgs args)
+        private void HandleMuteTerminalRequest(AppServiceRequestReceivedEventArgs args)
         {
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
             var request = JsonConvert.DeserializeObject<MuteTerminalRequest>(messageContent);
             Utilities.MuteTerminal(request.Mute);
         }
 
-        private async Task HandleUpdateSettingsRequest(AppServiceRequestReceivedEventArgs args)
+        private void HandleUpdateSettingsRequest(AppServiceRequestReceivedEventArgs args)
         {
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
             var request = JsonConvert.DeserializeObject<UpdateSettingsRequest>(messageContent);
@@ -272,6 +275,29 @@ namespace FluentTerminal.SystemTray.Services
                 {
                     response.Error = "File not found.";
                 }
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Error = e.Message;
+            }
+
+            await args.Request.SendResponseAsync(CreateMessage(response));
+
+            deferral.Complete();
+        }
+
+        private async Task GetCommandPathRequestHandler(AppServiceRequestReceivedEventArgs args)
+        {
+            var deferral = args.GetDeferral();
+            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var request = JsonConvert.DeserializeObject<GetCommandPathRequest>(messageContent);
+            var response = new StringValueResponse();
+
+            try
+            {
+                response.Value = request.Command.GetCommandPath();
+                response.Success = true;
             }
             catch (Exception e)
             {

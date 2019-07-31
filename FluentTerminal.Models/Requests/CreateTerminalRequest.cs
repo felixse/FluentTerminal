@@ -4,9 +4,7 @@ namespace FluentTerminal.Models.Requests
 {
     public class CreateTerminalRequest : IMessage
     {
-        public const byte Identifier = 1;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.CreateTerminalRequest;
 
         public byte Id { get; set; }
         public TerminalSize Size { get; set; }

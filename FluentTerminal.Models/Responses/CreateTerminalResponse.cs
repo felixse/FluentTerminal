@@ -2,9 +2,7 @@
 {
     public class CreateTerminalResponse :IMessage
     {
-        public const byte Identifier = 9;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.CreateTerminalResponse;
 
         public bool Success { get; set; }
         public string Error { get; set; }

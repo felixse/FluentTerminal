@@ -2,9 +2,7 @@
 {
     public class GetSshConfigFolderRequest : IMessage
     {
-        public const byte Identifier = 13;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.GetSshConfigFolderRequest;
 
         public bool IncludeContent { get; set; }
     }

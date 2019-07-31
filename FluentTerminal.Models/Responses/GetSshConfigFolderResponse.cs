@@ -2,9 +2,7 @@
 {
     public class GetSshConfigFolderResponse : IMessage
     {
-        public const byte Identifier = 13;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.GetSshConfigFolderResponse;
 
         public bool Success { get; set; }
 

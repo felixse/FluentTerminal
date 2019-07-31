@@ -52,13 +52,13 @@ namespace FluentTerminal.App.Services.Implementation
                 return _userName;
             }
 
-            GetUserNameResponse response;
+            StringValueResponse response;
 
             // No need to crash for username, so try/catch
             try
             {
                 var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(new GetUserNameRequest()));
-                response = JsonConvert.DeserializeObject<GetUserNameResponse>((string)responseMessage[MessageKeys.Content]);
+                response = JsonConvert.DeserializeObject<StringValueResponse>((string)responseMessage[MessageKeys.Content]);
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             Logger.Instance.Debug("Received GetUserNameResponse: {@response}", response);
 
-            _userName = response.UserName;
+            _userName = response.Value;
 
             return _userName;
         }
@@ -193,7 +193,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Logger.Instance.Error("Received output for unknown terminal Id {id}", terminalId);
                     }
                     break;
-                case TerminalExitedRequest.Identifier:
+                case (byte) MessageIdentifiers.TerminalExitedRequest:
                     var request = JsonConvert.DeserializeObject<TerminalExitedRequest>((string)messageContent);
                     Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 

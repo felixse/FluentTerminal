@@ -2,8 +2,6 @@
 {
     public class GetUserNameRequest : IMessage
     {
-        public const byte Identifier = 3;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.GetUserNameRequest;
     }
 }

@@ -2,9 +2,7 @@
 {
     public class ResizeTerminalRequest : IMessage
     {
-        public const byte Identifier = 4;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.ResizeTerminalRequest;
 
         public byte TerminalId { get; set; }
 

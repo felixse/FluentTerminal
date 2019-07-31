@@ -102,6 +102,8 @@ namespace FluentTerminal.App.ViewModels
                 profile.Location = null;
                 profile.Arguments = null;
 
+                profile.Name = null;
+
                 return;
             }
 
@@ -300,13 +302,6 @@ namespace FluentTerminal.App.ViewModels
             {
                 commandItem.SetFilter(filter, words);
             }
-
-            //if (string.IsNullOrEmpty(filter))
-            //{
-            //    Commands = new ObservableCollection<CommandItemViewModel>(_allCommands);
-
-            //    return;
-            //}
 
             var index = 0;
 
