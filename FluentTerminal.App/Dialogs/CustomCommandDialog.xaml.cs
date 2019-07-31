@@ -158,8 +158,7 @@ namespace FluentTerminal.App.Dialogs
 
                 if (executedCommand != null)
                 {
-                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ShellProfile.Clone(),
-                        executedCommand.IsProfile);
+                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ShellProfile.Clone());
                 }
             }
         }

@@ -31,8 +31,6 @@ namespace FluentTerminal.App.ViewModels
 
         private string _oldFilter;
 
-        private bool _isProfile;
-
         #endregion Fields
 
         #region Properties
@@ -100,8 +98,6 @@ namespace FluentTerminal.App.ViewModels
 
                 profile.Name = null;
 
-                _isProfile = false;
-
                 return;
             }
 
@@ -126,12 +122,8 @@ namespace FluentTerminal.App.ViewModels
 
                 Command = existingProfile.Name;
 
-                _isProfile = true;
-
                 return;
             }
-
-            _isProfile = false;
 
             var match = CommandValidationRx.Match(command);
 
@@ -158,10 +150,8 @@ namespace FluentTerminal.App.ViewModels
 
             var command = _command?.Trim() ?? string.Empty;
 
-            _isProfile = !string.IsNullOrEmpty(command) &&
-                         _allProfiles.Any(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase));
-
-            if (_isProfile)
+            if (!string.IsNullOrEmpty(command) &&
+                _allProfiles.Any(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase)))
             {
                 // It's a saved profile
                 return null;
@@ -200,11 +190,9 @@ namespace FluentTerminal.App.ViewModels
             return base.HasChanges() || !_command.NullableEqualTo(Model.Name);
         }
 
-        public void SetProfile(ShellProfile profile, bool isProfile)
+        public void SetProfile(ShellProfile profile)
         {
             Model = profile;
-
-            _isProfile = isProfile;
 
             LoadFromProfile(Model);
         }
@@ -342,6 +330,9 @@ namespace FluentTerminal.App.ViewModels
         {
             var key = GetHash(Model.Name);
 
+            var isProfile =
+                _allProfiles.Any(p => string.Equals(p.Name, Model.Name, StringComparison.OrdinalIgnoreCase));
+
             var command = _historyContainer.TryGetValue(key, out var cmd)
                 ? (ExecutedCommand) cmd
                 : new ExecutedCommand {ExecutionCount = 0};
@@ -349,8 +340,8 @@ namespace FluentTerminal.App.ViewModels
             command.Value = Model.Name;
             command.ExecutionCount++;
             command.LastExecution = DateTime.UtcNow;
-            command.ShellProfile = _isProfile ? null : Model;
-            command.IsProfile = _isProfile;
+            command.ShellProfile = isProfile ? null : Model;
+            command.IsProfile = isProfile;
 
             _historyContainer.WriteValueAsJson(key, command);
         }
