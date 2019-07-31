@@ -15,5 +15,6 @@ namespace FluentTerminal.SystemTray.Services
         void Resize(TerminalSize size);
         void Write(byte[] data);
         void Start(CreateTerminalRequest request, TerminalsManager terminalsManager);
+        void Pause(bool value);
     }
 }

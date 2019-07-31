@@ -2,12 +2,14 @@
 using FluentTerminal.App.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using FluentTerminal.App.Services;
 
 namespace FluentTerminal.App.Views
 {
@@ -93,6 +95,37 @@ namespace FluentTerminal.App.Views
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarHeight)));
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(CoreTitleBarPadding)));
+            }
+        }
+
+        private async void TabView_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
+            {
+                await ViewModel.AddTerminalAsync(terminalViewModelState);
+            }
+        }
+
+        private void TabBar_TabDraggedOutside(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            var item = args.Items.FirstOrDefault();
+            if (item is TerminalViewModel model)
+            {
+                ViewModel.TearOffTab(model);
+            }
+        }
+
+        private void TabBar_TabDraggingCompleted(object sender, TerminalViewModel model)
+        {
+            int position = ViewModel.Terminals.IndexOf(model);
+            ViewModel.Terminals.Remove(model);
+            if (ViewModel.Terminals.Count > 0)
+            {
+                ViewModel.SelectedTerminal = ViewModel.Terminals[Math.Max(0, position - 1)];
+            }
+            else
+            {
+                ViewModel.ApplicationView.TryClose();
             }
         }
     }

@@ -14,6 +14,8 @@ namespace FluentTerminal.App.Services
 
         Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
 
+        Task<PauseTerminalOutputResponse> PauseTerminalOutput(byte id, bool pause);
+
         Task ResizeTerminal(byte id, TerminalSize size);
 
         Task UpdateToggleWindowKeyBindings();

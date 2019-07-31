@@ -141,6 +141,13 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler ActivatedMv;
 
+        public event EventHandler<TerminalViewModel> TabTearedOff;
+
+        public void TearOffTab(TerminalViewModel model)
+        {
+            TabTearedOff?.Invoke(this, model);
+        }
+
         public void FocusWindow()
         {
             ActivatedMv?.Invoke(this, EventArgs.Empty);
@@ -313,12 +320,12 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public Task AddTerminalAsync(ShellProfile profile)
+        public Task AddTerminalAsync(ShellProfile profile, string terminalState)
         {
             return ApplicationView.RunOnDispatcherThread(() =>
             {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService);
+                    _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService, terminalState);
 
                 terminal.Closed += OnTerminalClosed;
                 terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
@@ -327,6 +334,16 @@ namespace FluentTerminal.App.ViewModels
 
                 SelectedTerminal = terminal;
             });
+        }
+
+        public Task AddTerminalAsync(ShellProfile profile)
+        {
+            return AddTerminalAsync(profile, "");
+        }
+
+        public Task AddTerminalAsync(string terminalState)
+        {
+            return AddTerminalAsync(new ShellProfile(), terminalState);
         }
 
         private void Terminal_CustomTitleChanged(object sender, string e)

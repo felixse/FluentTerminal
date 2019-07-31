@@ -5,6 +5,7 @@ using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,6 +23,60 @@ namespace FluentTerminal.App.ViewModels
 
         #endregion Static
 
+        #region Serialize terminal state
+        private class TerminalState
+        {
+            public bool HasCustomTitle { get; set; }
+            public string ShellTitle { get; set; }
+            public string TabTitle { get; set; }
+            public TerminalTheme TerminalTheme { get; set; }
+            public TabTheme TabTheme { get; set; }
+            public bool ShowSearchPanel { get; set; }
+            public string SearchText { get; set; }
+            public string XtermBufferState { get; set; }
+            public byte TerminalId { get; set; }
+            public ShellProfile ShellProfile { get; set; }
+        }
+
+        public async Task<string> Serialize()
+        {
+            TerminalState state = new TerminalState
+            {
+                HasCustomTitle = _hasCustomTitle,
+                ShellTitle = ShellTitle,
+                TabTitle = TabTitle,
+                TerminalTheme = TerminalTheme,
+                TabTheme = TabTheme,
+                ShowSearchPanel = ShowSearchPanel,
+                SearchText = SearchText,
+                XtermBufferState = await SerializeXtermState(),
+                TerminalId = Terminal.Id,
+                ShellProfile = ShellProfile
+            };
+
+            return JsonConvert.SerializeObject(state);
+        }
+
+        public void Restore(string data)
+        {
+            TerminalState state = JsonConvert.DeserializeObject<TerminalState>(data);
+            if (state != null)
+            {
+                _hasCustomTitle = state.HasCustomTitle;
+                ShellTitle = state.ShellTitle;
+                TabTitle = state.TabTitle;
+                TerminalTheme = state.TerminalTheme;
+                TabTheme = state.TabTheme;
+                ShowSearchPanel = state.ShowSearchPanel;
+                SearchText = state.SearchText;
+                XtermBufferState = state.XtermBufferState;
+                _terminalId = state.TerminalId;
+                ShellProfile = state.ShellProfile;
+            }
+        }
+
+        #endregion Serialize terminal state
+
         private readonly IKeyboardCommandService _keyboardCommandService;
         private bool _isSelected;
         private bool _hasNewOutput;
@@ -34,10 +89,11 @@ namespace FluentTerminal.App.ViewModels
         private string _tabTitle;
         private string _shellTitle;
         private bool _hasCustomTitle;
+        private byte? _terminalId;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, string terminalState = null)
         {
             SettingsService = settingsService;
             SettingsService.CurrentThemeChanged += OnCurrentThemeChanged;
@@ -68,7 +124,12 @@ namespace FluentTerminal.App.ViewModels
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
             EditTitleCommand = new AsyncCommand(EditTitle);
 
-            Terminal = new Terminal(TrayProcessCommunicationService);
+            if (!String.IsNullOrEmpty(terminalState))
+            {
+                Restore(terminalState);
+            }
+
+            Terminal = new Terminal(TrayProcessCommunicationService, _terminalId);
             Terminal.KeyboardCommandReceived += Terminal_KeyboardCommandReceived;
             Terminal.OutputReceived += Terminal_OutputReceived;
             Terminal.SizeChanged += Terminal_SizeChanged;
@@ -105,6 +166,8 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public IClipboardService ClipboardService { get; }
+
+        public string XtermBufferState { get; private set; }
 
         public RelayCommand CloseCommand { get; }
 
@@ -166,7 +229,7 @@ namespace FluentTerminal.App.ViewModels
 
         public ISettingsService SettingsService { get; }
 
-        public ShellProfile ShellProfile { get; }
+        public ShellProfile ShellProfile { get; private set; }
 
         public bool ShowSearchPanel
         {
@@ -291,6 +354,13 @@ namespace FluentTerminal.App.ViewModels
         private void FindNext()
         {
             FindNextRequested?.Invoke(this, SearchText);
+        }
+
+        public ITerminalView TerminalView { get; set; }
+
+        public async Task<string> SerializeXtermState()
+        {
+            return await TerminalView?.SerializeXtermState();
         }
 
         private void FindPrevious()
