@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models.Enums;
@@ -569,18 +571,23 @@ namespace FluentTerminal.SystemTray
             }
         }
 
+        private static bool? MuteProcess(int id, bool mute, bool force = false)
+        {
+            bool? isAudioSessionMuted = VolumeControl.GetAudioSessionMute(id);
+            if (isAudioSessionMuted != null &&
+                (force || isAudioSessionMuted != mute))
+            {
+                VolumeControl.SetAudioSessionMute(id, mute);
+            }
+            return isAudioSessionMuted;
+        }
+
         private static bool MuteConhost(bool mute)
         {
             bool audioSessionFound = false;
             foreach (Process conhost in Process.GetProcessesByName("conhost"))
             {
-                bool? isAudioSessionMuted = VolumeControl.GetAudioSessionMute(conhost.Id);
-                if (isAudioSessionMuted != null && isAudioSessionMuted != mute)
-                {
-                    VolumeControl.SetAudioSessionMute(conhost.Id, mute);
-                    Logger.Instance.Debug($"Mute state for conhost process with id={conhost.Id} was set to {mute}.");
-                }
-
+                bool? isAudioSessionMuted = MuteProcess(conhost.Id, mute);
                 if (isAudioSessionMuted != null)
                 {
                     audioSessionFound = true;
@@ -589,15 +596,56 @@ namespace FluentTerminal.SystemTray
             return audioSessionFound;
         }
 
-        private static void SpawnConhostProcess()
+        private static void SpawnConhostProcess(bool mute)
         {
             Process cmdProcess = new Process();
             cmdProcess.StartInfo.FileName = "cmd.exe";
             cmdProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            cmdProcess.StartInfo.Arguments = "/k \x07";
-            cmdProcess.Start();
+            cmdProcess.StartInfo.Arguments = "/k timeout 1 && \x07";
+            if (cmdProcess.Start() == false)
+            {
+                Logger.Instance.Debug($"Can't start {cmdProcess.StartInfo.FileName} {cmdProcess.StartInfo.Arguments}");
+                return;
+            }
 
-            cmdProcess.WaitForExit(1500);
+            int conhostProcessId = 0;
+            while (conhostProcessId == 0 && !cmdProcess.HasExited)
+            {
+                foreach (Process conhost in Process.GetProcessesByName("conhost"))
+                {
+                    try
+                    {
+                        Process parent = ProcessUtils.ResolveParent(conhost.Id);
+                        if (parent != null && cmdProcess.Id == parent.Id)
+                        {
+                            conhostProcessId = conhost.Id;
+                            break;
+                        }
+                    }
+                    catch (Win32Exception e)
+                    {
+                        Logger.Instance.Debug($"Exception with message \"{e.Message}\" on " +
+                            $"getting process parent id for conhost process {conhost.Id}");
+                    }
+                }
+            }
+
+            if (conhostProcessId == 0)
+            {
+                Logger.Instance.Debug($"Can't find child conhost process");
+                return;
+            }
+            
+            bool? isMuted = null;
+            while (isMuted == null && !cmdProcess.HasExited)
+            {
+                isMuted = MuteProcess(conhostProcessId, true, true);
+            }
+
+            cmdProcess.WaitForExit(2000);
+            MuteProcess(conhostProcessId, mute);
+
+            cmdProcess.Kill();
         }
 
         internal static void MuteTerminal(bool mute)
@@ -609,9 +657,45 @@ namespace FluentTerminal.SystemTray
                 return;
             }
 
-            SpawnConhostProcess();
+            SpawnConhostProcess(mute);
 
             MuteConhost(mute);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ProcessUtils
+        {
+            // PROCESS_BASIC_INFORMATION fields start
+            internal IntPtr Reserved1;
+            internal IntPtr PebBaseAddress;
+            internal IntPtr Reserved2_0;
+            internal IntPtr Reserved2_1;
+            internal IntPtr UniqueProcessId;
+            internal IntPtr InheritedFromUniqueProcessId;
+            // PROCESS_BASIC_INFORMATION fields end
+
+            [DllImport("ntdll.dll")]
+            private static extern int NtQueryInformationProcess(IntPtr processHandle, int processInformationClass, ref ProcessUtils processInformation, int processInformationLength, out int returnLength);
+
+            public static Process ResolveParent(int processId)
+            {
+                Process process = Process.GetProcessById(processId);
+                ProcessUtils pbi = new ProcessUtils();
+                int result = NtQueryInformationProcess(process.Handle, 0, ref pbi, Marshal.SizeOf(pbi), out var returnLength);
+                if (result != 0)
+                {
+                    throw new Win32Exception(result);
+                }
+
+                try
+                {
+                    return Process.GetProcessById(pbi.InheritedFromUniqueProcessId.ToInt32());
+                }
+                catch (ArgumentException)
+                {
+                    return null;
+                }
+            }
         }
     }
 }
