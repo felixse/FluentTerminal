@@ -791,63 +791,63 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>New SSH Tab</value>
+    <value>新建 SSH 标签</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Info</value>
+    <value>SSH 信息</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>user</value>
+    <value>用户名</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>host</value>
+    <value>主机</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>port</value>
+    <value>端口</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Identity file path</value>
+    <value>SSH 认证文件路径</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
+    <value>浏览</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Use Mosh</value>
+    <value>使用 Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Advanced</value>
+    <value>高级</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh ports:</value>
+    <value>Mosh 端口</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Save Shortcut</value>
+    <value>保存快捷键</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Application needs to restart for this change to take effect.</value>
+    <value>应用需要重启才能让更改生效</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Invalid Input</value>
+    <value>非法输入</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Port cannot be 0.</value>
+    <value>端口不能为 0 </value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>User and host are mandatory fields.</value>
+    <value>用户名和主机是必填字段</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Username cannot be empty.</value>
+    <value>用户名不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host cannot be empty.</value>
+    <value>主机不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH port has to be greater than zero.</value>
+    <value>SSH 端口需大于 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh port cannot be zero.</value>
+    <value>Mosh 端口不能为 0 </value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh port range is invalid.</value>
+    <value>Mosh 端口范围无效</value>
   </data>
 </root>
