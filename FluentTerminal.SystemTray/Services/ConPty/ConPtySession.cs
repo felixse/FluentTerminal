@@ -11,6 +11,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         private TerminalsManager _terminalsManager;
         private Terminal _terminal;
         private bool _exited;
+        private bool _paused;
         private TerminalSize _terminalSize;
 
         public byte Id { get; private set; }
@@ -92,6 +93,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                         {
                             _terminalsManager.DisplayTerminalOutput(Id, read);
                         }
+
+                        while(_paused && !_exited)
+                        {
+                            await Task.Delay(50);
+                        }
                     }
                     while (!_exited);
                 }
@@ -101,6 +107,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         public void Write(byte[] data)
         {
             _terminal.WriteToPseudoConsole(data);
+        }
+
+        public void Pause(bool value)
+        {
+            _paused = value;
         }
 
         #region IDisposable Support

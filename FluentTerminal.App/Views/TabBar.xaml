@@ -47,10 +47,14 @@
                 x:Name="ListView"
                 AllowDrop="True"
                 Background="Transparent"
-                CanDragItems="True"
+                CanDragItems="true"
                 CanReorderItems="True"
                 ItemsSource="{x:Bind ItemsSource}"
-                SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
+                SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
+                DragEnter="ListView_DragEnter"
+                DragItemsStarting="ListView_DragItemsStarting"
+                DragItemsCompleted="ListView_DragItemsCompleted"
+                Drop="ListView_Drop">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TerminalViewModel">
                         <RelativePanel
@@ -218,11 +222,6 @@
                         </RelativePanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <ListView.Template>
-                    <ControlTemplate>
-                        <ItemsPresenter />
-                    </ControlTemplate>
-                </ListView.Template>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="MinWidth" Value="100" />
@@ -237,7 +236,7 @@
                         <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
                         <Setter Property="TabNavigation" Value="Local" />
                         <Setter Property="IsHoldingEnabled" Value="True" />
-                        <Setter Property="AllowDrop" Value="False" />
+                        <Setter Property="AllowDrop" Value="True" />
                         <Setter Property="UseSystemFocusVisuals" Value="True" />
                         <Setter Property="FocusVisualMargin" Value="0" />
                         <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />

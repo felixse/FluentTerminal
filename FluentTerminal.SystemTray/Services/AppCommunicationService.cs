@@ -128,6 +128,9 @@ namespace FluentTerminal.SystemTray.Services
                 case MessageIdentifiers.GetCommandPathRequest:
                     await GetCommandPathRequestHandler(args);
                     break;
+                case PauseTerminalOutputRequest.Identifier:
+                    await HandlePauseTerminalOutputRequest(args);
+                    break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
                     break;
@@ -258,6 +261,18 @@ namespace FluentTerminal.SystemTray.Services
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
             var request = JsonConvert.DeserializeObject<UpdateSettingsRequest>(messageContent);
             _settingsService.NotifyApplicationSettingsChanged(request.Settings);
+        }
+        
+        private async Task HandlePauseTerminalOutputRequest(AppServiceRequestReceivedEventArgs args)
+        {
+            var deferral = args.GetDeferral();
+            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var request = JsonConvert.DeserializeObject<PauseTerminalOutputRequest>(messageContent);
+            var response = _terminalsManager.PauseTermimal(request.Id, request.Pause);
+
+            await args.Request.SendResponseAsync(CreateMessage(response));
+
+            deferral.Complete();
         }
 
         private async Task HandleCheckFileExistsRequest(AppServiceRequestReceivedEventArgs args)

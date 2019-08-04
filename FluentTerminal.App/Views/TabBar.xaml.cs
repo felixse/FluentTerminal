@@ -1,8 +1,12 @@
-﻿using FluentTerminal.App.ViewModels;
+﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.ViewModels;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -112,5 +116,66 @@ namespace FluentTerminal.App.Views
             ScrollLeftButton.IsEnabled = ScrollViewer.HorizontalOffset > 0;
             ScrollRightButton.IsEnabled = ScrollViewer.HorizontalOffset < ScrollViewer.ScrollableWidth;
         }
+
+        #region Drag and drop support
+
+        private static bool _itemWasDropped;
+
+        public event DragEventHandler TabWindowChanged;
+        public event EventHandler<TerminalViewModel> TabDraggingCompleted;
+        public event TypedEventHandler<ListViewBase, DragItemsCompletedEventArgs> TabDraggedOutside;
+
+        private void ListView_DragEnter(object sender, DragEventArgs e)
+        {
+            Logger.Instance.Debug($"ListView_DragEnter.");
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.IsGlyphVisible = false;
+            e.DragUIOverride.Caption = "Drop tab here";
+        }
+
+        private async void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            _itemWasDropped = false;
+
+            Logger.Instance.Debug($"ListView_DragItemsStarting. e.Data.RequestedOperation: {e.Data.RequestedOperation}. Items count: {e.Items.Count}.");
+
+            var item = e.Items.FirstOrDefault();
+            if (item is TerminalViewModel model)
+            {
+                await model.TrayProcessCommunicationService.PauseTerminalOutput(model.Terminal.Id, true);
+                e.Data.Properties.Add(Constants.TerminalViewModelStateId, await model.Serialize());
+            }
+        }
+
+        private void ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            Logger.Instance.Debug($"ListView_DragItemsCompleted. Drop result: {args.DropResult}. Items count: {args.Items.Count}");
+
+            var item = args.Items.FirstOrDefault();
+            if (item is TerminalViewModel model)
+            {
+                if (ItemsSource.Count > 1 && !_itemWasDropped && args.DropResult == DataPackageOperation.None)
+                {
+                    TabDraggedOutside?.Invoke(sender, args);
+                    _itemWasDropped = true;
+                }
+
+                if (_itemWasDropped)
+                {
+                    TabDraggingCompleted?.Invoke(sender, model);
+                }
+
+                model.TrayProcessCommunicationService.PauseTerminalOutput(model.Terminal.Id, false);
+            }
+        }
+
+        private void ListView_Drop(object sender, DragEventArgs e)
+        {
+            Logger.Instance.Debug($"ListView_Drop. e.AcceptedOperation: {e.AcceptedOperation}.");
+            TabWindowChanged?.Invoke(sender, e);
+            _itemWasDropped = true;
+        }
+
+        #endregion Drag and drop support
     }
 }

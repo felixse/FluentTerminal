@@ -1,8 +1,7 @@
-﻿using FluentTerminal.App.ViewModels;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using System.Threading.Tasks;
 
-namespace FluentTerminal.App.Views
+namespace FluentTerminal.App.ViewModels
 {
     public interface ITerminalView
     {
@@ -13,5 +12,6 @@ namespace FluentTerminal.App.Views
         Task FindNext(string searchText);
         Task FindPrevious(string searchText);
         Task FocusTerminal();
+        Task<string> SerializeXtermState();
     }
 }
