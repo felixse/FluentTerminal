@@ -443,7 +443,8 @@ Fuzzy</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
     <value>Nothing</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
     <value>Paste</value>
@@ -791,12 +792,14 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>New SSH tab</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>SSH Info</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>user</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
     <value>host</value>
@@ -806,6 +809,7 @@ Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Identity file path</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
     <value>Browse</value>
@@ -821,30 +825,37 @@ Fuzzy</comment>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Save Shortcut</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Application needs to restart for this change to take effect.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Invalid Input</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>Port cannot be 0.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>User and host are mandatory fields.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Username cannot be empty.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>Host cannot be empty.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH port has to be greater than zero.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh port cannot be zero.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Mosh port range is invalid.</value>
@@ -963,5 +974,8 @@ Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>New quick tab</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found:</value>
   </data>
 </root>

@@ -209,7 +209,14 @@ namespace FluentTerminal.App.ViewModels
                     return null;
                 }
 
-                return $"{I18N.Translate("FileNotFound")} '{command}'";
+                var fileNotFound = I18N.Translate("FileNotFound");
+
+                if (string.IsNullOrWhiteSpace(fileNotFound))
+                {
+                    fileNotFound = "File not found:";
+                }
+
+                return $"{fileNotFound} '{command}'";
             }
 
             try
