@@ -240,12 +240,13 @@ namespace FluentTerminal.App.ViewModels.Profiles
             Initialize(profile);
         }
 
-        protected virtual void CopyToProfile(ShellProfile profile)
+        protected virtual Task CopyToProfileAsync(ShellProfile profile)
         {
             profile.LineEndingTranslation = _lineEndingTranslation;
             profile.UseConPty = _useConPty;
             profile.TerminalThemeId = _terminalThemeId;
             profile.TabThemeId = _tabThemeId;
+            return Task.CompletedTask;
         }
 
         public virtual Task<string> ValidateAsync()
@@ -280,7 +281,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             if (acceptIfInvalid || string.IsNullOrEmpty(error))
             {
-                CopyToProfile(Model);
+                await CopyToProfileAsync(Model);
             }
 
             return error;

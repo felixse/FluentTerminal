@@ -198,9 +198,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
             Initialize((SshProfile)profile);
         }
 
-        protected override void CopyToProfile(ShellProfile profile)
+        protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            base.CopyToProfile(profile);
+            await base.CopyToProfileAsync(profile);
 
             SshProfile sshProfile = (SshProfile) profile;
 

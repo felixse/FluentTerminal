@@ -88,9 +88,9 @@ namespace FluentTerminal.App.ViewModels
             Initialize(profile);
         }
 
-        protected override void CopyToProfile(ShellProfile profile)
+        protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            base.CopyToProfile(profile);
+            await base.CopyToProfileAsync(profile);
 
             var command = _command?.Trim();
 
@@ -133,7 +133,11 @@ namespace FluentTerminal.App.ViewModels
             if (!match.Success)
             {
                 // Should not happen ever because this method gets called only if validation succeeds.
-                throw new Exception("Invalid command.");
+                profile.Name = command;
+                profile.Location = null;
+                profile.Arguments = null;
+
+                return;
             }
 
             var cmd = match.Groups["cmd"].Value;
@@ -146,8 +150,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                profile.Location = _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value)
-                    .Result;
+                profile.Location = await _trayProcessCommunicationService.GetCommandPathAsync(cmd);
             }
 
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
@@ -217,7 +220,6 @@ namespace FluentTerminal.App.ViewModels
             {
                 return $"{I18N.Translate("UnsupportedCommand")} '{match.Groups["cmd"].Value}'. {e.Message}";
             }
-
 
             return null;
         }
