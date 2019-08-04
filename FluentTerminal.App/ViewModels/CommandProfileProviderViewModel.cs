@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -135,7 +136,20 @@ namespace FluentTerminal.App.ViewModels
                 throw new Exception("Invalid command.");
             }
 
-            profile.Location = _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value).Result;
+            var cmd = match.Groups["cmd"].Value;
+
+            if (cmd.Equals(Constants.MoshCommandName, StringComparison.OrdinalIgnoreCase) ||
+                cmd.Equals($"{Constants.MoshCommandName}.exe", StringComparison.OrdinalIgnoreCase) ||
+                cmd.Contains(Path.PathSeparator))
+            {
+                profile.Location = cmd;
+            }
+            else
+            {
+                profile.Location = _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value)
+                    .Result;
+            }
+
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
 
             profile.Name = command;
@@ -168,6 +182,33 @@ namespace FluentTerminal.App.ViewModels
                 return string.IsNullOrEmpty(error) ? "Invalid command." : error;
             }
 
+            command = match.Groups["cmd"].Value;
+
+            if (command.Equals(Constants.MoshCommandName, StringComparison.OrdinalIgnoreCase) ||
+                command.Equals($"{Constants.MoshCommandName}.exe", StringComparison.OrdinalIgnoreCase) ||
+                command.Equals(Constants.SshCommandName, StringComparison.OrdinalIgnoreCase) ||
+                command.Equals($"{Constants.SshCommandName}.exe", StringComparison.OrdinalIgnoreCase))
+            {
+                if (match.Groups["args"].Success)
+                {
+                    return null;
+                }
+
+                error = I18N.Translate("CommandArgumentsMandatory");
+
+                return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
+            }
+
+            if (command.Contains(Path.PathSeparator))
+            {
+                if (await _trayProcessCommunicationService.CheckFileExistsAsync(command))
+                {
+                    return null;
+                }
+
+                return $"{I18N.Translate("FileNotFound")} '{command}'";
+            }
+
             try
             {
                 var unused = await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value);
@@ -177,12 +218,6 @@ namespace FluentTerminal.App.ViewModels
                 return $"{I18N.Translate("UnsupportedCommand")} '{match.Groups["cmd"].Value}'. {e.Message}";
             }
 
-            //if (!match.Groups["args"].Success)
-            //{
-            //    error = I18N.Translate("CommandArgumentsMandatory");
-
-            //    return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
-            //}
 
             return null;
         }
