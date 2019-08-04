@@ -978,4 +978,7 @@ Fuzzy</comment>
   <data name="FileNotFound" xml:space="preserve">
     <value>File not found:</value>
   </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Invalid link.</value>
+  </data>
 </root>

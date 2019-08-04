@@ -13,5 +13,12 @@ namespace FluentTerminal.App.Services.Utilities
             var resourceLoader = ResourceLoader.GetForCurrentView();
             return resourceLoader.GetString(resource.Replace('.', '/'));
         }
+
+        public static string TranslateWithFallback(string resource, string fallback)
+        {
+            var result = Translate(resource);
+
+            return string.IsNullOrEmpty(result) ? fallback : result;
+        }
     }
 }

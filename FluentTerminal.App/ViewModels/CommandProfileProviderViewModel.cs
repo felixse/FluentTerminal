@@ -180,9 +180,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (!match.Success)
             {
-                error = I18N.Translate("InvalidCommand");
-
-                return string.IsNullOrEmpty(error) ? "Invalid command." : error;
+                return I18N.TranslateWithFallback("InvalidCommand", "Invalid command.");
             }
 
             command = match.Groups["cmd"].Value;
@@ -197,9 +195,7 @@ namespace FluentTerminal.App.ViewModels
                     return null;
                 }
 
-                error = I18N.Translate("CommandArgumentsMandatory");
-
-                return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
+                return I18N.TranslateWithFallback("CommandArgumentsMandatory", "Command arguments are missing.");
             }
 
             if (command.Contains(Path.PathSeparator))
@@ -209,14 +205,7 @@ namespace FluentTerminal.App.ViewModels
                     return null;
                 }
 
-                var fileNotFound = I18N.Translate("FileNotFound");
-
-                if (string.IsNullOrWhiteSpace(fileNotFound))
-                {
-                    fileNotFound = "File not found:";
-                }
-
-                return $"{fileNotFound} '{command}'";
+                return $"{I18N.TranslateWithFallback("FileNotFound", "File not found:")} '{command}'";
             }
 
             try
@@ -225,7 +214,8 @@ namespace FluentTerminal.App.ViewModels
             }
             catch (Exception e)
             {
-                return $"{I18N.Translate("UnsupportedCommand")} '{match.Groups["cmd"].Value}'. {e.Message}";
+                return
+                    $"{I18N.TranslateWithFallback("UnsupportedCommand", "Unsupported command:")} '{match.Groups["cmd"].Value}'. {e.Message}";
             }
 
             return null;
@@ -451,7 +441,6 @@ namespace FluentTerminal.App.ViewModels
         private const string CustomSshUriScheme = "ftcmd";
         private const string CustomUriHost = "fluent.terminal";
         private const string CustomCommandQueryStringName = "cmd";
-        private const string CustomArgumentsQueryStringName = "args";
 
         public static bool CheckScheme(Uri uri) => CustomSshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
@@ -480,12 +469,12 @@ namespace FluentTerminal.App.ViewModels
             var cmdParam = queryStringParams.FirstOrDefault(t =>
                 CustomCommandQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
 
-            var argsParam = queryStringParams.FirstOrDefault(t =>
-                CustomArgumentsQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
+            if (cmdParam == null)
+            {
+                throw new Exception(I18N.TranslateWithFallback("InvalidLink", "Invalid link."));
+            }
 
-            vm._command =
-                $"{(string.IsNullOrEmpty(cmdParam?.Item2) ? Constants.SshCommandName : cmdParam.Item2)} {argsParam?.Item2}"
-                    .Trim();
+            vm._command = cmdParam.Item2;
 
             vm.LoadBaseFromQueryString(queryStringParams);
 
@@ -494,21 +483,15 @@ namespace FluentTerminal.App.ViewModels
 
         public override async Task<Tuple<bool, string>> GetUrlAsync()
         {
-            var error = await base.ValidateAsync();
+            var error = await ValidateAsync();
+
             if (!string.IsNullOrEmpty(error))
             {
                 return Tuple.Create(false, error);
             }
 
-            var match = CommandValidationRx.Match(_command);
-            if (!match.Success)
-            {
-                error = I18N.Translate("InvalidCommand");
-                return Tuple.Create(false, string.IsNullOrEmpty(error) ? "Invalid command." : error);
-            }
-
             return Tuple.Create(true,
-                $"{CustomSshUriScheme}://{CustomUriHost}/?{CustomCommandQueryStringName}={Constants.SshCommandName}&{CustomArgumentsQueryStringName}={HttpUtility.UrlEncode(match.Groups["args"].Value.Trim())}&{GetBaseQueryString()}");
+                $"{CustomSshUriScheme}://{CustomUriHost}/?{CustomCommandQueryStringName}={HttpUtility.UrlEncode(_command)}&{GetBaseQueryString()}");
         }
 
         #endregion Links/shortcuts related

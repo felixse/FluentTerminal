@@ -196,7 +196,10 @@ namespace FluentTerminal.App
                 }
                 catch (Exception ex)
                 {
-                    await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+                    await new MessageDialog(
+                            $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                            "Invalid Link")
+                        .ShowAsync();
 
                     mainViewModel?.ApplicationView.TryClose();
 
@@ -215,7 +218,10 @@ namespace FluentTerminal.App
                     }
                     catch (Exception ex)
                     {
-                        await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+                        await new MessageDialog(
+                                $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                                "Invalid Link")
+                            .ShowAsync();
 
                         mainViewModel?.ApplicationView.TryClose();
 
@@ -265,7 +271,10 @@ namespace FluentTerminal.App
                     }
                     catch (Exception ex)
                     {
-                        await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+                        await new MessageDialog(
+                                $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                                "Invalid Link")
+                            .ShowAsync();
 
                         mainViewModel?.ApplicationView.TryClose();
 
@@ -298,7 +307,10 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                await new MessageDialog($"Invalid link: {protocolActivated.Uri}", "Invalid Link").ShowAsync();
+                await new MessageDialog(
+                        $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {protocolActivated.Uri}",
+                        "Invalid Link")
+                    .ShowAsync();
 
                 mainViewModel?.ApplicationView.TryClose();
 
