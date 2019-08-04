@@ -128,7 +128,7 @@ namespace FluentTerminal.SystemTray.Services
                 case MessageIdentifiers.GetCommandPathRequest:
                     await GetCommandPathRequestHandler(args);
                     break;
-                case PauseTerminalOutputRequest.Identifier:
+                case MessageIdentifiers.PauseTerminalOutputRequest:
                     await HandlePauseTerminalOutputRequest(args);
                     break;
                 default:

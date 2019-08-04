@@ -19,5 +19,7 @@
         MuteTerminalRequest = 15,
         UpdateSettingsRequest = 16,
         GetCommandPathRequest = 17,
+        PauseTerminalOutputRequest = 18,
+        PauseTerminalOutputResponse = 19,
     }
 }
