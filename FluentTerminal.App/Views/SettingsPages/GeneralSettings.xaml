@@ -109,12 +109,6 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    x:Uid="AlwaysShowTabs"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Always show tabs"
-                    IsOn="{x:Bind ViewModel.AlwaysShowTabs, Mode=TwoWay}" />
-
-                <ToggleSwitch
                     x:Uid="CustomTitle"
                     Margin="{StaticResource ItemMargin}"
                     Header="Show custom tab title also in titlebar"

@@ -121,10 +121,6 @@
     <value>关于</value>
     <comment>MainPage.xaml</comment>
   </data>
-  <data name="AlwaysShowTabs.Header" xml:space="preserve">
-    <value>始终显示标签栏</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Background.Content" xml:space="preserve">
     <value>背景色</value>
     <comment>GeneralSettings.xaml</comment>

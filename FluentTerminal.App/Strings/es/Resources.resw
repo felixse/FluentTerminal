@@ -121,10 +121,6 @@
     <value>Acerca de...</value>
     <comment>MainPage.xaml</comment>
   </data>
-  <data name="AlwaysShowTabs.Header" xml:space="preserve">
-    <value>Mostrar siempre las pestañas</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Fondo</value>
     <comment>GeneralSettings.xaml</comment>
