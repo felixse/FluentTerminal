@@ -14,6 +14,8 @@ namespace FluentTerminal.App.Services
 
         void Delete(string key);
 
+        void Clear();
+
         IEnumerable<object> GetAll();
     }
 }

@@ -199,7 +199,6 @@ namespace FluentTerminal.App.Dialogs
                     XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
                 };
 
-
                 candidate =
                     FocusManager.FindLastFocusableElement(this);
 

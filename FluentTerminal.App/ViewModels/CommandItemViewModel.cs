@@ -19,6 +19,10 @@ namespace FluentTerminal.App.ViewModels
 
         private string _lastFilter;
 
+        private List<string> _lastMatches;
+
+        private bool _lastMatchesStartsBold;
+
         #endregion Fields
 
         #region Properties
@@ -65,7 +69,7 @@ namespace FluentTerminal.App.ViewModels
 
             SimpleText = command.Value.Trim();
 
-            _commandWords = SimpleText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            _commandWords = SimpleText.SplitWords().Select(w => w.ToLowerInvariant()).ToArray();
 
             _commandWordIndices = new int[_commandWords.Length];
 
@@ -82,59 +86,243 @@ namespace FluentTerminal.App.ViewModels
                 idx += word.Length;
             }
 
-            CreateRichTextBlock(new List<string>{SimpleText}, false);
+            _lastMatches = new List<string> {SimpleText};
+
+            CalculateMatchPrivate(null);
+
+            ShowMatch(null, null);
         }
 
         #endregion Constructor
 
         #region Methods
 
-        private void CreateRichTextBlock(List<string> commandParts, bool firstIsBold)
+        internal void CalculateMatch(string trimmedFilter, string[] lowercaseFilterWords)
         {
-            var rtb = new RichTextBlock();
+            if (!trimmedFilter.NullableEqualTo(_lastFilter))
+            {
+                try
+                {
+                    CalculateMatchPrivate(lowercaseFilterWords);
 
-            rtb.Blocks.Add(GetBlock(commandParts, firstIsBold));
-
-            RichTextBlock = rtb;
+                    _lastFilter = trimmedFilter;
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
         }
 
-        private Block GetBlock(List<string> commandParts, bool firstIsBold)
+        /// <summary>
+        /// The purpose of this method is to find matches between filter words (<paramref name="lowercaseFilterWords"/>),
+        /// and the command words (<see cref="_commandWords"/>). I'm aware that the code is quite confusing, but it kinda
+        /// has to be...
+        /// </summary>
+        private void CalculateMatchPrivate(string[] lowercaseFilterWords)
         {
-            var emptyPart = commandParts.FirstOrDefault(string.IsNullOrWhiteSpace);
-
-            while (emptyPart != null)
+            if (lowercaseFilterWords == null || lowercaseFilterWords.Length < 1)
             {
-                int idx = commandParts.IndexOf(emptyPart);
+                _lastMatchesStartsBold = false;
 
-                commandParts.RemoveAt(idx);
+                _lastMatches = new List<string> { SimpleText };
 
-                if (idx > 0)
+                return;
+            }
+
+            var matchedPairs = new List<Tuple<int, int, int, int>>();
+            var multiOptionPairs = new Dictionary<int, List<Tuple<int, int, int, int>>>();
+
+            for (var i = 0; i < lowercaseFilterWords.Length; i++)
+            {
+                var word = lowercaseFilterWords[i];
+
+                Tuple<int, int, int, int> singleMatch = null;
+                List<Tuple<int, int, int, int>> multiMatches = null;
+
+                for (var j = 0; j < _commandWords.Length; j++)
                 {
-                    while (idx < commandParts.Count)
+                    if (matchedPairs.Any(p => p.Item1 == j))
                     {
-                        var part = commandParts[idx];
+                        // The word is occupied
+                        continue;
+                    }
 
-                        commandParts.RemoveAt(idx);
+                    var idx = _commandWords[j].IndexOf(word, StringComparison.Ordinal);
 
-                        emptyPart += part;
+                    if (idx < 0)
+                    {
+                        continue;
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(part))
+                    var match = Tuple.Create(j, i, idx, word.Length);
+
+                    if (singleMatch == null)
+                    {
+                        singleMatch = match;
+                    }
+                    else if (multiMatches == null)
+                    {
+                        multiMatches = new List<Tuple<int, int, int, int>> {singleMatch, match};
+                    }
+                    else
+                    {
+                        multiMatches.Add(match);
+                    }
+                }
+
+                if (singleMatch == null)
+                {
+                    _lastMatchesStartsBold = false;
+                    _lastMatches = null;
+
+                    return;
+                }
+
+                if (multiMatches == null)
+                {
+                    matchedPairs.Add(singleMatch);
+
+                    var toRemove = multiOptionPairs.Where(kvp =>
+                        kvp.Value.RemoveAll(p => p.Item1 == singleMatch.Item1) > 0 && kvp.Value.Count == 1).ToList();
+
+                    foreach (var remove in toRemove)
+                    {
+                        var newSingle = remove.Value[0];
+
+                        if (matchedPairs.Any(p => p.Item1 == newSingle.Item1))
                         {
-                            commandParts[idx - 1] += emptyPart;
+                            _lastMatchesStartsBold = false;
+                            _lastMatches = null;
 
-                            break;
+                            return;
+                        }
+
+                        matchedPairs.Add(newSingle);
+
+                        multiOptionPairs.Remove(remove.Key);
+                    }
+                }
+                else
+                {
+                    multiOptionPairs.Add(i, multiMatches);
+                }
+            }
+
+            if (multiOptionPairs.Any())
+            {
+                var byCommandWord = multiOptionPairs.SelectMany(kvp => kvp.Value).GroupBy(p => p.Item1)
+                    .ToDictionary(g => g.Key, g => g.OrderBy(p => p.Item2).ToList());
+
+                var newSingles = byCommandWord.Where(kvp => kvp.Value.Count == 1).Select(kvp => kvp.Value[0]).ToList();
+
+                while (newSingles.Count > 0)
+                {
+                    matchedPairs.AddRange(newSingles);
+
+                    foreach (var single in newSingles)
+                    {
+                        byCommandWord.Remove(single.Item1);
+                    }
+
+                    var newFilterWords = newSingles.Select(p => p.Item2).ToHashSet();
+
+                    newSingles.Clear();
+
+                    foreach (var kvp in byCommandWord)
+                    {
+                        var unsolvedWords = kvp.Value.Where(p => !newFilterWords.Contains(p.Item2)).ToList();
+
+                        if (unsolvedWords.Count < 2)
+                        {
+                            newSingles.Add(unsolvedWords.FirstOrDefault() ?? kvp.Value.First());
                         }
                     }
                 }
 
-                emptyPart = commandParts.FirstOrDefault(string.IsNullOrWhiteSpace);
+                //TODO: Finish this!!!
             }
 
+            var matches = new List<string>();
+
+            var next = 0;
+
+            var lastAddedBold = false;
+
+            foreach (var match in matchedPairs.OrderBy(p => p.Item1))
+            {
+                var start = _commandWordIndices[match.Item1] + match.Item3;
+
+                if (next == 0)
+                {
+                    _lastMatchesStartsBold = start == 0;
+                }
+
+                if (start > next)
+                {
+                    var regular = SimpleText.Substring(next, start - next);
+
+                    if (string.IsNullOrWhiteSpace(regular))
+                    {
+                        matches[matches.Count - 1] += regular;
+                    }
+                    else
+                    {
+                        matches.Add(regular);
+
+                        lastAddedBold = false;
+                    }
+                }
+
+                var bold = SimpleText.Substring(start, match.Item4);
+
+                if (lastAddedBold)
+                {
+                    matches[matches.Count - 1] += bold;
+                }
+                else
+                {
+                    matches.Add(bold);
+
+                    lastAddedBold = true;
+                }
+
+                next = start + match.Item4;
+            }
+
+            if (next < SimpleText.Length)
+            {
+                matches.Add(SimpleText.Substring(next));
+            }
+
+            _lastMatches = matches;
+        }
+
+        public void ShowMatch(string trimmedLowercaseFilter, string[] lowercaseFilterWords)
+        {
+            CalculateMatch(trimmedLowercaseFilter, lowercaseFilterWords);
+
+            if (!(_lastMatches?.Any() ?? false))
+            {
+                RichTextBlock = null;
+            }
+            else
+            {
+                var rtb = new RichTextBlock();
+
+                rtb.Blocks.Add(GetBlock());
+
+                RichTextBlock = rtb;
+            }
+        }
+
+        private Block GetBlock()
+        {
             var p = new Paragraph();
 
-            var isBold = firstIsBold;
+            var isBold = _lastMatchesStartsBold;
 
-            foreach (var part in commandParts)
+            foreach (var part in _lastMatches)
             {
                 var run = new Run { Text = part };
 
@@ -155,177 +343,6 @@ namespace FluentTerminal.App.ViewModels
             }
 
             return p;
-        }
-
-        public void SetFilter(string filter, string[] filterWords)
-        {
-            if (filter.NullableEqualTo(_lastFilter))
-            {
-                // The same filter as the last one, so nothing to do.
-                return;
-            }
-
-            _lastFilter = filter;
-
-            if (string.IsNullOrEmpty(filter))
-            {
-                CreateRichTextBlock(new List<string> { SimpleText }, false);
-
-                return;
-            }
-
-            var idx = SimpleText.IndexOf(filter, StringComparison.OrdinalIgnoreCase);
-
-            if (idx >= 0)
-            {
-                List<string> commandParts = idx == 0
-                    ? new List<string> {SimpleText.Substring(idx, filter.Length)}
-                    : new List<string> {SimpleText.Substring(0, idx), SimpleText.Substring(idx, filter.Length)};
-
-                if (idx + filter.Length < SimpleText.Length)
-                {
-                    commandParts.Add(SimpleText.Substring(idx + filter.Length));
-                }
-
-                CreateRichTextBlock(commandParts, idx == 0);
-
-                return;
-            }
-
-            if (filterWords.Any(w => !SimpleText.Contains(w, StringComparison.OrdinalIgnoreCase)))
-            {
-                // Word not found
-                RichTextBlock = null;
-
-                return;
-            }
-
-            var multiOptionPairs = new Dictionary<int, Dictionary<int, int>>();
-            var finalPairs = new Dictionary<int, Tuple<int, int>>();
-
-            for (int i = 0; i < filterWords.Length; i++)
-            {
-                var filterWord = filterWords[i];
-
-                int matchingWord = -1;
-                int matchingIndex = -1;
-
-                Dictionary<int, int> matchingWords = null;
-
-                for (int j = 0; j < _commandWords.Length; j++)
-                {
-                    if (finalPairs.ContainsKey(j))
-                    {
-                        // Word already used
-
-                        continue;
-                    }
-
-                    idx = _commandWords[j].IndexOf(filterWord, StringComparison.OrdinalIgnoreCase);
-
-                    if (idx < 0)
-                        continue;
-
-                    if (matchingWord < 0)
-                    {
-                        matchingWord = j;
-                        matchingIndex = idx + _commandWordIndices[j];
-                    }
-                    else if (matchingWords == null)
-                    {
-                        matchingWords = new Dictionary<int, int>
-                            {{matchingWord, matchingIndex}, {j, idx + _commandWordIndices[j]}};
-                    }
-                    else
-                    {
-                        matchingWords.Add(j, idx + _commandWordIndices[j]);
-                    }
-                }
-
-                if (matchingWord < 0)
-                {
-                    // No matching word
-                    RichTextBlock = null;
-
-                    return;
-                }
-
-                if (matchingWords == null)
-                {
-                    if (finalPairs.ContainsKey(matchingWord))
-                    {
-                        // Word already used
-                        RichTextBlock = null;
-
-                        return;
-                    }
-
-                    finalPairs.Add(matchingWord, Tuple.Create(i, matchingIndex));
-
-                    var newFinalPairs = multiOptionPairs
-                        .Where(kvp => kvp.Value.Remove(matchingWord) && kvp.Value.Count < 2).ToList();
-
-                    foreach (var newFinalPair in newFinalPairs)
-                    {
-                        if (finalPairs.ContainsKey(newFinalPair.Value.Keys.First()))
-                        {
-                            // Word already used
-                            RichTextBlock = null;
-
-                            return;
-                        }
-
-                        var kvp = newFinalPair.Value.First();
-
-                        finalPairs.Add(kvp.Key, Tuple.Create(newFinalPair.Key, kvp.Value));
-
-                        multiOptionPairs.Remove(newFinalPair.Key);
-                    }
-                }
-                else
-                {
-                    multiOptionPairs.Add(i, matchingWords);
-                }
-            }
-
-            if (multiOptionPairs.Any())
-            {
-                //TODO: Finish this!!!
-            }
-
-            {
-                List<string> commandParts = new List<string>();
-
-                var firstIsBold = false;
-
-                var processedTo = 0;
-
-                foreach (var kvp in finalPairs.OrderBy(p => p.Key))
-                {
-                    var start = kvp.Value.Item2;
-                    var length = filterWords[kvp.Value.Item1].Length;
-
-                    if (start == 0)
-                    {
-                        firstIsBold = true;
-                    }
-                    else if (processedTo < start)
-                    {
-                        commandParts.Add(SimpleText.Substring(processedTo, start - processedTo));
-                    }
-
-                    commandParts.Add(SimpleText.Substring(start, length));
-
-                    processedTo = start + length;
-                }
-
-                if (processedTo < SimpleText.Length)
-                {
-                    commandParts.Add(SimpleText.Substring(processedTo));
-                }
-
-                CreateRichTextBlock(commandParts, firstIsBold);
-            }
         }
 
         public override string ToString()

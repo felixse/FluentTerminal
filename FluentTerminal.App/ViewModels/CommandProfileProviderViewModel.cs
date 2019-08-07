@@ -32,7 +32,13 @@ namespace FluentTerminal.App.ViewModels
 
         private List<CommandItemViewModel> _allCommands;
 
-        private string _oldFilter;
+        private string _processedFilter;
+
+        private string _scheduledFilter;
+
+        private readonly object _filteringLock = new object();
+
+        private bool _filterLoopRunning;
 
         #endregion Fields
 
@@ -271,10 +277,32 @@ namespace FluentTerminal.App.ViewModels
 
         private void FillCommandHistory()
         {
-            var savedCommands = _historyContainer.GetAll()
-                .Select(c => JsonConvert.DeserializeObject<ExecutedCommand>((string)c)).ToList();
+            List<ExecutedCommand> savedCommands = null;
 
-            _allProfiles = SettingsService.GetShellProfiles().Union(SettingsService.GetSshProfiles()).ToList();
+            bool validHistory;
+
+            try
+            {
+                savedCommands = _historyContainer.GetAll()
+                    .Select(c => JsonConvert.DeserializeObject<ExecutedCommand>((string) c)).ToList();
+
+                validHistory = savedCommands.All(c => !string.IsNullOrEmpty(c.Value));
+            }
+            catch
+            {
+                validHistory = false;
+            }
+
+            if (!validHistory)
+            {
+                // Invalid history - saved by previous dev version, so delete it
+                _historyContainer.Clear();
+
+                savedCommands = new List<ExecutedCommand>();
+            }
+
+            _allProfiles = SettingsService.GetShellProfiles().Union(SettingsService.GetSshProfiles())
+                .Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
 
             var counter = 0;
 
@@ -338,46 +366,106 @@ namespace FluentTerminal.App.ViewModels
 
         public void SetFilter(string filter)
         {
-            if (filter.NullableEqualTo(_oldFilter, StringComparison.OrdinalIgnoreCase))
+            filter = filter?.Trim().ToLowerInvariant() ?? string.Empty;
+
+            lock (_filteringLock)
             {
-                return;
-            }
+                _scheduledFilter = filter;
 
-            var toCheck = !string.IsNullOrEmpty(_oldFilter) && filter.Contains(_oldFilter, StringComparison.OrdinalIgnoreCase)
-                ? (IEnumerable<CommandItemViewModel>) Commands
-                : _allCommands;
-
-            _oldFilter = filter;
-
-            var words = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var commandItem in toCheck)
-            {
-                commandItem.SetFilter(filter, words);
-            }
-
-            var index = 0;
-
-            foreach (var commandItem in _allCommands)
-            {
-                if (commandItem.IsMatch)
+                if (!_filterLoopRunning)
                 {
-                    if (Commands.Count <= index)
-                    {
-                        Commands.Add(commandItem);
-                    }
-                    else if (!ReferenceEquals(commandItem, Commands[index]))
-                    {
-                        Commands.Insert(index, commandItem);
-                    }
+                    _filterLoopRunning = true;
 
-                    index++;
-                }
-                else if (Commands.Count > index && ReferenceEquals(commandItem, Commands[index]))
-                {
-                    Commands.RemoveAt(index);
+                    var unused = FilteringLoop();
                 }
             }
+        }
+
+        private async Task FilteringLoop()
+        {
+            while (true)
+            {
+                string filter;
+                bool containsPrevious;
+
+                lock (_filteringLock)
+                {
+                    filter = _scheduledFilter;
+
+                    _scheduledFilter = null;
+
+                    if (filter == null || filter.NullableEqualTo(_processedFilter))
+                    {
+                        _filterLoopRunning = false;
+
+                        return;
+                    }
+
+                    containsPrevious = !string.IsNullOrEmpty(_processedFilter) &&
+                                       filter.Contains(_processedFilter, StringComparison.Ordinal);
+
+                    _processedFilter = filter;
+                }
+
+                try
+                {
+                    await SetFilterAsync(filter, containsPrevious);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+        }
+
+        private Task SetFilterAsync(string filter, bool containsPrevious)
+        {
+            var toCheck = containsPrevious ? (ICollection<CommandItemViewModel>) Commands : _allCommands;
+
+            var words = filter.SplitWords().ToArray();
+
+            if (toCheck.Count > 1 && toCheck.Count * words.Length > 3)
+            {
+                Parallel.ForEach(toCheck, cmd => cmd.CalculateMatch(filter, words));
+            }
+            else
+            {
+                foreach (var command in toCheck)
+                {
+                    command.CalculateMatch(filter, words);
+                }
+            }
+
+            return ApplicationView.RunOnDispatcherThread(() => {
+
+                foreach (var command in toCheck)
+                {
+                    command.ShowMatch(filter, null);
+                }
+
+                var index = 0;
+
+                foreach (var commandItem in _allCommands)
+                {
+                    if (commandItem.IsMatch)
+                    {
+                        if (Commands.Count <= index)
+                        {
+                            Commands.Add(commandItem);
+                        }
+                        else if (!ReferenceEquals(commandItem, Commands[index]))
+                        {
+                            Commands.Insert(index, commandItem);
+                        }
+
+                        index++;
+                    }
+                    else if (Commands.Count > index && ReferenceEquals(commandItem, Commands[index]))
+                    {
+                        Commands.RemoveAt(index);
+                    }
+                }
+            }, false);
         }
 
         public void SaveToHistory()
