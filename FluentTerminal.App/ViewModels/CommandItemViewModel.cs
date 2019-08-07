@@ -212,35 +212,53 @@ namespace FluentTerminal.App.ViewModels
             if (multiOptionPairs.Any())
             {
                 var byCommandWord = multiOptionPairs.SelectMany(kvp => kvp.Value).GroupBy(p => p.Item1)
-                    .ToDictionary(g => g.Key, g => g.OrderBy(p => p.Item2).ToList());
+                    .Select(g => g.ToList()).ToList();
 
-                var newSingles = byCommandWord.Where(kvp => kvp.Value.Count == 1).Select(kvp => kvp.Value[0]).ToList();
+                var newSingles = byCommandWord.Where(l => l.Count == 1).Select(l => l[0]).ToList();
 
-                while (newSingles.Count > 0)
+                byCommandWord.RemoveAll(l => l.Count < 2);
+
+                while (newSingles.Any())
                 {
                     matchedPairs.AddRange(newSingles);
 
-                    foreach (var single in newSingles)
-                    {
-                        byCommandWord.Remove(single.Item1);
-                    }
-
-                    var newFilterWords = newSingles.Select(p => p.Item2).ToHashSet();
-
                     newSingles.Clear();
 
-                    foreach (var kvp in byCommandWord)
+                    for (var i = 0; i < byCommandWord.Count; i++)
                     {
-                        var unsolvedWords = kvp.Value.Where(p => !newFilterWords.Contains(p.Item2)).ToList();
+                        var list = byCommandWord[i];
+
+                        var unsolvedWords = list.Where(p => newSingles.All(s => s.Item2 != p.Item2)).ToList();
 
                         if (unsolvedWords.Count < 2)
                         {
-                            newSingles.Add(unsolvedWords.FirstOrDefault() ?? kvp.Value.First());
+                            newSingles.Add(unsolvedWords.FirstOrDefault() ?? list.First());
+
+                            byCommandWord.RemoveAt(i);
+
+                            i--;
+                        }
+                        else if (unsolvedWords.Count < list.Count)
+                        {
+                            byCommandWord[i] = unsolvedWords;
                         }
                     }
                 }
 
-                //TODO: Finish this!!!
+                if (byCommandWord.Any())
+                {
+                    newSingles = Flatten(byCommandWord);
+
+                    if (newSingles == null)
+                    {
+                        _lastMatchesStartsBold = false;
+                        _lastMatches = null;
+
+                        return;
+                    }
+
+                    matchedPairs.AddRange(newSingles);
+                }
             }
 
             var matches = new List<string>();
@@ -296,6 +314,44 @@ namespace FluentTerminal.App.ViewModels
             }
 
             _lastMatches = matches;
+        }
+
+        private List<Tuple<int, int, int, int>> Flatten(List<List<Tuple<int, int, int, int>>> multi,
+            List<Tuple<int, int, int, int>> previous = null)
+        {
+            if (previous == null)
+            {
+                previous = new List<Tuple<int, int, int, int>>();
+            }
+            else if (previous.Count == multi.Count)
+            {
+                return previous;
+            }
+
+            var unsolved = multi[previous.Count].Where(p => previous.All(prev => prev.Item2 != p.Item2)).ToList();
+
+            if (unsolved.Count < 2)
+            {
+                previous.Add(unsolved.FirstOrDefault() ?? multi[previous.Count].First());
+
+                return Flatten(multi, previous);
+            }
+
+            foreach (var pair in unsolved)
+            {
+                previous.Add(pair);
+
+                var result = Flatten(multi, previous);
+
+                if (result != null)
+                {
+                    return result;
+                }
+
+                previous.Remove(pair);
+            }
+
+            return null;
         }
 
         public void ShowMatch(string trimmedLowercaseFilter, string[] lowercaseFilterWords)
