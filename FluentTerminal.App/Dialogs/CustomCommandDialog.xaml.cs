@@ -191,45 +191,26 @@ namespace FluentTerminal.App.Dialogs
             }
             else
             {
-                DependencyObject candidate = null;
+                // TODO: Try to find a better way to handle [Enter] on auto-complete field.
+                // Weird way to move the focus to the primary button...
 
-                var options = new FindNextElementOptions()
+                if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
+                    !secondaryButton.Name.Equals("SecondaryButton"))
+                {
+                    return;
+                }
+
+                secondaryButton.Focus(FocusState.Programmatic);
+
+                var options = new FindNextElementOptions
                 {
                     SearchRoot = this,
                     XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
                 };
 
-                candidate =
-                    FocusManager.FindLastFocusableElement(this);
-
-                if (candidate != null && candidate is Control)
+                if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
                 {
-                    if (((Control) candidate).Name == "SecondaryButton")
-                    {
-                        ((Control) candidate).Focus(FocusState.Keyboard);
-
-                        candidate =
-                            FocusManager.FindNextElement(FocusNavigationDirection.Left, options);
-
-                        if (candidate != null && candidate is Control)
-                        {
-                            if (((Control) candidate).Name == "PrimaryButton")
-                            {
-                                ((Control) candidate).Focus(FocusState.Keyboard);
-
-                                //var key = Key.A;                    // Key to send  
-                                //var routedEvent = Keyboard.KeyDownEvent; // Event to send
-                                //myText.RaiseEvent(
-                                //    new KeyEventArgs(
-                                //            Keyboard.PrimaryDevice,
-                                //            PresentationSource.FromVisual(myText),
-                                //            0,
-                                //            key)
-                                //        { RoutedEvent = routedEvent }
-                                //);
-                            }
-                        }
-                    }
+                    primaryButton.Focus(FocusState.Programmatic);
                 }
             }
         }
