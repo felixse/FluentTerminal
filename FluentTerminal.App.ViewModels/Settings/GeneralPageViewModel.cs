@@ -63,20 +63,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             SetStartupTaskPropertiesForStatus(startupTaskStatus);
         }
 
-        public bool AlwaysShowTabs
-        {
-            get => _applicationSettings.AlwaysShowTabs;
-            set
-            {
-                if (_applicationSettings.AlwaysShowTabs != value)
-                {
-                    _applicationSettings.AlwaysShowTabs = value;
-                    _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         public bool ShowCustomTitleInTitlebar
         {
             get => _applicationSettings.ShowCustomTitleInTitlebar;
@@ -401,7 +387,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 UnderlineSelectedTab = defaults.UnderlineSelectedTab;
                 InactiveTabColorMode = defaults.InactiveTabColorMode;
                 NewTerminalLocation = defaults.NewTerminalLocation;
-                AlwaysShowTabs = defaults.AlwaysShowTabs;
                 ShowNewOutputIndicator = defaults.ShowNewOutputIndicator;
                 EnableTrayIcon = defaults.EnableTrayIcon;
                 ShowCustomTitleInTitlebar = defaults.ShowCustomTitleInTitlebar;

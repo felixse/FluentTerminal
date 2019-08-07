@@ -174,12 +174,12 @@ namespace FluentTerminal.App.ViewModels
 
         public bool ShowTabsOnTop
         {
-            get => TabsPosition == TabsPosition.Top && (Terminals.Count > 1 || _applicationSettings.AlwaysShowTabs);
+            get => TabsPosition == TabsPosition.Top;
         }
 
         public bool ShowTabsOnBottom
         {
-            get => TabsPosition == TabsPosition.Bottom && (Terminals.Count > 1 || _applicationSettings.AlwaysShowTabs);
+            get => TabsPosition == TabsPosition.Bottom;
         }
 
         public string Background

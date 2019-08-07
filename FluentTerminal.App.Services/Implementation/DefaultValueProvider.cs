@@ -32,7 +32,6 @@ namespace FluentTerminal.App.Services.Implementation
                 CopyOnSelect = false,
                 MouseMiddleClickAction = MouseAction.None,
                 MouseRightClickAction = MouseAction.ContextMenu,
-                AlwaysShowTabs = true,
                 ShowNewOutputIndicator = false,
                 EnableTrayIcon = true,
                 ShowCustomTitleInTitlebar = true,
