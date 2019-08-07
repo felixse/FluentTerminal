@@ -749,7 +749,7 @@ Fuzzy</comment>
     <value>切换窗口</value>
     <comment>Command</comment>
   </data>
-  <data name="NewRemoteTab.Text" xml:space="preserve">
+  <data name="NewSshTab.Text" xml:space="preserve">
     <value>新建远程标签页</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
