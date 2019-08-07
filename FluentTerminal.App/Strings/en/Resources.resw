@@ -121,10 +121,6 @@
     <value>About</value>
     <comment>MainPage.xaml</comment>
   </data>
-  <data name="AlwaysShowTabs.Header" xml:space="preserve">
-    <value>Always show tabs</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Background</value>
     <comment>GeneralSettings.xaml</comment>
@@ -951,7 +947,7 @@ Fuzzy</comment>
     <value>Mute terminal beeps</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Command</value>

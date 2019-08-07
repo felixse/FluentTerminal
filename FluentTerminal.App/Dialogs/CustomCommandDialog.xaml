@@ -34,7 +34,7 @@
                         QuerySubmitted="CommandTextBox_OnQuerySubmitted"
                         PreviewKeyUp="CommandTextBox_OnPreviewKeyUp"
                         QueryIcon="Find" 
-                        PlaceholderText="SSH command (e.g. 'ssh username@host')" 
+                        PlaceholderText="Enter a command (e.g. 'ssh username@host')" 
                         Text="{Binding Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         KeyUp="CommandTextBox_OnKeyUp"
                         Margin="0 8 2 0" 
