@@ -121,10 +121,6 @@
     <value>Über</value>
     <comment>MainPage.xaml</comment>
   </data>
-  <data name="AlwaysShowTabs.Header" xml:space="preserve">
-    <value>Tableiste immer anzeigen</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Hintergrund</value>
     <comment>GeneralSettings.xaml</comment>
@@ -373,7 +369,8 @@ Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
     <value>Nicht anpassen</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
     <value>Bearbeiten</value>
@@ -433,7 +430,8 @@ Fuzzy</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
     <value>Keine</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
     <value>Einfügen</value>
@@ -525,15 +523,18 @@ Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
     <value>Zeilenenden zu CR konvertieren</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
     <value>Zeilenenden zu CR+LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
     <value>Zeilenenden zu LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>Arbeitsverzeichnis</value>
@@ -666,7 +667,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
     <value>Neuer Tab</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>Neues Fenster</value>
@@ -753,12 +755,14 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Neuer SSH-Tab</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>SSH Informationen</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>Benutzer</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
     <value>Host</value>
@@ -768,6 +772,7 @@ Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Pfad zur Identitätsdatei</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
     <value>Durchsuchen</value>
@@ -783,30 +788,37 @@ Fuzzy</comment>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Verknüpfung speichern</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Neustart benötigt um vollständig angewandt zu werden.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Ungültige Eingabe</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>Port darf nicht 0 sein.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>Benutzer und Host sind erfordert.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Benutzer darf nicht leer sein.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>Host darf nicht leer sein.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH-Port muss größer als 0 sein.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh-Port darf nicht 0 sein.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Ungültiger Mosh-Port-Spanne</value>
@@ -921,5 +933,14 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>New quick launch window</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>New quick tab</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Invalid link.</value>
   </data>
 </root>
