@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.ViewModels;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -121,7 +122,7 @@ namespace FluentTerminal.App.Views
 
         private static bool _itemWasDropped;
 
-        public event DragEventHandler TabWindowChanged;
+        public event EventHandler<NewTabRequestedEventArgs> TabWindowChanged;
         public event EventHandler<TerminalViewModel> TabDraggingCompleted;
         public event TypedEventHandler<ListViewBase, DragItemsCompletedEventArgs> TabDraggedOutside;
 
@@ -169,10 +170,45 @@ namespace FluentTerminal.App.Views
             }
         }
 
+        private double GetWidth(ListViewItem item)
+        {
+            return item.ActualWidth + item.Margin.Left + item.Margin.Right;
+        }
+
+        private int CalculateDropPosition(DragEventArgs e)
+        {
+            int index = 0;
+            Point position = e.GetPosition(ListView.ItemsPanelRoot);
+            for (int i = 0, posInParent = 0; i < ListView.Items.Count; ++i)
+            {
+                ListViewItem item = (ListViewItem)ListView.ContainerFromIndex(i);
+                int itemWidth = (int)GetWidth(item);
+                if (posInParent + itemWidth > position.X)
+                {
+                    index = i;
+                    break;
+                }
+                else
+                {
+                    posInParent += itemWidth;
+                }
+            }
+
+            ListViewItem targetItem = (ListViewItem)ListView.ContainerFromIndex(index);
+            Point posInItem = e.GetPosition(targetItem);
+            if (posInItem.X > GetWidth(targetItem) / 2)
+            {
+                index++;
+            }
+            return index;
+        }
+
         private void ListView_Drop(object sender, DragEventArgs e)
         {
             Logger.Instance.Debug($"ListView_Drop. e.AcceptedOperation: {e.AcceptedOperation}.");
-            TabWindowChanged?.Invoke(sender, e);
+            int dropIndex = CalculateDropPosition(e);
+            Logger.Instance.Debug($"Tab dropped to index: {dropIndex}.");
+            TabWindowChanged?.Invoke(sender, new NewTabRequestedEventArgs { DragEventArgs = e, Position = dropIndex });
             _itemWasDropped = true;
         }
 

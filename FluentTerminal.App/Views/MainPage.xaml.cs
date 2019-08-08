@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.EventArgs;
 
 namespace FluentTerminal.App.Views
 {
@@ -98,11 +99,11 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private async void TabView_Drop(object sender, DragEventArgs e)
+        private async void TabView_Drop(object sender, NewTabRequestedEventArgs e)
         {
-            if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
+            if (e.DragEventArgs.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
             {
-                await ViewModel.AddTerminalAsync(terminalViewModelState);
+                await ViewModel.AddTerminalAsync(terminalViewModelState, e.Position);
             }
         }
 
