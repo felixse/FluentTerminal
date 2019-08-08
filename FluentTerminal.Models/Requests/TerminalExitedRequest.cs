@@ -2,9 +2,7 @@
 {
     public class TerminalExitedRequest : IMessage
     {
-        public const byte Identifier = 7;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.TerminalExitedRequest;
 
         public byte TerminalId { get; set; }
         public int ExitCode { get; set; }

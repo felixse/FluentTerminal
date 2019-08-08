@@ -439,7 +439,8 @@ Fuzzy</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
     <value>Nothing</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
     <value>Paste</value>
@@ -782,17 +783,19 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>New SSH tab</value>
+    <value>New remote tab</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>New SSH tab</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>SSH Info</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>user</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
     <value>host</value>
@@ -802,6 +805,7 @@ Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Identity file path</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
     <value>Browse</value>
@@ -817,30 +821,37 @@ Fuzzy</comment>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Save Shortcut</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Application needs to restart for this change to take effect.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Invalid Input</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>Port cannot be 0.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>User and host are mandatory fields.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Username cannot be empty.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>Host cannot be empty.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH port has to be greater than zero.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh port cannot be zero.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Mosh port range is invalid.</value>
@@ -935,11 +946,8 @@ Fuzzy</comment>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Mute terminal beeps</value>
   </data>
-  <data name="UseCommandInput.Content" xml:space="preserve">
-    <value>Use quick SSH</value>
-  </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Command</value>
@@ -949,5 +957,24 @@ Fuzzy</comment>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
     <value>Command arguments are missing.</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>Quick Launch</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>New quick launch tab</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>New quick launch window</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>New quick tab</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Invalid link.</value>
   </data>
 </root>

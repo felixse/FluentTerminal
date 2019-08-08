@@ -23,7 +23,7 @@ namespace FluentTerminal.App.Services.Test
         public void ShowCreateKeyBindingDialog_Default_UsesCreateKeyBindingDialog()
         {
             var createKeyBindingDialog = new Mock<ICreateKeyBindingDialog>();
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, () => createKeyBindingDialog.Object, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, () => createKeyBindingDialog.Object, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             dialogService.ShowCreateKeyBindingDialog();
 
@@ -36,7 +36,7 @@ namespace FluentTerminal.App.Services.Test
             var title = string.Empty;
             var content = _fixture.Create<string>();
             var buttons = _fixture.CreateMany<DialogButton>(2);
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
@@ -49,7 +49,7 @@ namespace FluentTerminal.App.Services.Test
             var title = _fixture.Create<string>();
             var content = string.Empty;
             var buttons = _fixture.CreateMany<DialogButton>(2);
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
@@ -61,7 +61,7 @@ namespace FluentTerminal.App.Services.Test
         {
             var title = _fixture.Create<string>();
             var content = _fixture.Create<string>();
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content);
 
@@ -75,7 +75,7 @@ namespace FluentTerminal.App.Services.Test
             var content = _fixture.Create<string>();
             var buttons = _fixture.CreateMany<DialogButton>(2);
             var messageDialog = new Mock<IMessageDialog>();
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, () => messageDialog.Object, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, () => messageDialog.Object, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
@@ -86,7 +86,7 @@ namespace FluentTerminal.App.Services.Test
         public void ShowProfileSelectionDialogAsync_Default_UsesShellProfileSelectionDialog()
         {
             var shellProfileSelectionDialog = new Mock<IShellProfileSelectionDialog>();
-            var dialogService = new DialogService(() => shellProfileSelectionDialog.Object, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(() => shellProfileSelectionDialog.Object, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             dialogService.ShowProfileSelectionDialogAsync();
 
@@ -98,7 +98,7 @@ namespace FluentTerminal.App.Services.Test
         {
             var title = "title";
             var inputDialog = new Mock<IInputDialog>();            
-            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, () => inputDialog.Object, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ISshProfileSelectionDialog>);
+            var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, () => inputDialog.Object, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<ISshProfileSelectionDialog>);
 
             dialogService.ShowInputDialogAsync(title);
 

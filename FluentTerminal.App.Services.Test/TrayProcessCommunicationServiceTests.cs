@@ -70,7 +70,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == ResizeTerminalRequest.Identifier)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == (byte)MessageIdentifiers.ResizeTerminalRequest)), Times.Once);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace FluentTerminal.App.Services.Test
 
             await trayProcessCommunicationService.CloseTerminal(terminalId);
 
-            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == TerminalExitedRequest.Identifier)), Times.Once);
+            appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == (byte)MessageIdentifiers.TerminalExitedRequest)), Times.Once);
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace FluentTerminal.App.Services.Test
 
             var message = new ValueSet
             {
-                [MessageKeys.Type] = TerminalExitedRequest.Identifier,
+                [MessageKeys.Type] = (byte) MessageIdentifiers.TerminalExitedRequest,
                 [MessageKeys.Content] = JsonConvert.SerializeObject(request)
             };
             var settingsService = new Mock<ISettingsService>();

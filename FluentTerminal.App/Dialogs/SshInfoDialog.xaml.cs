@@ -23,17 +23,14 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly IFileSystemService _fileSystemService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly IApplicationDataContainer _historyContainer;
 
         public SshInfoDialog(ISettingsService settingsService, IApplicationView applicationView,
-            IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService,
-            ApplicationDataContainers containers)
+            IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _applicationView = applicationView;
             _fileSystemService = fileSystemService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            _historyContainer = containers.HistoryContainer;
 
             InitializeComponent();
 
@@ -48,11 +45,7 @@ namespace FluentTerminal.App.Dialogs
         {
             SshConnectViewModel vm = (SshConnectViewModel) DataContext;
 
-            if (vm.CommandInput)
-            {
-                CommandTextBox.Focus(FocusState.Programmatic);
-            }
-            else if (string.IsNullOrEmpty(vm.Username))
+            if (string.IsNullOrEmpty(vm.Username))
             {
                 UserTextBox.Focus(FocusState.Programmatic);
             }
@@ -70,7 +63,7 @@ namespace FluentTerminal.App.Dialogs
         {
             SshConnectViewModel vm = (SshConnectViewModel) DataContext;
 
-            if (!vm.CommandInput && string.IsNullOrEmpty(vm.Username))
+            if (string.IsNullOrEmpty(vm.Username))
             {
                 vm.Username = await _trayProcessCommunicationService.GetUserName();
             }
@@ -107,12 +100,13 @@ namespace FluentTerminal.App.Dialogs
 
             var content = ProfileProviderViewModelBase.GetShortcutFileContent(link.Item2);
 
-            FileSavePicker savePicker = new FileSavePicker {SuggestedStartLocation = PickerLocationId.Desktop};
-
-            if (!vm.CommandInput)
+            FileSavePicker savePicker = new FileSavePicker
             {
-                savePicker.SuggestedFileName = string.IsNullOrEmpty(vm.Username) ? $"{vm.Host}.url" : $"{vm.Username}@{vm.Host}.url";
-            }
+                SuggestedStartLocation = PickerLocationId.Desktop,
+                SuggestedFileName = string.IsNullOrEmpty(vm.Username)
+                    ? $"{vm.Host}.url"
+                    : $"{vm.Username}@{vm.Host}.url"
+            };
 
             savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
 
@@ -157,7 +151,7 @@ namespace FluentTerminal.App.Dialogs
         public async Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null)
         {
             var vm = new SshConnectViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
-                _fileSystemService, _historyContainer, input);
+                _fileSystemService, input);
 
             DataContext = vm;
 
@@ -166,14 +160,7 @@ namespace FluentTerminal.App.Dialogs
                 return null;
             }
 
-            var profile = (SshProfile) vm.Model;
-
-            if (vm.CommandInput)
-            {
-                vm.SaveCommand(profile.Location, profile.Arguments);
-            }
-
-            return profile;
+            return (SshProfile)vm.Model;
         }
     }
 }

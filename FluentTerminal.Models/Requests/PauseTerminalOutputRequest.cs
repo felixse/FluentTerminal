@@ -2,9 +2,7 @@
 {
     public class PauseTerminalOutputRequest : IMessage
     {
-        public const byte Identifier = 16;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.PauseTerminalOutputRequest;
 
         public bool Pause { get; set; }
 

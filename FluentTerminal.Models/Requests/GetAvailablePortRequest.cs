@@ -2,8 +2,6 @@
 {
     public class GetAvailablePortRequest : IMessage
     {
-        public const byte Identifier = 2;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.GetAvailablePortRequest;
     }
 }

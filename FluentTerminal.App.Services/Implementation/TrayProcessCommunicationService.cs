@@ -52,13 +52,13 @@ namespace FluentTerminal.App.Services.Implementation
                 return _userName;
             }
 
-            GetUserNameResponse response;
+            StringValueResponse response;
 
             // No need to crash for username, so try/catch
             try
             {
                 var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(new GetUserNameRequest()));
-                response = JsonConvert.DeserializeObject<GetUserNameResponse>((string)responseMessage[MessageKeys.Content]);
+                response = JsonConvert.DeserializeObject<StringValueResponse>((string)responseMessage[MessageKeys.Content]);
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             Logger.Instance.Debug("Received GetUserNameResponse: {@response}", response);
 
-            _userName = response.UserName;
+            _userName = response.Value;
 
             return _userName;
         }
@@ -205,7 +205,7 @@ namespace FluentTerminal.App.Services.Implementation
                         Logger.Instance.Error("Received output for unknown terminal Id {id}", terminalId);
                     }
                     break;
-                case TerminalExitedRequest.Identifier:
+                case (byte) MessageIdentifiers.TerminalExitedRequest:
                     var request = JsonConvert.DeserializeObject<TerminalExitedRequest>((string)messageContent);
                     Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
 
@@ -264,6 +264,49 @@ namespace FluentTerminal.App.Services.Implementation
             Logger.Instance.Debug("Sending TerminalExitedRequest: {@request}", request);
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+        }
+
+        private static readonly Dictionary<string, string> CommandPaths = new Dictionary<string, string>();
+
+        private static readonly Dictionary<string, string> CommandErrors = new Dictionary<string, string>();
+
+        public async Task<string> GetCommandPathAsync(string command)
+        {
+            if (string.IsNullOrWhiteSpace(command))
+            {
+                throw new ArgumentException("Input value is null or empty.", nameof(command));
+            }
+
+            command = command.Trim();
+
+            var commandLower = command.ToLowerInvariant();
+
+            if (CommandPaths.TryGetValue(commandLower, out var path))
+            {
+                return path;
+            }
+
+            if (CommandErrors.TryGetValue(commandLower, out var error))
+            {
+                throw new Exception(error);
+            }
+
+            var request = new GetCommandPathRequest {Command = command};
+
+            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
+            var response =
+                JsonConvert.DeserializeObject<StringValueResponse>((string) responseMessage[MessageKeys.Content]);
+
+            if (response.Success)
+            {
+                CommandPaths[commandLower] = response.Value;
+
+                return response.Value;
+            }
+
+            CommandErrors[commandLower] = response.Error;
+
+            throw new Exception(response.Error);
         }
 
         private ValueSet CreateMessage(IMessage content)

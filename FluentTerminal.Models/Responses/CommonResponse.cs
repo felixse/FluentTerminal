@@ -2,9 +2,7 @@
 {
     public class CommonResponse : IMessage
     {
-        public const byte Identifier = 8;
-
-        byte IMessage.Identifier => Identifier;
+        public virtual byte Identifier => (byte) MessageIdentifiers.CommonResponse;
 
         public bool Success { get; set; }
 

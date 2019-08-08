@@ -367,7 +367,8 @@
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
     <value>No modificar finales de línea</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
     <value>Editar</value>
@@ -427,7 +428,8 @@
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
     <value>Nada</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
     <value>Pegar</value>
@@ -519,15 +521,18 @@
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
     <value>Convertir final de línea a CR</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
     <value>Convertir final de línea a CR+LF</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
     <value>Convertir final de línea a LF</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>Directorio de trabajo</value>
@@ -659,7 +664,8 @@
   </data>
   <data name="Command.NewTab" xml:space="preserve">
     <value>Nueva pestaña</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>Nueva ventana</value>
@@ -746,12 +752,14 @@
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Nueva pestaña SSH</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>Información SSH</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>Usuario</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
     <value>Servidor</value>
@@ -761,6 +769,7 @@
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Ubicación de la entidad</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
     <value>Buscar</value>
@@ -776,30 +785,37 @@
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Guardar atajo</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>La aplicación necesita reiniciarse para que el cambio surta efecto.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Entrada inválida</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>El purto no puede ser 0.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>Usuario y servidor son campos obligatorios.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>El nombre de usuario no puede ser vacío.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>El servidor no puede ser vacío.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>El puerto de SSH tiene que ser mayor que 0.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Puerto de Mosh no puede ser 0.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Rango de puertos de Mosh no es válido.</value>
@@ -888,11 +904,8 @@
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Mute terminal beeps</value>
   </data>
-  <data name="UseCommandInput.Content" xml:space="preserve">
-    <value>Use quick SSH</value>
-  </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Command</value>
@@ -902,5 +915,23 @@
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
     <value>Command arguments are missing.</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>Quick Launch</value>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>New quick launch tab</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>New quick launch window</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>New quick tab</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Invalid link.</value>
   </data>
 </root>

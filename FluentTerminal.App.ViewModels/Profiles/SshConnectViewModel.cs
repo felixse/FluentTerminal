@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,11 +19,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
     public class SshConnectViewModel : ProfileProviderViewModelBase
     {
         #region Static
-
-        private static readonly Regex CommandValidationRx = new Regex(@"^(?<cmd>[^\s\.]+)(\.exe)?(\s+(?<args>\S.*))?$",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        private static readonly string[] AcceptableCommands = { Constants.SshCommandName };
 
         public static string GetErrorString(SshConnectionInfoValidationResult result, string separator = "; ") =>
             string.Join(separator, GetErrors(result));
@@ -52,9 +46,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly IFileSystemService _fileSystemService;
-        private readonly IApplicationDataContainer _historyContainer;
-
-        private bool _commandInputOriginal;
 
         // To prevent validating the existence of the same file multiple times because it's kinda expensive
         private string _validatedIdentityFile;
@@ -62,34 +53,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         #endregion Fields
 
         #region Properties
-
-        private bool _commandInput;
-
-        public bool CommandInput
-        {
-            get => _commandInput;
-            set
-            {
-                if (Set(ref _commandInput, value) && _useMosh)
-                {
-                    RaisePropertyChanged(nameof(MoshVisible));
-                }
-            }
-        }
-
-        #region Quick SSH properties
-
-        private string _command;
-
-        public string Command
-        {
-            get => _command;
-            set => Set(ref _command, value);
-        }
-
-        #endregion Quick SSH properties
-
-        #region Full UI properties
 
         private string _host;
 
@@ -128,13 +91,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public bool UseMosh
         {
             get => _useMosh;
-            set
-            {
-                if (Set(ref _useMosh, value) && !_commandInput)
-                {
-                    RaisePropertyChanged(nameof(MoshVisible));
-                }
-            }
+            set => Set(ref _useMosh, value);
         }
 
         private ushort _moshPortFrom;
@@ -153,12 +110,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
             set => Set(ref _moshPortTo, value);
         }
 
-        #endregion Full UI properties
-
-        public bool MoshVisible => _useMosh && !_commandInput;
-
-        public ObservableCollection<string> CommandHistory { get; private set; }
-
         #endregion Properties
 
         #region Commands
@@ -167,66 +118,28 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         #endregion Commands
 
-        #region Constructors
+        #region Constructor
 
         public SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
-            IApplicationDataContainer historyContainer, SshProfile original = null) : base(settingsService, applicationView,
+            SshProfile original = null) : base(settingsService, applicationView,
             original ?? new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault })
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;
-            _historyContainer = historyContainer;
-
-            if (string.IsNullOrEmpty(Model.Location))
-            {
-                _commandInput = settingsService.GetApplicationSettings().UseQuickSshConnectByDefault;
-            }
-            else if (string.IsNullOrEmpty(((SshProfile)Model).Host))
-            {
-                _commandInput = true;
-            }
-            else
-            {
-                _commandInput = false;
-            }
-
-            _commandInputOriginal = _commandInput;
-
-            FillCommandHistory();
 
             Initialize((SshProfile)Model);
 
             BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
         }
 
-        private SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
-            IApplicationDataContainer historyContainer, bool useCommandInput) : base(settingsService, applicationView,
-            new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault })
-        {
-            _trayProcessCommunicationService = trayProcessCommunicationService;
-            _fileSystemService = fileSystemService;
-            _historyContainer = historyContainer;
-            _commandInput = useCommandInput;
-            _commandInputOriginal = useCommandInput;
-
-            FillCommandHistory();
-
-            Initialize((SshProfile)Model);
-
-            BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
-        }
-
-        #endregion Constructors
+        #endregion Constructor
 
         #region Methods
 
         // Fills the view model properties from the input sshProfile
         private void Initialize(SshProfile sshProfile)
         {
-            Command = string.IsNullOrEmpty(sshProfile.Location) ? string.Empty : $"{sshProfile.Location} {sshProfile.Arguments}";
-
             Host = sshProfile.Host;
             SshPort = sshProfile.SshPort;
 
@@ -282,29 +195,15 @@ namespace FluentTerminal.App.ViewModels.Profiles
         {
             base.LoadFromProfile(profile);
 
-            CommandInput = _commandInputOriginal;
-
             Initialize((SshProfile)profile);
         }
 
-        protected override void CopyToProfile(ShellProfile profile)
+        protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            base.CopyToProfile(profile);
+            await base.CopyToProfileAsync(profile);
 
-            _commandInputOriginal = _commandInput;
+            SshProfile sshProfile = (SshProfile) profile;
 
-            if (_commandInput)
-            {
-                CopyToProfileQuick((SshProfile)profile);
-            }
-            else
-            {
-                CopyToProfileFull((SshProfile)profile);
-            }
-        }
-
-        private void CopyToProfileFull(SshProfile sshProfile)
-        {
             sshProfile.Location = _useMosh ? Constants.MoshCommandName : Constants.SshCommandName;
             sshProfile.Arguments = GetArgumentsString();
 
@@ -319,46 +218,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             sshProfile.MoshPortTo = _moshPortTo;
         }
 
-        private void CopyToProfileQuick(SshProfile sshProfile)
-        {
-            var command = _command?.Trim();
-
-            if (string.IsNullOrEmpty(command))
-            {
-                sshProfile.Location = null;
-                sshProfile.Arguments = null;
-
-                return;
-            }
-
-            var match = CommandValidationRx.Match(command);
-
-            if (!match.Success)
-            {
-                // Should not happen ever because this method gets called only if validation succeeds.
-                throw new Exception("Invalid command.");
-            }
-
-            sshProfile.Location = match.Groups["cmd"].Value;
-            sshProfile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
-
-            sshProfile.WorkingDirectory = null;
-
-            sshProfile.Host = null;
-            sshProfile.SshPort = 0;
-            sshProfile.Username = null;
-            sshProfile.IdentityFile = null;
-            sshProfile.UseMosh = false;
-            sshProfile.MoshPortFrom = 0;
-            sshProfile.MoshPortTo = 0;
-        }
-
-        public override Task<string> ValidateAsync()
-        {
-            return _commandInput ? ValidateQuickAsync() : ValidateFullAsync();
-        }
-
-        private async Task<string> ValidateFullAsync()
+        public override async Task<string> ValidateAsync()
         {
             var error = await base.ValidateAsync();
 
@@ -384,56 +244,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             return error;
         }
 
-        private async Task<string> ValidateQuickAsync()
-        {
-            var error = await base.ValidateAsync();
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                return error;
-            }
-
-            var match = CommandValidationRx.Match(_command?.Trim() ?? string.Empty);
-
-            if (!match.Success)
-            {
-                error = I18N.Translate("InvalidCommand");
-
-                return string.IsNullOrEmpty(error) ? "Invalid command." : error;
-            }
-
-            if (!AcceptableCommands.Any(c => c.Equals(match.Groups["cmd"].Value, StringComparison.OrdinalIgnoreCase)))
-            {
-                error = I18N.Translate("UnsupportedCommand");
-
-                return string.IsNullOrEmpty(error)
-                    ? $"Unsupported command: {match.Groups["cmd"]}."
-                    : $"{error} {match.Groups["cmd"]}";
-            }
-
-            if (!match.Groups["args"].Success)
-            {
-                error = I18N.Translate("CommandArgumentsMandatory");
-
-                return string.IsNullOrEmpty(error) ? "Command arguments are missing." : error;
-            }
-
-            return null;
-        }
-
         public override bool HasChanges()
         {
-            // ReSharper disable once ArrangeRedundantParentheses
-            if (base.HasChanges() || (_commandInput != _commandInputOriginal))
-            {
-                return true;
-            }
-
-            if (_commandInput)
-            {
-                return !_command.NullableEqualTo($"{Model.Location} {Model.Arguments}");
-            }
-
             var original = (SshProfile)Model;
 
             return base.HasChanges() || !original.Host.NullableEqualTo(_host) || original.SshPort != _sshPort ||
@@ -533,63 +345,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         #endregion Methods
 
-        #region Command history
-
-        private const string ExecutedCommandsKey = "ExecutedCommands";
-        private const int CommandHistoryLimit = 20;
-
-        private void FillCommandHistory()
-        {
-            var commands = _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null)
-                ?.ExecutedCommands;
-
-            CommandHistory = commands == null
-                ? new ObservableCollection<string>()
-                : new ObservableCollection<string>(commands.Select(c => $"{c.Command} {c.Args}"));
-        }
-
-        public void SaveCommand(string cmd, string args)
-        {
-            cmd = cmd?.Trim();
-
-            if (string.IsNullOrEmpty(cmd))
-            {
-                throw new ArgumentNullException(nameof(cmd));
-            }
-
-            var commandHistory =
-                _historyContainer.ReadValueFromJson<ExecutedCommandHistory>(ExecutedCommandsKey, null) ??
-                new ExecutedCommandHistory { ExecutedCommands = new List<ExecutedCommand>() };
-
-            var command = commandHistory.ExecutedCommands.FirstOrDefault(c =>
-                string.Equals(cmd, c.Command, StringComparison.Ordinal) && args.NullableEqualTo(c.Args));
-
-            if (command == null)
-            {
-                command = new ExecutedCommand
-                { Command = cmd, Args = args, ExecutionCount = 1, LastExecution = DateTime.UtcNow };
-            }
-            else
-            {
-                command.ExecutionCount++;
-
-                command.LastExecution = DateTime.UtcNow;
-
-                commandHistory.ExecutedCommands.Remove(command);
-            }
-
-            commandHistory.ExecutedCommands.Insert(0, command);
-
-            while (commandHistory.ExecutedCommands.Count > CommandHistoryLimit)
-            {
-                commandHistory.ExecutedCommands.RemoveAt(CommandHistoryLimit);
-            }
-
-            _historyContainer.WriteValueAsJson(ExecutedCommandsKey, commandHistory);
-        }
-
-        #endregion Command history
-
         #region Links/shortcuts related
 
         // Resources:
@@ -599,11 +354,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private const string SshUriScheme = "ssh";
         private const string MoshUriScheme = "mosh";
 
-        private const string CustomSshUriScheme = "sshft";
-        private const string CustomUriHost = "fluent.terminal";
-        private const string CustomCommandQueryStringName = "cmd";
-        private const string CustomArgumentsQueryStringName = "args";
-
         // Constant derived from https://man.openbsd.org/ssh
         private const string IdentityFileOptionName = "IdentityFile";
 
@@ -612,41 +362,16 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private static readonly Regex MoshRangeRx =
             new Regex(@"^(?<from>\d{1,5})[:-](?<to>\d{1,5})$", RegexOptions.Compiled);
 
-        public static bool CheckScheme(Uri uri) => CheckSchemeStandard(uri) || CheckSchemeCustom(uri);
-
-        private static bool CheckSchemeStandard(Uri uri) =>
+        public static bool CheckScheme(Uri uri) =>
             SshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase) ||
             MoshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
-
-        private static bool CheckSchemeCustom(Uri uri) =>
-            CustomSshUriScheme.Equals(uri?.Scheme, StringComparison.OrdinalIgnoreCase);
 
         public static SshConnectViewModel ParseUri(Uri uri, ISettingsService settingsService,
             IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
             IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
         {
-            if (CheckSchemeStandard(uri))
-            {
-                return ParseUriStandard(uri, settingsService, applicationView, trayProcessCommunicationService,
-                    fileSystemService, historyContainer);
-            }
-
-            if (CheckSchemeCustom(uri))
-            {
-                return ParseUriCustom(uri, settingsService, applicationView, trayProcessCommunicationService,
-                    fileSystemService, historyContainer);
-            }
-
-            // Won't happen ever
-            throw new Exception($"Unsupported URI scheme: {uri.Scheme}");
-        }
-
-        private static SshConnectViewModel ParseUriStandard(Uri uri, ISettingsService settingsService,
-            IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
-            IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
-        {
             var vm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, historyContainer, false)
+                fileSystemService)
             {
                 Host = uri.Host,
                 UseMosh = MoshUriScheme.Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase)
@@ -708,49 +433,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             return vm;
         }
 
-        private static SshConnectViewModel ParseUriCustom(Uri uri, ISettingsService settingsService,
-            IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
-            IFileSystemService fileSystemService, IApplicationDataContainer historyContainer)
-        {
-            var vm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, historyContainer, true);
-
-            // ReSharper disable once ConstantConditionalAccessQualifier
-            string queryString = uri.Query?.Trim();
-
-            if (string.IsNullOrEmpty(queryString))
-            {
-                return vm;
-            }
-
-            if (queryString.StartsWith("?", StringComparison.Ordinal))
-            {
-                queryString = queryString.Substring(1);
-            }
-
-            var queryStringParams = ParseParams(queryString, '&').ToList();
-
-            var cmdParam = queryStringParams.FirstOrDefault(t =>
-                CustomCommandQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
-
-            var argsParam = queryStringParams.FirstOrDefault(t =>
-                CustomArgumentsQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
-
-            vm._command =
-                $"{(string.IsNullOrEmpty(cmdParam?.Item2) ? Constants.SshCommandName : cmdParam.Item2)} {argsParam?.Item2}"
-                    .Trim();
-
-            vm.LoadBaseFromQueryString(queryStringParams);
-
-            return vm;
-        }
-
-        public override Task<Tuple<bool, string>> GetUrlAsync()
-        {
-            return _commandInput ? GetUrlQuickAsync() : GetUrlFullAsync();
-        }
-
-        private async Task<Tuple<bool, string>> GetUrlFullAsync()
+        public override async Task<Tuple<bool, string>> GetUrlAsync()
         {
             var error = await base.ValidateAsync();
 
@@ -831,28 +514,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }
 
             return Tuple.Create(true, sb.ToString());
-        }
-
-        private async Task<Tuple<bool, string>> GetUrlQuickAsync()
-        {
-            var error = await base.ValidateAsync();
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                return Tuple.Create(false, error);
-            }
-
-            var match = CommandValidationRx.Match(_command);
-
-            if (!match.Success)
-            {
-                error = I18N.Translate("InvalidCommand");
-
-                return Tuple.Create(false, string.IsNullOrEmpty(error) ? "Invalid command." : error);
-            }
-
-            return Tuple.Create(true,
-                $"{CustomSshUriScheme}://{CustomUriHost}/?{CustomCommandQueryStringName}={Constants.SshCommandName}&{CustomArgumentsQueryStringName}={HttpUtility.UrlEncode(match.Groups["args"].Value.Trim())}&{GetBaseQueryString()}");
         }
 
         #endregion Links/shortcuts related

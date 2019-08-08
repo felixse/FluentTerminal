@@ -88,9 +88,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
             Initialize(profile);
         }
 
-        protected override void CopyToProfile(ShellProfile profile)
+        protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            base.CopyToProfile(profile);
+            await base.CopyToProfileAsync(profile);
 
             profile.Location = _location;
             profile.Arguments = _arguments;

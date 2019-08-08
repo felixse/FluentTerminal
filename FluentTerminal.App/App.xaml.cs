@@ -98,6 +98,7 @@ namespace FluentTerminal.App
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
             builder.RegisterType<SshInfoDialog>().As<ISshConnectionInfoDialog>().InstancePerDependency();
+            builder.RegisterType<CustomCommandDialog>().As<ICustomCommandDialog>().InstancePerDependency();
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
@@ -195,7 +196,10 @@ namespace FluentTerminal.App
                 }
                 catch (Exception ex)
                 {
-                    await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+                    await new MessageDialog(
+                            $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                            "Invalid Link")
+                        .ShowAsync();
 
                     mainViewModel?.ApplicationView.TryClose();
 
@@ -214,15 +218,17 @@ namespace FluentTerminal.App
                     }
                     catch (Exception ex)
                     {
-                        await new MessageDialog($"Invalid link: {ex.Message}", "Invalid Link").ShowAsync();
+                        await new MessageDialog(
+                                $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                                "Invalid Link")
+                            .ShowAsync();
 
                         mainViewModel?.ApplicationView.TryClose();
 
                         return;
                     }
 
-                    if (!vm.CommandInput && _applicationSettings.AutoFallbackToWindowsUsernameInLinks &&
-                        string.IsNullOrEmpty(vm.Username))
+                    if (_applicationSettings.AutoFallbackToWindowsUsernameInLinks && string.IsNullOrEmpty(vm.Username))
                     {
                         vm.Username = await _trayProcessCommunicationService.GetUserName();
                     }
@@ -253,7 +259,58 @@ namespace FluentTerminal.App
                     return;
                 }
 
-                await new MessageDialog($"Invalid link: {protocolActivated.Uri}", "Invalid Link").ShowAsync();
+                if (CommandProfileProviderViewModel.CheckScheme(protocolActivated.Uri))
+                {
+                    CommandProfileProviderViewModel vm;
+
+                    try
+                    {
+                        vm = CommandProfileProviderViewModel.ParseUri(protocolActivated.Uri, _settingsService,
+                            applicationView, _trayProcessCommunicationService,
+                            _container.Resolve<ApplicationDataContainers>().HistoryContainer);
+                    }
+                    catch (Exception ex)
+                    {
+                        await new MessageDialog(
+                                $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {ex.Message}",
+                                "Invalid Link")
+                            .ShowAsync();
+
+                        mainViewModel?.ApplicationView.TryClose();
+
+                        return;
+                    }
+
+                    var error = await vm.AcceptChangesAsync(true);
+
+                    var profile = vm.Model;
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        // Link is valid, but incomplete, so we need to show dialog.
+                        profile = await _dialogService.ShowCustomCommandDialogAsync(profile);
+
+                        if (profile == null)
+                        {
+                            // User clicked "Cancel" in the dialog.
+                            mainViewModel?.ApplicationView.TryClose();
+
+                            return;
+                        }
+                    }
+
+                    if (mainViewModel == null)
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                    else
+                        await mainViewModel.AddTerminalAsync(profile);
+
+                    return;
+                }
+
+                await new MessageDialog(
+                        $"{I18N.TranslateWithFallback("InvalidLink", "Invalid link.")} {protocolActivated.Uri}",
+                        "Invalid Link")
+                    .ShowAsync();
 
                 mainViewModel?.ApplicationView.TryClose();
 
@@ -571,6 +628,14 @@ namespace FluentTerminal.App
                     break;
                 case NewWindowAction.ShowSshProfileSelection:
                     profile = await _dialogService.ShowSshProfileSelectionDialogAsync();
+                    if (profile == null)
+                    {
+                        // Nothing to do if user cancels.
+                        return;
+                    }
+                    break;
+                case NewWindowAction.ShowCustomCommandDialog:
+                    profile = await _dialogService.ShowCustomCommandDialogAsync();
                     if (profile == null)
                     {
                         // Nothing to do if user cancels.

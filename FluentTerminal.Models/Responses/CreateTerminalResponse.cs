@@ -2,9 +2,7 @@
 {
     public class CreateTerminalResponse : TerminalResponse, IMessage
     {
-        public const byte Identifier = 9;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.CreateTerminalResponse;
 
         public string ShellExecutableName { get; set; }
     }

@@ -20,6 +20,11 @@ namespace FluentTerminal.App.Services.Adapters
             _applicationDataContainer.Values.Remove(key);
         }
 
+        public void Clear()
+        {
+            _applicationDataContainer.Values.Clear();
+        }
+
         public IEnumerable<object> GetAll()
         {
             return _applicationDataContainer.Values.Select(x => x.Value);

@@ -19,7 +19,7 @@ namespace FluentTerminal.App.ViewModels
             isNew)
         {
             ProfileVm = new SshConnectViewModel(settingsService, applicationView, trayProcessCommunicationService,
-                fileSystemService, historyContainer, sshProfile);
+                fileSystemService, sshProfile);
         }
 
         #endregion Constructor

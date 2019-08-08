@@ -12,11 +12,13 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
         private readonly Func<IInputDialog> _inputDialogFactory;
         private readonly Func<ISshConnectionInfoDialog> _sshConnectionInfoDialogFactory;
+        private readonly Func<ICustomCommandDialog> _customCommandDialogFactory;
         private readonly Func<ISshProfileSelectionDialog> _sshProfileSelectionDialogFactory;
 
         public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory,
             Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory,
             Func<IInputDialog> inputDialogFactory, Func<ISshConnectionInfoDialog> sshConnectionInfoDialogFactory,
+            Func<ICustomCommandDialog> customCommandDialogFactory,
             Func<ISshProfileSelectionDialog> sshProfileSelectionDialogFactory)
         {
             _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
@@ -24,6 +26,7 @@ namespace FluentTerminal.App.Services.Implementation
             _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
             _inputDialogFactory = inputDialogFactory;
             _sshConnectionInfoDialogFactory = sshConnectionInfoDialogFactory;
+            _customCommandDialogFactory = customCommandDialogFactory;
             _sshProfileSelectionDialogFactory = sshProfileSelectionDialogFactory;
         }
 
@@ -80,6 +83,9 @@ namespace FluentTerminal.App.Services.Implementation
 
         public Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null) =>
             _sshConnectionInfoDialogFactory().GetSshConnectionInfoAsync(input);
+
+        public Task<ShellProfile> ShowCustomCommandDialogAsync(ShellProfile input = null) =>
+            _customCommandDialogFactory().GetCustomCommandAsync(input);
 
         public Task<SshProfile> ShowSshProfileSelectionDialogAsync()
         {

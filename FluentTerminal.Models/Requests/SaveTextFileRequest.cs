@@ -2,9 +2,7 @@
 {
     public class SaveTextFileRequest : IMessage
     {
-        public const byte Identifier = 5;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.SaveTextFileRequest;
 
         public string Path { get; set; }
 

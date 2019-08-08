@@ -503,37 +503,20 @@ namespace FluentTerminal.SystemTray
 
         public static string ResolveLocation(string location)
         {
-            switch (location?.ToLower())
+            if (string.IsNullOrWhiteSpace(location))
             {
-                case Constants.SshCommandName:
-                    return GetSshPath();
-                case Constants.MoshCommandName:
-                    return GetMoshPath();
-                default:
-                    return location;
-            }
-        }
-
-        private static string GetSshPath()
-        {
-            //
-            // See https://stackoverflow.com/a/25919981
-            //
-
-            string path;
-
-            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-            {
-                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Sysnative");
-            }
-            else
-            {
-                path = Environment.GetFolderPath(Environment.SpecialFolder.System);
+                return location;
             }
 
-            path = Path.Combine(path, @"OpenSSH\ssh.exe");
+            location = location.Trim();
 
-            return System.IO.File.Exists(path) ? path : null;
+            if (location.Equals(Constants.MoshCommandName, StringComparison.OrdinalIgnoreCase) ||
+                location.Equals($"{Constants.MoshCommandName}.exe", StringComparison.OrdinalIgnoreCase))
+            {
+                return GetMoshPath();
+            }
+
+            return location;
         }
 
 #if X64

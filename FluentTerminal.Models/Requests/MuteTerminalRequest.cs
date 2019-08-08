@@ -2,9 +2,7 @@
 {
     public class MuteTerminalRequest : IMessage
     {
-        public const byte Identifier = 14;
-
-        byte IMessage.Identifier => Identifier;
+        public byte Identifier => (byte) MessageIdentifiers.MuteTerminalRequest;
 
         public bool Mute { get; set; }
     }
