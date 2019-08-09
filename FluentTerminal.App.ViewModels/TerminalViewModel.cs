@@ -79,6 +79,7 @@ namespace FluentTerminal.App.ViewModels
 
         private readonly IKeyboardCommandService _keyboardCommandService;
         private bool _isSelected;
+        private bool _isHovered;
         private bool _hasNewOutput;
         private bool _hasExitedWithError;
         private string _searchText;
@@ -194,8 +195,26 @@ namespace FluentTerminal.App.ViewModels
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
+                    RaisePropertyChanged(nameof(ShowCloseButton));
                 }
             }
+        }
+
+        public bool IsHovered
+        {
+            get => _isHovered;
+            set
+            {
+                if (Set(ref _isHovered, value))
+                {
+                    RaisePropertyChanged(nameof(ShowCloseButton));
+                }
+            }
+        }
+
+        public bool ShowCloseButton
+        {
+            get => IsHovered || IsSelected;
         }
 
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
