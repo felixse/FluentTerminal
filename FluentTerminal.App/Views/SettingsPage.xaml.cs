@@ -81,13 +81,9 @@ namespace FluentTerminal.App.Views
         {
             _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ContentFrame.Navigate(typeof(About), ViewModel.About);
-
                 // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
-                NavigationView.MenuItems.Add(hiddenNavigationItem);
-                NavigationView.SelectedItem = hiddenNavigationItem;
-                NavigationView.SelectedItem = null;
-                NavigationView.MenuItems.Remove(hiddenNavigationItem);
+                NavigationView.SelectedItem = Setting_Hidden;
+                ContentFrame.Navigate(typeof(About), ViewModel.About);
             });
         }
 
