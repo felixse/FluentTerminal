@@ -539,7 +539,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>¿Quieres cerrar esta pestaña?</value>
+    <value>¿Quieres cerrar "{0}" pestaña?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">

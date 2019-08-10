@@ -119,6 +119,9 @@ namespace FluentTerminal.App.ViewModels
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
 
             CloseCommand = new RelayCommand(async () => await TryClose().ConfigureAwait(false));
+            CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs);
+            CloseRightTabsCommand = new RelayCommand(CloseRightTabs);
+            CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs);
             FindNextCommand = new RelayCommand(FindNext);
             FindPreviousCommand = new RelayCommand(FindPrevious);
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
@@ -152,6 +155,9 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler<TerminalTheme> ThemeChanged;
         public event EventHandler<string> ShellTitleChanged;
         public event EventHandler<string> CustomTitleChanged;
+        public event EventHandler CloseLeftTabsRequested;
+        public event EventHandler CloseRightTabsRequested;
+        public event EventHandler CloseOtherTabsRequested;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -171,6 +177,12 @@ namespace FluentTerminal.App.ViewModels
         public string XtermBufferState { get; private set; }
 
         public RelayCommand CloseCommand { get; }
+
+        public RelayCommand CloseRightTabsCommand { get; }
+
+        public RelayCommand CloseLeftTabsCommand { get; }
+
+        public RelayCommand CloseOtherTabsCommand { get; }
 
         public RelayCommand CloseSearchPanelCommand { get; }
 
@@ -370,6 +382,21 @@ namespace FluentTerminal.App.ViewModels
             FocusTerminal();
         }
 
+        private void CloseLeftTabs()
+        {
+            CloseLeftTabsRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CloseRightTabs()
+        {
+            CloseRightTabsRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CloseOtherTabs()
+        {
+            CloseOtherTabsRequested?.Invoke(this, EventArgs.Empty);
+        }
+
         private void FindNext()
         {
             FindNextRequested?.Invoke(this, SearchText);
@@ -511,7 +538,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (ApplicationSettings.ConfirmClosingTabs)
             {
-                var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseTab"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), String.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {

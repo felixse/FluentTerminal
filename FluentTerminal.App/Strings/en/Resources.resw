@@ -550,7 +550,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close this tab?</value>
+    <value>Are you sure you want to close "{0}" tab?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -980,5 +980,17 @@ Fuzzy</comment>
   <data name="DropTabHere" xml:space="preserve">
     <value>Drop tab here</value>
     <comment>Drop hint</comment>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>Close Tabs to the Left</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>Close Other Tabs</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>Close Tabs to the Right</value>
+    <comment>TabBar.xaml</comment>
   </data>
 </root>
