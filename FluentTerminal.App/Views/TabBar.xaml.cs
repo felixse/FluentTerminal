@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -120,23 +121,25 @@ namespace FluentTerminal.App.Views
 
         #region Drag and drop support
 
-        private static bool _itemWasDropped;
+        public static bool ItemWasDropped { get; set; }
 
         public event EventHandler<NewTabRequestedEventArgs> TabWindowChanged;
         public event EventHandler<TerminalViewModel> TabDraggingCompleted;
         public event TypedEventHandler<ListViewBase, DragItemsCompletedEventArgs> TabDraggedOutside;
+        public event EventHandler<bool> TabDraggingChanged;
 
         private void ListView_DragEnter(object sender, DragEventArgs e)
         {
             Logger.Instance.Debug($"ListView_DragEnter.");
             e.AcceptedOperation = DataPackageOperation.Move;
             e.DragUIOverride.IsGlyphVisible = false;
-            e.DragUIOverride.Caption = "Drop tab here";
+            e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
         }
 
         private async void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            _itemWasDropped = false;
+            TabDraggingChanged?.Invoke(this, true);
+            ItemWasDropped = false;
 
             Logger.Instance.Debug($"ListView_DragItemsStarting. e.Data.RequestedOperation: {e.Data.RequestedOperation}. Items count: {e.Items.Count}.");
 
@@ -150,18 +153,19 @@ namespace FluentTerminal.App.Views
 
         private void ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
         {
+            TabDraggingChanged?.Invoke(this, false);
             Logger.Instance.Debug($"ListView_DragItemsCompleted. Drop result: {args.DropResult}. Items count: {args.Items.Count}");
 
             var item = args.Items.FirstOrDefault();
             if (item is TerminalViewModel model)
             {
-                if (ItemsSource.Count > 1 && !_itemWasDropped && args.DropResult == DataPackageOperation.None)
+                if (ItemsSource.Count > 1 && !ItemWasDropped && args.DropResult == DataPackageOperation.None)
                 {
                     TabDraggedOutside?.Invoke(sender, args);
-                    _itemWasDropped = true;
+                    ItemWasDropped = true;
                 }
 
-                if (_itemWasDropped)
+                if (ItemWasDropped)
                 {
                     TabDraggingCompleted?.Invoke(sender, model);
                 }
@@ -209,7 +213,7 @@ namespace FluentTerminal.App.Views
             int dropIndex = CalculateDropPosition(e);
             Logger.Instance.Debug($"Tab dropped to index: {dropIndex}.");
             TabWindowChanged?.Invoke(sender, new NewTabRequestedEventArgs { DragEventArgs = e, Position = dropIndex });
-            _itemWasDropped = true;
+            ItemWasDropped = true;
         }
 
         #endregion Drag and drop support

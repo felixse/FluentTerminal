@@ -188,7 +188,13 @@
                     TextWrapping="NoWrap"
                     Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
             </RelativePanel>
+            <Rectangle x:Name="TabDropArea" Fill="LightGray" Opacity="0.2" Grid.Column="1" HorizontalAlignment="Stretch"
+                       AllowDrop="True"
+                       DragEnter="TabDropArea_DragEnter"
+                       Drop="TabDropArea_Drop"
+                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
             <views:TabBar
+                x:Name="TopTabBar"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
@@ -197,7 +203,8 @@
                 Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}"
                 TabDraggedOutside="TabBar_TabDraggedOutside"
                 TabWindowChanged="TabView_Drop"
-                TabDraggingCompleted="TabBar_TabDraggingCompleted" />
+                TabDraggingCompleted="TabBar_TabDraggingCompleted"
+                TabDraggingChanged="TabBar_TabDraggingChanged" />
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"
@@ -205,7 +212,13 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
+        <Rectangle Fill="LightGray" Opacity="0.2" Grid.Row="2" HorizontalAlignment="Stretch"
+                       AllowDrop="True"
+                       DragEnter="TabDropArea_DragEnter"
+                       Drop="TabDropArea_Drop"
+                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
         <views:TabBar
+            x:Name="BottomTabBar"
             Grid.Row="2"
             HorizontalAlignment="Left"
             AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
@@ -214,6 +227,7 @@
             Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}"
             TabDraggedOutside="TabBar_TabDraggedOutside"
             TabWindowChanged="TabView_Drop"
-            TabDraggingCompleted="TabBar_TabDraggingCompleted" />
+            TabDraggingCompleted="TabBar_TabDraggingCompleted"
+            TabDraggingChanged="TabBar_TabDraggingChanged" />
     </Grid>
 </Page>
