@@ -114,25 +114,6 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
-        {
-            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                _trayProcessCommunicationService, _historyContainer, input);
-
-            DataContext = vm;
-
-            if (await ShowAsync() != ContentDialogResult.Primary)
-            {
-                return null;
-            }
-
-            vm = (CommandProfileProviderViewModel) DataContext;
-
-            vm.SaveToHistory();
-
-            return vm.Model;
-        }
-
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -213,6 +194,25 @@ namespace FluentTerminal.App.Dialogs
                     primaryButton.Focus(FocusState.Programmatic);
                 }
             }
+        }
+
+        public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
+        {
+            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
+                _trayProcessCommunicationService, _historyContainer, input);
+
+            DataContext = vm;
+
+            if (await ShowAsync() != ContentDialogResult.Primary)
+            {
+                return null;
+            }
+
+            vm = (CommandProfileProviderViewModel)DataContext;
+
+            vm.Model.Tag = new DelayedHistorySaver(vm);
+
+            return vm.Model;
         }
     }
 }

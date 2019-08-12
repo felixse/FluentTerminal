@@ -26,6 +26,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using ISessionSuccessTracker = FluentTerminal.App.ViewModels.ISessionSuccessTracker;
 
 namespace FluentTerminal.App.Views
 {
@@ -183,6 +184,12 @@ namespace FluentTerminal.App.Views
                 ViewModel.Terminal.ReportLauchFailed();
                 return;
             }
+
+            if (ViewModel.ShellProfile?.Tag is ISessionSuccessTracker tracker)
+            {
+                tracker.SetSuccessfulSessionStart();
+            }
+
             _webView.Focus(FocusState.Programmatic);
         }
 

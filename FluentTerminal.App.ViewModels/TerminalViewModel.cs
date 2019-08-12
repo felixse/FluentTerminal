@@ -410,6 +410,11 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_Exited(object sender, int exitCode)
         {
+            if (ShellProfile?.Tag is ISessionSuccessTracker tracker)
+            {
+                tracker.SetExitCode(exitCode);
+            }
+
             ApplicationView.RunOnDispatcherThread(() => HasExitedWithError = exitCode > 0);
         }
 
