@@ -131,6 +131,7 @@
     <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
+    <Compile Include="Utilities\InteractiveSurface.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
       <DependentUpon>CustomCommandDialog.xaml</DependentUpon>

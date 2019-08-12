@@ -351,10 +351,54 @@ namespace FluentTerminal.App.ViewModels
                 terminal.Closed += OnTerminalClosed;
                 terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged += Terminal_CustomTitleChanged;
+                terminal.CloseLeftTabsRequested += Terminal_CloseLeftTabsRequested;
+                terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
+                terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
                 Terminals.Insert(position, terminal);
 
                 SelectedTerminal = terminal;
             });
+        }
+
+        private void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                Array.ForEach<TerminalViewModel>(Terminals.ToArray(),
+                    t => {
+                        if (terminal != t)
+                        {
+                            Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                            t.CloseCommand.Execute(EventArgs.Empty);
+                        }
+                    });
+            }
+        }
+
+        private void Terminal_CloseRightTabsRequested(object sender, EventArgs e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                for (int i = Terminals.Count - 1; i > Terminals.IndexOf(terminal); --i)
+                {
+                    var terminalToRemove = Terminals[i];
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
+                    terminalToRemove.CloseCommand.Execute(EventArgs.Empty);
+                }
+            }
+        }
+
+        private void Terminal_CloseLeftTabsRequested(object sender, EventArgs e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                for(int i = Terminals.IndexOf(terminal) - 1; i >= 0; --i)
+                {
+                    var terminalToRemove = Terminals[i];
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
+                    terminalToRemove.CloseCommand.Execute(EventArgs.Empty);
+                }
+            }
         }
 
         public Task AddTerminalAsync(ShellProfile profile)
