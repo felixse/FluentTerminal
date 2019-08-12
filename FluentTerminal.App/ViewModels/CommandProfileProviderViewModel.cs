@@ -68,7 +68,7 @@ namespace FluentTerminal.App.ViewModels
         public CommandProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService,
             IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
-            applicationView,
+            applicationView, false,
             original ?? new ShellProfile
                 {UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)})
         {
