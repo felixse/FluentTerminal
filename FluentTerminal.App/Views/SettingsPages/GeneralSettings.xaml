@@ -168,12 +168,6 @@
                     IsOn="{x:Bind ViewModel.AutoFallbackToWindowsUsernameInLinks, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="QuickSshDefault"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Use quick SSH by default"
-                    IsOn="{x:Bind ViewModel.UseQuickSshConnectByDefault, Mode=TwoWay}" />
-
-                <ToggleSwitch
                     x:Uid="RTrimCopiedLines"
                     Margin="{StaticResource ItemMargin}"
                     Header="Right trim copied lines"
