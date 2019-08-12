@@ -102,6 +102,9 @@
                             ToolTipService.ToolTip="Themes" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem
+                    x:Uid="Setting_Hidden" x:Name="Setting_Hidden" Visibility="Collapsed">
+                </NavigationViewItem>                
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
                 <NavigationViewItem
