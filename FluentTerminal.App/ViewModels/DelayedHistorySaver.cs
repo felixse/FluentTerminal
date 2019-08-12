@@ -59,7 +59,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public void SetExitCode(int exitCode)
+        public void SetInvalid()
         {
             lock (_lock)
             {
@@ -68,7 +68,7 @@ namespace FluentTerminal.App.ViewModels
                     return;
                 }
 
-                _toSave = exitCode == 0;
+                _toSave = false;
 
                 cts.Cancel();
                 cts.Dispose();

@@ -163,36 +163,49 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key != VirtualKey.Enter)
-                return;
-
-            if (string.IsNullOrWhiteSpace(CommandTextBox.Text))
+            switch (e.Key)
             {
-                CommandTextBox.IsSuggestionListOpen = true;
-            }
-            else
-            {
-                // TODO: Try to find a better way to handle [Enter] on auto-complete field.
-                // Weird way to move the focus to the primary button...
+                case VirtualKey.Down:
 
-                if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
-                    !secondaryButton.Name.Equals("SecondaryButton"))
-                {
-                    return;
-                }
+                    if (!CommandTextBox.IsSuggestionListOpen)
+                    {
+                        CommandTextBox.IsSuggestionListOpen = true;
+                    }
 
-                secondaryButton.Focus(FocusState.Programmatic);
+                    break;
 
-                var options = new FindNextElementOptions
-                {
-                    SearchRoot = this,
-                    XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
-                };
+                case VirtualKey.Enter:
 
-                if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
-                {
-                    primaryButton.Focus(FocusState.Programmatic);
-                }
+                    if (string.IsNullOrWhiteSpace(CommandTextBox.Text) && !CommandTextBox.IsSuggestionListOpen)
+                    {
+                        CommandTextBox.IsSuggestionListOpen = true;
+                    }
+                    else
+                    {
+                        // TODO: Try to find a better way to handle [Enter] on auto-complete field.
+                        // Weird way to move the focus to the primary button...
+
+                        if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
+                            !secondaryButton.Name.Equals("SecondaryButton"))
+                        {
+                            return;
+                        }
+
+                        secondaryButton.Focus(FocusState.Programmatic);
+
+                        var options = new FindNextElementOptions
+                        {
+                            SearchRoot = this,
+                            XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
+                        };
+
+                        if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
+                        {
+                            primaryButton.Focus(FocusState.Programmatic);
+                        }
+                    }
+
+                    break;
             }
         }
 

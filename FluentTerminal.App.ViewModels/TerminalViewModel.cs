@@ -410,9 +410,9 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_Exited(object sender, int exitCode)
         {
-            if (ShellProfile?.Tag is ISessionSuccessTracker tracker)
+            if (ShellProfile?.Tag is ISessionSuccessTracker tracker && exitCode != 0)
             {
-                tracker.SetExitCode(exitCode);
+                tracker.SetInvalid();
             }
 
             ApplicationView.RunOnDispatcherThread(() => HasExitedWithError = exitCode > 0);
@@ -500,6 +500,11 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task TryClose()
         {
+            if (ShellProfile?.Tag is ISessionSuccessTracker tracker)
+            {
+                tracker.SetInvalid();
+            }
+
             if (ApplicationSettings.ConfirmClosingTabs)
             {
                 var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseTab"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);

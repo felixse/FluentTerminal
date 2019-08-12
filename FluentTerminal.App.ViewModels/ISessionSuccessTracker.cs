@@ -6,6 +6,6 @@
 
         void SetOutputReceived();
 
-        void SetExitCode(int exitCode);
+        void SetInvalid();
     }
 }
