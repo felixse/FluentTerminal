@@ -23,7 +23,7 @@ export class SerializeAddon implements ITerminalAddon {
     if (!this._terminal) {
       throw new Error('Cannot use addon until it has been loaded');
     }
-    const terminalRows = this._terminal.buffer.baseY + this._terminal.buffer.cursorY + 1;
+    const terminalRows = this._terminal.buffer.length;
     if (rows === undefined) {
       rows = terminalRows;
     }
@@ -32,8 +32,16 @@ export class SerializeAddon implements ITerminalAddon {
     const buffer = this._terminal.buffer;
     const lines: string[] = new Array<string>(rows);
 
-    for (let i = terminalRows - rows; i < terminalRows; i++) {
+    var doRTrim = true;
+    for (let i = terminalRows - 1; i >= terminalRows - rows; i--) {
       const line = buffer.getLine(i);
+      if (doRTrim === true) {
+        if (!line || line.translateToString(true).length == 0) {
+          lines.length -= 1;
+          continue;
+        }
+        doRTrim = false;
+      }
       lines[i - terminalRows + rows] = line ? line.translateToString(true) : '';
     }
 
