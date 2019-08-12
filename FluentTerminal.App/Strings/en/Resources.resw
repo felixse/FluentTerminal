@@ -977,4 +977,8 @@ Fuzzy</comment>
   <data name="InvalidLink" xml:space="preserve">
     <value>Invalid link.</value>
   </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>Drop tab here</value>
+    <comment>Drop hint</comment>
+  </data>
 </root>

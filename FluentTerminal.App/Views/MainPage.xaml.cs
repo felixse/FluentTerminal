@@ -10,6 +10,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
+using FluentTerminal.App.Services.EventArgs;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Xaml.Input;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.Views
 {
@@ -47,6 +51,7 @@ namespace FluentTerminal.App.Views
             Window.Current.SetTitleBar(TitleBar);
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+            DraggingHappensChanged += MainPage_DraggingHappensChanged;
             Window.Current.Activated += OnWindowActivated;
             RegisterPropertyChangedCallback(RequestedThemeProperty, (s, e) =>
             {
@@ -54,6 +59,17 @@ namespace FluentTerminal.App.Views
             });
 
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
+        }
+
+        private async void MainPage_DraggingHappensChanged(object sender, bool e)
+        {
+            if (sender != TopTabBar && sender != BottomTabBar)
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    DraggingHappens = e;
+                });
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -98,11 +114,11 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private async void TabView_Drop(object sender, DragEventArgs e)
+        private async void TabView_Drop(object sender, NewTabRequestedEventArgs e)
         {
-            if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
+            if (e.DragEventArgs.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
             {
-                await ViewModel.AddTerminalAsync(terminalViewModelState);
+                await ViewModel.AddTerminalAsync(terminalViewModelState, e.Position);
             }
         }
 
@@ -127,6 +143,39 @@ namespace FluentTerminal.App.Views
             {
                 ViewModel.ApplicationView.TryClose();
             }
+        }
+
+        public static readonly DependencyProperty DraggingHappensProperty =
+    DependencyProperty.Register(nameof(DraggingHappens), typeof(bool), typeof(MainPage), new PropertyMetadata(null));
+
+        public bool DraggingHappens
+        {
+            get { return (bool)GetValue(DraggingHappensProperty); }
+            set { SetValue(DraggingHappensProperty, value); }
+        }
+
+        static private event EventHandler<bool> DraggingHappensChanged;
+
+        private void TabDropArea_DragEnter(object sender, DragEventArgs e)
+        {
+            Logger.Instance.Debug("TabDropArea_DragEnter.");
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.IsGlyphVisible = false;
+            e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
+        }
+
+        private async void TabDropArea_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
+            {
+                TabBar.ItemWasDropped = true;
+                await ViewModel.AddTerminalAsync(terminalViewModelState, ViewModel.Terminals.Count);
+            }
+        }
+
+        private void TabBar_TabDraggingChanged(object sender, bool e)
+        {
+            DraggingHappensChanged?.Invoke(sender, e);
         }
     }
 }

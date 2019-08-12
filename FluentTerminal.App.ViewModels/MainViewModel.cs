@@ -341,7 +341,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public Task AddTerminalAsync(ShellProfile profile, string terminalState)
+        public Task AddTerminalAsync(ShellProfile profile, string terminalState, int position)
         {
             return ApplicationView.RunOnDispatcherThread(() =>
             {
@@ -351,7 +351,7 @@ namespace FluentTerminal.App.ViewModels
                 terminal.Closed += OnTerminalClosed;
                 terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged += Terminal_CustomTitleChanged;
-                Terminals.Add(terminal);
+                Terminals.Insert(position, terminal);
 
                 SelectedTerminal = terminal;
             });
@@ -359,12 +359,12 @@ namespace FluentTerminal.App.ViewModels
 
         public Task AddTerminalAsync(ShellProfile profile)
         {
-            return AddTerminalAsync(profile, "");
+            return AddTerminalAsync(profile, "", Terminals.Count);
         }
 
-        public Task AddTerminalAsync(string terminalState)
+        public Task AddTerminalAsync(string terminalState, int position)
         {
-            return AddTerminalAsync(new ShellProfile(), terminalState);
+            return AddTerminalAsync(new ShellProfile(), terminalState, position);
         }
 
         private void Terminal_CustomTitleChanged(object sender, string e)
