@@ -166,6 +166,7 @@ namespace FluentTerminal.App.Dialogs
             switch (e.Key)
             {
                 case VirtualKey.Down:
+                case VirtualKey.Up:
 
                     if (!CommandTextBox.IsSuggestionListOpen)
                     {
