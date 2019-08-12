@@ -4,6 +4,8 @@
     {
         void SetSuccessfulSessionStart();
 
+        void SetOutputReceived();
+
         void SetExitCode(int exitCode);
     }
 }

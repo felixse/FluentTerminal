@@ -476,6 +476,11 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
+            if (ShellProfile?.Tag is ISessionSuccessTracker tracker)
+            {
+                tracker.SetOutputReceived();
+            }
+
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {
                 ApplicationView.RunOnDispatcherThread(() => HasNewOutput = true);

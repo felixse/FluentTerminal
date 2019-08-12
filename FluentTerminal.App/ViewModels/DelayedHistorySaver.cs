@@ -13,6 +13,9 @@ namespace FluentTerminal.App.ViewModels
 
         private CancellationTokenSource _cts;
 
+        private bool _sessionStarted;
+        private bool _outputReceived;
+
         private bool _toSave = true;
 
         internal DelayedHistorySaver(CommandProfileProviderViewModel vm)
@@ -24,14 +27,35 @@ namespace FluentTerminal.App.ViewModels
         {
             lock (_lock)
             {
-                if (!_toSave)
+                if (!_toSave || _sessionStarted)
                 {
                     return;
                 }
 
-                _cts = new CancellationTokenSource();
+                _sessionStarted = true;
 
-                InitiateSave(_cts.Token);
+                if (_outputReceived)
+                {
+                    InitiateSave();
+                }
+            }
+        }
+
+        public void SetOutputReceived()
+        {
+            lock (_lock)
+            {
+                if (!_toSave || _outputReceived)
+                {
+                    return;
+                }
+
+                _outputReceived = true;
+
+                if (_sessionStarted)
+                {
+                    InitiateSave();
+                }
             }
         }
 
@@ -52,10 +76,11 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private void InitiateSave(CancellationToken cancellationToken)
+        private void InitiateSave()
         {
-            // ReSharper disable once MethodSupportsCancellation
-            Task.Delay(DelayMilliseconds, cancellationToken).ContinueWith(t =>
+            _cts = new CancellationTokenSource();
+
+            Task.Delay(DelayMilliseconds, _cts.Token).ContinueWith(t =>
                 {
                     lock (_lock)
                     {
