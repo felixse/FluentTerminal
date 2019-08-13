@@ -579,8 +579,20 @@ namespace FluentTerminal.SystemTray
             return audioSessionFound;
         }
 
+        private static void Calculate(Func<bool> eval, TimeSpan timeout)
+        {
+            var watch = Stopwatch.StartNew();
+            do
+            {
+                if (eval()) return;
+
+            } while (watch.Elapsed < timeout);
+        }
+
         private static void SpawnConhostProcess(bool mute)
         {
+            Logger.Instance.Debug($"SpawnConhostProcess starts mute={mute}");
+
             Process cmdProcess = new Process();
             cmdProcess.StartInfo.FileName = "cmd.exe";
             cmdProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -591,44 +603,56 @@ namespace FluentTerminal.SystemTray
                 return;
             }
 
+            const int sTimeout = 3;
             int conhostProcessId = 0;
-            while (conhostProcessId == 0 && !cmdProcess.HasExited)
+            Calculate(() =>
             {
-                foreach (Process conhost in Process.GetProcessesByName("conhost"))
+                if (!cmdProcess.HasExited)
                 {
-                    try
+                    foreach (Process conhost in Process.GetProcessesByName("conhost"))
                     {
-                        Process parent = ProcessUtils.ResolveParent(conhost.Id);
-                        if (parent != null && cmdProcess.Id == parent.Id)
+                        try
                         {
-                            conhostProcessId = conhost.Id;
-                            break;
+                            Process parent = ProcessUtils.ResolveParent(conhost.Id);
+                            if (parent != null && cmdProcess.Id == parent.Id)
+                            {
+                                conhostProcessId = conhost.Id;
+                                return true;
+                            }
+                        }
+                        catch (Win32Exception e)
+                        {
+                            Logger.Instance.Debug($"Exception with message \"{e.Message}\" on " +
+                                $"getting process parent id for conhost process {conhost.Id}");
                         }
                     }
-                    catch (Win32Exception e)
-                    {
-                        Logger.Instance.Debug($"Exception with message \"{e.Message}\" on " +
-                            $"getting process parent id for conhost process {conhost.Id}");
-                    }
                 }
-            }
+                return false;
+            }, new TimeSpan(0, 0, sTimeout));
 
             if (conhostProcessId == 0)
             {
                 Logger.Instance.Debug($"Can't find child conhost process");
                 return;
             }
-            
-            bool? isMuted = null;
-            while (isMuted == null && !cmdProcess.HasExited)
+
+            Logger.Instance.Debug($"Spawned conhost process id={conhostProcessId}. Starting muting of generated bell sound.");
+
+            Calculate(() =>
             {
-                isMuted = MuteProcess(conhostProcessId, true, true);
-            }
+                return MuteProcess(conhostProcessId, true, true) != null;
+
+            }, new TimeSpan(0, 0, sTimeout));
 
             cmdProcess.WaitForExit(2000);
+
+            Logger.Instance.Debug($"Set conhost process mute state to {mute}.");
+
             MuteProcess(conhostProcessId, mute);
 
             cmdProcess.Kill();
+
+            Logger.Instance.Debug($"SpawnConhostProcess finishes mute={mute}");
         }
 
         internal static void MuteTerminal(bool mute)
