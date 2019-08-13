@@ -28,6 +28,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         protected readonly ISettingsService SettingsService;
         protected readonly IApplicationView ApplicationView;
+        private readonly bool _strictProfileType;
 
         #endregion Fields
 
@@ -50,7 +51,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                     return;
                 }
 
-                if (_model != null && _model.GetType() != value.GetType())
+                if (_strictProfileType && _model != null && _model.GetType() != value.GetType())
                 {
                     throw new ArgumentException($"The value has to be of type {_model.GetType().Name}.");
                 }
@@ -175,10 +176,11 @@ namespace FluentTerminal.App.ViewModels.Profiles
         #region Constructor
 
         protected ProfileProviderViewModelBase(ISettingsService settingsService, IApplicationView applicationView,
-            ShellProfile original = null)
+            bool strictProfileType, ShellProfile original = null)
         {
             SettingsService = settingsService;
             ApplicationView = applicationView;
+            _strictProfileType = strictProfileType;
 
             _model = original ?? new ShellProfile();
 
@@ -188,7 +190,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             TerminalThemes = new ObservableCollection<TerminalTheme>(settingsService.GetThemes());
 
-            TerminalThemes.Insert(0, new TerminalTheme { Id = Guid.Empty, Name = "Default" });
+            TerminalThemes.Insert(0, new TerminalTheme {Id = Guid.Empty, Name = "Default"});
 
             SelectedTerminalTheme = TerminalThemes.First();
 

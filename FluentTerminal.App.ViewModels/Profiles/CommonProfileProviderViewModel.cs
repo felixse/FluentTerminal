@@ -59,7 +59,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public CommonProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
             IFileSystemService fileSystemService, ShellProfile original = null) : base(settingsService, applicationView,
-            original)
+            true, original)
         {
             _fileSystemService = fileSystemService;
 

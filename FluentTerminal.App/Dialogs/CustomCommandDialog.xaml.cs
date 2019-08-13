@@ -114,25 +114,6 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
-        {
-            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                _trayProcessCommunicationService, _historyContainer, input);
-
-            DataContext = vm;
-
-            if (await ShowAsync() != ContentDialogResult.Primary)
-            {
-                return null;
-            }
-
-            vm = (CommandProfileProviderViewModel) DataContext;
-
-            vm.SaveToHistory();
-
-            return vm.Model;
-        }
-
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -182,37 +163,70 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key != VirtualKey.Enter)
-                return;
-
-            if (string.IsNullOrWhiteSpace(CommandTextBox.Text))
+            switch (e.Key)
             {
-                CommandTextBox.IsSuggestionListOpen = true;
+                case VirtualKey.Down:
+                case VirtualKey.Up:
+
+                    if (!CommandTextBox.IsSuggestionListOpen)
+                    {
+                        CommandTextBox.IsSuggestionListOpen = true;
+                    }
+
+                    break;
+
+                case VirtualKey.Enter:
+
+                    if (string.IsNullOrWhiteSpace(CommandTextBox.Text) && !CommandTextBox.IsSuggestionListOpen)
+                    {
+                        CommandTextBox.IsSuggestionListOpen = true;
+                    }
+                    else
+                    {
+                        // TODO: Try to find a better way to handle [Enter] on auto-complete field.
+                        // Weird way to move the focus to the primary button...
+
+                        if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
+                            !secondaryButton.Name.Equals("SecondaryButton"))
+                        {
+                            return;
+                        }
+
+                        secondaryButton.Focus(FocusState.Programmatic);
+
+                        var options = new FindNextElementOptions
+                        {
+                            SearchRoot = this,
+                            XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
+                        };
+
+                        if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
+                        {
+                            primaryButton.Focus(FocusState.Programmatic);
+                        }
+                    }
+
+                    break;
             }
-            else
+        }
+
+        public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
+        {
+            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
+                _trayProcessCommunicationService, _historyContainer, input);
+
+            DataContext = vm;
+
+            if (await ShowAsync() != ContentDialogResult.Primary)
             {
-                // TODO: Try to find a better way to handle [Enter] on auto-complete field.
-                // Weird way to move the focus to the primary button...
-
-                if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
-                    !secondaryButton.Name.Equals("SecondaryButton"))
-                {
-                    return;
-                }
-
-                secondaryButton.Focus(FocusState.Programmatic);
-
-                var options = new FindNextElementOptions
-                {
-                    SearchRoot = this,
-                    XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
-                };
-
-                if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
-                {
-                    primaryButton.Focus(FocusState.Programmatic);
-                }
+                return null;
             }
+
+            vm = (CommandProfileProviderViewModel)DataContext;
+
+            vm.Model.Tag = new DelayedHistorySaver(vm);
+
+            return vm.Model;
         }
     }
 }

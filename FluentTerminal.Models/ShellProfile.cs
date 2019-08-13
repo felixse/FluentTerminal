@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using FluentTerminal.Models.Enums;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace FluentTerminal.Models
 {
@@ -43,6 +44,12 @@ namespace FluentTerminal.Models
         public LineEndingStyle LineEndingTranslation { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>();
         public bool UseConPty { get; set; }
+
+        /// <summary>
+        /// For attaching a data to the profile. This property doesn't get serialized nor cloned.
+        /// </summary>
+        [JsonIgnore]
+        public object Tag { get; set; }
 
         public string TranslateLineEndings(string content)
         {
