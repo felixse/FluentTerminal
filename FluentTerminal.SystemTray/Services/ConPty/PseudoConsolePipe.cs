@@ -26,7 +26,18 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             }
         }
 
+        ~PseudoConsolePipe()
+        {
+            Dispose(false);
+        }
+
         #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         void Dispose(bool disposing)
         {
@@ -35,12 +46,6 @@ namespace FluentTerminal.SystemTray.Services.ConPty
                 ReadSide?.Dispose();
                 WriteSide?.Dispose();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion

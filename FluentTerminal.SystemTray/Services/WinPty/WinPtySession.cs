@@ -100,8 +100,6 @@ namespace FluentTerminal.SystemTray.Services.WinPty
             Dispose(false);
         }
 
-        
-
         private string GetWorkingDirectory(ShellProfile configuration)
         {
             if (string.IsNullOrWhiteSpace(configuration.WorkingDirectory) || !Directory.Exists(configuration.WorkingDirectory))

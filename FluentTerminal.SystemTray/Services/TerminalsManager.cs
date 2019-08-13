@@ -217,8 +217,8 @@ namespace FluentTerminal.SystemTray.Services
             if (sender is ITerminalSession terminal)
             {
                 _terminals.Remove(terminal.Id);
-                terminal.Dispose();
                 TerminalExited?.Invoke(this, new TerminalExitStatus(terminal.Id, exitcode));
+                terminal.Dispose();
             }
         }
     }
