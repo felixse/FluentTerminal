@@ -525,6 +525,11 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public bool IsProfileCommand(ExecutedCommand command)
+        {
+            return _allProfiles.Any(p => command.Value.NullableEqualTo(p.Name, StringComparison.OrdinalIgnoreCase));
+        }
+
         #endregion Command history
 
         #region Links/shortcuts related

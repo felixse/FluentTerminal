@@ -149,9 +149,10 @@ namespace FluentTerminal.App.Dialogs
         {
             var command = _lastChosenCommand;
 
-            if (e.Key == VirtualKey.Delete && command != null)
+            if (e.Key == VirtualKey.Delete &&
+                !((CommandProfileProviderViewModel) DataContext).IsProfileCommand(command))
             {
-                ((CommandProfileProviderViewModel)DataContext).RemoveCommand(command);
+                ((CommandProfileProviderViewModel) DataContext).RemoveCommand(command);
 
                 e.Handled = true;
             }
