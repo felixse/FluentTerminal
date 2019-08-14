@@ -192,7 +192,7 @@
                        AllowDrop="True"
                        DragEnter="TabDropArea_DragEnter"
                        Drop="TabDropArea_Drop"
-                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
+                       Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
             <views:TabBar
                 x:Name="TopTabBar"
                 Grid.Column="1"
@@ -212,11 +212,13 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
+        <Rectangle Fill="LightGray" Opacity="0.01" Grid.Row="1"
+                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
         <Rectangle Fill="LightGray" Opacity="0.2" Grid.Row="2" HorizontalAlignment="Stretch"
                        AllowDrop="True"
                        DragEnter="TabDropArea_DragEnter"
                        Drop="TabDropArea_Drop"
-                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
+                       Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
         <views:TabBar
             x:Name="BottomTabBar"
             Grid.Row="2"
