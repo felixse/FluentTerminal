@@ -33,6 +33,7 @@
         SwitchToTerm6,
         SwitchToTerm7,
         SwitchToTerm8,
-        SwitchToTerm9
+        SwitchToTerm9,
+        DuplicateTab
     }
 }

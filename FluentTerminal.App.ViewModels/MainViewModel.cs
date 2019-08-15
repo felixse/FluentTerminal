@@ -56,6 +56,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.SavedSshNewWindow), () => NewWindow(NewWindowAction.ShowSshProfileSelection));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshWindow), () => NewWindow(NewWindowAction.ShowSshInfoDialog));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewCustomCommandWindow), () => NewWindow(NewWindowAction.ShowCustomCommandDialog));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTerminalAsync(SelectedTerminal.ShellProfile.Clone()));
 
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
@@ -354,10 +355,19 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseLeftTabsRequested += Terminal_CloseLeftTabsRequested;
                 terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
+                terminal.DuplicateTabRequested += Terminal_DuplicateTabRequested;
                 Terminals.Insert(position, terminal);
 
                 SelectedTerminal = terminal;
             });
+        }
+
+        private async void Terminal_DuplicateTabRequested(object sender, EventArgs e)
+        {
+            if (sender is TerminalViewModel terminal)
+            {
+                await AddTerminalAsync(terminal.ShellProfile.Clone());
+            }
         }
 
         private void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)

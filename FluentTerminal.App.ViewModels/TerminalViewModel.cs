@@ -127,6 +127,7 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
             EditTitleCommand = new AsyncCommand(EditTitle);
+            DuplicateTabCommand = new RelayCommand(DuplicateTab);
 
             if (!String.IsNullOrEmpty(terminalState))
             {
@@ -158,6 +159,7 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler CloseLeftTabsRequested;
         public event EventHandler CloseRightTabsRequested;
         public event EventHandler CloseOtherTabsRequested;
+        public event EventHandler DuplicateTabRequested;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -193,6 +195,8 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand FindNextCommand { get; }
 
         public RelayCommand FindPreviousCommand { get; }
+
+        public RelayCommand DuplicateTabCommand { get; }
 
         public bool IsSelected
         {
@@ -412,6 +416,11 @@ namespace FluentTerminal.App.ViewModels
         private void FindPrevious()
         {
             FindPreviousRequested?.Invoke(this, SearchText);
+        }
+
+        private void DuplicateTab()
+        {
+            DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)

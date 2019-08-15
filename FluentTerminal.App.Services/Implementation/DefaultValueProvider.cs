@@ -101,6 +101,18 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.DuplicateTab:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.DuplicateTab),
+                        Ctrl = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.D
+                    }
+                };
+
                 case Command.NewTab:
                     return new List<KeyBinding>
                 {
