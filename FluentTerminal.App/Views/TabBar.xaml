@@ -162,6 +162,8 @@
                                         </MenuFlyoutSubItem>
                                         <MenuFlyoutItem x:Uid="EditTitle" Command="{x:Bind EditTitleCommand}" />
                                         <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem x:Uid="Duplicate" Command="{x:Bind DuplicateTabCommand}" />
+                                        <MenuFlyoutSeparator />
                                         <MenuFlyoutItem x:Uid="CloseLeft" Command="{x:Bind CloseLeftTabsCommand}" />
                                         <MenuFlyoutItem x:Uid="CloseRight" Command="{x:Bind CloseRightTabsCommand}" />
                                         <MenuFlyoutItem x:Uid="CloseOther" Command="{x:Bind CloseOtherTabsCommand}" />

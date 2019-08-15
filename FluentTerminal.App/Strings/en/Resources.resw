@@ -993,4 +993,13 @@ Fuzzy</comment>
     <value>Close Tabs to the Right</value>
     <comment>TabBar.xaml</comment>
   </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>Duplicate</value>
+    <comment>TabBar.xaml</comment>
+  </data>
 </root>
