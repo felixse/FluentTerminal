@@ -63,14 +63,15 @@ namespace FluentTerminal.App.Views
 
         private async void MainPage_DraggingHappensChanged(object sender, bool e)
         {
-            if (sender != TopTabBar && sender != BottomTabBar)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                if (sender != TopTabBar && sender != BottomTabBar)
                 {
-                    DraggingHappens = e;
-                });
-            }
-        }
+                    DraggingHappensFromAnotherWindow = e;
+                }
+                DraggingHappens = e;
+            });
+         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -145,8 +146,17 @@ namespace FluentTerminal.App.Views
             }
         }
 
+        public static readonly DependencyProperty DraggingHappensFromAnotherWindowProperty =
+            DependencyProperty.Register(nameof(DraggingHappensFromAnotherWindow), typeof(bool), typeof(MainPage), new PropertyMetadata(null));
+
+        public bool DraggingHappensFromAnotherWindow
+        {
+            get { return (bool)GetValue(DraggingHappensFromAnotherWindowProperty); }
+            set { SetValue(DraggingHappensFromAnotherWindowProperty, value); }
+        }
+
         public static readonly DependencyProperty DraggingHappensProperty =
-    DependencyProperty.Register(nameof(DraggingHappens), typeof(bool), typeof(MainPage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(DraggingHappens), typeof(bool), typeof(MainPage), new PropertyMetadata(null));
 
         public bool DraggingHappens
         {
