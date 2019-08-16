@@ -26,6 +26,7 @@
             <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
             <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
             <converters:TabColorFallbackConverter x:Key="TabColorFallbackConverter" />
+            <converters:TextMiddleEllipsisConverter x:Key="TextMiddleEllipsisConverter" />
             <converters:IntToVisibilityConverter
                 x:Key="ZeroToCollapsedConverter"
                 Else="Visible"
