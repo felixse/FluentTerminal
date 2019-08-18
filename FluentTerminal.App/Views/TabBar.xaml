@@ -198,8 +198,7 @@
                                     RelativePanel.LeftOf="CloseButton"
                                     RelativePanel.RightOf="HasExitedWithError"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind TabTitle, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
+                                    Text="{x:Bind TabTitle, Mode=OneWay, Converter={StaticResource TextMiddleEllipsisConverter}}"
                                     TextWrapping="NoWrap" />
                                 <Grid
                                     x:Name="CloseButton"
