@@ -17,6 +17,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
             ProcessInfo = processInfo;
         }
 
+        ~Process()
+        {
+            Dispose(false);
+        }
+
         public STARTUPINFOEX StartupInfo { get; }
         public PROCESS_INFORMATION ProcessInfo { get; }
 
@@ -31,51 +36,55 @@ namespace FluentTerminal.SystemTray.Services.ConPty.Processes
             return exitCode;
         }
 
-        #region IDisposable Support
-
-        private bool disposedValue = false; // To detect redundant calls
-
-        void Dispose(bool disposing)
-        {
-            if (!disposedValue)
+        // <summary>
+        // Kills the process and its children, and grandchildren etc.
+        // </summary>
+        public void KillTree() {
+            if (ProcessInfo.dwProcessId > 0)
             {
-                if (disposing)
-                {
-                    // dispose managed state (managed objects).
-                }
-
-                // dispose unmanaged state
-
-                // Free the attribute list
-                if (StartupInfo.lpAttributeList != IntPtr.Zero)
-                {
-                    DeleteProcThreadAttributeList(StartupInfo.lpAttributeList);
-                    Marshal.FreeHGlobal(StartupInfo.lpAttributeList);
-                }
-
-                // Close process and thread handles
-                if (ProcessInfo.hProcess != IntPtr.Zero)
-                {
-                    CloseHandle(ProcessInfo.hProcess);
-                }
-                if (ProcessInfo.hThread != IntPtr.Zero)
-                {
-                    CloseHandle(ProcessInfo.hThread);
-                }
-
-                disposedValue = true;
+                ProcessUtils.KillTree(ProcessInfo.dwProcessId);
             }
         }
 
-        ~Process()
-        {
-            Dispose(false);
-        }
+        #region IDisposable Support
 
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
+        }
+
+        private bool alreadyDisposed = false; // To detect redundant calls
+
+        public void Dispose(bool disposeManaged)
+        {
+            if (alreadyDisposed)
+            {
+                return;
+            }
+            
+            // Clean up resources (all unmanaged in this case)
+
+            // Kill the process and any children
+            KillTree();
+
+            // Free the attribute list
+            if (StartupInfo.lpAttributeList != IntPtr.Zero)
+            {
+                DeleteProcThreadAttributeList(StartupInfo.lpAttributeList);
+                Marshal.FreeHGlobal(StartupInfo.lpAttributeList);
+            }
+
+            // Close process and thread handles
+            if (ProcessInfo.hProcess != IntPtr.Zero)
+            {
+                CloseHandle(ProcessInfo.hProcess);
+            }
+            if (ProcessInfo.hThread != IntPtr.Zero)
+            {
+                CloseHandle(ProcessInfo.hThread);
+            }
+
+            alreadyDisposed = true;
         }
 
         #endregion

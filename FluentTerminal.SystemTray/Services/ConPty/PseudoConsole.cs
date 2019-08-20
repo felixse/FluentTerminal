@@ -19,6 +19,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             Handle = handle;
         }
 
+        ~PseudoConsole()
+        {
+            Dispose();
+        }
+
         internal static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
         {
             var createResult = CreatePseudoConsole(
@@ -40,6 +45,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         public void Dispose()
         {
             ClosePseudoConsole(Handle);
+            GC.SuppressFinalize(this);
         }
     }
 }
