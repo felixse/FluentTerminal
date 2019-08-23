@@ -11,7 +11,6 @@ namespace FluentTerminal.App.Adapters
         public DispatcherTimerAdapter()
         {
             _dispatcherTimer = new DispatcherTimer();
-            _dispatcherTimer.Tick += OnDispatcherTimerTick;
         }
 
         private void OnDispatcherTimerTick(object sender, object e)
@@ -31,12 +30,14 @@ namespace FluentTerminal.App.Adapters
 
         public void Start()
         {
+            _dispatcherTimer.Tick += OnDispatcherTimerTick;
             _dispatcherTimer.Start();
         }
 
         public void Stop()
         {
             _dispatcherTimer.Stop();
+            _dispatcherTimer.Tick -= OnDispatcherTimerTick;
         }
     }
 }

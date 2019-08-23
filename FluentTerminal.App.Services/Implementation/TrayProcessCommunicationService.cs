@@ -233,6 +233,14 @@ namespace FluentTerminal.App.Services.Implementation
             _terminalOutputHandlers[terminalId] = callback;
         }
 
+        public void UnsubscribeFromTerminalOutput(byte terminalId)
+        {
+            if (_terminalOutputHandlers.ContainsKey(terminalId))
+            {
+                _terminalOutputHandlers.Remove(terminalId);
+            }
+        }
+
         public Task UpdateToggleWindowKeyBindings()
         {
             var keyBindings = _settingsService.GetCommandKeyBindings()[nameof(Command.ToggleWindow)];

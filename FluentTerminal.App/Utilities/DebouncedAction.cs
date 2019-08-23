@@ -9,14 +9,14 @@ namespace FluentTerminal.App.Utilities
         private DispatcherTimer timer;
         private readonly CoreDispatcher _dispatcher;
         private readonly TimeSpan _interval;
-        private readonly Action<T> _action;
+        private readonly WeakReference<Action<T>> _action;
         private T _parameter;
 
         public DebouncedAction(CoreDispatcher dispatcher, TimeSpan interval, Action<T> action)
         {
             _dispatcher = dispatcher;
             _interval = interval;
-            _action = action;
+            _action = new WeakReference<Action<T>>(action);
         }
 
         public void Invoke(T parameter)
@@ -30,20 +30,28 @@ namespace FluentTerminal.App.Utilities
             {
                 Interval = _interval
             };
-            timer.Tick += (s, e) =>
-            {
-                if (timer == null)
-                {
-                    return;
-                }
-
-                timer?.Stop();
-                timer = null;
-
-                _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _action.Invoke(_parameter));
-            };
-
+            timer.Tick += Timer_Tick;
             timer.Start();
+        }
+
+        private async void Timer_Tick(object sender, object e)
+        {
+            if (timer == null)
+            {
+                return;
+            }
+
+            timer?.Stop();
+            timer.Tick -= Timer_Tick;
+            timer = null;
+
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (_action.TryGetTarget(out Action<T> target))
+                {
+                    target.Invoke(_parameter);
+                }
+            });
         }
     }
 }

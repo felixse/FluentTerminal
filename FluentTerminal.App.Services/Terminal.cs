@@ -37,6 +37,8 @@ namespace FluentTerminal.App.Services
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
             }
+
+            _trayProcessCommunicationService.TerminalExited -= OnTerminalExited;
         }
 
         public event EventHandler<int> Exited;
@@ -81,6 +83,7 @@ namespace FluentTerminal.App.Services
                 return;
             }
             _closingFromUI = true;
+            _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
             await _trayProcessCommunicationService.CloseTerminal(Id).ConfigureAwait(true);
         }
 
