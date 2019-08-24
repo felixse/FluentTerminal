@@ -454,6 +454,10 @@ namespace FluentTerminal.App.ViewModels
                 terminal.Closed -= OnTerminalClosed;
                 terminal.ShellTitleChanged -= Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged -= Terminal_CustomTitleChanged;
+                terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
+                terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
+                terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
+                terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
                 await terminal.Close();
             }
         }
@@ -537,6 +541,15 @@ namespace FluentTerminal.App.ViewModels
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
                 Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
+
+                terminal.Closed -= OnTerminalClosed;
+                terminal.ShellTitleChanged -= Terminal_ShellTitleChanged;
+                terminal.CustomTitleChanged -= Terminal_CustomTitleChanged;
+                terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
+                terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
+                terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
+                terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
+
                 Terminals.Remove(terminal);
 
                 if (Terminals.Count == 0)
