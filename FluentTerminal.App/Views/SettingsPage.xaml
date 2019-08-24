@@ -2,6 +2,7 @@
     x:Class="FluentTerminal.App.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="Page_Loaded"
@@ -14,112 +15,114 @@
             IsHitTestVisible="False"
             Style="{StaticResource CaptionTextBlockStyle}"
             Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource TrueToVisibleConverter}}" />
-        <NavigationView
+        <controls:NavigationView
             x:Name="NavigationView"
             AlwaysShowHeader="False"
             Canvas.ZIndex="0"
             CompactModeThresholdWidth="0"
             ExpandedModeThresholdWidth="560"
+            IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             Loaded="NavigationView_Loaded"
             OpenPaneLength="200"
             SelectionChanged="NavigationView_SelectionChanged">
-            <NavigationView.MenuItems>
-                <NavigationViewItem
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem
                     x:Uid="Setting_General"
                     Content="General"
                     Tag="general">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="e"
                             ToolTipService.ToolTip="General" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_Terminal"
                     Content="Terminal"
                     Tag="terminal">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="d"
                             ToolTipService.ToolTip="Terminal" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_Profiles"
                     Content="Profiles"
                     Tag="profiles">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="a"
                             ToolTipService.ToolTip="Shell" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_SShProfiles"
                     Content="SSH Profiles"
                     Tag="sshprofiles">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="a"
                             ToolTipService.ToolTip="Shell" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_Keybindings"
                     Content="Keybindings"
                     Tag="keyBindings">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="b"
                             ToolTipService.ToolTip="Keybindings" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_Mouse"
                     Content="Mouse"
                     Tag="mouse">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="g"
                             ToolTipService.ToolTip="Keybindings" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
                     x:Uid="Setting_Themes"
                     Content="Themes"
                     Tag="themes">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="/Assets/settingsicons.ttf#settingsicons"
                             Glyph="c"
                             ToolTipService.ToolTip="Themes" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
-                    x:Uid="Setting_Hidden" x:Name="Setting_Hidden" Visibility="Collapsed">
-                </NavigationViewItem>                
-            </NavigationView.MenuItems>
-            <NavigationView.PaneFooter>
-                <NavigationViewItem
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem
+                    x:Name="Setting_Hidden"
+                    x:Uid="Setting_Hidden"
+                    Visibility="Collapsed" />
+            </controls:NavigationView.MenuItems>
+            <controls:NavigationView.PaneFooter>
+                <controls:NavigationViewItem
                     x:Uid="Setting_About"
                     Content="About"
                     Tapped="AboutTapped">
-                    <NavigationViewItem.Icon>
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="Segoe MDL2 Assets"
                             Glyph="&#xE946;"
                             ToolTipService.ToolTip="About" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.PaneFooter>
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+            </controls:NavigationView.PaneFooter>
+            <Grid Margin="0,-32,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Frame x:Name="ContentFrame" />
                 <TextBlock
                     x:Uid="Settings"
@@ -128,6 +131,6 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Visibility="{Binding IsPaneOpen, ElementName=NavigationView, Converter={StaticResource FalseToVisibleConverter}}" />
             </Grid>
-        </NavigationView>
+        </controls:NavigationView>
     </Grid>
 </Page>

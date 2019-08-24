@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MUXC = Microsoft.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Views
 {
@@ -89,14 +90,14 @@ namespace FluentTerminal.App.Views
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationView.SelectedItem = NavigationView.MenuItems.Cast<NavigationViewItemBase>().FirstOrDefault(m => m.Tag.ToString() == "general");
+            NavigationView.SelectedItem = NavigationView.MenuItems.Cast<MUXC.NavigationViewItemBase>().FirstOrDefault(m => m.Tag.ToString() == "general");
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(MUXC.NavigationView sender, MUXC.NavigationViewSelectionChangedEventArgs args)
         {
             _onThemesPage = false;
 
-            if (args.SelectedItem is NavigationViewItem item)
+            if (args.SelectedItem is MUXC.NavigationViewItem item)
             {
                 switch (item.Tag)
                 {

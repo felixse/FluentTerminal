@@ -31,7 +31,7 @@
         <Border
             Grid.RowSpan="3"
             Grid.Column="0"
-            Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
+            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Grid
             Grid.Row="1"
             Grid.ColumnSpan="2"
