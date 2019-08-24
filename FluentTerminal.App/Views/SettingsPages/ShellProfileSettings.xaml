@@ -40,7 +40,6 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="Profiles"
-                Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"

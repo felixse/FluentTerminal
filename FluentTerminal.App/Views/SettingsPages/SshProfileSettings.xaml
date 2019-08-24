@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
-    xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -41,11 +41,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock
-                Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=Setting_SShProfiles.Content}" />
+                Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Setting_SShProfiles.Content}" />
             <CommandBar
                 Grid.Column="1"
                 HorizontalAlignment="Right"
@@ -209,15 +208,13 @@
                                         Grid.Column="4"
                                         Margin="0,0,4,0"
                                         HorizontalAlignment="Stretch"
-                                        Header="{x:Bind Converter={StaticResource I18NConverter},ConverterParameter=PortTextBox.PlaceholderText}"
+                                        Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=PortTextBox.PlaceholderText}"
                                         IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                         IsSpellCheckEnabled="False"
                                         Text="{x:Bind ProfileVm.SshPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <StackPanel 
-                                    Margin="{StaticResource ItemMargin}" 
-                                    Orientation="Horizontal">
+                                <StackPanel Margin="{StaticResource ItemMargin}" Orientation="Horizontal">
                                     <TextBox
                                         Width="300"
                                         Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
@@ -237,15 +234,13 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind ProfileVm.UseMosh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                <TextBlock 
-                                    Margin="{StaticResource ItemMargin}"
+                                <TextBlock
                                     x:Uid="MoshPortRange"
+                                    Margin="{StaticResource ItemMargin}"
                                     Text="Mosh port range"
-                                    Visibility="{x:Bind ProfileVm.UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"/>
+                                    Visibility="{x:Bind ProfileVm.UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}" />
 
-                                <StackPanel
-                                    Orientation="Horizontal"
-                                    Visibility="{x:Bind ProfileVm.UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal" Visibility="{x:Bind ProfileVm.UseMosh, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}">
                                     <TextBox
                                         x:Uid="MoshPortFrom"
                                         Width="120"
@@ -332,9 +327,9 @@
 
                                 <controls:HeaderedContentControl
                                     x:Uid="CommandLine"
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="Command"
                                     Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}">
                                     <ContentControl>
@@ -351,9 +346,9 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Title}"
                                     Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <ContentControl>
@@ -396,9 +391,9 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
                                     Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <ContentControl
@@ -409,9 +404,9 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
                                     Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
                                     <ContentControl
@@ -423,16 +418,15 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=MoshPortRange.Text}"
                                     Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}">
                                     <ContentControl>
                                         <ContentControl.ContentTemplate>
                                             <DataTemplate x:DataType="profiles:SshConnectViewModel">
-                                                <StackPanel
-                                                    Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         FontSize="18"
                                                         FontWeight="Light"
@@ -457,10 +451,10 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     x:Uid="TabColor"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="Tab color">
                                     <ContentControl
                                         Margin="0,6,0,0"
@@ -471,9 +465,9 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="Theme">
                                     <ContentControl
                                         Margin="0,6,0,0"
@@ -484,9 +478,9 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}">
                                     <ContentControl
                                         Margin="0,6,0,0"
@@ -497,10 +491,10 @@
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl
-                                    DataContext="{Binding ProfileVm}"
                                     x:Uid="LineEndingMode"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    DataContext="{Binding ProfileVm}"
                                     Header="Line ending translation mode">
                                     <ContentControl
                                         Content="{Binding LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
