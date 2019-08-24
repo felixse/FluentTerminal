@@ -22,3 +22,4 @@ DownloadLanguageFile("en");
 DownloadLanguageFile("zh-CN");
 DownloadLanguageFile("de");
 DownloadLanguageFile("es");
+DownloadLanguageFile("fr");
