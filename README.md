@@ -25,6 +25,14 @@ A Terminal Emulator based on UWP and web technologies.
 ![Terminal window](Screenshots/terminal.jpg)
 ![Settings window](Screenshots/settings.jpg)
 
+## Laguages
+- English
+- German
+- Spanish
+- French
+- Simplified Chinese
+
+
 ## Up Next
 
 - ~~Launch shell profile with a custom defined keybinding~~
