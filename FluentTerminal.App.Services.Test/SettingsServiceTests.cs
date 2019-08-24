@@ -649,7 +649,7 @@ namespace FluentTerminal.App.Services.Test
 
             var result = settingsService.GetShellProfiles();
 
-            result.Should().BeEquivalentTo(shellProfiles);
+            result.Select(p => p.EqualTo(shellProfiles.FirstOrDefault(x => x.Id == p.Id)).Should().BeTrue());
             shellProfilesContainer.Verify(x => x.GetAll(), Times.Once);
         }
 
