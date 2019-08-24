@@ -1,13 +1,14 @@
-﻿using Windows.UI;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
+using MUXC = Microsoft.UI.Xaml.Controls;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
     public sealed partial class TerminalColorPicker : UserControl
     {
-        private bool _colorIsNull;
+        private bool _editing;
 
         public static readonly DependencyProperty ColorNameProperty =
             DependencyProperty.Register(nameof(ColorName), typeof(string), typeof(TerminalColorPicker), new PropertyMetadata(null));
@@ -19,17 +20,14 @@ namespace FluentTerminal.App.Views
                     DependencyProperty.Register(nameof(IsAlphaEnabled), typeof(bool), typeof(TerminalColorPicker), new PropertyMetadata(false));
 
         public static readonly DependencyProperty SelectedColorProperty =
-                    DependencyProperty.Register(nameof(SelectedColor), typeof(Color?), typeof(TerminalColorPicker), new PropertyMetadata(Colors.Transparent, (s, e) =>
+                    DependencyProperty.Register(nameof(SelectedColor), typeof(string), typeof(TerminalColorPicker), new PropertyMetadata(null, (s, e) =>
                     {
                         if (s is TerminalColorPicker terminalColorPicker)
                         {
-                            terminalColorPicker._colorIsNull = ((Color?)e.NewValue) == null;
-
-                            // When leading the color, or changing the selected color (happens on page load)
-                            // only set the picker (triggering the event action later) if the color is non-null
-                            if (((Color?)e.NewValue) != null)
+                            if (!terminalColorPicker._editing && e.NewValue != null)
                             {
-                                terminalColorPicker.colorPicker.Color = (Color)e.NewValue;
+                                var color = ((string)e.NewValue).FromString();
+                                terminalColorPicker.colorPicker.Color = color;
                             }
                         }
                     }));
@@ -62,9 +60,9 @@ namespace FluentTerminal.App.Views
             set { SetValue(IsAlphaEnabledProperty, value); }
         }
 
-        public Color? SelectedColor
+        public string SelectedColor
         {
-            get { return (Color?)GetValue(SelectedColorProperty); }
+            get { return (string)GetValue(SelectedColorProperty); }
             set
             {
                 SetValue(SelectedColorProperty, value);
@@ -82,14 +80,16 @@ namespace FluentTerminal.App.Views
                 }
                 else
                 {
-                    return new SolidColorBrush((Color)GetValue(SelectedColorProperty));
+                    return new SolidColorBrush(((string)GetValue(SelectedColorProperty)).FromString());
                 }
             }
         }
 
-        private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        private void ColorPicker_ColorChanged(MUXC.ColorPicker sender, MUXC.ColorChangedEventArgs args)
         {
-            SelectedColor = args.NewColor;
+            _editing = true;
+            SelectedColor = args.NewColor.ToColorString(IsAlphaEnabled);
+            _editing = false;
         }
     }
 }

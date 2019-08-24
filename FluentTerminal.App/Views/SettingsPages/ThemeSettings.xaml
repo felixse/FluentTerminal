@@ -27,7 +27,7 @@
         <Border
             Grid.RowSpan="3"
             Grid.Column="0"
-            Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
+            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Grid
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -37,9 +37,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock
-                Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
+                RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
                 Style="{StaticResource TitleTextBlockStyle}"
                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Setting_Themes.Content}" />
             <CommandBar
@@ -48,6 +48,7 @@
                 VerticalAlignment="Top"
                 Background="Transparent"
                 DefaultLabelPosition="Right"
+                RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
                 Visibility="{x:Bind ViewModel.SelectedTheme.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
                 <AppBarButton
                     Name="SetActiveButton"
@@ -109,6 +110,7 @@
         <ScrollViewer
             Grid.Row="2"
             Grid.Column="0"
+            RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
             VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="{StaticResource ItemMargin}">
                 <ListView ItemsSource="{x:Bind ViewModel.Themes}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
@@ -268,92 +270,92 @@
                                     <views:TerminalColorPicker
                                         ColorName="Black"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Black, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Black, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Red"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Red, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Red, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Green"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Green, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Green, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Yellow"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Yellow, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Yellow, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Blue"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Blue, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Blue, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Magenta"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Magenta, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Magenta, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Cyan"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Cyan, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Cyan, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="White"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind White, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind White, Mode=TwoWay}" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="3" Orientation="Horizontal">
                                     <views:TerminalColorPicker
                                         ColorName="Bright Black"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightBlack, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightBlack, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Red"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightRed, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightRed, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Green"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightGreen, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightGreen, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Yellow"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightYellow, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightYellow, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Blue"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightBlue, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightBlue, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Magenta"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightMagenta, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightMagenta, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright Cyan"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightCyan, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightCyan, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Bright White"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind BrightWhite, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind BrightWhite, Mode=TwoWay}" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="4" Orientation="Horizontal">
                                     <views:TerminalColorPicker
                                         ColorName="Foreground"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Foreground, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Foreground, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Background"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Background, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Background, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Cursor"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind Cursor, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind Cursor, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Cursor Accent"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
-                                        SelectedColor="{x:Bind CursorAccent, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=false}" />
+                                        SelectedColor="{x:Bind CursorAccent, Mode=TwoWay}" />
                                     <views:TerminalColorPicker
                                         ColorName="Selection"
                                         EnableEditing="{x:Bind InEditMode, Mode=OneWay}"
                                         IsAlphaEnabled="True"
-                                        SelectedColor="{x:Bind Selection, Mode=TwoWay, Converter={StaticResource StringToColorConverter}, ConverterParameter=true}" />
+                                        SelectedColor="{x:Bind Selection, Mode=TwoWay}" />
                                 </StackPanel>
                             </Grid>
                         </StackPanel>

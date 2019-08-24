@@ -34,7 +34,7 @@ namespace FluentTerminal.App.Utilities
 
                 return new Color
                 {
-                    A = (byte)(int)(double.Parse(parts[3]) * 256.0),
+                    A = (byte)(int)(double.Parse(parts[3], CultureInfo.InvariantCulture) * 256.0),
                     R = byte.Parse(parts[0]),
                     G = byte.Parse(parts[1]),
                     B = byte.Parse(parts[2])
