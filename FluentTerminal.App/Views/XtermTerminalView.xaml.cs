@@ -289,27 +289,32 @@ namespace FluentTerminal.App.Views
             ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
         }
 
+        private static void WebSocketLogAction(LogLevel level, string message, Exception exception)
+        {
+            // todo: send debug to verbose
+            switch (level)
+            {
+                case LogLevel.Info:
+                    Logger.Instance.Information(message);
+                    break;
+                case LogLevel.Warn:
+                    Logger.Instance.Warning(message);
+                    break;
+                case LogLevel.Error:
+                    Logger.Instance.Error(message);
+                    break;
+            }
+            if (exception != null)
+            {
+                Logger.Instance.Error(exception, "Fleck Exception");
+            }
+        }
+
         private async Task CreateWebSocketServer(int port)
         {
-            FleckLog.LogAction = (level, message, exception) =>
+            if (FleckLog.LogAction != WebSocketLogAction)
             {
-                // todo: send debug to verbose
-                switch (level)
-                {
-                    case LogLevel.Info:
-                        Logger.Instance.Information(message);
-                        break;
-                    case LogLevel.Warn:
-                        Logger.Instance.Warning(message);
-                        break;
-                    case LogLevel.Error:
-                        Logger.Instance.Error(message);
-                        break;
-                }
-                if (exception != null)
-                {
-                    Logger.Instance.Error(exception, "Fleck Exception");
-                }
+                FleckLog.LogAction = WebSocketLogAction;
             };
 
             var webSocketUrl = "ws://127.0.0.1:" + port;
@@ -418,7 +423,6 @@ namespace FluentTerminal.App.Views
                 _socket.OnOpen -= OnWebSocketOpened;
                 _socket.OnMessage -= OnWebSocketMessage;
                 _socket.Close();
-                FleckLog.LogAction = null;
                 _webSocketServer.Dispose();
                 _webSocketServer = null;
                 _socket = null;
