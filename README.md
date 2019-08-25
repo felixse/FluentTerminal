@@ -25,6 +25,17 @@ A Terminal Emulator based on UWP and web technologies.
 ![Terminal window](Screenshots/terminal.jpg)
 ![Settings window](Screenshots/settings.jpg)
 
+## Laguages
+- English
+- German
+- Spanish
+- French
+- Simplified Chinese
+
+Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with existing translations or add a new language
+
+
+
 ## Up Next
 
 - ~~Launch shell profile with a custom defined keybinding~~
