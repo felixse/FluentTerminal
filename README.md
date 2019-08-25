@@ -32,6 +32,9 @@ A Terminal Emulator based on UWP and web technologies.
 - French
 - Simplified Chinese
 
+Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with existing translations or add a new language
+
+
 
 ## Up Next
 
