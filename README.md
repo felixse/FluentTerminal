@@ -1,4 +1,4 @@
-# Fluent Terminal
+# Fluent Terminal <img align="left" src="./FluentTerminal.App/Assets/AppIconsDark/Square44x44Logo.altform-unplated_targetsize-48_altform-lightunplated.png">
 
 [![Build status](https://fs-apps.visualstudio.com/FluentTerminal/_apis/build/status/FluentTerminal-Universal%20Windows%20Platform-CI)](https://fs-apps.visualstudio.com/FluentTerminal/_build/latest?definitionId=3)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=FluentTerminal&metric=alert_status)](https://sonarcloud.io/dashboard?id=FluentTerminal)
