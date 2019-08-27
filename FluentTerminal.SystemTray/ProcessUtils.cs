@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Management;
 
@@ -28,6 +29,10 @@ namespace FluentTerminal.SystemTray
             catch (ArgumentException)
             {
                 // Process already exited.
+            }
+            catch (Win32Exception)
+            {
+                // Ignore access is denied
             }
         }
     }
