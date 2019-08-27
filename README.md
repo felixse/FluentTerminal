@@ -7,6 +7,7 @@
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=FluentTerminal&metric=alert_status)](https://sonarcloud.io/dashboard?id=FluentTerminal)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FluentTerminal)
 [![Release](https://img.shields.io/github/release/felixse/FluentTerminal.svg?label=Release)](https://github.com/felixse/FluentTerminal/releases)
+[![Contributors](https://img.shields.io/github/contributors/felixse/FluentTerminal_Dark.svg?label=Contributors)](https://github.com/felixse/FluentTerminal/graphs/contributors)
 
 A Terminal Emulator based on UWP and web technologies.
 
