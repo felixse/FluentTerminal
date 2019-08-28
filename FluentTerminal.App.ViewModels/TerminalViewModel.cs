@@ -118,7 +118,7 @@ namespace FluentTerminal.App.ViewModels
             TabThemes = new ObservableCollection<TabTheme>(SettingsService.GetTabThemes());
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
 
-            CloseCommand = new RelayCommand(CloseTab, CanExecuteCommand);
+            CloseCommand = new AsyncCommand(CloseTab, CanExecuteCommand);
             CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs, CanExecuteCommand);
             CloseRightTabsCommand = new RelayCommand(CloseRightTabs, CanExecuteCommand);
             CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs, CanExecuteCommand);
@@ -190,7 +190,7 @@ namespace FluentTerminal.App.ViewModels
 
         public string XtermBufferState { get; private set; }
 
-        public RelayCommand CloseCommand { get; private set; }
+        public AsyncCommand CloseCommand { get; private set; }
 
         public RelayCommand CloseRightTabsCommand { get; }
 
@@ -410,7 +410,7 @@ namespace FluentTerminal.App.ViewModels
             return (Initialized == true && _disposalRequested == false);
         }
 
-        private async void CloseTab()
+        private async Task CloseTab()
         {
              await TryClose().ConfigureAwait(false);
         }
