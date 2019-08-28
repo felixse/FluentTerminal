@@ -198,6 +198,9 @@ namespace FluentTerminal.App.Views
 
         public void DisposalPrepare()
         {
+            _optionsChanged.Stop();
+            _sizeChanged.Stop();
+            _unblockOutput.Stop();
             ViewModel = null;
         }
 
@@ -410,12 +413,13 @@ namespace FluentTerminal.App.Views
 
         private async void Terminal_Closed(object sender, EventArgs e)
         {
+            ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
+            ViewModel.Terminal.Closed -= Terminal_Closed;
             await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
                 _webView.NavigationStarting -= _webView_NavigationStarting;
-                ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
-                ViewModel.Terminal.Closed -= Terminal_Closed;
+
                 _webView?.Navigate(new Uri("about:blank"));
                 Root.Children.Remove(_webView);
                 _webView = null;
