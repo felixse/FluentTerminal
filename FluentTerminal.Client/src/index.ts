@@ -58,7 +58,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     allowTransparency: true,
     theme: theme,
     windowsMode: true,
-    wordSeparator: ' ()[]{}\'":;'
+    wordSeparator: ' ()[]{}\'":;|│!&*<>@'
   };
 
   term = new Terminal(terminalOptions);
