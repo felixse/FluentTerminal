@@ -118,16 +118,16 @@ namespace FluentTerminal.App.ViewModels
             TabThemes = new ObservableCollection<TabTheme>(SettingsService.GetTabThemes());
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
 
-            CloseCommand = new RelayCommand(async () => await TryClose().ConfigureAwait(false));
-            CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs);
-            CloseRightTabsCommand = new RelayCommand(CloseRightTabs);
-            CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs);
-            FindNextCommand = new RelayCommand(FindNext);
-            FindPreviousCommand = new RelayCommand(FindPrevious);
-            CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel);
-            SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme);
-            EditTitleCommand = new AsyncCommand(EditTitle);
-            DuplicateTabCommand = new RelayCommand(DuplicateTab);
+            CloseCommand = new AsyncCommand(CloseTab, CanExecuteCommand);
+            CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs, CanExecuteCommand);
+            CloseRightTabsCommand = new RelayCommand(CloseRightTabs, CanExecuteCommand);
+            CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs, CanExecuteCommand);
+            FindNextCommand = new RelayCommand(FindNext, CanExecuteCommand);
+            FindPreviousCommand = new RelayCommand(FindPrevious, CanExecuteCommand);
+            CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
+            SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme, CanExecuteCommand);
+            EditTitleCommand = new AsyncCommand(EditTitle, CanExecuteCommand);
+            DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
 
             if (!String.IsNullOrEmpty(terminalState))
             {
@@ -146,8 +146,12 @@ namespace FluentTerminal.App.ViewModels
 
         }
 
+        private bool _disposalRequested;
+
         public void DisposalPrepare()
         {
+            _disposalRequested = true;
+            CloseCommand = null;
             TerminalView.DisposalPrepare();
             TerminalView = null;
             Terminal = null;
@@ -186,7 +190,7 @@ namespace FluentTerminal.App.ViewModels
 
         public string XtermBufferState { get; private set; }
 
-        public RelayCommand CloseCommand { get; }
+        public AsyncCommand CloseCommand { get; private set; }
 
         public RelayCommand CloseRightTabsCommand { get; }
 
@@ -303,6 +307,8 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _terminalTheme, value);
         }
 
+        public bool Initialized { get; set; }
+
         public string TabTitle
         {
             get => _tabTitle;
@@ -392,6 +398,21 @@ namespace FluentTerminal.App.ViewModels
             SearchText = string.Empty;
             ShowSearchPanel = false;
             FocusTerminal();
+        }
+
+        private bool CanExecuteCommand<T>(T a)
+        {
+            return CanExecuteCommand();
+        }
+
+        private bool CanExecuteCommand()
+        {
+            return (Initialized == true && _disposalRequested == false);
+        }
+
+        private async Task CloseTab()
+        {
+             await TryClose().ConfigureAwait(false);
         }
 
         private void CloseLeftTabs()
