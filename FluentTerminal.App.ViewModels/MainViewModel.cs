@@ -356,7 +356,7 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
                 terminal.DuplicateTabRequested += Terminal_DuplicateTabRequested;
-                Terminals.Insert(position, terminal);
+                Terminals.Insert(Math.Min(position, Terminals.Count), terminal);
 
                 SelectedTerminal = terminal;
             });
