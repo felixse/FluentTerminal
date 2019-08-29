@@ -12,7 +12,8 @@ namespace FluentTerminal.Models
         /// <summary>
         /// Replace all instances of anything resembling a newline, treating pairs of \r\n in either order as a single linebreak.
         /// </summary>
-        public static Regex NewlinePattern = new Regex(@"\n\r|\r\n|\r|\n", RegexOptions.Compiled);
+        public readonly Regex NewlinePattern = new Regex(@"\n\r|\r\n|\r|\n", RegexOptions.Compiled);
+        public const int CurrentMigrationVersion = 1;
 
         public ShellProfile()
         {
@@ -42,8 +43,10 @@ namespace FluentTerminal.Models
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
         public LineEndingStyle LineEndingTranslation { get; set; }
-        public Dictionary<string, string> EnvironmentVariables { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
         public bool UseConPty { get; set; }
+
+        public int MigrationVersion { get; set; }
 
         /// <summary>
         /// For attaching a data to the profile. This property doesn't get serialized nor cloned.

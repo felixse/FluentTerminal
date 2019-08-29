@@ -296,9 +296,10 @@ Fuzzy</comment>
     <value>Themes</value>
     <comment>SettingsPage.xaml</comment>
   </data>
-  <data name="AddKeyShort.Content" xml:space="preserve">
+  <data name="Add.Content" xml:space="preserve">
     <value>Add</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
     <value>Arguments</value>
@@ -550,8 +551,9 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close "{0}" tab?</value>
-    <comment>ViewModel</comment>
+    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>Are you sure you want to close this window?</value>
@@ -671,9 +673,10 @@ Fuzzy</comment>
     <value>Keybindings</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
-  <data name="KeyBindingsViewDelete.Content" xml:space="preserve">
+  <data name="Delete.Content" xml:space="preserve">
     <value>Delete</value>
-    <comment>KeyBindingsView.xaml</comment>
+    <comment>KeyBindingsView.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
     <value>Edit</value>
@@ -979,27 +982,29 @@ Fuzzy</comment>
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>Drop tab here</value>
-    <comment>Drop hint</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Close Tabs to the Left</value>
-    <comment>TabBar.xaml</comment>
+    <value>Close tabs to the left</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Close Other Tabs</value>
-    <comment>TabBar.xaml</comment>
+    <value>Close other tabs</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Close Tabs to the Right</value>
-    <comment>TabBar.xaml</comment>
+    <value>Close tabs to the right</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>Duplicate tab</value>
-    <comment>Command
-Fuzzy</comment>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>Duplicate</value>
-    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>Cannot define two environment variables with the same name.</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>Cannot define an environment variable without a name.</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>Environment variables</value>
   </data>
 </root>

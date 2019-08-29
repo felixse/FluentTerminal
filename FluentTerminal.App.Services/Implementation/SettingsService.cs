@@ -280,13 +280,18 @@ namespace FluentTerminal.App.Services.Implementation
         {
             return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
         }
+
         public IEnumerable<SshProfile> GetSshProfiles()
         {
             if (_sshProfiles == null)
+            {
                 return new List<SshProfile>();
+            }
             else
+            {
                 return _sshProfiles.GetAll()
-                    .Select(x => JsonConvert.DeserializeObject<SshProfile>((string) x)).ToList();
+                   .Select(x => JsonConvert.DeserializeObject<SshProfile>((string)x)).ToList();
+            }
         }
 
         public IEnumerable<TabTheme> GetTabThemes()

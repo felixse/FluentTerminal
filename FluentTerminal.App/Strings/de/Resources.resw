@@ -287,9 +287,10 @@ Fuzzy</comment>
     <value>Themes</value>
     <comment>SettingsPage.xaml</comment>
   </data>
-  <data name="AddKeyShort.Content" xml:space="preserve">
+  <data name="Add.Content" xml:space="preserve">
     <value>Hinzufügen</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
     <value>Argumente</value>
@@ -541,8 +542,9 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie "{0}" Tab schließen wollen?</value>
-    <comment>ViewModel</comment>
+    <value>Sind Sie sicher dass Sie den Tab &quot;{0}&quot; schließen wollen?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>Sind Sie sicher dass Sie dieses Fenster schließen wollen?</value>
@@ -657,9 +659,10 @@ Fuzzy</comment>
     <value>Tastaturkürzel</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
-  <data name="KeyBindingsViewDelete.Content" xml:space="preserve">
+  <data name="Delete.Content" xml:space="preserve">
     <value>Löschen</value>
-    <comment>KeyBindingsView.xaml</comment>
+    <comment>KeyBindingsView.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
     <value>Bearbeiten</value>
@@ -752,6 +755,7 @@ Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>Neuer SSH-Tab</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Neuer SSH-Tab</value>
@@ -929,18 +933,45 @@ Fuzzy</comment>
     <value>Quick Launch</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>New quick launch tab</value>
+    <value>Neuer Quick Launch-Tab</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>New quick launch window</value>
+    <value>Neues Quick Launch-Fenster</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>New quick tab</value>
+    <value>Neuer Quick Launch-Tab</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>File not found:</value>
+    <value>Datei nicht gefunden:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Invalid link.</value>
+    <value>Ungültiger Verweis.</value>
+  </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>Tab hier ablegen</value>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>Linke Tabs schließen</value>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>Andere Tabs schließen</value>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>Rechte Tabs schließen</value>
+  </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>Tab duplizieren</value>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>Duplizieren</value>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>Es können keine zwei Umgebungsvariablen mit dem gleichen Namen erstellt werden.</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>Es kann keine Umgebungsvariable ohne Name erstellt werden.</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>Umgebungsvariablen</value>
   </data>
 </root>
