@@ -197,7 +197,7 @@
                             MaxWidth="250" MinWidth="250" />
                         <Button
                             x:Uid="BrowseButton"
-                            Click="BrowseButtonOnClick"
+                            Command="{x:Bind ViewModel.BrowseLogDirectoryCommand}"
                             Content="Browse"
                             IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"/>
                     </StackPanel>

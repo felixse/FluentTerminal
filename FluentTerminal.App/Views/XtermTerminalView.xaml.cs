@@ -164,9 +164,8 @@ namespace FluentTerminal.App.Views
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
-            var settings = ViewModel.SettingsService.GetApplicationSettings();
             var theme = ViewModel.TerminalTheme;
-            var sessionType = SessionType.Unknown;
+            SessionType sessionType;
             if (ViewModel.ShellProfile.UseConPty && ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
             {
                 sessionType = SessionType.ConPty;

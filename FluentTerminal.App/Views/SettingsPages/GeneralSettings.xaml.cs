@@ -23,16 +23,5 @@ namespace FluentTerminal.App.Views.SettingsPages
                 ViewModel.OnNavigatedTo();
             }
         }
-
-        private async void BrowseButtonOnClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            var picker = new FolderPicker() { SuggestedStartLocation = PickerLocationId.ComputerFolder };
-            picker.FileTypeFilter.Add(".whatever"); // else a ComException is thrown
-            var folder = await picker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                ViewModel.LogDirectoryPath = folder?.Path;
-            }
-        }
     }
 }

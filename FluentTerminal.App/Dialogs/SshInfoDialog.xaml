@@ -6,15 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enums="using:FluentTerminal.Models.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:views="using:FluentTerminal.App.Views"
     xmlns:profiles="using:FluentTerminal.App.ViewModels.Profiles"
+    xmlns:views="using:FluentTerminal.App.Views"
     x:Uid="SshInfoDialog"
     Title="SSH Info"
     d:DataContext="{d:DesignInstance profiles:SshConnectViewModel,
                                      IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
-    Loading="OnLoading"
-    PrimaryButtonClick="SshInfoDialog_OnPrimaryButtonClick"
+    PrimaryButtonClick="OnPrimaryButtonClick"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
@@ -26,10 +25,9 @@
     </ContentDialog.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Orientation="Vertical" Width="500">
+        <StackPanel Width="500" Orientation="Vertical">
 
-            <Grid HorizontalAlignment="Stretch" 
-                  Margin="0 8 2 0">
+            <Grid Margin="0,8,2,0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -45,7 +43,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <!-- Row -->
+                <!--  Row  -->
                 <TextBox
                     x:Name="UserTextBox"
                     x:Uid="UserTextBox"
@@ -53,19 +51,19 @@
                     Grid.Column="0"
                     Width="140"
                     PlaceholderText="user"
-                    Text="{Binding Username, Mode=TwoWay}" />
+                    Text="{x:Bind ViewModel.Username, Mode=TwoWay}" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
                     FontSize="22"
                     Text="@" />
                 <TextBox
-                    Grid.Row="0"
-                    Grid.Column="2"
                     x:Name="HostTextBox"
                     x:Uid="HostTextBox"
+                    Grid.Row="0"
+                    Grid.Column="2"
                     PlaceholderText="host"
-                    Text="{Binding Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{x:Bind ViewModel.Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="3"
@@ -79,36 +77,36 @@
                     HorizontalAlignment="Stretch"
                     BeforeTextChanging="Port_OnBeforeTextChanging"
                     PlaceholderText="port"
-                    Text="{Binding SshPort, Mode=TwoWay}" />
+                    Text="{x:Bind ViewModel.SshPort, Mode=TwoWay}" />
 
-                <!-- Row -->
+                <!--  Row  -->
                 <TextBox
                     x:Uid="IdentityFileTextBox"
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    Margin="0,8,0,0"
                     IsReadOnly="False"
                     PlaceholderText="Identity file path"
-                    Text="{Binding IdentityFile, Mode=TwoWay}"
-                    Margin="0,8,0,0" />
+                    Text="{x:Bind ViewModel.IdentityFile, Mode=TwoWay}" />
                 <Button
                     x:Uid="BrowseButton"
                     Grid.Row="1"
                     Grid.Column="4"
+                    Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
-                    Click="BrowseButtonOnClick"
-                    Content="Browse"
-                    Margin="0,8,0,0" />
+                    Command="{x:Bind BrowseIdentityFileCommand}"
+                    Content="Browse" />
 
-                <!-- Row -->
+                <!--  Row  -->
                 <CheckBox
                     x:Uid="UseMoshCheckBox"
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="5"
+                    Margin="0,8,0,0"
                     Content="Use Mosh"
-                    IsChecked="{Binding UseMosh, Mode=TwoWay}" 
-                    Margin="0,8,0,0"/>
+                    IsChecked="{x:Bind ViewModel.UseMosh, Mode=TwoWay}" />
 
             </Grid>
 
@@ -134,108 +132,107 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <!-- Row -->
+                    <!--  Row  -->
                     <TextBlock
                         x:Uid="MoshPorts"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Margin="0,8,8,0"
                         VerticalAlignment="Center"
                         Text="Mosh ports:"
-                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
-                        Margin="0,8,8,0" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBox
                         Grid.Row="0"
                         Grid.Column="1"
+                        Margin="0,8,0,0"
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
-                        Text="{Binding MoshPortFrom, Mode=TwoWay}"
-                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
-                        Margin="0,8,0,0" />
+                        Text="{x:Bind ViewModel.MoshPortFrom, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="2"
+                        Margin="2,8,0,0"
                         VerticalAlignment="Center"
                         Text=":"
-                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
-                        Margin="2,8,0,0" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBox
                         Grid.Row="0"
                         Grid.Column="3"
+                        Margin="0,8,0,0"
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
-                        Text="{Binding MoshPortTo, Mode=TwoWay}"
-                        Visibility="{Binding UseMosh, Converter={StaticResource TrueToVisibleConverter}}"
-                        Margin="0,8,0,0" />
+                        Text="{x:Bind ViewModel.MoshPortTo, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
 
-                    <!-- Row -->
+                    <!--  Row  -->
                     <TextBlock
                         x:Uid="LineEndingModeOnPaste"
                         Grid.Row="1"
                         Grid.Column="0"
+                        Margin="0,8,8,0"
                         VerticalAlignment="Center"
-                        Text="Line ending on paste:"
-                        Margin="0,8,8,0" />
+                        Text="Line ending on paste:" />
                     <ComboBox
                         Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="3"
-                        VerticalAlignment="Center"
+                        Margin="0,8,0,0"
                         HorizontalAlignment="Stretch"
-                        ItemsSource="{Binding LineEndingStyles}"
-                        SelectedItem="{Binding LineEndingTranslation, Mode=TwoWay}"
-                        Margin="0,8,0,0">
+                        VerticalAlignment="Center"
+                        ItemsSource="{x:Bind ViewModel.LineEndingStyles}"
+                        SelectedItem="{x:Bind ViewModel.LineEndingTranslation, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="enums:LineEndingStyle">
-                                <TextBlock
-                                    Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
+                                <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <!-- Row -->
+                    <!--  Row  -->
                     <TextBlock
                         x:Uid="SshInfoDialog_TabColor"
                         Grid.Row="2"
                         Grid.Column="0"
+                        Margin="0,8,8,0"
                         VerticalAlignment="Center"
-                        Text="Tab color:"
-                        Margin="0,8,8,0" />
+                        Text="Tab color:" />
                     <ComboBox
                         Grid.Row="2"
                         Grid.Column="1"
                         Grid.ColumnSpan="3"
+                        Margin="0,8,0,0"
                         HorizontalAlignment="Stretch"
                         ItemTemplateSelector="{StaticResource TabThemeTemplateSelector}"
-                        ItemsSource="{Binding TabThemes, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedTabTheme, Mode=TwoWay}"
-                        Margin="0,8,0,0" />
+                        ItemsSource="{x:Bind ViewModel.TabThemes, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTabTheme, Mode=TwoWay}" />
 
-                    <!-- Row -->
+                    <!--  Row  -->
                     <TextBlock
                         x:Uid="Theme"
                         Grid.Row="3"
                         Grid.Column="0"
+                        Margin="0,8,8,0"
                         VerticalAlignment="Center"
-                        Text="Theme:"
-                        Margin="0,8,8,0" />
+                        Text="Theme:" />
                     <ComboBox
                         Grid.Row="3"
                         Grid.Column="1"
                         Grid.ColumnSpan="3"
+                        Margin="0,8,0,0"
                         HorizontalAlignment="Stretch"
                         ItemTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                        ItemsSource="{Binding TerminalThemes, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedTerminalTheme, Mode=TwoWay}"
-                        Margin="0,8,0,0" />
+                        ItemsSource="{x:Bind ViewModel.TerminalThemes, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTerminalTheme, Mode=TwoWay}" />
 
-                    <!-- Row -->
+                    <!--  Row  -->
                     <CheckBox
                         Grid.Row="4"
                         Grid.Column="0"
                         Grid.ColumnSpan="4"
+                        Margin="0,8,0,0"
                         Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
-                        IsChecked="{Binding UseConPty, Mode=TwoWay}"
-                        Margin="0,8,0,0" />
+                        IsChecked="{x:Bind ViewModel.UseConPty, Mode=TwoWay}" />
 
                 </Grid>
             </controls:Expander>
@@ -251,7 +248,7 @@
                     Grid.Column="1"
                     Margin="0,10,4,0"
                     HorizontalAlignment="Stretch"
-                    Click="SaveLink_OnClick"
+                    Command="{x:Bind SaveLinkCommand}"
                     Content="Save Shortcut" />
             </Grid>
 

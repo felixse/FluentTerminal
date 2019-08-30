@@ -15,7 +15,7 @@ namespace FluentTerminal.App.Adapters
 
         private void OnDispatcherTimerTick(object sender, object e)
         {
-            Tick?.Invoke(this, null);
+            Tick?.Invoke(this, EventArgs.Empty);
         }
 
         public TimeSpan Interval

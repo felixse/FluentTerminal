@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -16,6 +15,7 @@ using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels;
+using FluentTerminal.App.ViewModels.Infrastructure;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,6 +31,10 @@ namespace FluentTerminal.App.Dialogs
 
         private ExecutedCommand _lastChosenCommand;
 
+        public CommandProfileProviderViewModel ViewModel { get; private set; }
+
+        public IAsyncCommand SaveLinkCommand { get; }
+
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, ApplicationDataContainers containers)
         {
@@ -40,6 +44,8 @@ namespace FluentTerminal.App.Dialogs
             _historyContainer = containers.HistoryContainer;
 
             InitializeComponent();
+
+            SaveLinkCommand = new AsyncCommand(SaveLink);
 
             PrimaryButtonText = I18N.Translate("OK");
             SecondaryButtonText = I18N.Translate("Cancel");
@@ -53,18 +59,11 @@ namespace FluentTerminal.App.Dialogs
             CommandTextBox.Focus(FocusState.Programmatic);
         }
 
-        private void OnLoading(FrameworkElement sender, object args)
+        private async void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            SetupFocus();
-        }
-
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            var vm = (CommandProfileProviderViewModel) DataContext;
-
             var deferral = args.GetDeferral();
 
-            var error = await vm.AcceptChangesAsync();
+            var error = await ViewModel.AcceptChangesAsync();
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -78,11 +77,9 @@ namespace FluentTerminal.App.Dialogs
             deferral.Complete();
         }
 
-        private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
+        private async Task SaveLink()
         {
-            var vm = (CommandProfileProviderViewModel)DataContext;
-
-            var link = await vm.GetUrlAsync();
+            var link = await ViewModel.GetUrlAsync();
 
             if (!link.Item1)
             {
@@ -93,11 +90,11 @@ namespace FluentTerminal.App.Dialogs
 
             var content = ProfileProviderViewModelBase.GetShortcutFileContent(link.Item2);
 
-            FileSavePicker savePicker = new FileSavePicker { SuggestedStartLocation = PickerLocationId.Desktop };
+            var savePicker = new FileSavePicker { SuggestedStartLocation = PickerLocationId.Desktop };
 
             savePicker.FileTypeChoices.Add("Shortcut", new List<string> { ".url" });
 
-            StorageFile file = await savePicker.PickSaveFileAsync();
+            var file = await savePicker.PickSaveFileAsync();
 
             if (file == null)
             {
@@ -118,7 +115,7 @@ namespace FluentTerminal.App.Dialogs
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                ((CommandProfileProviderViewModel)DataContext).SetFilter(sender.Text.Trim());
+                ViewModel.SetFilter(sender.Text.Trim());
             }
         }
 
@@ -133,14 +130,14 @@ namespace FluentTerminal.App.Dialogs
 
             if (args.ChosenSuggestion is CommandItemViewModel commandItem)
             {
-                ExecutedCommand executedCommand = ((CommandProfileProviderViewModel) DataContext).Commands
+                var executedCommand = ViewModel.Commands
                     .FirstOrDefault(c =>
                         c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value.ToString(),
                             StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
 
                 if (executedCommand != null)
                 {
-                    ((CommandProfileProviderViewModel) DataContext).SetProfile(executedCommand.ShellProfile.Clone());
+                    ViewModel.SetProfile(executedCommand.ShellProfile.Clone());
                 }
             }
         }
@@ -149,11 +146,9 @@ namespace FluentTerminal.App.Dialogs
         {
             var command = _lastChosenCommand;
 
-            if (e.Key == VirtualKey.Delete &&
-                !((CommandProfileProviderViewModel) DataContext).IsProfileCommand(command))
+            if (e.Key == VirtualKey.Delete && !ViewModel.IsProfileCommand(command))
             {
-                ((CommandProfileProviderViewModel) DataContext).RemoveCommand(command);
-
+                ViewModel.RemoveCommand(command);
                 e.Handled = true;
             }
             else
@@ -213,21 +208,19 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
         {
-            var vm = new CommandProfileProviderViewModel(_settingsService, _applicationView,
+            ViewModel = new CommandProfileProviderViewModel(_settingsService, _applicationView,
                 _trayProcessCommunicationService, _historyContainer, input);
 
-            DataContext = vm;
+            SetupFocus();
 
             if (await ShowAsync() != ContentDialogResult.Primary)
             {
                 return null;
             }
 
-            vm = (CommandProfileProviderViewModel)DataContext;
+            ViewModel.Model.Tag = new DelayedHistorySaver(ViewModel);
 
-            vm.Model.Tag = new DelayedHistorySaver(vm);
-
-            return vm.Model;
+            return ViewModel.Model;
         }
     }
 }

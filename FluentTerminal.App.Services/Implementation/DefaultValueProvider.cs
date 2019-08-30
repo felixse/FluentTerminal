@@ -12,14 +12,13 @@ namespace FluentTerminal.App.Services.Implementation
     {
         public ApplicationSettings GetDefaultApplicationSettings()
         {
-            var logDirectoryPath = String.Empty;
+            var logDirectoryPath = string.Empty;
             try
             {
                 // Accessing ApplicationData.Current during run of unit tests causes
                 // "System.InvalidOperationException : The process has no package identity" exception.
                 logDirectoryPath = ApplicationData.Current.LocalCacheFolder.Path;
-            }
-            catch (InvalidOperationException) { }
+            } catch (InvalidOperationException) { }
 
             return new ApplicationSettings
             {
@@ -359,9 +358,9 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                default:
+                    throw new InvalidOperationException($"Default keybindings for Command '{command}' are missing");
             }
-
-            return null;
         }
 
         public Guid GetDefaultShellProfileId()

@@ -51,7 +51,7 @@ namespace FluentTerminal.App.Services.Implementation
             public const string RedComponent = "Red Component";
         }
 
-        public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
+        public Task<TerminalTheme> Parse(string fileName, Stream fileContent)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -65,13 +65,13 @@ namespace FluentTerminal.App.Services.Implementation
 
             var node = PList.Load(fileContent) as DictionaryNode ?? throw new ParseThemeException("Root node was not a dictionary.");
 
-            return new TerminalTheme
+            return Task.FromResult(new TerminalTheme
             {
                 Name = Path.GetFileNameWithoutExtension(fileName),
                 Colors = GetColors(node),
                 Id = Guid.NewGuid(),
                 PreInstalled = false
-            };
+            });
         }
 
         private TerminalColors GetColors(DictionaryNode themeDictionary)
@@ -109,8 +109,6 @@ namespace FluentTerminal.App.Services.Implementation
             var red = dictionaryNode[ITermThemeColorKeys.RedComponent] as RealNode ?? throw new ParseThemeException("Red node value was not a real number");
             var green = dictionaryNode[ITermThemeColorKeys.GreenComponent] as RealNode ?? throw new ParseThemeException("Green node value was not a real number");
             var blue = dictionaryNode[ITermThemeColorKeys.BlueComponent] as RealNode ?? throw new ParseThemeException("Blue node value was not a real number");
-
-            var color = $"#{alpha:X2}{GetByteValue(red):X2}{GetByteValue(green):X2}{GetByteValue(blue):X2}";
 
             if (alpha == byte.MaxValue)
             {

@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Views
     /// <summary>
     /// see: https://stackoverflow.com/questions/33573929/uwp-binding-in-style-setter-not-working
     /// </summary>
-    public class TabBarBackgroundBindingHelper
+    public static class TabBarBackgroundBindingHelper
     {
         public static readonly DependencyProperty BackgroundBindingPathProperty =
             DependencyProperty.RegisterAttached("BackgroundBindingPath", typeof(string), typeof(TabBarBackgroundBindingHelper), new PropertyMetadata(null, BindingPathPropertyChanged));
@@ -23,8 +23,8 @@ namespace FluentTerminal.App.Views
         {
             obj.SetValue(BackgroundBindingPathProperty, value);
         }
-        private static void BindingPathPropertyChanged(DependencyObject obj,
-    DependencyPropertyChangedEventArgs e)
+
+        private static void BindingPathPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is string propertyPath)
             {

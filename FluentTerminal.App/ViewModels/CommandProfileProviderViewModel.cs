@@ -219,7 +219,7 @@ namespace FluentTerminal.App.ViewModels
 
             try
             {
-                var unused = await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value);
+                await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value);
             }
             catch (Exception e)
             {

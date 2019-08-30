@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -23,9 +24,11 @@ namespace FluentTerminal.App.ViewModels.Settings
         private bool _needsToRestart;
         private readonly IApplicationLanguageService _applicationLanguageService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
+        private readonly IFileSystemService _fileSystemService;
 
         public GeneralPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
-            IStartupTaskService startupTaskService, IApplicationLanguageService applicationLanguageService, ITrayProcessCommunicationService trayProcessCommunicationService)
+            IStartupTaskService startupTaskService, IApplicationLanguageService applicationLanguageService,
+            ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
@@ -33,10 +36,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             _startupTaskService = startupTaskService;
             _applicationLanguageService = applicationLanguageService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
+            _fileSystemService = fileSystemService;
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
+            BrowseLogDirectoryCommand = new AsyncCommand(BrowseLogDirectory);
         }
 
         public IEnumerable<string> Languages => _applicationLanguageService.Languages;
@@ -267,7 +272,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public RelayCommand RestoreDefaultsCommand { get; }
+        public IAsyncCommand RestoreDefaultsCommand { get; }
+
+        public IAsyncCommand BrowseLogDirectoryCommand { get; }
 
         public bool StartupTaskEnabled
         {
@@ -429,6 +436,16 @@ namespace FluentTerminal.App.ViewModels.Settings
                 status = await _startupTaskService.GetStatus();
             }
             SetStartupTaskPropertiesForStatus(status);
+        }
+
+        private async Task BrowseLogDirectory()
+        {
+            var folder = await _fileSystemService.BrowseForDirectory();
+
+            if (folder != null)
+            {
+                LogDirectoryPath = folder;
+            }
         }
     }
 }

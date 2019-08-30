@@ -12,9 +12,9 @@ namespace FluentTerminal.App.ViewModels
             IFileSystemService fileSystemService, IStartupTaskService startupTaskService, IUpdateService updateService, IApplicationView applicationView, 
             IApplicationLanguageService applicationLanguageService, ApplicationDataContainers containers)
         {
-            About = new AboutPageViewModel(settingsService, updateService, applicationView);
-            KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, defaultValueProvider, trayProcessCommunicationService);
-            General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService, applicationLanguageService, trayProcessCommunicationService);
+            About = new AboutPageViewModel(updateService, applicationView);
+            KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, trayProcessCommunicationService);
+            General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService, applicationLanguageService, trayProcessCommunicationService, fileSystemService);
             Profiles = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, applicationView);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
             Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);

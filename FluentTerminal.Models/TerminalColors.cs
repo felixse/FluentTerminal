@@ -1,4 +1,6 @@
-﻿namespace FluentTerminal.Models
+﻿using System;
+
+namespace FluentTerminal.Models
 {
     public class TerminalColors
     {
@@ -84,6 +86,15 @@
                     && other.BrightWhite.Equals(BrightWhite);
             }
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(
+                HashCode.Combine(Foreground, Background, Cursor, CursorAccent, Selection),
+                HashCode.Combine(Black, Red, Green, Yellow, Blue, Magenta, Cyan, White),
+                HashCode.Combine(BrightBlack, BrightRed, BrightGreen, BrightYellow, BrightBlue, BrightMagenta, BrightCyan, BrightWhite)
+            );
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FluentTerminal.Models
+﻿using System;
+
+namespace FluentTerminal.Models
 {
     public class KeyBinding
     {
@@ -36,6 +38,11 @@
                     && other.Meta == Meta;
             }
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Command, Key, Ctrl, Alt, Shift, Meta);
         }
     }
 }

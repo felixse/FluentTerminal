@@ -1,4 +1,5 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services.Exceptions;
+using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Requests;
 using FluentTerminal.Models.Responses;
@@ -82,7 +83,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (!response.Success)
             {
-                throw new Exception(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
+                throw new SaveTextFileException(string.IsNullOrEmpty(response.Error) ? "Failed to save the file." : response.Error);
             }
         }
 
@@ -233,11 +234,11 @@ namespace FluentTerminal.App.Services.Implementation
             _terminalOutputHandlers[terminalId] = callback;
         }
 
-        public void UnsubscribeFromTerminalOutput(byte terminalId)
+        public void UnsubscribeFromTerminalOutput(byte id)
         {
-            if (_terminalOutputHandlers.ContainsKey(terminalId))
+            if (_terminalOutputHandlers.ContainsKey(id))
             {
-                _terminalOutputHandlers.Remove(terminalId);
+                _terminalOutputHandlers.Remove(id);
             }
         }
 

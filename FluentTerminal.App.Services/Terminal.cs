@@ -11,9 +11,9 @@ namespace FluentTerminal.App.Services
     {
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private Func<Task<string>> _selectedTextCallback;
-        private bool _closingFromUI = false;
-        private bool _exited = false;
-        private bool _requireShellProcessStart = true;
+        private bool _closingFromUI;
+        private bool _exited;
+        private readonly bool _requireShellProcessStart;
 
         public Terminal(ITrayProcessCommunicationService trayProcessCommunicationService, byte? terminalId = null)
         {
@@ -33,7 +33,7 @@ namespace FluentTerminal.App.Services
             _exited = true;
             Exited?.Invoke(this, status.ExitCode);
 
-            if (_closingFromUI == true || status.ExitCode <= 0)
+            if (_closingFromUI || status.ExitCode <= 0)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
             }

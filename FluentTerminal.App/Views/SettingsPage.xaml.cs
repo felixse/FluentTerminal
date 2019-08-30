@@ -29,7 +29,6 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
             Root.DataContext = this;
-            var asd= I18N.Translate("Setting");
             ApplicationView.GetForCurrentView().Title = I18N.Translate("Setting");
 
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -50,7 +49,7 @@ namespace FluentTerminal.App.Views
 
         private void OnColorValuesChanged(UISettings sender, object args)
         {
-            if (_onThemesPage == false)
+            if (!_onThemesPage)
             {
                 SetTitleBarColors();
             }

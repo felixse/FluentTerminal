@@ -1,5 +1,4 @@
-﻿using System;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Views
@@ -16,9 +15,9 @@ namespace FluentTerminal.App.Views
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (item is String arguments)
+            if (item is string arguments)
             {
-                return String.Empty.Equals(arguments) ? DefaultTemplate : CustomTemplate;
+                return string.IsNullOrEmpty(arguments) ? DefaultTemplate : CustomTemplate;
             }
             return null;
         }

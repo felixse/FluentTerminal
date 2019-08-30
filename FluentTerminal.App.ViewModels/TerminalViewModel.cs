@@ -407,7 +407,7 @@ namespace FluentTerminal.App.ViewModels
 
         private bool CanExecuteCommand()
         {
-            return (Initialized == true && _disposalRequested == false);
+            return Initialized && !_disposalRequested;
         }
 
         private async Task CloseTab()

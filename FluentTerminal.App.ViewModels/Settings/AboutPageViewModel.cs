@@ -9,14 +9,12 @@ namespace FluentTerminal.App.ViewModels.Settings
     public class AboutPageViewModel : ViewModelBase
     {
         private const string BaseUrl = "https://github.com/felixse/FluentTerminal/releases/tag/";
-        private readonly ISettingsService _settingsService;
         private readonly IUpdateService _updateService;
         private string _latestVersion;
         private readonly IApplicationView _applicationView;
 
-        public AboutPageViewModel(ISettingsService settingsService, IUpdateService updateService, IApplicationView applicationView)
+        public AboutPageViewModel(IUpdateService updateService, IApplicationView applicationView)
         {
-            _settingsService = settingsService;
             _updateService = updateService;
             _applicationView = applicationView;
 

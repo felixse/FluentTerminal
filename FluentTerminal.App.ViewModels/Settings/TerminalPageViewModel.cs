@@ -114,7 +114,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _terminalOptions.ScrollBackLimit.ToString();
             set
             {
-                var oldValue = _terminalOptions.ScrollBackLimit;
                 if (uint.TryParse(value, out uint intValue))
                 {
                     if (intValue == uint.MinValue)
