@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.App.Services;
@@ -14,10 +15,10 @@ using GalaSoft.MvvmLight.Command;
 namespace FluentTerminal.App.ViewModels
 {
     /// <summary>
-    /// Base class for all shell profile view models. Implements logic for saving, editing, resetting, etc.
+    /// Base class for all profile view models. Implements logic for saving, editing, resetting, etc.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ShellProfileViewModelBase<T> : ViewModelBase where T : ProfileProviderViewModelBase
+    public abstract class ProfileViewModelBase<T> : ViewModelBase where T : ProfileProviderViewModelBase
     {
         #region Fields
 
@@ -25,6 +26,7 @@ namespace FluentTerminal.App.ViewModels
         protected readonly ISettingsService SettingsService;
 
         private List<KeyBinding> _bindingsBeforeEdit;
+        private Dictionary<string, string> _environmentVariablesBeforeEdit;
         private string _nameBeforeEdit;
 
         #endregion Fields
@@ -53,6 +55,8 @@ namespace FluentTerminal.App.ViewModels
 
         public KeyBindingsViewModel KeyBindings { get; }
 
+        public ObservableCollection<EnvironmentVariableViewModel> EnvironmentVariables { get; } = new ObservableCollection<EnvironmentVariableViewModel>();
+
         public T ProfileVm { get; protected set; }
 
         #endregion Properties
@@ -79,13 +83,22 @@ namespace FluentTerminal.App.ViewModels
 
         #region Constructor
 
-        protected ShellProfileViewModelBase(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, bool isNew)
+        protected ProfileViewModelBase(ShellProfile shellProfile, ISettingsService settingsService, IDialogService dialogService, bool isNew)
         {
             SettingsService = settingsService;
             DialogService = dialogService;
             IsNew = isNew;
 
             KeyBindings = new KeyBindingsViewModel(shellProfile.Id.ToString(), dialogService, string.Empty, false);
+
+            foreach (var environmentVariable in shellProfile.EnvironmentVariables)
+            {
+                EnvironmentVariables.Add(new EnvironmentVariableViewModel
+                {
+                    Name = environmentVariable.Key,
+                    Value = environmentVariable.Value
+                });
+            }
 
             Initialize(shellProfile);
 
@@ -115,9 +128,10 @@ namespace FluentTerminal.App.ViewModels
 
         protected virtual bool HasChanges()
         {
-            return ProfileVm.HasChanges() || !_nameBeforeEdit.NullableEqualTo(_name) ||
-                   !(_bindingsBeforeEdit?.SequenceEqual(KeyBindings.KeyBindings.Select(x => x.Model).ToList()) ??
-                     false);
+            return ProfileVm.HasChanges()
+                || !_nameBeforeEdit.NullableEqualTo(_name)
+                || !(_bindingsBeforeEdit?.SequenceEqual(KeyBindings.KeyBindings.Select(x => x.Model).ToList()) ?? false)
+                || !(_environmentVariablesBeforeEdit?.SequenceEqual(EnvironmentVariables.ToDictionary(x => x.Name, x => x.Value)) ?? false);
         }
 
         private async Task Delete()
@@ -141,6 +155,7 @@ namespace FluentTerminal.App.ViewModels
             }
 
             _bindingsBeforeEdit = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
+            _environmentVariablesBeforeEdit = EnvironmentVariables.ToDictionary(x => x.Name, x => x.Value);
             _nameBeforeEdit = _name;
 
             KeyBindings.Editable = true;
@@ -189,11 +204,26 @@ namespace FluentTerminal.App.ViewModels
                 return;
             }
 
+            if (EnvironmentVariables.Select(x => x.Name).Any(x => string.IsNullOrWhiteSpace(x)))
+            {
+                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"), I18N.Translate("EmptyEnvironmentVariableName"), DialogButton.OK);
+
+                return;
+            }
+
+            if (EnvironmentVariables.Select(x => x.Name).Distinct().Count() != EnvironmentVariables.Count)
+            {
+                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"), I18N.Translate("DuplicateEnvironmentVariable"), DialogButton.OK);
+
+                return;
+            }
+
             var profile = ProfileVm.Model;
 
             profile.Id = Id;
             profile.Name = _name;
             profile.KeyBindings = KeyBindings.KeyBindings.Select(x => x.Model).ToList();
+            profile.EnvironmentVariables = EnvironmentVariables.ToDictionary(x => x.Name, x => x.Value);
 
             if (profile is SshProfile sshProfile)
             {

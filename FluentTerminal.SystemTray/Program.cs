@@ -62,7 +62,7 @@ namespace FluentTerminal.SystemTray
                 containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
                 containerBuilder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>();
                 containerBuilder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
-                containerBuilder.RegisterType<UpdateService>().As<IUpdateService>();
+                containerBuilder.RegisterType<UpdateService>().As<IUpdateService>().SingleInstance();
                 containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
                 var container = containerBuilder.Build();

@@ -285,9 +285,10 @@
     <value>主题</value>
     <comment>SettingsPage.xaml</comment>
   </data>
-  <data name="AddKeyShort.Content" xml:space="preserve">
+  <data name="Add.Content" xml:space="preserve">
     <value>添加</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
     <value>参数</value>
@@ -538,7 +539,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>是否要关闭"{0}"标签页？</value>
+    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -655,9 +656,10 @@ Fuzzy</comment>
     <value>快捷键</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
-  <data name="KeyBindingsViewDelete.Content" xml:space="preserve">
+  <data name="Delete.Content" xml:space="preserve">
     <value>删除</value>
-    <comment>KeyBindingsView.xaml</comment>
+    <comment>KeyBindingsView.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
     <value>编辑</value>
@@ -751,6 +753,7 @@ Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>新建远程标签页</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>新建 SSH 标签</value>
@@ -925,5 +928,32 @@ Fuzzy</comment>
   </data>
   <data name="InvalidLink" xml:space="preserve">
     <value>Invalid link.</value>
+  </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>Drop tab here</value>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>Close tabs to the left</value>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>Close other tabs</value>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>Close tabs to the right</value>
+  </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>Duplicate tab</value>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>Cannot define two environment variables with the same name.</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>Cannot define an environment variable without a name.</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>Environment variables</value>
   </data>
 </root>

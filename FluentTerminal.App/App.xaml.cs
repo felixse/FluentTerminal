@@ -103,12 +103,26 @@ namespace FluentTerminal.App
             builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
+            builder.RegisterType<ShellProfileMigrationService>().As<IShellProfileMigrationService>().SingleInstance();
             builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
 
             _settingsService = _container.Resolve<ISettingsService>();
             _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+
+            var shellProfileMigrationService = _container.Resolve<IShellProfileMigrationService>();
+            foreach (var profile in _settingsService.GetShellProfiles())
+            {
+                shellProfileMigrationService.Migrate(profile);
+                _settingsService.SaveShellProfile(profile);
+            }
+
+            foreach (var profile in _settingsService.GetSshProfiles())
+            {
+                shellProfileMigrationService.Migrate(profile);
+                _settingsService.SaveSshProfile(profile);
+            }
 
             _trayProcessCommunicationService = _container.Resolve<ITrayProcessCommunicationService>();
 
