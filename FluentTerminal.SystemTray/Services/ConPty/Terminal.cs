@@ -118,8 +118,8 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         /// </summary>
         public void WriteToPseudoConsole(byte[] data)
         {
-            _consoleInputWriter.Write(data, 0, data.Length);
-            _consoleInputWriter.Flush();
+            _consoleInputWriter?.Write(data, 0, data.Length);
+            _consoleInputWriter?.Flush();
         }
 
         /// <summary>
