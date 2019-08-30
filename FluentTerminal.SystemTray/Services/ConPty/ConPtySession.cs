@@ -27,7 +27,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Resize(TerminalSize size)
         {
-            _terminal.Resize(size.Columns, size.Rows);
+            _terminal?.Resize(size.Columns, size.Rows);
             _terminalSize = size;
         }
 
@@ -106,7 +106,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Write(byte[] data)
         {
-            _terminal.WriteToPseudoConsole(data);
+            _terminal?.WriteToPseudoConsole(data);
         }
 
         public void Pause(bool value)
