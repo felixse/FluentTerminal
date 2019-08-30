@@ -20,12 +20,7 @@ namespace FluentTerminal.App.Converters
                 color = (Color)value;
             }
 
-            if (color != null)
-            {
-                return ContrastHelper.GetIdealThemeForBackgroundColor(color);
-            }
-
-            return null;
+            return ContrastHelper.GetIdealThemeForBackgroundColor(color);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

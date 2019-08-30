@@ -14,17 +14,14 @@ namespace FluentTerminal.App.ViewModels.Settings
 {
     public class KeyBindingsPageViewModel : ViewModelBase
     {
-        private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
-        public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider, ITrayProcessCommunicationService trayProcessCommunicationService)
+        public KeyBindingsPageViewModel(ISettingsService settingsService, IDialogService dialogService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
-            _defaultValueProvider = defaultValueProvider;
             _trayProcessCommunicationService = trayProcessCommunicationService;
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
             AddCommand = new RelayCommand<string>(async command => await Add(command).ConfigureAwait(false));
@@ -54,15 +51,13 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void Initialize(IDictionary<string, ICollection<KeyBinding>> keyBindings)
         {
-            _keyBindings = keyBindings;
-
             ClearKeyBindings();
 
             foreach (var value in Enum.GetValues(typeof(Command)))
             {
                 var command = (Command)value;
                 var viewModel = new KeyBindingsViewModel(command.ToString(), _dialogService, I18N.Translate($"{nameof(Command)}.{command}"), true);
-                foreach (var keyBinding in _keyBindings[command.ToString()])
+                foreach (var keyBinding in keyBindings[command.ToString()])
                 {
                     viewModel.Add(keyBinding);
                 }

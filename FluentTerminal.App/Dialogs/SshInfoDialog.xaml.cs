@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -13,6 +12,7 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
+using FluentTerminal.App.ViewModels.Infrastructure;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -24,6 +24,11 @@ namespace FluentTerminal.App.Dialogs
         private readonly IFileSystemService _fileSystemService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
 
+        public SshConnectViewModel ViewModel { get; private set; }
+
+        public IAsyncCommand BrowseIdentityFileCommand { get; }
+        public IAsyncCommand SaveLinkCommand { get; }
+
         public SshInfoDialog(ISettingsService settingsService, IApplicationView applicationView,
             IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService)
         {
@@ -34,6 +39,9 @@ namespace FluentTerminal.App.Dialogs
 
             InitializeComponent();
 
+            BrowseIdentityFileCommand = new AsyncCommand(BrowseIdentityFile);
+            SaveLinkCommand = new AsyncCommand(SaveLink);
+
             PrimaryButtonText = I18N.Translate("OK");
             SecondaryButtonText = I18N.Translate("Cancel");
 
@@ -43,13 +51,11 @@ namespace FluentTerminal.App.Dialogs
 
         private void SetupFocus()
         {
-            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
-
-            if (string.IsNullOrEmpty(vm.Username))
+            if (string.IsNullOrEmpty(ViewModel.Username))
             {
                 UserTextBox.Focus(FocusState.Programmatic);
             }
-            else if (string.IsNullOrEmpty(vm.Host))
+            else if (string.IsNullOrEmpty(ViewModel.Host))
             {
                 HostTextBox.Focus(FocusState.Programmatic);
             }
@@ -59,37 +65,22 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private async void OnLoading(FrameworkElement sender, object args)
+        private async Task BrowseIdentityFile()
         {
-            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
-
-            if (string.IsNullOrEmpty(vm.Username))
-            {
-                vm.Username = await _trayProcessCommunicationService.GetUserName();
-            }
-
-            SetupFocus();
-        }
-
-        private async void BrowseButtonOnClick(object sender, RoutedEventArgs e)
-        {
-            FileOpenPicker openPicker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
-
+            var openPicker = new FileOpenPicker { SuggestedStartLocation = PickerLocationId.DocumentsLibrary };
             openPicker.FileTypeFilter.Add("*");
 
-            StorageFile file = await openPicker.PickSingleFileAsync();
+            var file = await openPicker.PickSingleFileAsync();
 
             if (file != null)
             {
-                ((SshConnectViewModel) DataContext).SetValidatedIdentityFile(file.Path);
+                ViewModel.SetValidatedIdentityFile(file.Path);
             }
         }
 
-        private async void SaveLink_OnClick(object sender, RoutedEventArgs e)
+        private async Task SaveLink()
         {
-            SshConnectViewModel vm = (SshConnectViewModel) DataContext;
-
-            var link = await vm.GetUrlAsync();
+            var link = await ViewModel.GetUrlAsync();
 
             if (!link.Item1)
             {
@@ -100,17 +91,17 @@ namespace FluentTerminal.App.Dialogs
 
             var content = ProfileProviderViewModelBase.GetShortcutFileContent(link.Item2);
 
-            FileSavePicker savePicker = new FileSavePicker
+            var savePicker = new FileSavePicker
             {
                 SuggestedStartLocation = PickerLocationId.Desktop,
-                SuggestedFileName = string.IsNullOrEmpty(vm.Username)
-                    ? $"{vm.Host}.url"
-                    : $"{vm.Username}@{vm.Host}.url"
+                SuggestedFileName = string.IsNullOrEmpty(ViewModel.Username)
+                    ? $"{ViewModel.Host}.url"
+                    : $"{ViewModel.Username}@{ViewModel.Host}.url"
             };
 
             savePicker.FileTypeChoices.Add("Shortcut", new List<string> {".url"});
 
-            StorageFile file = await savePicker.PickSaveFileAsync();
+            var file = await savePicker.PickSaveFileAsync();
 
             if (file == null)
             {
@@ -127,11 +118,11 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private async void SshInfoDialog_OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var deferral = args.GetDeferral();
 
-            var error = await ((SshConnectViewModel)DataContext).AcceptChangesAsync();
+            var error = await ViewModel.AcceptChangesAsync();
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -150,17 +141,22 @@ namespace FluentTerminal.App.Dialogs
 
         public async Task<SshProfile> GetSshConnectionInfoAsync(SshProfile input = null)
         {
-            var vm = new SshConnectViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
+            ViewModel = new SshConnectViewModel(_settingsService, _applicationView, _trayProcessCommunicationService,
                 _fileSystemService, input);
 
-            DataContext = vm;
+            if (string.IsNullOrEmpty(ViewModel.Username))
+            {
+                ViewModel.Username = await _trayProcessCommunicationService.GetUserName();
+            }
+
+            SetupFocus();
 
             if (await ShowAsync() != ContentDialogResult.Primary)
             {
                 return null;
             }
 
-            return (SshProfile)vm.Model;
+            return (SshProfile)ViewModel.Model;
         }
     }
 }

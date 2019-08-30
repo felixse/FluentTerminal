@@ -1,11 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
 
 namespace FluentTerminal.SystemTray
 {
@@ -51,7 +49,7 @@ namespace FluentTerminal.SystemTray
 
         private async void OpenApp(object sender, EventArgs e)
         {
-            IEnumerable<AppListEntry> appListEntries = await Package.Current.GetAppListEntriesAsync();
+            var appListEntries = await Package.Current.GetAppListEntriesAsync();
             await appListEntries.First().LaunchAsync();
         }
 

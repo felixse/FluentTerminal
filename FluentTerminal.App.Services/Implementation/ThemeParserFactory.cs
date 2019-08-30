@@ -5,7 +5,7 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class ThemeParserFactory : IThemeParserFactory
     {
-        private IEnumerable<IThemeParser> _parsers;
+        private readonly IEnumerable<IThemeParser> _parsers;
 
         public IEnumerable<string> SupportedFileTypes { get; }
 

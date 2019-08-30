@@ -43,7 +43,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 if (ReferenceEquals(_model, value))

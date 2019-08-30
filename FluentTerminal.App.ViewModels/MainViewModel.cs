@@ -356,7 +356,7 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
                 terminal.DuplicateTabRequested += Terminal_DuplicateTabRequested;
-                Terminals.Insert(position, terminal);
+                Terminals.Insert(Math.Min(position, Terminals.Count), terminal);
 
                 SelectedTerminal = terminal;
             });
@@ -375,17 +375,17 @@ namespace FluentTerminal.App.ViewModels
             if (sender is TerminalViewModel terminal)
             {
                 Array.ForEach<TerminalViewModel>(Terminals.ToArray(),
-                    t => {
+                    async t => {
                         if (terminal != t)
                         {
                             Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                            t.CloseCommand.Execute(EventArgs.Empty);
+                            await t.CloseCommand.ExecuteAsync();
                         }
                     });
             }
         }
 
-        private void Terminal_CloseRightTabsRequested(object sender, EventArgs e)
+        private async void Terminal_CloseRightTabsRequested(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
@@ -393,12 +393,12 @@ namespace FluentTerminal.App.ViewModels
                 {
                     var terminalToRemove = Terminals[i];
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    terminalToRemove.CloseCommand.Execute(EventArgs.Empty);
+                    await terminalToRemove.CloseCommand.ExecuteAsync();
                 }
             }
         }
 
-        private void Terminal_CloseLeftTabsRequested(object sender, EventArgs e)
+        private async void Terminal_CloseLeftTabsRequested(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
@@ -406,7 +406,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     var terminalToRemove = Terminals[i];
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    terminalToRemove.CloseCommand.Execute(EventArgs.Empty);
+                    await terminalToRemove.CloseCommand.ExecuteAsync();
                 }
             }
         }
@@ -464,7 +464,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void CloseCurrentTab()
         {
-            SelectedTerminal?.CloseCommand.Execute(null);
+            SelectedTerminal?.CloseCommand.ExecuteAsync();
         }
 
         private void NewWindow(NewWindowAction showSelection)

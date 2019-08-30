@@ -164,9 +164,8 @@ namespace FluentTerminal.App.Views
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
-            var settings = ViewModel.SettingsService.GetApplicationSettings();
             var theme = ViewModel.TerminalTheme;
-            var sessionType = SessionType.Unknown;
+            SessionType sessionType;
             if (ViewModel.ShellProfile.UseConPty && ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
             {
                 sessionType = SessionType.ConPty;
@@ -198,6 +197,9 @@ namespace FluentTerminal.App.Views
 
         public void DisposalPrepare()
         {
+            _optionsChanged.Stop();
+            _sizeChanged.Stop();
+            _unblockOutput.Stop();
             ViewModel = null;
         }
 
@@ -410,12 +412,13 @@ namespace FluentTerminal.App.Views
 
         private async void Terminal_Closed(object sender, EventArgs e)
         {
+            ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
+            ViewModel.Terminal.Closed -= Terminal_Closed;
             await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
                 _webView.NavigationStarting -= _webView_NavigationStarting;
-                ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
-                ViewModel.Terminal.Closed -= Terminal_Closed;
+
                 _webView?.Navigate(new Uri("about:blank"));
                 Root.Children.Remove(_webView);
                 _webView = null;

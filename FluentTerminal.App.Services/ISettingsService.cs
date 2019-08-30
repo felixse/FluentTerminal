@@ -42,7 +42,7 @@ namespace FluentTerminal.App.Services
         void SaveDefaultSshProfileId(Guid id);
         void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings);
         void SaveShellProfile(ShellProfile shellProfile, bool newShell = false);
-        void SaveSshProfile(SshProfile shellProfile, bool newShell = false);
+        void SaveSshProfile(SshProfile sshProfile, bool newShell = false);
         void SaveTerminalOptions(TerminalOptions terminalOptions);
         void SaveTheme(TerminalTheme theme, bool newTheme = false);
         ShellProfile GetShellProfile(Guid id);

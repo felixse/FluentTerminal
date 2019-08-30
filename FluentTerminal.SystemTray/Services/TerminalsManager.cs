@@ -67,7 +67,10 @@ namespace FluentTerminal.SystemTray.Services
                         logFileStream.Write(logOutput, 0, logOutput.Length);
                     }
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Logger.Instance.Debug("DisplayTerminalOutput failed. Exception: {0}", e);
+                }
             }
 
             DisplayOutputRequested?.Invoke(this, new TerminalOutput
@@ -119,7 +122,7 @@ namespace FluentTerminal.SystemTray.Services
                 {
                     terminal = new WinPtySession();
                 }
-                else if (request.SessionType == SessionType.ConPty)
+                else
                 {
                     terminal = new ConPtySession();
                 }
