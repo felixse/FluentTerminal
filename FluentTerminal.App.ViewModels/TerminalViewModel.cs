@@ -368,6 +368,10 @@ namespace FluentTerminal.App.ViewModels
         public void CopyText(string text)
         {
             ClipboardService.SetText(text);
+            if (_terminalOptions.ShowTextCopied)
+            {
+                Overlay.Show(I18N.Translate("TextCopied"));
+            }
         }
 
         public async Task EditTitle()
@@ -521,11 +525,7 @@ namespace FluentTerminal.App.ViewModels
                 case nameof(Command.Copy):
                     {
                         var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
-                        ClipboardService.SetText(selection);
-                        if(_terminalOptions.ShowTextCopied)
-                        {
-                            Overlay.Show(I18N.Translate("TextCopied"));
-                        }
+                        CopyText(selection);
                         break;
                     }
                 case nameof(Command.Paste):
