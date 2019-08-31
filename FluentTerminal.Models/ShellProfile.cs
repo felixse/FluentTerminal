@@ -46,7 +46,7 @@ namespace FluentTerminal.Models
         public Dictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
         public bool UseConPty { get; set; }
 
-        public int MigrationVersion { get; set; }
+        public int MigrationVersion { get; set; } = CurrentMigrationVersion;
 
         /// <summary>
         /// For attaching a data to the profile. This property doesn't get serialized nor cloned.
