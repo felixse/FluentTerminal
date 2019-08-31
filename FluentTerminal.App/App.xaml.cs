@@ -266,7 +266,7 @@ namespace FluentTerminal.App
                     }
 
                     if (mainViewModel == null)
-                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation, protocolActivated.ViewSwitcher);
                     else
                         await mainViewModel.AddTerminalAsync(profile);
 
@@ -314,7 +314,7 @@ namespace FluentTerminal.App
                     }
 
                     if (mainViewModel == null)
-                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation);
+                        await CreateTerminal(profile, _applicationSettings.NewTerminalLocation, protocolActivated.ViewSwitcher);
                     else
                         await mainViewModel.AddTerminalAsync(profile);
 
@@ -447,15 +447,16 @@ namespace FluentTerminal.App
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
             }
-            else if (_mainViewModels.Count == 0)
-            {
-                await CreateSecondaryView<MainViewModel>(typeof(MainPage), true).ConfigureAwait(true);
-            }
             else if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
             {
                 var location = _applicationSettings.NewTerminalLocation;
                 var profile = _settingsService.GetShellProfile(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
-                await CreateTerminal(profile, location).ConfigureAwait(true);
+                await CreateTerminal(profile, location, args.ViewSwitcher).ConfigureAwait(true);
+            }
+            else
+            {
+                var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
+                await viewModel.AddLocalTabAsync();
             }
             _isLaunching = false;
         }
@@ -509,6 +510,8 @@ namespace FluentTerminal.App
 
         private async Task CreateMainView(Type pageType, INotifyPropertyChanged viewModel, bool extendViewIntoTitleBar)
         {
+            ApplicationViewSwitcher.DisableSystemViewActivationPolicy();
+
             await StartSystemTray().ConfigureAwait(true);
 
             if (!(Window.Current.Content is Frame rootFrame))
@@ -710,8 +713,21 @@ namespace FluentTerminal.App
             _settingsViewModel.NavigateToAboutPage();
         }
 
-        private async Task CreateTerminal(ShellProfile profile, NewTerminalLocation location)
+        private async Task CreateTerminal(ShellProfile profile, NewTerminalLocation location, ActivationViewSwitcher viewSwitcher = null)
         {
+            async Task ShowAsStandaloneAsync(MainViewModel viewModel)
+            {
+                int viewId = viewModel.ApplicationView.Id;
+                if (viewSwitcher != null)
+                {
+                    await viewModel.ApplicationView.RunOnDispatcherThread(async () => await viewSwitcher.ShowAsStandaloneAsync(viewId));
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewId);
+                }
+            }
+
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
@@ -722,19 +738,19 @@ namespace FluentTerminal.App
             {
 
                 MainViewModel item = _mainViewModels.FirstOrDefault(o => o.ApplicationView.Id == _activeWindowId);
-                if (item != null)
+                if (item == null)
                 {
-                    await item.AddTerminalAsync(profile);
+                    item = _mainViewModels.Last();
                 }
-                else
-                {
-                    await _mainViewModels.Last().AddTerminalAsync(profile);
-                }
+
+                await item.AddTerminalAsync(profile);
+                await ShowAsStandaloneAsync(item);
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
                 await viewModel.AddTerminalAsync(profile);
+                await ShowAsStandaloneAsync(viewModel);
             }
         }
 
