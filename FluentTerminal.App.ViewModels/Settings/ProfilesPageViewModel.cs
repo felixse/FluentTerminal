@@ -103,6 +103,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             cloned.Id = Guid.NewGuid();
             cloned.PreInstalled = false;
             cloned.Name = $"Copy of {shellProfile.Name}";
+            cloned.KeyBindings = new List<KeyBinding>();
 
             AddShellProfile(cloned);
         }
