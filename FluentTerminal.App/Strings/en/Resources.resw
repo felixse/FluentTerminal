@@ -1007,4 +1007,8 @@ Fuzzy</comment>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>Environment variables</value>
   </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>Select-by-word characters</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
 </root>

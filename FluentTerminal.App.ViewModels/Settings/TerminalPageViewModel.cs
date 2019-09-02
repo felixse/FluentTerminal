@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -134,6 +135,21 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public string WordSeparator
+        {
+            get => WebViewSpecialCharEncoder.Decode(_terminalOptions.WordSeparator);
+            set
+            {
+                value = WebViewSpecialCharEncoder.Encode(value);
+                if (_terminalOptions.WordSeparator != value)
+                {
+                    _terminalOptions.WordSeparator = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool BoldText
         {
             get => _terminalOptions.BoldText;
@@ -226,6 +242,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();
                 ShowTextCopied = defaults.ShowTextCopied;
+                WordSeparator = defaults.WordSeparator;
             }
         }
 

@@ -154,6 +154,13 @@
                     Header="Text copied notification"
                     IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
 
+                <TextBox
+                    Width="200"
+                    Margin="{StaticResource ItemMargin}"
+                    HorizontalAlignment="Left"
+                    x:Uid="WordSeparator"
+                    Header="Select-by-word characters"
+                    Text="{x:Bind ViewModel.WordSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
