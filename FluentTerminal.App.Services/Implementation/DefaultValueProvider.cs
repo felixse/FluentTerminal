@@ -435,7 +435,8 @@ namespace FluentTerminal.App.Services.Implementation
                 BoldText = false,
                 BackgroundOpacity = 0.8,
                 Padding = 12,
-                ScrollBackLimit = 1000
+                ScrollBackLimit = 1000,
+                WordSeparator = " ()[]{}:;|│!&*<>@&quot;&squo;"
             };
         }
 

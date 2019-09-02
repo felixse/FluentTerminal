@@ -28,6 +28,16 @@ let serializeAddon: any;
 let socket: WebSocket;
 const terminalContainer = document.getElementById('terminal-container');
 
+function replaceAll(searchString, replaceString, str) {
+  return str.split(searchString).join(replaceString);
+}
+
+function DecodeSpecialChars(data: string) {
+  data = replaceAll("&quot;", "\"", data);
+  data = replaceAll("&squo;", "'", data);
+  return replaceAll("&bsol;", "\\", data);
+}
+
 window.serializeTerminal = () => {
   let serialized = serializeAddon.serialize();
   return serialized;
@@ -58,7 +68,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     allowTransparency: true,
     theme: theme,
     windowsMode: true,
-    wordSeparator: ' ()[]{}\'":;|│!&*<>@'
+    wordSeparator: DecodeSpecialChars(options.wordSeparator)
   };
 
   term = new Terminal(terminalOptions);
@@ -178,6 +188,7 @@ window.changeOptions = (options) => {
   term.setOption('fontWeight', options.boldText ? 'bold' : 'normal');
   term.setOption('fontWeightBold', options.boldText ? 'bolder' : 'bold');
   term.setOption('scrollback', options.scrollBackLimit);
+  term.setOption('wordSeparator', DecodeSpecialChars(options.wordSeparator));
   setScrollBarStyle(options.scrollBarStyle);
   setPadding(options.padding);
 }

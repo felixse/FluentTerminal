@@ -353,17 +353,17 @@ namespace FluentTerminal.App.Views
             return JsonConvert.DeserializeObject<TerminalSize>(size);
         }
 
-        private Task<string> ExecuteScriptAsync(string script)
+        private async Task<string> ExecuteScriptAsync(string script)
         {
             try
             {
-                return _webView.InvokeScriptAsync("eval", new[] { script }).AsTask();
+                return await _webView.InvokeScriptAsync("eval", new[] { script }).AsTask();
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"Exception while running:\n \"{script}\"\n\n {e}");
+                Logger.Instance.Error($"Exception while running:\n \"{script}\"\n\n {e}");
             }
-            return Task.FromResult(string.Empty);
+            return await Task.FromResult(string.Empty);
         }
 
         private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshProfile> sshprofiles)
