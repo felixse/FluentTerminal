@@ -159,7 +159,14 @@ namespace FluentTerminal.SystemTray.Services
         {
             if (_terminals.TryGetValue(id, out TerminalSessionInfo sessionInfo))
             {
-                sessionInfo.Session.Resize(size);
+                try
+                {
+                    sessionInfo.Session.Resize(size);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Error($"ResizeTerminal: resizing of terminal with id '{id}' failed with exception: {e}");
+                }
             }
             else
             {
