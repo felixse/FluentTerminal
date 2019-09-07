@@ -35,19 +35,18 @@
             Grid.ColumnSpan="2"
             Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="Profiles"
-                VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                Text="Profiles" />
+                Text="Profiles" Grid.ColumnSpan="2"/>
             <CommandBar
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
+                Grid.Column="2"
+                VerticalAlignment="Stretch"
                 Background="Transparent"
                 DefaultLabelPosition="Right"
                 Visibility="{x:Bind ViewModel.SelectedShellProfile.InEditMode, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
@@ -82,9 +81,8 @@
                     Visibility="{x:Bind ViewModel.SelectedShellProfile.ProfileVm.PreInstalled, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
             </CommandBar>
             <CommandBar
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
+                Grid.Column="2"
+                VerticalAlignment="Stretch"
                 Background="Transparent"
                 DefaultLabelPosition="Right"
                 Visibility="{x:Bind ViewModel.SelectedShellProfile.InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
