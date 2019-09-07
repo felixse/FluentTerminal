@@ -49,6 +49,7 @@ namespace FluentTerminal.App.Views
         private ManualResetEventSlim _outputBlocked;
         private MemoryStream _outputBlockedBuffer;
         private readonly DebouncedAction<bool> _unblockOutput;
+        private TerminalBridge _terminalBridge;
 
         public XtermTerminalView()
         {
@@ -197,6 +198,11 @@ namespace FluentTerminal.App.Views
 
         public void DisposalPrepare()
         {
+            if (_terminalBridge != null)
+            {
+                _terminalBridge.DisposalPrepare();
+                _terminalBridge = null;
+            }
             _optionsChanged.Stop();
             _sizeChanged.Stop();
             _unblockOutput.Stop();
@@ -282,8 +288,8 @@ namespace FluentTerminal.App.Views
 
         private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            var bridge = new TerminalBridge(this);
-            _webView.AddWebAllowedObject("terminalBridge", bridge);
+            _terminalBridge = new TerminalBridge(this);
+            _webView.AddWebAllowedObject("terminalBridge", _terminalBridge);
         }
 
         private void Copy_Click(object sender, RoutedEventArgs e)

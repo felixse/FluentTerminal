@@ -42,5 +42,10 @@ namespace FluentTerminal.App.Services.Implementation
 
             throw new KeyNotFoundException($"No handler registered for command: {command}");
         }
+
+        public void ClearCommandHandlers()
+        {
+            _commandHandlers.Clear();
+        }
     }
 }

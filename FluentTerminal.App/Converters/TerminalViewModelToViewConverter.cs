@@ -23,6 +23,7 @@ namespace FluentTerminal.App.Converters
                 terminalView.DisposalPrepare();
             }
             _viewDictionary.Remove(viewModel);
+            GC.Collect();
         }
 
         public object Convert(object value, Type targetType, object parameter, string language)

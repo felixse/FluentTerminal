@@ -608,6 +608,8 @@ namespace FluentTerminal.App
                 }
 
                 _mainViewModels.Remove(viewModel);
+
+                Window.Current.Content = null;
             }
         }
 
