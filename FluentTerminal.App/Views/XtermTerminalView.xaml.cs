@@ -418,8 +418,10 @@ namespace FluentTerminal.App.Views
 
         private async void Terminal_Closed(object sender, EventArgs e)
         {
-            ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
             ViewModel.Terminal.Closed -= Terminal_Closed;
+            ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
+            ViewModel.Terminal.RegisterSelectedTextCallback(null);
+            _mediatorTaskCTSource.Cancel();
             await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
@@ -438,7 +440,7 @@ namespace FluentTerminal.App.Views
 
                 _copyMenuItem.Click -= Copy_Click;
                 _pasteMenuItem.Click -= Paste_Click;
-                _mediatorTaskCTSource.Cancel();
+                
 
                 if (Window.Current.Content is Frame frame && frame.Content is Page mainPage)
                 {
