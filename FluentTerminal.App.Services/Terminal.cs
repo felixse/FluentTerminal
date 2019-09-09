@@ -93,7 +93,7 @@ namespace FluentTerminal.App.Services
         /// <returns></returns>
         public Task<string> GetSelectedText()
         {
-            return _selectedTextCallback();
+            return _selectedTextCallback?.Invoke();
         }
 
         /// <summary>

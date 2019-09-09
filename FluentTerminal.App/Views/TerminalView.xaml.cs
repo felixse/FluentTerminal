@@ -8,7 +8,7 @@ namespace FluentTerminal.App.Views
 {
     public sealed partial class TerminalView : UserControl
     {
-        private readonly ITerminalView _terminalView;
+        private ITerminalView _terminalView;
 
         public TerminalView(TerminalViewModel viewModel)
         {
@@ -32,6 +32,7 @@ namespace FluentTerminal.App.Views
         {
             Bindings.StopTracking();
             TerminalContainer.Children.Remove((UIElement)_terminalView);
+            _terminalView = null;
 
             ViewModel.SearchStarted -= OnSearchStarted;
             ViewModel.Activated -= OnActivated;

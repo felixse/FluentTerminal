@@ -8,5 +8,6 @@ namespace FluentTerminal.App.Services
 
         void SendCommand(string command);
         void DeregisterCommandHandler(string command);
+        void ClearCommandHandlers();
     }
 }

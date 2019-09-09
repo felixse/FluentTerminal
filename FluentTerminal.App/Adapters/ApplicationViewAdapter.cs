@@ -31,6 +31,7 @@ namespace FluentTerminal.App.Adapters
 
         private void _applicationView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
+            _applicationView.Consolidated -= _applicationView_Consolidated;
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
