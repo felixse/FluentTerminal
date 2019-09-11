@@ -35,11 +35,12 @@
             Grid.ColumnSpan="2"
             Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="160" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="Profiles"
+                Grid.Column="0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
