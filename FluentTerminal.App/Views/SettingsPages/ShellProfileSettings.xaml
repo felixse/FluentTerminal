@@ -243,8 +243,9 @@
                                     SelectedItem="{Binding ProfileVm.SelectedTerminalTheme, Mode=TwoWay}" />
 
                                 <ToggleSwitch
+                                    x:Uid="UseConPty"
                                     Margin="{StaticResource ItemMargin}"
-                                    Header="Use ConPty"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
@@ -346,7 +347,7 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="Use ConPty">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}">
                                     <ContentControl
                                         Margin="0,6,0,0"
                                         Content="{x:Bind ProfileVm.UseConPty, Mode=OneWay}"

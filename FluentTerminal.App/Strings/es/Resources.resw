@@ -964,4 +964,28 @@ Fuzzy</comment>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>Environment variables</value>
   </data>
+  <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close search panel</value>
+  </data>
+  <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Find next</value>
+  </data>
+  <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Find previous</value>
+  </data>
+  <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter search term</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="PrintableOutputOnly.Content" xml:space="preserve">
+    <value>Printable output only</value>
+  </data>
+  <data name="EnableLogging.Header" xml:space="preserve">
+    <value>Log output for debugging</value>
+  </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>Word separator characters</value>
+  </data>
 </root>

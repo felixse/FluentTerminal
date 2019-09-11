@@ -539,7 +539,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
+    <value>你确定要关闭第{0}个标签页吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -547,35 +547,35 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>是否删除此快捷键绑定？</value>
+    <value>你确定要删除此快捷键绑定吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>是否要删除此主题？</value>
+    <value>你确定呢要删除此主题吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>是否要放弃所有更改</value>
+    <value>你确定要放弃所有更改吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>是否要还原常规设置？</value>
+    <value>你确定要还原常规设置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>是否还原默认的快捷键绑定？</value>
+    <value>你确定要还原默认的快捷键绑定吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>是否要还原鼠标设置？</value>
+    <value>你确定要还原鼠标设置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>是否要还原此配置？</value>
+    <value>你确定要还原此配置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>是否要还原默认终端选项？</value>
+    <value>你确定要还原默认终端选项吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
@@ -756,7 +756,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>新建 SSH 标签</value>
+    <value>新建 SSH 标签页</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
     <value>SSH 信息</value>
@@ -789,13 +789,13 @@ Fuzzy</comment>
     <value>保存快捷键</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>应用需要重启才能让更改生效</value>
+    <value>应用需要重启才能使更改生效</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>非法输入</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>端口不能为 0 </value>
+    <value>端口不能为 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>用户名和主机是必填字段</value>
@@ -810,7 +810,7 @@ Fuzzy</comment>
     <value>SSH 端口需大于 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh 端口不能为 0 </value>
+    <value>Mosh 端口不能为 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Mosh 端口范围无效</value>
@@ -834,7 +834,7 @@ Fuzzy</comment>
     <value>进程退出错误</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>确定删除这个配置文件吗？</value>
+    <value>你确定要删除这个配置文件吗？</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>新的 SSH 窗口</value>
@@ -879,7 +879,7 @@ Fuzzy</comment>
     <value>身份认证文件不存在</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>当 SSH URL 未指定用户名时使用 Windows 用户名</value>
+    <value>当 SSH 地址未指定用户名时使用 Windows 用户名</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>SSH 连接默认使用 Mosh</value>
@@ -897,10 +897,10 @@ Fuzzy</comment>
     <value>地址不能为空</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>使终端静音</value>
+    <value>关闭终端声音</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH 命令（如：ssh username@host） </value>
+    <value>SSH 命令（如：ssh username@host）</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>命令</value>
@@ -924,36 +924,62 @@ Fuzzy</comment>
     <value>新建快速标签页</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>File not found:</value>
+    <value>文件未找到</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Invalid link.</value>
+    <value>无效的链接</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>删除此标签</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>关闭左侧标签</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>关闭其它标签</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>关闭右侧标签</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>重复选项卡</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplicate</value>
+    <value>重复</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Cannot define two environment variables with the same name.</value>
+    <value>无法定义具有相同名称的两个环境变量</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Cannot define an environment variable without a name.</value>
+    <value>无法定义没有名称的环境变量</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Environment variables</value>
+    <value>环境变量</value>
+  </data>
+  <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close search panel</value>
+  </data>
+  <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Find next</value>
+  </data>
+  <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Find previous</value>
+  </data>
+  <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter search term</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="PrintableOutputOnly.Content" xml:space="preserve">
+    <value>Printable output only</value>
+  </data>
+  <data name="EnableLogging.Header" xml:space="preserve">
+    <value>Log output for debugging</value>
+  </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>Word separator characters</value>
   </data>
 </root>
