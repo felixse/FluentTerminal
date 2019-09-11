@@ -231,103 +231,19 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\AppIcons\LargeTile.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square106x106Logo.black.png" />
-    <Content Include="Assets\AppIcons\Full-transparent.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-24_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-400_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-100_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-125_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200_altform-lightunplated.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400_altform-lightunplated.png" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\settingsicons.ttf" />
-    <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Win32\Autofac.dll" />
-    <Content Include="Win32\FluentTerminal.App.Services.dll" />
-    <Content Include="Win32\FluentTerminal.App.Services.pdb" />
-    <Content Include="Win32\FluentTerminal.Models.dll" />
-    <Content Include="Win32\FluentTerminal.Models.pdb" />
-    <Content Include="Win32\FluentTerminal.SystemTray.exe" />
-    <Content Include="Win32\FluentTerminal.SystemTray.pdb" />
-    <Content Include="Win32\GlobalHotKey.dll" />
-    <Content Include="MoshExecutables\x64\mosh-client.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MoshExecutables\x64\mosh.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MoshExecutables\x86\mosh-client.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MoshExecutables\x86\mosh.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Win32\Newtonsoft.Json.dll" />
-    <Content Include="Win32\PListNet.dll" />
-    <Content Include="Win32\RestSharp.dll" />
-    <Content Include="Win32\Serilog.dll" />
-    <Content Include="Win32\Serilog.Sinks.Async.dll" />
-    <Content Include="Win32\Serilog.Sinks.File.dll" />
-    <Content Include="Win32\System.Data.Common.dll" />
-    <Content Include="Win32\System.Diagnostics.StackTrace.dll" />
-    <Content Include="Win32\System.Diagnostics.Tracing.dll" />
-    <Content Include="Win32\System.Globalization.Extensions.dll" />
-    <Content Include="Win32\System.IO.Compression.dll" />
-    <Content Include="Win32\System.Net.Http.dll" />
-    <Content Include="Win32\System.Net.Sockets.dll" />
-    <Content Include="Win32\System.Runtime.Serialization.Primitives.dll" />
-    <Content Include="Win32\System.Security.Cryptography.Algorithms.dll" />
-    <Content Include="Win32\System.Security.SecureString.dll" />
-    <Content Include="Win32\System.Threading.Overlapped.dll" />
-    <Content Include="Win32\System.Xml.XPath.XDocument.dll" />
-    <Content Include="Win32\winpty-agent.exe" />
-    <Content Include="Win32\winpty-debugserver.exe" />
-    <Content Include="Win32\winpty.dll" />
-    <Content Include="Win32\winpty.NET.dll" />
     <None Include="FluentTerminal.App_StoreKey.pfx" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Client\bundle.js" />
     <Content Include="Client\index.html" />
     <Content Include="Client\style.css" />
     <Content Include="Client\xterm.css" />
-    <Content Include="Win32\FluentTerminal.SystemTray.exe.config" />
     <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\es\Resources.resw" />
     <PRIResource Include="Strings\de\Resources.resw" />
@@ -335,51 +251,6 @@
     <PRIResource Include="Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\AppIcons\LargeTile.scale-100.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-125.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-150.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-200.png" />
-    <Content Include="Assets\AppIcons\LargeTile.scale-400.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-100.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-125.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-150.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-200.png" />
-    <Content Include="Assets\AppIcons\SmallTile.scale-400.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-100.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-125.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-150.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-200.png" />
-    <Content Include="Assets\AppIcons\SplashScreen.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-24.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\AppIcons\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-100.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-125.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-150.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-200.png" />
-    <Content Include="Assets\AppIcons\StoreLogo.scale-400.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\AppIcons\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

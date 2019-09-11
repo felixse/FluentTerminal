@@ -5,7 +5,7 @@
   <Properties>
     <DisplayName>Fluent Terminal</DisplayName>
     <PublisherDisplayName>FS Apps</PublisherDisplayName>
-    <Logo>Assets\AppIcons\StoreLogo.png</Logo>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,15 +15,10 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="FluentTerminal.App.App">
-      <uap:VisualElements DisplayName="Fluent Terminal" Square150x150Logo="Assets\AppIcons\Square150x150Logo.png" Square44x44Logo="Assets\AppIcons\Square44x44Logo.png" Description="Fluent Terminal" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\AppIcons\Wide310x150Logo.png" ShortName="Fluent Terminal" Square310x310Logo="Assets\AppIcons\LargeTile.png" Square71x71Logo="Assets\AppIcons\SmallTile.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo" />
-            <uap:ShowOn Tile="wide310x150Logo" />
-            <uap:ShowOn Tile="square310x310Logo" />
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\AppIcons\SplashScreen.png" uap5:Optional="true" />
+      <uap:VisualElements DisplayName="Fluent Terminal" Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png" Description="Fluent Terminal" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe">
