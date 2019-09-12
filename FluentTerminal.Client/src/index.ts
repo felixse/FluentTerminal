@@ -2,7 +2,8 @@ import { Terminal, ITerminalOptions } from 'xterm';
 import { AttachAddon } from 'xterm-addon-attach';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
-import * as SerializeAddon from "./xterm-addon-serialize/src/SerializeAddon";
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { SerializeAddon } from "./xterm-addon-serialize/src/SerializeAddon";
 
 interface ExtendedWindow extends Window {
   keyBindings: any[];
@@ -22,9 +23,10 @@ interface ExtendedWindow extends Window {
 declare var window: ExtendedWindow;
 
 let term: any;
-let fitAddon: any;
-let searchAddon: any;
-let serializeAddon: any;
+let fitAddon: FitAddon;
+let searchAddon: SearchAddon;
+let serializeAddon: SerializeAddon;
+let webLinksAddon: WebLinksAddon;
 let socket: WebSocket;
 const terminalContainer = document.getElementById('terminal-container');
 
@@ -77,8 +79,11 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(searchAddon);
   fitAddon = new FitAddon();
   term.loadAddon(fitAddon);
-  serializeAddon = new SerializeAddon.SerializeAddon();
+  serializeAddon = new SerializeAddon();
   term.loadAddon(serializeAddon);
+  webLinksAddon = new WebLinksAddon();
+  term.loadAddon(webLinksAddon);
+
 
   window.term = term;
 
@@ -103,7 +108,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   let resizeTimeout: any;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(fitAddon.fit(), 500);
+    resizeTimeout = setTimeout(() => fitAddon.fit(), 500);
   }
 
   window.onmouseup = function (e) {

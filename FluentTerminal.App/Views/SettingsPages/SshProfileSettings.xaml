@@ -37,7 +37,7 @@
             Grid.ColumnSpan="2"
             Margin="{StaticResource HeaderMargin}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="185" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock

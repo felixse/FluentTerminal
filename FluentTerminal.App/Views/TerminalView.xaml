@@ -25,11 +25,13 @@
             Padding="12"
             Visibility="{x:Bind ViewModel.ShowSearchPanel, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
             <TextBlock
+                x:Uid="Search"
                 Name="SearchLabel"
                 Margin="0,6,0,0"
                 RelativePanel.AlignLeftWithPanel="True"
                 Text="Search" />
             <TextBox
+                x:Uid="SearchTextBox"
                 Name="SearchTextBox"
                 Width="300"
                 Margin="6,0,6,0"
@@ -38,6 +40,7 @@
                 RelativePanel.RightOf="SearchLabel"
                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button
+                x:Uid="FindPrevious"
                 Name="PreviousButton"
                 Margin="0,0,6,0"
                 Command="{x:Bind ViewModel.FindPreviousCommand}"
@@ -48,6 +51,7 @@
                 </Button.Content>
             </Button>
             <Button
+                x:Uid="FindNext"
                 Command="{x:Bind ViewModel.FindNextCommand}"
                 RelativePanel.RightOf="PreviousButton"
                 ToolTipService.ToolTip="Find next">
@@ -56,6 +60,7 @@
                 </Button.Content>
             </Button>
             <Button
+                x:Uid="CloseSearchPanel"
                 Command="{x:Bind ViewModel.CloseSearchPanelCommand}"
                 RelativePanel.AlignRightWithPanel="True"
                 ToolTipService.ToolTip="Close search panel">

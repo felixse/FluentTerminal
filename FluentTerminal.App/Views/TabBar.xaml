@@ -8,9 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FluentTerminal.Models"
+    xmlns:utilities="using:FluentTerminal.App.Utilities"
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
-    xmlns:utilities="using:FluentTerminal.App.Utilities"
     d:DesignHeight="32"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -50,16 +50,15 @@
                 Background="Transparent"
                 CanDragItems="true"
                 CanReorderItems="True"
-                ItemsSource="{x:Bind ItemsSource}"
-                SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
                 DragEnter="ListView_DragEnter"
-                DragItemsStarting="ListView_DragItemsStarting"
                 DragItemsCompleted="ListView_DragItemsCompleted"
-                Drop="ListView_Drop">
+                DragItemsStarting="ListView_DragItemsStarting"
+                Drop="ListView_Drop"
+                ItemsSource="{x:Bind ItemsSource}"
+                SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TerminalViewModel">
-                        <utilities:InteractiveSurface x:Name="InteractiveSurface"
-                                                      Hovered="{x:Bind IsHovered, Mode=TwoWay}">
+                        <utilities:InteractiveSurface x:Name="InteractiveSurface" Hovered="{x:Bind IsHovered, Mode=TwoWay}">
                             <RelativePanel
                                 Height="32"
                                 Margin="0"
@@ -367,7 +366,7 @@
             Grid.Column="3"
             Command="{x:Bind AddCommand}"
             Style="{StaticResource TitleBarButtonStyle}"
-            ToolTipService.ToolTip="New tab">
+            ToolTipService.ToolTip="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=NewTab.Text}">
             <Button.Content>
                 <Viewbox Width="12" Height="12">
                     <SymbolIcon Symbol="Add" />

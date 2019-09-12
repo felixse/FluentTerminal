@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -64,6 +65,7 @@ namespace FluentTerminal.App.Views
 
             _webView.NavigationCompleted += _webView_NavigationCompleted;
             _webView.NavigationStarting += _webView_NavigationStarting;
+            _webView.NewWindowRequested += _webView_NewWindowRequested;
 
             _copyMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Copy") };
             _copyMenuItem.Click += Copy_Click;
@@ -292,6 +294,11 @@ namespace FluentTerminal.App.Views
             _webView.AddWebAllowedObject("terminalBridge", _terminalBridge);
         }
 
+        private void _webView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)
+        {
+            Launcher.LaunchUriAsync(args.Uri);
+        }
+
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
@@ -426,6 +433,7 @@ namespace FluentTerminal.App.Views
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
                 _webView.NavigationStarting -= _webView_NavigationStarting;
+                _webView.NewWindowRequested -= _webView_NewWindowRequested;
 
                 _webView?.Navigate(new Uri("about:blank"));
                 Root.Children.Remove(_webView);
