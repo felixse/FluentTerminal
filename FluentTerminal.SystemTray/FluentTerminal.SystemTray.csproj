@@ -176,12 +176,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BinaryDependencies\x64\winpty-agent.exe" />
-    <Content Include="BinaryDependencies\x64\winpty-debugserver.exe" />
-    <Content Include="BinaryDependencies\x64\winpty.dll" />
-    <Content Include="BinaryDependencies\x86\winpty-agent.exe" />
-    <Content Include="BinaryDependencies\x86\winpty-debugserver.exe" />
-    <Content Include="BinaryDependencies\x86\winpty.dll" />
     <None Include="Resources\Square44x44Logo.scale-100_altform-lightunplated.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -198,12 +192,29 @@
       <Name>FluentTerminal.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\Dependencies\MoshExecutables\$(Platform)\mosh-client.exe">
+      <Link>mosh-client.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependencies\MoshExecutables\$(Platform)\mosh.exe">
+      <Link>mosh.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Dependencies\WinPty\$(Platform)\winpty-agent.exe">
+      <Link>winpty-agent.exe</Link>
+    </Content>
+    <Content Include="..\Dependencies\WinPty\$(Platform)\winpty-debugserver.exe">
+      <Link>winpty-debugserver.exe</Link>
+    </Content>
+    <Content Include="..\Dependencies\WinPty\$(Platform)\winpty.dll">
+      <Link>winpty.dll</Link>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(ProjectDir)BinaryDependencies\$(PlatformName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)\"
-xcopy /y /s "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)FluentTerminal.App\Win32\"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

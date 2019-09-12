@@ -519,26 +519,20 @@ namespace FluentTerminal.SystemTray
             return location;
         }
 
-#if X64
-        private const string MoshArchDir = @"x64";
-#else
-        private const string MoshArchDir = @"x86";
-#endif
-
         private static string GetMoshPath()
         {
-            DirectoryInfo dir = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
+            var directory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
 
-            while (dir != null)
+            while (directory != null)
             {
-                string path = Path.Combine(dir.FullName, "MoshExecutables", MoshArchDir, "mosh.exe");
+                string path = Path.Combine(directory.FullName, "mosh.exe");
 
-                if (System.IO.File.Exists(path))
+                if (File.Exists(path))
                 {
                     return path;
                 }
 
-                dir = dir.Parent;
+                directory = directory.Parent;
             }
 
             return null;
