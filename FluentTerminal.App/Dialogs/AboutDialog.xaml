@@ -1,0 +1,57 @@
+﻿<ContentDialog
+    x:Class="FluentTerminal.App.Dialogs.AboutDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="AboutDialog"
+    Title="About"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
+    CloseButtonText="Close"
+    DefaultButton="Close"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Grid Margin="0,6,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Viewbox
+                Grid.Column="0"
+                Width="50"
+                Height="50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Image Source="/Images/AppIcons/StoreLogo.scale-400.png" Stretch="None" />
+            </Viewbox>
+            <StackPanel Grid.Column="2">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Fluent Terminal" />
+                <TextBlock>
+                    <Run x:Name="CurrentVersion" />
+                    <Run>-</Run>
+                    <Hyperlink x:Name="ReleaseNotesHyperlink">
+                        <Run x:Uid="ReleaseNotes" Text="Release notes" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock>
+            <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal">
+                <Run Text="GitHub" />
+            </Hyperlink>
+        </TextBlock>
+
+        <TextBlock>
+            <Hyperlink NavigateUri="https://github.com/felixse/FluentTerminal/blob/master/LICENSE">
+                <Run x:Uid="License" />
+            </Hyperlink>
+        </TextBlock>
+
+        <TextBlock x:Name="CreatedBy" Margin="0,24,0,0" />
+
+    </StackPanel>
+</ContentDialog>

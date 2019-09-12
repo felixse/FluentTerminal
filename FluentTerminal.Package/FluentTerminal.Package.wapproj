@@ -44,6 +44,26 @@
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Store|AnyCPU">
+      <Configuration>Store</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Store|ARM">
+      <Configuration>Store</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Store|ARM64">
+      <Configuration>Store</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Store|x64">
+      <Configuration>Store</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Store|x86">
+      <Configuration>Store</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Configuration">
     <PostBuildEvent>

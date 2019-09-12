@@ -2,7 +2,6 @@
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views.SettingsPages;
-using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -11,7 +10,6 @@ using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using MUXC = Microsoft.UI.Xaml.Controls;
 
@@ -73,18 +71,7 @@ namespace FluentTerminal.App.Views
             if (e.Parameter is SettingsViewModel viewModel)
             {
                 ViewModel = viewModel;
-                ViewModel.AboutPageRequested += OnAboutPageRequested;
             }
-        }
-
-        private void OnAboutPageRequested(object sender, System.EventArgs e)
-        {
-            _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                // Deselect item in NavigationView (https://stackoverflow.com/a/49082640/4132379)
-                NavigationView.SelectedItem = Setting_Hidden;
-                ContentFrame.Navigate(typeof(About), ViewModel.About);
-            });
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -135,11 +122,6 @@ namespace FluentTerminal.App.Views
             {
                 SetTitleBarColors();
             }
-        }
-
-        private void AboutTapped(object sender, TappedRoutedEventArgs e)
-        {
-            OnAboutPageRequested(sender, EventArgs.Empty);
         }
 
         private void SettingsPage_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)

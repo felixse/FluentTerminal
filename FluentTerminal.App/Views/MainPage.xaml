@@ -54,16 +54,12 @@
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.AddSshShellCommand}"
-                            x:Uid="NewSshTab">
+                        <MenuFlyoutItem x:Uid="NewSshTab" Command="{x:Bind ViewModel.AddSshShellCommand}">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.AddQuickShellCommand}"
-                            x:Uid="NewQuickTab">
+                        <MenuFlyoutItem x:Uid="NewQuickTab" Command="{x:Bind ViewModel.AddQuickShellCommand}">
                             <MenuFlyoutItem.Icon>
                                 <SymbolIcon Symbol="Add" />
                             </MenuFlyoutItem.Icon>
@@ -73,9 +69,7 @@
                                 <SymbolIcon Symbol="Setting" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ShowAboutCommand}"
-                            x:Uid="About">
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ShowAboutCommand}" Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=AboutDialog.Title}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
@@ -188,11 +182,16 @@
                     TextWrapping="NoWrap"
                     Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" />
             </RelativePanel>
-            <Rectangle x:Name="TabDropArea" Fill="LightGray" Opacity="0.2" Grid.Column="1" HorizontalAlignment="Stretch"
-                       AllowDrop="True"
-                       DragEnter="TabDropArea_DragEnter"
-                       Drop="TabDropArea_Drop"
-                       Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
+            <Rectangle
+                x:Name="TabDropArea"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                AllowDrop="True"
+                DragEnter="TabDropArea_DragEnter"
+                Drop="TabDropArea_Drop"
+                Fill="LightGray"
+                Opacity="0.2"
+                Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
             <views:TabBar
                 x:Name="TopTabBar"
                 Grid.Column="1"
@@ -200,11 +199,11 @@
                 AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}"
                 TabDraggedOutside="TabBar_TabDraggedOutside"
-                TabWindowChanged="TabView_Drop"
+                TabDraggingChanged="TabBar_TabDraggingChanged"
                 TabDraggingCompleted="TabBar_TabDraggingCompleted"
-                TabDraggingChanged="TabBar_TabDraggingChanged" />
+                TabWindowChanged="TabView_Drop"
+                Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" />
         </Grid>
         <ContentControl
             x:Name="TerminalContainer"
@@ -212,13 +211,20 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
-        <Rectangle Fill="LightGray" Opacity="0.01" Grid.Row="1"
-                       Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
-        <Rectangle Fill="LightGray" Opacity="0.2" Grid.Row="2" HorizontalAlignment="Stretch"
-                       AllowDrop="True"
-                       DragEnter="TabDropArea_DragEnter"
-                       Drop="TabDropArea_Drop"
-                       Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"/>
+        <Rectangle
+            Grid.Row="1"
+            Fill="LightGray"
+            Opacity="0.01"
+            Visibility="{x:Bind DraggingHappens, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
+        <Rectangle
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            AllowDrop="True"
+            DragEnter="TabDropArea_DragEnter"
+            Drop="TabDropArea_Drop"
+            Fill="LightGray"
+            Opacity="0.2"
+            Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
         <views:TabBar
             x:Name="BottomTabBar"
             Grid.Row="2"
@@ -226,10 +232,10 @@
             AddCommand="{x:Bind ViewModel.AddLocalShellCommand}"
             ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
-            Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}"
             TabDraggedOutside="TabBar_TabDraggedOutside"
-            TabWindowChanged="TabView_Drop"
+            TabDraggingChanged="TabBar_TabDraggingChanged"
             TabDraggingCompleted="TabBar_TabDraggingCompleted"
-            TabDraggingChanged="TabBar_TabDraggingChanged" />
+            TabWindowChanged="TabView_Drop"
+            Visibility="{x:Bind ViewModel.ShowTabsOnBottom, Mode=OneWay}" />
     </Grid>
 </Page>

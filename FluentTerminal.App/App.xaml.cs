@@ -96,6 +96,7 @@ namespace FluentTerminal.App
             builder.RegisterType<SshProfileSelectionDialog>().As<ISshProfileSelectionDialog>().InstancePerDependency();
             builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
+            builder.RegisterType<AboutDialog>().As<IAboutDialog>().InstancePerDependency();
             builder.RegisterType<MessageDialogAdapter>().As<IMessageDialog>().InstancePerDependency();
             builder.RegisterType<SshInfoDialog>().As<ISshConnectionInfoDialog>().InstancePerDependency();
             builder.RegisterType<CustomCommandDialog>().As<ICustomCommandDialog>().InstancePerDependency();
@@ -529,7 +530,6 @@ namespace FluentTerminal.App
                     mainViewModel.Closed += OnMainViewModelClosed;
                     mainViewModel.NewWindowRequested += OnNewWindowRequested;
                     mainViewModel.ShowSettingsRequested += OnShowSettingsRequested;
-                    mainViewModel.ShowAboutRequested += OnShowAboutRequested;
                     mainViewModel.ActivatedMv += OnMainViewActivated;
                     mainViewModel.TabTearedOff += OnTabTearOff;
                     _mainViewModels.Add(mainViewModel);
@@ -547,7 +547,6 @@ namespace FluentTerminal.App
             viewModel.Closed += OnMainViewModelClosed;
             viewModel.NewWindowRequested += OnNewWindowRequested;
             viewModel.ShowSettingsRequested += OnShowSettingsRequested;
-            viewModel.ShowAboutRequested += OnShowAboutRequested;
             viewModel.ActivatedMv += OnMainViewActivated;
             viewModel.TabTearedOff += OnTabTearOff;
             _mainViewModels.Add(viewModel);
@@ -599,7 +598,6 @@ namespace FluentTerminal.App
                 viewModel.Closed -= OnMainViewModelClosed;
                 viewModel.NewWindowRequested -= OnNewWindowRequested;
                 viewModel.ShowSettingsRequested -= OnShowSettingsRequested;
-                viewModel.ShowAboutRequested -= OnShowAboutRequested;
                 viewModel.ActivatedMv -= OnMainViewActivated;
                 viewModel.TabTearedOff -= OnTabTearOff;
                 if (_activeWindowId == viewModel.ApplicationView.Id)
@@ -699,20 +697,9 @@ namespace FluentTerminal.App
             _settingsWindowId = null;
         }
 
-        private void OnShowAboutRequested(object sender, EventArgs e)
-        {
-            ShowAbout().ConfigureAwait(true);
-        }
-
         private async void OnShowSettingsRequested(object sender, EventArgs e)
         {
             await ShowSettings().ConfigureAwait(true);
-        }
-
-        private async Task ShowAbout()
-        {
-            await ShowSettings().ConfigureAwait(true);
-            _settingsViewModel.NavigateToAboutPage();
         }
 
         private async Task CreateTerminal(ShellProfile profile, NewTerminalLocation location, ActivationViewSwitcher viewSwitcher = null)

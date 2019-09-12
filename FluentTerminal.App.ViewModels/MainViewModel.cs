@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
@@ -97,7 +98,7 @@ namespace FluentTerminal.App.ViewModels
             AddLocalShellCommand = new RelayCommand(async () => await AddLocalTabAsync());
             AddSshShellCommand = new RelayCommand(async () => await AddSshTabAsync());
             AddQuickShellCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
-            ShowAboutCommand = new RelayCommand(ShowAbout);
+            ShowAboutCommand = new AsyncCommand(ShowAbout);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             ApplicationView.CloseRequested += OnCloseRequest;
@@ -162,8 +163,6 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler<NewWindowRequestedEventArgs> NewWindowRequested;
 
         public event EventHandler ShowSettingsRequested;
-
-        public event EventHandler ShowAboutRequested;
 
         public event EventHandler ActivatedMv;
 
@@ -245,7 +244,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public RelayCommand ShowAboutCommand { get; private set; }
+        public IAsyncCommand ShowAboutCommand { get; private set; }
 
         public RelayCommand ShowSettingsCommand { get; private set; }
 
@@ -611,9 +610,9 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal = Terminals[previousIndex];
         }
 
-        private void ShowAbout()
+        private Task ShowAbout()
         {
-            ShowAboutRequested?.Invoke(this, EventArgs.Empty);
+            return _dialogService.ShowAboutDialogAsync();
         }
 
         private void ShowSettings()

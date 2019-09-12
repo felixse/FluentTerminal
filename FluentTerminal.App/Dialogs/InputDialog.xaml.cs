@@ -5,6 +5,8 @@ using System;
 using Windows.UI.Xaml.Input;
 using Windows.System;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.Services;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -14,11 +16,13 @@ namespace FluentTerminal.App.Dialogs
         private bool EnterPressed = false;
         public string Input { get; private set; }
 
-        public InputDialog()
+        public InputDialog(ISettingsService settingsService)
         {
             this.InitializeComponent();
             this.PrimaryButtonText = I18N.Translate("OK");
             this.CloseButtonText = I18N.Translate("Cancel");
+            var currentTheme = settingsService.GetCurrentTheme();
+            RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
         public async Task<string> GetInput()

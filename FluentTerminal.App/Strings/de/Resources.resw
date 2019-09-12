@@ -117,9 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About.Text" xml:space="preserve">
+  <data name="AboutDialog.Title" xml:space="preserve">
     <value>Über</value>
-    <comment>MainPage.xaml</comment>
+    <comment>MainPage.xaml
+Fuzzy</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Hintergrund</value>
@@ -129,9 +130,10 @@
     <value>Blau</value>
     <comment>TabBar.xaml</comment>
   </data>
-  <data name="Close.Text" xml:space="preserve">
+  <data name="AboutDialog.CloseButtonText" xml:space="preserve">
     <value>Schließen</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>Nachfragen bevor Fenster geschlossen wird</value>

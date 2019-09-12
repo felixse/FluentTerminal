@@ -134,6 +134,9 @@
     <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
+    <Compile Include="Dialogs\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\InteractiveSurface.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
@@ -181,9 +184,6 @@
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPages\About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\MouseSettings.xaml.cs">
       <DependentUpon>MouseSettings.xaml</DependentUpon>
@@ -259,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CustomCommandDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -307,10 +311,6 @@
     <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsPages\About.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\MouseSettings.xaml">
       <SubType>Designer</SubType>
@@ -415,6 +415,47 @@
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Store|x86'">
+    <OutputPath>bin\x86\Store\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Store|ARM'">
+    <OutputPath>bin\ARM\Store\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Store|x64'">
+    <OutputPath>bin\x64\Store\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
