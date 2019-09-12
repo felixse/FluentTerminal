@@ -9,6 +9,8 @@ namespace FluentTerminal.Models
         public string Cursor { get; set; }
         public string CursorAccent { get; set; }
         public string Selection { get; set; }
+        public string SelectionForeground { get; set; }
+        public string SelectionBackground { get; set; }
 
         public string Black { get; set; }
         public string Red { get; set; }

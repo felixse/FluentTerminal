@@ -83,6 +83,8 @@ namespace FluentTerminal.App.Services.Implementation
                 Cursor = GetColorString(themeDictionary[ITermThemeKeys.CursorColor]),
                 CursorAccent = GetColorString(themeDictionary[ITermThemeKeys.CursorTextColor]),
                 Selection = GetColorString(themeDictionary[ITermThemeKeys.SelectionColor], Opacity30Percent),
+                SelectionForeground = GetColorString(themeDictionary[ITermThemeKeys.SelectedTextColor]),
+                SelectionBackground = GetColorString(themeDictionary[ITermThemeKeys.SelectionColor]),
                 Black = GetColorString(themeDictionary[ITermThemeKeys.Ansi0Color]),
                 Red = GetColorString(themeDictionary[ITermThemeKeys.Ansi1Color]),
                 Green = GetColorString(themeDictionary[ITermThemeKeys.Ansi2Color]),
