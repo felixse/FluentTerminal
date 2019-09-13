@@ -27,7 +27,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Width="500" Orientation="Vertical">
 
-            <Grid Margin="0,8,2,0" HorizontalAlignment="Stretch">
+            <Grid Margin="4,8,4,0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -112,7 +112,7 @@
 
             <controls:Expander
                 x:Uid="AdvancedExpander"
-                Margin="0,10,0,0"
+                Margin="4,10,4,0"
                 Padding="0,10,0,10"
                 HorizontalContentAlignment="Stretch"
                 Header="Advanced"

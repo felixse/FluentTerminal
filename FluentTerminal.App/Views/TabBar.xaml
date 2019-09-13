@@ -58,11 +58,13 @@
                 SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:TerminalViewModel">
-                        <utilities:InteractiveSurface x:Name="InteractiveSurface" Hovered="{x:Bind IsHovered, Mode=TwoWay}">
+                        <utilities:InteractiveSurface
+                            x:Name="InteractiveSurface"
+                            HorizontalContentAlignment="Stretch"
+                            Hovered="{x:Bind IsHovered, Mode=TwoWay}">
                             <RelativePanel
                                 Height="32"
                                 Margin="0"
-                                VerticalAlignment="Stretch"
                                 Background="Transparent"
                                 ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
 

@@ -45,7 +45,7 @@
                     </Viewbox>
                 </Button.Content>
                 <Button.Flyout>
-                    <MenuFlyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
                         <MenuFlyoutItem
                             x:Uid="NewTab"
                             Command="{x:Bind ViewModel.AddLocalShellCommand}"
