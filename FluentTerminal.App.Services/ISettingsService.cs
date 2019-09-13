@@ -14,8 +14,6 @@ namespace FluentTerminal.App.Services
         event EventHandler<SshProfile> SshProfileAdded;
         event EventHandler<Guid> SshProfileDeleted;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
-        event EventHandler<Guid> ThemeDeleted;
-        event EventHandler<TerminalTheme> ThemeAdded;
 
         void DeleteShellProfile(Guid id);
         void DeleteSshProfile(Guid id);

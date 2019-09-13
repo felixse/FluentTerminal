@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -148,9 +150,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
 
-        public event EventHandler<TerminalTheme> ThemeAdded;
         public event EventHandler<Guid> CurrentThemeChanged;
-        public event EventHandler<Guid> ThemeDeleted;
 
         public event EventHandler KeyBindingsChanged;
 
@@ -189,7 +189,7 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             }
 
-            ThemeDeleted?.Invoke(this, id);
+            Messenger.Default.Send(new ThemeDeletedMessage(id));
         }
 
         public ApplicationSettings GetApplicationSettings()
@@ -404,7 +404,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (newTheme)
             {
-                ThemeAdded?.Invoke(this, theme);
+                Messenger.Default.Send(new ThemeAddedMessage(theme));
             }
         }
     }
