@@ -131,7 +131,7 @@ Fuzzy</comment>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
-  <data name="AboutDialog.CloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Fermer</value>
     <comment>TabBar.xaml
 Fuzzy</comment>

@@ -8,7 +8,7 @@
     Title="About"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     CloseButtonClick="ContentDialog_CloseButtonClick"
-    CloseButtonText="Close"
+    CloseButtonText="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Close}"
     DefaultButton="Close"
     mc:Ignorable="d">
 

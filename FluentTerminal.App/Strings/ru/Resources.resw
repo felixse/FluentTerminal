@@ -130,7 +130,7 @@ Fuzzy</comment>
     <value>Синий</value>
     <comment>TabBar.xaml</comment>
   </data>
-  <data name="AboutDialog.CloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
     <comment>TabBar.xaml
 Fuzzy</comment>

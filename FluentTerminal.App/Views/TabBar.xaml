@@ -82,7 +82,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="0"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=None}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=0}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.None}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF126;" />
@@ -91,7 +91,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="1"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Red}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=1}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Red}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -103,7 +103,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="2"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Green}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=2}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Green}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -115,7 +115,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="3"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Blue}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=3}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Blue}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -127,7 +127,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="4"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Purple}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=4}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Purple}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -139,7 +139,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="5"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Orange}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=5}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Orange}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -151,7 +151,7 @@
                                             <ToggleMenuFlyoutItem
                                                 Command="{x:Bind SelectTabThemeCommand}"
                                                 CommandParameter="6"
-                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=Teal}"
+                                                IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=6}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Teal}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
@@ -168,7 +168,10 @@
                                         <MenuFlyoutItem x:Uid="CloseLeft" Command="{x:Bind CloseLeftTabsCommand}" />
                                         <MenuFlyoutItem x:Uid="CloseRight" Command="{x:Bind CloseRightTabsCommand}" />
                                         <MenuFlyoutItem x:Uid="CloseOther" Command="{x:Bind CloseOtherTabsCommand}" />
-                                        <MenuFlyoutItem x:Uid="Close" Command="{x:Bind CloseCommand}" />
+                                        <MenuFlyoutItem
+                                            x:Uid="Close"
+                                            Command="{x:Bind CloseCommand}"
+                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Close}" />
                                     </MenuFlyout>
                                 </RelativePanel.ContextFlyout>
                                 <Border

@@ -8,9 +8,9 @@ namespace FluentTerminal.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is TabTheme theme && parameter is string name)
+            if (value is TabTheme theme && parameter is string idString && int.TryParse(idString, out var id))
             {
-                return theme.Name == name;
+                return theme.Id == id;
             }
             return null;
         }
