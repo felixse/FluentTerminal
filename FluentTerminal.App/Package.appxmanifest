@@ -20,44 +20,6 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
-      <Extensions>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="Win32\FluentTerminal.SystemTray.exe">
-          <desktop:FullTrustProcess>
-            <desktop:ParameterGroup GroupId="AppLaunchedParameterGroup" Parameters="appLaunched" />
-          </desktop:FullTrustProcess>
-        </desktop:Extension>
-        <uap5:Extension Category="windows.appExecutionAlias" Executable="FluentTerminal.App.exe" EntryPoint="FluentTerminal.App.App">
-          <uap5:AppExecutionAlias>
-            <uap5:ExecutionAlias Alias="flute.exe" />
-          </uap5:AppExecutionAlias>
-        </uap5:Extension>
-        <desktop:Extension Category="windows.startupTask" Executable="Win32\FluentTerminal.SystemTray.exe" EntryPoint="Windows.FullTrustApplication">
-          <desktop:StartupTask TaskId="FluentTerminalStartupTask" Enabled="false" DisplayName="Fluent Terminal" />
-        </desktop:Extension>
-        <uap:Extension Category="windows.appService">
-          <uap:AppService Name="FluentTerminalAppService" />
-        </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="ssh">
-            <uap:DisplayName>SSH Session</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="mosh">
-            <uap:DisplayName>Mobile Shell Session</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="ftcmd">
-            <uap:DisplayName>Fluent-specific SSH</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-      </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-    <rescap:Capability Name="runFullTrust" />
-    <rescap:Capability Name="confirmAppClose" />
-  </Capabilities>
 </Package>
