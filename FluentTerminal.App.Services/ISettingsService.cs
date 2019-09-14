@@ -6,7 +6,6 @@ namespace FluentTerminal.App.Services
 {
     public interface ISettingsService
     {
-        event EventHandler<Guid> CurrentThemeChanged;
         event EventHandler KeyBindingsChanged;
         event EventHandler<ShellProfile> ShellProfileAdded;
         event EventHandler<Guid> ShellProfileDeleted;

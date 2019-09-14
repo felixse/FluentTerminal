@@ -161,7 +161,8 @@ namespace FluentTerminal.App.Services.Test
             };
             var currentThemeChangedEventInvoked = false;
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.CurrentThemeChanged += (s, e) => currentThemeChangedEventInvoked = true;
+            Messenger.Default.Register<CurrentThemeChangedMessage>(this,
+                message => currentThemeChangedEventInvoked = true);
 
             settingsService.SaveCurrentThemeId(currentThemeId);
 
@@ -208,7 +209,8 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.CurrentThemeChanged += (s, e) => currentThemeChangedEventInvoked = true;
+            Messenger.Default.Register<CurrentThemeChangedMessage>(this,
+                message => currentThemeChangedEventInvoked = true);
 
             settingsService.SaveTheme(theme);
 

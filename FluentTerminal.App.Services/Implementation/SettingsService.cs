@@ -148,8 +148,6 @@ namespace FluentTerminal.App.Services.Implementation
             SaveTerminalOptions(config.TerminalOptions);
         }
 
-        public event EventHandler<Guid> CurrentThemeChanged;
-
         public event EventHandler KeyBindingsChanged;
 
         public event EventHandler<ShellProfile> ShellProfileAdded;
@@ -337,7 +335,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _roamingSettings.SetValue(CurrentThemeKey, id);
 
-            CurrentThemeChanged?.Invoke(this, id);
+            Messenger.Default.Send(new CurrentThemeChangedMessage(id));
         }
 
         public void SaveDefaultShellProfileId(Guid id)
@@ -397,7 +395,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (theme.Id == GetCurrentThemeId())
             {
-                CurrentThemeChanged?.Invoke(this, theme.Id);
+                Messenger.Default.Send(new CurrentThemeChangedMessage(theme.Id));
             }
 
             if (newTheme)

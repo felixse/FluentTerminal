@@ -98,9 +98,9 @@ namespace FluentTerminal.App.ViewModels
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, string terminalState = null)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
 
             SettingsService = settingsService;
-            SettingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
 
@@ -362,7 +362,6 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Unregister(this);
 
-            SettingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
             SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
             SettingsService.KeyBindingsChanged -= OnKeyBindingsChanged;
             return Terminal.Close();
@@ -469,14 +468,14 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private async void OnCurrentThemeChanged(object sender, Guid e)
+        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
                 // only change theme if not overwritten by profile
                 if (ShellProfile.TerminalThemeId == Guid.Empty)
                 {
-                    var currentTheme = SettingsService.GetTheme(e);
+                    var currentTheme = SettingsService.GetTheme(message.ThemeId);
                     TerminalTheme = currentTheme;
                     ThemeChanged?.Invoke(this, currentTheme);
                 }

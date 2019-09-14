@@ -35,9 +35,9 @@ namespace FluentTerminal.App.ViewModels
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
 
             _settingsService = settingsService;
-            _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded += OnShellProfileAdded;
             _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
@@ -113,7 +113,6 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Unregister(this);
 
-            _settingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
             _settingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded -= OnShellProfileAdded;
             _settingsService.ShellProfileDeleted -= OnShellProfileDeleted;
@@ -548,13 +547,13 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private async void OnCurrentThemeChanged(object sender, Guid e)
+        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
-             {
-                 var currentTheme = _settingsService.GetTheme(e);
-                 Background = currentTheme.Colors.Background;
-             });
+            {
+                var currentTheme = _settingsService.GetTheme(message.ThemeId);
+                Background = currentTheme.Colors.Background;
+            });
         }
 
         private async void OnTerminalClosed(object sender, EventArgs e)
