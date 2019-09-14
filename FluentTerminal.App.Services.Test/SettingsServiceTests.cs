@@ -533,7 +533,8 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.KeyBindingsChanged += (s, e) => keyBindingsChangedEventInvoked = true;
+            Messenger.Default.Register<KeyBindingsChangedMessage>(this,
+                message => keyBindingsChangedEventInvoked = true);
 
             settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
@@ -579,7 +580,8 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.KeyBindingsChanged += (s, e) => keyBindingsChangedEventInvoked = true;
+            Messenger.Default.Register<KeyBindingsChangedMessage>(this,
+                message => keyBindingsChangedEventInvoked = true);
 
             settingsService.ResetKeyBindings();
 

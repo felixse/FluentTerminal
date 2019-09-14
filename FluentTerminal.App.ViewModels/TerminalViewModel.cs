@@ -99,10 +99,10 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
+            MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
 
             SettingsService = settingsService;
             SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
 
@@ -363,7 +363,6 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Unregister(this);
 
             SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
-            SettingsService.KeyBindingsChanged -= OnKeyBindingsChanged;
             return Terminal.Close();
         }
 
@@ -482,8 +481,9 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private async void OnKeyBindingsChanged(object sender, EventArgs e)
+        private async void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
         {
+            // TODO: Check why we need to re-emit the event.
             await ApplicationView.RunOnDispatcherThread(() => KeyBindingsChanged?.Invoke(this, EventArgs.Empty));
         }
 

@@ -148,8 +148,6 @@ namespace FluentTerminal.App.Services.Implementation
             SaveTerminalOptions(config.TerminalOptions);
         }
 
-        public event EventHandler KeyBindingsChanged;
-
         public event EventHandler<ShellProfile> ShellProfileAdded;
         public event EventHandler<Guid> ShellProfileDeleted;
 
@@ -168,7 +166,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             _sshProfiles.Delete(id.ToString());
             SshProfileDeleted?.Invoke(this, id);
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            Messenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
 
@@ -317,7 +315,7 @@ namespace FluentTerminal.App.Services.Implementation
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            Messenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
         public void SaveApplicationSettings(ApplicationSettings applicationSettings)
@@ -355,7 +353,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             _keyBindings.WriteValueAsJson(enumValue.ToString(), keyBindings);
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            Messenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
         public void SaveShellProfile(ShellProfile shellProfile, bool newShell = false)
@@ -363,7 +361,7 @@ namespace FluentTerminal.App.Services.Implementation
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
 
             // When saving the shell profile, we also need to update keybindings for everywhere.
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            Messenger.Default.Send(new KeyBindingsChangedMessage());
 
             if (newShell)
             {
@@ -375,7 +373,7 @@ namespace FluentTerminal.App.Services.Implementation
             _sshProfiles.WriteValueAsJson(sshProfile.Id.ToString(), sshProfile);
 
             // When saving the shell profile, we also need to update keybindings for everywhere.
-            KeyBindingsChanged?.Invoke(this, System.EventArgs.Empty);
+            Messenger.Default.Send(new KeyBindingsChangedMessage());
 
             if (newShell)
             {
