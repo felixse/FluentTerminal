@@ -22,6 +22,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.App.ViewModels", "FluentTerminal.App.ViewModels\FluentTerminal.App.ViewModels.csproj", "{44E8E225-F46C-47EC-9290-FFA08FCCF1B5}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FluentTerminal.Package", "FluentTerminal.Package\FluentTerminal.Package.wapproj", "{DA0BF206-F386-404C-82DF-5EAE2F5B1AA5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{44E8E225-F46C-47EC-9290-FFA08FCCF1B5} = {44E8E225-F46C-47EC-9290-FFA08FCCF1B5}
+		{BAAE6239-343F-454C-977F-F81F91715961} = {BAAE6239-343F-454C-977F-F81F91715961}
+		{5EA40453-A0AA-449E-8406-D6EA51D7E70E} = {5EA40453-A0AA-449E-8406-D6EA51D7E70E}
+		{A1AD7385-F92E-46AC-A349-43DC99B1E72D} = {A1AD7385-F92E-46AC-A349-43DC99B1E72D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
