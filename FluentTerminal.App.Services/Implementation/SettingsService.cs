@@ -148,24 +148,18 @@ namespace FluentTerminal.App.Services.Implementation
             SaveTerminalOptions(config.TerminalOptions);
         }
 
-        public event EventHandler<ShellProfile> ShellProfileAdded;
-        public event EventHandler<Guid> ShellProfileDeleted;
-
-        public event EventHandler<SshProfile> SshProfileAdded;
-        public event EventHandler<Guid> SshProfileDeleted;
-
         public event EventHandler<TerminalOptions> TerminalOptionsChanged;
 
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
-            ShellProfileDeleted?.Invoke(this, id);
+            Messenger.Default.Send(new ShellProfileDeletedMessage(id));
         }
 
         public void DeleteSshProfile(Guid id)
         {
             _sshProfiles.Delete(id.ToString());
-            SshProfileDeleted?.Invoke(this, id);
+            Messenger.Default.Send(new SshProfileDeletedMessage(id));
             Messenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
@@ -365,7 +359,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (newShell)
             {
-                ShellProfileAdded?.Invoke(this, shellProfile);
+                Messenger.Default.Send(new ShellProfileAddedMessage(shellProfile));
             }
         }
         public void SaveSshProfile(SshProfile sshProfile, bool newShell = false)
@@ -377,7 +371,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (newShell)
             {
-                SshProfileAdded?.Invoke(this, sshProfile);
+                Messenger.Default.Send(new SshProfileAddedMessage(sshProfile));
             }
         }
 

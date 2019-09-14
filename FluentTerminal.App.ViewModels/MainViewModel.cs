@@ -12,7 +12,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -36,13 +35,13 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
+            MessengerInstance.Register<ShellProfileAddedMessage>(this, OnShellProfileAdded);
+            MessengerInstance.Register<ShellProfileDeletedMessage>(this, OnShellProfileDeleted);
+            MessengerInstance.Register<SshProfileAddedMessage>(this, OnSshProfileAdded);
+            MessengerInstance.Register<SshProfileDeletedMessage>(this, OnSshProfileDeleted);
 
             _settingsService = settingsService;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            _settingsService.ShellProfileAdded += OnShellProfileAdded;
-            _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
-            _settingsService.SshProfileAdded += OnSshProfileAdded;
-            _settingsService.SshProfileDeleted += OnSshProfileDeleted;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
@@ -114,10 +113,6 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Unregister(this);
 
             _settingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
-            _settingsService.ShellProfileAdded -= OnShellProfileAdded;
-            _settingsService.ShellProfileDeleted -= OnShellProfileDeleted;
-            _settingsService.SshProfileAdded -= OnSshProfileAdded;
-            _settingsService.SshProfileDeleted -= OnSshProfileDeleted;
 
             ApplicationView.CloseRequested -= OnCloseRequest;
             ApplicationView.Closed -= OnClosed;
@@ -136,23 +131,25 @@ namespace FluentTerminal.App.ViewModels
             Closed?.Invoke(this, e);
         }
 
-        private void OnShellProfileDeleted(object sender, Guid e)
+        private void OnShellProfileDeleted(ShellProfileDeletedMessage message)
         {
-            _keyboardCommandService.DeregisterCommandHandler(e.ToString());
+            _keyboardCommandService.DeregisterCommandHandler(message.ProfileId.ToString());
         }
 
-        private void OnShellProfileAdded(object sender, ShellProfile e)
+        private void OnShellProfileAdded(ShellProfileAddedMessage message)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddLocalTabOrWindowAsync(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(message.ShellProfile.Id.ToString(),
+                () => AddLocalTabOrWindowAsync(message.ShellProfile.Id));
         }
 
-        private void OnSshProfileAdded(object sender, ShellProfile e)
+        private void OnSshProfileAdded(SshProfileAddedMessage message)
         {
-            _keyboardCommandService.RegisterCommandHandler(e.Id.ToString(), () => AddSshTabOrWindowAsync(e.Id));
+            _keyboardCommandService.RegisterCommandHandler(message.SshProfile.Id.ToString(),
+                () => AddSshTabOrWindowAsync(message.SshProfile.Id));
         }
-        private void OnSshProfileDeleted(object sender, Guid e)
+        private void OnSshProfileDeleted(SshProfileDeletedMessage message)
         {
-            _keyboardCommandService.DeregisterCommandHandler(e.ToString());
+            _keyboardCommandService.DeregisterCommandHandler(message.ProfileId.ToString());
         }
         
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

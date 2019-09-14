@@ -6,10 +6,6 @@ namespace FluentTerminal.App.Services
 {
     public interface ISettingsService
     {
-        event EventHandler<ShellProfile> ShellProfileAdded;
-        event EventHandler<Guid> ShellProfileDeleted;
-        event EventHandler<SshProfile> SshProfileAdded;
-        event EventHandler<Guid> SshProfileDeleted;
         event EventHandler<TerminalOptions> TerminalOptionsChanged;
 
         void DeleteShellProfile(Guid id);
