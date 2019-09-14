@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -32,9 +34,10 @@ namespace FluentTerminal.App.ViewModels
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
         {
+            MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+
             _settingsService = settingsService;
             _settingsService.CurrentThemeChanged += OnCurrentThemeChanged;
-            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded += OnShellProfileAdded;
             _settingsService.ShellProfileDeleted += OnShellProfileDeleted;
@@ -108,8 +111,9 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnClosed(object sender, EventArgs e)
         {
+            MessengerInstance.Unregister(this);
+
             _settingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
-            _settingsService.ApplicationSettingsChanged -= OnApplicationSettingsChanged;
             _settingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
             _settingsService.ShellProfileAdded -= OnShellProfileAdded;
             _settingsService.ShellProfileDeleted -= OnShellProfileDeleted;
@@ -503,16 +507,16 @@ namespace FluentTerminal.App.ViewModels
             NewWindowRequested?.Invoke(this, args);
         }
 
-        private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
-                _applicationSettings = e;
-                TabsPosition = e.TabsPosition;
+                _applicationSettings = message.ApplicationSettings;
+                TabsPosition = message.ApplicationSettings.TabsPosition;
                 RaisePropertyChanged(nameof(ShowTabsOnTop));
                 RaisePropertyChanged(nameof(ShowTabsOnBottom));
 
-                if (e.ShowCustomTitleInTitlebar)
+                if (message.ApplicationSettings.ShowCustomTitleInTitlebar)
                 {
                     WindowTitle = SelectedTerminal?.TabTitle;
                 }

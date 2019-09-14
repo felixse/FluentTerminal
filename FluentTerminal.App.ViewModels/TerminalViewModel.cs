@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -96,10 +97,11 @@ namespace FluentTerminal.App.ViewModels
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, string terminalState = null)
         {
+            MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+
             SettingsService = settingsService;
             SettingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            SettingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
             SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
@@ -358,9 +360,10 @@ namespace FluentTerminal.App.ViewModels
 
         public Task Close()
         {
+            MessengerInstance.Unregister(this);
+
             SettingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
             SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
-            SettingsService.ApplicationSettingsChanged -= OnApplicationSettingsChanged;
             SettingsService.KeyBindingsChanged -= OnKeyBindingsChanged;
             return Terminal.Close();
         }
@@ -456,11 +459,11 @@ namespace FluentTerminal.App.ViewModels
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
-                ApplicationSettings = e;
+                ApplicationSettings = message.ApplicationSettings;
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
             });

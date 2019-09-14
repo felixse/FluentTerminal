@@ -148,8 +148,6 @@ namespace FluentTerminal.App.Services.Implementation
             SaveTerminalOptions(config.TerminalOptions);
         }
 
-        public event EventHandler<ApplicationSettings> ApplicationSettingsChanged;
-
         public event EventHandler<Guid> CurrentThemeChanged;
 
         public event EventHandler KeyBindingsChanged;
@@ -327,12 +325,12 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveApplicationSettings(ApplicationSettings applicationSettings)
         {
             _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
-            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
+            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings));
         }
 
         public void NotifyApplicationSettingsChanged(ApplicationSettings applicationSettings)
         {
-            ApplicationSettingsChanged?.Invoke(this, applicationSettings);
+            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings));
         }
 
         public void SaveCurrentThemeId(Guid id)

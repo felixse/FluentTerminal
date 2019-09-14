@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 using Xunit;
 
 namespace FluentTerminal.App.Services.Test
@@ -430,7 +432,8 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.ApplicationSettingsChanged += (s, e) => applicationSettingsChangedEventInvoked = true;
+            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this,
+                a => applicationSettingsChangedEventInvoked = true);
 
             settingsService.SaveApplicationSettings(applicationSettings);
 
