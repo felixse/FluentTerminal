@@ -36,6 +36,8 @@ using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App
 {
@@ -109,8 +111,9 @@ namespace FluentTerminal.App
 
             _container = builder.Build();
 
+            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+
             _settingsService = _container.Resolve<ISettingsService>();
-            _settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
 
             var shellProfileMigrationService = _container.Resolve<IShellProfileMigrationService>();
             foreach (var profile in _settingsService.GetShellProfiles())
@@ -583,10 +586,10 @@ namespace FluentTerminal.App
             return viewModel;
         }
 
-        private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            _applicationSettings = e;
-            _trayProcessCommunicationService.UpdateSettings(e);
+            _applicationSettings = message.ApplicationSettings;
+            _trayProcessCommunicationService.UpdateSettings(message.ApplicationSettings);
         }
 
         private void OnMainViewModelClosed(object sender, EventArgs e)

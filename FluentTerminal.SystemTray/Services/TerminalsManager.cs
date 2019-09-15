@@ -13,6 +13,8 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -40,12 +42,12 @@ namespace FluentTerminal.SystemTray.Services
         public TerminalsManager(ISettingsService settingsService)
         {
             _applicationSettings = settingsService.GetApplicationSettings();
-            settingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
+            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
         }
 
-        private void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            _applicationSettings = e;
+            _applicationSettings = message.ApplicationSettings;
         }
 
         public void DisplayTerminalOutput(byte terminalId, byte[] output)

@@ -3,6 +3,8 @@ using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.Views
 {
@@ -12,12 +14,13 @@ namespace FluentTerminal.App.Views
 
         public TerminalView(TerminalViewModel viewModel)
         {
+            Messenger.Default.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
+
             ViewModel = viewModel;
             ViewModel.SearchStarted += OnSearchStarted;
             ViewModel.Activated += OnActivated;
             ViewModel.ThemeChanged += OnThemeChanged;
             ViewModel.OptionsChanged += OnOptionsChanged;
-            ViewModel.KeyBindingsChanged += OnKeyBindingsChanged;
             ViewModel.FindNextRequested += OnFindNextRequested;
             ViewModel.FindPreviousRequested += OnFindPreviousRequested;
             InitializeComponent();
@@ -34,11 +37,12 @@ namespace FluentTerminal.App.Views
             TerminalContainer.Children.Remove((UIElement)_terminalView);
             _terminalView = null;
 
+            Messenger.Default.Unregister(this);
+
             ViewModel.SearchStarted -= OnSearchStarted;
             ViewModel.Activated -= OnActivated;
             ViewModel.ThemeChanged -= OnThemeChanged;
             ViewModel.OptionsChanged -= OnOptionsChanged;
-            ViewModel.KeyBindingsChanged -= OnKeyBindingsChanged;
             ViewModel.FindNextRequested -= OnFindNextRequested;
             ViewModel.FindPreviousRequested -= OnFindPreviousRequested;
 
@@ -65,7 +69,7 @@ namespace FluentTerminal.App.Views
             await _terminalView.FindPrevious(e).ConfigureAwait(true);
         }
 
-        private async void OnKeyBindingsChanged(object sender, EventArgs e)
+        private async void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
         {
             await _terminalView.ChangeKeyBindings().ConfigureAwait(true);
         }

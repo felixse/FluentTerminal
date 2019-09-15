@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -96,11 +97,11 @@ namespace FluentTerminal.App.ViewModels
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, string terminalState = null)
         {
+            MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
+
             SettingsService = settingsService;
-            SettingsService.CurrentThemeChanged += OnCurrentThemeChanged;
             SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
-            SettingsService.ApplicationSettingsChanged += OnApplicationSettingsChanged;
-            SettingsService.KeyBindingsChanged += OnKeyBindingsChanged;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
 
@@ -162,7 +163,6 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler Closed;
         public event EventHandler<string> FindNextRequested;
         public event EventHandler<string> FindPreviousRequested;
-        public event EventHandler KeyBindingsChanged;
         public event EventHandler<TerminalOptions> OptionsChanged;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
@@ -358,10 +358,9 @@ namespace FluentTerminal.App.ViewModels
 
         public Task Close()
         {
-            SettingsService.CurrentThemeChanged -= OnCurrentThemeChanged;
+            MessengerInstance.Unregister(this);
+
             SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
-            SettingsService.ApplicationSettingsChanged -= OnApplicationSettingsChanged;
-            SettingsService.KeyBindingsChanged -= OnKeyBindingsChanged;
             return Terminal.Close();
         }
 
@@ -456,33 +455,28 @@ namespace FluentTerminal.App.ViewModels
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(object sender, ApplicationSettings e)
+        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
-                ApplicationSettings = e;
+                ApplicationSettings = message.ApplicationSettings;
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
-        private async void OnCurrentThemeChanged(object sender, Guid e)
+        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
                 // only change theme if not overwritten by profile
                 if (ShellProfile.TerminalThemeId == Guid.Empty)
                 {
-                    var currentTheme = SettingsService.GetTheme(e);
+                    var currentTheme = SettingsService.GetTheme(message.ThemeId);
                     TerminalTheme = currentTheme;
                     ThemeChanged?.Invoke(this, currentTheme);
                 }
             });
-        }
-
-        private async void OnKeyBindingsChanged(object sender, EventArgs e)
-        {
-            await ApplicationView.RunOnDispatcherThread(() => KeyBindingsChanged?.Invoke(this, EventArgs.Empty));
         }
 
         private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)

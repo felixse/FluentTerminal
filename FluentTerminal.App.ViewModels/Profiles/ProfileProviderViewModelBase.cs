@@ -7,6 +7,7 @@ using System.Web;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
+using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels.Profiles
@@ -194,8 +195,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             SelectedTerminalTheme = TerminalThemes.First();
 
-            settingsService.ThemeAdded += OnThemeAdded;
-            settingsService.ThemeDeleted += OnThemeDeleted;
+            MessengerInstance.Register<ThemeAddedMessage>(this, OnThemeAdded);
+            MessengerInstance.Register<ThemeDeletedMessage>(this, OnThemeDeleted);
 
             Initialize(Model);
         }
@@ -204,29 +205,29 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         #region Methods
 
-        private void OnThemeDeleted(object sender, Guid e)
+        private void OnThemeDeleted(ThemeDeletedMessage message)
         {
+            var theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(message.ThemeId));
+
+            if (theme == null)
+            {
+                return;
+            }
+
             ApplicationView.RunOnDispatcherThread(() =>
             {
-                var theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(e));
-
-                if (theme == null)
-                {
-                    return;
-                }
-
                 TerminalThemes.Remove(theme);
 
-                if (_terminalThemeId.Equals(e))
+                if (_terminalThemeId.Equals(message.ThemeId))
                 {
                     SelectedTerminalTheme = TerminalThemes.First();
                 }
             }, false);
         }
 
-        private void OnThemeAdded(object sender, TerminalTheme e)
+        private void OnThemeAdded(ThemeAddedMessage message)
         {
-            ApplicationView.RunOnDispatcherThread(() => TerminalThemes.Add(e), false);
+            ApplicationView.RunOnDispatcherThread(() => TerminalThemes.Add(message.Theme), false);
         }
 
         private void Initialize(ShellProfile profile)
