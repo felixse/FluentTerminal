@@ -39,9 +39,9 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<ShellProfileDeletedMessage>(this, OnShellProfileDeleted);
             MessengerInstance.Register<SshProfileAddedMessage>(this, OnSshProfileAdded);
             MessengerInstance.Register<SshProfileDeletedMessage>(this, OnSshProfileDeleted);
+            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
 
             _settingsService = settingsService;
-            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
@@ -111,8 +111,6 @@ namespace FluentTerminal.App.ViewModels
         private void OnClosed(object sender, EventArgs e)
         {
             MessengerInstance.Unregister(this);
-
-            _settingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
 
             ApplicationView.CloseRequested -= OnCloseRequest;
             ApplicationView.Closed -= OnClosed;
@@ -580,11 +578,11 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        private async void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
-                BackgroundOpacity = e.BackgroundOpacity;
+                BackgroundOpacity = message.TerminalOptions.BackgroundOpacity;
             });
         }
 

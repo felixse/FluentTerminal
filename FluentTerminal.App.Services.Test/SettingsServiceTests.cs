@@ -367,7 +367,8 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            settingsService.TerminalOptionsChanged += (s, e) => terminalOptionsChangedEventInvoked = true;
+            Messenger.Default.Register<TerminalOptionsChangedMessage>(this,
+                message => terminalOptionsChangedEventInvoked = true);
 
             settingsService.SaveTerminalOptions(terminalOptions);
 
