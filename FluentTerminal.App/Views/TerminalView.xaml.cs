@@ -15,12 +15,12 @@ namespace FluentTerminal.App.Views
         public TerminalView(TerminalViewModel viewModel)
         {
             Messenger.Default.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
+            Messenger.Default.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
 
             ViewModel = viewModel;
             ViewModel.SearchStarted += OnSearchStarted;
             ViewModel.Activated += OnActivated;
             ViewModel.ThemeChanged += OnThemeChanged;
-            ViewModel.OptionsChanged += OnOptionsChanged;
             ViewModel.FindNextRequested += OnFindNextRequested;
             ViewModel.FindPreviousRequested += OnFindPreviousRequested;
             InitializeComponent();
@@ -42,7 +42,6 @@ namespace FluentTerminal.App.Views
             ViewModel.SearchStarted -= OnSearchStarted;
             ViewModel.Activated -= OnActivated;
             ViewModel.ThemeChanged -= OnThemeChanged;
-            ViewModel.OptionsChanged -= OnOptionsChanged;
             ViewModel.FindNextRequested -= OnFindNextRequested;
             ViewModel.FindPreviousRequested -= OnFindPreviousRequested;
 
@@ -74,9 +73,9 @@ namespace FluentTerminal.App.Views
             await _terminalView.ChangeKeyBindings().ConfigureAwait(true);
         }
 
-        private async void OnOptionsChanged(object sender, Models.TerminalOptions e)
+        private async void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            await _terminalView.ChangeOptions(e).ConfigureAwait(true);
+            await _terminalView.ChangeOptions(message.TerminalOptions).ConfigureAwait(true);
         }
 
         private void OnSearchStarted(object sender, EventArgs e)

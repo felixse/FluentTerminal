@@ -99,9 +99,9 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
+            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
 
             SettingsService = settingsService;
-            SettingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
 
@@ -163,7 +163,6 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler Closed;
         public event EventHandler<string> FindNextRequested;
         public event EventHandler<string> FindPreviousRequested;
-        public event EventHandler<TerminalOptions> OptionsChanged;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
         public event EventHandler<string> ShellTitleChanged;
@@ -360,7 +359,6 @@ namespace FluentTerminal.App.ViewModels
         {
             MessengerInstance.Unregister(this);
 
-            SettingsService.TerminalOptionsChanged -= OnTerminalOptionsChanged;
             return Terminal.Close();
         }
 
@@ -479,10 +477,9 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private async void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            _terminalOptions = e;
-            await ApplicationView.RunOnDispatcherThread(() => OptionsChanged?.Invoke(this, e));
+            _terminalOptions = message.TerminalOptions;
         }
 
         private void SelectTabTheme(string id)

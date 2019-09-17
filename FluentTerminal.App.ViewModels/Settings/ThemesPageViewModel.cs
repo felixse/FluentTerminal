@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -36,7 +37,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             ImportThemeCommand = new AsyncCommand(ImportTheme);
             CloneCommand = new RelayCommand<ThemeViewModel>(CloneTheme);
 
-            _settingsService.TerminalOptionsChanged += OnTerminalOptionsChanged;
+            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
 
             BackgroundOpacity = _settingsService.GetTerminalOptions().BackgroundOpacity;
 
@@ -182,9 +183,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        private void OnTerminalOptionsChanged(object sender, TerminalOptions e)
+        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            BackgroundOpacity = e.BackgroundOpacity;
+            BackgroundOpacity = message.TerminalOptions.BackgroundOpacity;
         }
 
         private void OnSelectedThemeBackgroundChanged(object sender, string e)

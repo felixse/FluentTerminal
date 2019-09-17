@@ -148,8 +148,6 @@ namespace FluentTerminal.App.Services.Implementation
             SaveTerminalOptions(config.TerminalOptions);
         }
 
-        public event EventHandler<TerminalOptions> TerminalOptionsChanged;
-
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
@@ -378,7 +376,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveTerminalOptions(TerminalOptions terminalOptions)
         {
             _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
-            TerminalOptionsChanged?.Invoke(this, terminalOptions);
+            Messenger.Default.Send(new TerminalOptionsChangedMessage(terminalOptions));
         }
 
         public void SaveTheme(TerminalTheme theme, bool newTheme = false)
