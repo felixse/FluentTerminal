@@ -27,7 +27,6 @@ namespace FluentTerminal.App.Services
         void UnsubscribeFromTerminalOutput(byte terminalId);
 
         Task CloseTerminal(byte terminalId);
-        Task<GetAvailablePortResponse> GetAvailablePort();
         byte GetNextTerminalId();
 
         Task<string> GetUserName();

@@ -1,5 +1,4 @@
-﻿using Fleck;
-using FluentTerminal.App.Converters;
+﻿using FluentTerminal.App.Converters;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
@@ -10,8 +9,6 @@ using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -41,8 +38,6 @@ namespace FluentTerminal.App.Views
         private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
         private readonly DebouncedAction<TerminalOptions> _optionsChanged;
-        private IWebSocketConnection _socket;
-        private WebSocketServer _webSocketServer;
         private CancellationTokenSource _mediatorTaskCTSource;
 
         // Members related to resize handling
@@ -51,6 +46,8 @@ namespace FluentTerminal.App.Views
         private MemoryStream _outputBlockedBuffer;
         private readonly DebouncedAction<bool> _unblockOutput;
         private TerminalBridge _terminalBridge;
+
+        public event EventHandler<object> OnOutput;
 
         public XtermTerminalView()
         {
@@ -101,7 +98,6 @@ namespace FluentTerminal.App.Views
             _unblockOutput = new DebouncedAction<bool>(Dispatcher, TimeSpan.FromMilliseconds(500), x => {
                 _outputBlocked.Reset();
             });
-
 
             _navigationCompleted = new SemaphoreSlim(0, 1);
             _connectedEvent = new ManualResetEventSlim(false);
@@ -179,9 +175,8 @@ namespace FluentTerminal.App.Views
             }
             await _navigationCompleted.WaitAsync().ConfigureAwait(true);
             var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
-            var port = await ViewModel.TrayProcessCommunicationService.GetAvailablePort().ConfigureAwait(true);
-            await CreateWebSocketServer(port.Port).ConfigureAwait(true);
             _connectedEvent.Wait();
+
             var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
             if (!response.Success)
             {
@@ -272,9 +267,14 @@ namespace FluentTerminal.App.Views
             {
                 // Prevent output from being sent during the terminal while
                 // resize events are being processed (to avoid buffer corruption).
-                _outputBlocked.Set(); 
+                _outputBlocked.Set();
                 _dispatcherJobs.Add(() => _sizeChanged.Invoke(new TerminalSize { Columns = columns, Rows = rows }));
             }
+        }
+
+        void IxtermEventListener.OnInitialized()
+        {
+            _connectedEvent.Set();
         }
 
         void IxtermEventListener.OnTitleChanged(string title)
@@ -302,59 +302,6 @@ namespace FluentTerminal.App.Views
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
-        }
-
-        private static void WebSocketLogAction(LogLevel level, string message, Exception exception)
-        {
-            // todo: send debug to verbose
-            switch (level)
-            {
-                case LogLevel.Info:
-                    Logger.Instance.Information(message);
-                    break;
-                case LogLevel.Warn:
-                    Logger.Instance.Warning(message);
-                    break;
-                case LogLevel.Error:
-                    Logger.Instance.Error(message);
-                    break;
-            }
-            if (exception != null)
-            {
-                Logger.Instance.Error(exception, "Fleck Exception");
-            }
-        }
-
-        private async Task CreateWebSocketServer(int port)
-        {
-            if (FleckLog.LogAction != WebSocketLogAction)
-            {
-                FleckLog.LogAction = WebSocketLogAction;
-            };
-
-            var webSocketUrl = "ws://127.0.0.1:" + port;
-            _webSocketServer = new WebSocketServer(webSocketUrl);
-            _webSocketServer.Start(socket =>
-            {
-                _socket = socket;
-                _socket.OnOpen += OnWebSocketOpened;
-                _socket.OnMessage += OnWebSocketMessage;
-            });
-
-            Logger.Instance.Debug("WebSocketServer started. Calling connectToWebSocket() now.");
-
-            await ExecuteScriptAsync($"connectToWebSocket('{webSocketUrl}');").ConfigureAwait(true);
-        }
-
-        private void OnWebSocketMessage(string message)
-        {
-            ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(message));
-        }
-
-        private void OnWebSocketOpened()
-        {
-            Logger.Instance.Debug("WebSocket open");
-            _connectedEvent.Set();
         }
 
         private async Task<TerminalSize> CreateXtermView(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
@@ -439,17 +386,9 @@ namespace FluentTerminal.App.Views
                 Root.Children.Remove(_webView);
                 _webView = null;
 
-                _socket.OnOpen -= OnWebSocketOpened;
-                _socket.OnMessage -= OnWebSocketMessage;
-                _socket.Close();
-                _webSocketServer.Dispose();
-                _webSocketServer = null;
-                _socket = null;
-
                 _copyMenuItem.Click -= Copy_Click;
                 _pasteMenuItem.Click -= Paste_Click;
                 
-
                 if (Window.Current.Content is Frame frame && frame.Content is Page mainPage)
                 {
                     if (mainPage.Resources["TerminalViewModelToViewConverter"] is TerminalViewModelToViewConverter converter)
@@ -473,16 +412,21 @@ namespace FluentTerminal.App.Views
                 // buffered output first, and then the output for the current
                 // event.
                 if (_outputBlockedBuffer.Length > 0) {
-                    _socket.Send(_outputBlockedBuffer.ToArray());
+                    OnOutput?.Invoke(this, _outputBlockedBuffer.ToArray());
                     _outputBlockedBuffer.SetLength(0);
                 }
-                _socket.Send(e);
+                OnOutput?.Invoke(this, e);
             }
         }
 
         void IxtermEventListener.OnError(string error)
         {
             Logger.Instance.Error(error);
+        }
+
+        public void OnInput(string text)
+        {
+            ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(text));
         }
     }
 }

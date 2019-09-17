@@ -1,54 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models.Enums;
 
-
 namespace FluentTerminal.SystemTray
 {
     public static class Utilities
     {
-        private const int FirstDynamicPort = 49151;
-        private static readonly List<int> _sentOutPorts = new List<int>();
-
-        public static int? GetAvailablePort()
-        {
-            var usedPorts = new List<int>();
-
-            var properties = IPGlobalProperties.GetIPGlobalProperties();
-
-            var connections = properties.GetActiveTcpConnections();
-            usedPorts.AddRange(connections.Where(c => c.LocalEndPoint.Port >= FirstDynamicPort).Select(c => c.LocalEndPoint.Port));
-
-            var endPoints = properties.GetActiveTcpListeners();
-            usedPorts.AddRange(endPoints.Where(e => e.Port >= FirstDynamicPort).Select(e => e.Port));
-
-            endPoints = properties.GetActiveUdpListeners();
-            usedPorts.AddRange(endPoints.Where(e => e.Port >= FirstDynamicPort).Select(e => e.Port));
-
-            usedPorts.AddRange(_sentOutPorts);
-
-            usedPorts.Sort();
-
-            for (var i = FirstDynamicPort; i < UInt16.MaxValue; i++)
-            {
-                if (!usedPorts.Contains(i))
-                {
-                    _sentOutPorts.Add(i);
-                    return i;
-                }
-            }
-            return null;
-        }
-
         public static Key ExtendVirtualKeyToInputKey(ExtendedVirtualKey key)
         {
             switch (key)

@@ -22,7 +22,6 @@ namespace FluentTerminal.SystemTray.Services
         private readonly ISettingsService _settingsService;
 
         public const string EventWaitHandleName = "FluentTerminalNewInstanceEvent";
-        public const byte WriteDataMessageIdentifier = 0;
 
         public AppCommunicationService(TerminalsManager terminalsManager, ToggleWindowService toggleWindowService, ISettingsService settingsService)
         {
@@ -89,7 +88,7 @@ namespace FluentTerminal.SystemTray.Services
 
             switch ((MessageIdentifiers) messageType)
             {
-                case WriteDataMessageIdentifier:
+                case MessageIdentifiers.WriteDataMessage:
                     HandleWriteDataMessage(args);
                     break;
                 case MessageIdentifiers.CreateTerminalRequest:
@@ -103,9 +102,6 @@ namespace FluentTerminal.SystemTray.Services
                     break;
                 case MessageIdentifiers.TerminalExitedRequest:
                     HandleTerminalExitedRequest(args);
-                    break;
-                case MessageIdentifiers.GetAvailablePortRequest:
-                    await HandleGetAvailablePortRequest(args);
                     break;
                 case MessageIdentifiers.GetUserNameRequest:
                     await HandleGetUserNameRequest(args);
@@ -173,14 +169,6 @@ namespace FluentTerminal.SystemTray.Services
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
             var request = JsonConvert.DeserializeObject<TerminalExitedRequest>(messageContent);
             _terminalsManager.CloseTerminal(request.TerminalId);
-        }
-
-        private async Task HandleGetAvailablePortRequest(AppServiceRequestReceivedEventArgs args)
-        {
-            var deferral = args.GetDeferral();
-            var response = new GetAvailablePortResponse { Port = Utilities.GetAvailablePort().Value };
-            await args.Request.SendResponseAsync(CreateMessage(response));
-            deferral.Complete();
         }
 
         private async Task HandleGetUserNameRequest(AppServiceRequestReceivedEventArgs args)

@@ -1,5 +1,4 @@
 import { Terminal, ITerminalOptions } from 'xterm';
-import { AttachAddon } from 'xterm-addon-attach';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
@@ -27,7 +26,6 @@ let fitAddon: FitAddon;
 let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
-let socket: WebSocket;
 const terminalContainer = document.getElementById('terminal-container');
 
 function replaceAll(searchString, replaceString, str) {
@@ -86,6 +84,14 @@ window.createTerminal = (options, theme, keyBindings) => {
 
 
   window.term = term;
+
+  window.terminalBridge.onoutput = (data => {
+    term.writeUtf8(data);
+  });
+
+  term.onData(data => {
+    window.terminalBridge.inputReceived(data);
+  });
 
   term.onResize(({ cols, rows }) => {
     window.terminalBridge.notifySizeChanged(cols, rows);
@@ -154,27 +160,12 @@ window.createTerminal = (options, theme, keyBindings) => {
     return true;
   });
 
+  window.terminalBridge.initialized();
+
   return JSON.stringify({
     rows: term.rows,
     columns: term.cols
   });
-}
-
-function attachTerminal() {
-  term.loadAddon(new AttachAddon(socket, {inputUtf8: true}));
-  term._initialized = true;
-}
-
-window.connectToWebSocket =  (url: string) => {
-  socket = new WebSocket(url);
-  socket.binaryType = 'arraybuffer';
-  socket.onerror = function (event) {
-    window.terminalBridge.reportError(`Socket error: ${JSON.stringify(event)}`);
-  }
-  socket.onclose = function (event) {
-    window.terminalBridge.reportError(`Socket closed: ${JSON.stringify(event)}`);
-  };
-  socket.onopen = attachTerminal;
 }
 
 window.changeTheme = (theme) => {
