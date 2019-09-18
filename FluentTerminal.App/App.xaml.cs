@@ -185,6 +185,12 @@ namespace FluentTerminal.App
         {
             if (args is ProtocolActivatedEventArgs protocolActivated)
             {
+                if (protocolActivated.Uri == new Uri("ftcmd://fluent.terminal?focus"))
+                {
+                    await ShowOrCreateWindow(protocolActivated.ViewSwitcher);
+                    return;
+                }
+
                 MainViewModel mainViewModel = null;
                 // IApplicationView to use for creating view models
                 IApplicationView applicationView;
@@ -318,10 +324,13 @@ namespace FluentTerminal.App
                     }
 
                     if (mainViewModel == null)
+                    {
                         await CreateTerminal(profile, _applicationSettings.NewTerminalLocation, protocolActivated.ViewSwitcher);
+                    }
                     else
+                    {
                         await mainViewModel.AddTerminalAsync(profile);
-
+                    }
                     return;
                 }
 
@@ -424,6 +433,19 @@ namespace FluentTerminal.App
             }
         }
 
+        private async Task ShowOrCreateWindow(ActivationViewSwitcher viewSwitcher)
+        {
+            if (_mainViewModels.Count == 0)
+            {
+                await CreateTerminal(_settingsService.GetDefaultShellProfile(), NewTerminalLocation.Tab, viewSwitcher);
+            }
+            else
+            {
+                var viewModel = _mainViewModels.Find(o => o.ApplicationView.Id == _activeWindowId) ?? _mainViewModels.Last();
+                await ShowAsStandaloneAsync(viewModel, viewSwitcher);
+            }
+        }
+
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             if (_isLaunching)
@@ -462,6 +484,7 @@ namespace FluentTerminal.App
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
                 await viewModel.AddLocalTabAsync();
             }
+
             _isLaunching = false;
         }
 
@@ -705,20 +728,22 @@ namespace FluentTerminal.App
             await ShowSettings().ConfigureAwait(true);
         }
 
+        private async Task ShowAsStandaloneAsync(MainViewModel viewModel, ActivationViewSwitcher viewSwitcher = null)
+        {
+            int viewId = viewModel.ApplicationView.Id;
+            if (viewSwitcher != null)
+            {
+                await viewModel.ApplicationView.RunOnDispatcherThread(async () => await viewSwitcher.ShowAsStandaloneAsync(viewId));
+            }
+            else
+            {
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewId);
+            }
+        }
+
         private async Task CreateTerminal(ShellProfile profile, NewTerminalLocation location, ActivationViewSwitcher viewSwitcher = null)
         {
-            async Task ShowAsStandaloneAsync(MainViewModel viewModel)
-            {
-                int viewId = viewModel.ApplicationView.Id;
-                if (viewSwitcher != null)
-                {
-                    await viewModel.ApplicationView.RunOnDispatcherThread(async () => await viewSwitcher.ShowAsStandaloneAsync(viewId));
-                }
-                else
-                {
-                    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewId);
-                }
-            }
+            
 
             if (!_alreadyLaunched)
             {
@@ -736,13 +761,13 @@ namespace FluentTerminal.App
                 }
 
                 await item.AddTerminalAsync(profile);
-                await ShowAsStandaloneAsync(item);
+                await ShowAsStandaloneAsync(item, viewSwitcher);
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
                 await viewModel.AddTerminalAsync(profile);
-                await ShowAsStandaloneAsync(viewModel);
+                await ShowAsStandaloneAsync(viewModel, viewSwitcher);
             }
         }
 

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.System;
 using static FluentTerminal.SystemTray.Native.WindowApi;
 
 namespace FluentTerminal.SystemTray.Services
@@ -154,8 +155,7 @@ namespace FluentTerminal.SystemTray.Services
             }
             else
             {
-                IEnumerable<AppListEntry> appListEntries = await Package.Current.GetAppListEntriesAsync();
-                await appListEntries.First().LaunchAsync();
+                await Launcher.LaunchUriAsync(new Uri("ftcmd://fluent.terminal?focus"));
             }
         }
     }
