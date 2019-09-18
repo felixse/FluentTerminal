@@ -31,18 +31,6 @@ namespace FluentTerminal.App.Services.Implementation
             return _nextTerminalId++;
         }
 
-        public async Task<GetAvailablePortResponse> GetAvailablePort()
-        {
-            var request = new GetAvailablePortRequest();
-
-            var responseMessage = await _appServiceConnection.SendMessageAsync(CreateMessage(request));
-            var response = JsonConvert.DeserializeObject<GetAvailablePortResponse>((string)responseMessage[MessageKeys.Content]);
-
-            Logger.Instance.Debug("Received GetAvailablePortResponse: {@response}", response);
-
-            return response;
-        }
-
         private string _userName;
 
         public async Task<string> GetUserName()

@@ -1,4 +1,5 @@
 ﻿using FluentTerminal.RuntimeComponent.Enums;
+using System;
 
 namespace FluentTerminal.RuntimeComponent.Interfaces
 {
@@ -15,5 +16,11 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
         void OnSelectionChanged(string selection);
 
         void OnError(string error);
+
+        void OnInput(string text);
+
+        void OnInitialized();
+
+        event EventHandler<object> OnOutput;
     }
 }

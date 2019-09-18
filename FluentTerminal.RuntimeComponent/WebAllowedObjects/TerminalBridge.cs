@@ -1,9 +1,31 @@
 ﻿using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
+using System;
+using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
+using Windows.UI.Core;
 
 namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 {
+    internal static class EventDispatcher
+    {
+        private static CoreDispatcher _dispatcher => CoreWindow.GetForCurrentThread()?.Dispatcher;
+
+        public static async void Dispatch(Action action)
+        {
+            // already in UI thread:
+            if (_dispatcher == null || _dispatcher.HasThreadAccess)
+            {
+                await Task.Run(action);
+            }
+            // not in UI thread, ensuring UI thread:
+            else
+            {
+                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+            }
+        }
+    }
+
     [AllowForWeb]
     public sealed class TerminalBridge
     {
@@ -12,10 +34,29 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
         public TerminalBridge(IxtermEventListener terminalEventListener)
         {
             _terminalEventListener = terminalEventListener;
+            _terminalEventListener.OnOutput += _terminalEventListener_OnOutput;
+        }
+
+        private void _terminalEventListener_OnOutput(object sender, object e)
+        {
+            EventDispatcher.Dispatch(() => Output?.Invoke(this, e));
+        }
+
+        public event EventHandler<object> Output;
+
+        public void InputReceived(string message)
+        {
+            _terminalEventListener?.OnInput(message);
+        }
+
+        public void Initialized()
+        {
+            _terminalEventListener.OnInitialized();
         }
 
         public void DisposalPrepare()
         {
+            _terminalEventListener.OnOutput -= _terminalEventListener_OnOutput;
             _terminalEventListener = null;
         }
 
