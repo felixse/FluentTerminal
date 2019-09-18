@@ -296,6 +296,7 @@ namespace FluentTerminal.App.Views
 
         private void _webView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)
         {
+            args.Handled = true;
             Launcher.LaunchUriAsync(args.Uri);
         }
 
