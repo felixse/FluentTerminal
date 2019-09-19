@@ -300,7 +300,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Blinking cursor</value>
+    <value>Мерцающий курсор</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
@@ -320,7 +320,7 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Click on a color to edit</value>
+    <value>Выберите цвет, чтобы изменить</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
@@ -332,7 +332,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Text copied notification</value>
+    <value>Уведомление при копировании</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
@@ -408,11 +408,11 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Line ending translation mode</value>
+    <value>Режим трансляции конца строки</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Line ending translation mode on paste:</value>
+    <value>Режим трансляции конца строки при вставке</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
@@ -576,11 +576,11 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Disabled by policy.</value>
+    <value>Отключено политикой.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Disabled by user. Please reactivate it in the Startup tab of the Task Manager.</value>
+    <value>Отключено пользователем. Включите во вкладке Автозагрузка в Диспетчере задач</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
@@ -688,7 +688,7 @@ Fuzzy</comment>
     <comment>Command</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
+    <value>Старт</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="SelectProfileUI.Title" xml:space="preserve">
@@ -849,10 +849,10 @@ Fuzzy</comment>
     <value>Пользователь</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>From port</value>
+    <value>C порта</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>to port</value>
+    <value>До порта</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
     <value>Диапозон Mosh портов</value>
@@ -906,10 +906,10 @@ Fuzzy</comment>
     <value>Быстрый запуск</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>New quick launch tab</value>
+    <value>Новая вкладка быстрого запуска</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>New quick launch window</value>
+    <value>Новое окно быстрого запуска</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>Новая быстрая вкладка</value>
@@ -948,27 +948,27 @@ Fuzzy</comment>
     <value>Переменные среды</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close search panel</value>
+    <value>Закрыть панель поиска</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find next</value>
+    <value>Найти следующее</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find previous</value>
+    <value>Найти предыдущее</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter search term</value>
+    <value>Введите слово для поиска</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Search</value>
+    <value>Поиск</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>Printable output only</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Log output for debugging</value>
+    <value>Вывод журнала для отладки</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Word separator characters</value>
+    <value>Символы разделителя слов</value>
   </data>
 </root>
