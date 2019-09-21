@@ -346,12 +346,13 @@ namespace FluentTerminal.App
 
             if (args is CommandLineActivatedEventArgs commandLineActivated)
             {
-                if (string.IsNullOrWhiteSpace(commandLineActivated.Operation.Arguments))
+                var arguments = commandLineActivated.Operation.Arguments;
+                if (string.IsNullOrWhiteSpace(arguments))
                 {
-                    return;
+                    arguments = "new";
                 }
 
-                _commandLineParser.ParseArguments(SplitArguments(commandLineActivated.Operation.Arguments), typeof(NewVerb), typeof(RunVerb), typeof(SettingsVerb)).WithParsed(async verb =>
+                _commandLineParser.ParseArguments(SplitArguments(arguments), typeof(NewVerb), typeof(RunVerb), typeof(SettingsVerb)).WithParsed(async verb =>
                 {
                     if (verb is SettingsVerb settingsVerb)
                     {
@@ -388,9 +389,13 @@ namespace FluentTerminal.App
                             profile = _settingsService.GetDefaultShellProfile();
                         }
 
-                        if (!string.IsNullOrWhiteSpace(newVerb.Directory))
+                        if (!string.IsNullOrWhiteSpace(newVerb.Directory) && newVerb.Directory != ".")
                         {
                             profile.WorkingDirectory = newVerb.Directory;
+                        }
+                        else
+                        {
+                            profile.WorkingDirectory = commandLineActivated.Operation.CurrentDirectoryPath;
                         }
 
                         var location = newVerb.Target == Target.Default ? _applicationSettings.NewTerminalLocation
