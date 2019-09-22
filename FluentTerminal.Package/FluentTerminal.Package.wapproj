@@ -59,14 +59,15 @@
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateKeyFile>FluentTerminal.App_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\FluentTerminal.App\FluentTerminal.App.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>62480A9647EF884112544DE9A2FD03D0FCE13F4D</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <PackageCertificateThumbprint>8A5DE5B20B663BD6A99B44C5BA278289521F419F</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AppxBundle>Always</AppxBundle>
@@ -104,6 +105,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FluentTerminal.App_StoreKey.pfx" />
     <Content Include="Images\AppIcons\Full-transparent.png" />
     <Content Include="Images\AppIcons\LargeTile.scale-100.png" />
     <Content Include="Images\AppIcons\LargeTile.scale-100_altform-lightunplated.png" />
