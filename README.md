@@ -31,7 +31,7 @@ A Terminal Emulator based on UWP and web technologies.
 ![Terminal window](Screenshots/terminal.jpg)
 ![Settings window](Screenshots/settings.jpg)
 
-## Laguages
+## Languages
 - English
 - German
 - Spanish
