@@ -255,7 +255,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
 
             Fonts = systemFontService.GetSystemFontFamilies().OrderBy(s => s.Name);
-            Sizes = Enumerable.Range(1, 72);
+            Sizes = Enumerable.Range(2, 72);
 
             _terminalOptions = _settingsService.GetTerminalOptions();
         }
