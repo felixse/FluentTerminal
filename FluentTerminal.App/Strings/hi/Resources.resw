@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialog.Title" xml:space="preserve">
+    <value>के बारे में</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="Background.Content" xml:space="preserve">
+    <value>पृष्ठभूमि</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Blue" xml:space="preserve">
+    <value>नीला</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>बंद करे</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ConfirmWindowClosing.Header" xml:space="preserve">
+    <value>खिड़कियां बंद करने से पहले पूछें</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ConfirmTabClosing.Header" xml:space="preserve">
+    <value>टैब बंद करने से पहले पूछें</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Color.Text" xml:space="preserve">
+    <value>रंग</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ColorInactiveTabs.Text" xml:space="preserve">
+    <value>निष्क्रिय टैब पर रंग</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Command.Copy" xml:space="preserve">
+    <value>प्रतिलिपि</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="CustomTitle.Header" xml:space="preserve">
+    <value>शीर्षक टैब में भी कस्टम टैब शीर्षक दिखाएं</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="EditTitle.Text" xml:space="preserve">
+    <value>शीर्षक संपादित करें</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>सामान्य</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Green" xml:space="preserve">
+    <value>हरा</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.Header" xml:space="preserve">
+    <value>पृष्ठभूमि टैब पर नया आउटपुट संकेतक दिखाएं</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NeedRelaunch.Text" xml:space="preserve">
+    <value>सेटिंग लागू करने के लिए पुनः लोड करना आवश्यक है</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NewTab.Text" xml:space="preserve">
+    <value>नया टैब</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="TabTheme.None" xml:space="preserve">
+    <value>कोई नहीं</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ONTA_Tabs.Content" xml:space="preserve">
+    <value>टैब्स</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ONTA_Windows.Content" xml:space="preserve">
+    <value>खिड़कियाँ</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
+    <value>के रूप में नए टर्मिनल खोलें</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Orange" xml:space="preserve">
+    <value>संतरा</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Command.Paste" xml:space="preserve">
+    <value>चिपकाएं</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="TabTheme.Purple" xml:space="preserve">
+    <value>बैंगनी</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TabTheme.Red" xml:space="preserve">
+    <value>लाल</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Restore.Label" xml:space="preserve">
+    <value>डिफॉल्ट्स का पुनःस्थापन</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.Header" xml:space="preserve">
+    <value>प्रारम्भ में चले</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>समायोजन</value>
+    <comment>SettingsPage.xaml.cs</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>समायोजन</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="SystemTray.Header" xml:space="preserve">
+    <value>सिस्टम ट्रे में दिखाएं</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabsPostion.Text" xml:space="preserve">
+    <value>टैब दिखाएं</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Teal" xml:space="preserve">
+    <value>टील</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TP_Bottom.Content" xml:space="preserve">
+    <value>तल</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TP_Top.Content" xml:space="preserve">
+    <value>ऊपर</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Underline.Content" xml:space="preserve">
+    <value>रेखांकित करना</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.Header" xml:space="preserve">
+    <value>चयनित टैब को रेखांकित करें</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting_About.Content" xml:space="preserve">
+    <value>के बारे में</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_General.Content" xml:space="preserve">
+    <value>सामान्य</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Keybindings.Content" xml:space="preserve">
+    <value>कुंजी बाइंडिंग</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Mouse.Content" xml:space="preserve">
+    <value>माउस</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Profiles.Content" xml:space="preserve">
+    <value>प्रोफाइल</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Terminal.Content" xml:space="preserve">
+    <value>टर्मिनल</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Themes.Content" xml:space="preserve">
+    <value>विषय-वस्तु</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>जोड़ना</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Arguments.Header" xml:space="preserve">
+    <value>तर्क</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="BackgroundOpacity.Header" xml:space="preserve">
+    <value>पृष्ठभूमि की अस्पष्टता</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.Header" xml:space="preserve">
+    <value>ब्लिंकिंग कर्सर</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.Header" xml:space="preserve">
+    <value>बोल्ड अक्षर</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>रद्द करना</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CheckingUpdates.Text" xml:space="preserve">
+    <value>अपडेट्स के लिए जांच हो रही है...</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CheckUpdates.Label" xml:space="preserve">
+    <value>अद्यतन के लिए जाँच</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="ClickColorEdit.Text" xml:space="preserve">
+    <value>संपादित करने के लिए एक रंग पर क्लिक करें</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CloneAppBarButton.Label" xml:space="preserve">
+    <value>क्लोन</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ColorPalette.Text" xml:space="preserve">
+    <value>रंगों के प्रकार</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.Header" xml:space="preserve">
+    <value>पाठ की प्रतिलिपि अधिसूचना</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.Header" xml:space="preserve">
+    <value>चयन पर कॉपी करें</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CreateProfile.Text" xml:space="preserve">
+    <value>नया बनाओ</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CurrentVersion.Text" xml:space="preserve">
+    <value>वर्तमान संस्करण</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CursorBar.Content" xml:space="preserve">
+    <value>बार</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorBlock.Content" xml:space="preserve">
+    <value>खंड</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorStyle.Text" xml:space="preserve">
+    <value>कर्सर शैली</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorUnderline.Content" xml:space="preserve">
+    <value>रेखांकित करना</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="DeleteAppBarButton.Label" xml:space="preserve">
+    <value>हटाना</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
+    <value>लाइन एंडिंग्स को संशोधित न करें</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="EditAppBarButton.Label" xml:space="preserve">
+    <value>संपादित करें</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ExportAppBarButton.Label" xml:space="preserve">
+    <value>निर्यात</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="FontFamily.Header" xml:space="preserve">
+    <value>फ़ॉन्ट परिवार</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="FontSize.Header" xml:space="preserve">
+    <value>फ़ॉन्ट आकार</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ImportTheme.Text" xml:space="preserve">
+    <value>आयात</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut.Header" xml:space="preserve">
+    <value>कुंजीपटल संक्षिप्त रीति</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut1.Text" xml:space="preserve">
+    <value>कुंजीपटल संक्षिप्त रीति</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LatestVersion.Text" xml:space="preserve">
+    <value>नवीनतम संस्करण</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="License.Text" xml:space="preserve">
+    <value>लाइसेंस</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="LineEndingMode.Header" xml:space="preserve">
+    <value>लाइन ट्रांसलेशन ट्रांसलेशन मोड</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
+    <value>पेस्ट पर अनुवाद समाप्त करने वाली पंक्ति:</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="MiddleButtonAction.Text" xml:space="preserve">
+    <value>मध्य बटन कार्रवाई</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="Mouse.Text" xml:space="preserve">
+    <value>माउस</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseContextMenu.Content" xml:space="preserve">
+    <value>संदर्भ की विकल्प - सूची</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseNothing.Content" xml:space="preserve">
+    <value>कुछ भी तो नहीं</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MousePaste.Content" xml:space="preserve">
+    <value>चिपकाएं</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="NewTheme.Text" xml:space="preserve">
+    <value>नया बनाओ</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="Padding.Header" xml:space="preserve">
+    <value>गद्दी</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ProfileName.Header" xml:space="preserve">
+    <value>नाम</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>प्रोफाइल</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ProfileTheme.Header" xml:space="preserve">
+    <value>विषय</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ReleaseNotes.Text" xml:space="preserve">
+    <value>रिलीज नोट्स</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="RightButtonAction.Text" xml:space="preserve">
+    <value>सही बटन कार्रवाई</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>सहेजें</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ScrollbackLimit.Header" xml:space="preserve">
+    <value>स्क्रॉलबैक सीमा</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarAuto.Content" xml:space="preserve">
+    <value>ऑटो छुपा रहा</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarHidden.Content" xml:space="preserve">
+    <value>छिपा हुआ</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollbarStyle.Text" xml:space="preserve">
+    <value>स्क्रॉलबार शैली</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarVisible.Content" xml:space="preserve">
+    <value>दर्शनीय</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="SetActiveAppBarButton.Label" xml:space="preserve">
+    <value>सक्रिय नियत करें</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
+    <value>डिफॉल्ट सेट करें</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ShellLocation.Header" xml:space="preserve">
+    <value>शैल निष्पादन योग्य स्थान</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="TabColor.Header" xml:space="preserve">
+    <value>टैब का रंग</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Terminal.Text" xml:space="preserve">
+    <value>टर्मिनल</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>थीम:</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeAuthor.Header" xml:space="preserve">
+    <value>लेखक</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeName.Header" xml:space="preserve">
+    <value>नाम</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCR" xml:space="preserve">
+    <value>कन्वर्ट लाइन अंत करने के लिए सीआर</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
+    <value>कन्वर्ट लाइन अंत CR + LF के लिए</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToLF" xml:space="preserve">
+    <value>कन्वर्ट लाइन अंत LF के लिए</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="WorkingDir.Header" xml:space="preserve">
+    <value>कार्यकारी डाइरेक्टरी</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ConfirmCloseTab" xml:space="preserve">
+    <value>क्या आप वाकई &quot;{0}&quot; टैब को बंद करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmCloseWindow" xml:space="preserve">
+    <value>क्या आप वाकई इस विंडो को बंद करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteKeybindings" xml:space="preserve">
+    <value>क्या आप वाकई इस कीबाइंडिंग को हटाना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteTheme" xml:space="preserve">
+    <value>क्या आप वाकई इस विषय को हटाना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDiscardChanges" xml:space="preserve">
+    <value>क्या आप वाकई सभी परिवर्तनों को छोड़ना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
+    <value>क्या आप वाकई सामान्य सेटिंग्स को पुनर्स्थापित करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreKeybindings" xml:space="preserve">
+    <value>क्या आप वाकई डिफ़ॉल्ट कीबाइंडिंग को पुनर्स्थापित करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
+    <value>क्या आप वाकई माउस सेटिंग्स को पुनर्स्थापित करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreProfile" xml:space="preserve">
+    <value>क्या आप वाकई इस प्रोफ़ाइल को पुनर्स्थापित करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
+    <value>क्या आप वाकई डिफ़ॉल्ट टर्मिनल विकल्प को पुनर्स्थापित करना चाहते हैं?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByPolicy" xml:space="preserve">
+    <value>नीति द्वारा अक्षम।</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByUser" xml:space="preserve">
+    <value>उपयोगकर्ता द्वारा अक्षम। कृपया इसे टास्क मैनेजर के स्टार्टअप टैब में पुनः सक्रिय करें।</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="EditTitleString" xml:space="preserve">
+    <value>शीर्षक संपादित करें</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>त्रुटि</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ErrorString1" xml:space="preserve">
+    <value>निम्न त्रुटि के कारण ऑपरेशन पूरा नहीं किया जा सकता है:</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ImportThemeFailed" xml:space="preserve">
+    <value>आयात विषय विफल रहा</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="NoSuitableParserFound" xml:space="preserve">
+    <value>कोई उपयुक्त पार्सर नहीं मिला</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="PleaseConfirm" xml:space="preserve">
+    <value>कृपया पुष्टि करें</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>रद्द करना</value>
+  </data>
+  <data name="KeybindingDialogTitle.Text" xml:space="preserve">
+    <value>अब अपनी कीबाइंडिंग दर्ज करें</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>ठीक</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>रीसेट</value>
+  </data>
+  <data name="TextCopied" xml:space="preserve">
+    <value>पाठ की प्रतिलिपि बनाई गई</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>जोड़ना</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Command.ChangeTabTitle" xml:space="preserve">
+    <value>टैब शीर्षक बदलें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.Clear" xml:space="preserve">
+    <value>स्पष्ट</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.CloseTab" xml:space="preserve">
+    <value>टैब बंद करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ConfigurableNewTab" xml:space="preserve">
+    <value>कॉन्फ़िगर करने योग्य नया टैब</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
+    <value>कॉन्फ़िगर करने योग्य नई विंडो</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Keybindings.Text" xml:space="preserve">
+    <value>कुंजी बाइंडिंग</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Delete.Content" xml:space="preserve">
+    <value>हटाना</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
+    <value>संपादित करें</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="Command.NewTab" xml:space="preserve">
+    <value>नया टैब</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.NewWindow" xml:space="preserve">
+    <value>नयी खिड़की</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.NextTab" xml:space="preserve">
+    <value>अगला टैब</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.PasteWithoutNewlines" xml:space="preserve">
+    <value>बिना न्यूलाइन्स के पेस्ट करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.PreviousTab" xml:space="preserve">
+    <value>पिछला टैब</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.Search" xml:space="preserve">
+    <value>खोज</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SelectAll" xml:space="preserve">
+    <value>सभी का चयन करे</value>
+    <comment>Command</comment>
+  </data>
+  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
+    <value>शुरू</value>
+    <comment>ShellProfileSelectionDialog.xaml</comment>
+  </data>
+  <data name="SelectProfileUI.Title" xml:space="preserve">
+    <value>प्रोफ़ाइल चुनें</value>
+    <comment>ShellProfileSelectionDialog.xaml</comment>
+  </data>
+  <data name="Command.ShowSettings" xml:space="preserve">
+    <value>सेटिंग दिखाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm1" xml:space="preserve">
+    <value>टर्मिनल 1 पर स्विच करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm2" xml:space="preserve">
+    <value>टर्मिनल 2 पर स्विच करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm3" xml:space="preserve">
+    <value>टर्मिनल 3 पर जाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm4" xml:space="preserve">
+    <value>टर्मिनल 4 पर जाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm5" xml:space="preserve">
+    <value>टर्मिनल 5 पर स्विच करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm6" xml:space="preserve">
+    <value>टर्मिनल 6 पर जाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm7" xml:space="preserve">
+    <value>टर्मिनल 7 पर जाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm8" xml:space="preserve">
+    <value>टर्मिनल 8 पर जाएँ</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm9" xml:space="preserve">
+    <value>टर्मिनल 9 पर स्विच करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleFullScreen" xml:space="preserve">
+    <value>पूर्णस्क्रीन चालू करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleWindow" xml:space="preserve">
+    <value>खिड़की टॉगल करें</value>
+    <comment>Command</comment>
+  </data>
+  <data name="NewSshTab.Text" xml:space="preserve">
+    <value>नया रिमोट टैब</value>
+  </data>
+  <data name="Command.NewSshTab" xml:space="preserve">
+    <value>न्यू एसएसएच टैब</value>
+  </data>
+  <data name="SshInfoDialog.Title" xml:space="preserve">
+    <value>SSH जानकारी</value>
+  </data>
+  <data name="UserTextBox.PlaceholderText" xml:space="preserve">
+    <value>उपयोगकर्ता</value>
+  </data>
+  <data name="HostTextBox.PlaceholderText" xml:space="preserve">
+    <value>मेज़बान</value>
+  </data>
+  <data name="PortTextBox.PlaceholderText" xml:space="preserve">
+    <value>बंदरगाह</value>
+  </data>
+  <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
+    <value>पहचान फ़ाइल पथ</value>
+  </data>
+  <data name="BrowseButton.Content" xml:space="preserve">
+    <value>ब्राउज</value>
+  </data>
+  <data name="UseMoshCheckBox.Content" xml:space="preserve">
+    <value>मोश का उपयोग करें</value>
+  </data>
+  <data name="AdvancedExpander.Header" xml:space="preserve">
+    <value>उन्नत</value>
+  </data>
+  <data name="MoshPorts.Text" xml:space="preserve">
+    <value>Mosh बंदरगाहों:</value>
+  </data>
+  <data name="SaveShortcutButton.Content" xml:space="preserve">
+    <value>शॉर्टकट बचाओ</value>
+  </data>
+  <data name="NeedsToRestart.Text" xml:space="preserve">
+    <value>इस परिवर्तन को प्रभावी होने के लिए एप्लिकेशन को पुनरारंभ करना होगा।</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>अमान्य निवेश</value>
+  </data>
+  <data name="PortCannotBeZero" xml:space="preserve">
+    <value>पोर्ट 0 नहीं हो सकता।</value>
+  </data>
+  <data name="UserAndHostMandatory" xml:space="preserve">
+    <value>उपयोगकर्ता और होस्ट अनिवार्य क्षेत्र हैं।</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
+    <value>उपयोगकर्ता नाम रिक्त नहीं हो सकता।</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
+    <value>होस्ट खाली नहीं हो सकता।</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
+    <value>SSH पोर्ट को शून्य से अधिक होना चाहिए।</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
+    <value>MOS पोर्ट शून्य नहीं हो सकता।</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
+    <value>Mosh पोर्ट रेंज अमान्य है।</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>हाँ</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>नहीं</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>भाषा: हिन्दी</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>कोई नहीं</value>
+  </data>
+  <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>नया आउटपुट</value>
+  </data>
+  <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
+    <value>त्रुटि के साथ बाहर निकल गया</value>
+  </data>
+  <data name="ConfirmDeleteProfile" xml:space="preserve">
+    <value>क्या आप वाकई इस प्रोफ़ाइल को हटाना चाहते हैं?</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>नई एसएसएच खिड़की</value>
+  </data>
+  <data name="Command.SavedSshNewTab" xml:space="preserve">
+    <value>SSH प्रोफाइल के लिए नया टैब</value>
+  </data>
+  <data name="Command.SavedSshNewWindow" xml:space="preserve">
+    <value>SSH प्रोफाइल के लिए नई विंडो</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>SSH प्रोफाइल</value>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>टैब रंग:</value>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>ConPty का उपयोग करें</value>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>उपयोगकर्ता नाम</value>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>बंदरगाह से</value>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>बायें तरफ़ मुड़ने के लिए</value>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>मोश पोर्ट रेंज</value>
+  </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>प्रमाणित करें</value>
+  </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>फ़ाइल करने के लिए सेटिंग्स निर्यात की गईं</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>सेटिंग्स फ़ाइल से आयात किए गए थे</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
+    <value>पहचानें फ़ाइल मौजूद नहीं है</value>
+  </data>
+  <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
+    <value>SSH URL खोलते समय Windows उपयोगकर्ता नाम का उपयोग करें जो एक निर्दिष्ट नहीं करता है</value>
+  </data>
+  <data name="UseMoshByDefault.Header" xml:space="preserve">
+    <value>SSH कनेक्शन के लिए Mosh में डिफ़ॉल्ट</value>
+  </data>
+  <data name="RTrimCopiedLines.Header" xml:space="preserve">
+    <value>दाएं ट्रिम कॉपी की गई लाइनें</value>
+  </data>
+  <data name="QuickSshDefault.Header" xml:space="preserve">
+    <value>डिफ़ॉल्ट रूप से त्वरित SSH का उपयोग करें</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>अवैध आदेश।</value>
+  </data>
+  <data name="LocationCantBeEmpty" xml:space="preserve">
+    <value>स्थान खाली नहीं हो सकता।</value>
+  </data>
+  <data name="MuteTerminalBeeps.Header" xml:space="preserve">
+    <value>म्यूट टर्मिनल बीप्स</value>
+  </data>
+  <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
+    <value>एक कमांड दर्ज करें (उदा। &apos;Ssh username @ host&apos;)</value>
+  </data>
+  <data name="CommandLine.Header" xml:space="preserve">
+    <value>आदेश</value>
+  </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>असमर्थित आदेश:</value>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>कमांड तर्क गायब हैं।</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>शीघ्र उदघाटन</value>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>नया त्वरित लॉन्च टैब</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>नई त्वरित लॉन्च विंडो</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>नया त्वरित टैब</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>फाइल नहीं मिली:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>अमान्य लिंक।</value>
+  </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>यहां टैब ड्रॉप करें</value>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>बाईं ओर टैब बंद करें</value>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>अन्य टैब बंद करें</value>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>दाईं ओर टैब बंद करें</value>
+  </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>डुप्लीकेट टैब</value>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>प्रतिलिपि</value>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>एक ही नाम से दो पर्यावरण चर को परिभाषित नहीं किया जा सकता है।</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>बिना नाम के पर्यावरण चर को परिभाषित नहीं किया जा सकता है।</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>पर्यावरण चर</value>
+  </data>
+  <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
+    <value>खोज पैनल बंद करें</value>
+  </data>
+  <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
+    <value>अगला तलाशें</value>
+  </data>
+  <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
+    <value>पिछले खोजें</value>
+  </data>
+  <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>खोज शब्द दर्ज करें</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>खोज</value>
+  </data>
+  <data name="PrintableOutputOnly.Content" xml:space="preserve">
+    <value>प्रिंट करने योग्य उत्पादन ही</value>
+  </data>
+  <data name="EnableLogging.Header" xml:space="preserve">
+    <value>डीबगिंग के लिए आउटपुट लॉग करें</value>
+  </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>शब्द विभाजक वर्ण</value>
+  </data>
+</root>
