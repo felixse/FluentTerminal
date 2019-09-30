@@ -24,5 +24,6 @@ DownloadLanguageFile("de");
 DownloadLanguageFile("es");
 DownloadLanguageFile("fr");
 DownloadLanguageFile("hi");
+DownloadLanguageFile("pt-BR");
 DownloadLanguageFile("ru");
 DownloadLanguageFile("ro");
