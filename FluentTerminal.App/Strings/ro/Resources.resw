@@ -118,857 +118,855 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>关于</value>
+    <value>Despre</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>背景色</value>
+    <value>Fundal</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>蓝色</value>
+    <value>Albastru</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>关闭</value>
+    <value>Închidere</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>在关闭窗口之前询问</value>
+    <value>Întreabă înainte de a închide ferestrele</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>在关闭标签页之前询问</value>
+    <value>Întreabă înainte de a închide filele</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>标签颜色</value>
+    <value>Culoare</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>非活动选项卡上的颜色</value>
+    <value>Culoarea filelor inactive</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>复制</value>
+    <value>Copiere</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>在标题栏显示自定义标题</value>
+    <value>Se afișează titlul filei personalizate și în bara de titlu</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>修改标题</value>
+    <value>Editare titlu</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>常规</value>
+    <value>General</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>绿色</value>
+    <value>Verde</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>非活动选项卡输出提示</value>
+    <value>Se afișează un nou indicator de ieșire pe filele din fundal</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>下次启动生效</value>
+    <value>Este necesară o relansare pentru a aplica setarea</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>新标签页</value>
+    <value>Filă nouă</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>无</value>
+    <value>Nimic</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>新的标签页</value>
+    <value>File</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>新的窗口</value>
+    <value>Ferestre</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>打开新的终端</value>
+    <value>Se deschid noi terminale ca</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>橙色</value>
+    <value>Orange</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>粘贴</value>
+    <value>Lipire</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>紫色</value>
+    <value>Violet</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>红色</value>
+    <value>Roșu</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>恢复默认</value>
+    <value>Restabiliți setările implicite</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>开机自启</value>
+    <value>Rulare la pornire</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>设置</value>
+    <value>Setări</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>设置</value>
+    <value>Setări</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>在系统托盘中显示</value>
+    <value>Se afișează în zona de notificare</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>标签栏位置</value>
+    <value>Se afișează filele</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>青色</value>
+    <value>Turcoaz</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>底部</value>
+    <value>Jos</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>顶部</value>
+    <value>Sus</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>下划线</value>
+    <value>Subliniere</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>当前标签栏下划线</value>
+    <value>Se subliniază fila selectată</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>关于</value>
+    <value>Despre</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>常规</value>
+    <value>General</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>快捷键</value>
+    <value>Legare taste</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>鼠标</value>
+    <value>Mouse</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>配置文件</value>
+    <value>Profiluri</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>终端</value>
+    <value>Terminal</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>主题</value>
+    <value>Teme</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>添加</value>
+    <value>Adăugare</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>参数</value>
+    <value>Argumente</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>背景不透明度</value>
+    <value>Opacitate fundal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>光标闪烁</value>
+    <value>Cursor intermitent</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>黑体</value>
+    <value>Text aldin</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>取消</value>
+    <value>Anulare</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>正在检查更新 ...</value>
+    <value>Se verifică actualizările...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>检查更新</value>
+    <value>Verificare pentru actualizări</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>单击要编辑的颜色</value>
+    <value>Faceți clic pe o culoare pentru a edita</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>复制</value>
+    <value>Clonare</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>调色板</value>
+    <value>Gamă de culori</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>文本复制提示</value>
+    <value>Notificare text copiat</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>自动复制选中的文本</value>
+    <value>Copiere la selectare</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>新建</value>
+    <value>Creare nou</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>当前版本</value>
+    <value>Versiune actuală</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>垂直</value>
+    <value>Bară</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>块状</value>
+    <value>Bloc</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>光标样式</value>
+    <value>Stil cursor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>下划线</value>
+    <value>Subliniere</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>删除</value>
+    <value>Ștergere</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>不改变</value>
+    <value>Nu se modifică terminațiile liniei</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>编辑</value>
+    <value>Editare</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>导出</value>
+    <value>Exportare</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>字体</value>
+    <value>Font</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>字体大小</value>
+    <value>Dimensiune font</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>导入</value>
+    <value>Importare</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>快捷键</value>
+    <value>Scurtături tastatură</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>快捷键</value>
+    <value>Scurtături tastatură</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>最新版本</value>
+    <value>Ultima versiune</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>许可</value>
+    <value>Licență</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>行结束标志转换</value>
+    <value>Mod de traducere a sfârșitului de linie</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>粘贴时转换行结束标识符</value>
+    <value>Mod de traducere a sfârșitului de linie la lipire:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>鼠标中键动作</value>
+    <value>Acțiunea butonului mijlociu</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>鼠标</value>
+    <value>Mouse</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>打开弹出式菜单</value>
+    <value>Meniu contextual</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>没做什么</value>
+    <value>Nimic</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>粘贴剪切板内容</value>
+    <value>Lipire</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>新建</value>
+    <value>Nouă</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>内边距</value>
+    <value>Umplutură</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>名称</value>
+    <value>Nume</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>终端配置</value>
+    <value>Profiluri</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>主题</value>
+    <value>Temă</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>发行说明</value>
+    <value>Note de lansare</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>鼠标右键动作</value>
+    <value>Acțiunea butonului drept</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>保存</value>
+    <value>Salvare</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>滚动限制</value>
+    <value>Limită de derulare</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>自动隐藏</value>
+    <value>Ascundere automată</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>隐藏</value>
+    <value>Ascunsă</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>滚动条样式</value>
+    <value>Stil bară de derulare</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>显示</value>
+    <value>Visibilă</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>应用</value>
+    <value>Setați activ</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>设为默认</value>
+    <value>Setați implicit</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>可执行程序位置</value>
+    <value>Locație executabilă Shell</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>标签栏颜色</value>
+    <value>Culoare filă</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>终端</value>
+    <value>Terminal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>主题</value>
+    <value>Temă:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>作者</value>
+    <value>Autor</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>主题名</value>
+    <value>Nume</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>转换行结尾为 CR</value>
+    <value>Convertiți sfârșitul liniei în CR</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>转换行结尾为 CR+LF</value>
+    <value>Convertiți terminațiile liniei în CR + LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>转换行结尾为 LF</value>
+    <value>Convertiți terminațiile liniei în LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>工作目录</value>
+    <value>Director de lucru</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>你确定要关闭第{0}个标签页吗？</value>
+    <value>Sigur doriți să închideți fila „{0}”?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>你确定要关闭这个窗口吗？</value>
+    <value>Sigur doriți să închideți această fereastră?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>你确定要删除此快捷键绑定吗？</value>
+    <value>Sigur doriți să ștergeți această legătură de taste?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>你确定呢要删除此主题吗？</value>
+    <value>Sigur doriți să ștergeți această temă?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>你确定要放弃所有更改吗？</value>
+    <value>Sigur doriți să renunțați la modificări?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>你确定要还原常规设置吗？</value>
+    <value>Sigur doriți să restaurați setările generale?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>你确定要还原默认的快捷键绑定吗？</value>
+    <value>Sunteți sigur că doriți să restaurați tastele implicite?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>你确定要还原鼠标设置吗？</value>
+    <value>Sigur doriți să restaurați setările mouse-ului?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>你确定要还原此配置吗？</value>
+    <value>Sigur doriți să restaurați acest profil?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>你确定要还原默认终端选项吗？</value>
+    <value>Sigur doriți să restaurați opțiunile implicite ale terminalului?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>已被组策略禁止。</value>
+    <value>Dezactivat de politică.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>已被用户禁用。请在任务管理器的“启动”选项卡中重新激活它。</value>
+    <value>Dezactivat de utilizator. Reactivați în fila Pornire a Managerului de activități.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>编辑标题</value>
+    <value>Editare titlu</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>错误</value>
+    <value>Eroare</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>由于以下错误，操作无法完成：</value>
+    <value>Operațiunea nu poate fi finalizată din următoarea eroare:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>导入主题失败</value>
+    <value>Importarea temei a eșuat</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>解析失败</value>
+    <value>Nu a fost găsit un analizor adecvat</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>请确认</value>
+    <value>Vă rugăm să confirmați</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Anulare</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>请键入要绑定的快捷键</value>
+    <value>Introduceți legătura de taste acum</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>确定</value>
+    <value>OK</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>重置</value>
+    <value>Resetare</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>已复制</value>
+    <value>Text copiat</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>添加</value>
+    <value>Adăugare</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>修改标签页标题</value>
+    <value>Schimbați titlul filei</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>清屏</value>
+    <value>Ștergere</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>关闭标签页</value>
+    <value>Închideți fila</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>新的标签页（自定义配置）</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Filă nouă configurabilă</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>新的窗口（自定义配置）</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Fereastră nouă configurabilă</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>快捷键</value>
+    <value>Legături de taste</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>删除</value>
+    <value>Ștergere</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>编辑</value>
+    <value>Editare</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>新建标签页</value>
+    <value>Filă nouă</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>新建窗口</value>
+    <value>Fereastră nouă</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>下一标签页</value>
+    <value>Fila următoare</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>粘贴（不换行）</value>
+    <value>Lipire fără linii noi</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>上一标签页</value>
+    <value>Fila anterioară</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>搜索</value>
+    <value>Căutare</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>全选</value>
+    <value>Selectează tot</value>
     <comment>Command</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>启动</value>
+    <value>Start</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>选择一个配置</value>
+    <value>Selectați profilul</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>显示设置</value>
+    <value>Afișare setări</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>切换到终端 #1</value>
+    <value>Treceți la terminalul 1</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>切换到终端 #2</value>
+    <value>Treceți la terminalul 2</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>切换到终端 #3</value>
+    <value>Treceți la terminalul 3</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>切换到终端 #4</value>
+    <value>Treceți la terminalul 4</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>切换到终端 #5</value>
+    <value>Treceți la terminalul 5</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>切换到终端 #6</value>
+    <value>Treceți la terminalul 6</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>切换到终端 #7</value>
+    <value>Treceți la terminalul 7</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>切换到终端 #8</value>
+    <value>Treceți la terminalul 8</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>切换到终端 #9</value>
+    <value>Treceți la terminalul 9</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>切换全屏</value>
+    <value>Ecran complet</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>切换窗口</value>
+    <value>Comutați fereastra</value>
     <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>新建远程标签页</value>
+    <value>Filă nouă de la distanță</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>新建 SSH 标签页</value>
+    <value>Filă nouă SSH</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH 信息</value>
+    <value>Informații SSH</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>用户名</value>
+    <value>utilizator</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>主机</value>
+    <value>gazdă</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>端口</value>
+    <value>port</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH 认证文件路径</value>
+    <value>Calea fișierului de identitate</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>浏览</value>
+    <value>Navigare</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>使用 Mosh</value>
+    <value>Folosiți Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>高级</value>
+    <value>Avansat</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh 端口</value>
+    <value>Porturi Mosh:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>保存快捷键</value>
+    <value>Salvați comanda rapidă</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>应用需要重启才能使更改生效</value>
+    <value>Aplicația trebuie să repornească pentru ca această modificare să intre în vigoare.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>非法输入</value>
+    <value>Intrare nevalidă</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>端口不能为 0</value>
+    <value>Portul nu poate fi 0.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>用户名和主机是必填字段</value>
+    <value>Utilizatorul și gazda sunt câmpuri obligatorii.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>用户名不能为空</value>
+    <value>Numele de utilizator nu poate fi gol.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>主机不能为空</value>
+    <value>Gazda nu poate fi goală.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH 端口需大于 0</value>
+    <value>Portul SSH trebuie să fie mai mare de zero.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh 端口不能为 0</value>
+    <value>Portul Mosh nu poate fi zero.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh 端口范围无效</value>
+    <value>Gama porturilor Mosh este nevalidă.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>是</value>
+    <value>Da</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>否</value>
+    <value>Nu</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>语言</value>
+    <value>Limba</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>无</value>
+    <value>Niciunul</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新输出</value>
+    <value>Ieșire nouă</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>进程退出错误</value>
+    <value>A ieșit cu eroare</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>你确定要删除这个配置文件吗？</value>
+    <value>Sigur doriți să ștergeți acest profil?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>新的 SSH 窗口</value>
+    <value>Fereastră nouă SSH</value>
   </data>
   <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>为 SSH 配置文件打开新的标签页</value>
+    <value>Filă nouă pentru profilul SSH</value>
   </data>
   <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>为 SSH 配置文件打开新的窗口</value>
+    <value>Fereastră nouă pentru profilul SSH</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH 配置文件</value>
+    <value>Profiluri SSH</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>标签页颜色</value>
+    <value>Culoare filă:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>使用 ConPty</value>
+    <value>Utilizați ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>用户名</value>
+    <value>Nume de utilizator</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>从端口</value>
+    <value>De la portul</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>到端口</value>
+    <value>până la portul</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>MOSH 端口范围</value>
+    <value>Gama porturilor Mosh</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>认证</value>
+    <value>Autentificare</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>设置已导出至文件</value>
+    <value>Setările au fost exportate în fișier</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>已经从文件导入设置</value>
+    <value>Setările au fost importate din fișier</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>身份认证文件不存在</value>
+    <value>Fișierul de identificare nu există</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>当 SSH 地址未指定用户名时使用 Windows 用户名</value>
+    <value>Utilizați numele de utilizator Windows când deschideți URL-uri SSH care nu specifică unul</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>SSH 连接默认使用 Mosh</value>
+    <value>Se folosește Mosh În mod implicit la pentru conexiuni SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>复制内容右侧空格清空</value>
+    <value>Liniile copiate potrivite</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>默认使用 quick SSH</value>
+    <value>Utilizați SSH rapid în mod implicit</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>无效命令</value>
+    <value>Comandă greșită.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>地址不能为空</value>
+    <value>Locația nu poate fi goală.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>关闭终端声音</value>
+    <value>Silențios</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH 命令（如：ssh username@host）</value>
+    <value>Introduceți o comandă (de exemplu, „nume de utilizator ssh@gazdă”)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>命令</value>
+    <value>Comandă</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>不支持的命令</value>
+    <value>Comandă neacceptată:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>缺少命令参数</value>
+    <value>Argumentele comenzii lipsesc.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>快速启动</value>
+    <value>Lansare rapidă</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>新建快速启动标签页</value>
+    <value>Filă nouă de lansare rapidă</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>新建快速启动窗口</value>
+    <value>Fereastră nouă de lansare rapidă</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>新建快速标签页</value>
+    <value>Filă nouă rapidă</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>文件未找到</value>
+    <value>Fișierul nu a fost găsit:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>无效的链接</value>
+    <value>Link greșit.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>删除此标签</value>
+    <value>Lăsați fila aici</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>关闭左侧标签</value>
+    <value>Închideți filele din stânga</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>关闭其它标签</value>
+    <value>Închideți alte file</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>关闭右侧标签</value>
+    <value>Închideți filele din dreapta</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>复制选项卡</value>
+    <value>Filă duplicat</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>复制</value>
+    <value>Duplicat</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>无法定义具有相同名称的两个环境变量</value>
+    <value>Nu se pot defini două variabile de mediu cu același nume.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>无法定义没有名称的环境变量</value>
+    <value>Nu se poate defini o variabilă de mediu fără nume.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>环境变量</value>
+    <value>Variabile de mediu</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>关闭搜索框</value>
+    <value>Închideți panoul de căutare</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索下一个</value>
+    <value>Înainte</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜索上一个</value>
+    <value>Înapoi</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>输入搜索内容</value>
+    <value>Introduceți termenul de căutare</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>搜索</value>
+    <value>Căutare</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>只输出可打印内容</value>
+    <value>Numai imprimabil</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>记录 Debug 日志</value>
+    <value>Jurnal pentru depanare</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>单词分隔符</value>
+    <value>Caractere de separare a cuvintelor</value>
   </data>
 </root>

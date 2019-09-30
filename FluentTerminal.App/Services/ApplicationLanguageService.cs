@@ -15,6 +15,7 @@ namespace FluentTerminal.App.Services
             ["en"] = "English",
             ["es"] = "Español",
             ["fr"] = "Français",
+            ["ro"] = "Română",
             ["ru"] = "Pусский"
         };
 

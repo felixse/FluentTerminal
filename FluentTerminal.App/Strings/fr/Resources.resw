@@ -1001,36 +1001,36 @@ Fuzzy</comment>
     <value>Dupliquer</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Cannot define two environment variables with the same name.</value>
+    <value>Impossible de définir deux variables d’environnement portant le même nom.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Cannot define an environment variable without a name.</value>
+    <value>Impossible de définir une variable d&apos;environnement sans nom.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Environment variables</value>
+    <value>Variables d&apos;environnement</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close search panel</value>
+    <value>Fermer le panneau de recherche</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find next</value>
+    <value>Trouver le suivant</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find previous</value>
+    <value>Rechercher précédent</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter search term</value>
+    <value>Entrez le terme de recherche</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Search</value>
+    <value>Chercher</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Printable output only</value>
+    <value>Sortie imprimable seulement</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Log output for debugging</value>
+    <value>Journal de sortie pour le débogage</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Word separator characters</value>
+    <value>Caractères séparateurs de mots</value>
   </data>
 </root>
