@@ -449,11 +449,11 @@ function InstallPackageWithDependencies
         {
             Write-Host ([UiStrings]::DependenciesFound)
             $DependencyPackages.FullName
-            Add-AppxPackage -Path $DeveloperPackagePath.FullName -DependencyPath $DependencyPackages.FullName -ForceApplicationShutdown
+            Add-AppxPackage -Path $DeveloperPackagePath.FullName -DependencyPath $DependencyPackages.FullName -ForceApplicationShutdown -ForceUpdateFromAnyVersion
         }
         else
         {
-            Add-AppxPackage -Path $DeveloperPackagePath.FullName -ForceApplicationShutdown
+            Add-AppxPackage -Path $DeveloperPackagePath.FullName -ForceApplicationShutdown -ForceUpdateFromAnyVersion
         }
         $AddPackageSucceeded = $?
     }
