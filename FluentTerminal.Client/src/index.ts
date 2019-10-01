@@ -1,4 +1,4 @@
-import { Terminal, ITerminalOptions } from 'xterm';
+import { Terminal, ITerminalOptions, ILinkMatcherOptions } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
@@ -71,6 +71,20 @@ window.createTerminal = (options, theme, keyBindings) => {
     wordSeparator: DecodeSpecialChars(options.wordSeparator)
   };
 
+  var linkMatcherOptions: ILinkMatcherOptions = {
+    validationCallback: (uri: string, callback: (isValid: boolean) => void) => callback(true),
+    willLinkActivate: (e: MouseEvent, u: string) => {
+      if(e.which === 2){
+        // TODO: Fire an event telling the terminal to copy the text from uri to clipboard.
+        return false;
+      }
+    }
+  };
+
+  var webLinksAddonHandler: (e: MouseEvent, u: string) => {
+    
+  };
+
   term = new Terminal(terminalOptions);
 
   searchAddon = new SearchAddon();
@@ -79,7 +93,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(fitAddon);
   serializeAddon = new SerializeAddon();
   term.loadAddon(serializeAddon);
-  webLinksAddon = new WebLinksAddon();
+  webLinksAddon = new WebLinksAddon(webLinksAddonHandler, linkMatcherOptions);
   term.loadAddon(webLinksAddon);
 
 
