@@ -478,8 +478,33 @@ namespace FluentTerminal.SystemTray
             {
                 return GetMoshPath();
             }
+            else if (location.Equals(Constants.SshCommandName, StringComparison.OrdinalIgnoreCase) ||
+                     location.Equals($"{Constants.SshCommandName}.exe", StringComparison.OrdinalIgnoreCase))
+            {
+                return GetSshPath();
+            }
 
             return location;
+        }
+
+        private static string GetSshPath()
+        {
+            //
+            // See https://stackoverflow.com/a/25919981
+            //
+
+            string path;
+            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+            {
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"Sysnative");
+            }
+            else
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            }
+
+            path = Path.Combine(path, @"OpenSSH\ssh.exe");
+            return System.IO.File.Exists(path) ? path : null;
         }
 
         private static string GetMoshPath()
