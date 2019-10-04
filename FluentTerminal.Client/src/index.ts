@@ -71,21 +71,35 @@ window.createTerminal = (options, theme, keyBindings) => {
     wordSeparator: DecodeSpecialChars(options.wordSeparator)
   };
 
-  var linkMatcherOptions: ILinkMatcherOptions = {
-    validationCallback: (uri: string, callback: (isValid: boolean) => void) => callback(true),
-    willLinkActivate: (e: MouseEvent, u: string) => {
-      if(e.which === 2){
-        // TODO: Fire an event telling the terminal to copy the text from uri to clipboard.
-        return false;
-      }
-    }
-  };
-
-  var webLinksAddonHandler: (e: MouseEvent, u: string) => {
-    
-  };
-
   term = new Terminal(terminalOptions);
+
+  const webLinksAddonHandler = function(e: MouseEvent, u: string): void {
+    var searchOptions = {wholeWord: true, caseSensitive: true};
+
+    switch(e.button) {
+      case 0:
+        window.open(u);
+        break;
+      case 2:
+        searchAddon.findNext(u, searchOptions);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const linkMatcherOptions: ILinkMatcherOptions = {
+    validationCallback: (uri: string, callback: (isValid: boolean) => void) => callback(true),
+    willLinkActivate: (e: MouseEvent, u: string) => e.button == 0 || e.button == 2,
+    tooltipCallback: (e: MouseEvent, u: string) => {
+      // Occurs when we hover over the link. Maybe we should notify the webView that right click shouldn't be processed right away?
+      var searchOptions = {wholeWord: true, caseSensitive: true};
+      searchAddon.findNext(u, searchOptions);
+
+      window.terminalBridge// todo: continue implementing evemt handler
+    }, 
+    leaveCallback: () => term.clearSelection()
+  };
 
   searchAddon = new SearchAddon();
   term.loadAddon(searchAddon);
@@ -95,7 +109,6 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(serializeAddon);
   webLinksAddon = new WebLinksAddon(webLinksAddonHandler, linkMatcherOptions);
   term.loadAddon(webLinksAddon);
-
 
   window.term = term;
 
