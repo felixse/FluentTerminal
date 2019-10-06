@@ -26,6 +26,10 @@ let fitAddon: FitAddon;
 let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
+let linkObject = {
+  isLink: false,
+  uri: ""
+};
 const terminalContainer = document.getElementById('terminal-container');
 
 function replaceAll(searchString, replaceString, str) {
@@ -73,32 +77,19 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   term = new Terminal(terminalOptions);
 
-  const webLinksAddonHandler = function(e: MouseEvent, u: string): void {
-    var searchOptions = {wholeWord: true, caseSensitive: true};
-
-    switch(e.button) {
-      case 0:
-        window.open(u);
-        break;
-      case 2:
-        searchAddon.findNext(u, searchOptions);
-        break;
-      default:
-        break;
-    }
-  }
+  const webLinksAddonHandler = (e: MouseEvent, u: string) => window.open(u);
 
   const linkMatcherOptions: ILinkMatcherOptions = {
-    validationCallback: (uri: string, callback: (isValid: boolean) => void) => callback(true),
-    willLinkActivate: (e: MouseEvent, u: string) => e.button == 0 || e.button == 2,
-    tooltipCallback: (e: MouseEvent, u: string) => {
-      // Occurs when we hover over the link. Maybe we should notify the webView that right click shouldn't be processed right away?
-      var searchOptions = {wholeWord: true, caseSensitive: true};
-      searchAddon.findNext(u, searchOptions);
-
-      window.terminalBridge// todo: continue implementing evemt handler
-    }, 
-    leaveCallback: () => term.clearSelection()
+    validationCallback: (uri: string, callback: (isValid: boolean) => void) => {
+      linkObject.isLink = true;
+      linkObject.uri = uri;
+      callback(true);
+    },
+    leaveCallback: () => {
+      linkObject.isLink = false;
+      linkObject.uri = "";
+      term.clearSelection();
+    }
   };
 
   searchAddon = new SearchAddon();
@@ -148,6 +139,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     if (e.button == 1) {
       window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
     } else if (e.button == 2) {
+      if(linkObject.isLink) searchAddon.findNext(linkObject.uri);
       window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
     }
   }
