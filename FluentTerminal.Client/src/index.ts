@@ -88,7 +88,6 @@ window.createTerminal = (options, theme, keyBindings) => {
     leaveCallback: () => {
       linkObject.isLink = false;
       linkObject.uri = "";
-      term.clearSelection();
     }
   };
 
@@ -139,7 +138,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     if (e.button == 1) {
       window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
     } else if (e.button == 2) {
-      if(linkObject.isLink) searchAddon.findNext(linkObject.uri);
+      if(linkObject.isLink) searchAddon.findPrevious(linkObject.uri);
       window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
     }
   }
