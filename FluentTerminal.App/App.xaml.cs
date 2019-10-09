@@ -638,7 +638,15 @@ namespace FluentTerminal.App
 
                 _mainViewModels.Remove(viewModel);
 
-                Window.Current.Content = null;
+                try
+                {
+                    // try/catch because the method cannot be called on the last window
+                    Window.Current.Close();
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
 
