@@ -41,6 +41,7 @@ namespace FluentTerminal.App.ViewModels
         private string _selection;
         private string _white;
         private string _yellow;
+        private string _backgroundImagePath;
         private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
@@ -87,6 +88,7 @@ namespace FluentTerminal.App.ViewModels
             CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
             SaveChangesCommand = new RelayCommand(SaveChanges);
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
+            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage());
         }
 
         public event EventHandler Activated;
@@ -267,6 +269,14 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _yellow, value);
         }
 
+        public string BackgroundImagePath
+        {
+            get => _backgroundImagePath;
+            set => Set(ref _backgroundImagePath, value);
+        }
+
+        public RelayCommand ChooseBackgroundImageCommand { get; }
+
         public void SaveChanges()
         {
             Model.Name = Name;
@@ -415,6 +425,12 @@ namespace FluentTerminal.App.ViewModels
         {
             var content = JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
             return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
+        }
+
+        private async Task ChooseBackgroundImage()
+        {
+            var image = await _fileSystemService.OpenFile(new[] { ".jpeg", ".png", ".jpg" });
+            BackgroundImagePath = image.Path;
         }
     }
 }
