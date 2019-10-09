@@ -82,6 +82,8 @@ namespace FluentTerminal.App.ViewModels
             CursorAccent = Model.Colors.CursorAccent;
             Selection = Model.Colors.Selection;
 
+            BackgroundImagePath = Model.BackgroundImage ?? string.Empty;
+
             SetActiveCommand = new RelayCommand(SetActive);
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
@@ -430,6 +432,10 @@ namespace FluentTerminal.App.ViewModels
         private async Task ChooseBackgroundImage()
         {
             var image = await _fileSystemService.OpenFile(new[] { ".jpeg", ".png", ".jpg" });
+            //await ImageFile.CopyAsync(
+            //    await StorageFolder.GetFolderFromPathAsync(Path), 
+            //    "Bird.jpg", 
+            //    NameCollisionOption.GenerateUniqueName);
             BackgroundImagePath = image.Path;
         }
     }

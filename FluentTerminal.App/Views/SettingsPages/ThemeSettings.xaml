@@ -24,6 +24,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Image 
+            Grid.Row="2"
+            Grid.Column="1"
+            Stretch="Fill"
+            Source="{x:Bind ViewModel.SelectedTheme.BackgroundImagePath, Mode=OneWay, Converter={StaticResource ImageUriConverter}}"/>
+
         <Border
             Grid.RowSpan="3"
             Grid.Column="0"
@@ -186,7 +193,7 @@
                 </Button>
             </StackPanel>
         </ScrollViewer>
-
+        
         <ContentControl
             Grid.Row="2"
             Grid.Column="1"
@@ -363,6 +370,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="300" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -381,6 +389,17 @@
                                         Grid.Column="1" 
                                         Content="Browse" 
                                         Command="{x:Bind ChooseBackgroundImageCommand}" />
+
+                                <Grid
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Background="Red">
+                                    <Image 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Source="{x:Bind BackgroundImagePath, Mode=OneWay, Converter={StaticResource ImageUriConverter}}"/>
+                                </Grid>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
