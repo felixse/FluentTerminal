@@ -9,14 +9,6 @@
     mc:Ignorable="d">
     <Grid x:Name="Root"
         Background="{x:Bind ViewModel.SelectedTheme, Mode=OneWay, Converter={StaticResource SetBackgroundThemeConverter}}">
-        
-        <!--<Grid.Background>
-            <AcrylicBrush
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
-                TintColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
-                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}" />
-        </Grid.Background>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
             <ColumnDefinition Width="*" />
