@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentTerminal.App.Utilities;
+using FluentTerminal.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace FluentTerminal.App.Services
             return null;
         }
 
-        public async Task<File> ImportImageFile(IEnumerable<string> fileTypes)
+        public async Task<ImageFile> ImportImageFile(IEnumerable<string> fileTypes)
         {
             var picker = new FileOpenPicker
             {
@@ -59,25 +61,26 @@ namespace FluentTerminal.App.Services
 
             if (file != null)
             {
-                var stream = await file.OpenStreamForReadAsync().ConfigureAwait(true);
+                var base64String = await file.ImageToBase64String();
+
                 var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
 
                 if (item == null)
                 {
-                    var storageFolder = await file.CopyAsync(ApplicationData.Current.RoamingFolder, file.Name);
+                    var storageFile = await file.CopyAsync(ApplicationData.Current.RoamingFolder, file.Name);
 
-                    return new File(
-                        storageFolder.DisplayName, 
-                        storageFolder.FileType, 
-                        $"ms-appdata:///roaming/{storageFolder.Name}",
-                        stream);
+                    return new ImageFile(
+                        storageFile.DisplayName, 
+                        storageFile.FileType, 
+                        $"ms-appdata:///roaming/{storageFile.Name}",
+                        base64String);
                 }
 
-                return new File(
+                return new ImageFile(
                     file.DisplayName,
                     file.FileType,
                     $"ms-appdata:///roaming/{item.Name}",
-                    stream);
+                    base64String);
             }
 
             return null;

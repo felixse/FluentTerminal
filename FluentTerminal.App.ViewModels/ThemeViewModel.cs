@@ -41,7 +41,7 @@ namespace FluentTerminal.App.ViewModels
         private string _selection;
         private string _white;
         private string _yellow;
-        private File _backgroundThemeFile;
+        private ImageFile _backgroundThemeFile;
         private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
@@ -271,7 +271,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _yellow, value);
         }
 
-        public File BackgroundThemeFile
+        public ImageFile BackgroundThemeFile
         {
             get => _backgroundThemeFile;
             set => Set(ref _backgroundThemeFile, value);

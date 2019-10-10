@@ -23,7 +23,7 @@ namespace FluentTerminal.Models
         public string Author { get; set; }
         public bool PreInstalled { get; set; }
         public TerminalColors Colors { get; set; }
-        public File BackgroundImage { get; set; }
+        public ImageFile BackgroundImage { get; set; }
 
         public override bool Equals(object obj)
         {
