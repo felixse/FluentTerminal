@@ -61,8 +61,6 @@ namespace FluentTerminal.App.Services
 
             if (file != null)
             {
-                var base64String = await file.ImageToBase64String();
-
                 var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
 
                 if (item == null)
@@ -72,15 +70,13 @@ namespace FluentTerminal.App.Services
                     return new ImageFile(
                         storageFile.DisplayName, 
                         storageFile.FileType, 
-                        $"ms-appdata:///roaming/{storageFile.Name}",
-                        base64String);
+                        $"ms-appdata:///roaming/{storageFile.Name}");
                 }
 
                 return new ImageFile(
                     file.DisplayName,
                     file.FileType,
-                    $"ms-appdata:///roaming/{item.Name}",
-                    base64String);
+                    $"ms-appdata:///roaming/{item.Name}");
             }
 
             return null;

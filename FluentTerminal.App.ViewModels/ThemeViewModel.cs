@@ -82,7 +82,7 @@ namespace FluentTerminal.App.ViewModels
             CursorAccent = Model.Colors.CursorAccent;
             Selection = Model.Colors.Selection;
 
-            //BackgroundImagePath = Model.BackgroundImage ?? string.Empty;
+            BackgroundThemeFile = Model.BackgroundImage;
 
             SetActiveCommand = new RelayCommand(SetActive);
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);

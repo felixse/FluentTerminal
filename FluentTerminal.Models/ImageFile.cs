@@ -9,18 +9,15 @@ namespace FluentTerminal.Models
     {
         public ImageFile(string name,
                          string fileType,
-                         string path,
-                         string base64String)
+                         string path)
         {
             Name = name;
             FileType = fileType;
             Path = path;
-            Base64String = base64String;
         }
 
         public string Name { get; }
         public string FileType { get; }
         public string Path { get; }
-        public string Base64String { get; }
     }
 }
