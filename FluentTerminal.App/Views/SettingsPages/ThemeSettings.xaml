@@ -29,7 +29,7 @@
             Grid.Row="2"
             Grid.Column="1"
             Stretch="Fill"
-            Source="{x:Bind ViewModel.SelectedTheme.BackgroundImagePath, Mode=OneWay, Converter={StaticResource ImageUriConverter}}"/>
+            Source="{x:Bind ViewModel.SelectedTheme.BackgroundThemeFile.Path, Mode=OneWay, Converter={StaticResource ImageUriConverter}}"/>
 
         <Border
             Grid.RowSpan="3"
@@ -367,39 +367,18 @@
                             </Grid>
 
                             <Grid Margin="{StaticResource ItemMargin}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="300" />
-                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="0" 
-                                           Grid.ColumnSpan="2"
-                                           Text="Background image" />        
-                                
-                                <TextBox Grid.Row="1" 
-                                         Grid.Column="0" 
-                                         Text="{x:Bind BackgroundImagePath, Mode=TwoWay}" />
-                                
-                                <Button Grid.Row="1" 
-                                        Grid.Column="1" 
-                                        Content="Browse" 
-                                        Command="{x:Bind ChooseBackgroundImageCommand}" />
+                                <TextBlock Grid.Column="0" 
+                                           VerticalAlignment="Center"
+                                           Text="Background image" />
 
-                                <Grid
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Background="Red">
-                                    <Image 
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Source="{x:Bind BackgroundImagePath, Mode=OneWay, Converter={StaticResource ImageUriConverter}}"/>
-                                </Grid>
+                                <Button Grid.Column="1" 
+                                        Content="Browse"
+                                        Command="{x:Bind ChooseBackgroundImageCommand}" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
