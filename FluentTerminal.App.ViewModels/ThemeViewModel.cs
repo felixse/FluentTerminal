@@ -90,7 +90,7 @@ namespace FluentTerminal.App.ViewModels
             CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
             SaveChangesCommand = new RelayCommand(SaveChanges);
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
-            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage());
+            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
         }
 
         public event EventHandler Activated;
