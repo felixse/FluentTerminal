@@ -78,6 +78,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _selectedTheme.BackgroundChanged -= OnSelectedThemeBackgroundChanged;
                 }
                 Set(ref _selectedTheme, value);
+                _selectedTheme.BackgroundOpacity = BackgroundOpacity;
                 if (value != null)
                 {
                     value.BackgroundChanged += OnSelectedThemeBackgroundChanged;
