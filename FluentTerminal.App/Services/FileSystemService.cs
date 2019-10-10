@@ -43,6 +43,45 @@ namespace FluentTerminal.App.Services
             return null;
         }
 
+        public async Task<File> ImportImageFile(IEnumerable<string> fileTypes)
+        {
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+
+            foreach (var fileType in fileTypes)
+            {
+                picker.FileTypeFilter.Add(fileType);
+            }
+
+            var file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
+
+                if (item == null)
+                {
+                    var storageFolder = await file.CopyAsync(ApplicationData.Current.RoamingFolder, file.Name);
+
+                    return new File(
+                        storageFolder.DisplayName, 
+                        storageFolder.FileType, 
+                        $"ms-appdata:///roaming/{storageFolder.Name}", 
+                        null);
+                }
+
+                return new File(
+                    file.DisplayName,
+                    file.FileType,
+                    $"ms-appdata:///roaming/{item.Name}",
+                    null);
+            }
+
+            return null;
+        }
+
         public async Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content)
         {
             var picker = new FileSavePicker();

@@ -11,5 +11,7 @@ namespace FluentTerminal.App.Services
         Task<string> BrowseForDirectory();
 
         Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content);
+
+        Task<File> ImportImageFile(IEnumerable<string> fileTypes);
     }
 }
