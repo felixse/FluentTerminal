@@ -59,6 +59,7 @@ namespace FluentTerminal.App.Services
 
             if (file != null)
             {
+                var stream = await file.OpenStreamForReadAsync().ConfigureAwait(true);
                 var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
 
                 if (item == null)
@@ -68,15 +69,15 @@ namespace FluentTerminal.App.Services
                     return new File(
                         storageFolder.DisplayName, 
                         storageFolder.FileType, 
-                        $"ms-appdata:///roaming/{storageFolder.Name}", 
-                        null);
+                        $"ms-appdata:///roaming/{storageFolder.Name}",
+                        stream);
                 }
 
                 return new File(
                     file.DisplayName,
                     file.FileType,
                     $"ms-appdata:///roaming/{item.Name}",
-                    null);
+                    stream);
             }
 
             return null;

@@ -308,6 +308,8 @@ namespace FluentTerminal.App.ViewModels
             Model.Colors.CursorAccent = CursorAccent;
             Model.Colors.Selection = Selection;
 
+            Model.BackgroundImage = BackgroundThemeFile;
+
             _settingsService.SaveTheme(Model);
 
             InEditMode = false;
@@ -326,6 +328,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     Name = Name,
                     Author = Author,
+                    BackgroundImage = BackgroundThemeFile,
                     Colors = new TerminalColors()
                     {
                         Black = Black,
@@ -387,7 +390,7 @@ namespace FluentTerminal.App.ViewModels
                         Name = _fallbackTheme.Name;
                         Author = _fallbackTheme.Author;
 
-                        //BackgroundImagePath = _fallbackTheme.BackgroundImage;
+                        BackgroundThemeFile = _fallbackTheme.BackgroundImage;
 
                         InEditMode = false;
                     }
