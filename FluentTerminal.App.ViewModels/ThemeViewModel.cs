@@ -92,6 +92,7 @@ namespace FluentTerminal.App.ViewModels
             SaveChangesCommand = new RelayCommand(async () => await SaveChanges().ConfigureAwait(false));
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
             ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
+            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImageIfExists(), NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -284,6 +285,8 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand ChooseBackgroundImageCommand { get; }
 
+        public RelayCommand DeleteBackgroundImageCommand { get; }
+
         public async Task SaveChanges()
         {
             Model.Name = Name;
@@ -402,6 +405,8 @@ namespace FluentTerminal.App.ViewModels
                         Name = _fallbackTheme.Name;
                         Author = _fallbackTheme.Author;
 
+                        await DeleteBackgroundImageIfExists();
+
                         BackgroundThemeFile = _fallbackTheme.BackgroundImage;
 
                         InEditMode = false;
@@ -425,6 +430,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
+                await DeleteBackgroundImageIfExists();
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -449,6 +455,15 @@ namespace FluentTerminal.App.ViewModels
         private async Task ChooseBackgroundImage()
         {
             BackgroundThemeFile = await _fileSystemService.ImportImageFile(new[] { ".jpeg", ".png", ".jpg" });
+        }
+
+        private async Task DeleteBackgroundImageIfExists()
+        {
+            if (BackgroundThemeFile != null)
+            {
+                await _fileSystemService.RemoveImportedImage(
+                    $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
+            }
         }
     }
 }
