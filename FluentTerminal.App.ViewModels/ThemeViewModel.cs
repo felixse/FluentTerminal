@@ -45,6 +45,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
+        public event EventHandler<ImageFile> BackgroundImageChanged;
 
         public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, bool isNew)
         {
@@ -88,7 +89,7 @@ namespace FluentTerminal.App.ViewModels
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
             CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
-            SaveChangesCommand = new RelayCommand(SaveChanges);
+            SaveChangesCommand = new RelayCommand(async () => await SaveChanges().ConfigureAwait(false));
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
             ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
         }
@@ -274,12 +275,16 @@ namespace FluentTerminal.App.ViewModels
         public ImageFile BackgroundThemeFile
         {
             get => _backgroundThemeFile;
-            set => Set(ref _backgroundThemeFile, value);
+            set
+            {
+                Set(ref _backgroundThemeFile, value);
+                BackgroundImageChanged?.Invoke(this, value);
+            }
         }
 
         public RelayCommand ChooseBackgroundImageCommand { get; }
 
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
             Model.Name = Name;
             Model.Author = Author;
@@ -307,6 +312,13 @@ namespace FluentTerminal.App.ViewModels
             Model.Colors.Cursor = Cursor;
             Model.Colors.CursorAccent = CursorAccent;
             Model.Colors.Selection = Selection;
+
+            if(Model.BackgroundImage != null &&
+               BackgroundThemeFile?.Name != Model.BackgroundImage.Name)
+            {
+                await _fileSystemService.RemoveImportedImage(
+                    $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
+            }
 
             Model.BackgroundImage = BackgroundThemeFile;
 

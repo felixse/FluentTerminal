@@ -23,6 +23,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private readonly IFileSystemService _fileSystemService;
 
         public event EventHandler<string> SelectedThemeBackgroundColorChanged;
+        public event EventHandler<ImageFile> SelectedThemeBackgroundImageChanged;
 
         public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
             IThemeParserFactory themeParserFactory, IFileSystemService fileSystemService)
@@ -76,12 +77,14 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (_selectedTheme != null)
                 {
                     _selectedTheme.BackgroundChanged -= OnSelectedThemeBackgroundChanged;
+                    _selectedTheme.BackgroundImageChanged -= OnSelectedThemeBackgroundImageChanged;
                 }
                 Set(ref _selectedTheme, value);
                 _selectedTheme.BackgroundOpacity = BackgroundOpacity;
                 if (value != null)
                 {
                     value.BackgroundChanged += OnSelectedThemeBackgroundChanged;
+                    value.BackgroundImageChanged += OnSelectedThemeBackgroundImageChanged;
                 }
             }
         }
@@ -192,6 +195,11 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void OnSelectedThemeBackgroundChanged(object sender, string e)
         {
             SelectedThemeBackgroundColorChanged?.Invoke(this, e);
+        }
+
+        private void OnSelectedThemeBackgroundImageChanged(object sender, ImageFile e)
+        {
+            SelectedThemeBackgroundImageChanged?.Invoke(this, e);
         }
     }
 }
