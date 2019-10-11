@@ -62,11 +62,11 @@ namespace FluentTerminal.App.Services
             if (file != null)
             {
                 var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
-
+                
                 if (item == null)
                 {
                     var storageFile = await file.CopyAsync(ApplicationData.Current.RoamingFolder, file.Name);
-
+                    
                     return new ImageFile(
                         storageFile.DisplayName, 
                         storageFile.FileType, 
@@ -80,6 +80,17 @@ namespace FluentTerminal.App.Services
             }
 
             return null;
+        }
+
+        public async Task RemoveImportedImage(string fileName)
+        {
+            var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(fileName);
+
+            if (item != null)
+            {
+                var file = await ApplicationData.Current.RoamingFolder.GetFileAsync(fileName);
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
         }
 
         public async Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content)
