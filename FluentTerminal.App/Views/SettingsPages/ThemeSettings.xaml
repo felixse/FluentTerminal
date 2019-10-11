@@ -7,8 +7,7 @@
     xmlns:viewmodels="using:FluentTerminal.App.ViewModels"
     xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
-    <Grid x:Name="Root"
-        Background="{x:Bind ViewModel.SelectedTheme, Mode=OneWay, Converter={StaticResource SetBackgroundThemeConverter}}">
+    <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
             <ColumnDefinition Width="*" />
@@ -357,7 +356,8 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="{StaticResource ItemMargin}">
+                            <Grid Margin="{StaticResource ItemMargin}"
+                                  Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
