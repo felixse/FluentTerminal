@@ -141,7 +141,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     var exportedTheme = await parser.Import(file.Name, file.Content).ConfigureAwait(true);
 
-                    if (exportedTheme.BackgroundImage != null)
+                    if (!string.IsNullOrWhiteSpace(exportedTheme.EncodedImage))
                     {
                         var importedImage = await _imageFileSystemService.ImportThemeImage(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
                         exportedTheme.BackgroundImage = importedImage;

@@ -143,7 +143,7 @@ namespace FluentTerminal.App.Views
 
             Brush backgroundBrush;
 
-            if (imageFile != null)
+            if (imageFile != null && System.IO.File.Exists(imageFile.Path))
             {
                 backgroundBrush = new ImageBrush()
                 {

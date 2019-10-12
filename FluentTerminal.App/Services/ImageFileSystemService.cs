@@ -103,6 +103,11 @@ namespace FluentTerminal.App.Services
                 return string.Empty;
             }
 
+            if (!System.IO.File.Exists(imageFile.Path))
+            {
+                return string.Empty;
+            }
+
             return Convert.ToBase64String(System.IO.File.ReadAllBytes(imageFile.Path));
         }
 
