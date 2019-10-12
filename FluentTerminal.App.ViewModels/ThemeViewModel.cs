@@ -43,16 +43,23 @@ namespace FluentTerminal.App.ViewModels
         private string _yellow;
         private ImageFile _backgroundThemeFile;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IImageFileSystemService _imageFileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
         public event EventHandler<ImageFile> BackgroundImageChanged;
 
-        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, bool isNew)
+        public ThemeViewModel(TerminalTheme theme,
+                              ISettingsService settingsService,
+                              IDialogService dialogService,
+                              IFileSystemService fileSystemService,
+                              IImageFileSystemService imageFileSystemService,
+                              bool isNew)
         {
             Model = theme;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
+            _imageFileSystemService = imageFileSystemService;
             _isNew = isNew;
 
             Name = Model.Name;
@@ -319,7 +326,7 @@ namespace FluentTerminal.App.ViewModels
             if (Model.BackgroundImage != null &&
                BackgroundThemeFile != Model?.BackgroundImage)
             {
-                await _fileSystemService.RemoveImportedImage(
+                await _imageFileSystemService.RemoveImportedImage(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
 
@@ -336,7 +343,7 @@ namespace FluentTerminal.App.ViewModels
             if (_isNew)
             {
                 await DeleteBackgroundImageIfExists();
-                await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
+                await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
 
                 await Delete();
             }
@@ -418,7 +425,7 @@ namespace FluentTerminal.App.ViewModels
                     InEditMode = false;
                 }
 
-                await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
+                await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
             }
         }
 
@@ -471,14 +478,14 @@ namespace FluentTerminal.App.ViewModels
             var importedBackgroundThemeFile = 
                 await _fileSystemService.SaveBackgroundThemeImage(BackgroundThemeFile);
 
-            await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
+            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
 
             return importedBackgroundThemeFile;
         }
 
         private async Task ChooseBackgroundImage()
         {
-            var choosenImage = await _fileSystemService.ImportTemporaryImageFile(new[] { ".jpeg", ".png", ".jpg" });
+            var choosenImage = await _imageFileSystemService.ImportTemporaryImageFile(new[] { ".jpeg", ".png", ".jpg" });
 
             if(choosenImage == null)
             {
@@ -492,7 +499,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (BackgroundThemeFile != null)
             {
-                await _fileSystemService.RemoveImportedImage(
+                await _imageFileSystemService.RemoveImportedImage(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
         }

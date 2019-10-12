@@ -10,13 +10,14 @@ namespace FluentTerminal.App.ViewModels
         public SettingsViewModel(ISettingsService settingsService, IDefaultValueProvider defaultValueProvider, IDialogService dialogService,
             ITrayProcessCommunicationService trayProcessCommunicationService, IThemeParserFactory themeParserFactory, ISystemFontService systemFontService,
             IFileSystemService fileSystemService, IStartupTaskService startupTaskService, IApplicationView applicationView,
-            IApplicationLanguageService applicationLanguageService, ApplicationDataContainers containers)
+            IApplicationLanguageService applicationLanguageService, ApplicationDataContainers containers,
+            IImageFileSystemService imageFileSystemService)
         {
             KeyBindings = new KeyBindingsPageViewModel(settingsService, dialogService, trayProcessCommunicationService);
             General = new GeneralPageViewModel(settingsService, dialogService, defaultValueProvider, startupTaskService, applicationLanguageService, trayProcessCommunicationService, fileSystemService);
             Profiles = new ProfilesPageViewModel(settingsService, dialogService, defaultValueProvider, fileSystemService, applicationView);
             Terminal = new TerminalPageViewModel(settingsService, dialogService, defaultValueProvider, systemFontService);
-            Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService);
+            Themes = new ThemesPageViewModel(settingsService, dialogService, defaultValueProvider, themeParserFactory, fileSystemService, imageFileSystemService);
             Mouse = new MousePageViewModel(settingsService, dialogService, defaultValueProvider);
             SshProfiles = new SshProfilesPageViewModel(settingsService, dialogService, fileSystemService,
                 applicationView, trayProcessCommunicationService, containers.HistoryContainer);

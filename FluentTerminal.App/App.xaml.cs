@@ -93,6 +93,7 @@ namespace FluentTerminal.App
             builder.RegisterType<FluentTerminalThemeParser>().As<IThemeParser>().SingleInstance();
             builder.RegisterType<ClipboardService>().As<IClipboardService>().SingleInstance();
             builder.RegisterType<FileSystemService>().As<IFileSystemService>().SingleInstance();
+            builder.RegisterType<ImageFileSystemService>().As<IImageFileSystemService>().SingleInstance();
             builder.RegisterType<SystemFontService>().As<ISystemFontService>().SingleInstance();
             builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
             builder.RegisterType<SshProfileSelectionDialog>().As<ISshProfileSelectionDialog>().InstancePerDependency();

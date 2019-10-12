@@ -21,18 +21,24 @@ namespace FluentTerminal.App.ViewModels.Settings
         private double _backgroundOpacity;
         private readonly IThemeParserFactory _themeParserFactory;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IImageFileSystemService _imageFileSystemService;
 
         public event EventHandler<string> SelectedThemeBackgroundColorChanged;
         public event EventHandler<ImageFile> SelectedThemeBackgroundImageChanged;
 
-        public ThemesPageViewModel(ISettingsService settingsService, IDialogService dialogService, IDefaultValueProvider defaultValueProvider,
-            IThemeParserFactory themeParserFactory, IFileSystemService fileSystemService)
+        public ThemesPageViewModel(ISettingsService settingsService,
+                                   IDialogService dialogService,
+                                   IDefaultValueProvider defaultValueProvider,
+                                   IThemeParserFactory themeParserFactory,
+                                   IFileSystemService fileSystemService,
+                                   IImageFileSystemService imageFileSystemService)
         {
             _settingsService = settingsService;
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
             _themeParserFactory = themeParserFactory;
             _fileSystemService = fileSystemService;
+            _imageFileSystemService = imageFileSystemService;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
             ImportThemeCommand = new AsyncCommand(ImportTheme);
@@ -45,7 +51,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             var activeThemeId = _settingsService.GetCurrentThemeId();
             foreach (var theme in _settingsService.GetThemes())
             {
-                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, fileSystemService, false);
+                var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService, _imageFileSystemService, false);
                 viewModel.Activated += OnThemeActivated;
                 viewModel.Deleted += OnThemeDeleted;
 
@@ -147,7 +153,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             _settingsService.SaveTheme(theme, true);
 
-            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService, true);
+            var viewModel = new ThemeViewModel(theme, _settingsService, _dialogService, _fileSystemService, _imageFileSystemService, true);
             viewModel.EditCommand.Execute(null);
             viewModel.Activated += OnThemeActivated;
             viewModel.Deleted += OnThemeDeleted;
