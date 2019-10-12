@@ -3,11 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Security.Cryptography;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace FluentTerminal.App.Services
 {
@@ -94,19 +99,27 @@ namespace FluentTerminal.App.Services
         public string EncodeImage(ImageFile imageFile)
         {
             return Convert.ToBase64String(System.IO.File.ReadAllBytes(imageFile.Path));
+        }
 
-            //using (Image image = Image.FromFile(imageFile.Path))
-            //{
-            //    using (MemoryStream m = new MemoryStream())
-            //    {
-            //        image.Save(m, image.RawFormat);
-            //        byte[] imageBytes = m.ToArray();
+        public async Task ImportThemeImage(ImageFile backgroundImage, string encodedImage)
+        {
+            var bitmapData = Convert.FromBase64String(encodedImage);
+            MemoryStream streamBitmap = new MemoryStream(bitmapData);
 
-            //        // Convert byte[] to Base64 String
-            //        string base64String = Convert.ToBase64String(imageBytes);
-            //        return base64String;
-            //    }
-            //}
+            var localFolder = await ApplicationData.Current
+                                                   .RoamingFolder
+                                                   .CreateFolderAsync("BackgroundTheme", CreationCollisionOption.OpenIfExists);
+
+            var storageFile = await localFolder
+                            .CreateFileAsync(
+                                $"{backgroundImage.Name}{backgroundImage.FileType}", 
+                                CreationCollisionOption.GenerateUniqueName);
+
+            using (Stream stream = await storageFile.OpenStreamForWriteAsync())
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                streamBitmap.WriteTo(stream);
+            }
         }
     }
 }
