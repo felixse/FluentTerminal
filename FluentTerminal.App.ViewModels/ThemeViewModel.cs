@@ -459,7 +459,9 @@ namespace FluentTerminal.App.ViewModels
 
         private Task Export()
         {
-            var content = JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
+            var encodedImage = _imageFileSystemService.EncodeImage(BackgroundThemeFile);
+            var exportedTheme = new ExportedTerminalTheme(Model, encodedImage);
+            var content = JsonConvert.SerializeObject(exportedTheme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
             return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
         }
 

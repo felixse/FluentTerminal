@@ -13,5 +13,7 @@ namespace FluentTerminal.App.Services
         Task RemoveTemporaryBackgroundThemeImage();
 
         Task RemoveImportedImage(string fileName);
+
+        string EncodeImage(ImageFile imageFile);
     }
 }
