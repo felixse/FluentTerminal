@@ -98,6 +98,11 @@ namespace FluentTerminal.App.Services
 
         public string EncodeImage(ImageFile imageFile)
         {
+            if(imageFile == null)
+            {
+                return string.Empty;
+            }
+
             return Convert.ToBase64String(System.IO.File.ReadAllBytes(imageFile.Path));
         }
 
