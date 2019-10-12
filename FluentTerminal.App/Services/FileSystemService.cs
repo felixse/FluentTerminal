@@ -45,7 +45,21 @@ namespace FluentTerminal.App.Services
             return null;
         }
 
-        public async Task<ImageFile> ImportImageFile(IEnumerable<string> fileTypes)
+        public async Task<ImageFile> SaveBackgroundThemeImage(ImageFile imageFile)
+        {
+            var file = await StorageFile.GetFileFromPathAsync(imageFile.Path);
+
+            var backgroundThemeFolder = await ApplicationData.Current.RoamingFolder.CreateFolderAsync("BackgroundTheme", CreationCollisionOption.OpenIfExists);
+
+            var storageFile = await file.CopyAsync(backgroundThemeFolder, imageFile.Name, NameCollisionOption.GenerateUniqueName);
+
+            return new ImageFile(
+                storageFile.DisplayName,
+                storageFile.FileType,
+                storageFile.Path);
+        }
+
+        public async Task<ImageFile> ImportTemporaryImageFile(IEnumerable<string> fileTypes)
         {
             var picker = new FileOpenPicker
             {
@@ -61,22 +75,29 @@ namespace FluentTerminal.App.Services
 
             if (file != null)
             {
-                var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(file.Name);
+                var backgroundThemeTmpFolder = 
+                    await ApplicationData.Current
+                                         .LocalCacheFolder
+                                         .CreateFolderAsync(
+                                                "BackgroundThemeTmp", 
+                                                CreationCollisionOption.OpenIfExists);
+
+                var item = await backgroundThemeTmpFolder.TryGetItemAsync(file.Name);
                 
                 if (item == null)
                 {
-                    var storageFile = await file.CopyAsync(ApplicationData.Current.RoamingFolder, file.Name);
+                    var storageFile = await file.CopyAsync(backgroundThemeTmpFolder, file.Name);
                     
                     return new ImageFile(
                         storageFile.DisplayName, 
                         storageFile.FileType, 
-                        $"ms-appdata:///roaming/{storageFile.Name}");
+                        $@"{backgroundThemeTmpFolder.Path}\{storageFile.Name}");
                 }
 
                 return new ImageFile(
                     file.DisplayName,
                     file.FileType,
-                    $"ms-appdata:///roaming/{item.Name}");
+                    $@"{backgroundThemeTmpFolder.Path}\{item.Name}");
             }
 
             return null;

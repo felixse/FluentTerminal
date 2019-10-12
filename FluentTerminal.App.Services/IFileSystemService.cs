@@ -12,7 +12,9 @@ namespace FluentTerminal.App.Services
 
         Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content);
 
-        Task<ImageFile> ImportImageFile(IEnumerable<string> fileTypes);
+        Task<ImageFile> ImportTemporaryImageFile(IEnumerable<string> fileTypes);
+
+        Task<ImageFile> SaveBackgroundThemeImage(ImageFile imageFile);
 
         Task RemoveImportedImage(string fileName);
     }
