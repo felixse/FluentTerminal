@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -8,6 +9,8 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
@@ -80,8 +83,17 @@ namespace FluentTerminal.App.Views
         {
             if (e.Parameter is MainViewModel viewModel)
             {
+                if (ViewModel != null)
+                {
+                    ViewModel.SelectedTerminal.ThemeChanged -= OnTerminalThemeChanged;
+                }
+
                 ViewModel = viewModel;
                 ViewModel.Closed += ViewModel_Closed;
+
+                SetGridBackgroundTheme(ViewModel.SelectedTerminal.TerminalTheme);
+
+                ViewModel.SelectedTerminal.ThemeChanged += OnTerminalThemeChanged;
             }
             base.OnNavigatedTo(e);
         }
@@ -117,6 +129,41 @@ namespace FluentTerminal.App.Views
             coreTitleBar = null;
             Bindings.StopTracking();
             TerminalContainer.Content = null;
+        }
+
+        private void OnTerminalThemeChanged(object sender, TerminalTheme e)
+        {
+            SetGridBackgroundTheme(e);
+        }
+
+        private void SetGridBackgroundTheme(TerminalTheme terminalTheme)
+        {
+            var color = terminalTheme.Colors.Background;
+            var imageFile = terminalTheme.BackgroundImage;
+
+            Brush backgroundBrush;
+
+            if (imageFile != null)
+            {
+                backgroundBrush = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage(new Uri(
+                        imageFile.Path,
+                        UriKind.Absolute)),
+                };
+            }
+            else
+            {
+                backgroundBrush = new AcrylicBrush
+                {
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    FallbackColor = color.FromString(),
+                    TintColor = color.FromString(),
+                    TintOpacity = ViewModel.BackgroundOpacity
+                };
+            }
+
+            Root.Background = backgroundBrush;
         }
 
         private void OnWindowActivated(object sender, WindowActivatedEventArgs e)
