@@ -83,17 +83,8 @@ namespace FluentTerminal.App.Views
         {
             if (e.Parameter is MainViewModel viewModel)
             {
-                if (ViewModel != null)
-                {
-                    ViewModel.SelectedTerminal.ThemeChanged -= OnTerminalThemeChanged;
-                }
-
                 ViewModel = viewModel;
                 ViewModel.Closed += ViewModel_Closed;
-
-                SetGridBackgroundTheme(ViewModel.SelectedTerminal.TerminalTheme);
-
-                ViewModel.SelectedTerminal.ThemeChanged += OnTerminalThemeChanged;
             }
             base.OnNavigatedTo(e);
         }
@@ -129,41 +120,6 @@ namespace FluentTerminal.App.Views
             coreTitleBar = null;
             Bindings.StopTracking();
             TerminalContainer.Content = null;
-        }
-
-        private void OnTerminalThemeChanged(object sender, TerminalTheme e)
-        {
-            SetGridBackgroundTheme(e);
-        }
-
-        private void SetGridBackgroundTheme(TerminalTheme terminalTheme)
-        {
-            var color = terminalTheme.Colors.Background;
-            var imageFile = terminalTheme.BackgroundImage;
-
-            Brush backgroundBrush;
-
-            if (imageFile != null && System.IO.File.Exists(imageFile.Path))
-            {
-                backgroundBrush = new ImageBrush()
-                {
-                    ImageSource = new BitmapImage(new Uri(
-                        imageFile.Path,
-                        UriKind.Absolute)),
-                };
-            }
-            else
-            {
-                backgroundBrush = new AcrylicBrush
-                {
-                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-                    FallbackColor = color.FromString(),
-                    TintColor = color.FromString(),
-                    TintOpacity = ViewModel.BackgroundOpacity
-                };
-            }
-
-            Root.Background = backgroundBrush;
         }
 
         private void OnWindowActivated(object sender, WindowActivatedEventArgs e)

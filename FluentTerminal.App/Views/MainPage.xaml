@@ -12,6 +12,14 @@
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
     </Page.Resources>
     <Grid x:Name="Root">
+        <Grid.Background>
+            <AcrylicBrush
+                BackgroundSource="HostBackdrop"
+                FallbackColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
+                TintColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
+                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}"
+                TintTransitionDuration="{x:Bind NoDuration}" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
