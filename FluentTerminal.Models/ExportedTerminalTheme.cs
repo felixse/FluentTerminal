@@ -11,17 +11,12 @@ namespace FluentTerminal.Models
         }
 
         public ExportedTerminalTheme(TerminalTheme other, string encodedImage)
+            : base(other)
         {
-            Id = other.Id;
-            Name = other.Name;
-            Author = other.Author;
-            PreInstalled = other.PreInstalled;
-            Colors = new TerminalColors(other.Colors);
-            BackgroundImage = other.BackgroundImage;
             EncodedImage = encodedImage;
         }
 
-        public string EncodedImage { get; private set; }
+        public string EncodedImage { get; set; }
 
         public override bool Equals(object obj)
         {
