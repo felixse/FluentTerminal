@@ -336,6 +336,8 @@ namespace FluentTerminal.App.ViewModels
             if (_isNew)
             {
                 await DeleteBackgroundImageIfExists();
+                await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
+
                 await Delete();
             }
             else
@@ -406,8 +408,6 @@ namespace FluentTerminal.App.ViewModels
                         Name = _fallbackTheme.Name;
                         Author = _fallbackTheme.Author;
 
-                        await DeleteBackgroundImageIfExists();
-
                         BackgroundThemeFile = _fallbackTheme.BackgroundImage;
 
                         InEditMode = false;
@@ -417,6 +417,8 @@ namespace FluentTerminal.App.ViewModels
                 {
                     InEditMode = false;
                 }
+
+                await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
             }
         }
 
@@ -431,6 +433,8 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
+                await DeleteBackgroundImageIfExists();
+
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -467,7 +471,6 @@ namespace FluentTerminal.App.ViewModels
             var importedBackgroundThemeFile = 
                 await _fileSystemService.SaveBackgroundThemeImage(BackgroundThemeFile);
 
-            // TODO : remove the image in temporary folder
             await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
 
             return importedBackgroundThemeFile;
