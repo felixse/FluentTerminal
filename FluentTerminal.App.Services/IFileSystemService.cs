@@ -16,6 +16,8 @@ namespace FluentTerminal.App.Services
 
         Task<ImageFile> SaveBackgroundThemeImage(ImageFile imageFile);
 
+        Task RemoveTemporaryBackgroundThemeImage();
+
         Task RemoveImportedImage(string fileName);
     }
 }

@@ -316,14 +316,14 @@ namespace FluentTerminal.App.ViewModels
             Model.Colors.CursorAccent = CursorAccent;
             Model.Colors.Selection = Selection;
 
-            if(Model.BackgroundImage != null &&
-               BackgroundThemeFile?.Name != Model.BackgroundImage.Name)
+            if (Model.BackgroundImage != null &&
+               BackgroundThemeFile != Model?.BackgroundImage)
             {
                 await _fileSystemService.RemoveImportedImage(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
 
-            Model.BackgroundImage = BackgroundThemeFile;
+            Model.BackgroundImage = await SaveBackgroundImage();
 
             _settingsService.SaveTheme(Model);
 
@@ -335,6 +335,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_isNew)
             {
+                await DeleteBackgroundImageIfExists();
                 await Delete();
             }
             else
@@ -430,7 +431,6 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
-                await DeleteBackgroundImageIfExists();
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -452,9 +452,37 @@ namespace FluentTerminal.App.ViewModels
             return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
         }
 
+        private async Task<ImageFile> SaveBackgroundImage()
+        {
+            if (BackgroundThemeFile == null)
+            {
+                return BackgroundThemeFile;
+            }
+
+            if (BackgroundThemeFile == Model.BackgroundImage)
+            {
+                return BackgroundThemeFile;
+            }
+
+            var importedBackgroundThemeFile = 
+                await _fileSystemService.SaveBackgroundThemeImage(BackgroundThemeFile);
+
+            // TODO : remove the image in temporary folder
+            await _fileSystemService.RemoveTemporaryBackgroundThemeImage();
+
+            return importedBackgroundThemeFile;
+        }
+
         private async Task ChooseBackgroundImage()
         {
-            BackgroundThemeFile = await _fileSystemService.ImportImageFile(new[] { ".jpeg", ".png", ".jpg" });
+            var choosenImage = await _fileSystemService.ImportTemporaryImageFile(new[] { ".jpeg", ".png", ".jpg" });
+
+            if(choosenImage == null)
+            {
+                return;
+            }
+
+            BackgroundThemeFile = choosenImage;
         }
 
         private async Task DeleteBackgroundImageIfExists()

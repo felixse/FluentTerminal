@@ -51,12 +51,32 @@ namespace FluentTerminal.App.Services
 
             var backgroundThemeFolder = await ApplicationData.Current.RoamingFolder.CreateFolderAsync("BackgroundTheme", CreationCollisionOption.OpenIfExists);
 
-            var storageFile = await file.CopyAsync(backgroundThemeFolder, imageFile.Name, NameCollisionOption.GenerateUniqueName);
+            var storageFile = await file.CopyAsync(backgroundThemeFolder, file.DisplayName, NameCollisionOption.GenerateUniqueName);
 
             return new ImageFile(
                 storageFile.DisplayName,
                 storageFile.FileType,
                 storageFile.Path);
+        }
+
+        public async Task RemoveTemporaryBackgroundThemeImage()
+        {
+            var folder = await ApplicationData.Current
+                                     .LocalCacheFolder
+                                     .TryGetItemAsync("BackgroundThemeTmp");
+
+            if (folder == null)
+            {
+                return;
+            }
+
+            var backgroundThemeTmpFolder =
+                await ApplicationData.Current
+                                     .LocalCacheFolder
+                                     .GetFolderAsync(
+                                            "BackgroundThemeTmp");
+
+            await backgroundThemeTmpFolder.DeleteAsync();
         }
 
         public async Task<ImageFile> ImportTemporaryImageFile(IEnumerable<string> fileTypes)
@@ -105,11 +125,14 @@ namespace FluentTerminal.App.Services
 
         public async Task RemoveImportedImage(string fileName)
         {
-            var item = await ApplicationData.Current.RoamingFolder.TryGetItemAsync(fileName);
+            var backgroundThemeFolder = await ApplicationData.Current.RoamingFolder
+                .CreateFolderAsync("BackgroundTheme", CreationCollisionOption.OpenIfExists);
+
+            var item = await backgroundThemeFolder.TryGetItemAsync(fileName);
 
             if (item != null)
             {
-                var file = await ApplicationData.Current.RoamingFolder.GetFileAsync(fileName);
+                var file = await backgroundThemeFolder.GetFileAsync(fileName);
                 await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
         }
