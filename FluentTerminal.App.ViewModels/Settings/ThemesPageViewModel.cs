@@ -138,11 +138,16 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 try
                 {
-                    var theme = await parser.Import(file.Name, file.Content).ConfigureAwait(true);
+                    var exportedTheme = await parser.Import(file.Name, file.Content).ConfigureAwait(true);
 
+                    if (exportedTheme.BackgroundImage != null)
+                    {
+                        await _imageFileSystemService.ImportThemeImage(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
+                    }
 
+                    var terminalTheme = new TerminalTheme(exportedTheme);
 
-                    AddTheme(theme);
+                    AddTheme(terminalTheme);
                 }
                 catch (Exception exception)
                 {
