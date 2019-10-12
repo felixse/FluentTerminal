@@ -118,921 +118,867 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>Over</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>Informazioni su</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Achtergrond</value>
+    <value>Sfondo</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Blauw</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Blu</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Sluit</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Chiudi</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Vraag voor het sluiten van alle window&apos;s</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Chiedi conferma prima di chiudere le finestre</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Vraag voor het sluiten van een tab</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Chiedi conferma prima di chiudere le schede</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Kleur</value>
+    <value>Colore</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Kleuren in interactive tab&apos;s</value>
+    <value>Scegli come colorare le schede inattive</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Kopiëren</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Copia</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Laat de tab zijn title zien in de title balk</value>
+    <value>Mostra il nome della scheda anche nella barra del titolo</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Verander Title</value>
+    <value>Rinomina scheda</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Algemeen</value>
+    <value>Generale</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Groen</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Verde</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Laat de nieuwe output indicator zien op de achtergrond tab&apos;s</value>
+    <value>Mostra un indicatore sulle schede inattive quando l&apos;output prosegue</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>herstart is nodig om de settings toe te passen</value>
+    <value>Per applicare le impostazioni è necessario riavviare l&apos;app</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Nieuwe tab</value>
+    <value>Nuova scheda</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Geen</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Nessuno</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Tab&apos;s</value>
+    <value>Schede</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Window&apos;s</value>
+    <value>Finestre</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Open nieuwe terminal&apos;s als</value>
+    <value>Apri i nuovi terminali come</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Oranje</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Arancione</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Plakken</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Incolla</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Paars</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Viola</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rood</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Rosso</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Herstel naar standaard instellingen</value>
+    <value>Ripristina i valori predefiniti</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Uitvoeren bij opstart</value>
+    <value>Esegui all&apos;avvio</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Instellingen</value>
+    <value>Impostazioni</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Instellingen</value>
+    <value>Impostazioni</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Laat zien in systeem tray</value>
+    <value>Mostra icona nell&apos;area di notifica</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>tabbladen weergeven op</value>
+    <value>Mostra le schede</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Donker cyaan</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Verde acqua</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Onderkant</value>
+    <value>In basso</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Bovenkant</value>
+    <value>In alto</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Onderstrepen</value>
+    <value>Linea orizzontale</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Onderstreep geselecteerde tab</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>Sottolinea la scheda attiva</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>Over</value>
+    <value>Informazioni su</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Algemeen</value>
+    <value>Generali</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Sneltoetsen</value>
+    <value>Combinazioni di tasti</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Muis</value>
+    <value>Mouse</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profielen</value>
+    <value>Profili</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Terminale</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Thema&apos;s</value>
+    <value>Temi</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Toevoegen</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Aggiungi</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Argumenten</value>
+    <value>Argomenti linea di comando</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Achtergrond transparantie</value>
+    <value>Opacità sfondo</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Knipperende cursor</value>
+    <value>Cursore intermittente</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>vetgedrukte tekst</value>
+    <value>Usa il testo in grassetto</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Annuleren</value>
+    <value>Annulla</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Controleren op updates...</value>
+    <value>Controllo aggiornamenti...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Controleren voor updates</value>
+    <value>Controlla aggiornamenti</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Klik op een kleur om te veranderen</value>
+    <value>Fai click su un colore per modificarlo</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>kloon</value>
+    <value>Duplica</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Kleurenpalet</value>
+    <value>Schema colori</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Gekopieerde tekst notificatie</value>
+    <value>Avvisa quando viene copiato del testo</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Kopiëren wanneer geselecteerd</value>
+    <value>Copia automaticamente il testo dopo la selezione</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Maak nieuw</value>
+    <value>Nuovo</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Huidige versie</value>
+    <value>Versione attuale</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Balk</value>
+    <value>Barra verticale</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Blok</value>
+    <value>Casella piena</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Cursor style</value>
+    <value>Forma cursore</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Onder lijn</value>
+    <value>Barra orizzontale</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Verwijder</value>
+    <value>Elimina</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Wijzig geen regeleiden</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Non sostituire i terminatori di linea</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Verander</value>
+    <value>Modifica</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exporteren</value>
+    <value>Esporta</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Letter type</value>
+    <value>Stile carattere</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Letter grote</value>
+    <value>Dimensioni carattere</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importerne</value>
+    <value>Importa</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Scorciatoia da tastiera</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Toetsenbord sneltoetsen</value>
+    <value>Scorciatoia da tastiera</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Laatste versie</value>
+    <value>Versione più recente</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Licentie</value>
+    <value>Licenza</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Lijn einde translatie mode</value>
+    <value>Gestione dei terminatori di linea</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Lijn einde translatie bij plakken:</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <value>Sostituzione dei caratteri di terminazione linea quando si incolla del testo</value>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Middle muisklik</value>
+    <value>Azione tasto centrale del mouse</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Muis</value>
+    <value>Mouse</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Context menu</value>
+    <value>Apri il menù contestuale</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Niks</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>Nessuna</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Plak</value>
+    <value>Incolla</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Maak nieuw</value>
+    <value>Nuovo</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Padding</value>
+    <value>Margini</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Naam</value>
+    <value>Nome</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profielen</value>
+    <value>Profili</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Release aantekeningen</value>
+    <value>Note di rilascio</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Rechter muisklik actie</value>
+    <value>Azione click destro</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Opslaan</value>
+    <value>Salva</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Terug scrollen liemiet</value>
-    <comment>TerminalSettings.xaml</comment>
+    <value>Limite di scorrimento (in linee)</value>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Automatisch verbergen</value>
+    <value>Nascondi automaticamente</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Verbergen</value>
+    <value>Nascosta</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Scrollbar style</value>
+    <value>Barra di scorrimento</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Zichtbaar</value>
+    <value>Sempre visibile</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Activeren</value>
+    <value>Applica</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Instellen als standaard</value>
+    <value>Imposta come predefinito</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Shell executable locatie</value>
+    <value>Percorso dell&apos;eseguibile di shell</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Tab kleur</value>
+    <value>Colore schede</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Terminale</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Thema:</value>
+    <value>Tema:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Autore</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Naam</value>
+    <value>Nome</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Verander lijn eindes naar CR</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Converti in CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Verander lijn eindes naar CR+LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Converti in CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Verander lijn eindes naar LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Converti in LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Working directory</value>
+    <value>Directory di lavoro</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Weet je het zeker dat je tab &quot;{0}&quot; wil sluiten?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Vuoi davvero chiudere la scheda &quot;{0}&quot;?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Weet je zeker dat je deze window wil sluiten?</value>
+    <value>Vuoi davvero chiudere questa finestra?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Weet je zeker dat je deze keybinding wil verwijderen?</value>
+    <value>Vuoi davvero eliminare questa combinazione di tasti?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Weet je zeker dat je deze thema wil verwijderen?</value>
+    <value>Vuoi davvero eliminare questo tema?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Weet je zeker dat je alle wijzigingen wil negeeren?</value>
+    <value>Vuoi davvero annullare tutti i cambiamenti?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Weet je zeker dat je de algemene instellingen wil terug zetten naar de standaard instellingen?</value>
+    <value>Vuoi davvero riportare tutte le impostazioni ai valori predefiniti?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Weet je zeker dat je de keybindings will terug zetten naar de standaard instellingen?</value>
+    <value>Vuoi davvero ripristinare le combinazioni di tasti predefinite?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Weet je zeker dat je de muis instellingen will terug zetten naar de standaard instellingen?</value>
+    <value>Vuoi ripristinare le impostazioni del mouse?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Weet je zeker dat je dit profiel wil herstellen?</value>
+    <value>Vuoi ripristinare questo profilo ai suoi valori predefiniti?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Weet je zeker dat je wil terug gaan naar de standaard terminal instellingen?</value>
+    <value>Vuoi davvero ripristinare le impostazioni predefinite del terminale?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Uitgeschakeld door policy.</value>
-    <comment>ViewModel</comment>
+    <value>Disattivato da policy</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Uit gezet door gebruiker. Activeer het opnieuw in de automaties starten tab in Taak Beheer.</value>
+    <value>Disattivato dall&apos;utente. Riattiva Fluent Terminal nella scheda Avvio del Task Manager</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Verander Title</value>
+    <value>Rinomina scheda</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Fout</value>
+    <value>Errore</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>De actie kan niet worden voltooid door de volgende error:</value>
+    <value>L&apos;operazione non è stata portata a termine a causa del seguente errore:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>Inporteren van theme mislukt</value>
+    <value>Importazione tema fallita</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Geen geschikte parser gevonden</value>
+    <value>Nessun parser compatibile trovato</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Dit bevestigen</value>
+    <value>Conferma</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annuleren</value>
+    <value>Annulla</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Voer de keybinding nu in</value>
+    <value>Inserisci la combinazione di tasti</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>Oke</value>
+    <value>OK</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Reset</value>
-    <comment>Fuzzy</comment>
+    <value>Ripristina</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Tekst gekopieerd</value>
+    <value>Testo copiato</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Toevoegen</value>
+    <value>Aggiungi</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Verander tab title</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Rinomina scheda</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Legen</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Svuota</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Sluit tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Chiudi scheda</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Configureerbaare nieuwe tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Nuova scheda con profilo</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Configureerbaar nieuwe window</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Nuova finestra con profilo</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Keybindings</value>
+    <value>Combinazioni di tasti</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Verwijder</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>Elimina</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Verander</value>
+    <value>Modifica</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Nieuwe tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Nuova scheda</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Nieuwe window</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Nuova finestra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Volgende tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Scheda successiva</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Plak zonder nieuwe lijnen</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Incolla senza andare a capo</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Vorige tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Scheda precedente</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Zoeken</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Cerca</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Selecteer alles</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Seleziona tutto</value>
+    <comment>Command</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
+    <value>Avvia</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Selecteer Profiel</value>
+    <value>Seleziona profilo</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Laat settings zien</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Mostra le impostazioni</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Ga naar Terminal 1</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 1</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Ga naar Terminal 2</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 2</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Ga naar Terminal 3</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 3</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Ga naar Terminal 4</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 4</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Ga naar Terminal 5</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 5</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Ga naar Terminal 6</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 6</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Ga naar Terminal 7</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 7</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Ga naar Terminal 8</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 8</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Ga naar Terminal 9</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Passa al Terminale 9</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Schakel naar Fullscreen</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Attiva/Disattiva modalità schermo intero</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Schakel naar window</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Mostra/Nascondi finestra</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Nieuwe remote tab</value>
-    <comment>Fuzzy</comment>
+    <value>Nuova scheda remota</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Nieuwe SSH tab</value>
-    <comment>Fuzzy</comment>
+    <value>Nuova scheda SSH</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Info</value>
+    <value>Connessione SSH</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>gebruiker</value>
-    <comment>Fuzzy</comment>
+    <value>utente</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
     <value>host</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>port</value>
+    <value>porta</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Identiteit bestand pad</value>
+    <value>Percorso file chiave di identità</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Blader</value>
+    <value>Scegli</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Gebruik Mosh</value>
+    <value>Usa Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avanzate</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh poorten:</value>
+    <value>Porte per Mosh:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Shortcut opslaan</value>
-    <comment>Fuzzy</comment>
+    <value>Salva scorciatoia</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>De applicatie moet herstarten om deze veranderingen in werking te stellen.</value>
+    <value>L&apos;app deve essere riavviata per poter applicare queste modifiche</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Ongeldige Input</value>
-    <comment>Fuzzy</comment>
+    <value>Input non valido</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Poort kan geen 0 zijn.</value>
-    <comment>Fuzzy</comment>
+    <value>La porta non può essere 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Gebruiker en host azijn verplichte velden.</value>
-    <comment>Fuzzy</comment>
+    <value>I campi utente e host sono obbligatori</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Gebruikersnaam kan niet leeg zijn.</value>
+    <value>Il nome utente non può essere vuoto</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host kan niet leeg zijn.</value>
-    <comment>Fuzzy</comment>
+    <value>L&apos;host non può essere vuoto</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH port moet meer dan nul zijn.</value>
-    <comment>Fuzzy</comment>
+    <value>Le porte SSH devono essere maggiori di 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh port kan geen nul zijn.</value>
-    <comment>Fuzzy</comment>
+    <value>Le porte Mosh non possono essere 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh poort reeks is ongeldig.</value>
+    <value>L&apos;intervallo di porte Mosh non è valido</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Ja</value>
+    <value>Si</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Nee</value>
+    <value>No</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Taal</value>
+    <value>Lingua</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Geen</value>
+    <value>Nessuno</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nieuwe output</value>
+    <value>Nuovo output</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Gestopt met een fout</value>
+    <value>Terminato con errore</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Weet je zeker dat je deze profiel wil verwijderen?</value>
+    <value>Vuoi davvero eliminare questo profilo?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Nieuwe SSH window</value>
+    <value>Nuova finestra SSH</value>
   </data>
   <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>Nieuwe tab voor SSH profiel</value>
+    <value>Nuova scheda per profilo SSH</value>
   </data>
   <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>Nieuwe window voor SSH profiel</value>
+    <value>Nuova finestra per profilo SSH</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH-profielen</value>
-    <comment>Fuzzy</comment>
+    <value>Connessioni SSH</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Tab kleur:</value>
-    <comment>Fuzzy</comment>
+    <value>Colore scheda</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Gebruik ConPty</value>
-    <comment>Fuzzy</comment>
+    <value>Usa ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Gebruikersnaam</value>
-    <comment>Fuzzy</comment>
+    <value>Nome utente</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Vanuit poort</value>
-    <comment>Fuzzy</comment>
+    <value>Da</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>Naar poort</value>
-    <comment>Fuzzy</comment>
+    <value>a</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh poort reeks</value>
+    <value>Intervallo porte per Mosh</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authenticate</value>
+    <value>Autenticati</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Instellingen zijn geëxporteerd naar bestand</value>
+    <value>Le impostazioni sono state esportate</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Instellingen zijn geimporteerd van bestand</value>
+    <value>Le impostazioni sono state importate dal file</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Identitijt bestaat niet, Identitijt bestand bestaat niet</value>
+    <value>Il file specificato non esiste</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Gebruik Windows gebruikersnaam bij het openen van SSH URLs die geen gebruikersnaam hebben</value>
+    <value>Usa il nome utente di Windows per le sessioni SSH dove non è specificato un nome utente</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Standaard Mosh gebruiken bij SSH verbindingen</value>
+    <value>Usa Mosh come strumento predefinito per tutte le connessioni SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Trim rechterkant van gekopieerde lijnen</value>
+    <value>Rimuovi spazi bianchi a destra durante la copia</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Gebruik standaard SSH</value>
+    <value>Usa Quick SSH come impostazione predefinita</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Ongeldig command.</value>
+    <value>Comando non valido</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Locaatsie kan niet leeg zijn.</value>
+    <value>Il percorso non può essere vuoto</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Demp terminal geluiden</value>
+    <value>Non riprodurre i suoni del terminale</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Voer een commando (b.v. &apos;ssh gebruikersnaam@host&apos;)</value>
+    <value>Inserire un comando (ad es. &apos;ssh nomeutente@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Command</value>
+    <value>Comando</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Niet ondersteund commando:</value>
+    <value>Comando non supportato:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Commando argumenten missen.</value>
+    <value>Argomenti mancanti.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Snel Uitvoeren</value>
+    <value>Avvio rapido</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Nieuwe snel uitvoeren tab</value>
+    <value>Avvio rapido in una nuova scheda</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Nieuw snelle uitvoeren window</value>
+    <value>Avvio rapido in una nuova finestra</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Snel nieuwe tab</value>
+    <value>Nuova scheda rapida</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Bestand niet gevonden:</value>
+    <value>File non trovato:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Ongeldige link.</value>
+    <value>Link non valido</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Rilascia la scheda qui</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Sluit alle tabs naar links</value>
+    <value>Chiudi tutte le schede a sinistra</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Sluit de andere tabs</value>
+    <value>Chiudi tutte le altre schede</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Sluit alle tabs naar rechts</value>
+    <value>Chiudi tutte le schede a destra</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Duplicaat tab</value>
+    <value>Duplica scheda</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplicaat</value>
+    <value>Duplica</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Kan niet 2 envourment variables met dezelfde naam hebben.</value>
+    <value>Non si possono definire due variabili d&apos;ambiente con lo stesso nome</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Kan geen envourment variable aanmaken zonder een naam.</value>
+    <value>Le variabili d&apos;ambiente devono avere un nome</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Environment variables</value>
+    <value>Variabili d&apos;ambiente</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sluit zoek balk</value>
+    <value>Chiudi il pannello di ricerca</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find volgende</value>
+    <value>Trova successivo</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find vorige</value>
+    <value>Trova precedente</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter zoek term</value>
+    <value>Scrivi il testo da cercare</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Zoekken</value>
+    <value>Cerca</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Print output alleen</value>
-    <comment>Fuzzy</comment>
+    <value>Solo output stampabile</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Log output voor debugging</value>
+    <value>Log output per il debug</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Woord scheidingstekens</value>
-    <comment>Fuzzy</comment>
+    <value>Separatori di parole</value>
   </data>
 </root>
