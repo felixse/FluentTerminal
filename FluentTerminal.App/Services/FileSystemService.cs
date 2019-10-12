@@ -45,7 +45,7 @@ namespace FluentTerminal.App.Services
             return null;
         }
 
-        public async Task<ImageFile> SaveBackgroundThemeImage(ImageFile imageFile)
+        public async Task<ImageFile> SaveImageInRoaming(ImageFile imageFile)
         {
             var file = await StorageFile.GetFileFromPathAsync(imageFile.Path);
 

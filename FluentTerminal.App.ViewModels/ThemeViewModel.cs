@@ -476,7 +476,7 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var importedBackgroundThemeFile = 
-                await _fileSystemService.SaveBackgroundThemeImage(BackgroundThemeFile);
+                await _fileSystemService.SaveImageInRoaming(BackgroundThemeFile);
 
             await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
 

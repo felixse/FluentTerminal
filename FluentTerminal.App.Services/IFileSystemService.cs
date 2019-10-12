@@ -12,6 +12,6 @@ namespace FluentTerminal.App.Services
 
         Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content);
 
-        Task<ImageFile> SaveBackgroundThemeImage(ImageFile imageFile);
+        Task<ImageFile> SaveImageInRoaming(ImageFile imageFile);
     }
 }
