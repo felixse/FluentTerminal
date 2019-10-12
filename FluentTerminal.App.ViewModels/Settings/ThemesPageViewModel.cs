@@ -138,7 +138,9 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 try
                 {
-                    var theme = await parser.Parse(file.Name, file.Content).ConfigureAwait(true);
+                    var theme = await parser.Import(file.Name, file.Content).ConfigureAwait(true);
+
+
 
                     AddTheme(theme);
                 }

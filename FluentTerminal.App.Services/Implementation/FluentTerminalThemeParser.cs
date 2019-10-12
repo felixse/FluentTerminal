@@ -11,7 +11,18 @@ namespace FluentTerminal.App.Services.Implementation
     {
         public IEnumerable<string> SupportedFileTypes { get; } = new string[] { ".flutecolors" };
 
+        public async Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent)
+        {
+            return await DeserializeTheme<ExportedTerminalTheme>(fileName, fileContent);
+        }
+
         public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
+        {
+            return await DeserializeTheme<TerminalTheme>(fileName, fileContent);
+        }
+
+        public async Task<T> DeserializeTheme<T>(string fileName, Stream fileContent)
+            where T : TerminalTheme
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -26,7 +37,7 @@ namespace FluentTerminal.App.Services.Implementation
             using (var streamReader = new StreamReader(fileContent))
             {
                 var content = await streamReader.ReadToEndAsync();
-                var theme = JsonConvert.DeserializeObject<TerminalTheme>(content);
+                var theme = JsonConvert.DeserializeObject<T>(content);
 
                 theme.PreInstalled = false;
                 theme.Id = Guid.NewGuid();
