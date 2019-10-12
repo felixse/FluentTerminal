@@ -143,7 +143,8 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                     if (exportedTheme.BackgroundImage != null)
                     {
-                        await _imageFileSystemService.ImportThemeImage(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
+                        var importedImage = await _imageFileSystemService.ImportThemeImage(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
+                        exportedTheme.BackgroundImage = importedImage;
                     }
 
                     var terminalTheme = new TerminalTheme(exportedTheme);

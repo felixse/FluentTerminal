@@ -106,7 +106,7 @@ namespace FluentTerminal.App.Services
             return Convert.ToBase64String(System.IO.File.ReadAllBytes(imageFile.Path));
         }
 
-        public async Task ImportThemeImage(ImageFile backgroundImage, string encodedImage)
+        public async Task<ImageFile> ImportThemeImage(ImageFile backgroundImage, string encodedImage)
         {
             var bitmapData = Convert.FromBase64String(encodedImage);
             MemoryStream streamBitmap = new MemoryStream(bitmapData);
@@ -125,6 +125,10 @@ namespace FluentTerminal.App.Services
                 stream.Seek(0, SeekOrigin.Begin);
                 streamBitmap.WriteTo(stream);
             }
+
+            return new ImageFile(storageFile.DisplayName,
+                                 storageFile.FileType,
+                                 storageFile.Path);
         }
     }
 }

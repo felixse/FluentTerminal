@@ -16,6 +16,6 @@ namespace FluentTerminal.App.Services
 
         string EncodeImage(ImageFile imageFile);
 
-        Task ImportThemeImage(ImageFile backgroundImage, string encodedImage);
+        Task<ImageFile> ImportThemeImage(ImageFile backgroundImage, string encodedImage);
     }
 }
