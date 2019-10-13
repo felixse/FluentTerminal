@@ -28,12 +28,18 @@ namespace FluentTerminal.App.Views.SettingsPages
                 ViewModel = viewModel;
                 viewModel.SelectedThemeBackgroundColorChanged += OnSelectedThemeBackgroundColorChanged;
                 viewModel.SelectedThemeBackgroundImageChanged += OnSelectedThemeBackgroundImageChanged;
+                viewModel.SelectedThemeChanged += OnSelectedThemeChanged;
 
                 var theme = ContrastHelper.GetIdealThemeForBackgroundColor(ViewModel.SelectedTheme.Background);
 
                 SetTheme(theme);
                 SetGridBackground(ViewModel.SelectedTheme.Background, ViewModel.SelectedTheme.BackgroundThemeFile);
             }
+        }
+
+        private void OnSelectedThemeChanged(object sender, ThemeViewModel e)
+        {
+            SetGridBackground(e.Background, e.BackgroundThemeFile);
         }
 
         private void OnSelectedThemeBackgroundImageChanged(object sender, ImageFile e)

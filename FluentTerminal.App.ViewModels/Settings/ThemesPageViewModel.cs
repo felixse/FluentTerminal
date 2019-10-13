@@ -25,6 +25,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public event EventHandler<string> SelectedThemeBackgroundColorChanged;
         public event EventHandler<ImageFile> SelectedThemeBackgroundImageChanged;
+        public event EventHandler<ThemeViewModel> SelectedThemeChanged;
 
         public ThemesPageViewModel(ISettingsService settingsService,
                                    IDialogService dialogService,
@@ -85,7 +86,9 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _selectedTheme.BackgroundChanged -= OnSelectedThemeBackgroundChanged;
                     _selectedTheme.BackgroundImageChanged -= OnSelectedThemeBackgroundImageChanged;
                 }
+
                 Set(ref _selectedTheme, value);
+                SelectedThemeChanged?.Invoke(this, _selectedTheme);
 
                 if (value != null)
                 {
