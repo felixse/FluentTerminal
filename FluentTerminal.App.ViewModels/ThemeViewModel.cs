@@ -99,7 +99,7 @@ namespace FluentTerminal.App.ViewModels
             SaveChangesCommand = new RelayCommand(async () => await SaveChanges().ConfigureAwait(false));
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
             ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
-            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImageIfExists(), NotPreInstalled);
+            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImage(), NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -444,6 +444,16 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        private async Task DeleteBackgroundImage()
+        {
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                await DeleteBackgroundImageIfExists();
+            }
+        }
+
         private void Edit()
         {
             _fallbackTheme = new TerminalTheme(Model);
@@ -501,6 +511,8 @@ namespace FluentTerminal.App.ViewModels
             {
                 await _imageFileSystemService.RemoveImportedImage(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
+
+                BackgroundThemeFile = null;
             }
         }
     }

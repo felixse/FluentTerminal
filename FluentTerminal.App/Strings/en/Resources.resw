@@ -1039,4 +1039,7 @@ Fuzzy</comment>
     <value>Background image</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Are you sure you want to delete the background image ?</value>
+  </data>
 </root>

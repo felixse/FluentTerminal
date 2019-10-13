@@ -361,15 +361,21 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" 
                                            VerticalAlignment="Center"
                                            Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=BackgroundImage.Content}" />
 
-                                <Button Grid.Column="1" 
-                                        Content="Browse"
+                                <Button Grid.Column="1"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=BrowseButton.Content}"
                                         Command="{x:Bind ChooseBackgroundImageCommand}" />
+
+                                <Button Grid.Column="2"
+                                        Content="X"
+                                        Margin="10 0 0 0"
+                                        Command="{x:Bind DeleteBackgroundImageCommand}" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>

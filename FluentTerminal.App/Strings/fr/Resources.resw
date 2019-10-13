@@ -1037,4 +1037,7 @@ Fuzzy</comment>
     <value>Arrière plan</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Etes-vous sûr de vouloir supprimer l'image de fond ?</value>
+  </data>
 </root>
