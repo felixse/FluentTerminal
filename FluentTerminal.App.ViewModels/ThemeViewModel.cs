@@ -450,7 +450,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
-                await DeleteBackgroundImageIfExists();
+                BackgroundThemeFile = null;
             }
         }
 
