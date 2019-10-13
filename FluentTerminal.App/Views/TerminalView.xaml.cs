@@ -130,7 +130,7 @@ namespace FluentTerminal.App.Views
                     BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
                     FallbackColor = color.FromString(),
                     TintColor = color.FromString(),
-                    TintOpacity = ViewModel.BackgroundTabTheme.BackgroundOpacity
+                    TintOpacity = ViewModel.BackgroundOpacity
                 };
             }
 

@@ -209,6 +209,8 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand DuplicateTabCommand { get; }
 
+        public double BackgroundOpacity => _terminalOptions?.BackgroundOpacity ?? 1.0;
+
         public bool IsSelected
         {
             get => _isSelected;
@@ -480,6 +482,7 @@ namespace FluentTerminal.App.ViewModels
         private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
             _terminalOptions = message.TerminalOptions;
+            RaisePropertyChanged(nameof(BackgroundOpacity));
         }
 
         private void SelectTabTheme(string id)
