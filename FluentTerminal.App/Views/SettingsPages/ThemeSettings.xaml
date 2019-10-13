@@ -365,7 +365,7 @@
 
                                 <TextBlock Grid.Column="0" 
                                            VerticalAlignment="Center"
-                                           Text="Background image" />
+                                           Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=BackgroundImage.Content}" />
 
                                 <Button Grid.Column="1" 
                                         Content="Browse"
