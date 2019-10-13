@@ -429,5 +429,15 @@ namespace FluentTerminal.App.Views
         {
             ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(text));
         }
+
+        public void Dispose()
+        {
+            _connectedEvent?.Dispose();
+            _navigationCompleted?.Dispose();
+            _dispatcherJobs?.Dispose();
+            _mediatorTaskCTSource?.Dispose();
+            _outputBlocked?.Dispose();
+            _outputBlockedBuffer?.Dispose();
+        }
     }
 }
