@@ -403,7 +403,7 @@ namespace FluentTerminal.App.Views
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
             if (_outputBlocked.IsSet)
-            {
+            { 
                 // Output to the terminal is currently blocked. Hold on to the output.
                 _outputBlockedBuffer.Write(e, 0, e.Length);
             }
