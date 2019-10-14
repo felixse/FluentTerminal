@@ -1,0 +1,4 @@
+﻿<packaging>
+  <autoResourcePackage qualifier="Scale" />
+  <autoResourcePackage qualifier="DXFeatureLevel" />
+</packaging>
