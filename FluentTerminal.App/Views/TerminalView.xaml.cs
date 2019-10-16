@@ -35,6 +35,7 @@ namespace FluentTerminal.App.Views
         {
             Bindings.StopTracking();
             TerminalContainer.Children.Remove((UIElement)_terminalView);
+            _terminalView?.Dispose();
             _terminalView = null;
 
             Messenger.Default.Unregister(this);
