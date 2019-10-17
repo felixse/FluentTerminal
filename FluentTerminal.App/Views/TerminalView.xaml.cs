@@ -121,6 +121,7 @@ namespace FluentTerminal.App.Views
                     ImageSource = new BitmapImage(new Uri(
                         imageFile.Path,
                         UriKind.Absolute)),
+                    Stretch = Stretch.UniformToFill
                 };
             }
             else

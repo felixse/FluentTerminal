@@ -79,6 +79,7 @@ namespace FluentTerminal.App.Views.SettingsPages
                     ImageSource = new BitmapImage(new Uri(
                         imageFile.Path,
                         UriKind.Absolute)),
+                    Stretch = Stretch.UniformToFill
                 };
             }
             else
