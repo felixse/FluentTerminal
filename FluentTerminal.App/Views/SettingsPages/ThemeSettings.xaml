@@ -25,8 +25,7 @@
         <Grid Grid.Row="1" 
               Grid.ColumnSpan="2" 
               Margin="{StaticResource HeaderMargin}"
-              RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
-              Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+              RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
                 <ColumnDefinition Width="*" />
@@ -191,8 +190,7 @@
             RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <ContentControl.ContentTemplate>
                 <DataTemplate x:DataType="viewmodels:ThemeViewModel">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="{StaticResource ContainerMargin}">
                             <!--  VIEW THEME  -->
                             <TextBlock
