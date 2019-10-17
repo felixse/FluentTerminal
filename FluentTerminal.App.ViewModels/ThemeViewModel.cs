@@ -330,7 +330,9 @@ namespace FluentTerminal.App.ViewModels
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
 
-            Model.BackgroundImage = await SaveBackgroundImage();
+            BackgroundThemeFile = await SaveBackgroundImage();
+
+            Model.BackgroundImage = BackgroundThemeFile;
 
             _settingsService.SaveTheme(Model);
 
