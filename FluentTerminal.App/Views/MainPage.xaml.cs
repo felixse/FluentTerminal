@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -8,6 +9,8 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;

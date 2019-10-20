@@ -8,13 +8,6 @@
     xmlns:views="using:FluentTerminal.App.Views"
     mc:Ignorable="d">
     <Grid x:Name="Root">
-        <Grid.Background>
-            <AcrylicBrush
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
-                TintColor="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay}"
-                TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}" />
-        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160" />
             <ColumnDefinition Width="*" />
@@ -24,14 +17,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <Border
             Grid.RowSpan="3"
             Grid.Column="0"
-            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-        <Grid
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="{StaticResource HeaderMargin}">
+            Background="{ThemeResource SystemControlAcrylicWindowBrush}" />
+        <Grid Grid.Row="1" 
+              Grid.ColumnSpan="2" 
+              Margin="{StaticResource HeaderMargin}"
+              RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
                 <ColumnDefinition Width="*" />
@@ -186,11 +180,12 @@
                 </Button>
             </StackPanel>
         </ScrollViewer>
-
+        
         <ContentControl
             Grid.Row="2"
             Grid.Column="1"
             HorizontalContentAlignment="Stretch"
+            Margin="0 10"
             Content="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"
             RequestedTheme="{x:Bind ViewModel.SelectedTheme.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}">
             <ContentControl.ContentTemplate>
@@ -357,6 +352,28 @@
                                         IsAlphaEnabled="True"
                                         SelectedColor="{x:Bind Selection, Mode=TwoWay}" />
                                 </StackPanel>
+                            </Grid>
+
+                            <Grid Margin="{StaticResource ItemMargin}"
+                                  Visibility="{x:Bind InEditMode, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" 
+                                           VerticalAlignment="Center"
+                                           Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=BackgroundImage.Content}" />
+
+                                <Button Grid.Column="1"
+                                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=BrowseButton.Content}"
+                                        Command="{x:Bind ChooseBackgroundImageCommand}" />
+
+                                <Button Grid.Column="2"
+                                        Content="X"
+                                        Margin="10 0 0 0"
+                                        Command="{x:Bind DeleteBackgroundImageCommand}" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>

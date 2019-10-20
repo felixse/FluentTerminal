@@ -553,7 +553,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
+    <value>Are you sure you want to close "{0}" tab?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -931,7 +931,7 @@ Fuzzy</comment>
     <value>Identify file does not exist</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
+    <value>Use Windows username when opening SSH URLs that don't specify one</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>Default to Mosh for SSH connections</value>
@@ -952,7 +952,7 @@ Fuzzy</comment>
     <value>Mute terminal beeps</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Enter a command (e.g. 'ssh username@host')</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Command</value>
@@ -1034,5 +1034,12 @@ Fuzzy</comment>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Word separator characters</value>
     <comment>Fuzzy</comment>
+  </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Background image</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Are you sure you want to delete the background image ?</value>
   </data>
 </root>

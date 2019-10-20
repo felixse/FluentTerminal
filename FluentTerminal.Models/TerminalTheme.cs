@@ -15,6 +15,7 @@ namespace FluentTerminal.Models
             Author = other.Author;
             PreInstalled = other.PreInstalled;
             Colors = new TerminalColors(other.Colors);
+            BackgroundImage = other.BackgroundImage;
         }
 
         public Guid Id { get; set; }
@@ -22,6 +23,7 @@ namespace FluentTerminal.Models
         public string Author { get; set; }
         public bool PreInstalled { get; set; }
         public TerminalColors Colors { get; set; }
+        public ImageFile BackgroundImage { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -29,7 +31,8 @@ namespace FluentTerminal.Models
             {
                 return Equals(other.Name, Name)
                     && Equals(other.Author, Author)
-                    && Equals(other.Colors, Colors);
+                    && Equals(other.Colors, Colors)
+                    && Equals(other.BackgroundImage, BackgroundImage);
             }
             return false;
         }

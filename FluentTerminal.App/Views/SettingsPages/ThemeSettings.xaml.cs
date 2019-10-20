@@ -1,7 +1,12 @@
-﻿using FluentTerminal.App.Utilities;
+﻿using System;
+using FluentTerminal.App.Utilities;
+using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.ViewModels.Settings;
+using FluentTerminal.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace FluentTerminal.App.Views.SettingsPages
@@ -22,15 +27,32 @@ namespace FluentTerminal.App.Views.SettingsPages
             {
                 ViewModel = viewModel;
                 viewModel.SelectedThemeBackgroundColorChanged += OnSelectedThemeBackgroundColorChanged;
+                viewModel.SelectedThemeBackgroundImageChanged += OnSelectedThemeBackgroundImageChanged;
+                viewModel.SelectedThemeChanged += OnSelectedThemeChanged;
+
                 var theme = ContrastHelper.GetIdealThemeForBackgroundColor(ViewModel.SelectedTheme.Background);
+
                 SetTheme(theme);
+                SetGridBackground(ViewModel.SelectedTheme.Background, ViewModel.SelectedTheme.BackgroundThemeFile);
             }
+        }
+
+        private void OnSelectedThemeChanged(object sender, ThemeViewModel e)
+        {
+            SetGridBackground(e.Background, e.BackgroundThemeFile);
+        }
+
+        private void OnSelectedThemeBackgroundImageChanged(object sender, ImageFile e)
+        {
+            SetGridBackground(ViewModel.SelectedTheme.Background, e);
         }
 
         private void OnSelectedThemeBackgroundColorChanged(object sender, string e)
         {
             var theme = ContrastHelper.GetIdealThemeForBackgroundColor(e);
             SetTheme(theme);
+
+            SetGridBackground(e, ViewModel.SelectedTheme.BackgroundThemeFile);
         }
 
         private void SetTheme(ElementTheme theme)
@@ -44,6 +66,34 @@ namespace FluentTerminal.App.Views.SettingsPages
             CloneButton.RequestedTheme = theme;
 
             ContrastHelper.SetTitleBarButtonsForTheme(theme);
+        }
+
+        private void SetGridBackground(string color, ImageFile imageFile)
+        {
+            Brush backgroundBrush;
+
+            if (imageFile != null && System.IO.File.Exists(imageFile.Path))
+            {
+                backgroundBrush = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage(new Uri(
+                        imageFile.Path,
+                        UriKind.Absolute)),
+                    Stretch = Stretch.UniformToFill
+                };
+            }
+            else
+            {
+                backgroundBrush = new AcrylicBrush
+                {
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    FallbackColor = color.FromString(),
+                    TintColor = color.FromString(),
+                    TintOpacity = ViewModel.BackgroundOpacity
+                };
+            }
+
+            Root.Background = backgroundBrush;
         }
     }
 }

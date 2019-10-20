@@ -10,5 +10,7 @@ namespace FluentTerminal.App.Services
         IEnumerable<string> SupportedFileTypes { get; }
 
         Task<TerminalTheme> Parse(string fileName, Stream fileContent);
+
+        Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent);
     }
 }

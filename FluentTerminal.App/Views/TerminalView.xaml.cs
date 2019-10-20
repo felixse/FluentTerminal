@@ -5,6 +5,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight.Messaging;
+using FluentTerminal.Models;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
@@ -29,6 +33,8 @@ namespace FluentTerminal.App.Views
             _terminalView.Initialize(ViewModel);
             ViewModel.TerminalView = _terminalView;
             ViewModel.Initialized = true;
+
+            SetGridBackgroundTheme(ViewModel.TerminalTheme);
         }
 
         public void DisposalPrepare()
@@ -96,9 +102,41 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private async void OnThemeChanged(object sender, Models.TerminalTheme e)
+        private async void OnThemeChanged(object sender, TerminalTheme e)
         {
             await _terminalView.ChangeTheme(e).ConfigureAwait(true);
+            SetGridBackgroundTheme(e);
+        }
+               
+        private void SetGridBackgroundTheme(TerminalTheme terminalTheme)
+        {
+            var color = terminalTheme.Colors.Background;
+            var imageFile = terminalTheme.BackgroundImage;
+
+            Brush backgroundBrush;
+
+            if (imageFile != null && System.IO.File.Exists(imageFile.Path))
+            {
+                backgroundBrush = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage(new Uri(
+                        imageFile.Path,
+                        UriKind.Absolute)),
+                    Stretch = Stretch.UniformToFill
+                };
+            }
+            else
+            {
+                backgroundBrush = new AcrylicBrush
+                {
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    FallbackColor = color.FromString(),
+                    TintColor = color.FromString(),
+                    TintOpacity = ViewModel.BackgroundOpacity
+                };
+            }
+
+            TerminalContainer.Background = backgroundBrush;
         }
     }
 }

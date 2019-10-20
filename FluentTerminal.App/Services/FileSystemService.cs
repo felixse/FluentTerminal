@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentTerminal.App.Utilities;
+using FluentTerminal.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,6 +43,20 @@ namespace FluentTerminal.App.Services
                 return new File(file.DisplayName, file.FileType, file.Path, stream);
             }
             return null;
+        }
+
+        public async Task<ImageFile> SaveImageInRoaming(ImageFile imageFile)
+        {
+            var file = await StorageFile.GetFileFromPathAsync(imageFile.Path);
+
+            var backgroundThemeFolder = await ApplicationData.Current.RoamingFolder.CreateFolderAsync("BackgroundTheme", CreationCollisionOption.OpenIfExists);
+
+            var storageFile = await file.CopyAsync(backgroundThemeFolder, file.DisplayName, NameCollisionOption.GenerateUniqueName);
+
+            return new ImageFile(
+                storageFile.DisplayName,
+                storageFile.FileType,
+                storageFile.Path);
         }
 
         public async Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content)

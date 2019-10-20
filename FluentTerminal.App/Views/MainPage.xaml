@@ -19,7 +19,6 @@
                 TintColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
                 TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}"
                 TintTransitionDuration="{x:Bind NoDuration}" />
-
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

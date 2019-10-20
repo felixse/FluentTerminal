@@ -41,16 +41,25 @@ namespace FluentTerminal.App.ViewModels
         private string _selection;
         private string _white;
         private string _yellow;
+        private ImageFile _backgroundThemeFile;
         private readonly IFileSystemService _fileSystemService;
+        private readonly IImageFileSystemService _imageFileSystemService;
 
         public event EventHandler<string> BackgroundChanged;
+        public event EventHandler<ImageFile> BackgroundImageChanged;
 
-        public ThemeViewModel(TerminalTheme theme, ISettingsService settingsService, IDialogService dialogService, IFileSystemService fileSystemService, bool isNew)
+        public ThemeViewModel(TerminalTheme theme,
+                              ISettingsService settingsService,
+                              IDialogService dialogService,
+                              IFileSystemService fileSystemService,
+                              IImageFileSystemService imageFileSystemService,
+                              bool isNew)
         {
             Model = theme;
             _settingsService = settingsService;
             _dialogService = dialogService;
             _fileSystemService = fileSystemService;
+            _imageFileSystemService = imageFileSystemService;
             _isNew = isNew;
 
             Name = Model.Name;
@@ -81,12 +90,16 @@ namespace FluentTerminal.App.ViewModels
             CursorAccent = Model.Colors.CursorAccent;
             Selection = Model.Colors.Selection;
 
+            BackgroundThemeFile = Model.BackgroundImage;
+
             SetActiveCommand = new RelayCommand(SetActive);
             DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
             CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
-            SaveChangesCommand = new RelayCommand(SaveChanges);
+            SaveChangesCommand = new RelayCommand(async () => await SaveChanges().ConfigureAwait(false));
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
+            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
+            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImage(), NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -267,7 +280,21 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _yellow, value);
         }
 
-        public void SaveChanges()
+        public ImageFile BackgroundThemeFile
+        {
+            get => _backgroundThemeFile;
+            set
+            {
+                Set(ref _backgroundThemeFile, value);
+                BackgroundImageChanged?.Invoke(this, value);
+            }
+        }
+
+        public RelayCommand ChooseBackgroundImageCommand { get; }
+
+        public RelayCommand DeleteBackgroundImageCommand { get; }
+
+        public async Task SaveChanges()
         {
             Model.Name = Name;
             Model.Author = Author;
@@ -296,6 +323,17 @@ namespace FluentTerminal.App.ViewModels
             Model.Colors.CursorAccent = CursorAccent;
             Model.Colors.Selection = Selection;
 
+            if (Model.BackgroundImage != null &&
+               BackgroundThemeFile != Model?.BackgroundImage)
+            {
+                await _imageFileSystemService.RemoveImportedImage(
+                    $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
+            }
+
+            BackgroundThemeFile = await SaveBackgroundImage();
+
+            Model.BackgroundImage = BackgroundThemeFile;
+
             _settingsService.SaveTheme(Model);
 
             InEditMode = false;
@@ -314,6 +352,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     Name = Name,
                     Author = Author,
+                    BackgroundImage = BackgroundThemeFile,
                     Colors = new TerminalColors()
                     {
                         Black = Black,
@@ -375,7 +414,11 @@ namespace FluentTerminal.App.ViewModels
                         Name = _fallbackTheme.Name;
                         Author = _fallbackTheme.Author;
 
+                        BackgroundThemeFile = _fallbackTheme.BackgroundImage;
+
                         InEditMode = false;
+
+                        await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
                     }
                 }
                 else
@@ -396,7 +439,20 @@ namespace FluentTerminal.App.ViewModels
 
             if (result == DialogButton.OK)
             {
+                await DeleteBackgroundImageIfExists();
+                await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
+
                 Deleted?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private async Task DeleteBackgroundImage()
+        {
+            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+
+            if (result == DialogButton.OK)
+            {
+                BackgroundThemeFile = null;
             }
         }
 
@@ -413,8 +469,53 @@ namespace FluentTerminal.App.ViewModels
 
         private Task Export()
         {
-            var content = JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
+            var encodedImage = _imageFileSystemService.EncodeImage(BackgroundThemeFile);
+            var exportedTheme = new ExportedTerminalTheme(Model, encodedImage);
+            var content = JsonConvert.SerializeObject(exportedTheme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
             return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
+        }
+
+        private async Task<ImageFile> SaveBackgroundImage()
+        {
+            if (BackgroundThemeFile == null)
+            {
+                return BackgroundThemeFile;
+            }
+
+            if (BackgroundThemeFile == Model.BackgroundImage)
+            {
+                return BackgroundThemeFile;
+            }
+
+            var importedBackgroundThemeFile = 
+                await _fileSystemService.SaveImageInRoaming(BackgroundThemeFile);
+
+            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
+
+            return importedBackgroundThemeFile;
+        }
+
+        private async Task ChooseBackgroundImage()
+        {
+            var choosenImage = await _imageFileSystemService.ImportTemporaryImageFile(new[] { ".jpeg", ".png", ".jpg" });
+
+            if(choosenImage == null)
+            {
+                return;
+            }
+
+            BackgroundThemeFile = choosenImage;
+        }
+
+        private async Task DeleteBackgroundImageIfExists()
+        {
+            if (BackgroundThemeFile != null)
+            {
+                await _imageFileSystemService.RemoveImportedImage(
+                    $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
+
+                BackgroundThemeFile = null;
+            }
         }
     }
 }
