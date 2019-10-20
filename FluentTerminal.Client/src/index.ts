@@ -1,8 +1,10 @@
-import { Terminal, ITerminalOptions } from 'xterm';
+import { Terminal, ITerminalOptions, ILinkMatcherOptions } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { SerializeAddon } from "./xterm-addon-serialize/src/SerializeAddon";
+
+
 
 interface ExtendedWindow extends Window {
   keyBindings: any[];
@@ -26,6 +28,7 @@ let fitAddon: FitAddon;
 let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
+
 const terminalContainer = document.getElementById('terminal-container');
 
 function replaceAll(searchString, replaceString, str) {
@@ -73,15 +76,59 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   term = new Terminal(terminalOptions);
 
+  const linkMatcherOptions: ILinkMatcherOptions = {
+    leaveCallback: () => window.onmouseup = (e) => defaultOnMouseUpHandler(e),
+    willLinkActivate: (event: MouseEvent, uri: string) => {
+      window.onmouseup = (e) => linkHoverOnMouseUpHandler(event, uri);
+      return true;
+    }
+  };
+
+  function defaultOnMouseUpHandler(e: MouseEvent): void {
+    if (e.button == 1) {
+      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
+    } else if (e.button == 2) {
+      window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
+    }
+  }
+  
+  function linkHoverOnMouseUpHandler(e: MouseEvent, u: string): void {
+    if (e.button == 1) {
+      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
+    } else if (e.button == 2) {
+      let pos = findInMouseRow(u, e.clientY);
+      if(pos !== undefined) {
+        term.select(pos.col, pos.row, u.length);
+        window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
+      }
+    }
+  }
+  
+  function findInMouseRow(str: string, mouseY: number): {col: Number, row: Number} | undefined {
+    const lineHeight: number = Math.round(window.innerHeight / window.term.rows) - 1;
+    const mouseRow: number = mouseY / lineHeight;
+    let col: number, row: number = (mouseRow === Math.ceil(mouseRow) ? mouseRow : Math.floor(mouseRow)) - 1;
+    let line = window.term.buffer.getLine(row);
+
+    if(line === undefined) return;
+    
+    col = line.translateToString().indexOf(str);
+    if (col === -1) return;
+    
+    return {
+      col: col, 
+      row: row
+    };
+  }
+
   searchAddon = new SearchAddon();
   term.loadAddon(searchAddon);
   fitAddon = new FitAddon();
   term.loadAddon(fitAddon);
   serializeAddon = new SerializeAddon();
   term.loadAddon(serializeAddon);
-  webLinksAddon = new WebLinksAddon();
+  webLinksAddon = new WebLinksAddon((_, u) => window.open(u), linkMatcherOptions);
   term.loadAddon(webLinksAddon);
-
 
   window.term = term;
 
@@ -117,13 +164,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     resizeTimeout = setTimeout(() => fitAddon.fit(), 500);
   }
 
-  window.onmouseup = function (e) {
-    if (e.button == 1) {
-      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
-    } else if (e.button == 2) {
-      window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
-    }
-  }
+  window.onmouseup = (e) => defaultOnMouseUpHandler(e);
 
   term.attachCustomKeyEventHandler(function (e) {
     if (e.type != "keydown") {
