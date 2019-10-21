@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentTerminal.Models.Messages;
@@ -25,6 +24,7 @@ namespace FluentTerminal.App.ViewModels
         #endregion Static
 
         #region Serialize terminal state
+
         private class TerminalState
         {
             public bool HasCustomTitle { get; set; }
@@ -528,7 +528,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.TranslateLineEndings(content);
-                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
+                            await TerminalView.PasteAsync(content);
                         }
                         break;
                     }
@@ -538,7 +538,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
-                            await Terminal.Write(Encoding.UTF8.GetBytes(content)).ConfigureAwait(true);
+                            await TerminalView.PasteAsync(content);
                         }
                         break;
                     }
