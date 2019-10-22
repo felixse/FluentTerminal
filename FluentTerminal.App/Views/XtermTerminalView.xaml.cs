@@ -439,5 +439,8 @@ namespace FluentTerminal.App.Views
             _outputBlocked?.Dispose();
             _outputBlockedBuffer?.Dispose();
         }
+
+        public Task PasteAsync(string text) => ExecuteScriptAsync(
+                $"window.term.paste('{text.Replace(@"\", @"\\").Replace("'", @"\'").Replace("\n", @"\n").Replace("\r", @"\r")}')");
     }
 }
