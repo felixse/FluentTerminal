@@ -77,12 +77,6 @@
                     StepFrequency="100"
                     Value="{x:Bind ViewModel.FontWeight, Mode=TwoWay}" />
 
-                <ToggleSwitch
-                    x:Uid="BoldText"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Bold text"
-                    IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
-
                 <Slider
                     Width="200"
                     Margin="{StaticResource ItemMargin}"

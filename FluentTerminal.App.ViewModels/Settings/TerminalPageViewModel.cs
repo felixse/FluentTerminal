@@ -164,20 +164,6 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public bool BoldText
-        {
-            get => _terminalOptions.BoldText;
-            set
-            {
-                if (_terminalOptions.BoldText != value)
-                {
-                    _terminalOptions.BoldText = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         public bool ShowTextCopied
         {
             get => _terminalOptions.ShowTextCopied;
@@ -253,7 +239,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
                 FontWeight = defaults.FontWeight;
-                BoldText = defaults.BoldText;
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();
                 ShowTextCopied = defaults.ShowTextCopied;

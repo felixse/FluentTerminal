@@ -10,8 +10,6 @@ namespace FluentTerminal.Models
 
         public int FontWeight { get; set; }
 
-        public bool BoldText { get; set; }
-
         public CursorStyle CursorStyle { get; set; }
 
         public bool CursorBlink { get; set; }

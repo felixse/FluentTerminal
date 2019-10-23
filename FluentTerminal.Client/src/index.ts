@@ -63,7 +63,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
     fontWeight: options.fontWeight,
-    fontWeightBold: convertBoldText(options.boldText, options.fontWeight),
+    fontWeightBold: convertBoldText(options.fontWeight),
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
@@ -223,7 +223,7 @@ window.changeOptions = (options) => {
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
   term.setOption('fontWeight', options.fontWeight);
-  term.setOption('fontWeightBold', convertBoldText(options.boldText, options.fontWeight));
+  term.setOption('fontWeightBold', convertBoldText(options.fontWeight));
   term.setOption('scrollback', options.scrollBackLimit);
   term.setOption('wordSeparator', DecodeSpecialChars(options.wordSeparator));
   setScrollBarStyle(options.scrollBarStyle);
@@ -260,6 +260,6 @@ document.oncontextmenu = function () {
   return false;
 };
 
-function convertBoldText(boldText: boolean, fontWeight: FontWeight) : FontWeight {
-  return !boldText ? fontWeight : parseInt(fontWeight) > 600 ? '900' : 'bold';
+function convertBoldText(fontWeight: FontWeight) : FontWeight {
+  return parseInt(fontWeight) > 600 ? '900' : 'bold';
 }
