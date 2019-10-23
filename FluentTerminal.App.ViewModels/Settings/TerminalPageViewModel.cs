@@ -82,6 +82,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public int FontWeight
+        {
+            get => _terminalOptions.FontWeight;
+            set
+            {
+                if (_terminalOptions.FontWeight != value)
+                {
+                    _terminalOptions.FontWeight = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public double BackgroundOpacity
         {
             get => _terminalOptions.BackgroundOpacity;
@@ -238,6 +252,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ScrollBarStyle = defaults.ScrollBarStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
+                FontWeight = defaults.FontWeight;
                 BoldText = defaults.BoldText;
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();

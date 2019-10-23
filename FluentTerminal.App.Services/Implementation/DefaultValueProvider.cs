@@ -432,6 +432,7 @@ namespace FluentTerminal.App.Services.Implementation
                 ScrollBarStyle = ScrollBarStyle.Hidden,
                 FontFamily = "Consolas",
                 FontSize = 13,
+                FontWeight = 400,
                 BoldText = false,
                 BackgroundOpacity = 0.8,
                 Padding = 12,
