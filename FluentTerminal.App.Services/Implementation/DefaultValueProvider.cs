@@ -40,7 +40,8 @@ namespace FluentTerminal.App.Services.Implementation
                 MuteTerminalBeeps = true,
                 EnableLogging = false,
                 PrintableOutputOnly = true,
-                LogDirectoryPath = logDirectoryPath
+                LogDirectoryPath = logDirectoryPath,
+                UseConPty = true
             };
         }
 
