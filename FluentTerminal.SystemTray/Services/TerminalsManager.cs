@@ -153,7 +153,14 @@ namespace FluentTerminal.SystemTray.Services
         {
             if (_terminals.TryGetValue(id, out TerminalSessionInfo sessionInfo))
             {
-                sessionInfo.Session.Write(data);
+                try
+                {
+                    sessionInfo.Session.Write(data);
+                }
+                catch (IOException e)
+                {
+                    Logger.Instance.Error($"TerminalsManager.Write: sending user input to terminal with id '{id}' failed with exception: {e}");
+                }
             }
         }
 
