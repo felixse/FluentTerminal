@@ -23,5 +23,6 @@ namespace FluentTerminal.Models
         public bool EnableLogging { get; set; }
         public bool PrintableOutputOnly { get; set; }
         public string LogDirectoryPath { get; set; }
+        public bool UseConPty { get; set; }
     }
 }

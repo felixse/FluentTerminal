@@ -123,7 +123,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public SshConnectViewModel(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, IFileSystemService fileSystemService,
             SshProfile original = null) : base(settingsService, applicationView, true,
-            original ?? new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault })
+            original ?? new SshProfile { UseMosh = settingsService.GetApplicationSettings().UseMoshByDefault,
+                RequestConPty = settingsService.GetApplicationSettings().UseConPty
+            })
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _fileSystemService = fileSystemService;

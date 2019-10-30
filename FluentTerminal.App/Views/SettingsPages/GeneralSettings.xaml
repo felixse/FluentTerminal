@@ -202,6 +202,12 @@
                             IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"/>
                     </StackPanel>
                 </StackPanel>
+
+                <ToggleSwitch
+                    x:Uid="UseConPty"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
+                    IsOn="{x:Bind ViewModel.UseConPty, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

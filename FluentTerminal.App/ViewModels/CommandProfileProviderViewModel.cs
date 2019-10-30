@@ -70,7 +70,8 @@ namespace FluentTerminal.App.ViewModels
             IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
             applicationView, false,
             original ?? new ShellProfile
-                {UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)})
+                {UseConPty = settingsService.GetApplicationSettings().UseConPty &&
+                    ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)})
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _historyContainer = historyContainer;
