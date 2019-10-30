@@ -1,4 +1,4 @@
-import { Terminal, ITerminalOptions, ILinkMatcherOptions } from 'xterm';
+import { Terminal, ITerminalOptions, ILinkMatcherOptions, FontWeight } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
@@ -62,8 +62,8 @@ window.createTerminal = (options, theme, keyBindings) => {
   var terminalOptions: ITerminalOptions = {
     fontFamily: options.fontFamily,
     fontSize: options.fontSize,
-    fontWeight: options.boldText ? 'bold' : 'normal',
-    fontWeightBold: options.boldText ? '400' : 'bold',
+    fontWeight: options.fontWeight,
+    fontWeightBold: convertBoldText(options.fontWeight),
     cursorStyle: options.cursorStyle,
     cursorBlink: options.cursorBlink,
     bellStyle: options.bellStyle,
@@ -222,8 +222,8 @@ window.changeOptions = (options) => {
   term.setOption('cursorStyle', options.cursorStyle);
   term.setOption('fontFamily', options.fontFamily);
   term.setOption('fontSize', options.fontSize);
-  term.setOption('fontWeight', options.boldText ? 'bold' : 'normal');
-  term.setOption('fontWeightBold', options.boldText ? 'bolder' : 'bold');
+  term.setOption('fontWeight', options.fontWeight);
+  term.setOption('fontWeightBold', convertBoldText(options.fontWeight));
   term.setOption('scrollback', options.scrollBackLimit);
   term.setOption('wordSeparator', DecodeSpecialChars(options.wordSeparator));
   setScrollBarStyle(options.scrollBarStyle);
@@ -259,3 +259,7 @@ window.findPrevious = (content: string) => {
 document.oncontextmenu = function () {
   return false;
 };
+
+function convertBoldText(fontWeight: FontWeight) : FontWeight {
+  return parseInt(fontWeight) > 600 ? '900' : 'bold';
+}

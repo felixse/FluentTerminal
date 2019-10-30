@@ -66,11 +66,16 @@
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
 
-                <ToggleSwitch
-                    x:Uid="BoldText"
+                <Slider
+                    Width="200"
                     Margin="{StaticResource ItemMargin}"
-                    Header="Bold text"
-                    IsOn="{x:Bind ViewModel.BoldText, Mode=TwoWay}" />
+                    HorizontalAlignment="Left"
+                    x:Uid="FontWeight"
+                    Header="Font Weight"
+                    Maximum="900"
+                    Minimum="100"
+                    StepFrequency="100"
+                    Value="{x:Bind ViewModel.FontWeight, Mode=TwoWay}" />
 
                 <Slider
                     Width="200"

@@ -82,6 +82,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public int FontWeight
+        {
+            get => _terminalOptions.FontWeight;
+            set
+            {
+                if (_terminalOptions.FontWeight != value)
+                {
+                    _terminalOptions.FontWeight = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public double BackgroundOpacity
         {
             get => _terminalOptions.BackgroundOpacity;
@@ -144,20 +158,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (_terminalOptions.WordSeparator != value)
                 {
                     _terminalOptions.WordSeparator = value;
-                    _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public bool BoldText
-        {
-            get => _terminalOptions.BoldText;
-            set
-            {
-                if (_terminalOptions.BoldText != value)
-                {
-                    _terminalOptions.BoldText = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
                     RaisePropertyChanged();
                 }
@@ -238,7 +238,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 ScrollBarStyle = defaults.ScrollBarStyle;
                 FontFamily = defaults.FontFamily;
                 FontSize = defaults.FontSize;
-                BoldText = defaults.BoldText;
+                FontWeight = defaults.FontWeight;
                 BackgroundOpacity = defaults.BackgroundOpacity;
                 ScrollBackLimit = defaults.ScrollBackLimit.ToString();
                 ShowTextCopied = defaults.ShowTextCopied;
