@@ -23,6 +23,7 @@ DownloadLanguageFile("zh-CN");
 DownloadLanguageFile("de");
 DownloadLanguageFile("es");
 DownloadLanguageFile("fr");
+DownloadLanguageFile("he");
 DownloadLanguageFile("hi");
 DownloadLanguageFile("pt-BR");
 DownloadLanguageFile("ru");
