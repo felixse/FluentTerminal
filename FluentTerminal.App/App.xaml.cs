@@ -78,8 +78,11 @@ namespace FluentTerminal.App
                 SshProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.SshProfilesContainerName, ApplicationDataCreateDisposition.Always)), 
                 HistoryContainer = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ExecutedCommandsContainerName, ApplicationDataCreateDisposition.Always))
             };
+
             var builder = new ContainerBuilder();
+            builder.RegisterInstance(applicationDataContainers);
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
+            builder.RegisterType<CommandHistoryService>().As<ICommandHistoryService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();
             builder.RegisterType<TrayProcessCommunicationService>().As<ITrayProcessCommunicationService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
@@ -108,7 +111,6 @@ namespace FluentTerminal.App
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterType<ShellProfileMigrationService>().As<IShellProfileMigrationService>().SingleInstance();
-            builder.RegisterInstance(applicationDataContainers);
 
             _container = builder.Build();
 
@@ -292,7 +294,7 @@ namespace FluentTerminal.App
                     {
                         vm = CommandProfileProviderViewModel.ParseUri(protocolActivated.Uri, _settingsService,
                             applicationView, _trayProcessCommunicationService,
-                            _container.Resolve<ApplicationDataContainers>().HistoryContainer);
+                            _container.Resolve<ICommandHistoryService>());
                     }
                     catch (Exception ex)
                     {

@@ -264,7 +264,8 @@ namespace FluentTerminal.App.Services.Implementation
 
         public IEnumerable<ShellProfile> GetShellProfiles()
         {
-            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string)x)).ToList();
+            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string) x))
+                .ToList();
         }
 
         public IEnumerable<SshProfile> GetSshProfiles()
