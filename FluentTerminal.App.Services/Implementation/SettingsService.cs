@@ -23,10 +23,13 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _shellProfiles;
         private readonly IApplicationDataContainer _sshProfiles;
         private readonly IApplicationDataContainer _themes;
+        private readonly IMoshBackwardCompatibility _moshBackwardCompatibility;
 
-        public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
+        public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers,
+            IMoshBackwardCompatibility moshBackwardCompatibility)
         {
             _defaultValueProvider = defaultValueProvider;
+            _moshBackwardCompatibility = moshBackwardCompatibility;
             _localSettings = containers.LocalSettings;
             _roamingSettings = containers.RoamingSettings;
 
@@ -264,8 +267,12 @@ namespace FluentTerminal.App.Services.Implementation
 
         public IEnumerable<ShellProfile> GetShellProfiles()
         {
-            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string) x))
+            var profiles = _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string) x))
                 .ToList();
+
+            FixMoshProfiles(profiles);
+
+            return profiles;
         }
 
         public IEnumerable<SshProfile> GetSshProfiles()
@@ -274,10 +281,39 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 return new List<SshProfile>();
             }
-            else
+
+            var profiles = _sshProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<SshProfile>((string) x))
+                .ToList();
+
+            FixMoshProfiles(profiles);
+
+            return profiles;
+        }
+
+        private void FixMoshProfiles<T>(List<T> profiles) where T : ShellProfile
+        {
+            for (int i = 0; i < profiles.Count; i++)
             {
-                return _sshProfiles.GetAll()
-                   .Select(x => JsonConvert.DeserializeObject<SshProfile>((string)x)).ToList();
+                var profile = profiles[i];
+
+                var newProfile = _moshBackwardCompatibility.FixProfile(profile);
+
+                if (ReferenceEquals(profile, newProfile)) continue;
+
+                profiles.Insert(i, newProfile);
+
+                profiles.RemoveAt(i + 1);
+
+                if (newProfile is SshProfile newSshProfile)
+                {
+                    DeleteSshProfile(profile.Id);
+                    SaveSshProfile(newSshProfile);
+                }
+                else
+                {
+                    DeleteShellProfile(profile.Id);
+                    SaveShellProfile(newProfile);
+                }
             }
         }
 

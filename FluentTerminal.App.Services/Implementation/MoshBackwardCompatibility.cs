@@ -13,7 +13,11 @@ namespace FluentTerminal.App.Services.Implementation
         private static readonly Regex TargetRx =
             new Regex(@"(^|\s+)(?<user>[^\s@;]+)@(?<host>[^\s@:]+)(:(?<port>\d{1,5}))?\s+", RegexOptions.Compiled);
 
-        public ShellProfile FixProfile(ShellProfile profile)
+        private bool IsMoshProfile(ShellProfile profile) =>
+            Constants.MoshCommandName.Equals(profile.Location, StringComparison.OrdinalIgnoreCase) ||
+            MoshCommandExe.Equals(profile.Location, StringComparison.OrdinalIgnoreCase);
+
+        public T FixProfile<T>(T profile) where T : ShellProfile
         {
             if (string.IsNullOrWhiteSpace(profile.Arguments) || !IsMoshProfile(profile)) return profile;
 
@@ -31,7 +35,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             arguments = arguments.Substring(0, arguments.Length - moshPortsMatch.Groups["ports"].Length).Trim();
 
-            var newProfile = profile.Clone();
+            var newProfile = (T) profile.Clone();
 
             var sshArguments = targetMatch.Index > 0 ? arguments.Substring(0, targetMatch.Index).Trim() : string.Empty;
 
@@ -52,7 +56,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (!string.IsNullOrEmpty(sshArguments))
             {
-                arguments += $"--ssh=\"{sshArguments}\"";
+                arguments += $"--ssh=\"ssh {sshArguments}\"";
             }
 
             arguments += $" {targetMatch.Groups["user"]}@{targetMatch.Groups["host"]}";
@@ -61,9 +65,5 @@ namespace FluentTerminal.App.Services.Implementation
 
             return newProfile;
         }
-
-        private bool IsMoshProfile(ShellProfile profile) =>
-            Constants.MoshCommandName.Equals(profile.Location, StringComparison.OrdinalIgnoreCase) ||
-            MoshCommandExe.Equals(profile.Location, StringComparison.OrdinalIgnoreCase);
     }
 }

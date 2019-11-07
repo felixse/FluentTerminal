@@ -6,6 +6,6 @@ namespace FluentTerminal.App.Services
     //TODO: This interface, as well as its implementation probably should be removed down the road.
     public interface IMoshBackwardCompatibility
     {
-        ShellProfile FixProfile(ShellProfile profile);
+        T FixProfile<T>(T profile) where T : ShellProfile;
     }
 }
