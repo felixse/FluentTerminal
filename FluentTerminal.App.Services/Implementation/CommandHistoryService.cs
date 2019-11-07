@@ -10,13 +10,10 @@ namespace FluentTerminal.App.Services.Implementation
     public class CommandHistoryService : ICommandHistoryService
     {
         private readonly IApplicationDataContainer _historyContainer;
-        private readonly IMoshBackwardCompatibility _moshBackwardCompatibility;
 
-        public CommandHistoryService(ApplicationDataContainers containers,
-            IMoshBackwardCompatibility moshBackwardCompatibility)
+        public CommandHistoryService(ApplicationDataContainers containers)
         {
             _historyContainer = containers.HistoryContainer;
-            _moshBackwardCompatibility = moshBackwardCompatibility;
         }
 
         public List<ExecutedCommand> GetAll()
@@ -29,7 +26,7 @@ namespace FluentTerminal.App.Services.Implementation
 
                 if (command.ShellProfile == null) continue;
 
-                var newProfile = _moshBackwardCompatibility.FixProfile(command.ShellProfile);
+                var newProfile = MoshBackwardCompatibility.FixProfile(command.ShellProfile);
 
                 if (ReferenceEquals(command.ShellProfile, newProfile)) continue;
 
@@ -81,7 +78,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (!found || executedCommand?.ShellProfile == null) return found;
 
-            var newProfile = _moshBackwardCompatibility.FixProfile(executedCommand.ShellProfile);
+            var newProfile = MoshBackwardCompatibility.FixProfile(executedCommand.ShellProfile);
 
             if (ReferenceEquals(executedCommand.ShellProfile, newProfile)) return true;
 

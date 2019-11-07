@@ -23,13 +23,10 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly IApplicationDataContainer _shellProfiles;
         private readonly IApplicationDataContainer _sshProfiles;
         private readonly IApplicationDataContainer _themes;
-        private readonly IMoshBackwardCompatibility _moshBackwardCompatibility;
 
-        public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers,
-            IMoshBackwardCompatibility moshBackwardCompatibility)
+        public SettingsService(IDefaultValueProvider defaultValueProvider, ApplicationDataContainers containers)
         {
             _defaultValueProvider = defaultValueProvider;
-            _moshBackwardCompatibility = moshBackwardCompatibility;
             _localSettings = containers.LocalSettings;
             _roamingSettings = containers.RoamingSettings;
 
@@ -296,7 +293,7 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 var profile = profiles[i];
 
-                var newProfile = _moshBackwardCompatibility.FixProfile(profile);
+                var newProfile = MoshBackwardCompatibility.FixProfile(profile);
 
                 if (ReferenceEquals(profile, newProfile)) continue;
 

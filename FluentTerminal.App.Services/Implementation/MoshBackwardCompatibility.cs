@@ -4,7 +4,7 @@ using FluentTerminal.Models;
 
 namespace FluentTerminal.App.Services.Implementation
 {
-    public class MoshBackwardCompatibility : IMoshBackwardCompatibility
+    internal static class MoshBackwardCompatibility
     {
         private static readonly string MoshCommandExe = $"{Constants.MoshCommandName}.exe";
 
@@ -13,11 +13,11 @@ namespace FluentTerminal.App.Services.Implementation
         private static readonly Regex TargetRx =
             new Regex(@"(^|\s+)(?<user>[^\s@;]+)@(?<host>[^\s@:]+)(:(?<port>\d{1,5}))?\s+", RegexOptions.Compiled);
 
-        private bool IsMoshProfile(ShellProfile profile) =>
+        private static bool IsMoshProfile(ShellProfile profile) =>
             Constants.MoshCommandName.Equals(profile.Location, StringComparison.OrdinalIgnoreCase) ||
             MoshCommandExe.Equals(profile.Location, StringComparison.OrdinalIgnoreCase);
 
-        public T FixProfile<T>(T profile) where T : ShellProfile
+        internal static T FixProfile<T>(T profile) where T : ShellProfile
         {
             if (string.IsNullOrWhiteSpace(profile.Arguments) || !IsMoshProfile(profile)) return profile;
 
@@ -35,7 +35,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             arguments = arguments.Substring(0, arguments.Length - moshPortsMatch.Groups["ports"].Length).Trim();
 
-            var newProfile = (T) profile.Clone();
+            var newProfile = profile.Clone();
 
             var sshArguments = targetMatch.Index > 0 ? arguments.Substring(0, targetMatch.Index).Trim() : string.Empty;
 
@@ -63,7 +63,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             newProfile.Arguments = arguments;
 
-            return newProfile;
+            return (T) newProfile;
         }
     }
 }

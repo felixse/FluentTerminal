@@ -41,8 +41,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
 
-            new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             defaultValueProvider.Verify(x => x.GetPreInstalledThemes(), Times.Once);
             foreach (var theme in themes)
@@ -67,8 +66,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
 
-            new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             defaultValueProvider.Verify(x => x.GetPreinstalledShellProfiles(), Times.Once);
             foreach (var shellProfile in shellProfiles)
@@ -92,8 +90,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetCurrentThemeId();
 
@@ -118,8 +115,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetCurrentThemeId();
 
@@ -142,8 +138,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveCurrentThemeId(currentThemeId);
 
@@ -165,8 +160,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var currentThemeChangedEventInvoked = false;
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<CurrentThemeChangedMessage>(this,
                 message => currentThemeChangedEventInvoked = true);
 
@@ -189,8 +183,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveTheme(theme);
 
@@ -215,8 +208,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = roamingSettings.Object,
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<CurrentThemeChangedMessage>(this,
                 message => currentThemeChangedEventInvoked = true);
 
@@ -239,8 +231,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.DeleteTheme(themeId);
 
@@ -262,8 +253,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetThemes();
 
@@ -286,8 +276,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetTheme(theme.Id);
 
@@ -310,8 +299,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetTheme(themeId);
 
@@ -334,8 +322,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetTerminalOptions();
 
@@ -357,8 +344,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveTerminalOptions(terminalOptions);
 
@@ -380,8 +366,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<TerminalOptionsChangedMessage>(this,
                 message => terminalOptionsChangedEventInvoked = true);
 
@@ -405,8 +390,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetApplicationSettings();
 
@@ -428,8 +412,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveApplicationSettings(applicationSettings);
 
@@ -451,8 +434,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<ApplicationSettingsChangedMessage>(this,
                 a => applicationSettingsChangedEventInvoked = true);
 
@@ -479,8 +461,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetCommandKeyBindings();
 
@@ -504,8 +485,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetCommandKeyBindings();
 
@@ -530,8 +510,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
@@ -554,8 +533,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<KeyBindingsChangedMessage>(this,
                 message => keyBindingsChangedEventInvoked = true);
 
@@ -577,8 +555,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             settingsService.ResetKeyBindings();
 
@@ -603,8 +580,7 @@ namespace FluentTerminal.App.Services.Test
                 Themes = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<KeyBindingsChangedMessage>(this,
                 message => keyBindingsChangedEventInvoked = true);
 
@@ -628,8 +604,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetDefaultShellProfileId();
 
@@ -654,8 +629,7 @@ namespace FluentTerminal.App.Services.Test
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetDefaultShellProfileId();
 
@@ -679,8 +653,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             var result = settingsService.GetShellProfiles();
 
@@ -702,8 +675,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.SaveShellProfile(shellProfile);
 
@@ -724,8 +696,7 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
-            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
             settingsService.DeleteShellProfile(shellProfileId);
 
@@ -752,8 +723,7 @@ namespace FluentTerminal.App.Services.Test
             shellProfilesContainer.Setup(x => x.ReadValueFromJson(currentShellProfileId.ToString(), default(ShellProfile))).Returns(value: null);
             shellProfilesContainer.Setup(x => x.ReadValueFromJson(defaultShellProfile.Id.ToString(), default(ShellProfile))).Returns(defaultShellProfile);
             localSettings.Setup(x => x.TryGetValue(SettingsService.DefaultShellProfileKey, out currentShellProfileId)).Returns(true);
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetDefaultShellProfile();
 
@@ -781,8 +751,7 @@ namespace FluentTerminal.App.Services.Test
             themesContainer.Setup(x => x.ReadValueFromJson(currentThemeId.ToString(), default(TerminalTheme))).Returns(value: null);
             themesContainer.Setup(x => x.ReadValueFromJson(defaultTheme.Id.ToString(), default(TerminalTheme))).Returns(defaultTheme);
             roamingSettings.Setup(x => x.TryGetValue(SettingsService.CurrentThemeKey, out currentThemeId)).Returns(true);
-            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers,
-                Mock.Of<IMoshBackwardCompatibility>());
+            var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
             var result = settingsService.GetCurrentTheme();
 
