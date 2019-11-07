@@ -81,6 +81,7 @@ namespace FluentTerminal.App
 
             var builder = new ContainerBuilder();
             builder.RegisterInstance(applicationDataContainers);
+            builder.RegisterType<MoshBackwardCompatibility>().As<IMoshBackwardCompatibility>().SingleInstance();
             builder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
             builder.RegisterType<CommandHistoryService>().As<ICommandHistoryService>().SingleInstance();
             builder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>().SingleInstance();

@@ -10,11 +10,53 @@ namespace FluentTerminal.App.Services.Implementation
     public class CommandHistoryService : ICommandHistoryService
     {
         private readonly IApplicationDataContainer _historyContainer;
+        private readonly IMoshBackwardCompatibility _moshBackwardCompatibility;
 
-        public CommandHistoryService(ApplicationDataContainers containers) =>
+        public CommandHistoryService(ApplicationDataContainers containers,
+            IMoshBackwardCompatibility moshBackwardCompatibility)
+        {
             _historyContainer = containers.HistoryContainer;
+            _moshBackwardCompatibility = moshBackwardCompatibility;
+        }
 
         public List<ExecutedCommand> GetAll()
+        {
+            var commands = GetAllPrivate();
+
+            for (var i = 0; i < commands.Count; i++)
+            {
+                var command = commands[i];
+
+                if (command.ShellProfile == null) continue;
+
+                var newProfile = _moshBackwardCompatibility.FixProfile(command.ShellProfile);
+
+                if (ReferenceEquals(command.ShellProfile, newProfile)) continue;
+
+                if (!command.IsProfile)
+                {
+                    newProfile.Name = $"{newProfile.Location} {newProfile.Arguments}".Trim();
+                }
+
+                var newCommand = new ExecutedCommand
+                {
+                    Value = newProfile.Name, IsProfile = command.IsProfile, LastExecution = command.LastExecution,
+                    ExecutionCount = command.ExecutionCount, ShellProfile = newProfile
+                };
+
+                commands.Insert(i, newCommand);
+
+                commands.RemoveAt(i + 1);
+
+                Delete(command);
+
+                Save(newCommand);
+            }
+
+            return commands;
+        }
+
+        private List<ExecutedCommand> GetAllPrivate()
         {
             try
             {
@@ -34,6 +76,39 @@ namespace FluentTerminal.App.Services.Implementation
         public void Clear() => _historyContainer.Clear();
 
         public bool TryGetCommand(string value, out ExecutedCommand executedCommand)
+        {
+            var found = TryGetCommandPrivate(value, out executedCommand);
+
+            if (!found || executedCommand?.ShellProfile == null) return found;
+
+            var newProfile = _moshBackwardCompatibility.FixProfile(executedCommand.ShellProfile);
+
+            if (ReferenceEquals(executedCommand.ShellProfile, newProfile)) return true;
+
+            if (!executedCommand.IsProfile)
+            {
+                newProfile.Name = $"{newProfile.Location} {newProfile.Arguments}".Trim();
+            }
+
+            var newCommand = new ExecutedCommand
+            {
+                Value = newProfile.Name,
+                IsProfile = executedCommand.IsProfile,
+                LastExecution = executedCommand.LastExecution,
+                ExecutionCount = executedCommand.ExecutionCount,
+                ShellProfile = newProfile
+            };
+
+            Delete(executedCommand);
+
+            Save(newCommand);
+
+            executedCommand = newCommand;
+
+            return true;
+        }
+
+        private bool TryGetCommandPrivate(string value, out ExecutedCommand executedCommand)
         {
             var key = GetHash(value);
 
