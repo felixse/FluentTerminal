@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,7 +11,6 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
-using Newtonsoft.Json;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -29,7 +26,7 @@ namespace FluentTerminal.App.ViewModels
         #region Fields
 
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly IApplicationDataContainer _historyContainer;
+        private readonly ICommandHistoryService _historyService;
 
         private List<CommandItemViewModel> _allCommands;
 
@@ -66,15 +63,16 @@ namespace FluentTerminal.App.ViewModels
         #region Constructor
 
         public CommandProfileProviderViewModel(ISettingsService settingsService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService,
-            IApplicationDataContainer historyContainer, ShellProfile original = null) : base(settingsService,
-            applicationView, false,
+            ITrayProcessCommunicationService trayProcessCommunicationService, ICommandHistoryService historyService,
+            ShellProfile original = null) : base(settingsService, applicationView, false,
             original ?? new ShellProfile
-                {UseConPty = settingsService.GetApplicationSettings().UseConPty &&
-                    ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)})
+            {
+                UseConPty = settingsService.GetApplicationSettings().UseConPty &&
+                            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
+            })
         {
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            _historyContainer = historyContainer;
+            _historyService = historyService;
 
             FillCommandHistory();
 
@@ -253,57 +251,9 @@ namespace FluentTerminal.App.ViewModels
 
         private List<ShellProfile> _allProfiles;
 
-        private static string GetHash(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
-            value = value.ToLowerInvariant();
-
-            byte[] hashed;
-
-            using (var md5 = MD5.Create())
-            {
-                hashed = md5.ComputeHash(Encoding.UTF32.GetBytes(value));
-            }
-
-            var builder = new StringBuilder();
-
-            foreach (var b in hashed)
-            {
-                builder.Append(b.ToString("X2"));
-            }
-
-            return $"hist_{builder}_{value.Length:##########}";
-        }
-
         private void FillCommandHistory()
         {
-            List<ExecutedCommand> savedCommands = null;
-
-            bool validHistory;
-
-            try
-            {
-                savedCommands = _historyContainer.GetAll()
-                    .Select(c => JsonConvert.DeserializeObject<ExecutedCommand>((string) c)).ToList();
-
-                validHistory = savedCommands.All(c => !string.IsNullOrEmpty(c.Value));
-            }
-            catch
-            {
-                validHistory = false;
-            }
-
-            if (!validHistory)
-            {
-                // Invalid history - saved by previous dev version, so delete it
-                _historyContainer.Clear();
-
-                savedCommands = new List<ExecutedCommand>();
-            }
+            var savedCommands = _historyService.GetAll();
 
             _allProfiles = SettingsService.GetShellProfiles().Union(SettingsService.GetSshProfiles())
                 .Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
@@ -321,7 +271,7 @@ namespace FluentTerminal.App.ViewModels
 
                     if (profile == null)
                     {
-                        _historyContainer.Delete(GetHash(command.Value));
+                        _historyService.Delete(command);
 
                         savedCommands.RemoveAt(counter);
 
@@ -345,7 +295,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     savedCommands.Remove(remove);
 
-                    _historyContainer.Delete(GetHash(remove.Value));
+                    _historyService.Delete(remove);
                 }
             }
 
@@ -474,29 +424,10 @@ namespace FluentTerminal.App.ViewModels
 
         public void SaveToHistory()
         {
-            var key = GetHash(Model.Name);
-
             var isProfile =
                 _allProfiles.Any(p => string.Equals(p.Name, Model.Name, StringComparison.OrdinalIgnoreCase));
 
-            ExecutedCommand command;
-
-            if (_historyContainer.TryGetValue(key, out var cmd))
-            {
-                if (cmd is string cmdStr)
-                {
-                    command = JsonConvert.DeserializeObject<ExecutedCommand>(cmdStr);
-                }
-                else if (cmd is ExecutedCommand executedCommand)
-                {
-                    command = executedCommand;
-                }
-                else
-                {
-                    throw new Exception("Unexpected history type: " + cmd.GetType());
-                }
-            }
-            else
+            if (!_historyService.TryGetCommand(Model.Name, out ExecutedCommand command))
             {
                 command = new ExecutedCommand {ExecutionCount = 0};
             }
@@ -507,12 +438,12 @@ namespace FluentTerminal.App.ViewModels
             command.ShellProfile = isProfile ? null : Model;
             command.IsProfile = isProfile;
 
-            _historyContainer.WriteValueAsJson(key, command);
+            _historyService.Save(command);
         }
 
         public void RemoveCommand(ExecutedCommand command)
         {
-            _historyContainer.Delete(GetHash(command.Value));
+            _historyService.Delete(command);
 
             CommandItemViewModel toRemove = _allCommands.FirstOrDefault(c =>
                 string.Equals(c.ExecutedCommand.Value, command.Value, StringComparison.Ordinal));
@@ -521,8 +452,6 @@ namespace FluentTerminal.App.ViewModels
             {
                 _allCommands.Remove(toRemove);
                 Commands.Remove(toRemove);
-
-                _historyContainer.Delete(GetHash(toRemove.ExecutedCommand.Value));
             }
         }
 
@@ -543,10 +472,10 @@ namespace FluentTerminal.App.ViewModels
 
         public static CommandProfileProviderViewModel ParseUri(Uri uri, ISettingsService settingsService,
             IApplicationView applicationView, ITrayProcessCommunicationService trayProcessCommunicationService,
-            IApplicationDataContainer historyContainer)
+            ICommandHistoryService historyService)
         {
             var vm = new CommandProfileProviderViewModel(settingsService, applicationView,
-                trayProcessCommunicationService, historyContainer);
+                trayProcessCommunicationService, historyService);
 
             // ReSharper disable once ConstantConditionalAccessQualifier
             string queryString = uri.Query?.Trim();

@@ -1,7 +1,6 @@
 ﻿using System;
-using FluentTerminal.Models;
 
-namespace FluentTerminal.App.ViewModels.Profiles
+namespace FluentTerminal.Models
 {
     public class ExecutedCommand
     {

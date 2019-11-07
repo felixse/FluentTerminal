@@ -27,7 +27,7 @@ namespace FluentTerminal.App.Dialogs
         private readonly ISettingsService _settingsService;
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
-        private readonly IApplicationDataContainer _historyContainer;
+        private readonly ICommandHistoryService _historyService;
 
         private ExecutedCommand _lastChosenCommand;
 
@@ -36,12 +36,12 @@ namespace FluentTerminal.App.Dialogs
         public IAsyncCommand SaveLinkCommand { get; }
 
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
-            ITrayProcessCommunicationService trayProcessCommunicationService, ApplicationDataContainers containers)
+            ITrayProcessCommunicationService trayProcessCommunicationService, ICommandHistoryService historyService)
         {
             _settingsService = settingsService;
             _applicationView = applicationView;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            _historyContainer = containers.HistoryContainer;
+            _historyService = historyService;
 
             InitializeComponent();
 
@@ -130,10 +130,9 @@ namespace FluentTerminal.App.Dialogs
 
             if (args.ChosenSuggestion is CommandItemViewModel commandItem)
             {
-                var executedCommand = ViewModel.Commands
-                    .FirstOrDefault(c =>
-                        c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value.ToString(),
-                            StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
+                var executedCommand = ViewModel.Commands.FirstOrDefault(c =>
+                    c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value,
+                        StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
 
                 if (executedCommand != null)
                 {
@@ -209,7 +208,7 @@ namespace FluentTerminal.App.Dialogs
         public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
         {
             ViewModel = new CommandProfileProviderViewModel(_settingsService, _applicationView,
-                _trayProcessCommunicationService, _historyContainer, input);
+                _trayProcessCommunicationService, _historyService, input);
 
             SetupFocus();
 

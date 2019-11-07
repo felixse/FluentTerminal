@@ -177,20 +177,28 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private string GetArgumentsString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sshArguments = GetSshArguments();
 
-            if (_sshPort != SshProfile.DefaultSshPort)
-                sb.Append($"-p {_sshPort:#####} ");
+            if (!_useMosh)
+            {
+                return string.IsNullOrWhiteSpace(sshArguments) ? $"{_username}@{_host}" : $"{sshArguments} {_username}@{_host}";
+            }
 
-            if (!string.IsNullOrEmpty(_identityFile))
-                sb.Append($"-i \"{_identityFile}\" ");
+            return string.IsNullOrEmpty(sshArguments)
+                ? $"-p {_moshPortFrom}:{_moshPortTo} {_username}@{_host}"
+                : $"-p {_moshPortFrom}:{_moshPortTo} --ssh=\"ssh {sshArguments}\" {_username}@{_host}";
+        }
 
-            sb.Append($"{_username}@{_host}");
+        private string GetSshArguments()
+        {
+            if (string.IsNullOrEmpty(_identityFile))
+            {
+                return _sshPort == SshProfile.DefaultSshPort ? null : $"-p {_sshPort:#####}";
+            }
 
-            if (_useMosh)
-                sb.Append($" {_moshPortFrom}:{_moshPortTo}");
-
-            return sb.ToString();
+            return _sshPort == SshProfile.DefaultSshPort
+                ? $"-i '{_identityFile}'"
+                : $"-p {_sshPort:#####} -i '{_identityFile}'";
         }
 
         protected override void LoadFromProfile(ShellProfile profile)
