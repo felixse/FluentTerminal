@@ -5,7 +5,7 @@
  1. Through GUI, by turning on ***Use mosh*** option in *SSH Connection* dialog;
  2. As a custom command, in *Quick Launch* dialog.
 
-The first way, through GUI is very simple and self-descriptive, and it will not be explained here. Using `mosh` as a custom command is more complicated, but also offers much more options. The simplest `mosh` command you can enter is:
+The first way, through GUI is very simple and self-descriptive, and it will not be explained here. Using `mosh` in *Quick Launch* is more complicated, but also offers more control. The simplest `mosh` command you can enter is:
 
     mosh user@host
 
