@@ -9,7 +9,7 @@ The first way, through GUI is very simple and self-descriptive, and it will not 
 
     mosh user@host
 
-This will initiate a `mosh` session with default options (i.e. port range will default to `60000:61000`, etc.).
+This will initiate a `mosh` session with default options (i.e. port range will default to `60000:61000`).
 
 `mosh` additionally supports many more command-line arguments. In fact, it's almost completely compliant to [mosh(1) - Linux man page](https://linux.die.net/man/1/mosh). `mosh` is defined there as:
 
