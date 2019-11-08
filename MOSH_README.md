@@ -1,8 +1,8 @@
-# Using `mosh` with Fluent Terminal
+# Using `mosh` with FluentTerminal
 
-`mosh` can be used in Fluent Terminal in two ways:
+`mosh` can be used in FluentTerminal in two ways:
 
- 1. Through GUI, by turning ***Use mosh*** option in *SSH Connection* dialog;
+ 1. Through GUI, by turning on ***Use mosh*** option in *SSH Connection* dialog;
  2. As a custom command, in *Quick Launch* dialog.
 
 The first way, through GUI is very simple and self-descriptive, and it will not be explained here. Using `mosh` as a custom command is more complicated, but also offers much more options. The simplest `mosh` command you can enter is:
@@ -15,7 +15,7 @@ This will initiate a `mosh` session with default options (i.e. port range will d
 
 `mosh [options] [--] [user@]host [command...]`
 
-`mosh` embedded in Fluent Terminal only lacks support for the last part (`[command...]`). You can find detailed explanation at the man page mentioned above. Also you can execute custom command `mosh --help`, and you'll get the following output:
+`mosh` embedded in FluentTerminal only lacks support for the last part (`[command...]`). You can find detailed explanation at the man page mentioned above. Also you can execute custom command `mosh --help`, and you'll get the following output:
 
     Usage: mosh [options] [user@]host
     
@@ -54,11 +54,3 @@ This will initiate a `mosh` session with default options (i.e. port range will d
       254 - Invalid command line arguments
       255 - Initial SSH of Mosh connection setup failed
       All other values - Exit code returned by remote shell
-
-  
-As you can see, many things are configurable. But for some options you need to know more, for example:
-
- - To effectively  use `--ssh=` option, you need to know more about OpenSSH command-line syntax ([ssh(1)](https://man.openbsd.org/ssh));
- - To use `--server=` option you need to know more about `mosh-server` ([mosh-server(1) - Linux man page](https://linux.die.net/man/1/mosh-server))
- - etc.
-
