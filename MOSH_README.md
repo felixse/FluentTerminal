@@ -2,8 +2,8 @@
 
 `mosh` can be used in FluentTerminal in two ways:
 
- 1. Through GUI, by turning on ***Use mosh*** option in *SSH Connection* dialog;
- 2. As a custom command, in *Quick Launch* dialog.
+ 1. Through GUI, by turning on ***Use mosh*** option in *SSH Connection* dialog ('Ctrl+Shift+Y' and 'Ctrl+Alt+Y');
+ 2. As a custom command, in *Quick Launch* dialog ('Ctrl+Shift+Q' and 'Ctrl+Alt+Q').
 
 The first way, through GUI is very simple and self-descriptive, and it will not be explained here. Using `mosh` in *Quick Launch* is more complicated, but also offers more control. The simplest `mosh` command you can enter is:
 
