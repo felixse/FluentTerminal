@@ -491,6 +491,7 @@ namespace FluentTerminal.App
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
                 await viewModel.AddLocalTabAsync();
+                await ShowAsStandaloneAsync(viewModel, args.ViewSwitcher);
             }
 
             _isLaunching = false;
