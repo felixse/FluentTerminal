@@ -78,6 +78,9 @@ namespace FluentTerminal.SystemTray
                     Logger.Instance.Initialize(logFile, config);
 
                     AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+                    TaskScheduler.UnobservedTaskException += (sender, e) =>
+                        Logger.Instance.Error(e.Exception, "Unobserved Task Exception");
                 });
 
                 var appCommunicationService = container.Resolve<AppCommunicationService>();

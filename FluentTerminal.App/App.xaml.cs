@@ -68,6 +68,9 @@ namespace FluentTerminal.App
 
             UnhandledException += OnUnhandledException;
 
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+                Logger.Instance.Error(e.Exception, "Unobserved Task Exception");
+
             var applicationDataContainers = new ApplicationDataContainers
             {
                 LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
