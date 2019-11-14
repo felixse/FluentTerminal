@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.Services.Utilities;
 
@@ -222,6 +223,23 @@ namespace FluentTerminal.App.Views
         private void TabBar_TabDraggingChanged(object sender, bool e)
         {
             DraggingHappensChanged?.Invoke(sender, e);
+        }
+
+        private void MainPage_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var control = e.Key == VirtualKey.Control || Window.Current.CoreWindow.GetKeyState(VirtualKey.Control)
+                               .HasFlag(CoreVirtualKeyStates.Down);
+            var alt = e.Key == VirtualKey.Menu || Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu)
+                          .HasFlag(CoreVirtualKeyStates.Down);
+            var shift = e.Key == VirtualKey.Menu || Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift)
+                            .HasFlag(CoreVirtualKeyStates.Down);
+            var meta = e.Key == VirtualKey.LeftWindows || e.Key == VirtualKey.RightWindows
+                                                       || Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftWindows)
+                                                           .HasFlag(CoreVirtualKeyStates.Down)
+                                                       || Window.Current.CoreWindow.GetKeyState(VirtualKey.RightWindows)
+                                                           .HasFlag(CoreVirtualKeyStates.Down);
+
+            ViewModel?.OnWindowKeyDown((int) e.Key, control, alt, shift, meta);
         }
     }
 }
