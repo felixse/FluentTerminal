@@ -167,10 +167,8 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            _tabSelectedCommand = null;
-
             switch (e.Key)
             {
                 case VirtualKey.Down:
@@ -180,18 +178,6 @@ namespace FluentTerminal.App.Dialogs
                     {
                         CommandTextBox.IsSuggestionListOpen = true;
                     }
-
-                    return;
-
-                case VirtualKey.Tab:
-
-                    if (_lastChosenCommand != null)
-                    {
-                        ViewModel.Command = _lastChosenCommand.Value;
-                        _tabSelectedCommand = _lastChosenCommand.Value;
-                    }
-
-                    e.Handled = false;
 
                     return;
 
@@ -227,6 +213,24 @@ namespace FluentTerminal.App.Dialogs
                     }
 
                     return;
+            }
+        }
+
+        private void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Tab)
+            {
+                if (_lastChosenCommand != null)
+                {
+                    ViewModel.Command = _lastChosenCommand.Value;
+                    _tabSelectedCommand = _lastChosenCommand.Value;
+                }
+
+                e.Handled = false;
+            }
+            else
+            {
+                _tabSelectedCommand = null;
             }
         }
 
