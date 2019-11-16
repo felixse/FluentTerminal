@@ -72,7 +72,11 @@ namespace FluentTerminal.App.Dialogs
 
             var error = await ViewModel.AcceptChangesAsync();
 
-            if (!string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error))
+            {
+                _dialogResult = ContentDialogResult.Primary;
+            }
+            else
             {
                 args.Cancel = true;
 
@@ -176,7 +180,7 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
+        private async void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
@@ -198,9 +202,18 @@ namespace FluentTerminal.App.Dialogs
                     }
                     else
                     {
-                        _dialogResult = ContentDialogResult.Primary;
+                        var error = await ViewModel.AcceptChangesAsync();
 
-                        _showDialogOperation.Cancel();
+                        if (string.IsNullOrEmpty(error))
+                        {
+                            _dialogResult = ContentDialogResult.Primary;
+
+                            _showDialogOperation.Cancel();
+                        }
+                        else
+                        {
+                            await new MessageDialog(error, I18N.Translate("InvalidInput")).ShowAsync();
+                        }
                     }
 
                     return;
