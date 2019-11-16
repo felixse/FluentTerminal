@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
-using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 
