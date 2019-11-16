@@ -12,6 +12,7 @@ using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 using System.Linq;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels;
@@ -28,6 +29,9 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _historyService;
+
+        private IAsyncOperation<ContentDialogResult> _showDialogOperation;
+        private ContentDialogResult _dialogResult = ContentDialogResult.None;
 
         private ExecutedCommand _lastChosenCommand;
 
@@ -78,6 +82,11 @@ namespace FluentTerminal.App.Dialogs
             }
 
             deferral.Complete();
+        }
+
+        private void OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            _dialogResult = ContentDialogResult.Secondary;
         }
 
         private async Task SaveLink()
@@ -167,7 +176,7 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             _tabSelectedCommand = null;
 
@@ -203,27 +212,9 @@ namespace FluentTerminal.App.Dialogs
                     }
                     else
                     {
-                        // TODO: Try to find a better way to handle [Enter] on auto-complete field.
-                        // Weird way to move the focus to the primary button...
+                        _dialogResult = ContentDialogResult.Primary;
 
-                        if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
-                            !secondaryButton.Name.Equals("SecondaryButton"))
-                        {
-                            return;
-                        }
-
-                        secondaryButton.Focus(FocusState.Programmatic);
-
-                        var options = new FindNextElementOptions
-                        {
-                            SearchRoot = this,
-                            XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
-                        };
-
-                        if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
-                        {
-                            primaryButton.Focus(FocusState.Programmatic);
-                        }
+                        _showDialogOperation.Cancel();
                     }
 
                     return;
@@ -237,7 +228,11 @@ namespace FluentTerminal.App.Dialogs
 
             SetupFocus();
 
-            if (await ShowAsync() != ContentDialogResult.Primary)
+            _showDialogOperation = ShowAsync();
+
+            var result = await _showDialogOperation.AsTask().ContinueWith(t => _dialogResult);
+
+            if (result != ContentDialogResult.Primary)
             {
                 return null;
             }
