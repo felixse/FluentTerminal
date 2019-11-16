@@ -43,7 +43,11 @@
             TextChanged="CommandTextBox_OnTextChanged">
             <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:CommandItemViewModel">
-                    <ContentControl HorizontalAlignment="Stretch" Content="{x:Bind RichTextBlock, Mode=OneWay}" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ContentControl HorizontalAlignment="Stretch" Content="{x:Bind RichTextBlock, Mode=OneWay}"/>
+                        <!--I've had to create a transparent overlay over RichTextBox in order to make mouse selection work. Weird but true.-->
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
+                    </Grid>
                 </DataTemplate>
             </AutoSuggestBox.ItemTemplate>
 
