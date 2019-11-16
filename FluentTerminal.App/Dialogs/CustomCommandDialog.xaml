@@ -33,7 +33,7 @@
             Margin="4,8,4,0"
             AutoMaximizeSuggestionArea="True"
             ItemsSource="{x:Bind ViewModel.Commands, Mode=OneWay}"
-            KeyUp="CommandTextBox_OnKeyUp"
+            KeyDown="CommandTextBox_OnKeyDown"
             PlaceholderText="Enter a command (e.g. 'ssh username@host')"
             PreviewKeyUp="CommandTextBox_OnPreviewKeyUp"
             QueryIcon="Find"

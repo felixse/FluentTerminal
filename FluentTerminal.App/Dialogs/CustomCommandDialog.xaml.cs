@@ -31,6 +31,9 @@ namespace FluentTerminal.App.Dialogs
 
         private ExecutedCommand _lastChosenCommand;
 
+        // TODO: The following field is for hacking strange behavior that deletes command text after Tab selection. Consider finding a better fix.
+        private string _tabSelectedCommand;
+
         public CommandProfileProviderViewModel ViewModel { get; private set; }
 
         public IAsyncCommand SaveLinkCommand { get; }
@@ -113,9 +116,17 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            var text = sender.Text.Trim();
+
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                ViewModel.SetFilter(sender.Text.Trim());
+                ViewModel.SetFilter(text);
+            }
+            // TODO: Else branch added for Tab-selection hack mentioned above.
+            else if (string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(_tabSelectedCommand))
+            {
+                ViewModel.Command = _tabSelectedCommand;
+                _tabSelectedCommand = null;
             }
         }
 
@@ -156,8 +167,10 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
+        private void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            _tabSelectedCommand = null;
+
             switch (e.Key)
             {
                 case VirtualKey.Down:
@@ -168,7 +181,22 @@ namespace FluentTerminal.App.Dialogs
                         CommandTextBox.IsSuggestionListOpen = true;
                     }
 
-                    break;
+                    return;
+
+                case VirtualKey.Tab:
+
+                    if (_lastChosenCommand != null)
+                    {
+                        ViewModel.Command = _lastChosenCommand.Value;
+                        CommandTextBox.Text = _lastChosenCommand.Value;
+                        _tabSelectedCommand = _lastChosenCommand.Value;
+                        CommandTextBox.IsSuggestionListOpen = false;
+                        _lastChosenCommand = null;
+                    }
+
+                    e.Handled = false;
+
+                    return;
 
                 case VirtualKey.Enter:
 
@@ -201,7 +229,7 @@ namespace FluentTerminal.App.Dialogs
                         }
                     }
 
-                    break;
+                    return;
             }
         }
 
