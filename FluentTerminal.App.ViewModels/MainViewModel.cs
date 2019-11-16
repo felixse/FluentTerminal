@@ -7,6 +7,7 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private TerminalViewModel _selectedTerminal;
         private TabsPosition _tabsPosition;
         private string _windowTitle;
+        private List<KeyBinding> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService,
             IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService)
@@ -106,7 +108,13 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.CloseRequested += OnCloseRequest;
             ApplicationView.Closed += OnClosed;
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
+
+            LoadKeyBindings();
+            MessengerInstance.Register<KeyBindingsChangedMessage>(this, message => LoadKeyBindings());
         }
+
+        private void LoadKeyBindings() =>
+            _keyBindings = _settingsService.GetCommandKeyBindings().Values.SelectMany(v => v).ToList();
 
         private void OnClosed(object sender, EventArgs e)
         {
@@ -393,7 +401,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                Array.ForEach<TerminalViewModel>(Terminals.ToArray(),
+                Array.ForEach(Terminals.ToArray(),
                     async t => {
                         if (terminal != t)
                         {
@@ -621,6 +629,17 @@ namespace FluentTerminal.App.ViewModels
         private void ToggleFullScreen()
         {
             ApplicationView.ToggleFullScreen();
+        }
+
+        public void OnWindowKeyDown(int key, bool control, bool alt, bool shift, bool meta)
+        {
+            var binding = _keyBindings.FirstOrDefault(b =>
+                b.Key == key && b.Ctrl == control && b.Alt == alt && b.Shift == shift && b.Meta == meta);
+
+            if (binding != null)
+            {
+                _keyboardCommandService.SendCommand(binding.Command);
+            }
         }
     }
 }
