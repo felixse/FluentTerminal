@@ -188,10 +188,7 @@ namespace FluentTerminal.App.Dialogs
                     if (_lastChosenCommand != null)
                     {
                         ViewModel.Command = _lastChosenCommand.Value;
-                        CommandTextBox.Text = _lastChosenCommand.Value;
                         _tabSelectedCommand = _lastChosenCommand.Value;
-                        CommandTextBox.IsSuggestionListOpen = false;
-                        _lastChosenCommand = null;
                     }
 
                     e.Handled = false;
