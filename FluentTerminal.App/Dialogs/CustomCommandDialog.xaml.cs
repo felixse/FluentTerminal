@@ -12,6 +12,7 @@ using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
 using System.Linq;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels;
@@ -28,6 +29,9 @@ namespace FluentTerminal.App.Dialogs
         private readonly IApplicationView _applicationView;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _historyService;
+
+        private IAsyncOperation<ContentDialogResult> _showDialogOperation;
+        private ContentDialogResult _dialogResult = ContentDialogResult.None;
 
         private ExecutedCommand _lastChosenCommand;
 
@@ -68,7 +72,11 @@ namespace FluentTerminal.App.Dialogs
 
             var error = await ViewModel.AcceptChangesAsync();
 
-            if (!string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error))
+            {
+                _dialogResult = ContentDialogResult.Primary;
+            }
+            else
             {
                 args.Cancel = true;
 
@@ -78,6 +86,11 @@ namespace FluentTerminal.App.Dialogs
             }
 
             deferral.Complete();
+        }
+
+        private void OnSecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            _dialogResult = ContentDialogResult.Secondary;
         }
 
         private async Task SaveLink()
@@ -167,7 +180,7 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        private void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
+        private async void CommandTextBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
@@ -189,26 +202,17 @@ namespace FluentTerminal.App.Dialogs
                     }
                     else
                     {
-                        // TODO: Try to find a better way to handle [Enter] on auto-complete field.
-                        // Weird way to move the focus to the primary button...
+                        var error = await ViewModel.AcceptChangesAsync();
 
-                        if (!(FocusManager.FindLastFocusableElement(this) is Control secondaryButton) ||
-                            !secondaryButton.Name.Equals("SecondaryButton"))
+                        if (string.IsNullOrEmpty(error))
                         {
-                            return;
+                            _dialogResult = ContentDialogResult.Primary;
+
+                            _showDialogOperation.Cancel();
                         }
-
-                        secondaryButton.Focus(FocusState.Programmatic);
-
-                        var options = new FindNextElementOptions
+                        else
                         {
-                            SearchRoot = this,
-                            XYFocusNavigationStrategyOverride = XYFocusNavigationStrategyOverride.Projection
-                        };
-
-                        if (FocusManager.FindNextElement(FocusNavigationDirection.Left, options) is Control primaryButton)
-                        {
-                            primaryButton.Focus(FocusState.Programmatic);
+                            await new MessageDialog(error, I18N.Translate("InvalidInput")).ShowAsync();
                         }
                     }
 
@@ -241,7 +245,11 @@ namespace FluentTerminal.App.Dialogs
 
             SetupFocus();
 
-            if (await ShowAsync() != ContentDialogResult.Primary)
+            _showDialogOperation = ShowAsync();
+
+            var result = await _showDialogOperation.AsTask().ContinueWith(t => _dialogResult);
+
+            if (result != ContentDialogResult.Primary)
             {
                 return null;
             }
