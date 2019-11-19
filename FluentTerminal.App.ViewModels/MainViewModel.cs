@@ -123,13 +123,14 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, message => LoadKeyBindings());
         }
 
-        private ObservableCollection<ExecutedCommand> _recentCommands;
+        private IList<ProfileCommandViewModel> _recentCommands;
 
-        public ObservableCollection<ExecutedCommand> RecentCommands
+        public IList<ProfileCommandViewModel> RecentCommands
         {
-            get => _recentCommands ?? (_recentCommands =
-                       new ObservableCollection<ExecutedCommand>(
-                           _commandHistoryService.GetHistoryRecentFirst(top: RecentItemsMaxCount)));
+            get => _recentCommands ?? (_recentCommands = _commandHistoryService
+                       .GetHistoryRecentFirst(top: RecentItemsMaxCount).Select(c =>
+                           new ProfileCommandViewModel(c.ShellProfile,
+                               new RelayCommand(() => AddTerminalAsync(c.ShellProfile)))).ToList());
             private set => Set(ref _recentCommands, value);
         }
 
