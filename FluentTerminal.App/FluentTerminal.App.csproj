@@ -154,7 +154,6 @@
     <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
     <Compile Include="ViewModels\CommandProfileProviderViewModel.cs" />
-    <Compile Include="ViewModels\DelayedHistorySaver.cs" />
     <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\EnvironmentVariablesView.xaml.cs">
       <DependentUpon>EnvironmentVariablesView.xaml</DependentUpon>

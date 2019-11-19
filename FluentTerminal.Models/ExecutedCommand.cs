@@ -13,5 +13,11 @@ namespace FluentTerminal.Models
         public int ExecutionCount { get; set; }
 
         public ShellProfile ShellProfile { get; set; }
+
+        public ExecutedCommand Clone() => new ExecutedCommand
+        {
+            Value = Value, IsProfile = IsProfile, LastExecution = LastExecution, ExecutionCount = ExecutionCount,
+            ShellProfile = ShellProfile?.Clone()
+        };
     }
 }
