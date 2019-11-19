@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 
-namespace FluentTerminal.App.Services.Implementation
+namespace FluentTerminal.App.Services
 {
     public class CommandHistoryService : ICommandHistoryService
     {
@@ -152,6 +155,8 @@ namespace FluentTerminal.App.Services.Implementation
         private void Save(ExecutedCommand executedCommand)
         {
             _historyContainer.WriteValueAsJson(GetHash(executedCommand.Value), executedCommand);
+
+            Messenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         /// <summary>
@@ -323,6 +328,8 @@ namespace FluentTerminal.App.Services.Implementation
             _history?.Clear();
 
             _historyContainer.Clear();
+
+            Messenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         public void Delete(ExecutedCommand executedCommand)
@@ -330,6 +337,8 @@ namespace FluentTerminal.App.Services.Implementation
             _history?.RemoveAll(c => string.Equals(c.Value, executedCommand.Value, StringComparison.OrdinalIgnoreCase));
 
             _historyContainer.Delete(GetHash(executedCommand.Value));
+
+            Messenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         #endregion Methods

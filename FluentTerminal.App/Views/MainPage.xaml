@@ -77,6 +77,7 @@
                                     ToolTipService.ToolTip="About" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.RecentCommands, Mode=OneWay}" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

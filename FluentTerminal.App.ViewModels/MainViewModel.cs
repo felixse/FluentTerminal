@@ -18,6 +18,12 @@ namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        #region Constants
+
+        private const int RecentItemsMaxCount = 10;
+
+        #endregion Constants
+
         private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
         private readonly IDispatcherTimer _dispatcherTimer;
@@ -43,6 +49,7 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<SshProfileAddedMessage>(this, OnSshProfileAdded);
             MessengerInstance.Register<SshProfileDeletedMessage>(this, OnSshProfileDeleted);
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
+            MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
 
             _settingsService = settingsService;
 
@@ -114,6 +121,23 @@ namespace FluentTerminal.App.ViewModels
 
             LoadKeyBindings();
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, message => LoadKeyBindings());
+        }
+
+        private ObservableCollection<ExecutedCommand> _recentCommands;
+
+        public ObservableCollection<ExecutedCommand> RecentCommands
+        {
+            get => _recentCommands ?? (_recentCommands =
+                       new ObservableCollection<ExecutedCommand>(
+                           _commandHistoryService.GetHistoryRecentFirst(top: RecentItemsMaxCount)));
+            private set => Set(ref _recentCommands, value);
+        }
+
+        private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
+        {
+            _recentCommands = null;
+
+            ApplicationView.RunOnDispatcherThread(() => RaisePropertyChanged(nameof(RecentCommands)), false);
         }
 
         private void LoadKeyBindings() =>
