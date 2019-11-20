@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels
@@ -7,7 +8,7 @@ namespace FluentTerminal.App.ViewModels
     {
         private const int DelayMilliseconds = 5000;
 
-        private readonly CommandProfileProviderViewModel _vm;
+        private readonly Action _saveAction;
 
         private readonly object _lock = new object();
 
@@ -18,9 +19,9 @@ namespace FluentTerminal.App.ViewModels
 
         private bool _toSave = true;
 
-        internal DelayedHistorySaver(CommandProfileProviderViewModel vm)
+        internal DelayedHistorySaver(Action saveAction)
         {
-            _vm = vm;
+            _saveAction = saveAction;
         }
 
         public void SetSuccessfulSessionStart()
@@ -86,7 +87,7 @@ namespace FluentTerminal.App.ViewModels
                     {
                         if (_toSave)
                         {
-                            _vm.SaveToHistory();
+                            _saveAction.Invoke();
                         }
 
                         _toSave = false;

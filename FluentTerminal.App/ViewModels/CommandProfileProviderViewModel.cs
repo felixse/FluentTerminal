@@ -28,7 +28,8 @@ namespace FluentTerminal.App.ViewModels
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _historyService;
 
-        private List<CommandItemViewModel> _allCommands;
+        private readonly List<CommandItemViewModel> _allCommands;
+        private readonly Lazy<List<ShellProfile>> _allProfiles;
 
         private string _processedFilter;
 
@@ -74,7 +75,14 @@ namespace FluentTerminal.App.ViewModels
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _historyService = historyService;
 
-            FillCommandHistory();
+            _allProfiles = new Lazy<List<ShellProfile>>(() =>
+                SettingsService.GetSshProfiles().Union(SettingsService.GetShellProfiles()).ToList());
+
+            _allCommands = _historyService
+                .GetHistoryMostUsedFirst(true, profilesProvider: () => _allProfiles.Value.ToList())
+                .Select(c => new CommandItemViewModel(c)).ToList();
+
+            Commands = new ObservableCollection<CommandItemViewModel>(_allCommands);
 
             Initialize(Model);
         }
@@ -113,7 +121,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var existingProfile =
-                _allProfiles.FirstOrDefault(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase));
+                _allProfiles.Value.FirstOrDefault(p =>
+                    string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase));
 
             if (existingProfile != null)
             {
@@ -178,7 +187,7 @@ namespace FluentTerminal.App.ViewModels
             var command = _command?.Trim() ?? string.Empty;
 
             if (!string.IsNullOrEmpty(command) &&
-                _allProfiles.Any(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase)))
+                _allProfiles.Value.Any(p => string.Equals(p.Name, command, StringComparison.OrdinalIgnoreCase)))
             {
                 // It's a saved profile
                 return null;
@@ -241,83 +250,6 @@ namespace FluentTerminal.App.ViewModels
             LoadFromProfile(Model);
         }
 
-        #endregion Methods
-
-        #region Command history
-
-        private const int CommandHistoryLimit = 50;
-
-        private static readonly DateTime NeverUsedTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        private List<ShellProfile> _allProfiles;
-
-        private void FillCommandHistory()
-        {
-            var savedCommands = _historyService.GetAll();
-
-            _allProfiles = SettingsService.GetShellProfiles().Union(SettingsService.GetSshProfiles())
-                .Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
-
-            var counter = 0;
-
-            while (counter < savedCommands.Count)
-            {
-                var command = savedCommands[counter];
-
-                if (command.IsProfile)
-                {
-                    var profile = _allProfiles.FirstOrDefault(p =>
-                        string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
-
-                    if (profile == null)
-                    {
-                        _historyService.Delete(command);
-
-                        savedCommands.RemoveAt(counter);
-
-                        counter--;
-                    }
-                    else
-                    {
-                        command.ShellProfile = profile;
-                    }
-                }
-
-                counter++;
-            }
-
-            if (savedCommands.Count > CommandHistoryLimit)
-            {
-                var toRemove = savedCommands.OrderBy(c => c.LastExecution)
-                    .Take(savedCommands.Count - CommandHistoryLimit).ToList();
-
-                foreach (var remove in toRemove)
-                {
-                    savedCommands.Remove(remove);
-
-                    _historyService.Delete(remove);
-                }
-            }
-
-            var unusedProfiles = _allProfiles.Where(p =>
-                !savedCommands.Any(c => string.Equals(p.Name, c.Value, StringComparison.OrdinalIgnoreCase))).ToList();
-
-            IEnumerable<ExecutedCommand> commands = savedCommands
-                .Union(unusedProfiles.Select(p => new ExecutedCommand
-                {
-                    Value = p.Name,
-                    ExecutionCount = 0,
-                    LastExecution = NeverUsedTime,
-                    IsProfile = true,
-                    ShellProfile = p
-                }));
-
-            _allCommands = commands.OrderByDescending(c => c.ExecutionCount).ThenByDescending(c => c.LastExecution)
-                .Select(c => new CommandItemViewModel(c)).ToList();
-
-            Commands = new ObservableCollection<CommandItemViewModel>(_allCommands);
-        }
-
         public void SetFilter(string filter)
         {
             filter = filter?.Trim().ToLowerInvariant() ?? string.Empty;
@@ -374,7 +306,7 @@ namespace FluentTerminal.App.ViewModels
 
         private Task SetFilterAsync(string filter, bool containsPrevious)
         {
-            var toCheck = containsPrevious ? (ICollection<CommandItemViewModel>) Commands : _allCommands;
+            var toCheck = containsPrevious ? (ICollection<CommandItemViewModel>)Commands : _allCommands;
 
             var words = filter.SplitWords().ToArray();
 
@@ -422,25 +354,6 @@ namespace FluentTerminal.App.ViewModels
             }, false);
         }
 
-        public void SaveToHistory()
-        {
-            var isProfile =
-                _allProfiles.Any(p => string.Equals(p.Name, Model.Name, StringComparison.OrdinalIgnoreCase));
-
-            if (!_historyService.TryGetCommand(Model.Name, out ExecutedCommand command))
-            {
-                command = new ExecutedCommand {ExecutionCount = 0};
-            }
-
-            command.Value = Model.Name;
-            command.ExecutionCount++;
-            command.LastExecution = DateTime.UtcNow;
-            command.ShellProfile = isProfile ? null : Model;
-            command.IsProfile = isProfile;
-
-            _historyService.Save(command);
-        }
-
         public void RemoveCommand(ExecutedCommand command)
         {
             _historyService.Delete(command);
@@ -455,12 +368,10 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public bool IsProfileCommand(ExecutedCommand command)
-        {
-            return _allProfiles.Any(p => command.Value.NullableEqualTo(p.Name, StringComparison.OrdinalIgnoreCase));
-        }
+        public bool IsProfileCommand(ExecutedCommand command) => _allProfiles.Value.Any(p =>
+            command.Value.NullableEqualTo(p.Name, StringComparison.OrdinalIgnoreCase));
 
-        #endregion Command history
+        #endregion Methods
 
         #region Links/shortcuts related
 

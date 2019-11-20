@@ -249,14 +249,7 @@ namespace FluentTerminal.App.Dialogs
 
             var result = await _showDialogOperation.AsTask().ContinueWith(t => _dialogResult);
 
-            if (result != ContentDialogResult.Primary)
-            {
-                return null;
-            }
-
-            ViewModel.Model.Tag = new DelayedHistorySaver(ViewModel);
-
-            return ViewModel.Model;
+            return result != ContentDialogResult.Primary ? null : ViewModel.Model;
         }
     }
 }

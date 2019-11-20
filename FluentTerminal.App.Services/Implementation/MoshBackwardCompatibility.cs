@@ -6,7 +6,7 @@ namespace FluentTerminal.App.Services.Implementation
 {
     // The purpose of this class is to ensure backward compatibility of mosh profiles and command history
     // TODO: This class should be probably deleted in few months or so
-    internal static class MoshBackwardCompatibility
+    public static class MoshBackwardCompatibility
     {
         private static readonly string MoshCommandExe = $"{Constants.MoshCommandName}.exe";
 
@@ -36,7 +36,7 @@ namespace FluentTerminal.App.Services.Implementation
         /// as the input profile). It allows us to simply check if anything is changed by comparing the input and output
         /// profiles for reference equality.
         /// </returns>
-        internal static T FixProfile<T>(T profile) where T : ShellProfile
+        public static T FixProfile<T>(T profile) where T : ShellProfile
         {
             // If there aren't any arguments, or if the profile isn't a mosh profile, there's nothing to do. Just return.
             if (string.IsNullOrWhiteSpace(profile.Arguments) || !IsMoshProfile(profile)) return profile;
