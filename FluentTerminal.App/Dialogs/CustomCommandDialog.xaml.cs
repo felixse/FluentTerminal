@@ -129,14 +129,12 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var text = sender.Text.Trim();
-
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                ViewModel.SetFilter(text);
+                ViewModel.SetFilter(sender.Text.Trim());
             }
             // TODO: Else branch added for Tab-selection hack mentioned above.
-            else if (string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(_tabSelectedCommand))
+            else if (!string.IsNullOrEmpty(_tabSelectedCommand))
             {
                 ViewModel.Command = _tabSelectedCommand;
                 _tabSelectedCommand = null;
