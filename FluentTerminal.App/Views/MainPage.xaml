@@ -77,7 +77,14 @@
                                     ToolTipService.ToolTip="About" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.RecentCommands, Mode=OneWay}" />
+                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.RecentCommands, Mode=OneWay}">
+                            <MenuFlyoutSubItem.Icon>
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xF738;"
+                                    ToolTipService.ToolTip="History" />
+                            </MenuFlyoutSubItem.Icon>
+                        </MenuFlyoutSubItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
