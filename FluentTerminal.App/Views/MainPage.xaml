@@ -11,6 +11,8 @@
     KeyDown="MainPage_OnKeyDown">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
+        <converters:IntToVirtualKeyConverter x:Key="IntToVirtualKeyConverter"/>
+        <converters:IntToVirtualKeyModifiersConverter x:Key="IntToVirtualKeyModifiersConverter"/>
     </Page.Resources>
     <Grid x:Name="Root">
         <Grid.Background>
@@ -45,7 +47,74 @@
                     </Viewbox>
                 </Button.Content>
                 <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedLeft" views:MenuExtension.SubItems="{x:Bind ViewModel.MenuViewModel.MenuItems}"/>
+                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.TabMenuItem.Command, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.MenuViewModel.TabMenuItem.Text, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.TabMenuItem.Description, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Add" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.TabMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
+                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.TabMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.RemoteTabMenuItem.Command, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.MenuViewModel.RemoteTabMenuItem.Text, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.RemoteTabMenuItem.Description, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Add" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.RemoteTabMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
+                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.RemoteTabMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.Command, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.Text, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.Description, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Add" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
+                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <!--<MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Command, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Text, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Description, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <SymbolIcon Symbol="Setting" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
+                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>-->
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Command, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Text, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Description, Mode=OneWay}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xE946;"
+                                    ToolTipService.ToolTip="About" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
+                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.MenuViewModel.RecentMenuItems, Mode=OneWay}">
+                            <MenuFlyoutSubItem.Icon>
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xF738;"
+                                    ToolTipService.ToolTip="History" />
+                            </MenuFlyoutSubItem.Icon>
+                        </MenuFlyoutSubItem>
+                    </MenuFlyout>
                 </Button.Flyout>
             </Button>
             <TextBlock

@@ -23,15 +23,15 @@ namespace FluentTerminal.App.Views
             DependencyProperty.Register("SubItems", typeof(IEnumerable<MenuItemViewModel>), typeof(MenuExtension),
                 new PropertyMetadata(new List<MenuItemViewModel>(), (sender, e) =>
                 {
-                    if (sender is MenuFlyoutSubItem menuSubItem && menuSubItem.Items != null)
+                    if (sender is MenuFlyoutSubItem menuSubItem)
                     {
-                        menuSubItem.Items.Clear();
+                        menuSubItem.Items?.Clear();
 
                         if (e.NewValue is IEnumerable<MenuItemViewModel> viewModels)
                         {
                             foreach (var item in viewModels.Select(vm => (MenuFlyoutItemBase) Converter.Convert(vm)))
                             {
-                                menuSubItem.Items.Add(item);
+                                menuSubItem.Items?.Add(item);
                             }
 
                             // Hack to enforce changing items in view
