@@ -33,11 +33,6 @@ namespace FluentTerminal.App.Views
                             {
                                 menuSubItem.Items?.Add(item);
                             }
-
-                            // Hack to enforce changing items in view
-                            //menuSubItem.UpdateLayout();
-                            //menuSubItem.InvalidateArrange();
-                            menuSubItem.InvalidateMeasure();
                         }
                     }
                 }));

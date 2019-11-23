@@ -1,16 +1,14 @@
 ﻿using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
-using FluentTerminal.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
@@ -22,13 +20,16 @@ using FluentTerminal.App.ViewModels.Menu;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+        private AppMenuViewModel _lastMenuViewModel;
+
+        private CoreApplicationViewTitleBar _coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public double CoreTitleBarHeight => coreTitleBar.Height;
+        public double CoreTitleBarHeight => _coreTitleBar.Height;
 
         public TimeSpan NoDuration => TimeSpan.Zero;
 
@@ -38,11 +39,11 @@ namespace FluentTerminal.App.Views
             {
                 if (FlowDirection == FlowDirection.LeftToRight)
                 {
-                    return new Thickness { Left = coreTitleBar.SystemOverlayLeftInset, Right = coreTitleBar.SystemOverlayRightInset };
+                    return new Thickness { Left = _coreTitleBar.SystemOverlayLeftInset, Right = _coreTitleBar.SystemOverlayRightInset };
                 }
                 else
                 {
-                    return new Thickness { Left = coreTitleBar.SystemOverlayRightInset, Right = coreTitleBar.SystemOverlayLeftInset };
+                    return new Thickness { Left = _coreTitleBar.SystemOverlayRightInset, Right = _coreTitleBar.SystemOverlayLeftInset };
                 }
             }
         }
@@ -73,9 +74,18 @@ namespace FluentTerminal.App.Views
 
                 _viewModel = value;
 
-                if (value?.MenuViewModel is AppMenuViewModel menuViewModel)
+                if (value?.MenuViewModel != null)
                 {
-                    CreateAppMenu(menuViewModel);
+                    if (_lastMenuViewModel == null)
+                    {
+                        // The app menu isn't created yet, so we'll go with smaller delay:
+                        var unused = CreateAppMenu(200);
+                    }
+                    else
+                    {
+                        // The app menu is already created, and now needs to be updated, so we'll go with the default (longer) delay:
+                        var unused = CreateAppMenu();
+                    }
                 }
             }
         }
@@ -83,24 +93,47 @@ namespace FluentTerminal.App.Views
         private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (nameof(MainViewModel.MenuViewModel).Equals(e.PropertyName, StringComparison.Ordinal) &&
-                _viewModel?.MenuViewModel is AppMenuViewModel menuViewModel)
+                _viewModel?.MenuViewModel != null)
             {
-                CreateAppMenu(menuViewModel);
+                var unused = CreateAppMenu();
             }
         }
 
-        private void CreateAppMenu(AppMenuViewModel appMenuViewModel)
+        private async Task CreateAppMenu(int delayMilliseconds = 1000)
         {
-            var unused = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CreateAppMenuDispatched(appMenuViewModel));
+            if (delayMilliseconds > 0)
+            {
+                await Task.Delay(delayMilliseconds);
+            }
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, CreateAppMenuDispatched);
         }
 
-        private void CreateAppMenuDispatched(AppMenuViewModel appMenuViewModel)
+        // I've had to create such weird manual menu binding because only this way the menu actually updates.
+        private void CreateAppMenuDispatched()
         {
+            if (!(_viewModel?.MenuViewModel is AppMenuViewModel appMenuViewModel) ||
+                ReferenceEquals(appMenuViewModel, _lastMenuViewModel))
+            {
+                return;
+            }
+
+            if ((Hamburger.Content as Button)?.Flyout?.IsOpen ?? false)
+            {
+                // We don't want to change menu while it's open. Otherwise it would close annoyingly for the user.
+                var unused = CreateAppMenu();
+
+                return;
+            }
+
             if (Resources.TryGetValue("AppMenuTemplate", out var value) && value is DataTemplate dataTemplate)
             {
                 var appMenu = (Button) dataTemplate.LoadContent();
                 appMenu.DataContext = appMenuViewModel;
+
                 Hamburger.Content = appMenu;
+
+                _lastMenuViewModel = appMenuViewModel;
             }
         }
 
@@ -126,7 +159,7 @@ namespace FluentTerminal.App.Views
 
         private async void MainPage_DraggingHappensChanged(object sender, bool e)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (sender != TopTabBar && sender != BottomTabBar)
                 {
@@ -167,14 +200,14 @@ namespace FluentTerminal.App.Views
             DraggingHappensChanged -= MainPage_DraggingHappensChanged;
             Window.Current.Activated -= OnWindowActivated;
 
-            coreTitleBar.LayoutMetricsChanged -= OnLayoutMetricsChanged;
+            _coreTitleBar.LayoutMetricsChanged -= OnLayoutMetricsChanged;
 
             ViewModel.Closed -= ViewModel_Closed;
             ViewModel = null;
             Root.DataContext = null;
             Window.Current.SetTitleBar(null);
 
-            coreTitleBar = null;
+            _coreTitleBar = null;
             Bindings.StopTracking();
             TerminalContainer.Content = null;
         }
@@ -190,7 +223,7 @@ namespace FluentTerminal.App.Views
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            coreTitleBar.LayoutMetricsChanged += OnLayoutMetricsChanged;
+            _coreTitleBar.LayoutMetricsChanged += OnLayoutMetricsChanged;
             UpdateLayoutMetrics();
         }
 
@@ -263,8 +296,11 @@ namespace FluentTerminal.App.Views
         {
             Logger.Instance.Debug("TabDropArea_DragEnter.");
             e.AcceptedOperation = DataPackageOperation.Move;
-            e.DragUIOverride.IsGlyphVisible = false;
-            e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
+            if (e.DragUIOverride is DragUIOverride dragUiOverride)
+            {
+                dragUiOverride.IsGlyphVisible = false;
+                dragUiOverride.Caption = I18N.Translate("DropTabHere");
+            }
         }
 
         private async void TabDropArea_Drop(object sender, DragEventArgs e)
@@ -297,7 +333,5 @@ namespace FluentTerminal.App.Views
 
             ViewModel?.OnWindowKeyDown((int) e.Key, control, alt, shift, meta);
         }
-
-        private bool _appMenuChanged;
     }
 }
