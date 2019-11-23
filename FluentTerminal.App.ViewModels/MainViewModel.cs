@@ -594,13 +594,13 @@ namespace FluentTerminal.App.ViewModels
             LoadKeyBindings();
 
             // Should be scheduled no matter if we're in the UI thread.
-            ApplicationView.RunOnDispatcherThread(() => SetupMenuItemsKeyBindings());
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
         private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
         {
             // Should be scheduled no matter if we're in the UI thread.
-            ApplicationView.RunOnDispatcherThread(UpdateRecentMenuItems);
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
         private void SelectTabNumber(int tabNumber)
@@ -650,7 +650,13 @@ namespace FluentTerminal.App.ViewModels
 
         private const int RecentItemsMaxCount = 10;
 
-        public AppMenuViewModel MenuViewModel { get; private set; }
+        private AppMenuViewModel _menuViewModel;
+
+        public AppMenuViewModel MenuViewModel
+        {
+            get => _menuViewModel;
+            private set => Set(ref _menuViewModel, value);
+        }
 
         private void CreateMenuViewModel()
         {
@@ -772,14 +778,6 @@ namespace FluentTerminal.App.ViewModels
                 menuItemViewModel.KeyBinding.Alt = keyBinding.Alt;
                 menuItemViewModel.KeyBinding.Shift = keyBinding.Shift;
                 menuItemViewModel.KeyBinding.Windows = keyBinding.Meta;
-            }
-        }
-
-        private void UpdateRecentMenuItems()
-        {
-            if (MenuViewModel != null)
-            {
-                MenuViewModel.RecentMenuItems = GetRecentMenuItems();
             }
         }
 

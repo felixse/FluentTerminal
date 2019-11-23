@@ -18,6 +18,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Menu;
 
 namespace FluentTerminal.App.Views
 {
@@ -46,7 +47,62 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        public MainViewModel ViewModel { get; private set; }
+        private MainViewModel _viewModel;
+
+        public MainViewModel ViewModel
+        {
+            get => _viewModel;
+            private set
+            {
+                var old = _viewModel;
+
+                if (ReferenceEquals(old, value))
+                {
+                    return;
+                }
+
+                if (old != null)
+                {
+                    old.PropertyChanged -= ViewModelPropertyChanged;
+                }
+
+                if (value != null)
+                {
+                    value.PropertyChanged += ViewModelPropertyChanged;
+                }
+
+                _viewModel = value;
+
+                if (value?.MenuViewModel is AppMenuViewModel menuViewModel)
+                {
+                    CreateAppMenu(menuViewModel);
+                }
+            }
+        }
+
+        private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (nameof(MainViewModel.MenuViewModel).Equals(e.PropertyName, StringComparison.Ordinal) &&
+                _viewModel?.MenuViewModel is AppMenuViewModel menuViewModel)
+            {
+                CreateAppMenu(menuViewModel);
+            }
+        }
+
+        private void CreateAppMenu(AppMenuViewModel appMenuViewModel)
+        {
+            var unused = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CreateAppMenuDispatched(appMenuViewModel));
+        }
+
+        private void CreateAppMenuDispatched(AppMenuViewModel appMenuViewModel)
+        {
+            if (Resources.TryGetValue("AppMenuTemplate", out var value) && value is DataTemplate dataTemplate)
+            {
+                var appMenu = (Button) dataTemplate.LoadContent();
+                appMenu.DataContext = appMenuViewModel;
+                Hamburger.Content = appMenu;
+            }
+        }
 
         private long _propertyChangedCallbackToken;
 
@@ -241,5 +297,7 @@ namespace FluentTerminal.App.Views
 
             ViewModel?.OnWindowKeyDown((int) e.Key, control, alt, shift, meta);
         }
+
+        private bool _appMenuChanged;
     }
 }
