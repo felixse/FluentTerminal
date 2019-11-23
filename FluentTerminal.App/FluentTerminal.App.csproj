@@ -130,6 +130,7 @@
     <Compile Include="Dialogs\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\AcceleratorKeyValidator.cs" />
     <Compile Include="Services\CommandHistoryService.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />

@@ -25,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _commandHistoryService;
+        private readonly IAcceleratorKeyValidator _acceleratorKeyValidator;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -34,7 +35,7 @@ namespace FluentTerminal.App.ViewModels
         private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAcceleratorKeyValidator acceleratorKeyValidator)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
@@ -55,6 +56,7 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _commandHistoryService = commandHistoryService;
+            _acceleratorKeyValidator = acceleratorKeyValidator;
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
@@ -706,7 +708,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings)
+                keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings &&
+                _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
             {
                 LoadKeyBindingsFromModel(appMenuViewModel.TabMenuItem, tabKeyBindings);
             }
@@ -716,7 +719,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding)
+                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
             {
                 LoadKeyBindingsFromModel(appMenuViewModel.RemoteTabMenuItem, remoteTabKeyBinding);
             }
@@ -726,7 +730,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding)
+                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
             {
                 LoadKeyBindingsFromModel(appMenuViewModel.QuickTabMenuItem, quickTabKeyBinding);
             }
@@ -736,7 +741,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding)
+                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
+                _acceleratorKeyValidator.Valid(settingsKeyBinding.Key))
             {
                 LoadKeyBindingsFromModel(appMenuViewModel.SettingsMenuItem, settingsKeyBinding);
             }
@@ -748,6 +754,13 @@ namespace FluentTerminal.App.ViewModels
 
         private void LoadKeyBindingsFromModel(MenuItemViewModel menuItemViewModel, KeyBinding keyBinding)
         {
+            if (!_acceleratorKeyValidator.Valid(keyBinding.Key))
+            {
+                menuItemViewModel.KeyBinding = null;
+
+                return;
+            }
+
             if (menuItemViewModel.KeyBinding == null)
             {
                 menuItemViewModel.KeyBinding = new MenuItemKeyBindingViewModel(keyBinding);

@@ -81,7 +81,7 @@
                                                      Modifiers="{x:Bind ViewModel.MenuViewModel.QuickTabMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                        <!--<MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Command, Mode=OneWay}"
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Command, Mode=OneWay}"
                                         Text="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Text, Mode=OneWay}"
                                         ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.Description, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
@@ -91,7 +91,7 @@
                                 <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
                                                      Modifiers="{x:Bind ViewModel.MenuViewModel.SettingsMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>-->
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem Command="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Command, Mode=OneWay}"
                                         Text="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Text, Mode=OneWay}"
                                         ToolTipService.ToolTip="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.Description, Mode=OneWay}">
@@ -101,10 +101,6 @@
                                     Glyph="&#xE946;"
                                     ToolTipService.ToolTip="About" />
                             </MenuFlyoutItem.Icon>
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.KeyBinding.Key, Mode=OneWay, Converter={StaticResource IntToVirtualKeyConverter}}"
-                                                     Modifiers="{x:Bind ViewModel.MenuViewModel.AboutMenuItem.KeyBinding.KeyModifiers, Mode=OneWay, Converter={StaticResource IntToVirtualKeyModifiersConverter}}"/>
-                            </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.MenuViewModel.RecentMenuItems, Mode=OneWay}">
                             <MenuFlyoutSubItem.Icon>
