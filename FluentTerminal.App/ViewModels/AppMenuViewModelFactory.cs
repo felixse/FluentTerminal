@@ -39,25 +39,25 @@ namespace FluentTerminal.App.ViewModels
             return new AppMenuViewModel(new MenuItemViewModelBase[]
             {
                 // "New tab" menu item
-                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddLocalTabAsync()),
+                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddLocalTabAsync(), keepTargetAlive: true),
                     I18N.TranslateWithFallback("NewTab.Text", "New tab"),
                     I18N.TranslateWithFallback("NewTab.Description", "Opens default profile in a new tab."),
                     new SymbolIcon(Symbol.Add)),
 
                 // "New remote tab" menu item
-                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddSshTabAsync()),
+                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddSshTabAsync(), keepTargetAlive: true),
                     I18N.TranslateWithFallback("NewSshTab.Text", "New remote tab"),
                     I18N.TranslateWithFallback("NewSshTab.Description", "Opens a new SSH or Mosh session in a new tab."),
                     new SymbolIcon(Symbol.Add)),
                 
                 // "New quick tab" menu item
-                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddCustomCommandTabAsync()),
+                new MenuItemViewModel(new RelayCommand(async () => await mainViewModel.AddCustomCommandTabAsync(), keepTargetAlive: true),
                     I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
                     I18N.TranslateWithFallback("NewQuickTab.Description", "Opens \"Quick Launch\" dialog and starts session in a new tab."),
                     new SymbolIcon(Symbol.Add)),
 
                 // "Settings" menu item
-                new MenuItemViewModel(new RelayCommand(mainViewModel.ShowSettings),
+                new MenuItemViewModel(new RelayCommand(mainViewModel.ShowSettings, keepTargetAlive: true),
                     I18N.TranslateWithFallback("Settings.Text", "Settings"),
                     I18N.TranslateWithFallback("Settings.Description", "Opens settings window."),
                     new SymbolIcon(Symbol.Setting)),
@@ -66,7 +66,7 @@ namespace FluentTerminal.App.ViewModels
                 recentItem,
 
                 // "About" menu item
-                new MenuItemViewModel(new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync()),
+                new MenuItemViewModel(new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync(), keepTargetAlive: true),
                     I18N.TranslateWithFallback("AboutDialog.Title", "About"), null,
                     new FontIcon {FontFamily = SegoeMdl2AssetsFontFamily, Glyph = "&#xE946;"})
             });
@@ -76,7 +76,7 @@ namespace FluentTerminal.App.ViewModels
         {
             var recentItems = _commandHistoryService.GetHistoryRecentFirst(top: RecentItemsMaxCount).Select(c =>
             {
-                var command = new RelayCommand(async () => await mainViewModel.AddTerminalAsync(c.ShellProfile));
+                var command = new RelayCommand(async () => await mainViewModel.AddTerminalAsync(c.ShellProfile), keepTargetAlive: true);
 
                 if (c.ShellProfile.KeyBindings?.FirstOrDefault() is KeyBinding keyBinding)
                 {
