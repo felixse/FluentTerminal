@@ -1038,19 +1038,19 @@ Fuzzy</comment>
   <data name="Recent.Text" xml:space="preserve">
     <value>Recent</value>
   </data>
-  <data name="NewTab.Description" xml:space="preserve">
+  <data name="NewTab_Description" xml:space="preserve">
     <value>Opens default profile in a new tab.</value>
   </data>
-  <data name="Recent.Description" xml:space="preserve">
+  <data name="Recent_Description" xml:space="preserve">
     <value>Recently executed commands.</value>
   </data>
-  <data name="NewSshTab.Description" xml:space="preserve">
+  <data name="NewSshTab_Description" xml:space="preserve">
     <value>Opens a new SSH or Mosh session in a new tab.</value>
   </data>
-  <data name="NewQuickTab.Description" xml:space="preserve">
+  <data name="NewQuickTab_Description" xml:space="preserve">
     <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
   </data>
-  <data name="Settings.Description" xml:space="preserve">
+  <data name="Settings_Description" xml:space="preserve">
     <value>Opens settings window.</value>
   </data>
 </root>
