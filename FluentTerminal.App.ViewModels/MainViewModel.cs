@@ -113,6 +113,8 @@ namespace FluentTerminal.App.ViewModels
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
 
             LoadKeyBindings();
+
+            CreateMenuViewModel();
         }
 
         private void LoadKeyBindings() =>

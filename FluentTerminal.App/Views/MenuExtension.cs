@@ -36,9 +36,9 @@ namespace FluentTerminal.App.Views
                             }
 
                             // Hack to enforce changing items in view
-                            //((UIElement)sender).UpdateLayout();
-                            //((UIElement)sender).InvalidateArrange();
-                            ((UIElement)sender).InvalidateMeasure();
+                            //(sender as UIElement)?.UpdateLayout();
+                            //(sender as UIElement)?.InvalidateArrange();
+                            (sender as UIElement)?.InvalidateMeasure();
                         }
                     }
                 }));

@@ -42,9 +42,9 @@ namespace FluentTerminal.App.Converters
         {
             var item = new MenuFlyoutSubItem();
 
-            item.SetBinding(MenuFlyoutItem.TextProperty, GetTextBinding(viewModel));
+            item.SetBinding(MenuFlyoutSubItem.TextProperty, GetTextBinding(viewModel));
             item.SetBinding(ToolTipService.ToolTipProperty, GetDescriptionBinding(viewModel));
-            item.SetBinding(MenuFlyoutItem.IconProperty, GetIconBinding(viewModel));
+            item.SetBinding(MenuFlyoutSubItem.IconProperty, GetIconBinding(viewModel));
             item.SetBinding(MenuExtension.SubItemsProperty, new Binding
             {
                 Source = viewModel, 
