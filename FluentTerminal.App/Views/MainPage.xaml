@@ -45,47 +45,7 @@
                     </Viewbox>
                 </Button.Content>
                 <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                        <MenuFlyoutItem
-                            x:Uid="NewTab"
-                            Command="{x:Bind ViewModel.AddLocalShellCommand}"
-                            Text="New local shell">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="NewSshTab" Command="{x:Bind ViewModel.AddSshShellCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="NewQuickTab" Command="{x:Bind ViewModel.AddQuickShellCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Setting" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Command="{x:Bind ViewModel.ShowAboutCommand}" Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=AboutDialog.Title}">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE946;"
-                                    ToolTipService.ToolTip="About" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.RecentCommands, Mode=OneWay}">
-                            <MenuFlyoutSubItem.Icon>
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xF738;"
-                                    ToolTipService.ToolTip="History" />
-                            </MenuFlyoutSubItem.Icon>
-                        </MenuFlyoutSubItem>
-                    </MenuFlyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedLeft" views:MenuExtension.SubItems="{x:Bind ViewModel.MenuViewModel.MenuItems}"/>
                 </Button.Flyout>
             </Button>
             <TextBlock

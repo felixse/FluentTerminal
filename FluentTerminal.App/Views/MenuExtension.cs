@@ -1,38 +1,44 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using FluentTerminal.App.ViewModels;
+using FluentTerminal.App.Converters;
+using FluentTerminal.App.ViewModels.Menu;
 
 namespace FluentTerminal.App.Views
 {
     // https://stackoverflow.com/questions/33839279/bind-obserable-collection-to-menuflyoutsubitem-in-uwp
     public static class MenuExtension
     {
-        public static IEnumerable<ProfileCommandViewModel> GetSubItems(DependencyObject obj) =>
-            (IEnumerable<ProfileCommandViewModel>) obj.GetValue(SubItemsProperty);
+        private static readonly MenuItemViewModelBaseToMenuFlayoutItemBaseConverter Converter =
+            new MenuItemViewModelBaseToMenuFlayoutItemBaseConverter();
 
-        public static void SetSubItems(DependencyObject obj, IEnumerable<ProfileCommandViewModel> value) =>
+        public static IEnumerable<MenuItemViewModelBase> GetSubItems(DependencyObject obj) =>
+            (IEnumerable<MenuItemViewModelBase>) obj.GetValue(SubItemsProperty);
+
+        public static void SetSubItems(DependencyObject obj, IEnumerable<MenuItemViewModelBase> value) =>
             obj.SetValue(SubItemsProperty, value);
 
         public static readonly DependencyProperty SubItemsProperty =
-            DependencyProperty.Register("SubItems", typeof(IEnumerable<MenuFlyoutItem>), typeof(MenuExtension),
-                new PropertyMetadata(new List<ProfileCommandViewModel>(), (sender, e) =>
+            DependencyProperty.Register("SubItems", typeof(IEnumerable<MenuItemViewModelBase>), typeof(MenuExtension),
+                new PropertyMetadata(new List<MenuItemViewModelBase>(), (sender, e) =>
                 {
-                    if (sender is MenuFlyoutSubItem subItemsRoot && subItemsRoot.Items != null)
-                    {
-                        subItemsRoot.Items.Clear();
+                    var items = (sender as MenuFlyout)?.Items ?? (sender as MenuFlyoutSubItem)?.Items;
 
-                        if (e.NewValue is IEnumerable<ProfileCommandViewModel> commands)
+                    if (items != null)
+                    {
+                        items.Clear();
+
+                        if (e.NewValue is IEnumerable<MenuItemViewModelBase> viewModels)
                         {
-                            foreach (var command in commands)
+                            foreach (var viewModel in viewModels)
                             {
-                                subItemsRoot.Items.Add(new MenuFlyoutItem {Text = command.Profile.Name, Command = command.Command});
+                                items.Add((MenuFlyoutItemBase) Converter.Convert(viewModel));
                             }
 
                             // Hack to enforce changing items in view
-                            //subItemsRoot.UpdateLayout();
-                            //subItemsRoot.InvalidateArrange();
-                            subItemsRoot.InvalidateMeasure();
+                            //((UIElement)sender).UpdateLayout();
+                            //((UIElement)sender).InvalidateArrange();
+                            ((UIElement)sender).InvalidateMeasure();
                         }
                     }
                 }));

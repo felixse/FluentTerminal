@@ -109,6 +109,8 @@
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
     <Compile Include="Converters\I18NConverter.cs" />
+    <Compile Include="Converters\KeyBindingViewModelToKeyboardAcceleratorConverter.cs" />
+    <Compile Include="Converters\MenuItemViewModelBaseToMenuFlayoutItemBaseConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />
@@ -128,6 +130,7 @@
     </Compile>
     <Compile Include="Services\CommandHistoryService.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
+    <Compile Include="ViewModels\AppMenuViewModelFactory.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
       <DependentUpon>CustomCommandDialog.xaml</DependentUpon>

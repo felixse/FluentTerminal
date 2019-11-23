@@ -1,29 +1,23 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        #region Constants
-
-        private const int RecentItemsMaxCount = 10;
-
-        #endregion Constants
-
         private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
         private readonly IDispatcherTimer _dispatcherTimer;
@@ -31,6 +25,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _commandHistoryService;
+        private readonly IAppMenuViewModelFactory _appMenuFactory;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
@@ -40,7 +35,7 @@ namespace FluentTerminal.App.ViewModels
         private List<KeyBinding> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAppMenuViewModelFactory appMenuFactory)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
@@ -50,6 +45,7 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<SshProfileDeletedMessage>(this, OnSshProfileDeleted);
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
             MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
+            MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
 
             _settingsService = settingsService;
 
@@ -60,6 +56,7 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _commandHistoryService = commandHistoryService;
+            _appMenuFactory = appMenuFactory;
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
@@ -110,35 +107,12 @@ namespace FluentTerminal.App.ViewModels
             TabsPosition = _applicationSettings.TabsPosition;
 
             AddLocalShellCommand = new RelayCommand(async () => await AddLocalTabAsync());
-            AddSshShellCommand = new RelayCommand(async () => await AddSshTabAsync());
-            AddQuickShellCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
-            ShowAboutCommand = new AsyncCommand(ShowAbout);
-            ShowSettingsCommand = new RelayCommand(ShowSettings);
 
             ApplicationView.CloseRequested += OnCloseRequest;
             ApplicationView.Closed += OnClosed;
             Terminals.CollectionChanged += OnTerminalsCollectionChanged;
 
             LoadKeyBindings();
-            MessengerInstance.Register<KeyBindingsChangedMessage>(this, message => LoadKeyBindings());
-        }
-
-        private IList<ProfileCommandViewModel> _recentCommands;
-
-        public IList<ProfileCommandViewModel> RecentCommands
-        {
-            get => _recentCommands ?? (_recentCommands = _commandHistoryService
-                       .GetHistoryRecentFirst(top: RecentItemsMaxCount).Select(c =>
-                           new ProfileCommandViewModel(c.ShellProfile,
-                               new RelayCommand(() => AddTerminalAsync(c.ShellProfile)))).ToList());
-            private set => Set(ref _recentCommands, value);
-        }
-
-        private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
-        {
-            _recentCommands = null;
-
-            ApplicationView.RunOnDispatcherThread(() => RaisePropertyChanged(nameof(RecentCommands)), false);
         }
 
         private void LoadKeyBindings() =>
@@ -157,10 +131,6 @@ namespace FluentTerminal.App.ViewModels
             _applicationSettings = null;
 
             AddLocalShellCommand = null;
-            AddSshShellCommand = null;
-            AddQuickShellCommand = null;
-            ShowAboutCommand = null;
-            ShowSettingsCommand = null;
 
             Closed?.Invoke(this, e);
         }
@@ -213,8 +183,6 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public RelayCommand AddLocalShellCommand { get; private set; }
-        public RelayCommand AddSshShellCommand { get; private set; }
-        public RelayCommand AddQuickShellCommand { get; private set; }
 
         public string WindowTitle
         {
@@ -277,10 +245,6 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
         }
-
-        public IAsyncCommand ShowAboutCommand { get; private set; }
-
-        public RelayCommand ShowSettingsCommand { get; private set; }
 
         public TabsPosition TabsPosition
         {
@@ -624,6 +588,24 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
+        private void OnKeyBindingChanged(KeyBindingsChangedMessage message)
+        {
+            LoadKeyBindings();
+
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
+        }
+
+        private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
+        {
+            if (_recentItem != null)
+            {
+                // Should be scheduled no matter if we're in the UI thread.
+                ApplicationView.RunOnDispatcherThread(() =>
+                    _recentItem.SubItems = _appMenuFactory.GetRecentMenuSubItems(this));
+            }
+        }
+
         private void SelectTabNumber(int tabNumber)
         {
             if (tabNumber < Terminals.Count)
@@ -646,12 +628,7 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal = Terminals[previousIndex];
         }
 
-        private Task ShowAbout()
-        {
-            return _dialogService.ShowAboutDialogAsync();
-        }
-
-        private void ShowSettings()
+        public void ShowSettings()
         {
             ShowSettingsRequested?.Invoke(this, EventArgs.Empty);
         }
@@ -671,5 +648,23 @@ namespace FluentTerminal.App.ViewModels
                 _keyboardCommandService.SendCommand(binding.Command);
             }
         }
+
+        #region App menu
+
+        private AppMenuViewModel _menuViewModel;
+        private ExpandableMenuItemViewModel _recentItem;
+
+        public AppMenuViewModel MenuViewModel
+        {
+            get => _menuViewModel;
+            private set => Set(ref _menuViewModel, value);
+        }
+
+        private void CreateMenuViewModel()
+        {
+            MenuViewModel = _appMenuFactory.CreateAppMenuViewModel(this, out _recentItem);
+        }
+
+        #endregion App menu
     }
 }

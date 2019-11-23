@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Utilities;
 using IContainer = Autofac.IContainer;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight.Messaging;
@@ -114,6 +115,7 @@ namespace FluentTerminal.App
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterType<ShellProfileMigrationService>().As<IShellProfileMigrationService>().SingleInstance();
+            builder.RegisterType<AppMenuViewModelFactory>().As<IAppMenuViewModelFactory>().SingleInstance();
 
             _container = builder.Build();
 
