@@ -293,7 +293,9 @@ namespace FluentTerminal.App.Services
         {
             var history = GetRawHistory();
 
-            var existing = history.FirstOrDefault(c => profile.Id.Equals(profile.Id));
+            var existing = history.FirstOrDefault(c =>
+                c.ProfileId?.Equals(profile.Id) ??
+                string.Equals(profile.Name, c.Value, StringComparison.OrdinalIgnoreCase));
 
             if (existing == null)
             {

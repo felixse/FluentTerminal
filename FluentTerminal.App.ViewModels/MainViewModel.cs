@@ -25,17 +25,16 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _commandHistoryService;
-        private readonly IAppMenuViewModelFactory _appMenuFactory;
         private ApplicationSettings _applicationSettings;
         private string _background;
         private double _backgroundOpacity;
         private TerminalViewModel _selectedTerminal;
         private TabsPosition _tabsPosition;
         private string _windowTitle;
-        private List<KeyBinding> _keyBindings;
+        private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAppMenuViewModelFactory appMenuFactory)
+            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
@@ -56,7 +55,6 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _commandHistoryService = commandHistoryService;
-            _appMenuFactory = appMenuFactory;
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddLocalTabAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewSshTab), async () => await AddSshTabAsync());
@@ -117,8 +115,7 @@ namespace FluentTerminal.App.ViewModels
             CreateMenuViewModel();
         }
 
-        private void LoadKeyBindings() =>
-            _keyBindings = _settingsService.GetCommandKeyBindings().Values.SelectMany(v => v).ToList();
+        private void LoadKeyBindings() => _keyBindings = _settingsService.GetCommandKeyBindings();
 
         private void OnClosed(object sender, EventArgs e)
         {
@@ -600,12 +597,8 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
         {
-            if (_recentItem != null)
-            {
-                // Should be scheduled no matter if we're in the UI thread.
-                ApplicationView.RunOnDispatcherThread(() =>
-                    _recentItem.SubItems = _appMenuFactory.GetRecentMenuSubItems(this));
-            }
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(() => MenuViewModel.RecentMenuItems = GetRecentMenuItems());
         }
 
         private void SelectTabNumber(int tabNumber)
@@ -642,7 +635,7 @@ namespace FluentTerminal.App.ViewModels
 
         public void OnWindowKeyDown(int key, bool control, bool alt, bool shift, bool meta)
         {
-            var binding = _keyBindings.FirstOrDefault(b =>
+            var binding = _keyBindings.Values.SelectMany(bs => bs).FirstOrDefault(b =>
                 b.Key == key && b.Ctrl == control && b.Alt == alt && b.Shift == shift && b.Meta == meta);
 
             if (binding != null)
@@ -653,8 +646,9 @@ namespace FluentTerminal.App.ViewModels
 
         #region App menu
 
+        private const int RecentItemsMaxCount = 10;
+
         private AppMenuViewModel _menuViewModel;
-        private ExpandableMenuItemViewModel _recentItem;
 
         public AppMenuViewModel MenuViewModel
         {
@@ -664,7 +658,95 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
-            MenuViewModel = _appMenuFactory.CreateAppMenuViewModel(this, out _recentItem);
+            var tabMenuItem = new MenuItemViewModel(new RelayCommand(async () => await AddLocalTabAsync()),
+                I18N.TranslateWithFallback("NewTab.Text", "New tab"),
+                I18N.TranslateWithFallback("NewTab_Description", "Opens default profile in a new tab."));
+
+            var remoteTabMenuItem = new MenuItemViewModel(new RelayCommand(async () => await AddSshTabAsync()),
+                I18N.TranslateWithFallback("NewSshTab.Text", "New remote tab"),
+                I18N.TranslateWithFallback("NewSshTab_Description", "Opens a new SSH or Mosh session in a new tab."));
+
+            var quickTabMenuItem = new MenuItemViewModel(new RelayCommand(async () => await AddCustomCommandTabAsync()),
+                I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
+                I18N.TranslateWithFallback("NewQuickTab_Description",
+                    "Opens \"Quick Launch\" dialog and starts session in a new tab."));
+
+            var settingsMenuItem = new MenuItemViewModel(new RelayCommand(ShowSettings),
+                I18N.TranslateWithFallback("Settings.Text", "Settings"),
+                I18N.TranslateWithFallback("Settings_Description", "Opens settings window."));
+
+            var aboutMenuItem =
+                new MenuItemViewModel(new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync()),
+                    I18N.TranslateWithFallback("AboutDialog.Title", "About"));
+
+            var appMenuViewModel = new AppMenuViewModel(tabMenuItem, remoteTabMenuItem, quickTabMenuItem,
+                settingsMenuItem, aboutMenuItem, GetRecentMenuItems());
+
+            SetupMenuItemsKeyBindings(appMenuViewModel);
+
+            MenuViewModel = appMenuViewModel;
+        }
+
+        private ObservableCollection<MenuItemViewModel> GetRecentMenuItems() =>
+            new ObservableCollection<MenuItemViewModel>(_commandHistoryService
+                .GetHistoryRecentFirst(top: RecentItemsMaxCount).Select(CommandToMenuItem));
+
+        private MenuItemViewModel CommandToMenuItem(ExecutedCommand command)
+        {
+            var itemCommand = new RelayCommand(async () => await AddTerminalAsync(command.ShellProfile));
+            var keyBinding = command.ShellProfile.KeyBindings?.FirstOrDefault() is KeyBinding kb
+                ? new MenuItemKeyBindingViewModel(kb)
+                : null;
+
+            return new MenuItemViewModel(itemCommand, command.Value, keyBinding: keyBinding);
+        }
+
+        private void SetupMenuItemsKeyBindings(AppMenuViewModel appMenuViewModel = null)
+        {
+            if (appMenuViewModel == null)
+            {
+                appMenuViewModel = MenuViewModel;
+            }
+
+            if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings)
+            {
+                LoadKeyBindingsFromModel(appMenuViewModel.TabMenuItem, tabKeyBindings);
+            }
+
+            if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding)
+            {
+                LoadKeyBindingsFromModel(appMenuViewModel.RemoteTabMenuItem, remoteTabKeyBinding);
+            }
+
+            if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding)
+            {
+                LoadKeyBindingsFromModel(appMenuViewModel.QuickTabMenuItem, quickTabKeyBinding);
+            }
+
+            if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding)
+            {
+                LoadKeyBindingsFromModel(appMenuViewModel.SettingsMenuItem, settingsKeyBinding);
+            }
+        }
+
+        private void LoadKeyBindingsFromModel(MenuItemViewModel menuItemViewModel, KeyBinding keyBinding)
+        {
+            if (menuItemViewModel.KeyBinding == null)
+            {
+                menuItemViewModel.KeyBinding = new MenuItemKeyBindingViewModel(keyBinding);
+            }
+            else
+            {
+                menuItemViewModel.KeyBinding.Key = keyBinding.Key;
+                menuItemViewModel.KeyBinding.Ctrl = keyBinding.Ctrl;
+                menuItemViewModel.KeyBinding.Alt = keyBinding.Alt;
+                menuItemViewModel.KeyBinding.Shift = keyBinding.Shift;
+                menuItemViewModel.KeyBinding.Windows = keyBinding.Meta;
+            }
         }
 
         #endregion App menu

@@ -1,13 +1,36 @@
 ﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class MenuItemViewModel : MenuItemViewModelBase
+    public class MenuItemViewModel : ViewModelBase
     {
         #region Properties
 
-        public MenuItemKeyBindingViewModel KeyBinding { get; }
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set => Set(ref _text, value);
+        }
+
+        private string _description;
+
+        public string Description
+        {
+            get => _description;
+            set => Set(ref _description, value);
+        }
+
+        private MenuItemKeyBindingViewModel _keyBinding;
+
+        public MenuItemKeyBindingViewModel KeyBinding
+        {
+            get => _keyBinding;
+            set => Set(ref _keyBinding, value);
+        }
 
         public RelayCommand Command { get; }
 
@@ -15,22 +38,11 @@ namespace FluentTerminal.App.ViewModels.Menu
 
         #region Constructors
 
-        /// <summary>
-        /// Constructor used for menu items which <strong>do have</strong> key binding associated.
-        /// </summary>
-        public MenuItemViewModel(MenuItemKeyBindingViewModel keyBinding, string text, string description = null,
-            object icon = null) : base(text, description, icon)
+        public MenuItemViewModel(RelayCommand command, string text, string description = null, MenuItemKeyBindingViewModel keyBinding = null)
         {
-            KeyBinding = keyBinding ?? throw new ArgumentNullException(nameof(keyBinding));
-            Command = keyBinding.Command;
-        }
-
-        /// <summary>
-        /// Constructor used for menu items which <strong>do not have</strong> key binding associated.
-        /// </summary>
-        public MenuItemViewModel(RelayCommand command, string text, string description = null, object icon = null) :
-            base(text, description, icon)
-        {
+            _text = text;
+            _description = description;
+            _keyBinding = keyBinding;
             Command = command ?? throw new ArgumentNullException(nameof(command));
         }
 

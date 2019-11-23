@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.App.Converters;
@@ -12,33 +13,31 @@ namespace FluentTerminal.App.Views
         private static readonly MenuItemViewModelBaseToMenuFlayoutItemBaseConverter Converter =
             new MenuItemViewModelBaseToMenuFlayoutItemBaseConverter();
 
-        public static IEnumerable<MenuItemViewModelBase> GetSubItems(DependencyObject obj) =>
-            (IEnumerable<MenuItemViewModelBase>) obj.GetValue(SubItemsProperty);
+        public static IEnumerable<MenuItemViewModel> GetSubItems(DependencyObject obj) =>
+            (IEnumerable<MenuItemViewModel>) obj.GetValue(SubItemsProperty);
 
-        public static void SetSubItems(DependencyObject obj, IEnumerable<MenuItemViewModelBase> value) =>
+        public static void SetSubItems(DependencyObject obj, IEnumerable<MenuItemViewModel> value) =>
             obj.SetValue(SubItemsProperty, value);
 
         public static readonly DependencyProperty SubItemsProperty =
-            DependencyProperty.Register("SubItems", typeof(IEnumerable<MenuItemViewModelBase>), typeof(MenuExtension),
-                new PropertyMetadata(new List<MenuItemViewModelBase>(), (sender, e) =>
+            DependencyProperty.Register("SubItems", typeof(IEnumerable<MenuItemViewModel>), typeof(MenuExtension),
+                new PropertyMetadata(new List<MenuItemViewModel>(), (sender, e) =>
                 {
-                    var items = (sender as MenuFlyout)?.Items ?? (sender as MenuFlyoutSubItem)?.Items;
-
-                    if (items != null)
+                    if (sender is MenuFlyoutSubItem menuSubItem && menuSubItem.Items != null)
                     {
-                        items.Clear();
+                        menuSubItem.Items.Clear();
 
-                        if (e.NewValue is IEnumerable<MenuItemViewModelBase> viewModels)
+                        if (e.NewValue is IEnumerable<MenuItemViewModel> viewModels)
                         {
-                            foreach (var viewModel in viewModels)
+                            foreach (var item in viewModels.Select(vm => (MenuFlyoutItemBase) Converter.Convert(vm)))
                             {
-                                items.Add((MenuFlyoutItemBase) Converter.Convert(viewModel));
+                                menuSubItem.Items.Add(item);
                             }
 
                             // Hack to enforce changing items in view
-                            //(sender as UIElement)?.UpdateLayout();
-                            //(sender as UIElement)?.InvalidateArrange();
-                            (sender as UIElement)?.InvalidateMeasure();
+                            //menuSubItem.UpdateLayout();
+                            //menuSubItem.InvalidateArrange();
+                            menuSubItem.InvalidateMeasure();
                         }
                     }
                 }));

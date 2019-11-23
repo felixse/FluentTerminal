@@ -1,15 +1,11 @@
-﻿using System;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
     public class MenuItemKeyBindingViewModel : ViewModelBase
     {
         #region Properties
-
-        public RelayCommand Command { get; }
 
         private int _key;
 
@@ -88,10 +84,9 @@ namespace FluentTerminal.App.ViewModels.Menu
 
         #region Constructors
 
-        public MenuItemKeyBindingViewModel(RelayCommand command, int key = 0, bool ctrl = false, bool alt = false,
-            bool shift = false, bool windows = false)
+        public MenuItemKeyBindingViewModel(int key = 0, bool ctrl = false, bool alt = false, bool shift = false,
+            bool windows = false)
         {
-            Command = command ?? throw new ArgumentNullException(nameof(command));
             _key = key;
             _ctrl = ctrl;
             _alt = alt;
@@ -101,8 +96,8 @@ namespace FluentTerminal.App.ViewModels.Menu
             SetKeyModifiers();
         }
 
-        public MenuItemKeyBindingViewModel(RelayCommand command, KeyBinding keyBinding) : this(command, keyBinding.Key,
-            keyBinding.Ctrl, keyBinding.Alt, keyBinding.Shift, keyBinding.Meta)
+        public MenuItemKeyBindingViewModel(KeyBinding keyBinding) : this(keyBinding.Key, keyBinding.Ctrl,
+            keyBinding.Alt, keyBinding.Shift, keyBinding.Meta)
         {
         }
 

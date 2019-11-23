@@ -130,7 +130,6 @@
     </Compile>
     <Compile Include="Services\CommandHistoryService.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
-    <Compile Include="ViewModels\AppMenuViewModelFactory.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
       <DependentUpon>CustomCommandDialog.xaml</DependentUpon>

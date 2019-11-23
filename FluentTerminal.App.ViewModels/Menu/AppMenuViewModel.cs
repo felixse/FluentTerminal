@@ -1,29 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
     public class AppMenuViewModel : ViewModelBase
     {
-        private ObservableCollection<MenuItemViewModelBase> _items;
+        public MenuItemViewModel TabMenuItem { get; }
 
-        public ObservableCollection<MenuItemViewModelBase> MenuItems
+        public MenuItemViewModel RemoteTabMenuItem { get; }
+
+        public MenuItemViewModel QuickTabMenuItem { get; }
+
+        public MenuItemViewModel SettingsMenuItem { get; }
+
+        public MenuItemViewModel AboutMenuItem { get; }
+
+        private ObservableCollection<MenuItemViewModel> _recentMenuItems;
+
+        public ObservableCollection<MenuItemViewModel> RecentMenuItems
         {
-            get => _items;
-            set => Set(ref _items, value);
+            get => _recentMenuItems;
+            set => Set(ref _recentMenuItems, value);
         }
 
-        public AppMenuViewModel(IEnumerable<MenuItemViewModelBase> items = null)
+        public AppMenuViewModel(MenuItemViewModel tabMenuItem, MenuItemViewModel remoteTabMenuItem,
+            MenuItemViewModel quickTabMenuItem, MenuItemViewModel settingsMenuItem, MenuItemViewModel aboutMenuItem,
+            ObservableCollection<MenuItemViewModel> recentMenuItems)
         {
-            if (items is ObservableCollection<MenuItemViewModelBase> observableItems)
-            {
-                MenuItems = observableItems;
-            }
-            else if (items != null)
-            {
-                MenuItems = new ObservableCollection<MenuItemViewModelBase>(items);
-            }
+            TabMenuItem = tabMenuItem;
+            RemoteTabMenuItem = remoteTabMenuItem;
+            QuickTabMenuItem = quickTabMenuItem;
+            SettingsMenuItem = settingsMenuItem;
+            AboutMenuItem = aboutMenuItem;
+            _recentMenuItems = recentMenuItems;
         }
     }
 }
