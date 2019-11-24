@@ -655,7 +655,14 @@ namespace FluentTerminal.App.ViewModels
         public AppMenuViewModel MenuViewModel
         {
             get => _menuViewModel;
-            private set => Set(ref _menuViewModel, value);
+            private set
+            {
+                // Changing app menu view model only if it's actually different than previous.
+                if (!value.EquivalentTo(_menuViewModel))
+                {
+                    Set(ref _menuViewModel, value);
+                }
+            }
         }
 
         private void CreateMenuViewModel()

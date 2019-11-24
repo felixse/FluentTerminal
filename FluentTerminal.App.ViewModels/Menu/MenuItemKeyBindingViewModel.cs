@@ -133,6 +133,15 @@ namespace FluentTerminal.App.ViewModels.Menu
             KeyModifiers = result;
         }
 
+        public bool EquivalentTo(MenuItemKeyBindingViewModel other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+
+            if (other == null) return false;
+
+            return _key == other._key && _keyModifiers == other._keyModifiers;
+        }
+
         #endregion Methods
     }
 }

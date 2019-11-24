@@ -47,5 +47,20 @@ namespace FluentTerminal.App.ViewModels.Menu
         }
 
         #endregion Constructors
+
+        #region Methods
+
+        public bool EquivalentTo(MenuItemViewModel other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+
+            if (other == null) return false;
+
+            return string.Equals(_text, other._text, StringComparison.Ordinal) &&
+                   string.Equals(_description, other._description, StringComparison.Ordinal) &&
+                   (_keyBinding?.EquivalentTo(other._keyBinding) ?? other._keyBinding == null);
+        }
+
+        #endregion Methods
     }
 }
