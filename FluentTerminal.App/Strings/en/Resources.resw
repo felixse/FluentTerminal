@@ -1041,9 +1041,6 @@ Fuzzy</comment>
   <data name="NewTab_Description" xml:space="preserve">
     <value>Opens default profile in a new tab.</value>
   </data>
-  <data name="Recent_Description" xml:space="preserve">
-    <value>Recently executed commands.</value>
-  </data>
   <data name="NewSshTab_Description" xml:space="preserve">
     <value>Opens a new SSH or Mosh session in a new tab.</value>
   </data>
