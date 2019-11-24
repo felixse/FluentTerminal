@@ -3,7 +3,6 @@ using FluentTerminal.App.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -16,15 +15,12 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Menu;
 
 namespace FluentTerminal.App.Views
 {
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private AppMenuViewModel _lastMenuViewModel;
-
         private CoreApplicationViewTitleBar _coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -48,94 +44,7 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        private MainViewModel _viewModel;
-
-        public MainViewModel ViewModel
-        {
-            get => _viewModel;
-            private set
-            {
-                var old = _viewModel;
-
-                if (ReferenceEquals(old, value))
-                {
-                    return;
-                }
-
-                if (old != null)
-                {
-                    old.PropertyChanged -= ViewModelPropertyChanged;
-                }
-
-                if (value != null)
-                {
-                    value.PropertyChanged += ViewModelPropertyChanged;
-                }
-
-                _viewModel = value;
-
-                if (value?.MenuViewModel != null)
-                {
-                    if (_lastMenuViewModel == null)
-                    {
-                        // The app menu isn't created yet, so we'll go with smaller delay:
-                        var unused = CreateAppMenu(200);
-                    }
-                    else
-                    {
-                        // The app menu is already created, and now needs to be updated, so we'll go with the default (longer) delay:
-                        var unused = CreateAppMenu();
-                    }
-                }
-            }
-        }
-
-        private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (nameof(MainViewModel.MenuViewModel).Equals(e.PropertyName, StringComparison.Ordinal) &&
-                _viewModel?.MenuViewModel != null)
-            {
-                var unused = CreateAppMenu();
-            }
-        }
-
-        private async Task CreateAppMenu(int delayMilliseconds = 1000)
-        {
-            if (delayMilliseconds > 0)
-            {
-                await Task.Delay(delayMilliseconds);
-            }
-
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, CreateAppMenuDispatched);
-        }
-
-        // I've had to create such weird manual menu binding because only this way the menu actually updates.
-        private void CreateAppMenuDispatched()
-        {
-            if (!(_viewModel?.MenuViewModel is AppMenuViewModel appMenuViewModel) ||
-                ReferenceEquals(appMenuViewModel, _lastMenuViewModel))
-            {
-                return;
-            }
-
-            if ((Hamburger.Content as Button)?.Flyout?.IsOpen ?? false)
-            {
-                // We don't want to change menu while it's open. Otherwise it would close annoyingly for the user.
-                var unused = CreateAppMenu();
-
-                return;
-            }
-
-            if (Resources.TryGetValue("AppMenuTemplate", out var value) && value is DataTemplate dataTemplate)
-            {
-                var appMenu = (Button) dataTemplate.LoadContent();
-                appMenu.DataContext = appMenuViewModel;
-
-                Hamburger.Content = appMenu;
-
-                _lastMenuViewModel = appMenuViewModel;
-            }
-        }
+        public MainViewModel ViewModel { get; private set; }
 
         private long _propertyChangedCallbackToken;
 
