@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight;
 
@@ -6,45 +7,23 @@ namespace FluentTerminal.App.ViewModels.Menu
 {
     public class AppMenuViewModel : ViewModelBase
     {
-        #region Properties
+        public ObservableCollection<MenuItemViewModelBase> Items { get; }
 
-        public MenuItemViewModel TabMenuItem { get; }
-
-        public MenuItemViewModel RemoteTabMenuItem { get; }
-
-        public MenuItemViewModel QuickTabMenuItem { get; }
-
-        public MenuItemViewModel SettingsMenuItem { get; }
-
-        public MenuItemViewModel AboutMenuItem { get; }
-
-        private ObservableCollection<MenuItemViewModel> _recentMenuItems;
-
-        public ObservableCollection<MenuItemViewModel> RecentMenuItems
+        public AppMenuViewModel(IEnumerable<MenuItemViewModelBase> items = null)
         {
-            get => _recentMenuItems;
-            set => Set(ref _recentMenuItems, value);
+            if (items == null)
+            {
+                Items = new ObservableCollection<MenuItemViewModelBase>();
+            }
+            else if (items is ObservableCollection<MenuItemViewModelBase> observableItems)
+            {
+                Items = observableItems;
+            }
+            else
+            {
+                Items = new ObservableCollection<MenuItemViewModelBase>(items);
+            }
         }
-
-        #endregion Properties
-
-        #region Constructor
-
-        public AppMenuViewModel(MenuItemViewModel tabMenuItem, MenuItemViewModel remoteTabMenuItem,
-            MenuItemViewModel quickTabMenuItem, MenuItemViewModel settingsMenuItem, MenuItemViewModel aboutMenuItem,
-            ObservableCollection<MenuItemViewModel> recentMenuItems)
-        {
-            TabMenuItem = tabMenuItem;
-            RemoteTabMenuItem = remoteTabMenuItem;
-            QuickTabMenuItem = quickTabMenuItem;
-            SettingsMenuItem = settingsMenuItem;
-            AboutMenuItem = aboutMenuItem;
-            _recentMenuItems = recentMenuItems;
-        }
-
-        #endregion Constructor
-
-        #region Methods
 
         public bool EquivalentTo(AppMenuViewModel other)
         {
@@ -52,19 +31,9 @@ namespace FluentTerminal.App.ViewModels.Menu
 
             if (other == null) return false;
 
-            if (!TabMenuItem.EquivalentTo(other.TabMenuItem) ||
-                !RemoteTabMenuItem.EquivalentTo(other.RemoteTabMenuItem) ||
-                !QuickTabMenuItem.EquivalentTo(other.QuickTabMenuItem) ||
-                !SettingsMenuItem.EquivalentTo(other.SettingsMenuItem) ||
-                !AboutMenuItem.EquivalentTo(other.AboutMenuItem) ||
-                RecentMenuItems.Count != other.RecentMenuItems.Count)
-            {
-                return false;
-            }
+            if (Items.Count != other.Items.Count) return false;
 
-            return !RecentMenuItems.Where((t, i) => !t.EquivalentTo(other.RecentMenuItems[i])).Any();
+            return !Items.Where((t, i) => !t.EquivalentTo(other.Items[i])).Any();
         }
-
-        #endregion Methods
     }
 }

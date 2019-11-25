@@ -1,9 +1,11 @@
 ﻿using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels.Menu;
+using FluentTerminal.App.Views;
 
 // ReSharper disable LocalizableElement
 
@@ -13,25 +15,39 @@ namespace FluentTerminal.App.Converters
     {
         #region Static
 
-        private static readonly KeyBindingViewModelToKeyboardAcceleratorConverter KeyBindingConverter =
-            new KeyBindingViewModelToKeyboardAcceleratorConverter();
+        private static readonly IconConverter IconConverter = new IconConverter();
 
-        private static MenuFlyoutItem GetItem(MenuItemViewModel viewModel)
+        private static MenuFlyoutItemBase GetItem(MenuItemViewModelBase viewModel) =>
+            viewModel is ExpandableMenuItemViewModel expandableMenuItemViewModel
+                ? (MenuFlyoutItemBase)GetExpandableItem(expandableMenuItemViewModel)
+                : GetRegularItem((MenuItemViewModel)viewModel);
+
+        private static MenuFlyoutItem GetRegularItem(MenuItemViewModel viewModel)
         {
             var item = new MenuFlyoutItem();
 
             item.SetBinding(MenuFlyoutItem.TextProperty, new Binding
             {
                 Source = viewModel,
-                Path = new PropertyPath(nameof(MenuItemViewModel.Text)),
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Text)),
                 Mode = BindingMode.OneWay
             });
+
             item.SetBinding(ToolTipService.ToolTipProperty, new Binding
             {
                 Source = viewModel,
-                Path = new PropertyPath(nameof(MenuItemViewModel.Description)),
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Description)),
                 Mode = BindingMode.OneWay
             });
+
+            item.SetBinding(MenuFlyoutItem.IconProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Icon)),
+                Converter = IconConverter,
+                Mode = BindingMode.OneWay
+            });
+
             item.SetBinding(MenuFlyoutItem.CommandProperty, new Binding
             {
                 Source = viewModel,
@@ -41,8 +57,49 @@ namespace FluentTerminal.App.Converters
 
             if (viewModel.KeyBinding is MenuItemKeyBindingViewModel keyBinding)
             {
-                item.KeyboardAccelerators.Add((KeyboardAccelerator) KeyBindingConverter.Convert(keyBinding));
+                item.KeyboardAccelerators?.Add(new KeyboardAccelerator
+                {
+                    Key = (VirtualKey)keyBinding.Key,
+                    Modifiers = (VirtualKeyModifiers)keyBinding.KeyModifiers,
+                    IsEnabled = true
+                });
             }
+
+            return item;
+        }
+
+        private static MenuFlyoutSubItem GetExpandableItem(ExpandableMenuItemViewModel viewModel)
+        {
+            var item = new MenuFlyoutSubItem();
+
+            item.SetBinding(MenuFlyoutSubItem.TextProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Text)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(ToolTipService.ToolTipProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Description)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(MenuFlyoutSubItem.IconProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Icon)),
+                Converter = IconConverter,
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(MenuExtension.SubItemsProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(ExpandableMenuItemViewModel.SubItems)),
+                Mode = BindingMode.OneWay
+            });
 
             return item;
         }
@@ -54,22 +111,15 @@ namespace FluentTerminal.App.Converters
         // ReSharper disable once AssignNullToNotNullAttribute
         public object Convert(object value, Type targetType = null, object parameter = null, string language = null)
         {
-            if (targetType != null && !typeof(MenuFlyoutItemBase).IsAssignableFrom(targetType))
-            {
-                throw new ArgumentException(
-                    $"Invalid {nameof(targetType)} argument value: {targetType}. {typeof(MenuFlyoutItemBase)} expected.",
-                    nameof(targetType));
-            }
-
             if (value == null)
             {
                 return null;
             }
 
-            return value is MenuItemViewModel menuItemViewModel
+            return value is MenuItemViewModelBase menuItemViewModel
                 ? GetItem(menuItemViewModel)
                 : throw new ArgumentException(
-                    $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(MenuItemViewModel)} expected.",
+                    $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(MenuItemViewModelBase)} expected.",
                     nameof(value));
         }
 

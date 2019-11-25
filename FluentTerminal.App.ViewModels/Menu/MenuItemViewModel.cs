@@ -1,28 +1,11 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class MenuItemViewModel : ViewModelBase
+    public class MenuItemViewModel : MenuItemViewModelBase
     {
         #region Properties
-
-        private string _text;
-
-        public string Text
-        {
-            get => _text;
-            set => Set(ref _text, value);
-        }
-
-        private string _description;
-
-        public string Description
-        {
-            get => _description;
-            set => Set(ref _description, value);
-        }
 
         private MenuItemKeyBindingViewModel _keyBinding;
 
@@ -38,10 +21,9 @@ namespace FluentTerminal.App.ViewModels.Menu
 
         #region Constructors
 
-        public MenuItemViewModel(RelayCommand command, string text, string description = null, MenuItemKeyBindingViewModel keyBinding = null)
+        public MenuItemViewModel(string text, RelayCommand command, string description = null, object icon = null,
+            MenuItemKeyBindingViewModel keyBinding = null) : base(text, description, icon)
         {
-            _text = text;
-            _description = description;
             _keyBinding = keyBinding;
             Command = command ?? throw new ArgumentNullException(nameof(command));
         }
@@ -50,15 +32,13 @@ namespace FluentTerminal.App.ViewModels.Menu
 
         #region Methods
 
-        public bool EquivalentTo(MenuItemViewModel other)
+        public override bool EquivalentTo(MenuItemViewModelBase other)
         {
-            if (ReferenceEquals(this, other)) return true;
+            if (!base.EquivalentTo(other)) return false;
 
-            if (other == null) return false;
+            if (!(other is MenuItemViewModel menuItem)) return false;
 
-            return string.Equals(_text, other._text, StringComparison.Ordinal) &&
-                   string.Equals(_description, other._description, StringComparison.Ordinal) &&
-                   (_keyBinding?.EquivalentTo(other._keyBinding) ?? other._keyBinding == null);
+            return _keyBinding?.EquivalentTo(menuItem._keyBinding) ?? menuItem._keyBinding == null;
         }
 
         #endregion Methods

@@ -114,7 +114,7 @@ namespace FluentTerminal.App.ViewModels
 
             LoadKeyBindings();
 
-            CreateMenuViewModel();
+            InitializeAppMenu();
         }
 
         private void LoadKeyBindings() => _keyBindings = _settingsService.GetCommandKeyBindings();
@@ -652,6 +652,11 @@ namespace FluentTerminal.App.ViewModels
 
         private AppMenuViewModel _menuViewModel;
 
+        private RelayCommand _newRemoteTabCommand;
+        private RelayCommand _newQuickCommand;
+        private RelayCommand _settingsCommand;
+        private RelayCommand _aboutCommand;
+
         public AppMenuViewModel MenuViewModel
         {
             get => _menuViewModel;
@@ -665,33 +670,99 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        private void InitializeAppMenu()
+        {
+            _newRemoteTabCommand = new RelayCommand(async () => await AddSshTabAsync());
+            _newQuickCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
+            _settingsCommand = new RelayCommand(ShowSettings);
+            _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
+
+            CreateMenuViewModel();
+        }
+
         private void CreateMenuViewModel()
         {
-            var tabMenuItem = new MenuItemViewModel(AddLocalShellCommand,
-                I18N.TranslateWithFallback("NewTab.Text", "New tab"),
-                I18N.TranslateWithFallback("NewTab_Description", "Opens default profile in a new tab."));
+            var tabItem = new MenuItemViewModel(I18N.TranslateWithFallback("NewTab.Text", "New tab"),
+                AddLocalShellCommand,
+                I18N.TranslateWithFallback("NewTab_Description", "Opens default profile in a new tab."),
+                icon: 57609 /*(int) Symbol.Add*/);
 
-            var remoteTabMenuItem = new MenuItemViewModel(new RelayCommand(async () => await AddSshTabAsync()),
-                I18N.TranslateWithFallback("NewSshTab.Text", "New remote tab"),
-                I18N.TranslateWithFallback("NewSshTab_Description", "Opens a new SSH or Mosh session in a new tab."));
+            if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings &&
+                _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
+            {
+                LoadKeyBindingsFromModel(tabItem, tabKeyBindings);
+            }
+            else
+            {
+                tabItem.KeyBinding = null;
+            }
 
-            var quickTabMenuItem = new MenuItemViewModel(new RelayCommand(async () => await AddCustomCommandTabAsync()),
-                I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
+            var remoteTabItem = new MenuItemViewModel(I18N.TranslateWithFallback("NewSshTab.Text", "New remote tab"),
+                _newRemoteTabCommand,
+                I18N.TranslateWithFallback("NewSshTab_Description", "Opens a new SSH or Mosh session in a new tab."),
+                icon: 57609 /*(int) Symbol.Add*/);
+
+            if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
+            {
+                LoadKeyBindingsFromModel(remoteTabItem, remoteTabKeyBinding);
+            }
+            else
+            {
+                remoteTabItem.KeyBinding = null;
+            }
+
+            var quickTab = new MenuItemViewModel(I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
+                _newQuickCommand,
                 I18N.TranslateWithFallback("NewQuickTab_Description",
-                    "Opens \"Quick Launch\" dialog and starts session in a new tab."));
+                    "Opens \"Quick Launch\" dialog and starts session in a new tab."),
+                icon: 57609 /*(int) Symbol.Add*/);
 
-            var settingsMenuItem = new MenuItemViewModel(new RelayCommand(ShowSettings),
-                I18N.TranslateWithFallback("Settings.Text", "Settings"),
-                I18N.TranslateWithFallback("Settings_Description", "Opens settings window."));
+            if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
+            {
+                LoadKeyBindingsFromModel(quickTab, quickTabKeyBinding);
+            }
+            else
+            {
+                quickTab.KeyBinding = null;
+            }
 
-            var aboutMenuItem =
-                new MenuItemViewModel(new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync()),
-                    I18N.TranslateWithFallback("AboutDialog.Title", "About"));
+            var settings = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
+                _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),
+                icon: 57621 /*(int) Symbol.Setting*/);
 
-            var appMenuViewModel = new AppMenuViewModel(tabMenuItem, remoteTabMenuItem, quickTabMenuItem,
-                settingsMenuItem, aboutMenuItem, GetRecentMenuItems());
+            if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
+                _acceleratorKeyValidator.Valid(settingsKeyBinding.Key))
+            {
+                LoadKeyBindingsFromModel(settings, settingsKeyBinding);
+            }
+            else
+            {
+                settings.KeyBinding = null;
+            }
 
-            SetupMenuItemsKeyBindings(appMenuViewModel);
+            var recent = new ExpandableMenuItemViewModel(I18N.TranslateWithFallback("Recent.Text", "Recent"),
+                GetRecentMenuItems(), I18N.TranslateWithFallback("Recent_Description", "Recently opened sessions."),
+                icon: "\uF738" /*Segoe MDL2 Assets Glyph property*/);
+
+            var about = new MenuItemViewModel(I18N.TranslateWithFallback("AboutDialog.Title", "About"), _aboutCommand,
+                I18N.TranslateWithFallback("About_Description", "Basic info about the app."),
+                icon: "\uE946" /*Segoe MDL2 Assets Glyph property*/);
+
+            var appMenuViewModel = new AppMenuViewModel(new MenuItemViewModelBase[]
+            {
+                tabItem,
+                remoteTabItem,
+                quickTab,
+                settings,
+                recent,
+                about,
+            });
 
             MenuViewModel = appMenuViewModel;
         }
@@ -708,61 +779,7 @@ namespace FluentTerminal.App.ViewModels
                 ? new MenuItemKeyBindingViewModel(kb)
                 : null;
 
-            return new MenuItemViewModel(itemCommand, command.Value, keyBinding: keyBinding);
-        }
-
-        private void SetupMenuItemsKeyBindings(AppMenuViewModel appMenuViewModel = null)
-        {
-            if (appMenuViewModel == null)
-            {
-                appMenuViewModel = MenuViewModel;
-
-                if (appMenuViewModel == null) return;
-            }
-
-            if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings &&
-                _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
-            {
-                LoadKeyBindingsFromModel(appMenuViewModel.TabMenuItem, tabKeyBindings);
-            }
-            else
-            {
-                appMenuViewModel.TabMenuItem.KeyBinding = null;
-            }
-
-            if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
-            {
-                LoadKeyBindingsFromModel(appMenuViewModel.RemoteTabMenuItem, remoteTabKeyBinding);
-            }
-            else
-            {
-                appMenuViewModel.RemoteTabMenuItem.KeyBinding = null;
-            }
-
-            if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
-            {
-                LoadKeyBindingsFromModel(appMenuViewModel.QuickTabMenuItem, quickTabKeyBinding);
-            }
-            else
-            {
-                appMenuViewModel.QuickTabMenuItem.KeyBinding = null;
-            }
-
-            if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
-                _acceleratorKeyValidator.Valid(settingsKeyBinding.Key))
-            {
-                LoadKeyBindingsFromModel(appMenuViewModel.SettingsMenuItem, settingsKeyBinding);
-            }
-            else
-            {
-                appMenuViewModel.SettingsMenuItem.KeyBinding = null;
-            }
+            return new MenuItemViewModel(command.Value, itemCommand, keyBinding: keyBinding);
         }
 
         private void LoadKeyBindingsFromModel(MenuItemViewModel menuItemViewModel, KeyBinding keyBinding)

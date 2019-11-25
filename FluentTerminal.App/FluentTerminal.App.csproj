@@ -110,7 +110,7 @@
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
     <Compile Include="Converters\I18NConverter.cs" />
-    <Compile Include="Converters\KeyBindingViewModelToKeyboardAcceleratorConverter.cs" />
+    <Compile Include="Converters\IconConverter.cs" />
     <Compile Include="Converters\MenuItemViewModelBaseToMenuFlayoutItemBaseConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />

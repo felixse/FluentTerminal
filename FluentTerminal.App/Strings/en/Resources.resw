@@ -1050,4 +1050,10 @@ Fuzzy</comment>
   <data name="Settings_Description" xml:space="preserve">
     <value>Opens settings window.</value>
   </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Basic info about the app.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Recently opened sessions.</value>
+  </data>
 </root>
