@@ -184,32 +184,7 @@ namespace FluentTerminal.App.Services.Implementation
                             Key = (int)ExtendedVirtualKey.Q
                         }
                     };
-
-                case Command.SavedSshNewTab:
-                    return new List<KeyBinding>
-                    {
-                        new KeyBinding
-                        {
-                            Command = nameof(Command.SavedSshNewTab),
-                            Ctrl = true,
-                            Shift = true,
-                            Key = (int)ExtendedVirtualKey.U
-                        }
-                    };
-
-                case Command.SavedSshNewWindow:
-                    return new List<KeyBinding>
-                    {
-                        new KeyBinding
-                        {
-                            Command = nameof(Command.SavedSshNewWindow),
-                            Ctrl = true,
-                            Alt = true,
-                            Key = (int)ExtendedVirtualKey.U
-                        }
-                    };
-
-
+                    
                 case Command.ChangeTabTitle:
                     return new List<KeyBinding>
                 {

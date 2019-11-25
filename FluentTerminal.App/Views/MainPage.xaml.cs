@@ -154,7 +154,7 @@ namespace FluentTerminal.App.Views
         {
             if (e.DragEventArgs.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
             {
-                await ViewModel.AddTerminalAsync(terminalViewModelState, e.Position);
+                await ViewModel.AddTabAsync(terminalViewModelState, e.Position);
             }
         }
 
@@ -217,7 +217,7 @@ namespace FluentTerminal.App.Views
             if (e.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
             {
                 TabBar.ItemWasDropped = true;
-                await ViewModel.AddTerminalAsync(terminalViewModelState, ViewModel.Terminals.Count);
+                await ViewModel.AddTabAsync(terminalViewModelState, ViewModel.Terminals.Count);
             }
         }
 
