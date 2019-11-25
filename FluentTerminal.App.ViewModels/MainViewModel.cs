@@ -682,12 +682,16 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
+            bool tab = _settingsService.GetApplicationSettings().NewTerminalLocation == NewTerminalLocation.Tab;
+
             var tabItem = new MenuItemViewModel(
                 I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "Default Profile"), AddLocalShellCommand,
                 I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
                     "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
 
-            if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
+            var command = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
+
+            if (_keyBindings.TryGetValue(command, out var keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings &&
                 _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
             {
@@ -704,7 +708,9 @@ namespace FluentTerminal.App.ViewModels
                     "Opens a dialog for launching a new SSH or Mosh terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
 
-            if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
+            command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
+
+            if (_keyBindings.TryGetValue(command, out keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
                 _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
             {
@@ -721,7 +727,9 @@ namespace FluentTerminal.App.ViewModels
                     "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
 
-            if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&
+            command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
+
+            if (_keyBindings.TryGetValue(command, out keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
                 _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
             {
