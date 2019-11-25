@@ -13,8 +13,6 @@
         NewSshWindow,
         NewCustomCommandTab, 
         NewCustomCommandWindow,
-        SavedSshNewTab,
-        SavedSshNewWindow,
         ChangeTabTitle,
         CloseTab,
         ShowSettings,

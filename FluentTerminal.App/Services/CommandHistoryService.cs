@@ -277,6 +277,11 @@ namespace FluentTerminal.App.Services
 
             if (existing == null)
             {
+                if (string.IsNullOrEmpty(profile.Name))
+                {
+                    profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
+                }
+
                 existing = new ExecutedCommand
                 {
                     Value = profile.Name,

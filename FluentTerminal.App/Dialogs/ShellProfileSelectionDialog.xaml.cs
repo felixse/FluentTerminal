@@ -4,37 +4,39 @@ using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.Models;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Dialogs
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class ShellProfileSelectionDialog : ContentDialog, IShellProfileSelectionDialog
     {
-        public IEnumerable<ShellProfile> Profiles { get; }
+        public ObservableCollection<ShellProfile> Profiles { get; }
 
         public ShellProfile SelectedProfile { get; private set; }
 
         public ShellProfileSelectionDialog(ISettingsService settingsService)
         {
-            Profiles = settingsService.GetShellProfiles();
+            Profiles = new ObservableCollection<ShellProfile>(settingsService.GetShellProfiles()
+                .Union(settingsService.GetSshProfiles()).OrderBy(p => p.Name));
+
             SelectedProfile = Profiles.First();
-            this.InitializeComponent();
-            SecondaryButtonText = I18N.Translate("Cancel");
+
+            InitializeComponent();
+
+            PrimaryButtonText = I18N.TranslateWithFallback("OK", "OK");
+            SecondaryButtonText = I18N.TranslateWithFallback("Cancel", "Cancel");
+
             var currentTheme = settingsService.GetCurrentTheme();
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
         public async Task<ShellProfile> SelectProfile()
         {
-            var result = await ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                return SelectedProfile;
-            }
-            return null;
+            return await ShowAsync() == ContentDialogResult.Primary ? SelectedProfile : null;
         }
     }
 }
