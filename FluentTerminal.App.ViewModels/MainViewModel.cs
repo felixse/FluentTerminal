@@ -1,4 +1,4 @@
-﻿using FluentTerminal.App.Services;
+using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
