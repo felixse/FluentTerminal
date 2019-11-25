@@ -151,12 +151,7 @@ namespace FluentTerminal.App.Dialogs
 
             SetupFocus();
 
-            if (await ShowAsync() != ContentDialogResult.Primary)
-            {
-                return null;
-            }
-
-            return (SshProfile)ViewModel.Model;
+            return await ShowAsync() == ContentDialogResult.Primary ? (SshProfile) ViewModel.Model : null;
         }
     }
 }

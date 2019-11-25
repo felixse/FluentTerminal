@@ -102,7 +102,6 @@ namespace FluentTerminal.App
             builder.RegisterType<ImageFileSystemService>().As<IImageFileSystemService>().SingleInstance();
             builder.RegisterType<SystemFontService>().As<ISystemFontService>().SingleInstance();
             builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
-            builder.RegisterType<SshProfileSelectionDialog>().As<ISshProfileSelectionDialog>().InstancePerDependency();
             builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<AboutDialog>().As<IAboutDialog>().InstancePerDependency();
@@ -284,7 +283,7 @@ namespace FluentTerminal.App
                     if (mainViewModel == null)
                         await CreateTerminal(profile, _applicationSettings.NewTerminalLocation, protocolActivated.ViewSwitcher);
                     else
-                        await mainViewModel.AddTerminalAsync(profile);
+                        await mainViewModel.AddTabAsync(profile);
 
                     return;
                 }
@@ -335,7 +334,7 @@ namespace FluentTerminal.App
                     }
                     else
                     {
-                        await mainViewModel.AddTerminalAsync(profile);
+                        await mainViewModel.AddTabAsync(profile);
                     }
                     return;
                 }
@@ -475,11 +474,11 @@ namespace FluentTerminal.App
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
                 {
-                    await viewModel.AddLocalTabOrWindowAsync(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
+                    await viewModel.AddProfileByGuidAsync(Guid.Parse(args.Arguments.Replace(JumpListHelper.ShellProfileFlag, string.Empty)));
                 }
                 else
                 {
-                    await viewModel.AddLocalTabAsync();
+                    await viewModel.AddDefaultProfileAsync(NewTerminalLocation.Tab);
                 }
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
                 Window.Current.Activate();
@@ -493,7 +492,7 @@ namespace FluentTerminal.App
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-                await viewModel.AddLocalTabAsync();
+                await viewModel.AddDefaultProfileAsync(NewTerminalLocation.Tab);
                 await ShowAsStandaloneAsync(viewModel, args.ViewSwitcher);
             }
 
@@ -671,68 +670,14 @@ namespace FluentTerminal.App
             Logger.Instance.Debug("App.xaml.cs on tab tear off");
 
             var newViewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-            await newViewModel.AddTerminalAsync(await model.Serialize(), 0);
+            await newViewModel.AddTabAsync(await model.Serialize(), 0);
         }
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
-            ShellProfile profile = null;
-            switch (e.Action)
-            {
-                case NewWindowAction.StartDefaultLocalTerminal:
-                    break;
-                case NewWindowAction.ShowProfileSelection:
-                    profile = await _dialogService.ShowProfileSelectionDialogAsync();
-                    if (profile == null)
-                    {
-                        // Nothing to do if user cancels.
-                        return;
-                    }
-                    break;
-                case NewWindowAction.ShowSshProfileSelection:
-                    profile = await _dialogService.ShowSshProfileSelectionDialogAsync();
-                    if (profile == null)
-                    {
-                        // Nothing to do if user cancels.
-                        return;
-                    }
-                    break;
-                case NewWindowAction.ShowCustomCommandDialog:
-                    profile = await _dialogService.ShowCustomCommandDialogAsync();
-                    if (profile == null)
-                    {
-                        // Nothing to do if user cancels.
-                        return;
-                    }
-                    break;
-                case NewWindowAction.ShowSshInfoDialog:
-                    profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
-                    if (profile == null)
-                    {
-                        // Nothing to do if user cancels.
-                        return;
-                    }
-                    break;
-                case NewWindowAction.StartLocalTerminal:
-                    profile = _settingsService.GetShellProfile(e.ProfileId);
-                    break;
-                case NewWindowAction.StartSshTerminal:
-                    profile = _settingsService.GetSshProfile(e.ProfileId);
-                    break;
-                default:
-                    throw new NotImplementedException("this ProfileSelection not implemented yet");
-            }
-
             var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
 
-            if (profile == null)
-            {
-                await viewModel.AddLocalTabAsync();
-            }
-            else
-            {
-                await viewModel.AddTerminalAsync(profile);
-            }
+            await viewModel.AddTabAsync(e.Profile);
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)
@@ -768,7 +713,7 @@ namespace FluentTerminal.App
             if (!_alreadyLaunched)
             {
                 var viewModel = _container.Resolve<MainViewModel>();
-                await viewModel.AddTerminalAsync(profile);
+                await viewModel.AddTabAsync(profile);
                 await CreateMainView(typeof(MainPage), viewModel, true).ConfigureAwait(true);
             }
             else if (location == NewTerminalLocation.Tab && _mainViewModels.Count > 0)
@@ -780,13 +725,13 @@ namespace FluentTerminal.App
                     item = _mainViewModels.Last();
                 }
 
-                await item.AddTerminalAsync(profile);
+                await item.AddTabAsync(profile);
                 await ShowAsStandaloneAsync(item, viewSwitcher);
             }
             else
             {
                 var viewModel = await CreateNewTerminalWindow().ConfigureAwait(true);
-                await viewModel.AddTerminalAsync(profile);
+                await viewModel.AddTabAsync(profile);
                 await ShowAsStandaloneAsync(viewModel, viewSwitcher);
             }
         }
