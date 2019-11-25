@@ -682,10 +682,10 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
-            var tabItem = new MenuItemViewModel(I18N.TranslateWithFallback("NewTab.Text", "New tab"),
-                AddLocalShellCommand,
-                I18N.TranslateWithFallback("NewTab_Description", "Opens default profile in a new tab."),
-                icon: 57609 /*(int) Symbol.Add*/);
+            var tabItem = new MenuItemViewModel(
+                I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "Default Profile"), AddLocalShellCommand,
+                I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
+                    "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
 
             if (_keyBindings.TryGetValue(nameof(Command.NewTab), out var keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding tabKeyBindings &&
@@ -698,9 +698,10 @@ namespace FluentTerminal.App.ViewModels
                 tabItem.KeyBinding = null;
             }
 
-            var remoteTabItem = new MenuItemViewModel(I18N.TranslateWithFallback("NewSshTab.Text", "New remote tab"),
-                _newRemoteTabCommand,
-                I18N.TranslateWithFallback("NewSshTab_Description", "Opens a new SSH or Mosh session in a new tab."),
+            var remoteTabItem = new MenuItemViewModel(
+                I18N.TranslateWithFallback("MenuItem_Remote_Text", "Remote Connect..."), _newRemoteTabCommand,
+                I18N.TranslateWithFallback("MenuItem_Remote_Description",
+                    "Opens a dialog for launching a new SSH or Mosh terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
 
             if (_keyBindings.TryGetValue(nameof(Command.NewSshTab), out keyBindings) &&
@@ -714,10 +715,10 @@ namespace FluentTerminal.App.ViewModels
                 remoteTabItem.KeyBinding = null;
             }
 
-            var quickTab = new MenuItemViewModel(I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
-                _newQuickCommand,
-                I18N.TranslateWithFallback("NewQuickTab_Description",
-                    "Opens \"Quick Launch\" dialog and starts session in a new tab."),
+            var quickTab = new MenuItemViewModel(
+                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Text", "Quick Launch..."), _newQuickCommand,
+                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
+                    "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
 
             if (_keyBindings.TryGetValue(nameof(Command.NewCustomCommandTab), out keyBindings) &&

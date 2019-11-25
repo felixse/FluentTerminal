@@ -1056,4 +1056,22 @@ Fuzzy</comment>
   <data name="Recent_Description" xml:space="preserve">
     <value>Recently opened sessions.</value>
   </data>
+  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
+    <value>Default Profile</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>Starts new terminal session based on the default profile.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>Remote Connect...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>Quick Launch...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+  </data>
 </root>
