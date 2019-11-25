@@ -339,6 +339,9 @@ namespace FluentTerminal.App.ViewModels
 
         #endregion For serialization
 
+        private Task AddProfileAsync(ShellProfile profile) =>
+            AddProfileAsync(profile, _settingsService.GetApplicationSettings().NewTerminalLocation);
+
         private Task AddProfileAsync(ShellProfile profile, NewTerminalLocation location)
         {
             if (profile == null)
@@ -626,7 +629,7 @@ namespace FluentTerminal.App.ViewModels
         private AppMenuViewModel _menuViewModel;
 
         private RelayCommand _newRemoteTabCommand;
-        private RelayCommand _newQuickCommand;
+        private RelayCommand _newQuickTabCommand;
         private RelayCommand _settingsCommand;
         private RelayCommand _aboutCommand;
 
@@ -645,8 +648,8 @@ namespace FluentTerminal.App.ViewModels
 
         private void InitializeAppMenu()
         {
-            _newRemoteTabCommand = new RelayCommand(async () => await AddSshTabAsync());
-            _newQuickCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
+            _newRemoteTabCommand = new RelayCommand(async () => await AddSshProfileAsync(NewTerminalLocation.Tab));
+            _newQuickTabCommand = new RelayCommand(async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Tab));
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
 
@@ -688,7 +691,7 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var quickTab = new MenuItemViewModel(I18N.TranslateWithFallback("NewQuickTab.Text", "New quick tab"),
-                _newQuickCommand,
+                _newQuickTabCommand,
                 I18N.TranslateWithFallback("NewQuickTab_Description",
                     "Opens \"Quick Launch\" dialog and starts session in a new tab."),
                 icon: 57609 /*(int) Symbol.Add*/);
@@ -746,7 +749,7 @@ namespace FluentTerminal.App.ViewModels
 
         private MenuItemViewModel CommandToMenuItem(ExecutedCommand command)
         {
-            var itemCommand = new RelayCommand(async () => await AddTerminalAsync(command.ShellProfile),
+            var itemCommand = new RelayCommand(async () => await AddProfileAsync(command.ShellProfile),
                 keepTargetAlive: true);
             var keyBinding = command.ShellProfile.KeyBindings?.FirstOrDefault() is KeyBinding kb
                 ? new MenuItemKeyBindingViewModel(kb)
