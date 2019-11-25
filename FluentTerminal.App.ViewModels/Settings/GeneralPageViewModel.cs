@@ -4,9 +4,9 @@ using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -282,6 +282,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _applicationSettings.NewTerminalLocation = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
+                    MessengerInstance.Send(new NewTerminalsInTabWindowSettingsChangedMessage(value));
                 }
             }
         }

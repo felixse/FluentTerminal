@@ -46,6 +46,8 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
             MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
+            MessengerInstance.Register<NewTerminalsInTabWindowSettingsChangedMessage>(this,
+                OnNewTerminsInTabWindowSettingsChanged);
 
             _settingsService = settingsService;
 
@@ -598,6 +600,12 @@ namespace FluentTerminal.App.ViewModels
         }
 
         private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
+        {
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
+        }
+
+        private void OnNewTerminsInTabWindowSettingsChanged(NewTerminalsInTabWindowSettingsChangedMessage message)
         {
             // Should be scheduled no matter if we're in the UI thread.
             ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
