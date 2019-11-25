@@ -660,8 +660,14 @@ namespace FluentTerminal.App.ViewModels
 
         private AppMenuViewModel _menuViewModel;
 
+        private RelayCommand _newWindowCommand;
+
         private RelayCommand _newRemoteTabCommand;
-        private RelayCommand _newQuickCommand;
+        private RelayCommand _newRemoteWindowCommand;
+
+        private RelayCommand _newQuickTabCommand;
+        private RelayCommand _newQuickWindowCommand;
+
         private RelayCommand _settingsCommand;
         private RelayCommand _aboutCommand;
 
@@ -680,8 +686,14 @@ namespace FluentTerminal.App.ViewModels
 
         private void InitializeAppMenu()
         {
+            _newWindowCommand = new RelayCommand(() => NewWindow(NewWindowAction.StartDefaultLocalTerminal));
+
             _newRemoteTabCommand = new RelayCommand(async () => await AddSshTabAsync());
-            _newQuickCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
+            _newRemoteWindowCommand = new RelayCommand(() => NewWindow(NewWindowAction.ShowSshInfoDialog));
+
+            _newQuickTabCommand = new RelayCommand(async () => await AddCustomCommandTabAsync());
+            _newQuickTabCommand = new RelayCommand(() => NewWindow(NewWindowAction.ShowCustomCommandDialog));
+
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
 
@@ -693,7 +705,8 @@ namespace FluentTerminal.App.ViewModels
             bool tab = _settingsService.GetApplicationSettings().NewTerminalLocation == NewTerminalLocation.Tab;
 
             var tabItem = new MenuItemViewModel(
-                I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "Default Profile"), AddLocalShellCommand,
+                I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "Default Profile"), 
+                tab ? AddLocalShellCommand : _newWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
                     "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
 
@@ -711,7 +724,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var remoteTabItem = new MenuItemViewModel(
-                I18N.TranslateWithFallback("MenuItem_Remote_Text", "Remote Connect..."), _newRemoteTabCommand,
+                I18N.TranslateWithFallback("MenuItem_Remote_Text", "Remote Connect..."), 
+                tab ? _newRemoteTabCommand : _newRemoteWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_Remote_Description",
                     "Opens a dialog for launching a new SSH or Mosh terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
@@ -730,7 +744,8 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var quickTab = new MenuItemViewModel(
-                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Text", "Quick Launch..."), _newQuickCommand,
+                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Text", "Quick Launch..."), 
+                tab ? _newQuickTabCommand : _newQuickWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
                     "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
                 icon: 57609 /*(int) Symbol.Add*/);
