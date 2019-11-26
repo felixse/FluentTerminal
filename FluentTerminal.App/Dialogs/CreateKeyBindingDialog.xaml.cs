@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Services;
 
 namespace FluentTerminal.App.Dialogs
 {
     public sealed partial class CreateKeyBindingDialog : ContentDialog, ICreateKeyBindingDialog, INotifyPropertyChanged
     {
+        private readonly IAcceleratorKeyValidator _acceleratorKeyValidator;
+
         private bool _ctrl;
         private bool _shift;
         private bool _alt;
@@ -47,11 +50,19 @@ namespace FluentTerminal.App.Dialogs
         public int Key
         {
             get => _key;
-            set => Set(ref _key, value);
+            set
+            {
+                // We're ignoring invalid keys.
+                if (_acceleratorKeyValidator.Valid(value))
+                {
+                    Set(ref _key, value);
+                }
+            }
         }
 
-        public CreateKeyBindingDialog()
+        public CreateKeyBindingDialog(IAcceleratorKeyValidator acceleratorKeyValidator)
         {
+            _acceleratorKeyValidator = acceleratorKeyValidator;
             InitializeComponent();
             ResetCommand = new RelayCommand(Reset);
             PreviewKeyDown += RegisterKeyBindingDialog_PreviewKeyDown;

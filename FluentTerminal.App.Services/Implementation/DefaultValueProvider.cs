@@ -241,7 +241,8 @@ namespace FluentTerminal.App.Services.Implementation
                         Command = nameof(Command.ShowSettings),
                         Ctrl = true,
                         Shift = true,
-                        Key = (int)ExtendedVirtualKey.Comma
+                        // I've had to replace ExtendedVirtualKey.Comma because it isn't a member of VirtualKey enum, thus cannot be shown in menu.
+                        Key = (int)ExtendedVirtualKey.S
                     }
                 };
 

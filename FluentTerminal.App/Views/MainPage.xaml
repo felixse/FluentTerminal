@@ -11,6 +11,7 @@
     KeyDown="MainPage_OnKeyDown">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
+        <converters:AppMenuViewModelToFlyoutMenuConverter x:Key="AppMenuViewModelToFlyoutMenuConverter"/>
     </Page.Resources>
     <Grid x:Name="Root">
         <Grid.Background>
@@ -35,51 +36,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button
-                x:Name="Hamburger"
-                Height="32"
-                Style="{StaticResource TitleBarButtonStyle}">
+            <Button Style="{StaticResource TitleBarButtonStyle}"
+                    Flyout="{x:Bind ViewModel.MenuViewModel, Mode=OneWay, Converter={StaticResource AppMenuViewModelToFlyoutMenuConverter}}">
                 <Button.Content>
                     <Viewbox Width="16" Height="16">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
                     </Viewbox>
                 </Button.Content>
-                <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                        <MenuFlyoutItem
-                            x:Uid="NewTab"
-                            Command="{x:Bind ViewModel.AddLocalShellCommand}"
-                            Text="New local shell">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="NewSshTab" Command="{x:Bind ViewModel.AddSshShellCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="NewQuickTab" Command="{x:Bind ViewModel.AddQuickShellCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Add" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Uid="Settings" Command="{x:Bind ViewModel.ShowSettingsCommand}">
-                            <MenuFlyoutItem.Icon>
-                                <SymbolIcon Symbol="Setting" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Command="{x:Bind ViewModel.ShowAboutCommand}" Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=AboutDialog.Title}">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE946;"
-                                    ToolTipService.ToolTip="About" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSubItem x:Uid="Recent" Text="Recent" views:MenuExtension.SubItems="{x:Bind ViewModel.RecentCommands, Mode=OneWay}" />
-                    </MenuFlyout>
-                </Button.Flyout>
             </Button>
             <TextBlock
                 Grid.Column="1"

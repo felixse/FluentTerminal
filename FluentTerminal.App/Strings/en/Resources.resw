@@ -1035,7 +1035,25 @@ Fuzzy</comment>
     <value>Word separator characters</value>
     <comment>Fuzzy</comment>
   </data>
-  <data name="Recent" xml:space="preserve">
+  <data name="Recent.Text" xml:space="preserve">
     <value>Recent</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>Opens default profile in a new tab.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>Opens a new SSH or Mosh session in a new tab.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>Opens settings window.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Basic info about the app.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Recently opened sessions.</value>
   </data>
 </root>

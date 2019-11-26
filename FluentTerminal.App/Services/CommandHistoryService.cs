@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -128,7 +128,7 @@ namespace FluentTerminal.App.Services
 
                 if (ReferenceEquals(command.ShellProfile, newProfile)) continue;
 
-                if (!command.IsProfile)
+                if (!command.ProfileId.HasValue)
                 {
                     newProfile.Name = $"{newProfile.Location} {newProfile.Arguments}".Trim();
                 }
@@ -136,7 +136,7 @@ namespace FluentTerminal.App.Services
                 var newCommand = new ExecutedCommand
                 {
                     Value = newProfile.Name,
-                    IsProfile = command.IsProfile,
+                    ProfileId = command.ProfileId,
                     LastExecution = command.LastExecution,
                     ExecutionCount = command.ExecutionCount,
                     ShellProfile = newProfile
@@ -182,14 +182,36 @@ namespace FluentTerminal.App.Services
             {
                 var command = _history[i];
 
-                if ((command.IsProfile || command.ShellProfile == null) && !profiles.Any(p =>
-                        string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase)))
+                if (command.ProfileId.HasValue && !profiles.Any(p => p.Id.Equals(command.ProfileId.Value)))
                 {
                     _history.Remove(command);
 
                     Delete(command);
 
                     i--;
+
+                    continue;
+                }
+
+                if (command.ShellProfile == null)
+                {
+                    var profile = profiles.FirstOrDefault(p =>
+                        string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
+
+                    if (profile == null)
+                    {
+                        _history.Remove(command);
+
+                        Delete(command);
+
+                        i--;
+                    }
+                    else
+                    {
+                        command.ProfileId = profile.Id;
+
+                        Save(command);
+                    }
                 }
             }
         }
@@ -212,10 +234,9 @@ namespace FluentTerminal.App.Services
 
             foreach (var command in ordered)
             {
-                if (command.IsProfile || command.ShellProfile == null)
+                if (command.ProfileId.HasValue)
                 {
-                    var profile = allProfiles.Value.FirstOrDefault(p =>
-                        string.Equals(p.Name, command.Value, StringComparison.OrdinalIgnoreCase));
+                    var profile = allProfiles.Value.FirstOrDefault(p => p.Id.Equals(command.ProfileId.Value));
 
                     if (profile == null)
                     {
@@ -250,9 +271,9 @@ namespace FluentTerminal.App.Services
                 yield return new ExecutedCommand
                 {
                     Value = unusedProfile.Name,
+                    ProfileId = unusedProfile.Id,
                     ExecutionCount = 0,
                     LastExecution = NeverUsedTime,
-                    IsProfile = true,
                     ShellProfile = unusedProfile
                 };
             }
@@ -273,7 +294,8 @@ namespace FluentTerminal.App.Services
             var history = GetRawHistory();
 
             var existing = history.FirstOrDefault(c =>
-                string.Equals(c.Value, profile.Name, StringComparison.OrdinalIgnoreCase));
+                c.ProfileId?.Equals(profile.Id) ??
+                string.Equals(profile.Name, c.Value, StringComparison.OrdinalIgnoreCase));
 
             if (existing == null)
             {
@@ -282,14 +304,13 @@ namespace FluentTerminal.App.Services
                     profile.Name = $"{profile.Location} {profile.Arguments}".Trim();
                 }
 
-                existing = new ExecutedCommand
-                {
-                    Value = profile.Name,
-                    IsProfile = GetAllProfiles().Any(p =>
-                        string.Equals(p.Name, profile.Name, StringComparison.OrdinalIgnoreCase))
-                };
+                existing = new ExecutedCommand {Value = profile.Name};
 
-                if (!existing.IsProfile)
+                if (GetAllProfiles().Any(p => p.Id.Equals(profile.Id)))
+                {
+                    existing.ProfileId = profile.Id;
+                }
+                else
                 {
                     existing.ShellProfile = profile;
                 }

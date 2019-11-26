@@ -6,7 +6,7 @@ namespace FluentTerminal.Models
     {
         public string Value { get; set; }
 
-        public bool IsProfile { get; set; }
+        public Guid? ProfileId { get; set; }
 
         public DateTime LastExecution { get; set; }
 
@@ -16,7 +16,7 @@ namespace FluentTerminal.Models
 
         public ExecutedCommand Clone() => new ExecutedCommand
         {
-            Value = Value, IsProfile = IsProfile, LastExecution = LastExecution, ExecutionCount = ExecutionCount,
+            Value = Value, ProfileId = ProfileId, LastExecution = LastExecution, ExecutionCount = ExecutionCount,
             ShellProfile = ShellProfile?.Clone()
         };
     }
