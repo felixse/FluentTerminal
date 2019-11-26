@@ -350,10 +350,8 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveDefaultShellProfileId(Guid id)
         {
             _localSettings.SetValue(DefaultShellProfileKey, id);
-        }
-        public void SaveDefaultSshProfileId(Guid id)
-        {
-            _localSettings.SetValue(DefaultSshProfileKey, id);
+
+            Messenger.Default.Send(new DefaultShellProfileChangedMessage(id));
         }
 
         public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)

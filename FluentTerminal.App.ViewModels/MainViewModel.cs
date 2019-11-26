@@ -42,6 +42,7 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<ShellProfileAddedMessage>(this, OnShellProfileAdded);
             MessengerInstance.Register<ShellProfileDeletedMessage>(this, OnShellProfileDeleted);
             MessengerInstance.Register<ShellProfileChangedMessage>(this, OnShellProfileChanged);
+            MessengerInstance.Register<DefaultShellProfileChangedMessage>(this, OnDefaultShellProfileChanged);
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
             MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
@@ -183,6 +184,11 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(message.ShellProfile.Id.ToString(),
                 async () => await AddProfileByGuidAsync(message.ShellProfile.Id));
 
+            UpdateDefaultShellProfile();
+        }
+
+        private void OnDefaultShellProfileChanged(DefaultShellProfileChangedMessage message)
+        {
             UpdateDefaultShellProfile();
         }
 
