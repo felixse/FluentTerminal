@@ -157,7 +157,7 @@ namespace FluentTerminal.App.Services.Implementation
         public void DeleteSshProfile(Guid id)
         {
             _sshProfiles.Delete(id.ToString());
-            Messenger.Default.Send(new SshProfileDeletedMessage(id));
+            Messenger.Default.Send(new ShellProfileDeletedMessage(id));
             Messenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
@@ -217,13 +217,6 @@ namespace FluentTerminal.App.Services.Implementation
             }
             return profile;
         }
-        public SshProfile GetDefaultSshProfile()
-        {
-            var id = GetDefaultSshProfileId();
-            var profile = _sshProfiles.ReadValueFromJson(id.ToString(), default(SshProfile));
-
-            return profile;
-        }
 
         public ShellProfile GetShellProfile(Guid id)
         {
@@ -241,14 +234,6 @@ namespace FluentTerminal.App.Services.Implementation
                 return (Guid)value;
             }
             return _defaultValueProvider.GetDefaultShellProfileId();
-        }
-        public Guid GetDefaultSshProfileId()
-        {
-            if (_localSettings.TryGetValue(DefaultSshProfileKey, out object value))
-            {
-                return (Guid)value;
-            }
-            return System.Guid.Empty;
         }
 
         public IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings()
@@ -393,7 +378,12 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 Messenger.Default.Send(new ShellProfileAddedMessage(shellProfile));
             }
+            else
+            {
+                Messenger.Default.Send(new ShellProfileChangedMessage(shellProfile));
+            }
         }
+
         public void SaveSshProfile(SshProfile sshProfile, bool newShell = false)
         {
             _sshProfiles.WriteValueAsJson(sshProfile.Id.ToString(), sshProfile);
@@ -403,7 +393,11 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (newShell)
             {
-                Messenger.Default.Send(new SshProfileAddedMessage(sshProfile));
+                Messenger.Default.Send(new ShellProfileAddedMessage(sshProfile));
+            }
+            else
+            {
+                Messenger.Default.Send(new ShellProfileChangedMessage(sshProfile));
             }
         }
 

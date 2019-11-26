@@ -13,9 +13,7 @@ namespace FluentTerminal.App.Services
         TerminalTheme GetCurrentTheme();
         Guid GetCurrentThemeId();
         ShellProfile GetDefaultShellProfile();
-        SshProfile GetDefaultSshProfile();
         Guid GetDefaultShellProfileId();
-        Guid GetDefaultSshProfileId();
         IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings();
         IEnumerable<ShellProfile> GetShellProfiles();
         IEnumerable<SshProfile> GetSshProfiles();

@@ -1057,7 +1057,7 @@ Fuzzy</comment>
     <value>Recently opened sessions.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>Default Profile</value>
+    <value>{0}</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
     <value>Starts new terminal session based on the default profile.</value>
