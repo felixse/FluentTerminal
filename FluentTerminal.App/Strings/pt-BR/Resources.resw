@@ -122,7 +122,7 @@
     <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Plano de fundo</value>
+    <value>Papel de parede</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Texto negrito</value>
+    <value>Texto em negrito</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
@@ -378,11 +378,11 @@
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Família de fonte</value>
+    <value>Família da fonte</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Tamanho de fonte</value>
+    <value>Tamanho da fonte</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
@@ -390,11 +390,11 @@
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Atalho de teclado</value>
+    <value>Tecla de atalho</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Atalho de teclado</value>
+    <value>Tecla de atalho</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
@@ -811,7 +811,7 @@
     <value>Não</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Linguagem</value>
+    <value>Idioma</value>
   </data>
   <data name="None.Text" xml:space="preserve">
     <value>Nenhum(a)</value>
