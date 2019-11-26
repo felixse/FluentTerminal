@@ -124,7 +124,7 @@ namespace FluentTerminal.App.ViewModels
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
 
-            _menuViewModel = CreateMenuViewModel2();
+            CreateMenuViewModel();
         }
 
         private void LoadKeyBindings() => _keyBindings = _settingsService.GetCommandKeyBindings();
@@ -578,17 +578,20 @@ namespace FluentTerminal.App.ViewModels
         {
             LoadKeyBindings();
 
-            UpdateAppMenuViewModelAsync();
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
         private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
         {
-            UpdateAppMenuViewModelAsync();
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
         private void OnNewTerminalsInTabWindowSettingsChanged(NewTerminalsInTabWindowSettingsChangedMessage message)
         {
-            UpdateAppMenuViewModelAsync();
+            // Should be scheduled no matter if we're in the UI thread.
+            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
         private void SelectTabNumber(int tabNumber)
@@ -652,7 +655,7 @@ namespace FluentTerminal.App.ViewModels
             private set => Set(ref _menuViewModel, value);
         }
 
-        private AppMenuViewModel CreateMenuViewModel2()
+        private void CreateMenuViewModel()
         {
             bool tab = _settingsService.GetApplicationSettings().NewTerminalLocation == NewTerminalLocation.Tab;
 
@@ -735,7 +738,7 @@ namespace FluentTerminal.App.ViewModels
                 I18N.TranslateWithFallback("About_Description", "Basic info about the app."),
                 icon: "\uE946" /*Segoe MDL2 Assets Glyph property*/);
 
-            return new AppMenuViewModel(new MenuItemViewModelBase[]
+            var appMenuViewModel = new AppMenuViewModel(new MenuItemViewModelBase[]
             {
                 tabItem,
                 remoteTabItem,
@@ -744,20 +747,11 @@ namespace FluentTerminal.App.ViewModels
                 recent,
                 about,
             });
-        }
 
-        // ReSharper disable once UnusedMethodReturnValue.Local
-        private Task UpdateAppMenuViewModelAsync(AppMenuViewModel menuViewModel = null)
-        {
-            if (menuViewModel == null)
+            if (!appMenuViewModel.EquivalentTo(_menuViewModel))
             {
-                menuViewModel = CreateMenuViewModel2();
+                MenuViewModel = appMenuViewModel;
             }
-
-            return menuViewModel.EquivalentTo(_menuViewModel)
-                ? Task.CompletedTask
-                // Should be scheduled no matter if we're in the UI thread.
-                : ApplicationView.RunOnDispatcherThread(() => MenuViewModel = menuViewModel);
         }
 
         private ObservableCollection<MenuItemViewModel> GetRecentMenuItems() =>
