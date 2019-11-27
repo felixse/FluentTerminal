@@ -41,7 +41,7 @@ A Terminal Emulator based on UWP and web technologies.
 - Italian
 - Dutch
 - Polish
-- Portuguese (Brazilian)
+- Portuguese (Brasilian)
 - Romanian
 - Russians
 - Hebrew
