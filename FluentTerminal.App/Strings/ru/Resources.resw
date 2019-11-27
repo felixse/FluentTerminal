@@ -156,7 +156,7 @@ Fuzzy</comment>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Show custom tab title also in titlebar</value>
+    <value>Отображать пользовательский заголовок</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
@@ -172,7 +172,7 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Show new output indicator on background tabs</value>
+    <value>Отображать активность на фоновых вкладках</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
@@ -830,12 +830,6 @@ Fuzzy</comment>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Новое SSH окно</value>
   </data>
-  <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>Новая вкладка для SSH профиля</value>
-  </data>
-  <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>Новое окно для SSH профиля</value>
-  </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH профили</value>
   </data>
@@ -870,7 +864,7 @@ Fuzzy</comment>
     <value>Файл идентификации не существует</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
+    <value>Использовать имя пользователя Windows в SSH если не указано иное</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>По умолчанию использовать Mosh для SSH соединений</value>
@@ -885,7 +879,7 @@ Fuzzy</comment>
     <value>Неверная команда.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Location cannot be empty.</value>
+    <value>Не может быть пустым</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Заглушить звуковый сигналы</value>
@@ -921,7 +915,7 @@ Fuzzy</comment>
     <value>Неверная ссылка.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Вкладку сюда</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>Закрыть вкладки слева</value>
@@ -963,12 +957,63 @@ Fuzzy</comment>
     <value>Поиск</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Printable output only</value>
+    <value>Только печатный вывод</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>Вывод журнала для отладки</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Символы разделителя слов</value>
+  </data>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>Opens a new SSH or Mosh session in a new tab.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>Opens settings window.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Basic info about the app.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Recently opened sessions.</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>Starts new terminal session based on the default profile.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>Remote Connect...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>Quick Launch...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Launches a session in a new window.</value>
   </data>
 </root>

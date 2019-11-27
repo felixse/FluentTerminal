@@ -160,7 +160,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Afficher le titre de l'onglet personnalisé également dans la barre de titre</value>
+    <value>Afficher le titre de l&apos;onglet personnalisé également dans la barre de titre</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
@@ -242,7 +242,7 @@ Fuzzy</comment>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Afficher dans la barre d'état système</value>
+    <value>Afficher dans la barre d&apos;état système</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
@@ -267,7 +267,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Souligner l'onglet sélectionné</value>
+    <value>Souligner l&apos;onglet sélectionné</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
@@ -514,7 +514,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Couleur d'onglet</value>
+    <value>Couleur d&apos;onglet</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
@@ -553,7 +553,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir fermer "{0}" onglets?</value>
+    <value>Êtes-vous sûr de vouloir fermer &quot;{0}&quot; onglets?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -597,7 +597,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Désactivé par l'utilisateur. Veuillez le réactiver dans l'onglet Démarrage du Gestionnaire des Tâches.</value>
+    <value>Désactivé par l&apos;utilisateur. Veuillez le réactiver dans l&apos;onglet Démarrage du Gestionnaire des Tâches.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
@@ -609,11 +609,11 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>L'opération ne peut pas être terminée en raison de l'erreur suivante:</value>
+    <value>L&apos;opération ne peut pas être terminée en raison de l&apos;erreur suivante:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>L'importation du thème a échouer</value>
+    <value>L&apos;importation du thème a échouer</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
@@ -646,7 +646,7 @@ Fuzzy</comment>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Changer le titre de l'onglet</value>
+    <value>Changer le titre de l&apos;onglet</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -656,7 +656,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Fermer l'onglet</value>
+    <value>Fermer l&apos;onglet</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -808,7 +808,7 @@ Fuzzy</comment>
     <value>port</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Chemin du fichier d'identité</value>
+    <value>Chemin du fichier d&apos;identité</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
@@ -828,7 +828,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>L'application doit redémarrer pour que cette modification soit prise en compte.</value>
+    <value>L&apos;application doit redémarrer pour que cette modification soit prise en compte.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Entrée invalide</value>
@@ -843,10 +843,10 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Le nom d'utilisateur ne peut pas être vide.</value>
+    <value>Le nom d&apos;utilisateur ne peut pas être vide.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>L'hôte ne peut être vide.</value>
+    <value>L&apos;hôte ne peut être vide.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
@@ -858,7 +858,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>La plage de ports Mosh n'est pas valide.</value>
+    <value>La plage de ports Mosh n&apos;est pas valide.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
     <value>Oui</value>
@@ -884,18 +884,12 @@ Fuzzy</comment>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Nouvelle fenêtre SSH</value>
   </data>
-  <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>Nouvel onglet pour profil SSH</value>
-  </data>
-  <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre pour le profil SSH</value>
-  </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>Profils SSH</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Couleur d'onglet:</value>
+    <value>Couleur d&apos;onglet:</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="UseConPty" xml:space="preserve">
@@ -903,7 +897,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Nom d'utilisateur</value>
+    <value>Nom d&apos;utilisateur</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
@@ -927,10 +921,10 @@ Fuzzy</comment>
     <value>Les paramètres ont été importés du fichier</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Le fichier d'identification n'existe pas</value>
+    <value>Le fichier d&apos;identification n&apos;existe pas</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Utilisez le nom d'utilisateur Windows lors de l'ouverture d'URL SSH qui don't spécifier un</value>
+    <value>Utilisez le nom d&apos;utilisateur Windows lors de l&apos;ouverture d&apos;URL SSH qui don&apos;t spécifier un</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>Mosh par défaut pour les connexions SSH</value>
@@ -945,13 +939,13 @@ Fuzzy</comment>
     <value>Commande non valide.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>L'emplacement ne peut pas être vide.</value>
+    <value>L&apos;emplacement ne peut pas être vide.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Mutter les bips du terminal</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez une commande (e.g. 'ssh username@host')</value>
+    <value>Entrez une commande (e.g. &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Commande</value>
@@ -1004,10 +998,10 @@ Fuzzy</comment>
     <value>Impossible de définir deux variables d’environnement portant le même nom.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Impossible de définir une variable d'environnement sans nom.</value>
+    <value>Impossible de définir une variable d&apos;environnement sans nom.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Variables d'environnement</value>
+    <value>Variables d&apos;environnement</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>Fermer le panneau de recherche</value>
@@ -1033,11 +1027,55 @@ Fuzzy</comment>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Caractères séparateurs de mots</value>
   </data>
-  <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Arrière plan</value>
-    <comment>ThemeSettings.xaml</comment>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>Recent</value>
   </data>
-  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Etes-vous sûr de vouloir supprimer l'image de fond ?</value>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>Opens a new SSH or Mosh session in a new tab.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>Opens settings window.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Basic info about the app.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Recently opened sessions.</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>Starts new terminal session based on the default profile.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>Remote Connect...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>Quick Launch...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Launches a session in a new window.</value>
   </data>
 </root>

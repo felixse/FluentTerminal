@@ -885,12 +885,6 @@ Fuzzy</comment>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>New SSH window</value>
   </data>
-  <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>New tab for SSH profile</value>
-  </data>
-  <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>New window for SSH profile</value>
-  </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH Profiles</value>
     <comment>Fuzzy</comment>
@@ -1073,5 +1067,17 @@ Fuzzy</comment>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
     <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Launches a session in a new window.</value>
   </data>
 </root>
