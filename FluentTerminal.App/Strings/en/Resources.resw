@@ -1084,7 +1084,7 @@ Fuzzy</comment>
     <value>Application menu type</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; settings</value>
+    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>

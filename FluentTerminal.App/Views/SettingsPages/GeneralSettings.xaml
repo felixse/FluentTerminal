@@ -104,7 +104,7 @@
                         Text="Application menu type" />
                     <RadioButton
                         x:Uid="AppMenuType_Flat"
-                        Content="Flat, honoring 'Open new terminals as' settings"
+                        Content="Flat, honoring 'Open new terminals as' setting"
                         GroupName="AppMenuType"
                         IsChecked="{x:Bind ViewModel.TabWindowCascadingAppMenu, Mode=TwoWay, Converter={StaticResource BooleanNegationConverter}}" />
                     <RadioButton
