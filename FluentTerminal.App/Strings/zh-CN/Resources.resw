@@ -302,7 +302,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>黑体</value>
+    <value>粗体</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
@@ -426,7 +426,7 @@
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>没做什么</value>
+    <value>无</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
@@ -639,13 +639,11 @@
   </data>
   <data name="Command.ConfigurableNewTab" xml:space="preserve">
     <value>新的标签页（自定义配置）</value>
-    <comment>Command
-Fuzzy</comment>
+    <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewWindow" xml:space="preserve">
     <value>新的窗口（自定义配置）</value>
-    <comment>Command
-Fuzzy</comment>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>快捷键</value>
@@ -830,12 +828,6 @@ Fuzzy</comment>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>新的 SSH 窗口</value>
   </data>
-  <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>为 SSH 配置文件打开新的标签页</value>
-  </data>
-  <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>为 SSH 配置文件打开新的窗口</value>
-  </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH 配置文件</value>
   </data>
@@ -970,5 +962,56 @@ Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>单词分隔符</value>
+  </data>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>最近</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>在新标签打开默认配置。</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>在新标签打开 SSH 或 Mosh 会话。</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>打开“快速启动”对话框并在新标签中开启会话。</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>打开设置窗口。</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>关于应用的基本信息。</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>最近打开的会话。</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
+    <value>默认配置</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>基于默认配置开启新的终端会话。</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>远程连接……</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>打开对话框开启新的 SSH 或 Mosh 终端会话。</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>快速启动……</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>打开“快速启动”对话框并开启终端会话。</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Launches a session in a new window.</value>
   </data>
 </root>

@@ -46,8 +46,6 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
             MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
-            MessengerInstance.Register<NewTerminalsInTabWindowSettingsChangedMessage>(this,
-                OnNewTerminalsInTabWindowSettingsChanged);
 
             _settingsService = settingsService;
 
@@ -117,9 +115,12 @@ namespace FluentTerminal.App.ViewModels
 
             LoadKeyBindings();
 
-            _newDefaultCommand = new RelayCommand(async () => await AddDefaultProfileAsync());
-            _newRemoteCommand = new RelayCommand(async () => await AddSshProfileAsync());
-            _newQuickLaunchCommand = new RelayCommand(async () => await AddQuickLaunchProfileAsync());
+            _newDefaultTabCommand = new RelayCommand(async () => await AddDefaultProfileAsync(NewTerminalLocation.Tab));
+            _newDefaultWindowCommand = new RelayCommand(async () => await AddDefaultProfileAsync(NewTerminalLocation.Window));
+            _newRemoteTabCommand = new RelayCommand(async () => await AddSshProfileAsync(NewTerminalLocation.Tab));
+            _newRemoteWindowCommand = new RelayCommand(async () => await AddSshProfileAsync(NewTerminalLocation.Window));
+            _newQuickLaunchTabCommand = new RelayCommand(async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Tab));
+            _newQuickLaunchWindowCommand = new RelayCommand(async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Window));
 
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
@@ -294,24 +295,12 @@ namespace FluentTerminal.App.ViewModels
 
         #region Launching terminal sessions
 
-        #region Default profile
-
-        private Task AddDefaultProfileAsync() =>
-            AddDefaultProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
-
         public Task AddDefaultProfileAsync(NewTerminalLocation location)
         {
             var profile = _settingsService.GetDefaultShellProfile();
 
             return AddProfileAsync(profile, location);
         }
-
-        #endregion Default profile
-
-        #region User-selected profile
-
-        //private Task AddSelectedProfileAsync() =>
-        //    AddSelectedProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
 
         private async Task AddSelectedProfileAsync(NewTerminalLocation location)
         {
@@ -320,26 +309,12 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion User-selected profile
-
-        #region SSH profile
-
-        private Task AddSshProfileAsync() =>
-            AddSshProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
-
         private async Task AddSshProfileAsync(NewTerminalLocation location)
         {
             var profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
 
             await AddProfileAsync(profile, location);
         }
-
-        #endregion SSH profile
-
-        #region Quick launch profile
-
-        private Task AddQuickLaunchProfileAsync() =>
-            AddQuickLaunchProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
 
         private async Task AddQuickLaunchProfileAsync(NewTerminalLocation location)
         {
@@ -348,12 +323,8 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion Quick launch profile
-
-        #region Profile by Guid
-
         public Task AddProfileByGuidAsync(Guid profileId) =>
-            AddProfileByGuidAsync(profileId, _settingsService.GetApplicationSettings().NewTerminalLocation);
+            AddProfileByGuidAsync(profileId, _applicationSettings.NewTerminalLocation);
 
         private async Task AddProfileByGuidAsync(Guid profileId, NewTerminalLocation location)
         {
@@ -362,19 +333,14 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion Profile by Guid
-
-        #region For serialization
-
+        // For serialization
         public Task AddTabAsync(string terminalState, int position)
         {
             return AddTabAsync(new ShellProfile(), terminalState, position);
         }
 
-        #endregion For serialization
-
         private Task AddProfileAsync(ShellProfile profile) =>
-            AddProfileAsync(profile, _settingsService.GetApplicationSettings().NewTerminalLocation);
+            AddProfileAsync(profile, _applicationSettings.NewTerminalLocation);
 
         private Task AddProfileAsync(ShellProfile profile, NewTerminalLocation location)
         {
@@ -518,6 +484,13 @@ namespace FluentTerminal.App.ViewModels
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
+                var updateMenu = _applicationSettings != null &&
+                                  (_applicationSettings.TabWindowCascadingAppMenu !=
+                                   message.ApplicationSettings.TabWindowCascadingAppMenu ||
+                                   !message.ApplicationSettings.TabWindowCascadingAppMenu &&
+                                   _applicationSettings.NewTerminalLocation !=
+                                   message.ApplicationSettings.NewTerminalLocation);
+
                 _applicationSettings = message.ApplicationSettings;
                 TabsPosition = message.ApplicationSettings.TabsPosition;
                 RaisePropertyChanged(nameof(ShowTabsOnTop));
@@ -530,6 +503,11 @@ namespace FluentTerminal.App.ViewModels
                 else
                 {
                     WindowTitle = SelectedTerminal?.ShellTitle;
+                }
+
+                if (updateMenu)
+                {
+                    CreateMenuViewModel();
                 }
             });
         }
@@ -613,12 +591,6 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
-        private void OnNewTerminalsInTabWindowSettingsChanged(NewTerminalsInTabWindowSettingsChangedMessage message)
-        {
-            // Should be scheduled no matter if we're in the UI thread.
-            ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
-        }
-
         private void SelectTabNumber(int tabNumber)
         {
             if (tabNumber < Terminals.Count)
@@ -668,9 +640,12 @@ namespace FluentTerminal.App.ViewModels
 
         private AppMenuViewModel _menuViewModel;
 
-        private readonly RelayCommand _newDefaultCommand;
-        private readonly RelayCommand _newRemoteCommand;
-        private readonly RelayCommand _newQuickLaunchCommand;
+        private readonly RelayCommand _newDefaultTabCommand;
+        private readonly RelayCommand _newDefaultWindowCommand;
+        private readonly RelayCommand _newRemoteTabCommand;
+        private readonly RelayCommand _newRemoteWindowCommand;
+        private readonly RelayCommand _newQuickLaunchTabCommand;
+        private readonly RelayCommand _newQuickLaunchWindowCommand;
         private readonly RelayCommand _settingsCommand;
         private readonly RelayCommand _aboutCommand;
 
@@ -682,81 +657,38 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
-            var tab = _settingsService.GetApplicationSettings().NewTerminalLocation == NewTerminalLocation.Tab;
-
             var appMenuViewModel = new AppMenuViewModel();
 
-            if (_defaultProfile?.Name is string defaultProfileName)
+            if (_applicationSettings.TabWindowCascadingAppMenu)
             {
-                var defaultProfileItem = new MenuItemViewModel(
-                    string.Format(I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "{0}"),
-                        defaultProfileName), _newDefaultCommand,
-                    I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
-                        "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
+                var tabItem = new ExpandableMenuItemViewModel(
+                    I18N.TranslateWithFallback("MenuItem_NewTab_Text", "New Tab"),
+                    description: I18N.TranslateWithFallback("MenuItem_NewTab_Text", "Launches a session in a new tab."),
+                    icon: 57609 /*(int) Symbol.Add*/);
 
-                var defaultProfileCommand = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
+                FillCoreItems(tabItem.SubItems, NewTerminalLocation.Tab);
 
-                if (_keyBindings.TryGetValue(defaultProfileCommand, out var kbs) &&
-                    kbs.FirstOrDefault() is KeyBinding tabKeyBindings &&
-                    _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
-                {
-                    LoadKeyBindingsFromModel(defaultProfileItem, tabKeyBindings);
-                }
-                else
-                {
-                    defaultProfileItem.KeyBinding = null;
-                }
+                appMenuViewModel.Items.Add(tabItem);
 
-                appMenuViewModel.Items.Add(defaultProfileItem);
-            }
+                var windowItem = new ExpandableMenuItemViewModel(
+                    I18N.TranslateWithFallback("MenuItem_NewWindow_Text", "New Window"),
+                    description: I18N.TranslateWithFallback("MenuItem_NewWindow_Description", "Launches a session in a new window."),
+                    icon: "\uE78B" /*Segoe MDL2 Assets Glyph property*/);
 
-            var remoteConnectItem = new MenuItemViewModel(
-                I18N.TranslateWithFallback("MenuItem_Remote_Text", "Remote Connect..."), _newRemoteCommand,
-                I18N.TranslateWithFallback("MenuItem_Remote_Description",
-                    "Opens a dialog for launching a new SSH or Mosh terminal session."),
-                icon: 57609 /*(int) Symbol.Add*/);
+                FillCoreItems(windowItem.SubItems, NewTerminalLocation.Window);
 
-            var command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
-
-            if (_keyBindings.TryGetValue(command, out var keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
-            {
-                LoadKeyBindingsFromModel(remoteConnectItem, remoteTabKeyBinding);
+                appMenuViewModel.Items.Add(windowItem);
             }
             else
             {
-                remoteConnectItem.KeyBinding = null;
+                FillCoreItems(appMenuViewModel.Items, _applicationSettings.NewTerminalLocation);
             }
-
-            appMenuViewModel.Items.Add(remoteConnectItem);
-
-            var quickLaunchItem = new MenuItemViewModel(
-                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Text", "Quick Launch..."), _newQuickLaunchCommand,
-                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
-                    "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
-                icon: 57609 /*(int) Symbol.Add*/);
-
-            command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
-
-            if (_keyBindings.TryGetValue(command, out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
-            {
-                LoadKeyBindingsFromModel(quickLaunchItem, quickTabKeyBinding);
-            }
-            else
-            {
-                quickLaunchItem.KeyBinding = null;
-            }
-
-            appMenuViewModel.Items.Add(quickLaunchItem);
 
             var settingsItem = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
                 _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),
                 icon: 57621 /*(int) Symbol.Setting*/);
 
-            if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out keyBindings) &&
+            if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out var keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
                 _acceleratorKeyValidator.Valid(settingsKeyBinding.Key))
             {
@@ -781,6 +713,79 @@ namespace FluentTerminal.App.ViewModels
             {
                 MenuViewModel = appMenuViewModel;
             }
+        }
+
+        private void FillCoreItems(ObservableCollection<MenuItemViewModelBase> items, NewTerminalLocation location)
+        {
+            var tab = location == NewTerminalLocation.Tab;
+
+            if (_defaultProfile?.Name is string defaultProfileName)
+            {
+                var defaultProfileItem = new MenuItemViewModel(
+                    string.Format(I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "{0}"),
+                        defaultProfileName), tab ? _newDefaultTabCommand : _newDefaultWindowCommand,
+                    I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
+                        "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
+
+                var defaultProfileCommand = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
+
+                if (_keyBindings.TryGetValue(defaultProfileCommand, out var kbs) &&
+                    kbs.FirstOrDefault() is KeyBinding tabKeyBindings &&
+                    _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
+                {
+                    LoadKeyBindingsFromModel(defaultProfileItem, tabKeyBindings);
+                }
+                else
+                {
+                    defaultProfileItem.KeyBinding = null;
+                }
+
+                items.Add(defaultProfileItem);
+            }
+
+            var remoteConnectItem = new MenuItemViewModel(
+                I18N.TranslateWithFallback("MenuItem_Remote_Text", "Remote Connect..."),
+                tab ? _newRemoteTabCommand : _newRemoteWindowCommand,
+                I18N.TranslateWithFallback("MenuItem_Remote_Description",
+                    "Opens a dialog for launching a new SSH or Mosh terminal session."),
+                icon: 57609 /*(int) Symbol.Add*/);
+
+            var command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
+
+            if (_keyBindings.TryGetValue(command, out var keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
+            {
+                LoadKeyBindingsFromModel(remoteConnectItem, remoteTabKeyBinding);
+            }
+            else
+            {
+                remoteConnectItem.KeyBinding = null;
+            }
+
+            items.Add(remoteConnectItem);
+
+            var quickLaunchItem = new MenuItemViewModel(
+                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Text", "Quick Launch..."),
+                tab ? _newQuickLaunchTabCommand : _newQuickLaunchWindowCommand,
+                I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
+                    "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
+                icon: 57609 /*(int) Symbol.Add*/);
+
+            command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
+
+            if (_keyBindings.TryGetValue(command, out keyBindings) &&
+                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
+                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
+            {
+                LoadKeyBindingsFromModel(quickLaunchItem, quickTabKeyBinding);
+            }
+            else
+            {
+                quickLaunchItem.KeyBinding = null;
+            }
+
+            items.Add(quickLaunchItem);
         }
 
         private ObservableCollection<MenuItemViewModel> GetRecentMenuItems() =>

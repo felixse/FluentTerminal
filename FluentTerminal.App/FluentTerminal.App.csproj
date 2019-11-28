@@ -108,6 +108,7 @@
     <Compile Include="CommandLineArguments\Target.cs" />
     <Compile Include="Converters\AppMenuViewModelToFlyoutMenuConverter.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
+    <Compile Include="Converters\BooleanNegationConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
     <Compile Include="Converters\I18NConverter.cs" />
     <Compile Include="Converters\IconConverter.cs" />

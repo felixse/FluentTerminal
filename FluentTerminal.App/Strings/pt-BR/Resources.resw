@@ -146,7 +146,7 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Cor das abas inativas</value>
+    <value>Decoração nas abas inativas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
@@ -170,7 +170,7 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Exibir</value>
+    <value>Exibir alerta de atualização nas abas inativas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
@@ -234,7 +234,7 @@
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Exibir abas ligado</value>
+    <value>Exibir abas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
@@ -242,15 +242,15 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Baixo</value>
+    <value>Rodapé</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Cima</value>
+    <value>Topo</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Sublinhado</value>
+    <value>Sublinhar</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
@@ -350,7 +350,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Bloquear</value>
+    <value>Bloco</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
@@ -486,7 +486,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Definir Ativo</value>
+    <value>Ativar</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
@@ -828,12 +828,6 @@
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Nova janela SSH</value>
   </data>
-  <data name="Command.SavedSshNewTab" xml:space="preserve">
-    <value>Nova aba para perfil SSH</value>
-  </data>
-  <data name="Command.SavedSshNewWindow" xml:space="preserve">
-    <value>Nova janela para perfil SSH</value>
-  </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>Perfis SSH</value>
   </data>
@@ -968,5 +962,56 @@
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Caractere separador de palavras</value>
+  </data>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>Opens a new SSH or Mosh session in a new tab.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>Opens settings window.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Basic info about the app.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Recently opened sessions.</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>Starts new terminal session based on the default profile.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>Remote Connect...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>Quick Launch...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Launches a session in a new tab.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Launches a session in a new window.</value>
   </data>
 </root>

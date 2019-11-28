@@ -332,12 +332,12 @@ namespace FluentTerminal.App.Services.Implementation
         public void SaveApplicationSettings(ApplicationSettings applicationSettings)
         {
             _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
-            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings));
+            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
         }
 
         public void NotifyApplicationSettingsChanged(ApplicationSettings applicationSettings)
         {
-            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings));
+            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
         }
 
         public void SaveCurrentThemeId(Guid id)

@@ -32,8 +32,6 @@ namespace FluentTerminal.App.Services
 
         void MarkUsed(ShellProfile profile);
 
-        void Clear();
-
         void Delete(ExecutedCommand executedCommand);
     }
 }
