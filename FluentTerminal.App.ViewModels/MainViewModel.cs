@@ -46,8 +46,6 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
             MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
             MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
-            MessengerInstance.Register<NewTerminalsInTabWindowSettingsChangedMessage>(this,
-                OnNewTerminalsInTabWindowSettingsChanged);
 
             _settingsService = settingsService;
 
@@ -297,24 +295,12 @@ namespace FluentTerminal.App.ViewModels
 
         #region Launching terminal sessions
 
-        #region Default profile
-
-        //private Task AddDefaultProfileAsync() =>
-        //    AddDefaultProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
-
         public Task AddDefaultProfileAsync(NewTerminalLocation location)
         {
             var profile = _settingsService.GetDefaultShellProfile();
 
             return AddProfileAsync(profile, location);
         }
-
-        #endregion Default profile
-
-        #region User-selected profile
-
-        //private Task AddSelectedProfileAsync() =>
-        //    AddSelectedProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
 
         private async Task AddSelectedProfileAsync(NewTerminalLocation location)
         {
@@ -323,26 +309,12 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion User-selected profile
-
-        #region SSH profile
-
-        //private Task AddSshProfileAsync() =>
-        //    AddSshProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
-
         private async Task AddSshProfileAsync(NewTerminalLocation location)
         {
             var profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
 
             await AddProfileAsync(profile, location);
         }
-
-        #endregion SSH profile
-
-        #region Quick launch profile
-
-        //private Task AddQuickLaunchProfileAsync() =>
-        //    AddQuickLaunchProfileAsync(_settingsService.GetApplicationSettings().NewTerminalLocation);
 
         private async Task AddQuickLaunchProfileAsync(NewTerminalLocation location)
         {
@@ -351,12 +323,8 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion Quick launch profile
-
-        #region Profile by Guid
-
         public Task AddProfileByGuidAsync(Guid profileId) =>
-            AddProfileByGuidAsync(profileId, _settingsService.GetApplicationSettings().NewTerminalLocation);
+            AddProfileByGuidAsync(profileId, _applicationSettings.NewTerminalLocation);
 
         private async Task AddProfileByGuidAsync(Guid profileId, NewTerminalLocation location)
         {
@@ -365,19 +333,14 @@ namespace FluentTerminal.App.ViewModels
             await AddProfileAsync(profile, location);
         }
 
-        #endregion Profile by Guid
-
-        #region For serialization
-
+        // For serialization
         public Task AddTabAsync(string terminalState, int position)
         {
             return AddTabAsync(new ShellProfile(), terminalState, position);
         }
 
-        #endregion For serialization
-
         private Task AddProfileAsync(ShellProfile profile) =>
-            AddProfileAsync(profile, _settingsService.GetApplicationSettings().NewTerminalLocation);
+            AddProfileAsync(profile, _applicationSettings.NewTerminalLocation);
 
         private Task AddProfileAsync(ShellProfile profile, NewTerminalLocation location)
         {
@@ -521,6 +484,13 @@ namespace FluentTerminal.App.ViewModels
         {
             await ApplicationView.RunOnDispatcherThread(() =>
             {
+                var updateMenu = _applicationSettings != null &&
+                                  (_applicationSettings.TabWindowCascadingAppMenu !=
+                                   message.ApplicationSettings.TabWindowCascadingAppMenu ||
+                                   !message.ApplicationSettings.TabWindowCascadingAppMenu &&
+                                   _applicationSettings.NewTerminalLocation !=
+                                   message.ApplicationSettings.NewTerminalLocation);
+
                 _applicationSettings = message.ApplicationSettings;
                 TabsPosition = message.ApplicationSettings.TabsPosition;
                 RaisePropertyChanged(nameof(ShowTabsOnTop));
@@ -533,6 +503,11 @@ namespace FluentTerminal.App.ViewModels
                 else
                 {
                     WindowTitle = SelectedTerminal?.ShellTitle;
+                }
+
+                if (updateMenu)
+                {
+                    CreateMenuViewModel();
                 }
             });
         }
@@ -616,21 +591,6 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
         }
 
-        private void OnNewTerminalsInTabWindowSettingsChanged(NewTerminalsInTabWindowSettingsChangedMessage message)
-        {
-            // We're interested in this change only for flat (non-cascading) menus.
-#pragma warning disable 162
-            // ReSharper disable HeuristicUnreachableCode
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (!TabWindowCascadingMenu)
-            {
-                // Should be scheduled no matter if we're in the UI thread.
-                ApplicationView.RunOnDispatcherThread(CreateMenuViewModel);
-            }
-            // ReSharper restore HeuristicUnreachableCode
-#pragma warning restore 162
-        }
-
         private void SelectTabNumber(int tabNumber)
         {
             if (tabNumber < Terminals.Count)
@@ -678,10 +638,6 @@ namespace FluentTerminal.App.ViewModels
 
         private const int RecentItemsMaxCount = 10;
 
-        // Defines whether to create a Tab/Window cascading menu or not.
-        // TODO: Maybe we can put this in settings?
-        private const bool TabWindowCascadingMenu = true;
-
         private AppMenuViewModel _menuViewModel;
 
         private readonly RelayCommand _newDefaultTabCommand;
@@ -703,10 +659,7 @@ namespace FluentTerminal.App.ViewModels
         {
             var appMenuViewModel = new AppMenuViewModel();
 
-#pragma warning disable 162
-            // ReSharper disable HeuristicUnreachableCode
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (TabWindowCascadingMenu)
+            if (_applicationSettings.TabWindowCascadingAppMenu)
             {
                 var tabItem = new ExpandableMenuItemViewModel(
                     I18N.TranslateWithFallback("MenuItem_NewTab_Text", "New Tab"),
@@ -720,7 +673,7 @@ namespace FluentTerminal.App.ViewModels
                 var windowItem = new ExpandableMenuItemViewModel(
                     I18N.TranslateWithFallback("MenuItem_NewWindow_Text", "New Window"),
                     description: I18N.TranslateWithFallback("MenuItem_NewWindow_Description", "Launches a session in a new window."),
-                    icon: 57609 /*(int) Symbol.Add*/);
+                    icon: "\uE78B" /*Segoe MDL2 Assets Glyph property*/);
 
                 FillCoreItems(windowItem.SubItems, NewTerminalLocation.Window);
 
@@ -728,10 +681,8 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                FillCoreItems(appMenuViewModel.Items, _settingsService.GetApplicationSettings().NewTerminalLocation);
+                FillCoreItems(appMenuViewModel.Items, _applicationSettings.NewTerminalLocation);
             }
-            // ReSharper restore HeuristicUnreachableCode
-#pragma warning restore 162
 
             var settingsItem = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
                 _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),

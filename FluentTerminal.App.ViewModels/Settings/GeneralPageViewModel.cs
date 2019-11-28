@@ -6,7 +6,6 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
@@ -282,7 +281,20 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _applicationSettings.NewTerminalLocation = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
-                    MessengerInstance.Send(new NewTerminalsInTabWindowSettingsChangedMessage(value));
+                }
+            }
+        }
+
+        public bool TabWindowCascadingAppMenu
+        {
+            get => _applicationSettings.TabWindowCascadingAppMenu;
+            set
+            {
+                if (_applicationSettings.TabWindowCascadingAppMenu != value)
+                {
+                    _applicationSettings.TabWindowCascadingAppMenu = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
                 }
             }
         }
