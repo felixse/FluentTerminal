@@ -281,6 +281,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _applicationSettings.NewTerminalLocation = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(TabIsSelected));
                 }
             }
         }
@@ -326,7 +327,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool TabIsSelected
         {
             get => NewTerminalLocation == NewTerminalLocation.Tab;
-            set { if (value) NewTerminalLocation = NewTerminalLocation.Tab; }
+            set => NewTerminalLocation = value ? NewTerminalLocation.Tab : NewTerminalLocation.Window;
         }
 
         public TabsPosition TabsPosition
@@ -387,12 +388,6 @@ namespace FluentTerminal.App.ViewModels.Settings
                     RaisePropertyChanged();
                 }
             }
-        }
-
-        public bool WindowIsSelected
-        {
-            get => NewTerminalLocation == NewTerminalLocation.Window;
-            set { if (value) NewTerminalLocation = NewTerminalLocation.Window; }
         }
 
         private async Task RestoreDefaults()
