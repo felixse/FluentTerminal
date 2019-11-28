@@ -6,6 +6,7 @@ using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
