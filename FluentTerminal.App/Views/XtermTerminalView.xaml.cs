@@ -37,14 +37,14 @@ namespace FluentTerminal.App.Views
         private BlockingCollection<Action> _dispatcherJobs;
         private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
-        private readonly DebouncedAction<TerminalOptions> _optionsChanged;
+        private readonly DelayedAction<TerminalOptions> _optionsChanged;
         private CancellationTokenSource _mediatorTaskCTSource;
 
         // Members related to resize handling
-        private readonly DebouncedAction<TerminalSize> _sizeChanged;
+        private readonly DelayedAction<TerminalSize> _sizeChanged;
         private ManualResetEventSlim _outputBlocked;
         private MemoryStream _outputBlockedBuffer;
-        private readonly DebouncedAction<bool> _unblockOutput;
+        private readonly DelayedAction<bool> _unblockOutput;
         private TerminalBridge _terminalBridge;
 
         public event EventHandler<object> OnOutput;
@@ -75,29 +75,29 @@ namespace FluentTerminal.App.Views
                 Items = { _copyMenuItem, _pasteMenuItem }
             };
 
-            _optionsChanged = new DebouncedAction<TerminalOptions>(Dispatcher, TimeSpan.FromMilliseconds(800), async options =>
+            _optionsChanged = new DelayedAction<TerminalOptions>(async options =>
             {
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            });
+            }, 800, Dispatcher);
 
             // _sizedChanged is used to debounce terminal resize events to
             // avoid spamming the terminal with them (this can result in
             // buffer corruption).
-            _sizeChanged = new DebouncedAction<TerminalSize>(Dispatcher, TimeSpan.FromMilliseconds(1000), async size => {
+            _sizeChanged = new DelayedAction<TerminalSize>(async size => {
                 await ViewModel.Terminal.SetSize(size).ConfigureAwait(true);
 
                 // Allow output to the terminal soon (hopefully, once the resize event has been processed).
-                _unblockOutput.Invoke(true);
-            });
+                await _unblockOutput.InvokeAsync(true);
+            }, 1000, Dispatcher);
 
             _outputBlockedBuffer = new MemoryStream();
             _outputBlocked = new ManualResetEventSlim();
 
             // _unblockOutput allows output to the terminal again, 500ms after it invoked.
-            _unblockOutput = new DebouncedAction<bool>(Dispatcher, TimeSpan.FromMilliseconds(500), x => {
+            _unblockOutput = new DelayedAction<bool>(x => {
                 _outputBlocked.Reset();
-            });
+            }, 500, Dispatcher);
 
             _navigationCompleted = new SemaphoreSlim(0, 1);
             _connectedEvent = new ManualResetEventSlim(false);
@@ -118,8 +118,7 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeOptions(TerminalOptions options)
         {
-            _optionsChanged.Invoke(options);
-            return Task.CompletedTask;
+            return _optionsChanged.InvokeAsync(options);
         }
 
         public Task ChangeTheme(TerminalTheme theme)
@@ -200,9 +199,9 @@ namespace FluentTerminal.App.Views
                 _terminalBridge.DisposalPrepare();
                 _terminalBridge = null;
             }
-            _optionsChanged.Stop();
-            _sizeChanged.Stop();
-            _unblockOutput.Stop();
+            _optionsChanged.Dispose();
+            _sizeChanged.Dispose();
+            _unblockOutput.Dispose();
             ViewModel = null;
         }
 
@@ -268,7 +267,7 @@ namespace FluentTerminal.App.Views
                 // Prevent output from being sent during the terminal while
                 // resize events are being processed (to avoid buffer corruption).
                 _outputBlocked.Set();
-                _dispatcherJobs.Add(() => _sizeChanged.Invoke(new TerminalSize { Columns = columns, Rows = rows }));
+                _dispatcherJobs.Add(() => _sizeChanged.InvokeAsync(new TerminalSize { Columns = columns, Rows = rows }));
             }
         }
 

@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Services\AcceleratorKeyValidator.cs" />
     <Compile Include="Services\CommandHistoryService.cs" />
+    <Compile Include="Utilities\DelayedAction.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
@@ -154,7 +155,6 @@
     <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
-    <Compile Include="Utilities\DebouncedAction.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
     <Compile Include="ViewModels\CommandProfileProviderViewModel.cs" />
     <Compile Include="Views\BooleanTemplateSelector.cs" />
