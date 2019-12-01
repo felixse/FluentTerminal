@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Core;
@@ -370,8 +371,9 @@ namespace FluentTerminal.App.ViewModels
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService, terminalState);
 
+                terminal.PropertyChanged += Terminal_PropertyChanged;
+
                 terminal.Closed += OnTerminalClosed;
-                terminal.ShellTitleChanged += Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged += Terminal_CustomTitleChanged;
                 terminal.CloseLeftTabsRequested += Terminal_CloseLeftTabsRequested;
                 terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
@@ -384,6 +386,27 @@ namespace FluentTerminal.App.ViewModels
         }
 
         #endregion Launching terminal sessions
+
+        private void Terminal_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!(sender is TerminalViewModel terminalViewModel))
+            {
+                return;
+            }
+
+            switch (e.PropertyName)
+            {
+                case nameof(TerminalViewModel.ShellTitle):
+
+                    if (terminalViewModel.IsSelected && !_applicationSettings.ShowCustomTitleInTitlebar)
+                    {
+                        ApplicationView.ExecuteOnUiThreadAsync(() => WindowTitle = terminalViewModel.ShellTitle,
+                            CoreDispatcherPriority.Low);
+                    }
+
+                    break;
+            }
+        }
 
         private async void Terminal_DuplicateTabRequested(object sender, EventArgs e)
         {
@@ -454,18 +477,14 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_ShellTitleChanged(object sender, string e)
         {
-            if (sender is TerminalViewModel terminal && terminal.IsSelected && !_applicationSettings.ShowCustomTitleInTitlebar)
-            {
-                WindowTitle = e;
-            }
         }
 
         public async Task CloseAllTerminals()
         {
             foreach (var terminal in Terminals)
             {
+                terminal.PropertyChanged -= Terminal_PropertyChanged;
                 terminal.Closed -= OnTerminalClosed;
-                terminal.ShellTitleChanged -= Terminal_ShellTitleChanged;
                 terminal.CustomTitleChanged -= Terminal_CustomTitleChanged;
                 terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
                 terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
@@ -553,8 +572,8 @@ namespace FluentTerminal.App.ViewModels
 
             Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
 
+            terminal.PropertyChanged -= Terminal_PropertyChanged;
             terminal.Closed -= OnTerminalClosed;
-            terminal.ShellTitleChanged -= Terminal_ShellTitleChanged;
             terminal.CustomTitleChanged -= Terminal_CustomTitleChanged;
             terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
             terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;

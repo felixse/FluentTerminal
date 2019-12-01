@@ -165,7 +165,6 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler<string> FindPreviousRequested;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
-        public event EventHandler<string> ShellTitleChanged;
         public event EventHandler<string> CustomTitleChanged;
         public event EventHandler CloseLeftTabsRequested;
         public event EventHandler CloseRightTabsRequested;
@@ -575,13 +574,12 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_SizeChanged(object sender, TerminalSize e)
         {
-            Overlay.Show($"{e.Columns} x {e.Rows}");
+            ApplicationView.ExecuteOnUiThreadAsync(() => Overlay.Show($"{e.Columns} x {e.Rows}"));
         }
 
         private void Terminal_TitleChanged(object sender, string e)
         {
-            ShellTitle = e;
-            ShellTitleChanged?.Invoke(this, e);
+            ApplicationView.ExecuteOnUiThreadAsync(() => ShellTitle = e);
         }
 
         private async Task TryClose()
