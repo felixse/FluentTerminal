@@ -2,6 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using FluentTerminal.App.ViewModels.Menu;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FluentTerminal.App.Converters
 {
@@ -23,7 +24,10 @@ namespace FluentTerminal.App.Converters
                     $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(AppMenuViewModel)} expected.");
             }
 
-            var menuFlyout = new MenuFlyout();
+            var menuFlyout = new MenuFlyout
+            {
+                Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft
+            };
 
             foreach (var menuItemViewModelBase in appMenuViewModel.Items)
             {
