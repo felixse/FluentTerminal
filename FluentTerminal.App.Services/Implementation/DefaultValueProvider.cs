@@ -27,7 +27,7 @@ namespace FluentTerminal.App.Services.Implementation
                 UnderlineSelectedTab = false,
                 InactiveTabColorMode = InactiveTabColorMode.Background,
                 NewTerminalLocation = NewTerminalLocation.Tab,
-                TabWindowCascadingAppMenu = false,
+                TabWindowCascadingAppMenu = true,
                 TabsPosition = TabsPosition.Top,
                 CopyOnSelect = false,
                 MouseMiddleClickAction = MouseAction.None,
