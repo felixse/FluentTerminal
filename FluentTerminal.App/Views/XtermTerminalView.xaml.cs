@@ -31,7 +31,6 @@ namespace FluentTerminal.App.Views
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
-        private readonly SemaphoreSlim _navigationCompleted;
         private readonly MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
         private readonly MenuFlyoutItem _pasteMenuItem;
@@ -48,6 +47,7 @@ namespace FluentTerminal.App.Views
 
         // Members related to initialization
         private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
+        private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
 
         public event EventHandler<object> OnOutput;
 
@@ -100,8 +100,6 @@ namespace FluentTerminal.App.Views
             _unblockOutput = new DelayedAction<bool>(x => {
                 _outputBlocked.Reset();
             }, 500, Dispatcher);
-
-            _navigationCompleted = new SemaphoreSlim(0, 1);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
@@ -164,8 +162,12 @@ namespace FluentTerminal.App.Views
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
             var theme = ViewModel.TerminalTheme;
-            await _navigationCompleted.WaitAsync().ConfigureAwait(true);
-            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
+
+            // Waiting for WebView.NavigationCompleted event to happen
+            await _tcsNavigationCompleted.Task.ConfigureAwait(true);
+
+            var size = await CreateXtermView(options, theme.Colors,
+                FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
 
             // Waiting for IxtermEventListener.OnInitialized() call to happen
             await _tcsConnected.Task;
@@ -284,7 +286,7 @@ namespace FluentTerminal.App.Views
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             Logger.Instance.Debug("WebView navigation completed. Target: {uri}", args.Uri);
-            _navigationCompleted.Release();
+            _tcsNavigationCompleted.TrySetResult(null);
         }
 
         private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
@@ -432,7 +434,6 @@ namespace FluentTerminal.App.Views
 
         public void Dispose()
         {
-            _navigationCompleted?.Dispose();
             _dispatcherJobs?.Dispose();
             _mediatorTaskCTSource?.Dispose();
             _outputBlocked?.Dispose();
