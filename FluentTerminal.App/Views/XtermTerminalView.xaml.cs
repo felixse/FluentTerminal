@@ -25,10 +25,10 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ISessionSuccessTracker = FluentTerminal.App.ViewModels.ISessionSuccessTracker;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
         private readonly SemaphoreSlim _navigationCompleted;
@@ -47,9 +47,7 @@ namespace FluentTerminal.App.Views
         private TerminalBridge _terminalBridge;
 
         // Members related to initialization
-        private readonly object _initLock = new object();
-        private TerminalSize _terminalSize;
-        private bool _isConnected;
+        private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
 
         public event EventHandler<object> OnOutput;
 
@@ -156,42 +154,29 @@ namespace FluentTerminal.App.Views
 
         public async Task Initialize(TerminalViewModel viewModel)
         {
-            viewModel.Terminal.OutputReceived += Terminal_OutputReceived;
-            viewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
-            viewModel.Terminal.Closed += Terminal_Closed;
+            ViewModel = viewModel;
+            ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;
+            ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
+            ViewModel.Terminal.Closed += Terminal_Closed;
 
-            var options = viewModel.SettingsService.GetTerminalOptions();
-            var keyBindings = viewModel.SettingsService.GetCommandKeyBindings();
-            var profiles = viewModel.SettingsService.GetShellProfiles();
-            var sshprofiles = viewModel.SettingsService.GetSshProfiles();
-            var theme = viewModel.TerminalTheme;
+            var options = ViewModel.SettingsService.GetTerminalOptions();
+            var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
+            var profiles = ViewModel.SettingsService.GetShellProfiles();
+            var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
+            var theme = ViewModel.TerminalTheme;
             await _navigationCompleted.WaitAsync().ConfigureAwait(true);
             var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
 
-            lock (_initLock)
-            {
-                ViewModel = viewModel;
-                _terminalSize = size;
+            // Waiting for IxtermEventListener.OnInitialized() call to happen
+            await _tcsConnected.Task;
 
-                if (!_isConnected)
-                {
-                    // We cannot finish initialization before IxtermEventListener.OnInitialized() call happens
-                    return;
-                }
-            }
-
-            await FinishInitialization();
-        }
-
-        private async Task FinishInitialization()
-        {
             var sessionType =
                 ViewModel.ShellProfile.UseConPty &&
                 ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
                     ? SessionType.ConPty
                     : SessionType.WinPty;
 
-            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, _terminalSize, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
+            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
             if (!response.Success)
             {
                 await ViewModel.DialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
@@ -277,7 +262,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTerminalResized(int columns, int rows)
         {
-            if (_isConnected) // only propagate after xterm.js is finished with fitting
+            if (_tcsConnected.Task.Status == TaskStatus.RanToCompletion) // only propagate after xterm.js is finished with fitting
             {
                 // Prevent output from being sent during the terminal while
                 // resize events are being processed (to avoid buffer corruption).
@@ -288,18 +273,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnInitialized()
         {
-            lock (_initLock)
-            {
-                _isConnected = true;
-
-                if (ViewModel == null)
-                {
-                    // We cannot finish initialization before ViewModel is set (before Initialize() call happens)
-                    return;
-                }
-            }
-
-            var unused = FinishInitialization();
+            _tcsConnected.TrySetResult(null);
         }
 
         void IxtermEventListener.OnTitleChanged(string title)
