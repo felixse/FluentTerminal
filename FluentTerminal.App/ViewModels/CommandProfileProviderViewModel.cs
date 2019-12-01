@@ -322,7 +322,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
-            return ApplicationView.RunOnDispatcherThread(() => {
+            return ApplicationView.ExecuteOnUiThreadAsync(() => {
 
                 foreach (var command in toCheck)
                 {
@@ -351,14 +351,14 @@ namespace FluentTerminal.App.ViewModels
                         Commands.RemoveAt(index);
                     }
                 }
-            }, false);
+            });
         }
 
         public void RemoveCommand(ExecutedCommand command)
         {
             _historyService.Delete(command);
 
-            CommandItemViewModel toRemove = _allCommands.FirstOrDefault(c =>
+            var toRemove = _allCommands.FirstOrDefault(c =>
                 string.Equals(c.ExecutedCommand.Value, command.Value, StringComparison.Ordinal));
 
             if (toRemove != null)

@@ -370,13 +370,14 @@ namespace FluentTerminal.App.Views
             }, TaskCreationOptions.LongRunning);
         }
 
-        private async void Terminal_Closed(object sender, EventArgs e)
+        private void Terminal_Closed(object sender, EventArgs e)
         {
             ViewModel.Terminal.Closed -= Terminal_Closed;
             ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
             ViewModel.Terminal.RegisterSelectedTextCallback(null);
             _mediatorTaskCTSource.Cancel();
-            await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
+
+            ViewModel.ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
                 _webView.NavigationStarting -= _webView_NavigationStarting;

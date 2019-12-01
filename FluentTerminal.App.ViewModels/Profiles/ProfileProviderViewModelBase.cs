@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Windows.UI.Core;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
@@ -214,7 +215,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return;
             }
 
-            ApplicationView.RunOnDispatcherThread(() =>
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 TerminalThemes.Remove(theme);
 
@@ -222,12 +223,12 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 {
                     SelectedTerminalTheme = TerminalThemes.First();
                 }
-            }, false);
+            }, CoreDispatcherPriority.Low, true);
         }
 
         private void OnThemeAdded(ThemeAddedMessage message)
         {
-            ApplicationView.RunOnDispatcherThread(() => TerminalThemes.Add(message.Theme), false);
+            ApplicationView.ExecuteOnUiThreadAsync(() => TerminalThemes.Add(message.Theme), CoreDispatcherPriority.Low);
         }
 
         private void Initialize(ShellProfile profile)
@@ -292,7 +293,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public void RejectChanges()
         {
-            ApplicationView.RunOnDispatcherThread(() => LoadFromProfile(Model), false);
+            ApplicationView.ExecuteOnUiThreadAsync(() => LoadFromProfile(Model));
         }
 
         #endregion Methods

@@ -699,7 +699,7 @@ namespace FluentTerminal.App
             int viewId = viewModel.ApplicationView.Id;
             if (viewSwitcher != null)
             {
-                await viewModel.ApplicationView.RunOnDispatcherThread(async () => await viewSwitcher.ShowAsStandaloneAsync(viewId));
+                await viewModel.ApplicationView.ExecuteOnUiThreadAsync(async () => await viewSwitcher.ShowAsStandaloneAsync(viewId));
             }
             else
             {

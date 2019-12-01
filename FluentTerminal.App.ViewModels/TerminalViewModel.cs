@@ -455,28 +455,30 @@ namespace FluentTerminal.App.ViewModels
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
+        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            await ApplicationView.RunOnDispatcherThread(() =>
+            ApplicationSettings = message.ApplicationSettings;
+
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                ApplicationSettings = message.ApplicationSettings;
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
-        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
+        private void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
-            await ApplicationView.RunOnDispatcherThread(() =>
+            // only change theme if not overwritten by profile
+            if (ShellProfile.TerminalThemeId == Guid.Empty)
             {
-                // only change theme if not overwritten by profile
-                if (ShellProfile.TerminalThemeId == Guid.Empty)
+                var currentTheme = SettingsService.GetTheme(message.ThemeId);
+
+                ApplicationView.ExecuteOnUiThreadAsync(() =>
                 {
-                    var currentTheme = SettingsService.GetTheme(message.ThemeId);
                     TerminalTheme = currentTheme;
                     ThemeChanged?.Invoke(this, currentTheme);
-                }
-            });
+                });
+            }
         }
 
         private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
@@ -497,13 +499,12 @@ namespace FluentTerminal.App.ViewModels
                 tracker.SetInvalid();
             }
 
-            ApplicationView.RunOnDispatcherThread(() => HasExitedWithError = exitCode > 0);
+            ApplicationView.ExecuteOnUiThreadAsync(() => HasExitedWithError = exitCode > 0);
         }
 
         private void Terminal_Closed(object sender, EventArgs e)
         {
-            ApplicationView.RunOnDispatcherThread(() => Closed?.Invoke(this, EventArgs.Empty));
-
+            Closed?.Invoke(this, EventArgs.Empty);
             Terminal.KeyboardCommandReceived -= Terminal_KeyboardCommandReceived;
             Terminal.OutputReceived -= Terminal_OutputReceived;
             Terminal.SizeChanged -= Terminal_SizeChanged;
@@ -568,7 +569,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {
-                ApplicationView.RunOnDispatcherThread(() => HasNewOutput = true);
+                ApplicationView.ExecuteOnUiThreadAsync(() => HasNewOutput = true);
             }
         }
 

@@ -133,6 +133,7 @@
     <Compile Include="Services\AcceleratorKeyValidator.cs" />
     <Compile Include="Services\CommandHistoryService.cs" />
     <Compile Include="Utilities\DelayedAction.cs" />
+    <Compile Include="Utilities\DispatcherExtensions.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
     <Compile Include="ViewModels\CommandItemViewModel.cs" />
     <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">

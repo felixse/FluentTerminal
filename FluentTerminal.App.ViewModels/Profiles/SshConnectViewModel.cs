@@ -155,7 +155,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
                     if (string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(username))
                     {
-                        ApplicationView.RunOnDispatcherThread(() => Username = username, false);
+                        ApplicationView.ExecuteOnUiThreadAsync(() => Username = username);
                     }
                 }, TaskContinuationOptions.OnlyOnRanToCompletion);
             }
