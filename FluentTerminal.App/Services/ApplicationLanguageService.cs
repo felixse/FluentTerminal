@@ -10,7 +10,8 @@ namespace FluentTerminal.App.Services
         private readonly Dictionary<string, string> _languages = new Dictionary<string, string>
         {
             [""] = "System default",
-            ["zh-Hans-CN"] = "Chinese (Traditional)",
+            ["ar-IQ"] = "اللهجة العراقية",
+            ["az"] = "azərbaycan dili",
             ["de"] = "Deutsch",
             ["en"] = "English",
             ["es"] = "Español",
@@ -18,11 +19,15 @@ namespace FluentTerminal.App.Services
             ["he"] = "עברית",
             ["hi"] = "हिन्दुस्तानी",
             ["it"] = "Italiano",
+            ["ja"] = "日本語",
+            ["ko"] = "한국어",
             ["nl"] = "Nederlands",
             ["pl"] = "Polski",
             ["pt-BR"] = "Português-Brasil",
             ["ro"] = "Română",
-            ["ru"] = "Pусский"
+            ["ru"] = "Pусский",
+            ["uk"] = "Українська",
+            ["zh-Hans-CN"] = "Chinese (Traditional)"
         };
 
         public IEnumerable<string> Languages => _languages.Values;

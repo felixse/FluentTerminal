@@ -31,3 +31,8 @@ DownloadLanguageFile("ro");
 DownloadLanguageFile("it");
 DownloadLanguageFile("nl");
 DownloadLanguageFile("pl");
+DownloadLanguageFile("ja");
+DownloadLanguageFile("ar-iq");
+DownloadLanguageFile("uk");
+DownloadLanguageFile("ko");
+DownloadLanguageFile("az");

@@ -118,933 +118,901 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>Über</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>このアプリについて</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Hintergrund</value>
+    <value>背景色</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Blau</value>
+    <value>ブルー</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Schließen</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>閉じる</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Fenster geschlossen wird</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>ウィンドウを閉じる前に尋ねる</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Tab geschlossen wird</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>タブを閉じる前に尋ねる</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Farbe</value>
+    <value>色</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Inaktive Tabs einfärben</value>
+    <value>非アクティブなタブの色</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Kopieren</value>
+    <value>コピー</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Benutzerdefinierten Tabtitel auch in der Titelleiste anzeigen</value>
+    <value>カスタムタブタイトルをタイトルバーにも表示する</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Titel ändern</value>
+    <value>タイトルを編集</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Allgemein</value>
+    <value>一般</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Grün</value>
+    <value>グリーン</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Über neue Ausgabe auf inaktiven Tabs informieren</value>
+    <value>バックグラウンドタブで出力されたらアイコンを表示する</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Neustart benötigt um vollständig angewandt zu werden.</value>
+    <value>設定を適用するには再起動が必要です</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Neuer Tab</value>
+    <value>新しいタブ</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Keine</value>
+    <value>無し</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Tabs</value>
+    <value>タブ</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Fenster</value>
+    <value>ウィンドウ</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Neue Terminals öffnen als</value>
+    <value>新しいターミナルの開き方</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Orange</value>
+    <value>オレンジ</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>貼り付け</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Lila</value>
+    <value>パープル</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rot</value>
+    <value>レッド</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Standard wiederherstellen</value>
+    <value>デフォルトに戻す</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Bei Systemstart ausführen</value>
+    <value>起動時に実行する</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>設定</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>設定</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Im System Tray anzeigen</value>
+    <value>タスクバーに表示する</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Position der Tabs</value>
+    <value>タブを表示する場所</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Türkis</value>
+    <value>ティール</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Unten</value>
+    <value>下</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Oben</value>
+    <value>上</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Unterstreichen</value>
+    <value>下線</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Aktiven Tab unterstreichen</value>
+    <value>アクティブなタブに下線を表示する</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>Über</value>
+    <value>このアプリについて</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Allgemein</value>
+    <value>一般</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Tastaturbelegung</value>
+    <value>キーバインド</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Maus</value>
+    <value>マウス</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profile</value>
+    <value>プロファイル</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
+    <value>ターミナル</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Themes</value>
+    <value>テーマ</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Hinzufügen</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>追加</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Argumente</value>
+    <value>引数</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Hintergrundtransparenz</value>
+    <value>背景の不透明度</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Blinkender Cursor</value>
+    <value>カーソルを点滅させる</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Fette Schrift</value>
+    <value>太字にする</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>キャンセル</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Suche nach Updates...</value>
+    <value>アップデートを確認中…</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Nach Updates suchen</value>
+    <value>アップデートを確認する</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Zum Ändern auf Farbe klicken</value>
+    <value>編集するには色をクリック</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Duplizieren</value>
+    <value>複製</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Farbpalette</value>
+    <value>カラーパレット</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Informieren wenn Text kopiert wurde</value>
+    <value>テキストをコピーしたら通知する</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Auswahl kopieren</value>
+    <value>選択してコピーする</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>新規作成</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Installierte Version</value>
+    <value>現在のバージョン</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Linie</value>
+    <value>縦線</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Block</value>
+    <value>矩形</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Cursor-Darstellung</value>
+    <value>カーソルの形</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Unterstrich</value>
+    <value>下線</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Löschen</value>
+    <value>削除</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Nicht anpassen</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>改行を改変しない</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>編集</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exportieren</value>
+    <value>エクスポート</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Schriftart</value>
+    <value>フォントファミリー</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Schriftgröße</value>
+    <value>フォントサイズ</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importieren</value>
+    <value>インポート</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Tastaturbelegung</value>
+    <value>キーボードショートカット</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Tastaturkürzel</value>
+    <value>キーボードショートカット</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Neueste Version</value>
+    <value>最新のバージョン</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Lizenz</value>
+    <value>ライセンス</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Zeilenenden-Anpassung</value>
+    <value>改行の変換モード</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Zeilenenden-Anpassung beim Einfügen:</value>
+    <value>ペーストの際に行末の改行コードを変換する:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Aktion für mittlere Taste</value>
+    <value>中央ボタンの動作</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Maus</value>
+    <value>マウス</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Kontextmenü</value>
+    <value>コンテキストメニュー</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Keine</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>なにもしない</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>貼り付け</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>新規作成</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Abstand</value>
+    <value>余白</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>名前</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profile</value>
+    <value>プロファイル</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Theme</value>
+    <value>テーマ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Versionshinweise</value>
+    <value>リリースノート</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Aktion für rechte Taste</value>
+    <value>右ボタンの動作</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Speichern</value>
+    <value>保存</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Maximales Hochscrollen</value>
+    <value>スクロールバックの限界</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Automatisch ausblendend</value>
+    <value>自動的に隠す</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Versteckt</value>
+    <value>表示しない</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Scrollleisten-Darstellung</value>
+    <value>スクロールバーのスタイル</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Sichtbar</value>
+    <value>常に表示する</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Aktiv setzen</value>
+    <value>有効にする</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Als Standard verwenden</value>
+    <value>デフォルトにする</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Pfad zur Shell-Anwendung</value>
+    <value>シェル実行ファイルの場所</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Tab-Farbe</value>
+    <value>タブの色</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>ターミナル</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Theme:</value>
+    <value>テーマ</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Autor</value>
+    <value>作成者</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>テーマ名</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Zeilenenden zu CR konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>改行を CR に変換する</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Zeilenenden zu CR+LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>改行を CR+LF に変換する</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Zeilenenden zu LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>改行を LF に変換する</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Arbeitsverzeichnis</value>
+    <value>作業ディレクトリ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie den Tab &quot;{0}&quot; schließen wollen?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>このタブを閉じてもよろしいですか?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Fenster schließen wollen?</value>
+    <value>このウィンドウを閉じてもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Tastaturkürzel löschen wollen?</value>
+    <value>このキーバインドを削除してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Theme löschen wollen?</value>
+    <value>このテーマを削除してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie alle Änderungen widerrufen wollen?</value>
+    <value>全ての変更を破棄してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Einstellungen wiederherstellen wollen?</value>
+    <value>一般の設定を復元してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Tastaturbelegung wiederherstellen wollen?</value>
+    <value>デフォルトのキーバインドを復元してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie Standard-Mauseinstellungen wiederherstellen wollen?</value>
+    <value>マウスの設定を復元してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Einstellungen für dieses Profile wiederherstellen wollen?</value>
+    <value>このプロファイルを復元してもよろしいですか?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Terminal-Einstellungen wiederherstellen wollen?</value>
+    <value>デフォルトのオプションに戻してもよろしいですか？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Durch Gruppenrichtlinie deaktiviert.</value>
+    <value>ポリシーにより無効化されています。</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Durch den Benutzer deaktiviert. Bitte im Startup-Tab im Task Manager wieder aktivieren.</value>
+    <value>ユーザーにより無効化されています。タスクマネージャのスタートアップタブにて再起動してください。</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Titel ändern</value>
+    <value>タイトル編集</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Fehler</value>
+    <value>エラー</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>Der Befehl konnte aufgrund des folgenden Fehlers nicht ausgeführt werden:</value>
+    <value>以下のエラーにより操作が終了できませんでした:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>Theme importieren fehlgeschlagen</value>
+    <value>テーマのインポートに失敗しました</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Kein passender Parser gefunden.</value>
+    <value>適切なパーサーが見つかりません</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Bitte Bestätigen</value>
+    <value>確認してください</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>キャンセル</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Jetzt Tastaturkürzel eingeben</value>
+    <value>キーバインドを入力</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Zurücksetzen</value>
-    <comment>Fuzzy</comment>
+    <value>リセット</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Text kopiert</value>
+    <value>コピーしました</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Hinzufügen</value>
+    <value>追加</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Tab-Titel anpassen</value>
+    <value>タブタイトルを変更</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Bildschirm leeren</value>
+    <value>クリア</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Tab schließen</value>
+    <value>タブを閉じる</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Konfigurierbarer neuer Tab</value>
+    <value>新規タブ (プロファイル選択可能)</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Konfigurierbares neues Fenster</value>
+    <value>新規ウィンドウ (プロファイル選択可能)</value>
     <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Tastaturkürzel</value>
+    <value>キー割り当て</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Löschen</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>削除</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>編集</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Neuer Tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>新しいタブ</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Neues Fenster</value>
+    <value>新しいウィンドウ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Nächster Tab</value>
+    <value>次のタブ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Ohne Zeilenumbrüche einfügen</value>
+    <value>改行無しで貼り付け</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Vorheriger Tab</value>
+    <value>前のタブ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Suchen</value>
+    <value>検索</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Alles auswählen</value>
+    <value>すべて選択</value>
     <comment>Command</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
+    <value>開始</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Profil auswählen</value>
+    <value>プロファイル選択</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Einstellungen öffnen</value>
+    <value>設定表示</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Zu Terminal 1 wechseln</value>
+    <value>ターミナル1に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Zu Terminal 2 wechseln</value>
+    <value>ターミナル2に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Zu Terminal 3 wechseln</value>
+    <value>ターミナル3に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Zu Terminal 4 wechseln</value>
+    <value>ターミナル4に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Zu Terminal 5 wechseln</value>
+    <value>ターミナル5に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Zu Terminal 6 wechseln</value>
+    <value>ターミナル6に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Zu Terminal 7 wechseln</value>
+    <value>ターミナル7に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Zu Terminal 8 wechseln</value>
+    <value>ターミナル8に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Zu Terminal 9 wechseln</value>
+    <value>ターミナル9に切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Vollbildmodus ein/ausschalten</value>
+    <value>フルスクリーン切替</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Fenster ein/ausblenden</value>
+    <value>ウィンドウ切り替え</value>
     <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Neuer SSH-Tab</value>
-    <comment>Fuzzy</comment>
+    <value>新しいリモートタブ</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Neuer SSH-Tab</value>
-    <comment>Fuzzy</comment>
+    <value>新しいSSHタブ</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informationen</value>
+    <value>SSH情報</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>Benutzer</value>
-    <comment>Fuzzy</comment>
+    <value>ユーザー名</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>Host</value>
+    <value>ホスト</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>Port</value>
+    <value>ポート</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Pfad zur Identitätsdatei</value>
-    <comment>Fuzzy</comment>
+    <value>鍵ファイルへのパス</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Durchsuchen</value>
+    <value>参照</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Mosh verwenden</value>
+    <value>Moshを使う</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Erweitert</value>
+    <value>高度な</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh ports:</value>
+    <value>Mosh ポート:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Verknüpfung speichern</value>
-    <comment>Fuzzy</comment>
+    <value>ショートカットを保存</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Neustart benötigt um vollständig angewandt zu werden.</value>
+    <value>この変更を適用するためにはアプリケーションを再起動する必要があります。</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Ungültige Eingabe</value>
-    <comment>Fuzzy</comment>
+    <value>無効な入力</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Port darf nicht 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>ポート番号に0は使用できません。</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Benutzer und Host sind erfordert.</value>
-    <comment>Fuzzy</comment>
+    <value>ユーザーとホストは必須項目です。</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Benutzer darf nicht leer sein.</value>
+    <value>ユーザ名は空にできません</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host darf nicht leer sein.</value>
-    <comment>Fuzzy</comment>
+    <value>ホスト名は空にできません</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH-Port muss größer als 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>SSHポート番号には0以上の数値を設定してください。</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh-Port darf nicht 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>Moshポートの値に0を設定することはできません</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Ungültiger Mosh-Port-Spanne</value>
+    <value>Moshポートの値のレンジが無効です。</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Ja</value>
+    <value>はい</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Nein</value>
+    <value>いいえ</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Sprache</value>
+    <value>言語</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Keine</value>
+    <value>なし</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Ausgabe</value>
+    <value>新規出力</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mit Fehler beendet</value>
+    <value>エラーのため終了しました</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Profil löschen wollen?</value>
+    <value>このプロファイルを消去してもよろしいですか？</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Neues SSH-Fenster</value>
+    <value>新規SSH ウィンドウ</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH-Profile</value>
-    <comment>Fuzzy</comment>
+    <value>SSH プロファイル</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Tab-Farbe:</value>
-    <comment>Fuzzy</comment>
+    <value>タブの色:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>ConPty verwenden</value>
-    <comment>Fuzzy</comment>
+    <value>ConPtyを使用する</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Benutzer</value>
-    <comment>Fuzzy</comment>
+    <value>ユーザー名</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Von Port</value>
-    <comment>Fuzzy</comment>
+    <value>開始ポート番号</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>bis Port</value>
-    <comment>Fuzzy</comment>
+    <value>終了ポート番号</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh-Ports</value>
+    <value>Mosh ポートレンジ</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>認証する</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Einstellungen wurden exportiert.</value>
+    <value>設定がエクスポートされました</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Einstellungen wurden importiert.</value>
+    <value>設定がインポートされました</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Identittätsdatei existiert nicht</value>
+    <value>鍵ファイルが存在しません</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Windows-Benutzernamen verwenden wenn nicht in SSH-Url angegeben</value>
+    <value>特に指定がない場合、SSH URL を開く際のユーザー名にWindowsのユーザー名を使用する</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Für SSH-Verbindungen standardmäßig Mosh verwenden</value>
+    <value>SSH 接続にはデフォルトでMoshを使用する</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Nachfolgende Leerzeichen aus kopierten Zeilen entfernen</value>
+    <value>後続の空白を除いてコピー</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Quick SSH standardmäßig benutzen</value>
+    <value>デフォルト設定のクイックSSHを使用する</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Ungültiger Befehl</value>
+    <value>無効なコマンド</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Dateipfad darf nicht leer sein</value>
+    <value>ロケーションは必須項目です</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Hinweistöne stummschalten</value>
+    <value>ターミナルのビープ音を無効化する</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH-Befehl (z.b. &apos;ssh username@host&apos;)</value>
+    <value>コマンドを入力 (例: &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Befehl</value>
+    <value>コマンド</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Nicht unterstüzter Befehl:</value>
+    <value>サポートされていないコマンド</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Befehlsargument fehlen</value>
+    <value>コマンドの引数が一致しません</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Quick Launch</value>
+    <value>クイック起動</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Neuer Quick Launch-Tab</value>
+    <value>新規クイックローンチタブ</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Neues Quick Launch-Fenster</value>
+    <value>新規クイックローンチウィンドウ</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Neuer Quick Launch-Tab</value>
+    <value>新規クイックタブ</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Datei nicht gefunden:</value>
+    <value>ファイルが見つかりません: </value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Ungültiger Verweis.</value>
+    <value>無効なリンク</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Tab hier ablegen</value>
+    <value>タブをここに移動</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Linke Tabs schließen</value>
+    <value>左のタブをすべて閉じる</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Andere Tabs schließen</value>
+    <value>他のタブを閉じる</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Rechte Tabs schließen</value>
+    <value>右のタブをすべて閉じる</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Tab duplizieren</value>
+    <value>タブを複製</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplizieren</value>
+    <value>複製</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Es können keine zwei Umgebungsvariablen mit dem gleichen Namen erstellt werden.</value>
+    <value>同じ名前を持った環境変数は定義できません。</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Es kann keine Umgebungsvariable ohne Name erstellt werden.</value>
+    <value>名前がない環境変数は定義できません。</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Umgebungsvariablen</value>
+    <value>環境変数</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Suche schließen</value>
+    <value>検索をパネルを閉じる</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nächstes Ergebnis</value>
+    <value>次を検索</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorheriges Ergebnis</value>
+    <value>前を検索</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Suchbegriff eingeben</value>
+    <value>検索キーワードを入力</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Suche</value>
+    <value>検索</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Nur darstellbare Ausgaben</value>
-    <comment>Fuzzy</comment>
+    <value>印字可能なもののみ出力する</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Ausgabe zum Debuggen protokollieren</value>
+    <value>デバッグ用ログ出力</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Worttrennende Zeichen</value>
+    <value>テキスト区切り文字</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>最近</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>新しいタブでデフォルトプロファイルを開く</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>新しいタブで新規SSH/Moshセッションを開く</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>&quot;クイックローンチ&quot;ダイアログを開き、新しいタブでセッションを開始</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>設定ウィンドウを開く</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>アプリについての基本情報</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>最近開いたセッション</value>
   </data>
   <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
     <value>{0}</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>デフォルトプロファイルで新規ターミナルセッションを開始</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>リモート接続...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>新しいSSH/Moshターミナルセッションを起動するためのダイアログを開く</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>クイック起動</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>新しいターミナルセッションを開始するため&quot;クイックローンチ&quot;を開く</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>新規ウィンドウ</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>新規タブ</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>新規タブでセッションを起動</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>新規ウィンドウでセッションを起動</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
     <value>Application menu type</value>
