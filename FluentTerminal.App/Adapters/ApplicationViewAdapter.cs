@@ -7,6 +7,7 @@ using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.ViewManagement;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Adapters
 {
@@ -59,6 +60,12 @@ namespace FluentTerminal.App.Adapters
 
             return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action()).AsTask();
         }
+
+        public Task DispatchAsync(Action action, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+            bool enforceNewSchedule = false) => _dispatcher.ExecuteAsync(action, priority, enforceNewSchedule);
+
+        public Task<T> DispatchAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+            bool enforceNewSchedule = false) => _dispatcher.ExecuteAsync(func, priority, enforceNewSchedule);
 
         public async Task<bool> TryClose()
         {

@@ -322,7 +322,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
-            return ApplicationView.RunOnDispatcherThread(() => {
+            return ApplicationView.DispatchAsync(() => {
 
                 foreach (var command in toCheck)
                 {
@@ -351,7 +351,7 @@ namespace FluentTerminal.App.ViewModels
                         Commands.RemoveAt(index);
                     }
                 }
-            }, false);
+            });
         }
 
         public void RemoveCommand(ExecutedCommand command)

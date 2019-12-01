@@ -1,6 +1,7 @@
 ﻿using FluentTerminal.App.Services.EventArgs;
 using System;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 
 namespace FluentTerminal.App.Services
 {
@@ -14,7 +15,11 @@ namespace FluentTerminal.App.Services
         int Id { get; }
         string Title { get; set; }
 
-        Task RunOnDispatcherThread(Action action, bool enforceNewSchedule = true);
+        Task DispatchAsync(Action action, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+            bool enforceNewSchedule = false);
+
+        Task<T> DispatchAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+            bool enforceNewSchedule = false);
 
         Task<bool> TryClose();
 

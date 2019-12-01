@@ -376,7 +376,7 @@ namespace FluentTerminal.App.Views
             ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
             ViewModel.Terminal.RegisterSelectedTextCallback(null);
             _mediatorTaskCTSource.Cancel();
-            await ViewModel.ApplicationView.RunOnDispatcherThread(() =>
+            await ViewModel.ApplicationView.DispatchAsync(() =>
             {
                 _webView.NavigationCompleted -= _webView_NavigationCompleted;
                 _webView.NavigationStarting -= _webView_NavigationStarting;

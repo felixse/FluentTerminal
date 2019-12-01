@@ -65,7 +65,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public async Task CheckForUpdate(bool notifyNoUpdate)
         {
             var version = ConvertVersionToString(await _updateService.GetLatestVersionAsync());
-            await _applicationView.RunOnDispatcherThread(() => LatestVersion = version);
+            await _applicationView.DispatchAsync(() => LatestVersion = version);
             await _updateService.CheckForUpdate(notifyNoUpdate);
         }
 
