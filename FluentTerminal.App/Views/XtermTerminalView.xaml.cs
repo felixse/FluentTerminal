@@ -25,14 +25,12 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ISessionSuccessTracker = FluentTerminal.App.ViewModels.ISessionSuccessTracker;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
-        private readonly ManualResetEventSlim _connectedEvent;
-        private readonly SemaphoreSlim _navigationCompleted;
         private readonly MenuFlyoutItem _copyMenuItem;
         private BlockingCollection<Action> _dispatcherJobs;
         private readonly MenuFlyoutItem _pasteMenuItem;
@@ -46,6 +44,10 @@ namespace FluentTerminal.App.Views
         private MemoryStream _outputBlockedBuffer;
         private readonly DelayedAction<bool> _unblockOutput;
         private TerminalBridge _terminalBridge;
+
+        // Members related to initialization
+        private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
+        private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
 
         public event EventHandler<object> OnOutput;
 
@@ -98,9 +100,6 @@ namespace FluentTerminal.App.Views
             _unblockOutput = new DelayedAction<bool>(x => {
                 _outputBlocked.Reset();
             }, 500, Dispatcher);
-
-            _navigationCompleted = new SemaphoreSlim(0, 1);
-            _connectedEvent = new ManualResetEventSlim(false);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
@@ -163,18 +162,21 @@ namespace FluentTerminal.App.Views
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
             var theme = ViewModel.TerminalTheme;
-            SessionType sessionType;
-            if (ViewModel.ShellProfile.UseConPty && ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
-            {
-                sessionType = SessionType.ConPty;
-            }
-            else
-            {
-                sessionType = SessionType.WinPty;
-            }
-            await _navigationCompleted.WaitAsync().ConfigureAwait(true);
-            var size = await CreateXtermView(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
-            _connectedEvent.Wait();
+
+            // Waiting for WebView.NavigationCompleted event to happen
+            await _tcsNavigationCompleted.Task.ConfigureAwait(true);
+
+            var size = await CreateXtermView(options, theme.Colors,
+                FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
+
+            // Waiting for IxtermEventListener.OnInitialized() call to happen
+            await _tcsConnected.Task;
+
+            var sessionType =
+                ViewModel.ShellProfile.UseConPty &&
+                ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
+                    ? SessionType.ConPty
+                    : SessionType.WinPty;
 
             var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
             if (!response.Success)
@@ -262,7 +264,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTerminalResized(int columns, int rows)
         {
-            if (_connectedEvent.IsSet) // only propagate after xterm.js is finished with fitting
+            if (_tcsConnected.Task.Status == TaskStatus.RanToCompletion) // only propagate after xterm.js is finished with fitting
             {
                 // Prevent output from being sent during the terminal while
                 // resize events are being processed (to avoid buffer corruption).
@@ -273,7 +275,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnInitialized()
         {
-            _connectedEvent.Set();
+            _tcsConnected.TrySetResult(null);
         }
 
         void IxtermEventListener.OnTitleChanged(string title)
@@ -284,7 +286,7 @@ namespace FluentTerminal.App.Views
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             Logger.Instance.Debug("WebView navigation completed. Target: {uri}", args.Uri);
-            _navigationCompleted.Release();
+            _tcsNavigationCompleted.TrySetResult(null);
         }
 
         private void _webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
@@ -432,8 +434,6 @@ namespace FluentTerminal.App.Views
 
         public void Dispose()
         {
-            _connectedEvent?.Dispose();
-            _navigationCompleted?.Dispose();
             _dispatcherJobs?.Dispose();
             _mediatorTaskCTSource?.Dispose();
             _outputBlocked?.Dispose();
