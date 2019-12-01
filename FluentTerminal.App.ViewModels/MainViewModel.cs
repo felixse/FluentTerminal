@@ -14,6 +14,10 @@ using Windows.UI.Core;
 using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight.Command;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml;
+using FluentTerminal.App.ViewModels.Infrastructure;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -125,6 +129,7 @@ namespace FluentTerminal.App.ViewModels
 
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
+            _quitCommand = new AsyncCommand(() => _trayProcessCommunicationService.QuitApplication());
 
             _defaultProfile = _settingsService.GetDefaultShellProfile();
 
@@ -653,6 +658,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly RelayCommand _newQuickLaunchWindowCommand;
         private readonly RelayCommand _settingsCommand;
         private readonly RelayCommand _aboutCommand;
+        private readonly ICommand _quitCommand;
 
         public AppMenuViewModel MenuViewModel
         {
@@ -689,6 +695,10 @@ namespace FluentTerminal.App.ViewModels
                 FillCoreItems(appMenuViewModel.Items, _applicationSettings.NewTerminalLocation);
             }
 
+            appMenuViewModel.Items.Add(new ExpandableMenuItemViewModel(I18N.TranslateWithFallback("Recent.Text", "Recent"),
+                GetRecentMenuItems(), I18N.TranslateWithFallback("Recent_Description", "Recently opened sessions."),
+                icon: "\uF738" /*Segoe MDL2 Assets Glyph property*/));
+
             var settingsItem = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
                 _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),
                 icon: 57621 /*(int) Symbol.Setting*/);
@@ -704,15 +714,19 @@ namespace FluentTerminal.App.ViewModels
                 settingsItem.KeyBinding = null;
             }
 
+            appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
             appMenuViewModel.Items.Add(settingsItem);
-
-            appMenuViewModel.Items.Add(new ExpandableMenuItemViewModel(I18N.TranslateWithFallback("Recent.Text", "Recent"),
-                GetRecentMenuItems(), I18N.TranslateWithFallback("Recent_Description", "Recently opened sessions."),
-                icon: "\uF738" /*Segoe MDL2 Assets Glyph property*/));
 
             appMenuViewModel.Items.Add(new MenuItemViewModel(I18N.TranslateWithFallback("AboutDialog.Title", "About"), _aboutCommand,
                 I18N.TranslateWithFallback("About_Description", "Basic info about the app."),
                 icon: "\uE946" /*Segoe MDL2 Assets Glyph property*/));
+
+            appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
+
+            var quitItem = new MenuItemViewModel(I18N.TranslateWithFallback("Quit.Text", "Quit"), _quitCommand,
+                I18N.TranslateWithFallback("Quit.Description", "Quit Fluent Terminal"),
+                icon: (int)Windows.UI.Xaml.Controls.Symbol.Cancel);
+            appMenuViewModel.Items.Add(quitItem);
 
             if (!appMenuViewModel.EquivalentTo(_menuViewModel))
             {

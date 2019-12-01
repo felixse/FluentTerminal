@@ -44,5 +44,7 @@ namespace FluentTerminal.App.Services
         void UpdateSettings(ApplicationSettings settings);
 
         Task<string> GetCommandPathAsync(string command);
+
+        Task QuitApplication();
     }
 }
