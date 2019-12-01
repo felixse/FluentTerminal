@@ -12,6 +12,7 @@ using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class TerminalView : UserControl
     {
         private ITerminalView _terminalView;
@@ -57,32 +58,29 @@ namespace FluentTerminal.App.Views
 
         public TerminalViewModel ViewModel { get; private set; }
 
-        private async void OnActivated(object sender, EventArgs e)
+        private void OnActivated(object sender, EventArgs e)
         {
-            if (_terminalView != null)
-            {
-                await _terminalView.FocusTerminal().ConfigureAwait(true);
-            }
+            _terminalView?.FocusTerminal();
         }
 
-        private async void OnFindNextRequested(object sender, string e)
+        private void OnFindNextRequested(object sender, string e)
         {
-            await _terminalView.FindNext(e).ConfigureAwait(true);
+            _terminalView.FindNext(e);
         }
 
-        private async void OnFindPreviousRequested(object sender, string e)
+        private void OnFindPreviousRequested(object sender, string e)
         {
-            await _terminalView.FindPrevious(e).ConfigureAwait(true);
+            _terminalView.FindPrevious(e);
         }
 
-        private async void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
+        private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
         {
-            await _terminalView.ChangeKeyBindings().ConfigureAwait(true);
+            _terminalView.ChangeKeyBindings();
         }
 
-        private async void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            await _terminalView.ChangeOptions(message.TerminalOptions).ConfigureAwait(true);
+            _terminalView.ChangeOptions(message.TerminalOptions);
         }
 
         private void OnSearchStarted(object sender, EventArgs e)

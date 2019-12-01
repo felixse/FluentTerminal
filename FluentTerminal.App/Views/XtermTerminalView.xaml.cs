@@ -81,7 +81,7 @@ namespace FluentTerminal.App.Views
             {
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            }, 800, Dispatcher);
+            }, 800);
 
             // _sizedChanged is used to debounce terminal resize events to
             // avoid spamming the terminal with them (this can result in
@@ -126,9 +126,9 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
-        public async Task<string> SerializeXtermState()
+        public Task<string> SerializeXtermState()
         {
-            return await ExecuteScriptAsync(@"serializeTerminal()");
+            return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
         public Task FindNext(string searchText)
@@ -141,13 +141,15 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"findPrevious('{searchText}')");
         }
 
-        public async Task FocusTerminal()
+        public Task FocusTerminal()
         {
             if (_webView != null)
             {
                 _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
+                return ExecuteScriptAsync("document.focus();");
             }
+
+            return Task.CompletedTask;
         }
 
         public async Task Initialize(TerminalViewModel viewModel)
@@ -319,13 +321,17 @@ namespace FluentTerminal.App.Views
         {
             try
             {
-                return await _webView.InvokeScriptAsync("eval", new[] { script }).AsTask();
+                var scriptTask =
+                    await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}));
+
+                return await scriptTask;
             }
             catch (Exception e)
             {
                 Logger.Instance.Error($"Exception while running:\n \"{script}\"\n\n {e}");
             }
-            return await Task.FromResult(string.Empty);
+
+            return string.Empty;
         }
 
         private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshProfile> sshprofiles)
