@@ -322,7 +322,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
-            return ApplicationView.DispatchAsync(() => {
+            return ApplicationView.ExecuteOnUiThreadAsync(() => {
 
                 foreach (var command in toCheck)
                 {
@@ -358,7 +358,7 @@ namespace FluentTerminal.App.ViewModels
         {
             _historyService.Delete(command);
 
-            CommandItemViewModel toRemove = _allCommands.FirstOrDefault(c =>
+            var toRemove = _allCommands.FirstOrDefault(c =>
                 string.Equals(c.ExecutedCommand.Value, command.Value, StringComparison.Ordinal));
 
             if (toRemove != null)

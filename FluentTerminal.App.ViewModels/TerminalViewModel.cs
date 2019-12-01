@@ -455,24 +455,25 @@ namespace FluentTerminal.App.ViewModels
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
+        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            await ApplicationView.DispatchAsync(() =>
+            ApplicationSettings = message.ApplicationSettings;
+
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                ApplicationSettings = message.ApplicationSettings;
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
-        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
+        private void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
             // only change theme if not overwritten by profile
             if (ShellProfile.TerminalThemeId == Guid.Empty)
             {
                 var currentTheme = SettingsService.GetTheme(message.ThemeId);
 
-                await ApplicationView.DispatchAsync(() =>
+                ApplicationView.ExecuteOnUiThreadAsync(() =>
                 {
                     TerminalTheme = currentTheme;
                     ThemeChanged?.Invoke(this, currentTheme);
@@ -498,7 +499,7 @@ namespace FluentTerminal.App.ViewModels
                 tracker.SetInvalid();
             }
 
-            ApplicationView.DispatchAsync(() => HasExitedWithError = exitCode > 0);
+            ApplicationView.ExecuteOnUiThreadAsync(() => HasExitedWithError = exitCode > 0);
         }
 
         private void Terminal_Closed(object sender, EventArgs e)
@@ -568,7 +569,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (!IsSelected && ApplicationSettings.ShowNewOutputIndicator)
             {
-                ApplicationView.DispatchAsync(() => HasNewOutput = true);
+                ApplicationView.ExecuteOnUiThreadAsync(() => HasNewOutput = true);
             }
         }
 

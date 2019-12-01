@@ -15,10 +15,10 @@ namespace FluentTerminal.App.Services
         int Id { get; }
         string Title { get; set; }
 
-        Task DispatchAsync(Action action, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+        Task ExecuteOnUiThreadAsync(Action action, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
             bool enforceNewSchedule = false);
 
-        Task<T> DispatchAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
+        Task<T> ExecuteOnUiThreadAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
             bool enforceNewSchedule = false);
 
         Task<bool> TryClose();

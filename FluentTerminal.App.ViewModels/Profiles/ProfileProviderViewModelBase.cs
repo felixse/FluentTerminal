@@ -215,7 +215,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return;
             }
 
-            ApplicationView.DispatchAsync(() =>
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 TerminalThemes.Remove(theme);
 
@@ -228,7 +228,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private void OnThemeAdded(ThemeAddedMessage message)
         {
-            ApplicationView.DispatchAsync(() => TerminalThemes.Add(message.Theme), CoreDispatcherPriority.Low, true);
+            ApplicationView.ExecuteOnUiThreadAsync(() => TerminalThemes.Add(message.Theme), CoreDispatcherPriority.Low);
         }
 
         private void Initialize(ShellProfile profile)
@@ -293,7 +293,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public void RejectChanges()
         {
-            ApplicationView.DispatchAsync(() => LoadFromProfile(Model));
+            ApplicationView.ExecuteOnUiThreadAsync(() => LoadFromProfile(Model));
         }
 
         #endregion Methods

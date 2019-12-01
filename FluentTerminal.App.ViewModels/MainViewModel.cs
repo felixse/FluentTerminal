@@ -145,7 +145,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (changeMenu)
             {
-                ApplicationView.DispatchAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+                ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
             }
         }
 
@@ -365,7 +365,7 @@ namespace FluentTerminal.App.ViewModels
         {
             profile.Tag = new DelayedHistorySaver(() => _commandHistoryService.MarkUsed(profile));
 
-            return ApplicationView.DispatchAsync(() =>
+            return ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
                     _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService, terminalState);
@@ -480,18 +480,19 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseCommand.ExecuteAsync();
         }
 
-        private async void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
+        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            await ApplicationView.DispatchAsync(() =>
-            {
-                var updateMenu = _applicationSettings != null &&
-                                  (_applicationSettings.TabWindowCascadingAppMenu !=
-                                   message.ApplicationSettings.TabWindowCascadingAppMenu ||
-                                   !message.ApplicationSettings.TabWindowCascadingAppMenu &&
-                                   _applicationSettings.NewTerminalLocation !=
-                                   message.ApplicationSettings.NewTerminalLocation);
+            var updateMenu = _applicationSettings != null &&
+                             (_applicationSettings.TabWindowCascadingAppMenu !=
+                              message.ApplicationSettings.TabWindowCascadingAppMenu ||
+                              !message.ApplicationSettings.TabWindowCascadingAppMenu &&
+                              _applicationSettings.NewTerminalLocation !=
+                              message.ApplicationSettings.NewTerminalLocation);
 
-                _applicationSettings = message.ApplicationSettings;
+            _applicationSettings = message.ApplicationSettings;
+
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
+            {
                 TabsPosition = message.ApplicationSettings.TabsPosition;
                 RaisePropertyChanged(nameof(ShowTabsOnTop));
                 RaisePropertyChanged(nameof(ShowTabsOnBottom));
@@ -533,16 +534,17 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private async void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
+        private void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
         {
-            await ApplicationView.DispatchAsync(() =>
+            var currentTheme = _settingsService.GetTheme(message.ThemeId);
+
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                var currentTheme = _settingsService.GetTheme(message.ThemeId);
                 Background = currentTheme.Colors.Background;
             }, CoreDispatcherPriority.Low);
         }
 
-        private async void OnTerminalClosed(object sender, EventArgs e)
+        private void OnTerminalClosed(object sender, EventArgs e)
         {
             if (!(sender is TerminalViewModel terminal))
             {
@@ -559,25 +561,24 @@ namespace FluentTerminal.App.ViewModels
             terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
             terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
 
-            await ApplicationView.DispatchAsync(() =>
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                if (SelectedTerminal == terminal)
-                {
-                    SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
-                }
-
                 Terminals.Remove(terminal);
 
                 if (Terminals.Count == 0)
                 {
                     ApplicationView.TryClose();
                 }
+                else if (SelectedTerminal == terminal)
+                {
+                    SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
+                }
             });
         }
 
-        private async void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            await ApplicationView.DispatchAsync(() =>
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 BackgroundOpacity = message.TerminalOptions.BackgroundOpacity;
             }, CoreDispatcherPriority.Low);
@@ -587,12 +588,12 @@ namespace FluentTerminal.App.ViewModels
         {
             LoadKeyBindings();
 
-            ApplicationView.DispatchAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
         private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
         {
-            ApplicationView.DispatchAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
         private void SelectTabNumber(int tabNumber)
