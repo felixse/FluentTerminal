@@ -20,5 +20,6 @@
         GetCommandPathRequest = 15,
         PauseTerminalOutputRequest = 16,
         PauseTerminalOutputResponse = 17,
+        QuitApplicationRequest = 18
     }
 }

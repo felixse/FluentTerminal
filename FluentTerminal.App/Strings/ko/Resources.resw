@@ -118,882 +118,859 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>Über</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>정보</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Hintergrund</value>
+    <value>배경</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Blau</value>
+    <value>파란색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Schließen</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>닫기</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Fenster geschlossen wird</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>창을 닫기 전에 물어보기</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Nachfragen bevor Tab geschlossen wird</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>탭을 닫기 전에 물어보기</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Farbe</value>
+    <value>색상</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Inaktive Tabs einfärben</value>
+    <value>비활성 탭 색상</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Kopieren</value>
+    <value>복사</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Benutzerdefinierten Tabtitel auch in der Titelleiste anzeigen</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>타이틀 바에도 커스텀 탭 제목 표시하기</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Titel ändern</value>
+    <value>제목 편집</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Allgemein</value>
+    <value>일반</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Grün</value>
+    <value>초록색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Über neue Ausgabe auf inaktiven Tabs informieren</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>백그라운드 탭에 새로운 output indicator 표시</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Neustart benötigt um vollständig angewandt zu werden.</value>
+    <value>프로그램을 다시 시작하여 설정 적용</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Neuer Tab</value>
+    <value>새 탭</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Keine</value>
+    <value>없음</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Tabs</value>
+    <value>탭</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Fenster</value>
+    <value>창</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Neue Terminals öffnen als</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>로 새 터미널 열기</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Orange</value>
+    <value>주황색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>붙여넣기</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Lila</value>
+    <value>보라색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rot</value>
+    <value>빨간색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Standard wiederherstellen</value>
+    <value>기본값 불러오기</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Bei Systemstart ausführen</value>
+    <value>부팅시에 시작</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>설정</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>설정</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Im System Tray anzeigen</value>
+    <value>알림 영역에 표시</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Position der Tabs</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>에서 탭 표시</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Türkis</value>
+    <value>청록색</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Unten</value>
+    <value>아래</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Oben</value>
+    <value>위</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Unterstreichen</value>
+    <value>밑줄</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Aktiven Tab unterstreichen</value>
+    <value>선택한 탭에 밑줄</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>Über</value>
+    <value>정보</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Allgemein</value>
+    <value>일반</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Tastaturbelegung</value>
+    <value>키 배정</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Maus</value>
+    <value>마우스</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profile</value>
+    <value>프로필</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
+    <value>터미널</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Themes</value>
+    <value>테마</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Hinzufügen</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>추가</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Argumente</value>
+    <value>인자</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Hintergrundtransparenz</value>
+    <value>배경 투명도</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Blinkender Cursor</value>
+    <value>깜빡이는 커서</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Fette Schrift</value>
+    <value>굵은 글씨</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>취소</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Suche nach Updates...</value>
+    <value>업데이트 확인 중...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Nach Updates suchen</value>
+    <value>업데이트 확인</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Zum Ändern auf Farbe klicken</value>
+    <value>수정할 색을 고르시오</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Duplizieren</value>
+    <value>복제</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Farbpalette</value>
+    <value>색상 팔레트</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Informieren wenn Text kopiert wurde</value>
+    <value>텍스트 복사 알림</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Auswahl kopieren</value>
+    <value>선택 시 복사</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>새로 만들기</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Installierte Version</value>
+    <value>현재 버전</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Linie</value>
+    <value>바</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Block</value>
+    <value>블록</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Cursor-Darstellung</value>
+    <value>커서 스타일</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Unterstrich</value>
+    <value>밑줄</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Löschen</value>
+    <value>삭제</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Nicht anpassen</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>줄바꿈을 변경하지 않음</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>편집</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exportieren</value>
+    <value>내보내기</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Schriftart</value>
+    <value>글꼴 패밀리</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Schriftgröße</value>
+    <value>글꼴 크기</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importieren</value>
+    <value>가져오기</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Tastaturbelegung</value>
+    <value>키보드 단축키</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Tastaturkürzel</value>
+    <value>키보드 단축키</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Neueste Version</value>
+    <value>최신 버전</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Lizenz</value>
+    <value>라이선스</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Zeilenenden-Anpassung</value>
+    <value>줄바꿈 변환 모드</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Zeilenenden-Anpassung beim Einfügen:</value>
+    <value>붙여넣기시 줄바꿈 변환 모드:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Aktion für mittlere Taste</value>
+    <value>가운데 버튼 동작</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Maus</value>
+    <value>마우스</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Kontextmenü</value>
+    <value>컨텍스트 메뉴</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Keine</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>없음</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>붙여넣기</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Erstellen</value>
+    <value>새로 만들기</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Abstand</value>
+    <value>여백</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>이름</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profile</value>
+    <value>프로필</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Theme</value>
+    <value>테마</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Versionshinweise</value>
+    <value>릴리즈 노트</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Aktion für rechte Taste</value>
+    <value>오른쪽 버튼 동작</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Speichern</value>
+    <value>저장</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Maximales Hochscrollen</value>
+    <value>스크롤 백 제한</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Automatisch ausblendend</value>
+    <value>자동 숨김</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Versteckt</value>
+    <value>숨김</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Scrollleisten-Darstellung</value>
+    <value>스크롤 바 모양</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Sichtbar</value>
+    <value>보이게</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Aktiv setzen</value>
+    <value>활성화</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Als Standard verwenden</value>
+    <value>기본값 설정</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Pfad zur Shell-Anwendung</value>
+    <value>쉘 실행 파일 경로</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Tab-Farbe</value>
+    <value>탭 색상</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>터미널</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Theme:</value>
+    <value>테마:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Autor</value>
+    <value>제작자</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>이름</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Zeilenenden zu CR konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>줄바꿈을 CR로 변환</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Zeilenenden zu CR+LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>줄바꿈을 CR+LF로 변환</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Zeilenenden zu LF konvertieren</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>줄바꿈을 LF로 변환</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Arbeitsverzeichnis</value>
+    <value>작업 디렉터리</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie den Tab &quot;{0}&quot; schließen wollen?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>정말 &quot;{0}&quot; 탭을 닫으시겠습니까?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Fenster schließen wollen?</value>
+    <value>정말 이 창을 닫으시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Tastaturkürzel löschen wollen?</value>
+    <value>정말 이 키 바인딩을 삭제하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Theme löschen wollen?</value>
+    <value>정말 이 테마를 삭제하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie alle Änderungen widerrufen wollen?</value>
+    <value>정말 모든 변경 사항을 취소하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Einstellungen wiederherstellen wollen?</value>
+    <value>정말 기본 설정으로 복원하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Tastaturbelegung wiederherstellen wollen?</value>
+    <value>정말 기본 키 바인딩으로 되돌리시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie Standard-Mauseinstellungen wiederherstellen wollen?</value>
+    <value>정말 마우스 설정을 복원하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Einstellungen für dieses Profile wiederherstellen wollen?</value>
+    <value>정말 이 프로필을 되돌리시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie die Standard-Terminal-Einstellungen wiederherstellen wollen?</value>
+    <value>정말 터미널 기본 설정을 복원하시겠습니까?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Durch Gruppenrichtlinie deaktiviert.</value>
+    <value>정책에 의해 비활성화됨.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Durch den Benutzer deaktiviert. Bitte im Startup-Tab im Task Manager wieder aktivieren.</value>
+    <value>사용자에 의해 비활성화됨. 시작 탭이나 작업 관리자에서 재시작해주십시오.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Titel ändern</value>
+    <value>제목 편집</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Fehler</value>
+    <value>오류</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>Der Befehl konnte aufgrund des folgenden Fehlers nicht ausgeführt werden:</value>
+    <value>다음과 같은 오류로 인해 작업이 완료될 수 없음:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>Theme importieren fehlgeschlagen</value>
+    <value>테마 가져오기 실패</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Kein passender Parser gefunden.</value>
+    <value>적절한 파서를 찾지 못함</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Bitte Bestätigen</value>
+    <value>확인 필요</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>취소</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Jetzt Tastaturkürzel eingeben</value>
+    <value>지금 키 바인딩을 입력하시오</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>확인</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Zurücksetzen</value>
-    <comment>Fuzzy</comment>
+    <value>초기화</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Text kopiert</value>
+    <value>텍스트 복사됨</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Hinzufügen</value>
+    <value>추가</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Tab-Titel anpassen</value>
+    <value>탭 제목 변경</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Bildschirm leeren</value>
+    <value>모두지움</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Tab schließen</value>
+    <value>탭 닫기</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Konfigurierbarer neuer Tab</value>
+    <value>설정 가능한 새 탭</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Konfigurierbares neues Fenster</value>
+    <value>설정 가능한 새 창</value>
     <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Tastaturkürzel</value>
+    <value>키 바인딩</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Löschen</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>삭제</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>편집</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Neuer Tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>새 탭</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Neues Fenster</value>
+    <value>새 창</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Nächster Tab</value>
+    <value>다음 탭</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Ohne Zeilenumbrüche einfügen</value>
+    <value>줄 바꿈 없이 붙여넣기</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Vorheriger Tab</value>
+    <value>이전 탭</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Suchen</value>
+    <value>찾기</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Alles auswählen</value>
+    <value>모두 선택</value>
     <comment>Command</comment>
   </data>
   <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
+    <value>시작</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Profil auswählen</value>
+    <value>프로필 선택</value>
     <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Einstellungen öffnen</value>
+    <value>설정 표시</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Zu Terminal 1 wechseln</value>
+    <value>터미널 1로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Zu Terminal 2 wechseln</value>
+    <value>터미널 2로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Zu Terminal 3 wechseln</value>
+    <value>터미널 3으로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Zu Terminal 4 wechseln</value>
+    <value>터미널 4로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Zu Terminal 5 wechseln</value>
+    <value>터미널 5로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Zu Terminal 6 wechseln</value>
+    <value>터미널 6으로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Zu Terminal 7 wechseln</value>
+    <value>터미널 7로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Zu Terminal 8 wechseln</value>
+    <value>터미널 8로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Zu Terminal 9 wechseln</value>
+    <value>터미널 9로 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Vollbildmodus ein/ausschalten</value>
+    <value>전체 화면 전환</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Fenster ein/ausblenden</value>
+    <value>윈도우 전환</value>
     <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Neuer SSH-Tab</value>
-    <comment>Fuzzy</comment>
+    <value>새 원격 탭</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Neuer SSH-Tab</value>
-    <comment>Fuzzy</comment>
+    <value>새 SSH 탭</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informationen</value>
+    <value>SSH 정보</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>Benutzer</value>
-    <comment>Fuzzy</comment>
+    <value>사용자</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>Host</value>
+    <value>호스트</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>Port</value>
+    <value>포트</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Pfad zur Identitätsdatei</value>
+    <value>아이덴티티 파일 경로</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Durchsuchen</value>
+    <value>찾아보기</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Mosh verwenden</value>
+    <value>Mosh 사용</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Erweitert</value>
+    <value>고급</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh ports:</value>
+    <value>Mosh 포트:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Verknüpfung speichern</value>
-    <comment>Fuzzy</comment>
+    <value>바로 가기 저장</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Neustart benötigt um vollständig angewandt zu werden.</value>
+    <value>변경이 적용되려면 앱이 재시작되어야 합니다.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Ungültige Eingabe</value>
-    <comment>Fuzzy</comment>
+    <value>잘못된 입력</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Port darf nicht 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>포트는 0으로 설정할 수 없습니다.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Benutzer und Host sind erfordert.</value>
-    <comment>Fuzzy</comment>
+    <value>사용자 및 호스트는 반드시 입력해야 합니다.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Benutzer darf nicht leer sein.</value>
+    <value>사용자 이름은 비워둘 수 없습니다.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host darf nicht leer sein.</value>
-    <comment>Fuzzy</comment>
+    <value>호스트는 비워둘 수 없습니다.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH-Port muss größer als 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>SSH 포트는 0보다 큰 값으로 설정해야 합니다.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh-Port darf nicht 0 sein.</value>
-    <comment>Fuzzy</comment>
+    <value>Mosh 포트는 0으로 설정할 수 없습니다.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Ungültiger Mosh-Port-Spanne</value>
+    <value>Mosh 포트 범위가 잘못되었습니다.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Ja</value>
+    <value>예</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Nein</value>
+    <value>아니오</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Sprache</value>
+    <value>언어</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Keine</value>
+    <value>없음</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Ausgabe</value>
+    <value>새로운 출력</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mit Fehler beendet</value>
+    <value>오류와 함께 종료됨</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Sind Sie sicher dass Sie dieses Profil löschen wollen?</value>
+    <value>정말 이 프로필을 삭제하시겠습니까?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Neues SSH-Fenster</value>
+    <value>새 SSH 창</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH-Profile</value>
-    <comment>Fuzzy</comment>
+    <value>SSH 프로필</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Tab-Farbe:</value>
-    <comment>Fuzzy</comment>
+    <value>탭 색상:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>ConPty verwenden</value>
-    <comment>Fuzzy</comment>
+    <value>ConPty 사용</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Benutzer</value>
-    <comment>Fuzzy</comment>
+    <value>사용자 이름</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Von Port</value>
-    <comment>Fuzzy</comment>
+    <value>발신 포트</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>bis Port</value>
-    <comment>Fuzzy</comment>
+    <value>수신 포트</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh-Ports</value>
+    <value>Mosh 포트 범위</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>인증</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Einstellungen wurden exportiert.</value>
+    <value>설정이 파일로 내보내짐</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Einstellungen wurden importiert.</value>
+    <value>설정을 파일에서 불러옴</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Identittätsdatei existiert nicht</value>
+    <value>아이덴티티 파일이 존재하지 않음</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Windows-Benutzernamen verwenden wenn nicht in SSH-Url angegeben</value>
+    <value>사용자 이름이 명시되지 않은 SSH URL을 열 때 윈도우의 사용자 이름 사용</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Für SSH-Verbindungen standardmäßig Mosh verwenden</value>
+    <value>SSH 연결에 기본으로 Mosh 사용</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Nachfolgende Leerzeichen aus kopierten Zeilen entfernen</value>
+    <value>복사한 줄들의 우측 공백 제거</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Quick SSH standardmäßig benutzen</value>
+    <value>quick SSH를 기본으로 사용</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Ungültiger Befehl</value>
+    <value>존재하지 않는 명령어.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Dateipfad darf nicht leer sein</value>
+    <value>경로는 공백이 될 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Hinweistöne stummschalten</value>
+    <value>비프 음소거</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>SSH-Befehl (z.b. &apos;ssh username@host&apos;)</value>
+    <value>명령어를 입력하시오 (예: &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Befehl</value>
+    <value>명령어</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Nicht unterstüzter Befehl:</value>
+    <value>지원되지 않는 명령어:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Befehlsargument fehlen</value>
+    <value>명령 인자가 없음.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Quick Launch</value>
+    <value>빠른 실행</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Neuer Quick Launch-Tab</value>
+    <value>새 빠른 실행 탭</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Neues Quick Launch-Fenster</value>
+    <value>새 빠른 실행 창</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Neuer Quick Launch-Tab</value>
+    <value>새 빠른 창</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Datei nicht gefunden:</value>
+    <value>파일을 찾을 수 없음:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Ungültiger Verweis.</value>
+    <value>유효하지 않는 링크.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Tab hier ablegen</value>
+    <value>DropTabHere</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Linke Tabs schließen</value>
+    <value>CloseLeft.Text</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Andere Tabs schließen</value>
+    <value>CloseOther.Text</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Rechte Tabs schließen</value>
+    <value>CloseRight.Text</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Tab duplizieren</value>
+    <value>Command.DuplicateTab</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplizieren</value>
+    <value>Duplicate.Text</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Es können keine zwei Umgebungsvariablen mit dem gleichen Namen erstellt werden.</value>
+    <value>같은 이름을 가진 환경 변수를 두개씩 정의할 수 없습니다.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Es kann keine Umgebungsvariable ohne Name erstellt werden.</value>
+    <value>이름이 없는 환경 변수를 정의할 수 없습니다.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Umgebungsvariablen</value>
+    <value>환경 변수</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Suche schließen</value>
+    <value>검색 패널 닫기</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nächstes Ergebnis</value>
+    <value>다음 찾기</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorheriges Ergebnis</value>
+    <value>이전 찾기</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Suchbegriff eingeben</value>
+    <value>검색 단어 입력</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Suche</value>
+    <value>검색</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Nur darstellbare Ausgaben</value>
+    <value>표시 가능한 출력만 표시</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Ausgabe zum Debuggen protokollieren</value>
+    <value>디버깅로그 출력</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Worttrennende Zeichen</value>
+    <value>띄어쓰기 문자</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
     <value>Recent</value>

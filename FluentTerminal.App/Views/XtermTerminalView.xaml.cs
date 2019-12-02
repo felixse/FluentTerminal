@@ -136,6 +136,10 @@ namespace FluentTerminal.App.Views
             }
         }
 
+        // Members related to initialization
+        private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
+        private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
+
         public event EventHandler<object> OnOutput;
 
         public XtermTerminalView()

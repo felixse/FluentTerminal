@@ -18,9 +18,18 @@ namespace FluentTerminal.App.Converters
         private static readonly IconConverter IconConverter = new IconConverter();
 
         private static MenuFlyoutItemBase GetItem(MenuItemViewModelBase viewModel) =>
-            viewModel is ExpandableMenuItemViewModel expandableMenuItemViewModel
-                ? (MenuFlyoutItemBase)GetExpandableItem(expandableMenuItemViewModel)
-                : GetRegularItem((MenuItemViewModel)viewModel);
+            viewModel switch
+            {
+                ExpandableMenuItemViewModel expandle => GetExpandableItem(expandle),
+                MenuItemViewModel regular => GetRegularItem(regular),
+                SeparatorMenuItemViewModel _ => GetSeparatorItem(),
+                _ => throw new NotImplementedException()
+            };
+
+        private static MenuFlyoutSeparator GetSeparatorItem()
+        {
+            return new MenuFlyoutSeparator();
+        }
 
         private static MenuFlyoutItem GetRegularItem(MenuItemViewModel viewModel)
         {

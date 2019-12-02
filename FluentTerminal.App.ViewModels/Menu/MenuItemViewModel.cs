@@ -1,5 +1,5 @@
 ﻿using System;
-using GalaSoft.MvvmLight.Command;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
@@ -15,13 +15,13 @@ namespace FluentTerminal.App.ViewModels.Menu
             set => Set(ref _keyBinding, value);
         }
 
-        public RelayCommand Command { get; }
+        public ICommand Command { get; }
 
         #endregion Properties
 
         #region Constructors
 
-        public MenuItemViewModel(string text, RelayCommand command, string description = null, object icon = null,
+        public MenuItemViewModel(string text, ICommand command, string description = null, object icon = null,
             MenuItemKeyBindingViewModel keyBinding = null) : base(text, description, icon)
         {
             _keyBinding = keyBinding;

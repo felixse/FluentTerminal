@@ -306,6 +306,13 @@ namespace FluentTerminal.App.Services.Implementation
             throw new Exception(response.Error);
         }
 
+        public Task QuitApplication()
+        {
+            var request = new QuitApplicationRequest();
+
+            return _appServiceConnection.SendMessageAsync(CreateMessage(request));
+        }
+
         private ValueSet CreateMessage(IMessage content)
         {
             return new ValueSet

@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using FluentTerminal.Models.Responses;
 using FluentTerminal.App.Services;
+using System.Windows.Forms;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -127,10 +128,18 @@ namespace FluentTerminal.SystemTray.Services
                 case MessageIdentifiers.PauseTerminalOutputRequest:
                     await HandlePauseTerminalOutputRequest(args);
                     break;
+                case MessageIdentifiers.QuitApplicationRequest:
+                    HandleQuitApplicationRequest();
+                    break;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
                     break;
             }
+        }
+
+        private void HandleQuitApplicationRequest()
+        {
+            Application.Exit();
         }
 
         private void HandleWriteDataMessage(AppServiceRequestReceivedEventArgs args)

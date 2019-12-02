@@ -1031,7 +1031,7 @@ Fuzzy</comment>
     <value>Recent</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Opens default profile in a new tab.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
     <value>Opens a new SSH or Mosh session in a new tab.</value>
@@ -1077,5 +1077,14 @@ Fuzzy</comment>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
     <value>Launches a session in a new window.</value>
+  </data>
+  <data name="AppMenuType.Text" xml:space="preserve">
+    <value>Application menu type</value>
+  </data>
+  <data name="AppMenuType_Flat.Content" xml:space="preserve">
+    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+  </data>
+  <data name="AppMenuType_Cascading.Content" xml:space="preserve">
+    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
   </data>
 </root>
