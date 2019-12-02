@@ -166,7 +166,6 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler<string> FindPreviousRequested;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
-        public event EventHandler<string> CustomTitleChanged;
         public event EventHandler CloseLeftTabsRequested;
         public event EventHandler CloseRightTabsRequested;
         public event EventHandler CloseOtherTabsRequested;
@@ -336,10 +335,7 @@ namespace FluentTerminal.App.ViewModels
                     }
                 }
 
-                if (Set(ref _tabTitle, title))
-                {
-                    CustomTitleChanged?.Invoke(this, title);
-                }
+                Set(ref _tabTitle, title);
             }
         }
 
@@ -440,9 +436,9 @@ namespace FluentTerminal.App.ViewModels
 
         public ITerminalView TerminalView { get; set; }
 
-        public async Task<string> SerializeXtermState()
+        public Task<string> SerializeXtermState()
         {
-            return await TerminalView?.SerializeXtermState();
+            return TerminalView?.SerializeXtermState() ?? Task.FromResult(string.Empty);
         }
 
         private void FindPrevious()
