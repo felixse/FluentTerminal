@@ -148,7 +148,7 @@ namespace FluentTerminal.App.Views
             {
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            }, 800);
+            }, 200);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }

@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using FluentTerminal.Models.Messages;
 
 namespace FluentTerminal.App.ViewModels
@@ -483,7 +484,7 @@ namespace FluentTerminal.App.ViewModels
         private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
             _terminalOptions = message.TerminalOptions;
-            RaisePropertyChanged(nameof(BackgroundOpacity));
+            ApplicationView.ExecuteOnUiThreadAsync(() => RaisePropertyChanged(nameof(BackgroundOpacity)), CoreDispatcherPriority.Low);
         }
 
         private void SelectTabTheme(string id)
