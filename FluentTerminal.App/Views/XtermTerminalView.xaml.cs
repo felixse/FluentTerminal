@@ -30,20 +30,90 @@ namespace FluentTerminal.App.Views
         private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
-
-        // Members related to resize handling
-        private readonly DelayedAction<TerminalSize> _sizeChanged;
-        private MemoryStream _outputBlockedBuffer;
         private TerminalBridge _terminalBridge;
 
         // Members related to initialization
         private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
         private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
 
+        #region Resize handling
+
         // Members related to resize handling
+        private static readonly TimeSpan ResizeDelay = TimeSpan.FromMilliseconds(200);
         private readonly object _resizeLock = new object();
         private TerminalSize _requestedSize;
         private TerminalSize _setSize;
+        private DateTime _resizeScheduleTime;
+        private Task _resizeTask;
+        private MemoryStream _outputBlockedBuffer;
+
+        // Must be called from a code locked with _resizeLock
+        private void ScheduleResize(TerminalSize size, bool scheduleIfEqual)
+        {
+            if (!scheduleIfEqual && size.EquivalentTo(_requestedSize))
+            {
+                return;
+            }
+
+            _requestedSize = size;
+            _resizeScheduleTime = DateTime.UtcNow.Add(ResizeDelay);
+
+            if (_resizeTask == null)
+            {
+                _resizeTask = ResizeTask();
+            }
+        }
+
+        private async Task ResizeTask()
+        {
+            while (true)
+            {
+                TimeSpan delay;
+                TerminalSize size = null;
+
+                lock (_resizeLock)
+                {
+                    if (_requestedSize?.EquivalentTo(_setSize) ?? true)
+                    {
+                        // Resize finished. Unlock and exit.
+
+                        if (_outputBlockedBuffer != null)
+                        {
+                            OnOutput?.Invoke(this, _outputBlockedBuffer.ToArray());
+
+                            _outputBlockedBuffer.Dispose();
+                            _outputBlockedBuffer = null;
+                        }
+
+                        break;
+                    }
+
+                    delay = _resizeScheduleTime.Subtract(DateTime.UtcNow);
+
+                    // To avoid sleeping for only few milliseconds we're introducing a threshold of 10 milliseconds
+                    if (delay.TotalMilliseconds < 10)
+                    {
+                        _setSize = size = _requestedSize;
+
+                        if (_outputBlockedBuffer == null)
+                        {
+                            _outputBlockedBuffer = new MemoryStream();
+                        }
+                    }
+                }
+
+                if (size == null)
+                {
+                    await Task.Delay(delay);
+                }
+                else
+                {
+                    await ViewModel.Terminal.SetSize(_requestedSize);
+                }
+            }
+        }
+
+        #endregion Resize handling
 
         private bool _terminalClosed;
         private readonly object _closingLock = new object();
@@ -98,20 +168,6 @@ namespace FluentTerminal.App.Views
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
             }, 800);
-
-            // _sizedChanged is used to delay terminal resize events to
-            // avoid spamming the terminal with them (this can result in
-            // buffer corruption).
-            _sizeChanged = new DelayedAction<TerminalSize>(async size => {
-                lock (_resizeLock)
-                {
-                    _setSize = size;
-                }
-
-                await ViewModel.Terminal.SetSize(size);
-
-                UnlockOutput();
-            }, 200);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
@@ -215,12 +271,14 @@ namespace FluentTerminal.App.Views
 
             lock (_resizeLock)
             {
-                _setSize = size;
-
                 // Check to see if some resizing has happened meanwhile
                 if (!size.EquivalentTo(_requestedSize))
                 {
-                    SendResizeRequest(_requestedSize, true);
+                    ScheduleResize(_requestedSize, true);
+                }
+                else
+                {
+                    _setSize = size;
                 }
             }
 
@@ -240,7 +298,6 @@ namespace FluentTerminal.App.Views
                 _terminalBridge = null;
             }
             _optionsChanged.Dispose();
-            _sizeChanged.Dispose();
             ViewModel = null;
         }
 
@@ -326,29 +383,9 @@ namespace FluentTerminal.App.Views
                 }
                 else
                 {
-                    SendResizeRequest(size);
+                    ScheduleResize(size, false);
                 }
             }
-        }
-
-        // Must be called from a locked code!
-        private void SendResizeRequest(TerminalSize size, bool sendIfEqual = false)
-        {
-            if (!sendIfEqual && size.EquivalentTo(_requestedSize))
-            {
-                // The same as the last request, so ignore
-                return;
-            }
-
-            _requestedSize = size;
-
-            // Lock the output
-            if (_outputBlockedBuffer == null)
-            {
-                _outputBlockedBuffer = new MemoryStream();
-            }
-
-            _sizeChanged.InvokeAsync(size);
         }
 
         void IxtermEventListener.OnInitialized()
@@ -467,28 +504,15 @@ namespace FluentTerminal.App.Views
         {
             lock (_resizeLock)
             {
-                if (_outputBlockedBuffer == null)
-                {
-                    OnOutput?.Invoke(this, e);
-                }
-                else
-                {
-                    _outputBlockedBuffer.Write(e, 0, e.Length);
-                }
-            }
-        }
-
-        private void UnlockOutput()
-        {
-            lock (_resizeLock)
-            {
                 if (_outputBlockedBuffer != null)
                 {
-                    OnOutput?.Invoke(this, _outputBlockedBuffer.ToArray());
-                    _outputBlockedBuffer.Dispose();
-                    _outputBlockedBuffer = null;
+                    _outputBlockedBuffer.Write(e, 0, e.Length);
+
+                    return;
                 }
             }
+
+            OnOutput?.Invoke(this, e);
         }
 
         void IxtermEventListener.OnError(string error)
