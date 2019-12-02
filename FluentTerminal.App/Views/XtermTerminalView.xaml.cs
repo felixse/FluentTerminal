@@ -10,19 +10,14 @@ using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -32,29 +27,101 @@ namespace FluentTerminal.App.Views
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
         private readonly MenuFlyoutItem _copyMenuItem;
-        private BlockingCollection<Action> _dispatcherJobs;
         private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
-        private CancellationTokenSource _mediatorTaskCTSource;
-
-        // Members related to resize handling
-        private readonly DelayedAction<TerminalSize> _sizeChanged;
-        private ManualResetEventSlim _outputBlocked;
-        private MemoryStream _outputBlockedBuffer;
-        private readonly DelayedAction<bool> _unblockOutput;
         private TerminalBridge _terminalBridge;
+
+        private volatile bool _terminalClosed;
 
         // Members related to initialization
         private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
         private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
+
+        #region Resize handling
+
+        // Members related to resize handling
+        private static readonly TimeSpan ResizeDelay = TimeSpan.FromMilliseconds(200);
+        private readonly object _resizeLock = new object();
+        private TerminalSize _requestedSize;
+        private TerminalSize _setSize;
+        private DateTime _resizeScheduleTime;
+        private Task _resizeTask;
+        private MemoryStream _outputBlockedBuffer;
+
+        // Must be called from a code locked with _resizeLock
+        private void ScheduleResize(TerminalSize size, bool scheduleIfEqual)
+        {
+            if (!scheduleIfEqual && size.EquivalentTo(_requestedSize))
+            {
+                return;
+            }
+
+            _requestedSize = size;
+            _resizeScheduleTime = DateTime.UtcNow.Add(ResizeDelay);
+
+            if (_resizeTask == null)
+            {
+                _resizeTask = ResizeTask();
+            }
+        }
+
+        private async Task ResizeTask()
+        {
+            while (true)
+            {
+                TimeSpan delay;
+                TerminalSize size = null;
+
+                lock (_resizeLock)
+                {
+                    if (_requestedSize?.EquivalentTo(_setSize) ?? true)
+                    {
+                        // Resize finished. Unblock output and exit.
+
+                        if (_outputBlockedBuffer != null)
+                        {
+                            OnOutput?.Invoke(this, _outputBlockedBuffer.ToArray());
+
+                            _outputBlockedBuffer.Dispose();
+                            _outputBlockedBuffer = null;
+                        }
+
+                        break;
+                    }
+
+                    delay = _resizeScheduleTime.Subtract(DateTime.UtcNow);
+
+                    // To avoid sleeping for only few milliseconds we're introducing a threshold of 10 milliseconds
+                    if (delay.TotalMilliseconds < 10)
+                    {
+                        _setSize = size = _requestedSize;
+
+                        if (_outputBlockedBuffer == null)
+                        {
+                            _outputBlockedBuffer = new MemoryStream();
+                        }
+                    }
+                }
+
+                if (size == null)
+                {
+                    await Task.Delay(delay);
+                }
+                else
+                {
+                    await ViewModel.Terminal.SetSize(_requestedSize);
+                }
+            }
+        }
+
+        #endregion Resize handling
 
         public event EventHandler<object> OnOutput;
 
         public XtermTerminalView()
         {
             InitializeComponent();
-            StartMediatorTask();
 
             _webView = new WebView(WebViewExecutionMode.SeparateThread)
             {
@@ -81,25 +148,7 @@ namespace FluentTerminal.App.Views
             {
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            }, 800, Dispatcher);
-
-            // _sizedChanged is used to debounce terminal resize events to
-            // avoid spamming the terminal with them (this can result in
-            // buffer corruption).
-            _sizeChanged = new DelayedAction<TerminalSize>(async size => {
-                await ViewModel.Terminal.SetSize(size).ConfigureAwait(true);
-
-                // Allow output to the terminal soon (hopefully, once the resize event has been processed).
-                await _unblockOutput.InvokeAsync(true);
-            }, 1000, Dispatcher);
-
-            _outputBlockedBuffer = new MemoryStream();
-            _outputBlocked = new ManualResetEventSlim();
-
-            // _unblockOutput allows output to the terminal again, 500ms after it invoked.
-            _unblockOutput = new DelayedAction<bool>(x => {
-                _outputBlocked.Reset();
-            }, 500, Dispatcher);
+            }, 800);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
@@ -108,6 +157,11 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeKeyBindings()
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
@@ -117,39 +171,71 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeOptions(TerminalOptions options)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return _optionsChanged.InvokeAsync(options);
         }
 
         public Task ChangeTheme(TerminalTheme theme)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             var serialized = JsonConvert.SerializeObject(theme.Colors);
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
-        public async Task<string> SerializeXtermState()
+        public Task<string> SerializeXtermState()
         {
-            return await ExecuteScriptAsync(@"serializeTerminal()");
+            if (_terminalClosed)
+            {
+                return Task.FromResult(string.Empty);
+            }
+
+            return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
         public Task FindNext(string searchText)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return ExecuteScriptAsync($"findNext('{searchText}')");
         }
 
         public Task FindPrevious(string searchText)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return ExecuteScriptAsync($"findPrevious('{searchText}')");
         }
 
-        public async Task FocusTerminal()
+        public Task FocusTerminal()
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             if (_webView != null)
             {
                 _webView.Focus(FocusState.Programmatic);
-                await ExecuteScriptAsync("document.focus();").ConfigureAwait(true);
+                return ExecuteScriptAsync("document.focus();");
             }
-        }
 
+            return Task.CompletedTask;
+        }
+        
         public async Task Initialize(TerminalViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -178,12 +264,38 @@ namespace FluentTerminal.App.Views
                     ? SessionType.ConPty
                     : SessionType.WinPty;
 
+            lock (_resizeLock)
+            {
+                // Check to see if some resizing has happened meanwhile
+                if (_requestedSize != null)
+                {
+                    size = _requestedSize;
+                }
+                else
+                {
+                    _requestedSize = size;
+                }
+            }
+
             var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
             if (!response.Success)
             {
                 await ViewModel.DialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
                 ViewModel.Terminal.ReportLauchFailed();
                 return;
+            }
+
+            lock (_resizeLock)
+            {
+                // Check to see if some resizing has happened meanwhile
+                if (!size.EquivalentTo(_requestedSize))
+                {
+                    ScheduleResize(_requestedSize, true);
+                }
+                else
+                {
+                    _setSize = size;
+                }
             }
 
             if (ViewModel.ShellProfile?.Tag is ISessionSuccessTracker tracker)
@@ -202,74 +314,93 @@ namespace FluentTerminal.App.Views
                 _terminalBridge = null;
             }
             _optionsChanged.Dispose();
-            _sizeChanged.Dispose();
-            _unblockOutput.Dispose();
             ViewModel = null;
         }
 
         void IxtermEventListener.OnKeyboardCommand(string command)
         {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
             Logger.Instance.Debug("Received keyboard command: '{command}'", command);
 
             if (Enum.TryParse(command, true, out Command commandValue))
             {
-                _dispatcherJobs.Add(() => ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString()));
+                ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString());
             }
             else if (Guid.TryParse(command, out Guid shellProfileId))
             {
-                _dispatcherJobs.Add(() => ViewModel.Terminal.ProcessKeyboardCommand(shellProfileId.ToString()));
+                ViewModel.Terminal.ProcessKeyboardCommand(shellProfileId.ToString());
             }
         }
 
         void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection)
         {
-            _dispatcherJobs.Add(() =>
+            if (_terminalClosed)
             {
-                if (mouseButton == MouseButton.Middle)
+                return;
+            }
+
+            if (mouseButton == MouseButton.Middle)
+            {
+                if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
                 {
-                    if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
-                    {
-                        ShowContextMenu(x, y, hasSelection);
-                    }
-                    else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
-                    {
-                        ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-                    }
+                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
                 }
-                else if (mouseButton == MouseButton.Right)
+                else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
                 {
-                    if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
-                    {
-                        ShowContextMenu(x, y, hasSelection);
-                    }
-                    else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
-                    {
-                        ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-                    }
+                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
                 }
-            });
+            }
+            else if (mouseButton == MouseButton.Right)
+            {
+                if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
+                {
+                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
+                }
+                else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
+                {
+                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
+                }
+            }
         }
 
         void IxtermEventListener.OnSelectionChanged(string selection)
         {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
             if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
             {
-                _dispatcherJobs.Add(async () =>
-                {
-                    ViewModel.CopyText(selection);
-                    await ExecuteScriptAsync("term.clearSelection()");
-                });
+                ViewModel.CopyText(selection);
+                var unused = ExecuteScriptAsync("term.clearSelection()");
             }
         }
 
         void IxtermEventListener.OnTerminalResized(int columns, int rows)
         {
-            if (_tcsConnected.Task.Status == TaskStatus.RanToCompletion) // only propagate after xterm.js is finished with fitting
+            if (_terminalClosed)
             {
-                // Prevent output from being sent during the terminal while
-                // resize events are being processed (to avoid buffer corruption).
-                _outputBlocked.Set();
-                _dispatcherJobs.Add(() => _sizeChanged.InvokeAsync(new TerminalSize { Columns = columns, Rows = rows }));
+                return;
+            }
+
+            var size = new TerminalSize {Columns = columns, Rows = rows};
+
+            lock (_resizeLock)
+            {
+                if (_setSize == null)
+                {
+                    // Initialization not finished yet
+                    _requestedSize = size;
+                }
+                else
+                {
+                    ScheduleResize(size, false);
+                }
             }
         }
 
@@ -280,7 +411,12 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTitleChanged(string title)
         {
-            _dispatcherJobs.Add(() => ViewModel.Terminal.SetTitle(title));
+            if (_terminalClosed)
+            {
+                return;
+            }
+
+            ViewModel.Terminal.SetTitle(title);
         }
 
         private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
@@ -317,15 +453,24 @@ namespace FluentTerminal.App.Views
 
         private async Task<string> ExecuteScriptAsync(string script)
         {
+            if (_terminalClosed)
+            {
+                return string.Empty;
+            }
+
             try
             {
-                return await _webView.InvokeScriptAsync("eval", new[] { script }).AsTask();
+                var scriptTask =
+                    await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}));
+
+                return await scriptTask;
             }
             catch (Exception e)
             {
                 Logger.Instance.Error($"Exception while running:\n \"{script}\"\n\n {e}");
             }
-            return await Task.FromResult(string.Empty);
+
+            return string.Empty;
         }
 
         private IEnumerable<KeyBinding> FlattenKeyBindings(IDictionary<string, ICollection<KeyBinding>> commandKeyBindings, IEnumerable<ShellProfile> profiles, IEnumerable<SshProfile> sshprofiles)
@@ -345,39 +490,13 @@ namespace FluentTerminal.App.Views
             flyout.ShowAt(_webView, new Point(x, y));
         }
 
-        private void StartMediatorTask()
-        {
-            _dispatcherJobs = new BlockingCollection<Action>();
-            var dispatcher = CoreApplication.GetCurrentView().CoreWindow.Dispatcher;
-            _mediatorTaskCTSource = new CancellationTokenSource();
-            Task.Factory.StartNew(async () =>
-            {
-                try
-                {
-                    _mediatorTaskCTSource.Token.ThrowIfCancellationRequested();
-                    foreach (var job in _dispatcherJobs.GetConsumingEnumerable(_mediatorTaskCTSource.Token))
-                    {
-                        _mediatorTaskCTSource.Token.ThrowIfCancellationRequested();
-                        try
-                        {
-                            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => job.Invoke());
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine(e);
-                        }
-                    }
-                }
-                catch (OperationCanceledException) { }
-            }, TaskCreationOptions.LongRunning);
-        }
-
         private void Terminal_Closed(object sender, EventArgs e)
         {
+            _terminalClosed = true;
+
             ViewModel.Terminal.Closed -= Terminal_Closed;
             ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
             ViewModel.Terminal.RegisterSelectedTextCallback(null);
-            _mediatorTaskCTSource.Cancel();
 
             ViewModel.ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
@@ -404,22 +523,22 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
-            if (_outputBlocked.IsSet)
+            if (_terminalClosed)
             {
-                // Output to the terminal is currently blocked. Hold on to the output.
-                _outputBlockedBuffer.Write(e, 0, e.Length);
+                return;
             }
-            else
+
+            lock (_resizeLock)
             {
-                // Output to the terminal is not blocked. Send any previously
-                // buffered output first, and then the output for the current
-                // event.
-                if (_outputBlockedBuffer.Length > 0) {
-                    OnOutput?.Invoke(this, _outputBlockedBuffer.ToArray());
-                    _outputBlockedBuffer.SetLength(0);
+                if (_outputBlockedBuffer != null)
+                {
+                    _outputBlockedBuffer.Write(e, 0, e.Length);
+
+                    return;
                 }
-                OnOutput?.Invoke(this, e);
             }
+
+            OnOutput?.Invoke(this, e);
         }
 
         void IxtermEventListener.OnError(string error)
@@ -429,14 +548,16 @@ namespace FluentTerminal.App.Views
 
         public void OnInput(string text)
         {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
             ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(text));
         }
 
         public void Dispose()
         {
-            _dispatcherJobs?.Dispose();
-            _mediatorTaskCTSource?.Dispose();
-            _outputBlocked?.Dispose();
             _outputBlockedBuffer?.Dispose();
         }
 
