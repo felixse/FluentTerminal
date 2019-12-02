@@ -7,13 +7,18 @@ namespace FluentTerminal.App.Utilities
 {
     public class DelayedAction<T> : IDisposable
     {
+        private const double DelayThresholdMilliseconds = 5;
+
         private readonly object _lock = new object();
 
         private readonly Action<T> _action;
         private readonly int _delayMilliseconds;
         private readonly CoreDispatcher _dispatcher;
 
+        private TaskCompletionSource<object> _tcs;
         private CancellationTokenSource _cts;
+        private DateTime _executionTime;
+        private T _param;
 
         public DelayedAction(Action<T> action, int delayMilliseconds, CoreDispatcher dispatcher = null)
         {
@@ -24,36 +29,88 @@ namespace FluentTerminal.App.Utilities
 
         public Task InvokeAsync(T parameter)
         {
-            CancellationTokenSource cts;
-
             lock (_lock)
             {
-                try
+                // Canceling previous (if any)
+                _tcs?.TrySetCanceled();
+
+                // Scheduling new
+                _tcs = new TaskCompletionSource<object>();
+                _param = parameter;
+                _executionTime = DateTime.UtcNow.AddMilliseconds(_delayMilliseconds);
+
+                // Launching the loop if not already launched
+                if (_cts == null)
                 {
-                    _cts?.Cancel();
-                }
-                catch
-                {
-                    // ignored
+                    _cts = new CancellationTokenSource();
+
+                    var unused = Loop();
                 }
 
-                _cts = cts = new CancellationTokenSource();
+                return _tcs.Task;
             }
+        }
 
-            return Task.Delay(_delayMilliseconds, cts.Token).ContinueWith(async t =>
+        private async Task Loop()
+        {
+            while (true)
             {
-                if (!cts.IsCancellationRequested)
+                TimeSpan delay;
+                var param = default(T);
+                CancellationTokenSource cts;
+                TaskCompletionSource<object> tcs = null;
+
+                lock (_lock)
+                {
+                    cts = _cts;
+
+                    if (cts?.IsCancellationRequested ?? true)
+                    {
+                        _tcs?.TrySetCanceled();
+                        _tcs = null;
+                        return;
+                    }
+
+                    delay = _executionTime.Subtract(DateTime.UtcNow);
+
+                    // To avoid waiting for only few milliseconds we're using some threshold
+                    if (delay.TotalMilliseconds < DelayThresholdMilliseconds)
+                    {
+                        param = _param;
+
+                        _cts?.Dispose();
+                        _cts = cts = null;
+                        tcs = _tcs;
+                        _tcs = null;
+                    }
+                }
+
+                if (cts == null)
                 {
                     if (_dispatcher == null)
                     {
-                        _action(parameter);
+                        _action(param);
                     }
                     else
                     {
-                        await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _action(parameter));
+                        await _dispatcher.ExecuteAsync(() => _action(param)).ConfigureAwait(false);
                     }
+
+                    tcs?.TrySetResult(null);
+
+                    return;
                 }
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+
+                try
+                {
+                    await Task.Delay(delay, cts.Token).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // Canceled
+                    break;
+                }
+            }
         }
 
         public void Cancel()
@@ -70,6 +127,10 @@ namespace FluentTerminal.App.Utilities
                 }
 
                 _cts?.Dispose();
+                _cts = null;
+
+                _tcs?.TrySetCanceled();
+                _tcs = null;
             }
         }
 
