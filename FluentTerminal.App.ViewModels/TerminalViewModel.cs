@@ -541,16 +541,19 @@ namespace FluentTerminal.App.ViewModels
                     }
                 case nameof(Command.Search):
                     {
-                        ShowSearchPanel = !ShowSearchPanel;
-                        if (ShowSearchPanel)
+                        await ApplicationView.ExecuteOnUiThreadAsync(() =>
                         {
-                            SearchStarted?.Invoke(this, EventArgs.Empty);
-                        }
+                            ShowSearchPanel = !ShowSearchPanel;
+                            if (ShowSearchPanel)
+                            {
+                                SearchStarted?.Invoke(this, EventArgs.Empty);
+                            }
+                        });
                         break;
                     }
                 default:
                     {
-                        _keyboardCommandService.SendCommand(e);
+                        await ApplicationView.ExecuteOnUiThreadAsync(() => _keyboardCommandService.SendCommand(e));
                         break;
                     }
             }
