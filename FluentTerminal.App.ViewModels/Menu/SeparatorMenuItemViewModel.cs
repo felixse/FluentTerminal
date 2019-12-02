@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace FluentTerminal.App.ViewModels.Menu
+﻿namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class SeparatorMenuItemViewModel : MenuItemViewModelBase, IEquatable<SeparatorMenuItemViewModel>
+    public class SeparatorMenuItemViewModel : MenuItemViewModelBase
     {
         public SeparatorMenuItemViewModel()
             : base(string.Empty, string.Empty, null)
         {
         }
 
-        public bool Equals(SeparatorMenuItemViewModel other)
+        public override bool EquivalentTo(MenuItemViewModelBase other)
         {
-            return true;
+            return other is SeparatorMenuItemViewModel;
         }
     }
 }

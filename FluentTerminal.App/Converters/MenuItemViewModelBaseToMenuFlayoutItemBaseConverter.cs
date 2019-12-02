@@ -17,14 +17,27 @@ namespace FluentTerminal.App.Converters
 
         private static readonly IconConverter IconConverter = new IconConverter();
 
-        private static MenuFlyoutItemBase GetItem(MenuItemViewModelBase viewModel) =>
-            viewModel switch
+        private static MenuFlyoutItemBase GetItem(MenuItemViewModelBase viewModel)
+        {
+            if (viewModel is ExpandableMenuItemViewModel expandable)
             {
-                ExpandableMenuItemViewModel expandle => GetExpandableItem(expandle),
-                MenuItemViewModel regular => GetRegularItem(regular),
-                SeparatorMenuItemViewModel _ => GetSeparatorItem(),
-                _ => throw new NotImplementedException()
-            };
+                return GetExpandableItem(expandable);
+            }
+
+            if (viewModel is SeparatorMenuItemViewModel)
+            {
+                return GetSeparatorItem();
+            }
+
+            if (viewModel is MenuItemViewModel regular)
+            {
+                return GetRegularItem(regular);
+            }
+
+            // Won't happen ever, but still...
+            throw new NotImplementedException(
+                $"Unexpected {nameof(MenuItemViewModelBase)} type: {viewModel.GetType()}");
+        }
 
         private static MenuFlyoutSeparator GetSeparatorItem()
         {
@@ -64,12 +77,12 @@ namespace FluentTerminal.App.Converters
                 Mode = BindingMode.OneTime
             });
 
-            if (viewModel.KeyBinding is MenuItemKeyBindingViewModel keyBinding)
+            if (viewModel.KeyBinding != null)
             {
                 item.KeyboardAccelerators?.Add(new KeyboardAccelerator
                 {
-                    Key = (VirtualKey)keyBinding.Key,
-                    Modifiers = (VirtualKeyModifiers)keyBinding.KeyModifiers,
+                    Key = (VirtualKey) viewModel.KeyBinding.Key,
+                    Modifiers = (VirtualKeyModifiers) viewModel.KeyBinding.KeyModifiers,
                     IsEnabled = true
                 });
             }

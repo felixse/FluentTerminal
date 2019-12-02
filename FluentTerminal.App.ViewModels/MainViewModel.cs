@@ -718,6 +718,8 @@ namespace FluentTerminal.App.ViewModels
                 GetRecentMenuItems(), I18N.TranslateWithFallback("Recent_Description", "Recently opened sessions."),
                 icon: "\uF738" /*Segoe MDL2 Assets Glyph property*/));
 
+            appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
+
             var settingsItem = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
                 _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),
                 icon: 57621 /*(int) Symbol.Setting*/);
@@ -733,7 +735,6 @@ namespace FluentTerminal.App.ViewModels
                 settingsItem.KeyBinding = null;
             }
 
-            appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
             appMenuViewModel.Items.Add(settingsItem);
 
             appMenuViewModel.Items.Add(new MenuItemViewModel(I18N.TranslateWithFallback("AboutDialog.Title", "About"), _aboutCommand,
