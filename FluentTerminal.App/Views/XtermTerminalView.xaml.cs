@@ -32,6 +32,8 @@ namespace FluentTerminal.App.Views
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
         private TerminalBridge _terminalBridge;
 
+        private volatile bool _terminalClosed;
+
         // Members related to initialization
         private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
         private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
@@ -115,31 +117,6 @@ namespace FluentTerminal.App.Views
 
         #endregion Resize handling
 
-        private bool _terminalClosed;
-        private readonly object _closingLock = new object();
-
-        private bool TerminalClosedThreadSafe
-        {
-            get
-            {
-                lock (_closingLock)
-                {
-                    return _terminalClosed;
-                }
-            }
-            set
-            {
-                lock (_closingLock)
-                {
-                    _terminalClosed = value;
-                }
-            }
-        }
-
-        // Members related to initialization
-        private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
-        private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
-
         public event EventHandler<object> OnOutput;
 
         public XtermTerminalView()
@@ -180,6 +157,11 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeKeyBindings()
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
@@ -189,32 +171,62 @@ namespace FluentTerminal.App.Views
 
         public Task ChangeOptions(TerminalOptions options)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return _optionsChanged.InvokeAsync(options);
         }
 
         public Task ChangeTheme(TerminalTheme theme)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             var serialized = JsonConvert.SerializeObject(theme.Colors);
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
         public Task<string> SerializeXtermState()
         {
+            if (_terminalClosed)
+            {
+                return Task.FromResult(string.Empty);
+            }
+
             return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
         public Task FindNext(string searchText)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return ExecuteScriptAsync($"findNext('{searchText}')");
         }
 
         public Task FindPrevious(string searchText)
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             return ExecuteScriptAsync($"findPrevious('{searchText}')");
         }
 
         public Task FocusTerminal()
         {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
             if (_webView != null)
             {
                 _webView.Focus(FocusState.Programmatic);
@@ -307,7 +319,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnKeyboardCommand(string command)
         {
-            if (TerminalClosedThreadSafe)
+            if (_terminalClosed)
             {
                 return;
             }
@@ -326,7 +338,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection)
         {
-            if (TerminalClosedThreadSafe)
+            if (_terminalClosed)
             {
                 return;
             }
@@ -357,7 +369,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnSelectionChanged(string selection)
         {
-            if (TerminalClosedThreadSafe)
+            if (_terminalClosed)
             {
                 return;
             }
@@ -371,7 +383,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTerminalResized(int columns, int rows)
         {
-            if (TerminalClosedThreadSafe)
+            if (_terminalClosed)
             {
                 return;
             }
@@ -399,7 +411,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnTitleChanged(string title)
         {
-            if (TerminalClosedThreadSafe)
+            if (_terminalClosed)
             {
                 return;
             }
@@ -441,6 +453,11 @@ namespace FluentTerminal.App.Views
 
         private async Task<string> ExecuteScriptAsync(string script)
         {
+            if (_terminalClosed)
+            {
+                return string.Empty;
+            }
+
             try
             {
                 var scriptTask =
@@ -475,7 +492,7 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_Closed(object sender, EventArgs e)
         {
-            TerminalClosedThreadSafe = true;
+            _terminalClosed = true;
 
             ViewModel.Terminal.Closed -= Terminal_Closed;
             ViewModel.Terminal.OutputReceived -= Terminal_OutputReceived;
@@ -506,6 +523,11 @@ namespace FluentTerminal.App.Views
 
         private void Terminal_OutputReceived(object sender, byte[] e)
         {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
             lock (_resizeLock)
             {
                 if (_outputBlockedBuffer != null)
@@ -526,6 +548,11 @@ namespace FluentTerminal.App.Views
 
         public void OnInput(string text)
         {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
             ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(text));
         }
 
