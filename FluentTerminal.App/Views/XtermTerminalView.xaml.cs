@@ -87,6 +87,8 @@ namespace FluentTerminal.App.Views
                             _outputBlockedBuffer = null;
                         }
 
+                        _resizeTask = null;
+
                         break;
                     }
 
