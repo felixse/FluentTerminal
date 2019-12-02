@@ -75,7 +75,7 @@ namespace FluentTerminal.App.Views
                 {
                     if (_requestedSize?.EquivalentTo(_setSize) ?? true)
                     {
-                        // Resize finished. Unlock and exit.
+                        // Resize finished. Unblock output and exit.
 
                         if (_outputBlockedBuffer != null)
                         {
