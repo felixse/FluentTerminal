@@ -157,7 +157,6 @@ namespace FluentTerminal.App.ViewModels
             TerminalView.DisposalPrepare();
             TerminalView = null;
             Terminal = null;
-            Overlay = null;
         }
 
         public event EventHandler Activated;
@@ -299,7 +298,7 @@ namespace FluentTerminal.App.ViewModels
 
         public Terminal Terminal { get; private set; }
 
-        public OverlayViewModel Overlay { get; private set; }
+        public OverlayViewModel Overlay { get; }
 
         public TerminalTheme TerminalTheme
         {

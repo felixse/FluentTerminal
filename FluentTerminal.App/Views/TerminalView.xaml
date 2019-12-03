@@ -5,9 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:FluentTerminal.App.Views"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     d:DesignHeight="300"
     d:DesignWidth="600"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:OverlayViewModelToOverlayViewConverter x:Key="OverlayViewModelToOverlayViewConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,9 +21,10 @@
         </Grid.RowDefinitions>
         <Grid x:Name="TerminalContainer" Grid.Row="0" />
 
-        <views:OverlayView 
-            DataContext="{x:Bind ViewModel.Overlay}">
-        </views:OverlayView>
+        <ContentControl Grid.Row="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Content="{x:Bind ViewModel.Overlay, Converter={StaticResource OverlayViewModelToOverlayViewConverter}}"/>
 
         <RelativePanel
             Grid.Row="1"

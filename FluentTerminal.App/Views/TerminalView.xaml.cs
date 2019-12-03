@@ -52,11 +52,9 @@ namespace FluentTerminal.App.Views
             ViewModel.ThemeChanged -= OnThemeChanged;
             ViewModel.FindNextRequested -= OnFindNextRequested;
             ViewModel.FindPreviousRequested -= OnFindPreviousRequested;
-
-            ViewModel = null;
         }
 
-        public TerminalViewModel ViewModel { get; private set; }
+        public TerminalViewModel ViewModel { get; }
 
         private void OnActivated(object sender, EventArgs e)
         {

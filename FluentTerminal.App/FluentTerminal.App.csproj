@@ -115,6 +115,7 @@
     <Compile Include="Converters\I18NConverter.cs" />
     <Compile Include="Converters\IconConverter.cs" />
     <Compile Include="Converters\MenuItemViewModelBaseToMenuFlayoutItemBaseConverter.cs" />
+    <Compile Include="Converters\OverlayViewModelToOverlayViewConverter.cs" />
     <Compile Include="Converters\TabColorFallbackConverter.cs" />
     <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
     <Compile Include="Converters\FalseToVisibleConverter.cs" />

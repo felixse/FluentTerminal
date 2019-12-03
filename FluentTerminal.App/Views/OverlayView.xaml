@@ -4,19 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:FluentTerminal.App.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="600"
+    d:DataContext="{d:DesignInstance viewModels:OverlayViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d"
     Visibility="{Binding ShowOverlay, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
     <Grid
-        Grid.Row="0"
         Margin="12"
-        Padding="6"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Bottom">
+        Padding="6">
         <Grid.Background>
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Grid.Background>
-        <TextBlock Foreground="White" Text="{Binding OverlayContent}" />
+        <TextBlock Foreground="White" Text="{Binding OverlayContent, Mode=OneWay}" />
     </Grid>
 </UserControl>
