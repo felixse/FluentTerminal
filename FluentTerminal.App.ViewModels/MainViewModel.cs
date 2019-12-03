@@ -264,24 +264,21 @@ namespace FluentTerminal.App.ViewModels
             get => _selectedTerminal;
             set
             {
-                if (SelectedTerminal != null)
-                {
-                    _selectedTerminal.IsSelected = false;
-                }
+                var oldValue = _selectedTerminal;
+
                 if (Set(ref _selectedTerminal, value))
                 {
-                    SelectedTerminal?.FocusTerminal();
-                    if (SelectedTerminal != null)
+                    if (oldValue != null)
                     {
-                        SelectedTerminal.IsSelected = true;
-                        if (_applicationSettings.ShowCustomTitleInTitlebar)
-                        {
-                            WindowTitle = SelectedTerminal.TabTitle;
-                        }
-                        else
-                        {
-                            WindowTitle = SelectedTerminal.ShellTitle;
-                        }
+                        oldValue.IsSelected = false;
+                    }
+
+                    if (_selectedTerminal != null)
+                    {
+                        _selectedTerminal.IsSelected = true;
+                        _selectedTerminal.FocusTerminal();
+
+                        SetWindowTitle(_selectedTerminal);
                     }
                 }
             }
@@ -561,13 +558,15 @@ namespace FluentTerminal.App.ViewModels
 
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
+                var wasSelected = _selectedTerminal == terminal;
+
                 Terminals.Remove(terminal);
 
                 if (Terminals.Count == 0)
                 {
                     ApplicationView.TryClose();
                 }
-                else if (SelectedTerminal == terminal)
+                else if (wasSelected)
                 {
                     SelectedTerminal = Terminals.LastOrDefault(t => t != terminal);
                 }
