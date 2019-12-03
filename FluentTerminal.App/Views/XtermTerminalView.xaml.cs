@@ -41,7 +41,7 @@ namespace FluentTerminal.App.Views
         #region Resize handling
 
         // Members related to resize handling
-        private static readonly TimeSpan ResizeDelay = TimeSpan.FromMilliseconds(200);
+        private static readonly TimeSpan ResizeDelay = TimeSpan.FromMilliseconds(60);
         private readonly object _resizeLock = new object();
         private TerminalSize _requestedSize;
         private TerminalSize _setSize;
@@ -150,7 +150,7 @@ namespace FluentTerminal.App.Views
             {
                 var serialized = JsonConvert.SerializeObject(options);
                 await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            }, 200);
+            }, 100);
 
             _webView.Navigate(new Uri("ms-appx-web:///Client/index.html"));
         }
