@@ -10,6 +10,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _showOverlay;
         private string _overlayContent;
 
+        // Important! The constructor has to be called from the UI thread.
         public OverlayViewModel()
         {
             _overlayTimer = new DispatcherTimer {Interval = new TimeSpan(0, 0, 2)};
