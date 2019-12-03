@@ -4,12 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:FluentTerminal.App.ViewModels"
     d:DesignHeight="300"
     d:DesignWidth="600"
     mc:Ignorable="d"
     Visibility="{Binding ShowOverlay, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
+    <UserControl.DataContext>
+        <viewModels:OverlayViewModel />
+    </UserControl.DataContext>
     <Grid
-        Grid.Row="0"
         Margin="12"
         Padding="6"
         HorizontalAlignment="Right"

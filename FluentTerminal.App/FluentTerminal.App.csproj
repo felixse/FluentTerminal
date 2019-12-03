@@ -99,7 +99,6 @@
   <ItemGroup>
     <Compile Include="Adapters\ApplicationViewAdapter.cs" />
     <Compile Include="Adapters\AppServiceConnectionAdapter.cs" />
-    <Compile Include="Adapters\DispatcherTimerAdapter.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
