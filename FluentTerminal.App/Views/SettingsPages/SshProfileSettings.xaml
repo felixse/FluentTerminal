@@ -334,31 +334,10 @@
                                     Text="{x:Bind Name, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
-                                    x:Uid="CommandLine"
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     DataContext="{Binding ProfileVm}"
-                                    Header="Command"
-                                    Visibility="{Binding CommandInput, Converter={StaticResource TrueToVisibleConverter}}">
-                                    <ContentControl>
-                                        <ContentControl.ContentTemplate>
-                                            <DataTemplate x:DataType="profiles:SshConnectViewModel">
-                                                <TextBlock
-                                                    FontSize="18"
-                                                    FontWeight="Light"
-                                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                                    Text="{Binding Command, Mode=OneWay}" />
-                                            </DataTemplate>
-                                        </ContentControl.ContentTemplate>
-                                    </ContentControl>
-                                </controls:HeaderedContentControl>
-
-                                <controls:HeaderedContentControl
-                                    Margin="{StaticResource ItemMargin}"
-                                    HorizontalContentAlignment="Stretch"
-                                    DataContext="{Binding ProfileVm}"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Title}"
-                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=SshInfoDialog.Title}">
                                     <ContentControl>
                                         <ContentControl.ContentTemplate>
                                             <DataTemplate x:DataType="profiles:SshConnectViewModel">
@@ -402,8 +381,7 @@
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     DataContext="{Binding ProfileVm}"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}"
-                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=IdentityFileTextBox.PlaceholderText}">
                                     <ContentControl
                                         Content="{Binding IdentityFile, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource NoValueTemplateSelector}"
@@ -415,8 +393,7 @@
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
                                     DataContext="{Binding ProfileVm}"
-                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}"
-                                    Visibility="{Binding CommandInput, Converter={StaticResource FalseToVisibleConverter}}">
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseMoshCheckBox.Content}">
                                     <ContentControl
                                         Margin="0,6,0,0"
                                         Content="{Binding UseMosh, Mode=OneWay}"

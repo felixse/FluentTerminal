@@ -17,7 +17,6 @@ namespace FluentTerminal.App.ViewModels
     /// <summary>
     /// Base class for all profile view models. Implements logic for saving, editing, resetting, etc.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public abstract class ProfileViewModelBase<T> : ViewModelBase where T : ProfileProviderViewModelBase
     {
         #region Fields
