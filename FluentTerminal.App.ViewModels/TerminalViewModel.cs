@@ -96,7 +96,7 @@ namespace FluentTerminal.App.ViewModels
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, string terminalState = null)
+            IApplicationView applicationView, IClipboardService clipboardService, string terminalState = null)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
@@ -143,9 +143,6 @@ namespace FluentTerminal.App.ViewModels
             Terminal.TitleChanged += Terminal_TitleChanged;
             Terminal.Exited += Terminal_Exited;
             Terminal.Closed += Terminal_Closed;
-
-            Overlay = new OverlayViewModel(dispatcherTimer);
-
         }
 
         private bool _disposalRequested;
@@ -299,7 +296,7 @@ namespace FluentTerminal.App.ViewModels
 
         public Terminal Terminal { get; private set; }
 
-        public OverlayViewModel Overlay { get; private set; }
+        public OverlayViewModel Overlay { get; set; }
 
         public TerminalTheme TerminalTheme
         {

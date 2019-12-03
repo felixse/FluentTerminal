@@ -36,6 +36,8 @@ namespace FluentTerminal.App.Views
             ViewModel.Initialized = true;
 
             SetGridBackgroundTheme(ViewModel.TerminalTheme);
+
+            viewModel.Overlay = (OverlayViewModel) MessageOverlay.DataContext;
         }
 
         public void DisposalPrepare()

@@ -109,7 +109,6 @@ namespace FluentTerminal.App
             builder.RegisterType<SshInfoDialog>().As<ISshConnectionInfoDialog>().InstancePerDependency();
             builder.RegisterType<CustomCommandDialog>().As<ICustomCommandDialog>().InstancePerDependency();
             builder.RegisterType<ApplicationViewAdapter>().As<IApplicationView>().InstancePerDependency();
-            builder.RegisterType<DispatcherTimerAdapter>().As<IDispatcherTimer>().InstancePerDependency();
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterType<ShellProfileMigrationService>().As<IShellProfileMigrationService>().SingleInstance();

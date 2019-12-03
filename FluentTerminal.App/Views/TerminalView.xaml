@@ -16,9 +16,7 @@
         </Grid.RowDefinitions>
         <Grid x:Name="TerminalContainer" Grid.Row="0" />
 
-        <views:OverlayView 
-            DataContext="{x:Bind ViewModel.Overlay}">
-        </views:OverlayView>
+        <views:OverlayView x:Name="MessageOverlay" />
 
         <RelativePanel
             Grid.Row="1"

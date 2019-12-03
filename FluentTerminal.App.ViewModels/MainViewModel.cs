@@ -24,7 +24,6 @@ namespace FluentTerminal.App.ViewModels
     {
         private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
-        private readonly IDispatcherTimer _dispatcherTimer;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
@@ -39,7 +38,7 @@ namespace FluentTerminal.App.ViewModels
         private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
-            IApplicationView applicationView, IDispatcherTimer dispatcherTimer, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAcceleratorKeyValidator acceleratorKeyValidator)
+            IApplicationView applicationView, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAcceleratorKeyValidator acceleratorKeyValidator)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
@@ -56,7 +55,6 @@ namespace FluentTerminal.App.ViewModels
             _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             ApplicationView = applicationView;
-            _dispatcherTimer = dispatcherTimer;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _commandHistoryService = commandHistoryService;
@@ -369,7 +367,7 @@ namespace FluentTerminal.App.ViewModels
             return ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, profile, ApplicationView, _dispatcherTimer, _clipboardService, terminalState);
+                    _applicationSettings, profile, ApplicationView, _clipboardService, terminalState);
 
                 terminal.PropertyChanged += Terminal_PropertyChanged;
                 terminal.Closed += OnTerminalClosed;
