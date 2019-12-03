@@ -140,7 +140,7 @@
                         Margin="0,8,8,0"
                         VerticalAlignment="Center"
                         Text="Mosh ports:"
-                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBox
                         Grid.Row="0"
                         Grid.Column="1"
@@ -148,14 +148,14 @@
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
                         Text="{x:Bind ViewModel.MoshPortFrom, Mode=TwoWay}"
-                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="2"
                         Margin="2,8,0,0"
                         VerticalAlignment="Center"
                         Text=":"
-                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                     <TextBox
                         Grid.Row="0"
                         Grid.Column="3"
@@ -163,7 +163,7 @@
                         VerticalAlignment="Center"
                         BeforeTextChanging="Port_OnBeforeTextChanging"
                         Text="{x:Bind ViewModel.MoshPortTo, Mode=TwoWay}"
-                        Visibility="{x:Bind ViewModel.UseMosh, Converter={StaticResource TrueToVisibleConverter}}" />
+                        Visibility="{x:Bind ViewModel.UseMosh, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
 
                     <!--  Row  -->
                     <TextBlock
