@@ -6,14 +6,15 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class TabBar : UserControl
     {
         public static readonly DependencyProperty ItemsSourceProperty =
@@ -74,33 +75,15 @@ namespace FluentTerminal.App.Views
         private void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = ListView.SelectedItem;
+
             if (item != null)
             {
-                var container = ListView.ContainerFromItem(item);
-
-                if (container != null)
+                // Fire-and-forget pattern
+                Dispatcher.ExecuteAsync(() =>
                 {
-                    ((UIElement)container).StartBringIntoView();
+                    ListView.ScrollIntoView(item);
                     SetScrollButtonsEnabledState();
-                }
-                else
-                {
-                    Task.Run(async () =>
-                    {
-                        do
-                        {
-                            await Task.Delay(50);
-                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => container = ListView.ContainerFromItem(item));
-                        }
-                        while (container == null);
-
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                        {
-                            ((UIElement)container).StartBringIntoView();
-                            SetScrollButtonsEnabledState();
-                        });
-                    });
-                }
+                }, enforceNewSchedule: true);
             }
         }
 
@@ -151,8 +134,11 @@ namespace FluentTerminal.App.Views
         {
             Logger.Instance.Debug($"ListView_DragEnter.");
             e.AcceptedOperation = DataPackageOperation.Move;
-            e.DragUIOverride.IsGlyphVisible = false;
-            e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
+            if (e.DragUIOverride != null)
+            {
+                e.DragUIOverride.IsGlyphVisible = false;
+                e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
+            }
         }
 
         private async void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
@@ -202,6 +188,7 @@ namespace FluentTerminal.App.Views
         {
             int index = 0;
             Point position = e.GetPosition(ListView.ItemsPanelRoot);
+            // ReSharper disable once PossibleNullReferenceException
             for (int i = 0, posInParent = 0; i < ListView.Items.Count; ++i)
             {
                 ListViewItem item = (ListViewItem)ListView.ContainerFromIndex(i);
