@@ -17,6 +17,10 @@ namespace FluentTerminal.App.Services
         IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings();
         IEnumerable<ShellProfile> GetShellProfiles();
         IEnumerable<SshProfile> GetSshProfiles();
+        /// <summary>
+        /// Returns union of <see cref="GetShellProfiles"/> and <see cref="GetSshProfiles"/>.
+        /// </summary>
+        IEnumerable<ShellProfile> GetAllProfiles();
         IEnumerable<TabTheme> GetTabThemes();
         TerminalOptions GetTerminalOptions();
         TerminalTheme GetTheme(Guid id);

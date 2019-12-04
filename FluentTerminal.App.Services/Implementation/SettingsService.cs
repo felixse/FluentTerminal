@@ -249,54 +249,43 @@ namespace FluentTerminal.App.Services.Implementation
 
         public IEnumerable<ShellProfile> GetShellProfiles()
         {
-            var profiles = _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string) x))
-                .ToList();
-
-            FixMoshProfiles(profiles);
-
-            return profiles;
+            return _shellProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<ShellProfile>((string) x))
+                .Select(MoshBackwardCompatibilityFixProfile);
         }
 
         public IEnumerable<SshProfile> GetSshProfiles()
         {
-            if (_sshProfiles == null)
-            {
-                return new List<SshProfile>();
-            }
-
-            var profiles = _sshProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<SshProfile>((string) x))
-                .ToList();
-
-            FixMoshProfiles(profiles);
-
-            return profiles;
+            return _sshProfiles.GetAll().Select(x => JsonConvert.DeserializeObject<SshProfile>((string) x))
+                .Select(MoshBackwardCompatibilityFixProfile).Cast<SshProfile>();
         }
 
-        private void FixMoshProfiles<T>(List<T> profiles) where T : ShellProfile
+        public IEnumerable<ShellProfile> GetAllProfiles()
         {
-            for (int i = 0; i < profiles.Count; i++)
+            return GetShellProfiles().Union(GetSshProfiles());
+        }
+
+        private ShellProfile MoshBackwardCompatibilityFixProfile(ShellProfile profile)
+        {
+            var fixedProfile = MoshBackwardCompatibility.FixProfile(profile);
+
+            if (ReferenceEquals(fixedProfile, profile))
             {
-                var profile = profiles[i];
-
-                var newProfile = MoshBackwardCompatibility.FixProfile(profile);
-
-                if (ReferenceEquals(profile, newProfile)) continue;
-
-                profiles.Insert(i, newProfile);
-
-                profiles.RemoveAt(i + 1);
-
-                if (newProfile is SshProfile newSshProfile)
-                {
-                    DeleteSshProfile(profile.Id);
-                    SaveSshProfile(newSshProfile);
-                }
-                else
-                {
-                    DeleteShellProfile(profile.Id);
-                    SaveShellProfile(newProfile);
-                }
+                // Nothing changed
+                return fixedProfile;
             }
+
+            if (fixedProfile is SshProfile sshProfile)
+            {
+                DeleteSshProfile(profile.Id);
+                SaveSshProfile(sshProfile);
+            }
+            else
+            {
+                DeleteShellProfile(profile.Id);
+                SaveShellProfile(fixedProfile);
+            }
+
+            return fixedProfile;
         }
 
         public IEnumerable<TabTheme> GetTabThemes()

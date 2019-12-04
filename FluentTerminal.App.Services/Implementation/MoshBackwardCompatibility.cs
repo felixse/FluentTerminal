@@ -22,7 +22,6 @@ namespace FluentTerminal.App.Services.Implementation
         /// <summary>
         /// Checks if the profile contains obsolete mosh syntax, and changes it if it does.
         /// </summary>
-        /// <typeparam name="T">The type of the profile (<see cref="ShellProfile"/> or <see cref="SshProfile"/>).</typeparam>
         /// <param name="profile">The profile. Note that the method doesn't change the input profile at all, but creates and
         /// returns its clone if there's something to change.</param>
         /// <remarks>
@@ -36,7 +35,7 @@ namespace FluentTerminal.App.Services.Implementation
         /// as the input profile). It allows us to simply check if anything is changed by comparing the input and output
         /// profiles for reference equality.
         /// </returns>
-        public static T FixProfile<T>(T profile) where T : ShellProfile
+        public static ShellProfile FixProfile(ShellProfile profile)
         {
             // If there aren't any arguments, or if the profile isn't a mosh profile, there's nothing to do. Just return.
             if (string.IsNullOrWhiteSpace(profile.Arguments) || !IsMoshProfile(profile)) return profile;
@@ -89,7 +88,7 @@ namespace FluentTerminal.App.Services.Implementation
 
             newProfile.Arguments = arguments;
 
-            return (T) newProfile;
+            return newProfile;
         }
     }
 }
