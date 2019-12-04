@@ -20,8 +20,7 @@ namespace FluentTerminal.App.Dialogs
 
         public ShellProfileSelectionDialog(ISettingsService settingsService)
         {
-            Profiles = new ObservableCollection<ShellProfile>(settingsService.GetShellProfiles()
-                .Union(settingsService.GetSshProfiles()).OrderBy(p => p.Name));
+            Profiles = new ObservableCollection<ShellProfile>(settingsService.GetAllProfiles().OrderBy(p => p.Name));
 
             SelectedProfile = Profiles.First();
 

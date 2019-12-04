@@ -73,9 +73,6 @@ namespace FluentTerminal.App.Services
 
         #region Methods
 
-        private List<ShellProfile> GetAllProfiles() =>
-            _settingsService.GetSshProfiles().Union(_settingsService.GetShellProfiles()).ToList();
-
         private List<ExecutedCommand> GetRawHistory(Func<List<ShellProfile>> profilesProvider = null)
         {
             if (_history == null)
@@ -176,7 +173,7 @@ namespace FluentTerminal.App.Services
                 return;
             }
 
-            var profiles = profilesProvider?.Invoke() ?? GetAllProfiles();
+            var profiles = profilesProvider?.Invoke() ?? _settingsService.GetAllProfiles().ToList();
 
             for (var i = 0; i < _history.Count; i++)
             {
@@ -219,7 +216,8 @@ namespace FluentTerminal.App.Services
         private IEnumerable<ExecutedCommand> GetHistory(bool byNumberOfUsages, bool includeProfiles,
             Func<List<ShellProfile>> profilesProvider = null)
         {
-            var allProfiles = new Lazy<List<ShellProfile>>(profilesProvider ?? GetAllProfiles);
+            var allProfiles =
+                new Lazy<List<ShellProfile>>(profilesProvider ?? (() => _settingsService.GetAllProfiles().ToList()));
 
             var history = GetRawHistory(() => allProfiles.Value);
 
@@ -306,7 +304,7 @@ namespace FluentTerminal.App.Services
 
                 existing = new ExecutedCommand {Value = profile.Name};
 
-                if (GetAllProfiles().Any(p => p.Id.Equals(profile.Id)))
+                if (_settingsService.GetAllProfiles().Any(p => p.Id.Equals(profile.Id)))
                 {
                     existing.ProfileId = profile.Id;
                 }
