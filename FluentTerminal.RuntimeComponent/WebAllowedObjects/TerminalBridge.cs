@@ -9,19 +9,15 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 {
     internal static class EventDispatcher
     {
-        private static CoreDispatcher _dispatcher => CoreWindow.GetForCurrentThread()?.Dispatcher;
-
         public static async void Dispatch(Action action)
         {
-            // already in UI thread:
-            if (_dispatcher == null || _dispatcher.HasThreadAccess)
+            if (CoreWindow.GetForCurrentThread()?.Dispatcher is { } dispatcher)
             {
-                await Task.Run(action);
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
             }
-            // not in UI thread, ensuring UI thread:
             else
             {
-                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+                await Task.Factory.StartNew(action);
             }
         }
     }
