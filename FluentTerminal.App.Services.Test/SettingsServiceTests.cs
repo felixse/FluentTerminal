@@ -38,7 +38,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(), 
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
 
             new SettingsService(defaultValueProvider.Object, applicationDataContainers);
@@ -60,6 +61,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
@@ -88,6 +90,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
@@ -113,6 +116,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
@@ -136,6 +140,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
@@ -157,6 +162,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var currentThemeChangedEventInvoked = false;
@@ -181,7 +187,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -206,7 +213,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = roamingSettings.Object,
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<CurrentThemeChangedMessage>(this,
@@ -229,7 +237,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -251,7 +260,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -274,7 +284,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -297,7 +308,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -320,7 +332,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -342,7 +355,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -364,7 +378,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<TerminalOptionsChangedMessage>(this,
@@ -388,7 +403,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -410,7 +426,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -432,7 +449,8 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<ApplicationSettingsChangedMessage>(this,
@@ -459,7 +477,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -483,7 +502,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
@@ -508,7 +528,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
 
@@ -531,7 +552,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<KeyBindingsChangedMessage>(this,
@@ -553,7 +575,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
 
@@ -578,7 +601,8 @@ namespace FluentTerminal.App.Services.Test
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>(),
-                ShellProfiles = Mock.Of<IApplicationDataContainer>()
+                ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
             Messenger.Default.Register<KeyBindingsChangedMessage>(this,
@@ -602,6 +626,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
@@ -627,6 +652,7 @@ namespace FluentTerminal.App.Services.Test
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 Themes = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider.Object, applicationDataContainers);
@@ -648,6 +674,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
@@ -670,6 +697,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
@@ -691,6 +719,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
@@ -715,6 +744,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = shellProfilesContainer.Object,
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = localSettings.Object,
@@ -743,6 +773,7 @@ namespace FluentTerminal.App.Services.Test
             var applicationDataContainers = new ApplicationDataContainers
             {
                 ShellProfiles = Mock.Of<IApplicationDataContainer>(),
+                SshProfiles = Mock.Of<IApplicationDataContainer>(),
                 KeyBindings = Mock.Of<IApplicationDataContainer>(),
                 LocalSettings = Mock.Of<IApplicationDataContainer>(),
                 RoamingSettings = roamingSettings.Object,

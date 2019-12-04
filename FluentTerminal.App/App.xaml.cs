@@ -468,8 +468,8 @@ namespace FluentTerminal.App
             {
                 await InitializeLogger();
 
-                // TODO: Check the reason for such strange using of tasks!
-                Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
+                // Fire-and-forget pattern
+                var unused = JumpListHelper.UpdateAsync(_settingsService);
 
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
@@ -682,7 +682,8 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
-            Task.Run(async () => await JumpListHelper.Update(_settingsService.GetShellProfiles()));
+            // Fire-and-forget pattern
+            var unused = JumpListHelper.UpdateAsync(_settingsService);
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;
