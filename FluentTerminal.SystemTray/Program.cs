@@ -24,94 +24,99 @@ namespace FluentTerminal.SystemTray
         [STAThread]
         public static void Main(string[] args)
         {
-            if (!Mutex.TryOpenExisting(MutexName, out Mutex mutex))
+            if (!Mutex.TryOpenExisting(MutexName, out _))
             {
-                mutex = new Mutex(false, MutexName);
-
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-
-                JsonConvert.DefaultSettings = () =>
+                using (new Mutex(false, MutexName))
                 {
-                    var settings = new JsonSerializerSettings
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+
+                    JsonConvert.DefaultSettings = () =>
                     {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        var settings = new JsonSerializerSettings
+                        {
+                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        };
+                        settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
+
+                        return settings;
                     };
-                    settings.Converters.Add(new StringEnumConverter(typeof(CamelCaseNamingStrategy)));
 
-                    return settings;
-                };
+                    var applicationDataContainers = new ApplicationDataContainers
+                    {
+                        LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
+                        RoamingSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings),
+                        KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
+                        ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
+                        Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always))
+                    };
 
-                var applicationDataContainers = new ApplicationDataContainers
-                {
-                    LocalSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings),
-                    RoamingSettings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings),
-                    KeyBindings = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.KeyBindingsContainerName, ApplicationDataCreateDisposition.Always)),
-                    ShellProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.LocalSettings.CreateContainer(Constants.ShellProfilesContainerName, ApplicationDataCreateDisposition.Always)),
-                    SshProfiles = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.SshProfilesContainerName, ApplicationDataCreateDisposition.Always)),
-                    Themes = new ApplicationDataContainerAdapter(ApplicationData.Current.RoamingSettings.CreateContainer(Constants.ThemesContainerName, ApplicationDataCreateDisposition.Always))
-                };
+                    var containerBuilder = new ContainerBuilder();
 
-                var containerBuilder = new ContainerBuilder();
+                    containerBuilder.RegisterInstance(applicationDataContainers);
+                    containerBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
+                    containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
+                    containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
+                    containerBuilder.RegisterInstance(new HotKeyManager()).SingleInstance();
+                    containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
+                    containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
+                    containerBuilder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>();
+                    containerBuilder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
+                    containerBuilder.RegisterType<UpdateService>().As<IUpdateService>().SingleInstance();
+                    containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
 
-                containerBuilder.RegisterInstance(applicationDataContainers);
-                containerBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
-                containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
-                containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();
-                containerBuilder.RegisterInstance(new HotKeyManager()).SingleInstance();
-                containerBuilder.RegisterType<SystemTrayApplicationContext>().SingleInstance();
-                containerBuilder.RegisterType<AppCommunicationService>().SingleInstance();
-                containerBuilder.RegisterType<DefaultValueProvider>().As<IDefaultValueProvider>();
-                containerBuilder.RegisterType<SettingsService>().As<ISettingsService>().SingleInstance();
-                containerBuilder.RegisterType<UpdateService>().As<IUpdateService>().SingleInstance();
-                containerBuilder.RegisterInstance(Dispatcher.CurrentDispatcher).SingleInstance();
+                    var container = containerBuilder.Build();
 
-                var container = containerBuilder.Build();
+                    // Fire-and-forget pattern
+                    // TODO: It's maybe better to wait for logging to be configured before continuing?
+                    var unused = ConfigureLoggingAsync();
 
-                Task.Run(async () =>
-                {
+                    var appCommunicationService = container.Resolve<AppCommunicationService>();
 
-                    var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
-                    var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
-                    var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
-                    var configContent = await FileIO.ReadTextAsync(configFile).AsTask().ConfigureAwait(true);
-                    var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
-                    Logger.Instance.Initialize(logFile, config);
-
-                    AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-
-                    TaskScheduler.UnobservedTaskException += (sender, e) =>
-                        Logger.Instance.Error(e.Exception, "Unobserved Task Exception");
-                });
-
-                var appCommunicationService = container.Resolve<AppCommunicationService>();
-
-                if (args.Length > 0 && args[2] == "appLaunched")
-                {
-                    appCommunicationService.StartAppServiceConnection();
-                }
+                    if (args.Length > 0 && args[2] == "appLaunched")
+                    {
+                        appCommunicationService.StartAppServiceConnection();
+                    }
 
 #if !STORE
-                Task.Run(() => container.Resolve<IUpdateService>().CheckForUpdate());
+                    // Fire-and-forget pattern
+                    Task.Factory.StartNew(() => container.Resolve<IUpdateService>().CheckForUpdate());
 #endif
-                var settingsService = container.Resolve<ISettingsService>();
-                Task.Run(() => Utilities.MuteTerminal(settingsService.GetApplicationSettings().MuteTerminalBeeps));
-                if (settingsService.GetApplicationSettings().EnableTrayIcon)
-                {
-                    Application.Run(container.Resolve<SystemTrayApplicationContext>());
-                }
-                else
-                {
-                    Application.Run();
-                }
+                    var settingsService = container.Resolve<ISettingsService>();
 
-                mutex.Close();
+                    // Fire-and-forget pattern
+                    Task.Factory.StartNew(() => Utilities.MuteTerminal(settingsService.GetApplicationSettings().MuteTerminalBeeps));
+
+                    if (settingsService.GetApplicationSettings().EnableTrayIcon)
+                    {
+                        Application.Run(container.Resolve<SystemTrayApplicationContext>());
+                    }
+                    else
+                    {
+                        Application.Run();
+                    }
+                }
             }
             else
             {
                 var eventWaitHandle = EventWaitHandle.OpenExisting(AppCommunicationService.EventWaitHandleName, System.Security.AccessControl.EventWaitHandleRights.Modify);
                 eventWaitHandle.Set();
             }
+        }
+
+        private static async Task ConfigureLoggingAsync()
+        {
+            var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
+            var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
+            var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
+            var configContent = await FileIO.ReadTextAsync(configFile).AsTask().ConfigureAwait(true);
+            var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
+            Logger.Instance.Initialize(logFile, config);
+
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+                Logger.Instance.Error(e.Exception, "Unobserved Task Exception");
         }
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)

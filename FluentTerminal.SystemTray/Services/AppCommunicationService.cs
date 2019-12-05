@@ -32,10 +32,10 @@ namespace FluentTerminal.SystemTray.Services
             _toggleWindowService = toggleWindowService;
             _settingsService = settingsService;
 
-            var eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventWaitHandleName);
-
-            Task.Run(() =>
+            Task.Factory.StartNew(() =>
             {
+                var eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventWaitHandleName);
+
                 while (true)
                 {
                     eventWaitHandle.WaitOne();
