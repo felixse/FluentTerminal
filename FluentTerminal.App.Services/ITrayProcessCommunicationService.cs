@@ -12,24 +12,26 @@ namespace FluentTerminal.App.Services
 
         void Initialize(IAppServiceConnection appServiceConnection);
 
-        Task<CreateTerminalResponse> CreateTerminal(byte id, TerminalSize size, ShellProfile shellProfile, SessionType sessionType);
+        Task<CreateTerminalResponse> CreateTerminalAsync(byte id, TerminalSize size, ShellProfile shellProfile,
+            SessionType sessionType);
 
-        Task<PauseTerminalOutputResponse> PauseTerminalOutput(byte id, bool pause);
+        Task<PauseTerminalOutputResponse> PauseTerminalOutputAsync(byte id, bool pause);
 
-        Task ResizeTerminal(byte id, TerminalSize size);
+        Task ResizeTerminalAsync(byte id, TerminalSize size);
 
-        Task UpdateToggleWindowKeyBindings();
+        Task UpdateToggleWindowKeyBindingsAsync();
 
-        Task Write(byte terminalId, byte[] data);
+        Task WriteAsync(byte terminalId, byte[] data);
 
         void SubscribeForTerminalOutput(byte terminalId, Action<byte[]> callback);
 
         void UnsubscribeFromTerminalOutput(byte terminalId);
 
-        Task CloseTerminal(byte terminalId);
+        Task CloseTerminalAsync(byte terminalId);
+
         byte GetNextTerminalId();
 
-        Task<string> GetUserName();
+        Task<string> GetUserNameAsync();
 
         Task SaveTextFileAsync(string path, string content);
 
@@ -39,12 +41,12 @@ namespace FluentTerminal.App.Services
 
         Task<bool> CheckFileExistsAsync(string path);
 
-        void MuteTerminal(bool mute);
+        Task MuteTerminalAsync(bool mute);
 
         void UpdateSettings(ApplicationSettings settings);
 
         Task<string> GetCommandPathAsync(string command);
 
-        Task QuitApplication();
+        Task QuitApplicationAsync();
     }
 }

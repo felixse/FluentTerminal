@@ -258,7 +258,7 @@ namespace FluentTerminal.App
 
                     if (_applicationSettings.AutoFallbackToWindowsUsernameInLinks && string.IsNullOrEmpty(vm.Username))
                     {
-                        vm.Username = await _trayProcessCommunicationService.GetUserName();
+                        vm.Username = await _trayProcessCommunicationService.GetUserNameAsync();
                     }
 
                     var error = await vm.AcceptChangesAsync(true);

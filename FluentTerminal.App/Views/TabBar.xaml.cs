@@ -165,7 +165,7 @@ namespace FluentTerminal.App.Views
             var item = e.Items.FirstOrDefault();
             if (item is TerminalViewModel model)
             {
-                await model.TrayProcessCommunicationService.PauseTerminalOutput(model.Terminal.Id, true);
+                await model.TrayProcessCommunicationService.PauseTerminalOutputAsync(model.Terminal.Id, true);
                 e.Data.Properties.Add(Constants.TerminalViewModelStateId, await model.Serialize());
             }
         }
@@ -189,7 +189,7 @@ namespace FluentTerminal.App.Views
                     TabDraggingCompleted?.Invoke(sender, model);
                 }
 
-                model.TrayProcessCommunicationService.PauseTerminalOutput(model.Terminal.Id, false);
+                model.TrayProcessCommunicationService.PauseTerminalOutputAsync(model.Terminal.Id, false);
             }
         }
 

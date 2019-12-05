@@ -84,7 +84,7 @@ namespace FluentTerminal.App.Services
             }
             _closingFromUi = true;
             _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
-            await _trayProcessCommunicationService.CloseTerminal(Id).ConfigureAwait(true);
+            await _trayProcessCommunicationService.CloseTerminalAsync(Id).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FluentTerminal.App.Services
         /// </summary>
         public async Task SetSize(TerminalSize size)
         {
-            await _trayProcessCommunicationService.ResizeTerminal(Id, size);
+            await _trayProcessCommunicationService.ResizeTerminalAsync(Id, size);
             SizeChanged?.Invoke(this, size);
         }
 
@@ -147,7 +147,7 @@ namespace FluentTerminal.App.Services
 
             if (_requireShellProcessStart)
             {
-                var response = await _trayProcessCommunicationService.CreateTerminal(Id, size, shellProfile, sessionType).ConfigureAwait(true);
+                var response = await _trayProcessCommunicationService.CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(true);
 
                 if (response.Success)
                 {
@@ -158,13 +158,13 @@ namespace FluentTerminal.App.Services
             }
             else
             {
-                return await _trayProcessCommunicationService.PauseTerminalOutput(Id, false);
+                return await _trayProcessCommunicationService.PauseTerminalOutputAsync(Id, false);
             }
         }
 
         public Task Write(byte[] data)
         {
-            return _trayProcessCommunicationService.Write(Id, data);
+            return _trayProcessCommunicationService.WriteAsync(Id, data);
         }
 
         /// <summary>

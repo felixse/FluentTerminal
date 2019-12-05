@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Services.Implementation
             return DeserializeTheme<TerminalTheme>(fileName, fileContent);
         }
 
-        public async Task<T> DeserializeTheme<T>(string fileName, Stream fileContent)
+        private async Task<T> DeserializeTheme<T>(string fileName, Stream fileContent)
             where T : TerminalTheme
         {
             if (string.IsNullOrWhiteSpace(fileName))

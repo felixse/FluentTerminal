@@ -69,7 +69,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         private void OnEdited(string command, ICollection<KeyBinding> keyBindings)
         {
             _settingsService.SaveKeyBindings(command, keyBindings);
-            _trayProcessCommunicationService.UpdateToggleWindowKeyBindings();
+            _trayProcessCommunicationService.UpdateToggleWindowKeyBindingsAsync();
         }
 
         private async Task RestoreDefaults()

@@ -48,7 +48,7 @@ namespace FluentTerminal.App.Services.Test
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            var result = await trayProcessCommunicationService.CreateTerminal(id, terminalSize, shellProfile, sessionType);
+            var result = await trayProcessCommunicationService.CreateTerminalAsync(id, terminalSize, shellProfile, sessionType);
 
             result.Should().BeEquivalentTo(response);
         }
@@ -68,7 +68,7 @@ namespace FluentTerminal.App.Services.Test
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            await trayProcessCommunicationService.ResizeTerminal(terminalId, terminalSize);
+            await trayProcessCommunicationService.ResizeTerminalAsync(terminalId, terminalSize);
 
             appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == (byte)MessageIdentifiers.ResizeTerminalRequest)), Times.Once);
         }
@@ -88,7 +88,7 @@ namespace FluentTerminal.App.Services.Test
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            await trayProcessCommunicationService.Write(terminalId, data);
+            await trayProcessCommunicationService.WriteAsync(terminalId, data);
 
             appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == Constants.TerminalBufferRequestIdentifier)), Times.Once);
         }
@@ -107,7 +107,7 @@ namespace FluentTerminal.App.Services.Test
             var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
             trayProcessCommunicationService.Initialize(appServiceConnection.Object);
 
-            await trayProcessCommunicationService.CloseTerminal(terminalId);
+            await trayProcessCommunicationService.CloseTerminalAsync(terminalId);
 
             appServiceConnection.Verify(x => x.SendMessageAsync(It.Is<ValueSet>(d => (byte)d[MessageKeys.Type] == (byte)MessageIdentifiers.TerminalExitedRequest)), Times.Once);
         }
