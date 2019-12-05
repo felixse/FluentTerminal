@@ -9,16 +9,16 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class FluentTerminalThemeParser : IThemeParser
     {
-        public IEnumerable<string> SupportedFileTypes { get; } = new string[] { ".flutecolors" };
+        public IEnumerable<string> SupportedFileTypes { get; } = new[] { ".flutecolors" };
 
-        public async Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent)
+        public Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent)
         {
-            return await DeserializeTheme<ExportedTerminalTheme>(fileName, fileContent);
+            return DeserializeTheme<ExportedTerminalTheme>(fileName, fileContent);
         }
 
-        public async Task<TerminalTheme> Parse(string fileName, Stream fileContent)
+        public Task<TerminalTheme> Parse(string fileName, Stream fileContent)
         {
-            return await DeserializeTheme<TerminalTheme>(fileName, fileContent);
+            return DeserializeTheme<TerminalTheme>(fileName, fileContent);
         }
 
         public async Task<T> DeserializeTheme<T>(string fileName, Stream fileContent)
