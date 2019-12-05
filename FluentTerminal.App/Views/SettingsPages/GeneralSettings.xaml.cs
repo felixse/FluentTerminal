@@ -20,7 +20,8 @@ namespace FluentTerminal.App.Views.SettingsPages
             if (e.Parameter is GeneralPageViewModel viewModel)
             {
                 ViewModel = viewModel;
-                ViewModel.OnNavigatedTo();
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = ViewModel.OnNavigatedToAsync();
             }
         }
     }

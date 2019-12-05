@@ -468,8 +468,8 @@ namespace FluentTerminal.App
             {
                 await InitializeLogger();
 
-                // Fire-and-forget pattern
-                var unused = JumpListHelper.UpdateAsync(_settingsService);
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = JumpListHelper.UpdateAsync(_settingsService);
 
                 var viewModel = _container.Resolve<MainViewModel>();
                 if (args.Arguments.StartsWith(JumpListHelper.ShellProfileFlag))
@@ -682,8 +682,8 @@ namespace FluentTerminal.App
 
         private void OnSettingsClosed(object sender, EventArgs e)
         {
-            // Fire-and-forget pattern
-            var unused = JumpListHelper.UpdateAsync(_settingsService);
+            // ReSharper disable once AssignmentIsFullyDiscarded
+            _ = JumpListHelper.UpdateAsync(_settingsService);
             _settingsViewModel.Closed -= OnSettingsClosed;
             _settingsViewModel = null;
             _settingsWindowId = null;

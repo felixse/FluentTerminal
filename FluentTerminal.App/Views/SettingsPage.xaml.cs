@@ -3,6 +3,7 @@ using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.App.Views.SettingsPages;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -36,7 +37,8 @@ namespace FluentTerminal.App.Views
             _titleBar = ApplicationView.GetForCurrentView().TitleBar;
             _dispatcher = Window.Current.Dispatcher;
 
-            SetTitleBarColors();
+            // ReSharper disable once AssignmentIsFullyDiscarded
+            _ = SetTitleBarColorsAsync();
 
             _uiSettings = new UISettings();
             _uiSettings.ColorValuesChanged += OnColorValuesChanged;
@@ -49,13 +51,14 @@ namespace FluentTerminal.App.Views
         {
             if (!_onThemesPage)
             {
-                SetTitleBarColors();
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = SetTitleBarColorsAsync();
             }
         }
 
-        private IAsyncAction SetTitleBarColors()
+        private Task SetTitleBarColorsAsync()
         {
-            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            return _dispatcher.ExecuteAsync(() =>
             {
                 var theme = Application.Current.RequestedTheme == ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
                 ContrastHelper.SetTitleBarButtonsForTheme(theme);
@@ -120,7 +123,8 @@ namespace FluentTerminal.App.Views
 
             if (!_onThemesPage)
             {
-                SetTitleBarColors();
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = SetTitleBarColorsAsync();
             }
         }
 

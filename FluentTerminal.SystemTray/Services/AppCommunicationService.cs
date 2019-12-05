@@ -12,6 +12,7 @@ using System.Linq;
 using FluentTerminal.Models.Responses;
 using FluentTerminal.App.Services;
 using System.Windows.Forms;
+using Windows.Foundation;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -39,9 +40,10 @@ namespace FluentTerminal.SystemTray.Services
                 while (true)
                 {
                     eventWaitHandle.WaitOne();
-                    StartAppServiceConnection();
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = StartAppServiceConnectionAsync();
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         private void _terminalsManager_TerminalExited(object sender, TerminalExitStatus status)
@@ -59,10 +61,11 @@ namespace FluentTerminal.SystemTray.Services
                 [MessageKeys.Content] = e.Data
             };
 
-            _appServiceConnection.SendMessageAsync(message);
+            // ReSharper disable once AssignmentIsFullyDiscarded
+            _ = _appServiceConnection.SendMessageAsync(message);
         }
 
-        public void StartAppServiceConnection()
+        public IAsyncOperation<AppServiceConnectionStatus> StartAppServiceConnectionAsync()
         {
             _appServiceConnection = new AppServiceConnection
             {
@@ -72,7 +75,7 @@ namespace FluentTerminal.SystemTray.Services
             _appServiceConnection.RequestReceived += OnRequestReceived;
             _appServiceConnection.ServiceClosed += OnServiceClosed;
 
-            _appServiceConnection.OpenAsync();
+            return _appServiceConnection.OpenAsync();
         }
 
         private void OnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)

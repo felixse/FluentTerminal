@@ -61,7 +61,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public async Task OnNavigatedTo()
+        public async Task OnNavigatedToAsync()
         {
             var startupTaskStatus = await _startupTaskService.GetStatus();
             SetStartupTaskPropertiesForStatus(startupTaskStatus);
@@ -309,11 +309,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _startupTaskEnabled;
             set
             {
-                if (_startupTaskEnabled != value)
+                if (Set(ref _startupTaskEnabled, value))
                 {
-                    _startupTaskEnabled = value;
-                    RaisePropertyChanged(nameof(StartupTaskEnabled));
-                    SetStartupTaskState(value);
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = SetStartupTaskStateAsync(value);
                 }
             }
         }
@@ -446,7 +445,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        private async Task SetStartupTaskState(bool enabled)
+        private async Task SetStartupTaskStateAsync(bool enabled)
         {
             StartupTaskStatus status;
             if (enabled)

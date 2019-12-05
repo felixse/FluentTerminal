@@ -44,7 +44,8 @@ namespace FluentTerminal.App.Utilities
                 {
                     _cts = new CancellationTokenSource();
 
-                    var unused = Loop();
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = Loop();
                 }
 
                 return _tcs.Task;
