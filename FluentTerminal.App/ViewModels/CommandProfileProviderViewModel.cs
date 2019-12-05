@@ -262,7 +262,8 @@ namespace FluentTerminal.App.ViewModels
                 {
                     _filterLoopRunning = true;
 
-                    var unused = FilteringLoop();
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = FilteringLoop();
                 }
             }
         }

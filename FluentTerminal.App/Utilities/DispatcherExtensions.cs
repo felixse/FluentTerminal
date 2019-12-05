@@ -29,7 +29,8 @@ namespace FluentTerminal.App.Utilities
 
             var tcs = new TaskCompletionSource<T>();
 
-            var unused = dispatcher.RunAsync(priority, () =>
+            // ReSharper disable once AssignmentIsFullyDiscarded
+            _ = dispatcher.RunAsync(priority, () =>
             {
                 T val;
 
