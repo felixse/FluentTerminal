@@ -38,11 +38,10 @@ namespace FluentTerminal.App.Adapters
             _messageDialog.Commands.Add(command);
         }
 
-        public async Task<DialogButton> ShowAsync()
+        public Task<DialogButton> ShowAsync()
         {
-            var result = await _messageDialog.ShowAsync();
-
-            return (DialogButton)result.Id;
+            return _messageDialog.ShowAsync().AsTask().ContinueWith(t => (DialogButton) t.Result.Id,
+                TaskContinuationOptions.OnlyOnRanToCompletion);
         }
     }
 }

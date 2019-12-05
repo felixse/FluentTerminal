@@ -1,7 +1,5 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -27,7 +25,7 @@ namespace FluentTerminal.App.Adapters
 
         public async Task<ValueSet> SendMessageAsync(ValueSet message)
         {
-            var response = await _appServiceConnection.SendMessageAsync(message).AsTask();
+            var response = await _appServiceConnection.SendMessageAsync(message);
 
             if (response.Status == AppServiceResponseStatus.Success)
             {

@@ -177,7 +177,7 @@ namespace FluentTerminal.App.Views
             }
             else
             {
-                ViewModel.ApplicationView.TryClose();
+                ViewModel.ApplicationView.TryCloseAsync();
             }
         }
 

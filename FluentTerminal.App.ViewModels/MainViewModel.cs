@@ -562,7 +562,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (Terminals.Count == 0)
                 {
-                    ApplicationView.TryClose();
+                    ApplicationView.TryCloseAsync();
                 }
                 else if (wasSelected)
                 {
