@@ -13,6 +13,13 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class TrayProcessCommunicationService : ITrayProcessCommunicationService
     {
+        #region Static cache
+
+        private static Task<string> _userName;
+        private static Task<string> _sshConfigDir;
+
+        #endregion Static cache
+
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
         private readonly Dictionary<byte, Action<byte[]>> _terminalOutputHandlers;
@@ -32,14 +39,12 @@ namespace FluentTerminal.App.Services.Implementation
             return _nextTerminalId++;
         }
 
-        private string _userName;
-
         public Task<string> GetUserNameAsync()
         {
-            if (!string.IsNullOrEmpty(_userName))
+            if (_userName != null)
             {
                 // Returning the username from cache
-                return Task.FromResult(_userName);
+                return _userName;
             }
 
             return _appServiceConnection.SendMessageAsync(CreateMessage(new GetUserNameRequest()))
@@ -58,11 +63,11 @@ namespace FluentTerminal.App.Services.Implementation
 
                             if (response.Success)
                             {
-                                _userName = response.Value;
+                                _userName = Task.FromResult(response.Value);
                             }
                         }
 
-                        return _userName;
+                        return _userName?.Result;
                     });
         }
 
@@ -91,23 +96,21 @@ namespace FluentTerminal.App.Services.Implementation
                     }, TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
-        private static string _sshConfigDir;
-
         public Task<string> GetSshConfigDirAsync()
         {
-            if (!string.IsNullOrEmpty(_sshConfigDir))
+            if (_sshConfigDir != null)
             {
-                return Task.FromResult(_sshConfigDir);
+                return _sshConfigDir;
             }
 
             return GetSshConfigFolderAsync(false).ContinueWith(t =>
             {
                 if (t.Result?.Success ?? false)
                 {
-                    _sshConfigDir = t.Result.Path;
+                    _sshConfigDir = Task.FromResult(t.Result.Path);
                 }
 
-                return _sshConfigDir;
+                return _sshConfigDir?.Result;
             }, TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
@@ -117,7 +120,7 @@ namespace FluentTerminal.App.Services.Implementation
             {
                 if (t.Result?.Success ?? false)
                 {
-                    _sshConfigDir = t.Result.Path;
+                    _sshConfigDir = Task.FromResult(t.Result.Path);
 
                     return t.Result.Files;
                 }
