@@ -67,25 +67,26 @@ namespace FluentTerminal.SystemTray
 
                     var container = containerBuilder.Build();
 
-                    // Fire-and-forget pattern
                     // TODO: It's maybe better to wait for logging to be configured before continuing?
-                    var unused = ConfigureLoggingAsync();
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = ConfigureLoggingAsync();
 
                     var appCommunicationService = container.Resolve<AppCommunicationService>();
 
                     if (args.Length > 0 && args[2] == "appLaunched")
                     {
-                        appCommunicationService.StartAppServiceConnection();
+                        // ReSharper disable once AssignmentIsFullyDiscarded
+                        _ = appCommunicationService.StartAppServiceConnectionAsync();
                     }
 
 #if !STORE
-                    // Fire-and-forget pattern
-                    Task.Factory.StartNew(() => container.Resolve<IUpdateService>().CheckForUpdate());
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = Task.Factory.StartNew(() => container.Resolve<IUpdateService>().CheckForUpdate());
 #endif
                     var settingsService = container.Resolve<ISettingsService>();
 
-                    // Fire-and-forget pattern
-                    Task.Factory.StartNew(() => Utilities.MuteTerminal(settingsService.GetApplicationSettings().MuteTerminalBeeps));
+                    // ReSharper disable once AssignmentIsFullyDiscarded
+                    _ = Task.Factory.StartNew(() => Utilities.MuteTerminal(settingsService.GetApplicationSettings().MuteTerminalBeeps));
 
                     if (settingsService.GetApplicationSettings().EnableTrayIcon)
                     {

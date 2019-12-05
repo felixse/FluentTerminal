@@ -379,7 +379,8 @@ namespace FluentTerminal.App.Views
             if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
             {
                 ViewModel.CopyText(selection);
-                var unused = ExecuteScriptAsync("term.clearSelection()");
+                // ReSharper disable once AssignmentIsFullyDiscarded
+                _ = ExecuteScriptAsync("term.clearSelection()");
             }
         }
 
@@ -436,7 +437,8 @@ namespace FluentTerminal.App.Views
         private void _webView_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args)
         {
             args.Handled = true;
-            Launcher.LaunchUriAsync(args.Uri);
+            // ReSharper disable once AssignmentIsFullyDiscarded
+            _ = Launcher.LaunchUriAsync(args.Uri);
         }
 
         private void Copy_Click(object sender, RoutedEventArgs e)
