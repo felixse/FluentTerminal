@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+// ReSharper disable InconsistentNaming
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -14,7 +15,7 @@ namespace FluentTerminal.App.Services.Implementation
     {
         private const byte Opacity30Percent = 77;
 
-        public IEnumerable<string> SupportedFileTypes { get; } = new string[] { ".itermcolors" };
+        public IEnumerable<string> SupportedFileTypes { get; } = new[] { ".itermcolors" };
 
         private static class ITermThemeKeys
         {
@@ -36,7 +37,7 @@ namespace FluentTerminal.App.Services.Implementation
             public const string Ansi15Color = "Ansi 15 Color";
 
             public const string BackgroundColor = "Background Color";
-            public const string BoldColor = "Bold Color";
+            //public const string BoldColor = "Bold Color";
             public const string CursorColor = "Cursor Color";
             public const string CursorTextColor = "Cursor Text Color";
             public const string ForegroundColor = "Foreground Color";
@@ -134,7 +135,7 @@ namespace FluentTerminal.App.Services.Implementation
             return (alpha / 256.0).ToString(CultureInfo.InvariantCulture);
         }
 
-        public async Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent)
+        public Task<ExportedTerminalTheme> Import(string fileName, Stream fileContent)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -156,7 +157,7 @@ namespace FluentTerminal.App.Services.Implementation
                 PreInstalled = false
             };
 
-            return new ExportedTerminalTheme(terminalTheme, string.Empty);
+            return Task.FromResult(new ExportedTerminalTheme(terminalTheme, string.Empty));
         }
     }
 }
