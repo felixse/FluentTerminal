@@ -108,11 +108,11 @@ namespace FluentTerminal.App.Views
 
                 if (size == null)
                 {
-                    await Task.Delay(delay);
+                    await Task.Delay(delay).ConfigureAwait(false);
                 }
                 else
                 {
-                    await ViewModel.Terminal.SetSize(_requestedSize);
+                    await ViewModel.Terminal.SetSize(_requestedSize).ConfigureAwait(false);
                 }
             }
         }
@@ -252,10 +252,10 @@ namespace FluentTerminal.App.Views
             var theme = ViewModel.TerminalTheme;
 
             // Waiting for WebView.NavigationCompleted event to happen
-            await _tcsNavigationCompleted.Task.ConfigureAwait(true);
+            await _tcsNavigationCompleted.Task.ConfigureAwait(false);
 
-            var size = await CreateXtermView(options, theme.Colors,
-                FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(true);
+            var size = await CreateXtermViewAsync(options, theme.Colors,
+                FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(false);
 
             // Waiting for IxtermEventListener.OnInitialized() call to happen
             await _tcsConnected.Task;
@@ -279,10 +279,13 @@ namespace FluentTerminal.App.Views
                 }
             }
 
-            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(true);
+            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(false);
             if (!response.Success)
             {
-                await ViewModel.DialogService.ShowMessageDialogAsnyc("Error", response.Error, DialogButton.OK).ConfigureAwait(true);
+                await Dispatcher.ExecuteAsync(async () =>
+                        await ViewModel.DialogService.ShowMessageDialogAsync("Error", response.Error, DialogButton.OK))
+                    .ConfigureAwait(false);
+
                 ViewModel.Terminal.ReportLauchFailed();
                 return;
             }
@@ -305,7 +308,7 @@ namespace FluentTerminal.App.Views
                 tracker.SetSuccessfulSessionStart();
             }
 
-            _webView.Focus(FocusState.Programmatic);
+            await Dispatcher.ExecuteAsync(() => _webView.Focus(FocusState.Programmatic)).ConfigureAwait(false);
         }
 
         public void DisposalPrepare()
@@ -446,13 +449,14 @@ namespace FluentTerminal.App.Views
             ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
         }
 
-        private async Task<TerminalSize> CreateXtermView(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
+        private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
             var serializedTheme = JsonConvert.SerializeObject(theme);
             var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
-            var size = await ExecuteScriptAsync($"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')").ConfigureAwait(true);
-            return JsonConvert.DeserializeObject<TerminalSize>(size);
+            return ExecuteScriptAsync(
+                    $"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
+                .ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result));
         }
 
         private async Task<string> ExecuteScriptAsync(string script)
@@ -464,8 +468,8 @@ namespace FluentTerminal.App.Views
 
             try
             {
-                var scriptTask =
-                    await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}));
+                var scriptTask = await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}))
+                    .ConfigureAwait(false);
 
                 return await scriptTask;
             }

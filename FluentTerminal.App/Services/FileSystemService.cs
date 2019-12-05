@@ -1,5 +1,4 @@
-﻿using FluentTerminal.App.Utilities;
-using FluentTerminal.Models;
+﻿using FluentTerminal.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,15 +11,13 @@ namespace FluentTerminal.App.Services
 {
     public class FileSystemService : IFileSystemService
     {
-        public async Task<string> BrowseForDirectory()
+        public Task<string> BrowseForDirectory()
         {
-            var picker = new FolderPicker();
+            var picker = new FolderPicker{ SuggestedStartLocation = PickerLocationId.ComputerFolder };
             picker.FileTypeFilter.Add(".whatever"); // else a ComException is thrown
-            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
 
-            var folder = await picker.PickSingleFolderAsync();
-
-            return folder?.Path;
+            return picker.PickSingleFolderAsync().AsTask()
+                .ContinueWith(t => t.Result?.Path, TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         public async Task<File> OpenFile(IEnumerable<string> fileTypes)
@@ -61,9 +58,11 @@ namespace FluentTerminal.App.Services
 
         public async Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content)
         {
-            var picker = new FileSavePicker();
-            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            picker.SuggestedFileName = name;
+            var picker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder, 
+                SuggestedFileName = name
+            };
             picker.FileTypeChoices.Add(fileTypeDescription, new List<string> { fileType });
 
             var file = await picker.PickSaveFileAsync();

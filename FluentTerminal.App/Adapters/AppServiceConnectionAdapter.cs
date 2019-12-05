@@ -23,15 +23,11 @@ namespace FluentTerminal.App.Adapters
             MessageReceived?.Invoke(this, args.Request.Message);
         }
 
-        public async Task<ValueSet> SendMessageAsync(ValueSet message)
+        public Task<ValueSet> SendMessageAsync(ValueSet message)
         {
-            var response = await _appServiceConnection.SendMessageAsync(message);
-
-            if (response.Status == AppServiceResponseStatus.Success)
-            {
-                return response.Message;
-            }
-            return null;
+            return _appServiceConnection.SendMessageAsync(message).AsTask().ContinueWith(
+                t => t.Result.Status == AppServiceResponseStatus.Success ? t.Result.Message : null,
+                TaskContinuationOptions.OnlyOnRanToCompletion);
         }
     }
 }

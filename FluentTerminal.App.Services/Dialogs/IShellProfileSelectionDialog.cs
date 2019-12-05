@@ -7,6 +7,6 @@ namespace FluentTerminal.App.Services.Dialogs
     {
         ShellProfile SelectedProfile { get; }
 
-        Task<ShellProfile> SelectProfile();
+        Task<ShellProfile> SelectProfileAsync();
     }
 }

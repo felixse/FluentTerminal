@@ -326,7 +326,7 @@ namespace FluentTerminal.App.ViewModels
             if (Model.BackgroundImage != null &&
                BackgroundThemeFile != Model?.BackgroundImage)
             {
-                await _imageFileSystemService.RemoveImportedImage(
+                await _imageFileSystemService.RemoveImportedImageAsync(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
 
@@ -383,7 +383,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (!_fallbackTheme.Equals(changedTheme))
                 {
-                    var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                    var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                     if (result == DialogButton.OK)
                     {
@@ -418,7 +418,7 @@ namespace FluentTerminal.App.ViewModels
 
                         InEditMode = false;
 
-                        await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
+                        await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync();
                     }
                 }
                 else
@@ -435,12 +435,12 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
                 await DeleteBackgroundImageIfExists();
-                await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
+                await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync();
 
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
@@ -448,7 +448,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task DeleteBackgroundImage()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -490,14 +490,14 @@ namespace FluentTerminal.App.ViewModels
             var importedBackgroundThemeFile = 
                 await _fileSystemService.SaveImageInRoaming(BackgroundThemeFile);
 
-            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImage();
+            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync();
 
             return importedBackgroundThemeFile;
         }
 
         private async Task ChooseBackgroundImage()
         {
-            var choosenImage = await _imageFileSystemService.ImportTemporaryImageFile(new[] { ".jpeg", ".png", ".jpg" });
+            var choosenImage = await _imageFileSystemService.ImportTemporaryImageFileAsync(new[] { ".jpeg", ".png", ".jpg" });
 
             if(choosenImage == null)
             {
@@ -511,7 +511,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (BackgroundThemeFile != null)
             {
-                await _imageFileSystemService.RemoveImportedImage(
+                await _imageFileSystemService.RemoveImportedImageAsync(
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
 
                 BackgroundThemeFile = null;

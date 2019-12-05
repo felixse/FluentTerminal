@@ -588,7 +588,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (ApplicationSettings.ConfirmClosingTabs)
             {
-                var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), String.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), String.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
                 if (result == DialogButton.Cancel)
                 {

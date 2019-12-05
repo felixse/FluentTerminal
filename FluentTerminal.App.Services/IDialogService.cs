@@ -5,13 +5,14 @@ namespace FluentTerminal.App.Services
 {
     public enum DialogButton
     {
+        // ReSharper disable once InconsistentNaming
         OK,
         Cancel
     }
 
     public interface IDialogService
     {
-        Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons);
+        Task<DialogButton> ShowMessageDialogAsync(string title, string content, params DialogButton[] buttons);
 
         Task<ShellProfile> ShowProfileSelectionDialogAsync();
 

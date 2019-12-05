@@ -37,7 +37,7 @@ namespace FluentTerminal.App.Services.Implementation
             return dialog.CreateKeyBinding();
         }
 
-        public Task<DialogButton> ShowMessageDialogAsnyc(string title, string content, params DialogButton[] buttons)
+        public Task<DialogButton> ShowMessageDialogAsync(string title, string content, params DialogButton[] buttons)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -78,7 +78,7 @@ namespace FluentTerminal.App.Services.Implementation
         {
             var dialog = _shellProfileSelectionDialogFactory();
 
-            return dialog.SelectProfile();
+            return dialog.SelectProfileAsync();
         }
 
         public Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null) =>

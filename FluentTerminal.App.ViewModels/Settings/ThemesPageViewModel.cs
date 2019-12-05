@@ -136,7 +136,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                 if (parser == null)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("ImportThemeFailed"), I18N.Translate("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"), I18N.Translate("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
                     return;
                 }
 
@@ -146,7 +146,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
                     if (!string.IsNullOrWhiteSpace(exportedTheme.EncodedImage))
                     {
-                        var importedImage = await _imageFileSystemService.ImportThemeImage(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
+                        var importedImage = await _imageFileSystemService.ImportThemeImageAsync(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
                         exportedTheme.BackgroundImage = importedImage;
                     }
 
@@ -156,7 +156,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 catch (Exception exception)
                 {
-                    await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
                 }
             }
         }

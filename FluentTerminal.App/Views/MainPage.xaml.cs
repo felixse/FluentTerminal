@@ -152,7 +152,7 @@ namespace FluentTerminal.App.Views
 
         private async void TabView_Drop(object sender, NewTabRequestedEventArgs e)
         {
-            if (e.DragEventArgs.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out object stateObj) && stateObj is string terminalViewModelState)
+            if (e.DragEventArgs.DataView.Properties.TryGetValue(Constants.TerminalViewModelStateId, out var stateObj) && stateObj is string terminalViewModelState)
             {
                 await ViewModel.AddTabAsync(terminalViewModelState, e.Position);
             }
@@ -199,7 +199,7 @@ namespace FluentTerminal.App.Views
             set { SetValue(DraggingHappensProperty, value); }
         }
 
-        static private event EventHandler<bool> DraggingHappensChanged;
+        private static event EventHandler<bool> DraggingHappensChanged;
 
         private void TabDropArea_DragEnter(object sender, DragEventArgs e)
         {

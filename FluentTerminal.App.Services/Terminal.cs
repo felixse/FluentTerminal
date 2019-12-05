@@ -11,7 +11,7 @@ namespace FluentTerminal.App.Services
     {
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private Func<Task<string>> _selectedTextCallback;
-        private bool _closingFromUI;
+        private bool _closingFromUi;
         private bool _exited;
         private readonly bool _requireShellProcessStart;
 
@@ -33,7 +33,7 @@ namespace FluentTerminal.App.Services
             _exited = true;
             Exited?.Invoke(this, status.ExitCode);
 
-            if (_closingFromUI || status.ExitCode <= 0)
+            if (_closingFromUi || status.ExitCode <= 0)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
             }
@@ -82,7 +82,7 @@ namespace FluentTerminal.App.Services
                 Closed?.Invoke(this, System.EventArgs.Empty);
                 return;
             }
-            _closingFromUI = true;
+            _closingFromUi = true;
             _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
             await _trayProcessCommunicationService.CloseTerminal(Id).ConfigureAwait(true);
         }
@@ -134,11 +134,8 @@ namespace FluentTerminal.App.Services
         }
 
         /// <summary>
-        /// to be called by view when ready
+        /// To be called by view when ready
         /// </summary>
-        /// <param name="shellProfile"></param>
-        /// <param name="size"></param>
-        /// <param name="sessionType"></param>
         public async Task<TerminalResponse> StartShellProcess(ShellProfile shellProfile, TerminalSize size, SessionType sessionType, string termState)
         {
             if (!_requireShellProcessStart && !string.IsNullOrEmpty(termState))

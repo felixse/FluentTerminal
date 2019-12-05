@@ -74,7 +74,7 @@ namespace FluentTerminal.App.ViewModels
                 throw new InvalidOperationException();
             }
 
-            var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"),
+            var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
                 I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)

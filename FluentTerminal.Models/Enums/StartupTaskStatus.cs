@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentTerminal.Models.Enums
+﻿namespace FluentTerminal.Models.Enums
 {
+    // Mirrors Windows.ApplicationModel.StartupTaskState
     public enum StartupTaskStatus
     {
-        Enabled,
-        Disabled,
-        DisabledByUser,
-        DisabledByPolicy
+        Disabled = 0,
+        DisabledByUser = 1,
+        Enabled = 2,
+        DisabledByPolicy = 3,
+        EnabledByPolicy = 4
     }
 }
