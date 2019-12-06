@@ -52,7 +52,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public async Task<string> GetUserNameAsync()
         {
-            if (_userName != null)
+            if (!string.IsNullOrEmpty(_userName))
             {
                 // Returning the username from cache
                 return _userName;
@@ -84,7 +84,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public async Task<string> GetSshConfigDirAsync()
         {
-            if (_sshConfigDir != null)
+            if (!string.IsNullOrEmpty(_sshConfigDir))
             {
                 return _sshConfigDir;
             }
