@@ -25,7 +25,7 @@ namespace FluentTerminal.App.Adapters
             _applicationView = ApplicationView.GetForCurrentView();
             _applicationView.Consolidated += _applicationView_Consolidated;
             _dispatcher = CoreApplication.GetCurrentView().Dispatcher;
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequested;
 
             Logger.Instance.Debug("Created ApplicationViewAdapter for ApplicationView with Id: {Id}", _applicationView.Id);
         }
@@ -67,15 +67,15 @@ namespace FluentTerminal.App.Adapters
         public Task<T> ExecuteOnUiThreadAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
             bool enforceNewSchedule = false) => _dispatcher.ExecuteAsync(func, priority, enforceNewSchedule);
 
-        public async Task<bool> TryClose()
+        public async Task<bool> TryCloseAsync()
         {
             if (_closed)
             {
-                Logger.Instance.Debug("ApplicationViewAdapter.TryClose was called, but was already closed. ApplicationView.Id: {Id}", _applicationView.Id);
+                Logger.Instance.Debug("ApplicationViewAdapter.TryCloseAsync was called, but was already closed. ApplicationView.Id: {Id}", _applicationView.Id);
                 return true;
             }
-            Logger.Instance.Debug("TryClose ApplicationView with Id: {Id}", _applicationView.Id);
-            _closed = await _applicationView.TryConsolidateAsync().AsTask();
+            Logger.Instance.Debug("TryCloseAsync ApplicationView with Id: {Id}", _applicationView.Id);
+            _closed = await _applicationView.TryConsolidateAsync();
             return _closed;
         }
 
@@ -92,22 +92,22 @@ namespace FluentTerminal.App.Adapters
             }
         }
 
-        private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        private async void OnCloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             var args = new CancelableEventArgs();
 
-            if (CloseRequested != null)
+            if (CloseRequested is { } closeRequestedHandler)
             {
-                await CloseRequested.Invoke(this, args);
+                await closeRequestedHandler(this, args);
             }
 
             e.Handled = args.Cancelled;
 
             if (!e.Handled)
             {
-                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequest;
+                SystemNavigationManagerPreview.GetForCurrentView().CloseRequested -= OnCloseRequested;
             }
 
             deferral.Complete();

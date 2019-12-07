@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Services
         Task<T> ExecuteOnUiThreadAsync<T>(Func<T> func, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
             bool enforceNewSchedule = false);
 
-        Task<bool> TryClose();
+        Task<bool> TryCloseAsync();
 
         bool ToggleFullScreen();
         bool IsApiContractPresent(string api, ushort version);

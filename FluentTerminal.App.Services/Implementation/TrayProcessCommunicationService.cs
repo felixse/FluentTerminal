@@ -16,6 +16,7 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
         private readonly Dictionary<byte, Action<byte[]>> _terminalOutputHandlers;
+        // ReSharper disable once RedundantDefaultMemberInitializer
         private byte _nextTerminalId = 0;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
