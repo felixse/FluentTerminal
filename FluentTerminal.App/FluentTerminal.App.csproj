@@ -163,7 +163,6 @@
     <Compile Include="Views\EnvironmentVariablesView.xaml.cs">
       <DependentUpon>EnvironmentVariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\StorageFileExtensions.cs" />
     <Compile Include="Views\KeyBindingsView.xaml.cs">
       <DependentUpon>KeyBindingsView.xaml</DependentUpon>
     </Compile>

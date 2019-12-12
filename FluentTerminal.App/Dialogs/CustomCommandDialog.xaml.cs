@@ -236,7 +236,7 @@ namespace FluentTerminal.App.Dialogs
             }
         }
 
-        public async Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
+        public Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
         {
             ViewModel = new CommandProfileProviderViewModel(_settingsService, _applicationView,
                 _trayProcessCommunicationService, _historyService, input);
@@ -245,9 +245,11 @@ namespace FluentTerminal.App.Dialogs
 
             _showDialogOperation = ShowAsync();
 
-            var result = await _showDialogOperation.AsTask().ContinueWith(t => _dialogResult);
-
-            return result != ContentDialogResult.Primary ? null : ViewModel.Model;
+            return _showDialogOperation.AsTask().ContinueWith(t =>
+                (t.Status == TaskStatus.Canceled || t.Status == TaskStatus.RanToCompletion) &&
+                _dialogResult == ContentDialogResult.Primary
+                    ? ViewModel.Model
+                    : null);
         }
     }
 }

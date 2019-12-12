@@ -38,7 +38,7 @@ namespace FluentTerminal.App.Services.Test
             var buttons = _fixture.CreateMany<DialogButton>(2);
             var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<IAboutDialog>);
 
-            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
+            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
             showMessageDialogAsnyc.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("title");
         }
@@ -51,7 +51,7 @@ namespace FluentTerminal.App.Services.Test
             var buttons = _fixture.CreateMany<DialogButton>(2);
             var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<IAboutDialog>);
 
-            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
+            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
             showMessageDialogAsnyc.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("content");
         }
@@ -63,7 +63,7 @@ namespace FluentTerminal.App.Services.Test
             var content = _fixture.Create<string>();
             var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, Mock.Of<IMessageDialog>, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<IAboutDialog>);
 
-            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsnyc(title, content);
+            Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content);
 
             showMessageDialogAsnyc.Should().Throw<ArgumentException>().And.ParamName.Should().Be("buttons");
         }
@@ -77,7 +77,7 @@ namespace FluentTerminal.App.Services.Test
             var messageDialog = new Mock<IMessageDialog>();
             var dialogService = new DialogService(Mock.Of<IShellProfileSelectionDialog>, () => messageDialog.Object, Mock.Of<ICreateKeyBindingDialog>, Mock.Of<IInputDialog>, Mock.Of<ISshConnectionInfoDialog>, Mock.Of<ICustomCommandDialog>, Mock.Of<IAboutDialog>);
 
-            dialogService.ShowMessageDialogAsnyc(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
+            dialogService.ShowMessageDialogAsync(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
             messageDialog.Verify(x => x.ShowAsync(), Times.Once);
         }
@@ -90,7 +90,7 @@ namespace FluentTerminal.App.Services.Test
 
             dialogService.ShowProfileSelectionDialogAsync();
 
-            shellProfileSelectionDialog.Verify(x => x.SelectProfile(), Times.Once);
+            shellProfileSelectionDialog.Verify(x => x.SelectProfileAsync(), Times.Once);
         }
         
         [Fact]

@@ -7,41 +7,38 @@ namespace FluentTerminal.App.Services
 {
     public class StartupTaskService : IStartupTaskService
     {
-        public const string StartupTaskname = "FluentTerminalStartupTask";
+        private const string StartupTaskName = "FluentTerminalStartupTask";
 
-        public async Task<StartupTaskStatus> GetStatus()
+        public Task<StartupTaskStatus> GetStatus()
         {
-            var startupTask = await StartupTask.GetAsync(StartupTaskname);
-            return ConvertState(startupTask.State);
+            return StartupTask.GetAsync(StartupTaskName).AsTask().ContinueWith(t => ToStartupTaskStatus(t.Result.State),
+                TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         public async Task<StartupTaskStatus> EnableStartupTask()
         {
-            var startupTask = await StartupTask.GetAsync(StartupTaskname);
+            var startupTask = await StartupTask.GetAsync(StartupTaskName);
             var newState = await startupTask.RequestEnableAsync();
-            return ConvertState(newState);
+            return ToStartupTaskStatus(newState);
         }
 
-        public async Task DisableStartupTask()
+        public Task DisableStartupTask()
         {
-            var startupTask = await StartupTask.GetAsync(StartupTaskname);
-            startupTask.Disable();
+            return StartupTask.GetAsync(StartupTaskName).AsTask().ContinueWith(t => t.Result.Disable(),
+                TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
-        private StartupTaskStatus ConvertState(StartupTaskState state)
+        private StartupTaskStatus ToStartupTaskStatus(StartupTaskState state)
         {
-            switch (state)
+            return state switch
             {
-                case StartupTaskState.Disabled:
-                    return StartupTaskStatus.Disabled;
-                case StartupTaskState.DisabledByUser:
-                    return StartupTaskStatus.DisabledByUser;
-                case StartupTaskState.Enabled:
-                    return StartupTaskStatus.Enabled;
-                case StartupTaskState.DisabledByPolicy:
-                    return StartupTaskStatus.DisabledByPolicy;
-            }
-            throw new NotImplementedException();
+                StartupTaskState.Disabled => StartupTaskStatus.Disabled,
+                StartupTaskState.DisabledByUser => StartupTaskStatus.DisabledByUser,
+                StartupTaskState.Enabled => StartupTaskStatus.Enabled,
+                StartupTaskState.DisabledByPolicy => StartupTaskStatus.DisabledByPolicy,
+                StartupTaskState.EnabledByPolicy => StartupTaskStatus.EnabledByPolicy,
+                _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
+            };
         }
     }
 }

@@ -511,7 +511,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {

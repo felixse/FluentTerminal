@@ -49,18 +49,6 @@ namespace FluentTerminal.App.Adapters
             return ApiInformation.IsApiContractPresent(api, version);
         }
 
-        public Task RunOnDispatcherThread(Action action, bool enforceNewSchedule = true)
-        {
-            if (!enforceNewSchedule && _dispatcher.HasThreadAccess)
-            {
-                action();
-
-                return Task.CompletedTask;
-            }
-
-            return _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action()).AsTask();
-        }
-
         public Task ExecuteOnUiThreadAsync(Action action, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal,
             bool enforceNewSchedule = false) => _dispatcher.ExecuteAsync(action, priority, enforceNewSchedule);
 
@@ -86,10 +74,8 @@ namespace FluentTerminal.App.Adapters
                 _applicationView.ExitFullScreenMode();
                 return true;
             }
-            else
-            {
-                return _applicationView.TryEnterFullScreenMode();
-            }
+
+            return _applicationView.TryEnterFullScreenMode();
         }
 
         private async void OnCloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)

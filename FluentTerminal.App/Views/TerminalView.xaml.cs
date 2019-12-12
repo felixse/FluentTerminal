@@ -104,7 +104,7 @@ namespace FluentTerminal.App.Views
 
         private async void OnThemeChanged(object sender, TerminalTheme e)
         {
-            await _terminalView.ChangeTheme(e).ConfigureAwait(true);
+            await _terminalView.ChangeTheme(e);
             SetGridBackgroundTheme(e);
         }
                

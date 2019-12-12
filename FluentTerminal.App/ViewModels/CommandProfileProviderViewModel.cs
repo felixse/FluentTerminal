@@ -106,7 +106,7 @@ namespace FluentTerminal.App.ViewModels
 
         protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            await base.CopyToProfileAsync(profile);
+            await base.CopyToProfileAsync(profile).ConfigureAwait(false);
 
             var command = _command?.Trim();
 
@@ -167,7 +167,8 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                profile.Location = await _trayProcessCommunicationService.GetCommandPathAsync(cmd);
+                profile.Location =
+                    await _trayProcessCommunicationService.GetCommandPathAsync(cmd).ConfigureAwait(false);
             }
 
             profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
@@ -177,7 +178,7 @@ namespace FluentTerminal.App.ViewModels
 
         public override async Task<string> ValidateAsync()
         {
-            var error = await base.ValidateAsync();
+            var error = await base.ValidateAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -217,7 +218,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (command.Contains(Path.PathSeparator))
             {
-                if (await _trayProcessCommunicationService.CheckFileExistsAsync(command))
+                if (await _trayProcessCommunicationService.CheckFileExistsAsync(command).ConfigureAwait(false))
                 {
                     return null;
                 }
@@ -227,7 +228,8 @@ namespace FluentTerminal.App.ViewModels
 
             try
             {
-                await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value);
+                await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value)
+                    .ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -296,7 +298,7 @@ namespace FluentTerminal.App.ViewModels
 
                 try
                 {
-                    await SetFilterAsync(filter, containsPrevious);
+                    await SetFilterAsync(filter, containsPrevious).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -421,7 +423,7 @@ namespace FluentTerminal.App.ViewModels
 
         public override async Task<Tuple<bool, string>> GetUrlAsync()
         {
-            var error = await ValidateAsync();
+            var error = await ValidateAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(error))
             {

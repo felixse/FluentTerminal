@@ -391,7 +391,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task RestoreDefaults()
         {
-            var result = await _dialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -440,6 +440,12 @@ namespace FluentTerminal.App.ViewModels.Settings
                 case StartupTaskStatus.DisabledByPolicy:
                     StartupTaskEnabled = false;
                     StartupTaskErrorMessage = I18N.Translate("DisabledByPolicy");
+                    CanEnableStartupTask = false;
+                    break;
+
+                case StartupTaskStatus.EnabledByPolicy:
+                    StartupTaskEnabled = true;
+                    StartupTaskErrorMessage = I18N.TranslateWithFallback("EnabledByPolicy", "Enabled by policy.");
                     CanEnableStartupTask = false;
                     break;
             }

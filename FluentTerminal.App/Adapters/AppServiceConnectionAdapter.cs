@@ -23,9 +23,9 @@ namespace FluentTerminal.App.Adapters
             MessageReceived?.Invoke(this, args.Request.Message);
         }
 
-        public async Task<ValueSet> SendMessageAsync(ValueSet message)
+        public Task<ValueSet> SendMessageAsync(ValueSet message)
         {
-            var response = await _appServiceConnection.SendMessageAsync(message);
+            var response = await _appServiceConnection.SendMessageAsync(message).ConfigureAwait(false);
 
             if (response.Status == AppServiceResponseStatus.Success)
             {

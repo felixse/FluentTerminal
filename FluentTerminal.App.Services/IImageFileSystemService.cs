@@ -1,21 +1,19 @@
 ﻿using FluentTerminal.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentTerminal.App.Services
 {
     public interface IImageFileSystemService
     {
-        Task<ImageFile> ImportTemporaryImageFile(IEnumerable<string> fileTypes);
+        Task<ImageFile> ImportTemporaryImageFileAsync(IEnumerable<string> fileTypes);
 
-        Task RemoveTemporaryBackgroundThemeImage();
+        Task RemoveTemporaryBackgroundThemeImageAsync();
 
-        Task RemoveImportedImage(string fileName);
+        Task RemoveImportedImageAsync(string fileName);
 
         string EncodeImage(ImageFile imageFile);
 
-        Task<ImageFile> ImportThemeImage(ImageFile backgroundImage, string encodedImage);
+        Task<ImageFile> ImportThemeImageAsync(ImageFile backgroundImage, string encodedImage);
     }
 }

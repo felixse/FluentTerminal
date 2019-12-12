@@ -135,7 +135,7 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Delete()
         {
-            var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"),
+            var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
                 I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
@@ -171,7 +171,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 if (HasChanges())
                 {
-                    var result = await DialogService.ShowMessageDialogAsnyc(I18N.Translate("PleaseConfirm"),
+                    var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
                             I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel)
                         .ConfigureAwait(true);
 
@@ -198,21 +198,21 @@ namespace FluentTerminal.App.ViewModels
 
             if (!string.IsNullOrEmpty(error))
             {
-                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"), error, DialogButton.OK);
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), error, DialogButton.OK);
 
                 return;
             }
 
             if (EnvironmentVariables.Select(x => x.Name).Any(x => string.IsNullOrWhiteSpace(x)))
             {
-                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"), I18N.Translate("EmptyEnvironmentVariableName"), DialogButton.OK);
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), I18N.Translate("EmptyEnvironmentVariableName"), DialogButton.OK);
 
                 return;
             }
 
             if (EnvironmentVariables.Select(x => x.Name).Distinct().Count() != EnvironmentVariables.Count)
             {
-                await DialogService.ShowMessageDialogAsnyc(I18N.Translate("InvalidInput"), I18N.Translate("DuplicateEnvironmentVariable"), DialogButton.OK);
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), I18N.Translate("DuplicateEnvironmentVariable"), DialogButton.OK);
 
                 return;
             }

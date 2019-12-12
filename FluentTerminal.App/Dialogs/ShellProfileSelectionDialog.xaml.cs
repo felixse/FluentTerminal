@@ -33,9 +33,11 @@ namespace FluentTerminal.App.Dialogs
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
-        public async Task<ShellProfile> SelectProfile()
+        public Task<ShellProfile> SelectProfileAsync()
         {
-            return await ShowAsync() == ContentDialogResult.Primary ? SelectedProfile : null;
+            return ShowAsync().AsTask()
+                .ContinueWith(t => t.Result == ContentDialogResult.Primary ? SelectedProfile : null,
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
         }
     }
 }

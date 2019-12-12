@@ -10,10 +10,12 @@ using FluentTerminal.App.Utilities;
 
 namespace FluentTerminal.App.Dialogs
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class InputDialog : ContentDialog, IInputDialog
     {
 
-        private bool EnterPressed = false;
+        // ReSharper disable once RedundantDefaultMemberInitializer
+        private bool _enterPressed = false;
         public string Input { get; private set; }
 
         public InputDialog(ISettingsService settingsService)
@@ -25,14 +27,11 @@ namespace FluentTerminal.App.Dialogs
             RequestedTheme = ContrastHelper.GetIdealThemeForBackgroundColor(currentTheme.Colors.Background);
         }
 
-        public async Task<string> GetInput()
+        public Task<string> GetInput()
         {
-            var result = await ShowAsync();
-            if (result == ContentDialogResult.Primary || EnterPressed)
-            {
-                return Input;
-            }
-            return null;
+            return ShowAsync().AsTask()
+                .ContinueWith(t => t.Result == ContentDialogResult.Primary || _enterPressed ? Input : null,
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         public void SetTitle(string title)
@@ -44,7 +43,7 @@ namespace FluentTerminal.App.Dialogs
         {
            if (e.Key == VirtualKey.Enter)
            {
-                EnterPressed = true;
+                _enterPressed = true;
                 Hide();
            }
         }
