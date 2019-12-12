@@ -3,25 +3,9 @@ using FluentTerminal.RuntimeComponent.Interfaces;
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
-using Windows.UI.Core;
 
 namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 {
-    internal static class EventDispatcher
-    {
-        public static async void Dispatch(Action action)
-        {
-            if (CoreWindow.GetForCurrentThread()?.Dispatcher is { } dispatcher)
-            {
-                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
-            }
-            else
-            {
-                await Task.Factory.StartNew(action);
-            }
-        }
-    }
-
     [AllowForWeb]
     public sealed class TerminalBridge
     {
@@ -35,7 +19,7 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 
         private void _terminalEventListener_OnOutput(object sender, object e)
         {
-            EventDispatcher.Dispatch(() => Output?.Invoke(this, e));
+            Task.Factory.StartNew(() => Output?.Invoke(this, e));
         }
 
         public event EventHandler<object> Output;
