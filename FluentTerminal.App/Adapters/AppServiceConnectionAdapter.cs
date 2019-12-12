@@ -25,9 +25,13 @@ namespace FluentTerminal.App.Adapters
 
         public Task<ValueSet> SendMessageAsync(ValueSet message)
         {
-            return _appServiceConnection.SendMessageAsync(message).AsTask().ContinueWith(
-                t => t.Result.Status == AppServiceResponseStatus.Success ? t.Result.Message : null,
-                TaskContinuationOptions.OnlyOnRanToCompletion);
+            var response = await _appServiceConnection.SendMessageAsync(message).ConfigureAwait(false);
+
+            if (response.Status == AppServiceResponseStatus.Success)
+            {
+                return response.Message;
+            }
+            return null;
         }
     }
 }
