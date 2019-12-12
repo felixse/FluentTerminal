@@ -149,7 +149,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             if (string.IsNullOrEmpty(Username))
             {
-                _trayProcessCommunicationService.GetUserName().ContinueWith(t =>
+                _trayProcessCommunicationService.GetUserNameAsync().ContinueWith(t =>
                 {
                     var username = t.Result;
 

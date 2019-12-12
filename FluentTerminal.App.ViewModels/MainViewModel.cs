@@ -126,7 +126,7 @@ namespace FluentTerminal.App.ViewModels
 
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
-            _quitCommand = new AsyncCommand(() => _trayProcessCommunicationService.QuitApplication());
+            _quitCommand = new AsyncCommand(() => _trayProcessCommunicationService.QuitApplicationAsync());
 
             _defaultProfile = _settingsService.GetDefaultShellProfile();
 

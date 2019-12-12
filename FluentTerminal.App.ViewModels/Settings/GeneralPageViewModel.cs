@@ -171,7 +171,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _settingsService.SaveApplicationSettings(_applicationSettings);
                     RaisePropertyChanged();
 
-                    _trayProcessCommunicationService.MuteTerminal(value);
+                    _trayProcessCommunicationService.MuteTerminalAsync(value);
                 }
             }
         }
