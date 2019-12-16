@@ -37,7 +37,7 @@ A Terminal Emulator based on UWP and web technologies.
 - Spanish
 - French
 - Simplified Chinese
-- Indian
+- Hindi
 - Italian
 - Dutch
 - Polish
