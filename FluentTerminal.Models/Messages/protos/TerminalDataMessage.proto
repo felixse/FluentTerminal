@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+package ft;
+
+option csharp_namespace = "FluentTerminal.Models.Messages.Protobuf";
+
+message PbGuid {
+	uint64 guid_part_1 = 1;
+	uint64 guid_part_2 = 2;
+}
+
+message TerminalData {
+	PbGuid guid = 1;
+	bytes bytes = 2;
+}
