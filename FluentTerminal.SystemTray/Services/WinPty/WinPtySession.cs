@@ -5,28 +5,24 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
-using System.Threading.Tasks;
 using static winpty.WinPty;
 
 namespace FluentTerminal.SystemTray.Services.WinPty
 {
-    public class WinPtySession : IDisposable, ITerminalSession
+    public class WinPtySession : ITerminalSession
     {
-        private bool _disposedValue;
+        private bool _disposed;
         private IntPtr _handle;
         private Stream _stdin;
         private Stream _stdout;
         private TerminalsManager _terminalsManager;
         private Process _shellProcess;
-        private bool _exited;
-        private bool _paused;
-        private TerminalSize _terminalSize;
+        private BufferedReader _reader;
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
             Id = request.Id;
             _terminalsManager = terminalsManager;
-            _terminalSize = request.Size;
 
             var configHandle = IntPtr.Zero;
             var spawnConfigHandle = IntPtr.Zero;
@@ -86,13 +82,12 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 winpty_error_free(errorHandle);
             }
 
-            ListenToStdOut();
+            _reader = new BufferedReader(_stdout, bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes));
         }
 
         private void _shellProcess_Exited(object sender, EventArgs e)
         {
             Close();
-            _exited = true;
         }
 
         ~WinPtySession()
@@ -124,6 +119,8 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Close()
         {
+            _reader?.Dispose();
+
             int exitCode = -1;
             if (_shellProcess != null && _shellProcess.HasExited)
             {
@@ -147,7 +144,6 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 {
                     throw new Exception(winpty_error_msg(errorHandle));
                 }
-                _terminalSize = size;
             }
             finally
             {
@@ -157,7 +153,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -167,7 +163,9 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
                 winpty_free(_handle);
 
-                _disposedValue = true;
+                _reader?.Dispose();
+
+                _disposed = true;
             }
         }
 
@@ -193,37 +191,9 @@ namespace FluentTerminal.SystemTray.Services.WinPty
             return pipe;
         }
 
-        private void ListenToStdOut()
-        {
-            Task.Factory.StartNew(async () =>
-            {
-                using (var reader = new StreamReader(_stdout))
-                {
-                    do
-                    {
-                        var buffer = new byte[Math.Max(1024, _terminalSize.Columns * _terminalSize.Rows * 4)];
-                        var readBytes = await _stdout.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
-                        var read = new byte[readBytes];
-                        Buffer.BlockCopy(buffer, 0, read, 0, readBytes);
-
-                        if (readBytes > 0)
-                        {
-                            _terminalsManager.DisplayTerminalOutput(Id, read);
-                        }
-
-                        while (_paused && !_exited)
-                        {
-                            await Task.Delay(50);
-                        }
-                    }
-                    while (!_exited);
-                }
-            }, TaskCreationOptions.LongRunning);
-        }
-
         public void Pause(bool value)
         {
-            _paused = value;
+            _reader?.SetPaused(value);
         }
     }
 }
