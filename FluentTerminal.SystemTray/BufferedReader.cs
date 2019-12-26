@@ -44,10 +44,8 @@ namespace FluentTerminal.SystemTray
 
         public void Dispose()
         {
-            lock (_buffer)
-            {
+            lock (_lock) 
                 _disposed = true;
-            }
         }
 
         private async Task ReadingLoop()
@@ -101,8 +99,6 @@ namespace FluentTerminal.SystemTray
                     {
                         // We're already in buffered mode
 
-                        _lastRead = now;
-
                         if (_bufferIndex + read > BufferSize)
                         {
                             // No room in the buffer. Have to flush it.
@@ -117,8 +113,12 @@ namespace FluentTerminal.SystemTray
                             // Copy to existing buffer
                             Buffer.BlockCopy(currentBuffer, 0, _buffer, _bufferIndex, read);
 
+                            _bufferIndex += read;
+
                             _scheduledSend = now.AddMilliseconds(WaitPeriodMilliseconds);
                         }
+
+                        _lastRead = now;
 
                         continue;
                     }
@@ -148,7 +148,7 @@ namespace FluentTerminal.SystemTray
                 }
 
                 // Not in buffering mode. Just send
-                if (read == BufferSize)
+                if (read == currentBuffer.Length)
                     _callback(currentBuffer);
                 else
                 {
