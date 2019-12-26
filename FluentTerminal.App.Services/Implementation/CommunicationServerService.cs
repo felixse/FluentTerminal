@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentTerminal.Models;
 using FluentTerminal.Models.Messages.Protobuf;
 using Google.Protobuf;
 using NetMQ;
@@ -12,13 +11,16 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public sealed class CommunicationServerService : CommunicationServiceBase, ICommunicationServerService
     {
+        // TODO: This should be removed! New implementation must implement binding to any free port.
+        public const ushort TempTerminalDataPort = 49382;
+
         internal const int PubSubHighWatermark = 1000;
 
         private readonly Queue<TaskCompletionSource<TerminalData>> _queue =
             new Queue<TaskCompletionSource<TerminalData>>();
 
-        public void SendTerminalDataEvent(Guid terminalId, byte[] data) => EnqueueTerminalDataEvent(new TerminalData
-            {Guid = terminalId.ToPbGuid(), Bytes = ByteString.CopyFrom(data)});
+        public void SendTerminalDataEvent(byte terminalId, byte[] data) => EnqueueTerminalDataEvent(new TerminalData
+            {TerminalId = terminalId, Bytes = ByteString.CopyFrom(data)});
 
         protected override void Runner(ushort port, TaskCompletionSource<ushort> tcsPort)
         {

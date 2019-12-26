@@ -33,7 +33,6 @@ namespace FluentTerminal.App.Services.Implementation
 
         private readonly ISettingsService _settingsService;
         private IAppServiceConnection _appServiceConnection;
-        private readonly Dictionary<byte, Action<byte[]>> _terminalOutputHandlers;
         // ReSharper disable once RedundantDefaultMemberInitializer
         private byte _nextTerminalId = 0;
 
@@ -42,7 +41,6 @@ namespace FluentTerminal.App.Services.Implementation
         public TrayProcessCommunicationService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
-            _terminalOutputHandlers = new Dictionary<byte, Action<byte[]>>();
         }
 
         public byte GetNextTerminalId()
@@ -174,18 +172,6 @@ namespace FluentTerminal.App.Services.Implementation
 
             switch (messageType)
             {
-                case Constants.TerminalBufferRequestIdentifier:
-                    var terminalId = (byte)e[MessageKeys.TerminalId];
-
-                    if (_terminalOutputHandlers.ContainsKey(terminalId))
-                    {
-                        _terminalOutputHandlers[terminalId].Invoke((byte[])messageContent);
-                    }
-                    else
-                    {
-                        Logger.Instance.Error("Received output for unknown terminal Id {id}", terminalId);
-                    }
-                    break;
                 case (byte) MessageIdentifiers.TerminalExitedRequest:
                     var request = JsonConvert.DeserializeObject<TerminalExitedRequest>((string)messageContent);
                     Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);
@@ -202,19 +188,6 @@ namespace FluentTerminal.App.Services.Implementation
         {
             return _appServiceConnection.SendMessageAsync(CreateMessage(new ResizeTerminalRequest
                 {TerminalId = id, NewSize = size}));
-        }
-
-        public void SubscribeForTerminalOutput(byte terminalId, Action<byte[]> callback)
-        {
-            _terminalOutputHandlers[terminalId] = callback;
-        }
-
-        public void UnsubscribeFromTerminalOutput(byte id)
-        {
-            if (_terminalOutputHandlers.ContainsKey(id))
-            {
-                _terminalOutputHandlers.Remove(id);
-            }
         }
 
         public Task UpdateToggleWindowKeyBindingsAsync()

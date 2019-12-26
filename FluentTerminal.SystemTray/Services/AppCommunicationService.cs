@@ -28,7 +28,6 @@ namespace FluentTerminal.SystemTray.Services
         public AppCommunicationService(TerminalsManager terminalsManager, ToggleWindowService toggleWindowService, ISettingsService settingsService)
         {
             _terminalsManager = terminalsManager;
-            _terminalsManager.DisplayOutputRequested += _terminalsManager_DisplayOutputRequested;
             _terminalsManager.TerminalExited += _terminalsManager_TerminalExited;
             _toggleWindowService = toggleWindowService;
             _settingsService = settingsService;
@@ -50,19 +49,6 @@ namespace FluentTerminal.SystemTray.Services
         {
             var request = new TerminalExitedRequest(status);
             _appServiceConnection?.SendMessageAsync(CreateMessage(request));
-        }
-
-        private void _terminalsManager_DisplayOutputRequested(object sender, TerminalOutput e)
-        {
-            var message = new ValueSet
-            {
-                [MessageKeys.Type] = Constants.TerminalBufferRequestIdentifier,
-                [MessageKeys.TerminalId] = e.TerminalId,
-                [MessageKeys.Content] = e.Data
-            };
-
-            // ReSharper disable once AssignmentIsFullyDiscarded
-            _ = _appServiceConnection.SendMessageAsync(message);
         }
 
         public IAsyncOperation<AppServiceConnectionStatus> StartAppServiceConnectionAsync()

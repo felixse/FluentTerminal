@@ -5,6 +5,8 @@ using FluentTerminal.Models.Messages.Protobuf;
 
 namespace FluentTerminal.Models
 {
+    // This class currently isn't used at all, but I suggest leaving it for now because it'll come handy if we 
+    // need to (de) serialize Guid.
     public static class Extensions
     {
         [StructLayout(LayoutKind.Explicit)]

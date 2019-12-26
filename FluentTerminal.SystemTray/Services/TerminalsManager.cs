@@ -28,8 +28,7 @@ namespace FluentTerminal.SystemTray.Services
     public class TerminalsManager
     {
         private readonly Dictionary<byte, TerminalSessionInfo> _terminals = new Dictionary<byte, TerminalSessionInfo>();
-
-        public event EventHandler<TerminalOutput> DisplayOutputRequested;
+        private readonly ICommunicationServerService _dataServer;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
@@ -39,9 +38,10 @@ namespace FluentTerminal.SystemTray.Services
 
         private ApplicationSettings _applicationSettings;
 
-        public TerminalsManager(ISettingsService settingsService)
+        public TerminalsManager(ISettingsService settingsService, ICommunicationServerService dataServer)
         {
             _applicationSettings = settingsService.GetApplicationSettings();
+            _dataServer = dataServer;
             Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
         }
 
@@ -52,6 +52,8 @@ namespace FluentTerminal.SystemTray.Services
 
         public void DisplayTerminalOutput(byte terminalId, byte[] output)
         {
+            _dataServer.SendTerminalDataEvent(terminalId, output);
+
             if (_applicationSettings.EnableLogging && Directory.Exists(_applicationSettings.LogDirectoryPath))
             {
                 var logOutput = output;
@@ -74,12 +76,6 @@ namespace FluentTerminal.SystemTray.Services
                     Logger.Instance.Debug("DisplayTerminalOutput failed. Exception: {0}", e);
                 }
             }
-
-            DisplayOutputRequested?.Invoke(this, new TerminalOutput
-            {
-                TerminalId = terminalId,
-                Data = output
-            });
         }
 
         private string GetLogFilePath(byte terminalId)

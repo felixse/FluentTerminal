@@ -26,14 +26,14 @@ namespace FluentTerminal.Models.Messages.Protobuf {
           string.Concat(
             "CilNZXNzYWdlcy9wcm90b3MvVGVybWluYWxEYXRhTWVzc2FnZS5wcm90bxIC",
             "ZnQiMgoGUGJHdWlkEhMKC2d1aWRfcGFydF8xGAEgASgEEhMKC2d1aWRfcGFy",
-            "dF8yGAIgASgEIjcKDFRlcm1pbmFsRGF0YRIYCgRndWlkGAEgASgLMgouZnQu",
-            "UGJHdWlkEg0KBWJ5dGVzGAIgASgMQiqqAidGbHVlbnRUZXJtaW5hbC5Nb2Rl",
-            "bHMuTWVzc2FnZXMuUHJvdG9idWZiBnByb3RvMw=="));
+            "dF8yGAIgASgEIjIKDFRlcm1pbmFsRGF0YRITCgt0ZXJtaW5hbF9pZBgBIAEo",
+            "BRINCgVieXRlcxgCIAEoDEIqqgInRmx1ZW50VGVybWluYWwuTW9kZWxzLk1l",
+            "c3NhZ2VzLlByb3RvYnVmYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::FluentTerminal.Models.Messages.Protobuf.PbGuid), global::FluentTerminal.Models.Messages.Protobuf.PbGuid.Parser, new[]{ "GuidPart1", "GuidPart2" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::FluentTerminal.Models.Messages.Protobuf.TerminalData), global::FluentTerminal.Models.Messages.Protobuf.TerminalData.Parser, new[]{ "Guid", "Bytes" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::FluentTerminal.Models.Messages.Protobuf.TerminalData), global::FluentTerminal.Models.Messages.Protobuf.TerminalData.Parser, new[]{ "TerminalId", "Bytes" }, null, null, null)
           }));
     }
     #endregion
@@ -222,7 +222,7 @@ namespace FluentTerminal.Models.Messages.Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public TerminalData(TerminalData other) : this() {
-      guid_ = other.guid_ != null ? other.guid_.Clone() : null;
+      terminalId_ = other.terminalId_;
       bytes_ = other.bytes_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -232,14 +232,14 @@ namespace FluentTerminal.Models.Messages.Protobuf {
       return new TerminalData(this);
     }
 
-    /// <summary>Field number for the "guid" field.</summary>
-    public const int GuidFieldNumber = 1;
-    private global::FluentTerminal.Models.Messages.Protobuf.PbGuid guid_;
+    /// <summary>Field number for the "terminal_id" field.</summary>
+    public const int TerminalIdFieldNumber = 1;
+    private int terminalId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::FluentTerminal.Models.Messages.Protobuf.PbGuid Guid {
-      get { return guid_; }
+    public int TerminalId {
+      get { return terminalId_; }
       set {
-        guid_ = value;
+        terminalId_ = value;
       }
     }
 
@@ -267,7 +267,7 @@ namespace FluentTerminal.Models.Messages.Protobuf {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Guid, other.Guid)) return false;
+      if (TerminalId != other.TerminalId) return false;
       if (Bytes != other.Bytes) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -275,7 +275,7 @@ namespace FluentTerminal.Models.Messages.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (guid_ != null) hash ^= Guid.GetHashCode();
+      if (TerminalId != 0) hash ^= TerminalId.GetHashCode();
       if (Bytes.Length != 0) hash ^= Bytes.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -290,9 +290,9 @@ namespace FluentTerminal.Models.Messages.Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (guid_ != null) {
-        output.WriteRawTag(10);
-        output.WriteMessage(Guid);
+      if (TerminalId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(TerminalId);
       }
       if (Bytes.Length != 0) {
         output.WriteRawTag(18);
@@ -306,8 +306,8 @@ namespace FluentTerminal.Models.Messages.Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (guid_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Guid);
+      if (TerminalId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TerminalId);
       }
       if (Bytes.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Bytes);
@@ -323,11 +323,8 @@ namespace FluentTerminal.Models.Messages.Protobuf {
       if (other == null) {
         return;
       }
-      if (other.guid_ != null) {
-        if (guid_ == null) {
-          Guid = new global::FluentTerminal.Models.Messages.Protobuf.PbGuid();
-        }
-        Guid.MergeFrom(other.Guid);
+      if (other.TerminalId != 0) {
+        TerminalId = other.TerminalId;
       }
       if (other.Bytes.Length != 0) {
         Bytes = other.Bytes;
@@ -343,11 +340,8 @@ namespace FluentTerminal.Models.Messages.Protobuf {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            if (guid_ == null) {
-              Guid = new global::FluentTerminal.Models.Messages.Protobuf.PbGuid();
-            }
-            input.ReadMessage(Guid);
+          case 8: {
+            TerminalId = input.ReadInt32();
             break;
           }
           case 18: {

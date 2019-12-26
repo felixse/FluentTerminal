@@ -144,36 +144,5 @@ namespace FluentTerminal.App.Services.Test
             receivedExitStatus.TerminalId.Should().Be(request.TerminalId);
             receivedExitStatus.ExitCode.Should().Be(request.ExitCode);
         }
-
-        [Fact]
-        public void OnMessageReceived_DisplayTerminalOutputRequest_InvokesCorrectOutputHandler()
-        {
-            var terminalId = _fixture.Create<byte>();
-            var output = _fixture.Create<byte[]>();
-            var receivedOutput = default(byte[]);
-            var message = new ValueSet
-            {
-                [MessageKeys.Type] = Constants.TerminalBufferRequestIdentifier,
-                [MessageKeys.TerminalId] = terminalId,
-                [MessageKeys.Content] = output
-            };
-            var settingsService = new Mock<ISettingsService>();
-            var keyBindings = _fixture.CreateMany<KeyBinding>(3);
-            settingsService.Setup(x => x.GetCommandKeyBindings()).Returns(new Dictionary<string, ICollection<KeyBinding>>
-            {
-                [nameof(Command.ToggleWindow)] = keyBindings.ToList()
-            });
-            var trayProcessCommunicationService = new TrayProcessCommunicationService(settingsService.Object);
-            var appServiceConnection = new Mock<IAppServiceConnection>();
-            trayProcessCommunicationService.Initialize(appServiceConnection.Object);
-            trayProcessCommunicationService.SubscribeForTerminalOutput(terminalId, o =>
-            {
-                receivedOutput = o;
-            });
-
-            appServiceConnection.Raise(x => x.MessageReceived += null, null, message);
-
-            receivedOutput.Should().BeEquivalentTo(output);
-        }
     }
 }

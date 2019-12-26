@@ -4,6 +4,6 @@ namespace FluentTerminal.App.Services
 {
     public interface ICommunicationServerService : ICommunicationService
     {
-        void SendTerminalDataEvent(Guid terminalId, byte[] data);
+        void SendTerminalDataEvent(byte terminalId, byte[] data);
     }
 }

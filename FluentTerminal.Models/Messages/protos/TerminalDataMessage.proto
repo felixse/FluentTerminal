@@ -9,6 +9,6 @@ message PbGuid {
 }
 
 message TerminalData {
-	PbGuid guid = 1;
+	int32 terminal_id = 1;
 	bytes bytes = 2;
 }

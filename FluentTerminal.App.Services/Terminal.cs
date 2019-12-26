@@ -4,6 +4,8 @@ using FluentTerminal.Models.Responses;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.Services
 {
@@ -21,6 +23,13 @@ namespace FluentTerminal.App.Services
             _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
             Id = terminalId ?? trayProcessCommunicationService.GetNextTerminalId();
             _requireShellProcessStart = !terminalId.HasValue;
+            Messenger.Default.Register<TerminalDataMessage>(this, TerminalDataReceived);
+        }
+
+        private void TerminalDataReceived(TerminalDataMessage message)
+        {
+            if (message.TerminalId == Id)
+                OutputReceived?.Invoke(this, message.Data);
         }
 
         private void OnTerminalExited(object sender, TerminalExitStatus status)
@@ -83,7 +92,7 @@ namespace FluentTerminal.App.Services
                 return;
             }
             _closingFromUi = true;
-            _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
+            Messenger.Default.Unregister(this);
             await _trayProcessCommunicationService.CloseTerminalAsync(Id).ConfigureAwait(true);
         }
 
@@ -142,8 +151,6 @@ namespace FluentTerminal.App.Services
             {
                 OutputReceived?.Invoke(this, Encoding.UTF8.GetBytes(termState));
             }
-
-            _trayProcessCommunicationService.SubscribeForTerminalOutput(Id, t => OutputReceived?.Invoke(this, t));
 
             if (_requireShellProcessStart)
             {

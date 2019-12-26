@@ -23,10 +23,6 @@ namespace FluentTerminal.App.Services
 
         Task WriteAsync(byte terminalId, byte[] data);
 
-        void SubscribeForTerminalOutput(byte terminalId, Action<byte[]> callback);
-
-        void UnsubscribeFromTerminalOutput(byte terminalId);
-
         Task CloseTerminalAsync(byte terminalId);
 
         byte GetNextTerminalId();

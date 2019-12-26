@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentTerminal.App.Services.EventArgs;
-using FluentTerminal.Models;
+using FluentTerminal.Models.Messages;
 using FluentTerminal.Models.Messages.Protobuf;
+using GalaSoft.MvvmLight.Messaging;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -11,8 +11,6 @@ namespace FluentTerminal.App.Services.Implementation
     public sealed class CommunicationClientService : CommunicationServiceBase, ICommunicationClientService
     {
         private static readonly TimeSpan ReceivePeriod = TimeSpan.FromMilliseconds(200);
-
-        public event EventHandler<TerminalDataEventArgs> TerminalDataReceived;
 
         protected override void Runner(ushort port, TaskCompletionSource<ushort> tcsPort)
         {
@@ -45,7 +43,8 @@ namespace FluentTerminal.App.Services.Implementation
 
                     try
                     {
-                        TerminalDataReceived?.Invoke(this, new TerminalDataEventArgs(data.Guid.ToGuid(), data.Bytes.ToByteArray()));
+                        Messenger.Default.Send(
+                            new TerminalDataMessage((byte) data.TerminalId, data.Bytes.ToByteArray()));
                     }
                     catch
                     {
