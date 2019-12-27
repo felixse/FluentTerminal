@@ -6,9 +6,9 @@ namespace FluentTerminal.SystemTray
 {
     internal sealed class BufferedReader : IDisposable
     {
-        private const int MaxTotalDelayMilliseconds = 200;
-        private const int WaitPeriodMilliseconds = 50;
-        private const int NearReadsPeriodMilliseconds = WaitPeriodMilliseconds;
+        private const int MaxTotalDelayMilliseconds = 100;
+        private const int WaitPeriodMilliseconds = 30;
+        private const int NearReadsPeriodMilliseconds = 20;
         private const int NearReadsBufferingTrigger = 3;
         private const int BufferSize = 204800;
 
@@ -26,6 +26,7 @@ namespace FluentTerminal.SystemTray
         private DateTime _sendingDeadline;
         private DateTime _scheduledSend;
         private int _nearReadingsCount;
+        private Task _sendingTask;
 
         internal BufferedReader(Stream stream, Action<byte[]> callback)
         {
@@ -106,17 +107,22 @@ namespace FluentTerminal.SystemTray
 
                             _buffer = currentBuffer;
                             _bufferIndex = 0;
+
+                            _scheduledSend = now.AddMilliseconds(WaitPeriodMilliseconds);
                             _sendingDeadline = now.AddMilliseconds(MaxTotalDelayMilliseconds);
                         }
                         else
                         {
                             // Copy to existing buffer
                             Buffer.BlockCopy(currentBuffer, 0, _buffer, _bufferIndex, read);
-
                             _bufferIndex += read;
 
                             _scheduledSend = now.AddMilliseconds(WaitPeriodMilliseconds);
                         }
+
+                        if (now.Subtract(_lastRead).TotalMilliseconds < NearReadsPeriodMilliseconds)
+                            // We should stop buffered mode
+                            SendBuffer();
 
                         _lastRead = now;
 
@@ -138,25 +144,19 @@ namespace FluentTerminal.SystemTray
                         _sendingDeadline = now.AddMilliseconds(MaxTotalDelayMilliseconds);
                         _scheduledSend = now.AddMilliseconds(WaitPeriodMilliseconds);
 
-                        // ReSharper disable once AssignmentIsFullyDiscarded
-                        _ = SendAsync();
+                        if (_sendingTask == null)
+                            _sendingTask = SendAsync();
 
                         _nearReadingsCount = 0;
 
                         continue;
                     }
-                }
 
-                // Not in buffering mode. Just send
-                if (read == currentBuffer.Length)
-                    _callback(currentBuffer);
-                else
-                {
-                    var newBuff = new byte[read];
+                    // Not in buffering mode. Just send.
+                    _buffer = currentBuffer;
+                    _bufferIndex = read;
 
-                    Buffer.BlockCopy(currentBuffer, 0, newBuff, 0, read);
-
-                    _callback(newBuff);
+                    SendBuffer();
                 }
             }
         }
@@ -172,6 +172,13 @@ namespace FluentTerminal.SystemTray
 
                 lock (_lock)
                 {
+                    if (_buffer == null)
+                    {
+                        _sendingTask = null;
+
+                        return;
+                    }
+
                     if (_paused)
                         sleep = TimeSpan.FromMilliseconds(WaitPeriodMilliseconds);
                     else
@@ -184,6 +191,8 @@ namespace FluentTerminal.SystemTray
                         {
                             // Time to send
                             SendBuffer();
+
+                            _sendingTask = null;
 
                             return;
                         }
