@@ -39,14 +39,12 @@ namespace FluentTerminal.SystemTray
 
         internal void SetPaused(bool value)
         {
-            lock (_lock)
-                _paused = value;
+            lock (_lock) _paused = value;
         }
 
         public void Dispose()
         {
-            lock (_lock)
-                _disposed = true;
+            lock (_lock) _disposed = true;
         }
 
         private async Task ReadingLoop()
@@ -57,8 +55,7 @@ namespace FluentTerminal.SystemTray
 
                 lock (_lock)
                 {
-                    if (_disposed)
-                        return;
+                    if (_disposed) return;
 
                     paused = _paused;
                 }
@@ -121,8 +118,10 @@ namespace FluentTerminal.SystemTray
                         }
 
                         if (now.Subtract(_lastRead).TotalMilliseconds < NearReadsPeriodMilliseconds)
+                        {
                             // We should stop buffered mode
                             SendBuffer();
+                        }
 
                         _lastRead = now;
 
@@ -130,9 +129,13 @@ namespace FluentTerminal.SystemTray
                     }
 
                     if (now.Subtract(_lastRead).TotalMilliseconds < NearReadsPeriodMilliseconds)
+                    {
                         _nearReadingsCount++;
+                    }
                     else
+                    {
                         _nearReadingsCount = 0;
+                    }
 
                     _lastRead = now;
 
@@ -144,8 +147,7 @@ namespace FluentTerminal.SystemTray
                         _sendingDeadline = now.AddMilliseconds(MaxTotalDelayMilliseconds);
                         _scheduledSend = now.AddMilliseconds(WaitPeriodMilliseconds);
 
-                        if (_sendingTask == null)
-                            _sendingTask = SendAsync();
+                        if (_sendingTask == null) _sendingTask = SendAsync();
 
                         _nearReadingsCount = 0;
 
@@ -180,7 +182,9 @@ namespace FluentTerminal.SystemTray
                     }
 
                     if (_paused)
+                    {
                         sleep = TimeSpan.FromMilliseconds(WaitPeriodMilliseconds);
+                    }
                     else
                     {
                         sleep = _scheduledSend < _sendingDeadline
