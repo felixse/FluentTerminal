@@ -153,6 +153,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedReader.cs" />
     <Compile Include="ProcessUtils.cs" />
     <Compile Include="FileFinder.cs" />
     <Compile Include="Native\ProcessApi.cs" />
