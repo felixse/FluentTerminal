@@ -67,6 +67,15 @@ Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with
 - Install [Chocolatey](https://chocolatey.org/)
 - From an elevated/admin shell, execute `choco install fluent-terminal`
 
+### Scoop package manager installation
+- Install Scoop
+- Install 7zip and git (to add buckets): `scoop install 7zip git`
+- From an elevated/admin shell, execute
+```
+ scoop bucket add nonportable
+ scoop install fluent-terminal-np
+ ```
+
 ### Bundled install script
 
 - Download and extract the latest [release](https://github.com/felixse/FluentTerminal/releases).
