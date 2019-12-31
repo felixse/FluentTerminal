@@ -14,4 +14,4 @@ jobs:
       uses: warrenbuckley/Setup-MSBuild@v1
     
     - name: MSBuild
-      run: msbuild MyProject.csproj
+      run: msbuild FluentTerminal.sln
