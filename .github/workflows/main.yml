@@ -12,7 +12,9 @@ jobs:
     
     - name: Build client
       working-directory: ./FluentTerminal.Client
-      run: npm install && npm run build
+      run: |
+        npm install
+        npm run build
 
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
