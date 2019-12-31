@@ -20,4 +20,4 @@ jobs:
       uses: warrenbuckley/Setup-MSBuild@v1
     
     - name: MSBuild
-      run: msbuild -t:build -p:AppxPackage=false -restore FluentTerminal.sln
+      run: msbuild FluentTerminal.sln -t:build -p:Configuration=Debug;AppxBundle=Never;AppxBundlePlatforms=”x64”;UapAppxPackageBuildMode=StoreUpload -restore
