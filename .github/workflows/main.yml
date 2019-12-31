@@ -20,4 +20,4 @@ jobs:
       uses: warrenbuckley/Setup-MSBuild@v1
     
     - name: MSBuild
-      run: msbuild -t:build -restore FluentTerminal.sln
+      run: msbuild -t:build -p:AppxPackage=false -restore FluentTerminal.sln
