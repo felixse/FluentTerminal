@@ -13,6 +13,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
+using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -27,8 +28,13 @@ namespace FluentTerminal.SystemTray.Services
 
     public class TerminalsManager
     {
+        private readonly object _dataServerLock = new object();
+
         private readonly Dictionary<byte, TerminalSessionInfo> _terminals = new Dictionary<byte, TerminalSessionInfo>();
-        private readonly ICommunicationServerService _dataServer;
+
+        private ICommunicationServerService _dataServer;
+
+        public event EventHandler<TerminalOutput> DisplayOutputRequested;
 
         public event EventHandler<TerminalExitStatus> TerminalExited;
 
@@ -38,22 +44,40 @@ namespace FluentTerminal.SystemTray.Services
 
         private ApplicationSettings _applicationSettings;
 
-        public TerminalsManager(ISettingsService settingsService, ICommunicationServerService dataServer)
+        public TerminalsManager(ISettingsService settingsService)
         {
             _applicationSettings = settingsService.GetApplicationSettings();
-            _dataServer = dataServer;
             Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            if (_applicationSettings.UseZeroMq)
+            {
+                InitializeDataServer();
+            }
+        }
+
+        private void InitializeDataServer()
+        {
+            lock (_dataServerLock)
+            {
+                if (_dataServer != null)
+                    return;
+
+                _dataServer = new CommunicationServerService();
+                _dataServer.Spawn(CommunicationServerService.TempTerminalDataPort);
+            }
         }
 
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
             _applicationSettings = message.ApplicationSettings;
+
+            if (message.ApplicationSettings.UseZeroMq)
+            {
+                InitializeDataServer();
+            }
         }
 
         public void DisplayTerminalOutput(byte terminalId, byte[] output)
         {
-            _dataServer.SendTerminalDataEvent(terminalId, output);
-
             if (_applicationSettings.EnableLogging && Directory.Exists(_applicationSettings.LogDirectoryPath))
             {
                 var logOutput = output;
@@ -75,6 +99,19 @@ namespace FluentTerminal.SystemTray.Services
                 {
                     Logger.Instance.Debug("DisplayTerminalOutput failed. Exception: {0}", e);
                 }
+            }
+
+            if (_applicationSettings.UseZeroMq && _dataServer != null)
+            {
+                _dataServer.SendTerminalDataEvent(terminalId, output);
+            }
+            else
+            {
+                DisplayOutputRequested?.Invoke(this, new TerminalOutput
+                {
+                    TerminalId = terminalId,
+                    Data = output
+                });
             }
         }
 

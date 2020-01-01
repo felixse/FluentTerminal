@@ -42,7 +42,8 @@ namespace FluentTerminal.App.Services.Implementation
                 EnableLogging = false,
                 PrintableOutputOnly = true,
                 LogDirectoryPath = logDirectoryPath,
-                UseConPty = true
+                UseConPty = true, 
+                UseZeroMq = false
             };
         }
 

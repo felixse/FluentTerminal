@@ -68,11 +68,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         private void _terminal_OutputReady(object sender, EventArgs e)
         {
-            if (_reader != null)
-                return;
-
-            _reader = new BufferedReader(_terminal.ConsoleOutStream,
-                bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes));
+            if (_reader == null)
+            {
+                _reader = new BufferedReader(_terminal.ConsoleOutStream,
+                    bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes));
+            }
         }
 
         public void Write(byte[] data)

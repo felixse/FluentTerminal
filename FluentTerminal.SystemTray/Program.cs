@@ -53,12 +53,7 @@ namespace FluentTerminal.SystemTray
 
                     var containerBuilder = new ContainerBuilder();
 
-                    var communicationServer = new CommunicationServerService();
-                    communicationServer.Spawn(CommunicationServerService.TempTerminalDataPort);
-
                     containerBuilder.RegisterInstance(applicationDataContainers);
-                    containerBuilder.RegisterInstance(communicationServer).As<ICommunicationServerService>()
-                        .SingleInstance();
                     containerBuilder.RegisterType<NotificationService>().As<INotificationService>().InstancePerDependency();
                     containerBuilder.RegisterType<TerminalsManager>().SingleInstance();
                     containerBuilder.RegisterType<ToggleWindowService>().SingleInstance();

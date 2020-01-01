@@ -25,6 +25,7 @@ namespace FluentTerminal.Models
         public bool PrintableOutputOnly { get; set; }
         public string LogDirectoryPath { get; set; }
         public bool UseConPty { get; set; }
+        public bool UseZeroMq { get; set; }
 
         public ApplicationSettings Clone() => new ApplicationSettings
         {
@@ -48,7 +49,8 @@ namespace FluentTerminal.Models
             EnableLogging = EnableLogging,
             PrintableOutputOnly = PrintableOutputOnly,
             LogDirectoryPath = LogDirectoryPath,
-            UseConPty = UseConPty
+            UseConPty = UseConPty, 
+            UseZeroMq = UseZeroMq
         };
     }
 }
