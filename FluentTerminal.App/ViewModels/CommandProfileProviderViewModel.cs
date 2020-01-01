@@ -18,8 +18,49 @@ namespace FluentTerminal.App.ViewModels
     {
         #region Static
 
-        private static readonly Regex CommandValidationRx = new Regex(@"^(?<cmd>[^\s\.]+)(\.exe)?(\s+(?<args>\S.*))?$",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex WhiteSpaceRx = new Regex(@"\s", RegexOptions.Compiled);
+
+        private static string ExtractCommandAndArgs(string commandAndArgs, out string args)
+        {
+            args = null;
+
+            commandAndArgs = commandAndArgs?.Trim();
+
+            if (string.IsNullOrEmpty(commandAndArgs)) return commandAndArgs;
+
+            switch (commandAndArgs[0])
+            {
+                case '\'':
+                case '"':
+
+                    for (var i = 1; i < commandAndArgs.Length; ++i)
+                    {
+                        if (commandAndArgs[0] == commandAndArgs[i])
+                        {
+                            args = commandAndArgs.Length > i + 1
+                                ? commandAndArgs.Substring(i + 1).Trim()
+                                : string.Empty;
+
+                            return commandAndArgs.Substring(1, i - 1).Trim();
+                        }
+                    }
+
+                    return commandAndArgs;
+
+                default:
+
+                    var match = WhiteSpaceRx.Match(commandAndArgs);
+
+                    if (match.Success)
+                    {
+                        args = commandAndArgs.Substring(match.Index).Trim();
+
+                        return commandAndArgs.Substring(0, match.Index).Trim();
+                    }
+
+                    return commandAndArgs;
+            }
+        }
 
         #endregion Static
 
@@ -145,23 +186,11 @@ namespace FluentTerminal.App.ViewModels
                 return;
             }
 
-            var match = CommandValidationRx.Match(command);
-
-            if (!match.Success)
-            {
-                // Should not happen ever because this method gets called only if validation succeeds.
-                profile.Name = command;
-                profile.Location = null;
-                profile.Arguments = null;
-
-                return;
-            }
-
-            var cmd = match.Groups["cmd"].Value;
+            var cmd = ExtractCommandAndArgs(command, out var args);
 
             if (cmd.Equals(Constants.MoshCommandName, StringComparison.OrdinalIgnoreCase) ||
                 cmd.Equals($"{Constants.MoshCommandName}.exe", StringComparison.OrdinalIgnoreCase) ||
-                cmd.Contains(Path.PathSeparator))
+                cmd.Contains(Path.DirectorySeparatorChar))
             {
                 profile.Location = cmd;
             }
@@ -171,7 +200,7 @@ namespace FluentTerminal.App.ViewModels
                     await _trayProcessCommunicationService.GetCommandPathAsync(cmd).ConfigureAwait(false);
             }
 
-            profile.Arguments = match.Groups["args"].Success ? match.Groups["args"].Value.Trim() : null;
+            profile.Arguments = args;
 
             profile.Name = command;
         }
@@ -194,29 +223,19 @@ namespace FluentTerminal.App.ViewModels
                 return null;
             }
 
-            var match = CommandValidationRx.Match(_command?.Trim() ?? string.Empty);
-
-            if (!match.Success)
-            {
-                return I18N.TranslateWithFallback("InvalidCommand", "Invalid command.");
-            }
-
-            command = match.Groups["cmd"].Value;
+            command = ExtractCommandAndArgs(command, out var args);
 
             if (command.Equals(Constants.MoshCommandName, StringComparison.OrdinalIgnoreCase) ||
                 command.Equals($"{Constants.MoshCommandName}.exe", StringComparison.OrdinalIgnoreCase) ||
                 command.Equals(Constants.SshCommandName, StringComparison.OrdinalIgnoreCase) ||
                 command.Equals($"{Constants.SshCommandName}.exe", StringComparison.OrdinalIgnoreCase))
             {
-                if (match.Groups["args"].Success)
-                {
-                    return null;
-                }
-
-                return I18N.TranslateWithFallback("CommandArgumentsMandatory", "Command arguments are missing.");
+                return string.IsNullOrEmpty(args)
+                    ? I18N.TranslateWithFallback("CommandArgumentsMandatory", "Command arguments are missing.")
+                    : null;
             }
 
-            if (command.Contains(Path.PathSeparator))
+            if (command.Contains(Path.DirectorySeparatorChar))
             {
                 if (await _trayProcessCommunicationService.CheckFileExistsAsync(command).ConfigureAwait(false))
                 {
@@ -228,13 +247,12 @@ namespace FluentTerminal.App.ViewModels
 
             try
             {
-                await _trayProcessCommunicationService.GetCommandPathAsync(match.Groups["cmd"].Value)
-                    .ConfigureAwait(false);
+                await _trayProcessCommunicationService.GetCommandPathAsync(command).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 return
-                    $"{I18N.TranslateWithFallback("UnsupportedCommand", "Unsupported command:")} '{match.Groups["cmd"].Value}'. {e.Message}";
+                    $"{I18N.TranslateWithFallback("UnsupportedCommand", "Unsupported command:")} '{command}'. {e.Message}";
             }
 
             return null;
