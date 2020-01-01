@@ -8,10 +8,11 @@ namespace FluentTerminal.App.Services.Utilities
     /// </summary>
     public static class I18N
     {
+        private static readonly ResourceLoader ResourceLoader = ResourceLoader.GetForViewIndependentUse();
+
         public static string Translate(string resource)
         {
-            var resourceLoader = ResourceLoader.GetForCurrentView();
-            return resourceLoader.GetString(resource.Replace('.', '/'));
+            return ResourceLoader.GetString(resource.Replace('.', '/'));
         }
 
         public static string TranslateWithFallback(string resource, string fallback)
