@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using FluentTerminal.Models.Messages;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -172,6 +174,10 @@ namespace FluentTerminal.App.Services.Implementation
 
             switch (messageType)
             {
+                case Constants.TerminalBufferRequestIdentifier:
+                    Messenger.Default.Send(new TerminalDataMessage((byte) e[MessageKeys.TerminalId],
+                        (byte[]) messageContent));
+                    break;
                 case (byte) MessageIdentifiers.TerminalExitedRequest:
                     var request = JsonConvert.DeserializeObject<TerminalExitedRequest>((string)messageContent);
                     Logger.Instance.Debug("Received TerminalExitedRequest: {@request}", request);

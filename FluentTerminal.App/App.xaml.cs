@@ -43,9 +43,9 @@ namespace FluentTerminal.App
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class App : Application
     {
-        // Keeping it at the root level to keep it alive
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private readonly CommunicationClientService _dataClient;
+        private readonly object _dataClientLock = new object();
+
+        private CommunicationClientService _dataClient;
 
         private readonly TaskCompletionSource<int> _trayReady = new TaskCompletionSource<int>();
         private readonly ISettingsService _settingsService;
@@ -159,8 +159,22 @@ namespace FluentTerminal.App
                 settings.CaseInsensitiveEnumValues = true;
             });
 
-            _dataClient = new CommunicationClientService();
-            _dataClient.Spawn(CommunicationServerService.TempTerminalDataPort);
+            if (_applicationSettings.UseZeroMq)
+            {
+                InitializeDataClient();
+            }
+        }
+
+        private void InitializeDataClient()
+        {
+            lock (_dataClientLock)
+            {
+                if (_dataClient != null)
+                    return;
+
+                _dataClient = new CommunicationClientService();
+                _dataClient.Spawn(CommunicationServerService.TempTerminalDataPort);
+            }
         }
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -631,6 +645,10 @@ namespace FluentTerminal.App
 
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
+            if (message.ApplicationSettings.UseZeroMq)
+            {
+                InitializeDataClient();
+            }
             _applicationSettings = message.ApplicationSettings;
             _trayProcessCommunicationService.UpdateSettings(message.ApplicationSettings);
         }

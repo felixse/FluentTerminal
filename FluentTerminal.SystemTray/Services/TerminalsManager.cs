@@ -68,12 +68,12 @@ namespace FluentTerminal.SystemTray.Services
 
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
-            _applicationSettings = message.ApplicationSettings;
-
             if (message.ApplicationSettings.UseZeroMq)
             {
                 InitializeDataServer();
             }
+
+            _applicationSettings = message.ApplicationSettings;
         }
 
         public void DisplayTerminalOutput(byte terminalId, byte[] output)
