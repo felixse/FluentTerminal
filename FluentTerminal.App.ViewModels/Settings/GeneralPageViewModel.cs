@@ -231,6 +231,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool UseZeroMq
+        {
+            get => _applicationSettings.UseZeroMq;
+            set
+            {
+                if (_applicationSettings.UseZeroMq != value)
+                {
+                    _applicationSettings.UseZeroMq = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool BottomIsSelected
         {
             get => TabsPosition == TabsPosition.Bottom;
@@ -412,6 +426,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 PrintableOutputOnly = defaults.PrintableOutputOnly;
                 LogDirectoryPath = defaults.LogDirectoryPath;
                 UseConPty = defaults.UseConPty;
+                UseZeroMq = defaults.UseZeroMq;
             }
         }
 

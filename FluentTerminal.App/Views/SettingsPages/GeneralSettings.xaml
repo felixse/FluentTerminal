@@ -231,6 +231,12 @@
                     Margin="{StaticResource ItemMargin}"
                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                     IsOn="{x:Bind ViewModel.UseConPty, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="UseZeroMq"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Use ZeroMQ"
+                    IsOn="{x:Bind ViewModel.UseZeroMq, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
