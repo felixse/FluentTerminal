@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -80,7 +81,7 @@ namespace FluentTerminal.App.Services.Implementation
                 config.SshProfiles.Add(profile);
             }
 
-            return JsonConvert.SerializeObject(config);
+            return JsonConvert.SerializeObject(config, PreserveDictionaryKeyCaseContractResolver.SerializerSettings);
         }
 
         public void ImportSettings(string serializedSettings)

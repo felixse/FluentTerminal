@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using FluentTerminal.App.Services.Utilities;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -25,7 +26,8 @@ namespace FluentTerminal.App.Services.Implementation
             return new ValueSet
             {
                 [MessageKeys.Type] = content.Identifier,
-                [MessageKeys.Content] = JsonConvert.SerializeObject(content)
+                [MessageKeys.Content] = JsonConvert.SerializeObject(content,
+                    PreserveDictionaryKeyCaseContractResolver.SerializerSettings)
             };
         }
 
