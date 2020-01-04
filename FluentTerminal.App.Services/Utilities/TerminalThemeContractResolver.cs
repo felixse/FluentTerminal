@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace FluentTerminal.App.Services.Utilities
 {
-    public class TerminalThemeContractResolver : DefaultContractResolver
+    public class TerminalThemeContractResolver : PreserveDictionaryKeyCaseContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
