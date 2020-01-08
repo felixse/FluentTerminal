@@ -157,7 +157,7 @@ namespace FluentTerminal.App.Views
 
         public TerminalViewModel ViewModel { get; private set; }
 
-        public Task ChangeKeyBindings()
+        public Task ChangeKeyBindingsAsync()
         {
             if (_terminalClosed)
             {
@@ -171,7 +171,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
         }
 
-        public Task ChangeOptions(TerminalOptions options)
+        public Task ChangeOptionsAsync(TerminalOptions options)
         {
             if (_terminalClosed)
             {
@@ -181,7 +181,7 @@ namespace FluentTerminal.App.Views
             return _optionsChanged.InvokeAsync(options);
         }
 
-        public Task ChangeTheme(TerminalTheme theme)
+        public Task ChangeThemeAsync(TerminalTheme theme)
         {
             if (_terminalClosed)
             {
@@ -192,7 +192,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
-        public Task<string> SerializeXtermState()
+        public Task<string> SerializeXtermStateAsync()
         {
             if (_terminalClosed)
             {
@@ -202,7 +202,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
-        public Task FindNext(string searchText)
+        public Task FindNextAsync(string searchText)
         {
             if (_terminalClosed)
             {
@@ -212,7 +212,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"findNext('{searchText}')");
         }
 
-        public Task FindPrevious(string searchText)
+        public Task FindPreviousAsync(string searchText)
         {
             if (_terminalClosed)
             {
@@ -222,7 +222,7 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"findPrevious('{searchText}')");
         }
 
-        public Task FocusTerminal()
+        public Task FocusTerminalAsync()
         {
             if (_terminalClosed)
             {
@@ -238,7 +238,7 @@ namespace FluentTerminal.App.Views
             return Task.CompletedTask;
         }
         
-        public async Task Initialize(TerminalViewModel viewModel)
+        public async Task InitializeAsync(TerminalViewModel viewModel)
         {
             ViewModel = viewModel;
             ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;

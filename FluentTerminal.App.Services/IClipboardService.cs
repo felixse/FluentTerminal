@@ -4,7 +4,7 @@ namespace FluentTerminal.App.Services
 {
     public interface IClipboardService
     {
-        Task<string> GetText();
+        Task<string> GetTextAsync();
 
         void SetText(string text);
     }

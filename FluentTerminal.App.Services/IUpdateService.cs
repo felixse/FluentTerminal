@@ -5,7 +5,7 @@ namespace FluentTerminal.App.Services
 {
     public interface IUpdateService
     {
-        Task CheckForUpdate(bool notifyNoUpdate = false);
+        Task CheckForUpdateAsync(bool notifyNoUpdate = false);
         Version GetCurrentVersion();
         Task<Version> GetLatestVersionAsync();
     }

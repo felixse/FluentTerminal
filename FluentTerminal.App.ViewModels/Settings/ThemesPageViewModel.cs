@@ -42,7 +42,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _imageFileSystemService = imageFileSystemService;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
-            ImportThemeCommand = new AsyncCommand(ImportTheme);
+            ImportThemeCommand = new AsyncCommand(ImportThemeAsync);
             CloneCommand = new RelayCommand<ThemeViewModel>(CloneTheme);
 
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
@@ -127,26 +127,37 @@ namespace FluentTerminal.App.ViewModels.Settings
             AddTheme(theme);
         }
 
-        private async Task ImportTheme()
+        // Requires UI thread
+        private async Task ImportThemeAsync()
         {
-            var file = await _fileSystemService.OpenFile(_themeParserFactory.SupportedFileTypes).ConfigureAwait(true);
+            // ConfigureAwait(true) because we need to execute AddTheme method in the calling (UI) thread.
+            var file = await _fileSystemService.OpenFileAsync(_themeParserFactory.SupportedFileTypes)
+                .ConfigureAwait(true);
+
             if (file != null)
             {
                 var parser = _themeParserFactory.GetParser(file.FileType);
 
                 if (parser == null)
                 {
-                    await _dialogService.ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"), I18N.Translate("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService.ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"),
+                        I18N.Translate("NoSuitableParserFound"), DialogButton.OK).ConfigureAwait(false);
+
                     return;
                 }
 
                 try
                 {
+                    // ConfigureAwait(true) because we need to execute AddTheme method in the calling (UI) thread.
                     var exportedTheme = await parser.Import(file.Name, file.Content).ConfigureAwait(true);
 
                     if (!string.IsNullOrWhiteSpace(exportedTheme.EncodedImage))
                     {
-                        var importedImage = await _imageFileSystemService.ImportThemeImageAsync(exportedTheme.BackgroundImage, exportedTheme.EncodedImage);
+                        // ConfigureAwait(true) because we need to execute AddTheme method in the calling (UI) thread.
+                        var importedImage = await _imageFileSystemService
+                            .ImportThemeImageAsync(exportedTheme.BackgroundImage, exportedTheme.EncodedImage)
+                            .ConfigureAwait(true);
+
                         exportedTheme.BackgroundImage = importedImage;
                     }
 
@@ -156,7 +167,9 @@ namespace FluentTerminal.App.ViewModels.Settings
                 }
                 catch (Exception exception)
                 {
-                    await _dialogService.ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"), exception.Message, DialogButton.OK).ConfigureAwait(false);
+                    await _dialogService
+                        .ShowMessageDialogAsync(I18N.Translate("ImportThemeFailed"), exception.Message, DialogButton.OK)
+                        .ConfigureAwait(false);
                 }
             }
         }

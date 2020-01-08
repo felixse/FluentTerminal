@@ -5,8 +5,8 @@ namespace FluentTerminal.App.Services
 {
     public interface IStartupTaskService
     {
-        Task DisableStartupTask();
-        Task<StartupTaskStatus> EnableStartupTask();
-        Task<StartupTaskStatus> GetStatus();
+        Task DisableStartupTaskAsync();
+        Task<StartupTaskStatus> EnableStartupTaskAsync();
+        Task<StartupTaskStatus> GetStatusAsync();
     }
 }

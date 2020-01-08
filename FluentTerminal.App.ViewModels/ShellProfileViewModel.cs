@@ -60,20 +60,22 @@ namespace FluentTerminal.App.ViewModels
                 shellProfile);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
-            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaultsAsync);
         }
 
         #endregion Constrcutor
 
         #region Methods
 
-        private async Task RestoreDefaults()
+        // Requires UI thread
+        private async Task RestoreDefaultsAsync()
         {
             if (InEditMode || !ProfileVm.PreInstalled)
             {
                 throw new InvalidOperationException();
             }
 
+            // ConfigureAwait(true) because we need to execute Initialize method in the calling (UI) thread.
             var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
                 I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 

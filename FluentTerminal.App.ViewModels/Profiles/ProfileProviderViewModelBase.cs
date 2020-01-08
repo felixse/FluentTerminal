@@ -281,19 +281,19 @@ namespace FluentTerminal.App.ViewModels.Profiles
         /// message returned by <see cref="ValidateAsync"/> method.</returns>
         public async Task<string> AcceptChangesAsync(bool acceptIfInvalid = false)
         {
-            var error = await ValidateAsync();
+            var error = await ValidateAsync().ConfigureAwait(false);
 
             if (acceptIfInvalid || string.IsNullOrEmpty(error))
             {
-                await CopyToProfileAsync(Model);
+                await CopyToProfileAsync(Model).ConfigureAwait(false);
             }
 
             return error;
         }
 
-        public void RejectChanges()
+        public Task RejectChangesAsync()
         {
-            ApplicationView.ExecuteOnUiThreadAsync(() => LoadFromProfile(Model));
+            return ApplicationView.ExecuteOnUiThreadAsync(() => LoadFromProfile(Model));
         }
 
         #endregion Methods

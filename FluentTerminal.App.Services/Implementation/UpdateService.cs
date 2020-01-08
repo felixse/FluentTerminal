@@ -17,7 +17,7 @@ namespace FluentTerminal.App.Services.Implementation
             _notificationService = notificationService;
         }
 
-        public async Task CheckForUpdate(bool notifyNoUpdate = false)
+        public async Task CheckForUpdateAsync(bool notifyNoUpdate = false)
         {
             var latest = await GetLatestVersionAsync();
             if (latest > GetCurrentVersion())

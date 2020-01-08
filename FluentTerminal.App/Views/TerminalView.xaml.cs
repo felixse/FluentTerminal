@@ -31,7 +31,7 @@ namespace FluentTerminal.App.Views
             InitializeComponent();
             _terminalView = new XtermTerminalView();
             TerminalContainer.Children.Add((UIElement)_terminalView);
-            _terminalView.Initialize(ViewModel);
+            _terminalView.InitializeAsync(ViewModel);
             ViewModel.TerminalView = _terminalView;
             ViewModel.Initialized = true;
 
@@ -62,27 +62,27 @@ namespace FluentTerminal.App.Views
 
         private void OnActivated(object sender, EventArgs e)
         {
-            _terminalView?.FocusTerminal();
+            _terminalView?.FocusTerminalAsync();
         }
 
         private void OnFindNextRequested(object sender, string e)
         {
-            _terminalView.FindNext(e);
+            _terminalView.FindNextAsync(e);
         }
 
         private void OnFindPreviousRequested(object sender, string e)
         {
-            _terminalView.FindPrevious(e);
+            _terminalView.FindPreviousAsync(e);
         }
 
         private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
         {
-            _terminalView.ChangeKeyBindings();
+            _terminalView.ChangeKeyBindingsAsync();
         }
 
         private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
         {
-            _terminalView.ChangeOptions(message.TerminalOptions);
+            _terminalView.ChangeOptionsAsync(message.TerminalOptions);
         }
 
         private void OnSearchStarted(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace FluentTerminal.App.Views
 
         private async void OnThemeChanged(object sender, TerminalTheme e)
         {
-            await _terminalView.ChangeTheme(e);
+            await _terminalView.ChangeThemeAsync(e);
             SetGridBackgroundTheme(e);
         }
                

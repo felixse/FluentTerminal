@@ -35,6 +35,7 @@ namespace FluentTerminal.App.ViewModels.Infrastructure
             {
                 try
                 {
+                    // TODO: If we're using class field _isExecuting, maybe we should introduce some locking?
                     _isExecuting = true;
                     await _execute();
                 }

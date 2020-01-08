@@ -19,7 +19,7 @@ namespace FluentTerminal.App.Services
             _settingsService = settingsService;
         }
 
-        public Task<string> GetText()
+        public Task<string> GetTextAsync()
         {
             var content = Clipboard.GetContent();
             if (content.Contains(StandardDataFormats.Text))

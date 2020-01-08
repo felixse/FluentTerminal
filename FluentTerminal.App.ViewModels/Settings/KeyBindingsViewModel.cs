@@ -42,21 +42,25 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
-        public async Task ShowAddKeyBindingDialog()
+        // Requires UI thread
+        public async Task ShowAddKeyBindingDialogAsync()
         {
             var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService, this);
 
-            if (await newKeyBinding.Edit().ConfigureAwait(true))
+            // ConfigureAwait(true) because we need to execute Add method in the calling (UI) thread.
+            if (await newKeyBinding.EditAsync().ConfigureAwait(true))
             {
                 Add(newKeyBinding.Model);
             }
         }
 
+        // Requires UI thread
         public void Clear()
         {
             KeyBindings.Clear();
         }
 
+        // Requires UI thread
         public void Add(KeyBinding keyBinding)
         {
             var viewModel = new KeyBindingViewModel(keyBinding, _dialogService, this);

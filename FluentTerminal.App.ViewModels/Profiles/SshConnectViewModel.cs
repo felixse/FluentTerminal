@@ -132,7 +132,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             Initialize((SshProfile)Model);
 
-            BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFile);
+            BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFileAsync);
         }
 
         #endregion Constructor
@@ -166,9 +166,11 @@ namespace FluentTerminal.App.ViewModels.Profiles
             MoshPortTo = sshProfile.MoshPortTo;
         }
 
-        private async Task BrowseForIdentityFile()
+        // Requires UI thread
+        private async Task BrowseForIdentityFileAsync()
         {
-            var file = await _fileSystemService.OpenFile(new[] { "*" });
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            var file = await _fileSystemService.OpenFileAsync(new[] { "*" }).ConfigureAwait(true);
             if (file != null)
             {
                 IdentityFile = file.Path;
@@ -210,9 +212,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            await base.CopyToProfileAsync(profile);
+            await base.CopyToProfileAsync(profile).ConfigureAwait(false);
 
-            SshProfile sshProfile = (SshProfile) profile;
+            var sshProfile = (SshProfile) profile;
 
             sshProfile.Location = _useMosh ? Constants.MoshCommandName : Constants.SshCommandName;
             sshProfile.Arguments = GetArgumentsString();
@@ -230,14 +232,14 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public override async Task<string> ValidateAsync()
         {
-            var error = await base.ValidateAsync();
+            var error = await base.ValidateAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(error))
             {
                 return error;
             }
 
-            var result = await GetSshInfoValidationResultAsync();
+            var result = await GetSshInfoValidationResultAsync().ConfigureAwait(false);
 
             if (result == SshConnectionInfoValidationResult.Valid)
             {
@@ -264,7 +266,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                    original.MoshPortFrom != _moshPortFrom || original.MoshPortTo != _moshPortTo;
         }
 
-        public async Task<SshConnectionInfoValidationResult> GetSshInfoValidationResultAsync()
+        private async Task<SshConnectionInfoValidationResult> GetSshInfoValidationResultAsync()
         {
             var result = SshConnectionInfoValidationResult.Valid;
 
@@ -283,7 +285,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 result |= SshConnectionInfoValidationResult.SshPortZeroOrNegative;
             }
 
-            if (!await CheckIdentityFileExistsAsync())
+            if (!await CheckIdentityFileExistsAsync().ConfigureAwait(false))
             {
                 result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
             }
@@ -306,6 +308,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             return result;
         }
 
+        // Requires UI thread
         private async Task<bool> CheckIdentityFileExistsAsync()
         {
             var identityFile = _identityFile;
@@ -325,7 +328,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }
             else
             {
-                var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync();
+                // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+                var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync().ConfigureAwait(true);
 
                 if (string.IsNullOrEmpty(sshConfigDir))
                 {
@@ -335,7 +339,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 fullPath = Path.Combine(sshConfigDir, identityFile);
             }
 
-            if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath))
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath).ConfigureAwait(true))
             {
                 _validatedIdentityFile = identityFile;
 
@@ -445,14 +450,14 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public override async Task<Tuple<bool, string>> GetUrlAsync()
         {
-            var error = await base.ValidateAsync();
+            var error = await base.ValidateAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(error))
             {
                 return Tuple.Create(false, error);
             }
 
-            var result = await GetSshInfoValidationResultAsync();
+            var result = await GetSshInfoValidationResultAsync().ConfigureAwait(false);
 
             if (result != SshConnectionInfoValidationResult.Valid &&
                 // For links we can ignore missing username
@@ -469,7 +474,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 return Tuple.Create(false, error);
             }
 
-            StringBuilder sb = new StringBuilder(_useMosh ? MoshUriScheme : SshUriScheme);
+            var sb = new StringBuilder(_useMosh ? MoshUriScheme : SshUriScheme);
 
             sb.Append("://");
 

@@ -75,16 +75,16 @@ namespace FluentTerminal.App.Services
         /// <summary>
         /// To be called by either view or viewmodel
         /// </summary>
-        public async Task Close()
+        public Task CloseAsync()
         {
             if (_exited)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
-                return;
+                return Task.CompletedTask;
             }
             _closingFromUi = true;
             _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
-            await _trayProcessCommunicationService.CloseTerminalAsync(Id).ConfigureAwait(true);
+            return _trayProcessCommunicationService.CloseTerminalAsync(Id);
         }
 
         /// <summary>

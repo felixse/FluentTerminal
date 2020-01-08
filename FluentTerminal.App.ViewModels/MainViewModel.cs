@@ -72,7 +72,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddSelectedProfileAsync(NewTerminalLocation.Tab));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), async () => await AddSelectedProfileAsync(NewTerminalLocation.Window));
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitle());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitleAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTabAsync(SelectedTerminal.ShellProfile.Clone()));
 
@@ -303,23 +303,23 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task AddSelectedProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowProfileSelectionDialogAsync();
+            var profile = await _dialogService.ShowProfileSelectionDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddSshProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
+            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddQuickLaunchProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowCustomCommandDialogAsync();
+            var profile = await _dialogService.ShowCustomCommandDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         public Task AddProfileByGuidAsync(Guid profileId) =>
@@ -329,7 +329,7 @@ namespace FluentTerminal.App.ViewModels
         {
             var profile = _settingsService.GetShellProfile(profileId) ?? _settingsService.GetSshProfile(profileId);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         // For serialization
@@ -417,22 +417,19 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                await AddTabAsync(terminal.ShellProfile.Clone());
+                await AddTabAsync(terminal.ShellProfile.Clone()).ConfigureAwait(false);
             }
         }
 
-        private void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
+        private async void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
-                Array.ForEach(Terminals.ToArray(),
-                    async t => {
-                        if (terminal != t)
-                        {
-                            Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                            await t.CloseCommand.ExecuteAsync();
-                        }
-                    });
+                await Task.WhenAll(Terminals.Where(t => t != terminal).Select(t =>
+                {
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
@@ -440,12 +437,13 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                for (int i = Terminals.Count - 1; i > Terminals.IndexOf(terminal); --i)
+                var toRemove = Terminals.Skip(Terminals.IndexOf(terminal) + 1).ToList();
+
+                await Task.WhenAll(toRemove.Select(t =>
                 {
-                    var terminalToRemove = Terminals[i];
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    await terminalToRemove.CloseCommand.ExecuteAsync();
-                }
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
@@ -453,18 +451,19 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                for(int i = Terminals.IndexOf(terminal) - 1; i >= 0; --i)
+                var toRemove = Terminals.Take(Terminals.IndexOf(terminal)).ToList();
+
+                await Task.WhenAll(toRemove.Select(t =>
                 {
-                    var terminalToRemove = Terminals[i];
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    await terminalToRemove.CloseCommand.ExecuteAsync();
-                }
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
-        public async Task CloseAllTerminals()
+        private Task CloseAllTerminalsAsync()
         {
-            foreach (var terminal in Terminals)
+            return Task.WhenAll(Terminals.Select(terminal =>
             {
                 terminal.PropertyChanged -= Terminal_PropertyChanged;
                 terminal.Closed -= OnTerminalClosed;
@@ -472,8 +471,8 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
                 terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
-                await terminal.Close();
-            }
+                return terminal.CloseAsync();
+            }));
         }
 
         private void CloseCurrentTab()
@@ -511,11 +510,12 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                    I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {
-                    await CloseAllTerminals();
+                    await CloseAllTerminalsAsync().ConfigureAwait(false);
                 }
                 else
                 {
@@ -524,7 +524,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await CloseAllTerminals();
+                await CloseAllTerminalsAsync().ConfigureAwait(false);
             }
         }
 
