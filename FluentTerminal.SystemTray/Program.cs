@@ -107,10 +107,10 @@ namespace FluentTerminal.SystemTray
 
         private static async Task ConfigureLoggingAsync()
         {
-            var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
+            var logDirectory = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
             var logFile = Path.Combine(logDirectory.Path, "fluentterminal.systemtray.log");
-            var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(true);
-            var configContent = await FileIO.ReadTextAsync(configFile).AsTask().ConfigureAwait(true);
+            var configFile = await logDirectory.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
+            var configContent = await FileIO.ReadTextAsync(configFile).AsTask().ConfigureAwait(false);
             var config = JsonConvert.DeserializeObject<Logger.Configuration>(configContent) ?? new Logger.Configuration();
             Logger.Instance.Initialize(logFile, config);
 
