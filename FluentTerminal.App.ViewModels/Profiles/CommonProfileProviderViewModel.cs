@@ -99,7 +99,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         public override async Task<string> ValidateAsync()
         {
-            var error = await base.ValidateAsync();
+            var error = await base.ValidateAsync().ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -125,7 +125,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private async Task BrowseForCustomShell()
         {
-            var file = await _fileSystemService.OpenFile(new[] { ".exe" }).ConfigureAwait(true);
+            var file = await _fileSystemService.OpenFileAsync(new[] { ".exe" }).ConfigureAwait(true);
             if (file != null)
             {
                 Location = file.Path;
@@ -134,7 +134,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private async Task BrowseForWorkingDirectory()
         {
-            var directory = await _fileSystemService.BrowseForDirectory().ConfigureAwait(true);
+            var directory = await _fileSystemService.BrowseForDirectoryAsync().ConfigureAwait(true);
             if (directory != null)
             {
                 WorkingDirectory = directory;

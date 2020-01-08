@@ -72,7 +72,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddSelectedProfileAsync(NewTerminalLocation.Tab));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), async () => await AddSelectedProfileAsync(NewTerminalLocation.Window));
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitle());
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitleAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTabAsync(SelectedTerminal.ShellProfile.Clone()));
 
@@ -417,22 +417,19 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                await AddTabAsync(terminal.ShellProfile.Clone());
+                await AddTabAsync(terminal.ShellProfile.Clone()).ConfigureAwait(false);
             }
         }
 
-        private void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
+        private async void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
         {
             if (sender is TerminalViewModel terminal)
             {
-                Array.ForEach(Terminals.ToArray(),
-                    async t => {
-                        if (terminal != t)
-                        {
-                            Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                            await t.CloseCommand.ExecuteAsync();
-                        }
-                    });
+                await Task.WhenAll(Terminals.Where(t => t != terminal).Select(t =>
+                {
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
@@ -453,7 +450,7 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                for(int i = Terminals.IndexOf(terminal) - 1; i >= 0; --i)
+                for(var i = Terminals.IndexOf(terminal) - 1; i >= 0; --i)
                 {
                     var terminalToRemove = Terminals[i];
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
@@ -462,9 +459,9 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public async Task CloseAllTerminals()
+        private Task CloseAllTerminalsAsync()
         {
-            foreach (var terminal in Terminals)
+            return Task.WhenAll(Terminals.Select(terminal =>
             {
                 terminal.PropertyChanged -= Terminal_PropertyChanged;
                 terminal.Closed -= OnTerminalClosed;
@@ -472,8 +469,8 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
                 terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
-                await terminal.Close();
-            }
+                return terminal.CloseAsync();
+            }));
         }
 
         private void CloseCurrentTab()
@@ -515,7 +512,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (result == DialogButton.OK)
                 {
-                    await CloseAllTerminals();
+                    await CloseAllTerminalsAsync();
                 }
                 else
                 {
@@ -524,7 +521,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await CloseAllTerminals();
+                await CloseAllTerminalsAsync();
             }
         }
 

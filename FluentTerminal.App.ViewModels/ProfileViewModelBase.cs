@@ -101,9 +101,9 @@ namespace FluentTerminal.App.ViewModels
 
             Initialize(shellProfile);
 
-            DeleteCommand = new AsyncCommand(Delete, CanDelete);
+            DeleteCommand = new AsyncCommand(DeleteAsync, CanDelete);
             EditCommand = new RelayCommand(Edit);
-            CancelEditCommand = new AsyncCommand(CancelEdit);
+            CancelEditCommand = new AsyncCommand(CancelEditAsync);
             SaveChangesCommand = new AsyncCommand(SaveChangesAsync);
             AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
         }
@@ -133,10 +133,10 @@ namespace FluentTerminal.App.ViewModels
                 || !(_environmentVariablesBeforeEdit?.SequenceEqual(EnvironmentVariables.ToDictionary(x => x.Name, x => x.Value)) ?? false);
         }
 
-        private async Task Delete()
+        private async Task DeleteAsync()
         {
             var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {
@@ -161,24 +161,23 @@ namespace FluentTerminal.App.ViewModels
             InEditMode = true;
         }
 
-        private async Task CancelEdit()
+        private async Task CancelEditAsync()
         {
             if (IsNew)
             {
-                await Delete();
+                await DeleteAsync();
             }
             else
             {
                 if (HasChanges())
                 {
                     var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                            I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel)
-                        .ConfigureAwait(true);
+                            I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel);
 
                     if (result == DialogButton.OK)
                     {
                         // Cancelled, so rollback
-                        ProfileVm.RejectChanges();
+                        await ProfileVm.RejectChangesAsync();
 
                         KeyBindings.Editable = false;
                         InEditMode = false;
@@ -192,7 +191,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public virtual async Task SaveChangesAsync()
+        private async Task SaveChangesAsync()
         {
             var error = await ProfileVm.AcceptChangesAsync();
 
@@ -240,7 +239,7 @@ namespace FluentTerminal.App.ViewModels
 
         public Task AddKeyboardShortcut()
         {
-            return KeyBindings.ShowAddKeyBindingDialog();
+            return KeyBindings.ShowAddKeyBindingDialogAsync();
         }
 
         #endregion Methods

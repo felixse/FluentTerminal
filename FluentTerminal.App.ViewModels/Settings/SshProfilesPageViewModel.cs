@@ -52,14 +52,14 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private void OnSshProfileDeleted(object sender, EventArgs e)
         {
-            if (sender is SshProfileViewModel shellProfile)
+            if (sender is SshProfileViewModel sshProfile)
             {
-                if (SelectedSshProfile == shellProfile)
+                if (SelectedSshProfile == sshProfile)
                 {
                     SelectedSshProfile = SshProfiles.First();
                 }
-                SshProfiles.Remove(shellProfile);
-                _settingsService.DeleteSshProfile(shellProfile.Id);
+                SshProfiles.Remove(sshProfile);
+                _settingsService.DeleteSshProfile(sshProfile.Id);
             }
         }
 

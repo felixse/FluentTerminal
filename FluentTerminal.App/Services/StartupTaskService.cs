@@ -9,20 +9,20 @@ namespace FluentTerminal.App.Services
     {
         private const string StartupTaskName = "FluentTerminalStartupTask";
 
-        public Task<StartupTaskStatus> GetStatus()
+        public Task<StartupTaskStatus> GetStatusAsync()
         {
             return StartupTask.GetAsync(StartupTaskName).AsTask().ContinueWith(t => ToStartupTaskStatus(t.Result.State),
                 TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
-        public async Task<StartupTaskStatus> EnableStartupTask()
+        public async Task<StartupTaskStatus> EnableStartupTaskAsync()
         {
             var startupTask = await StartupTask.GetAsync(StartupTaskName);
             var newState = await startupTask.RequestEnableAsync();
             return ToStartupTaskStatus(newState);
         }
 
-        public Task DisableStartupTask()
+        public Task DisableStartupTaskAsync()
         {
             return StartupTask.GetAsync(StartupTaskName).AsTask().ContinueWith(t => t.Result.Disable(),
                 TaskContinuationOptions.OnlyOnRanToCompletion);

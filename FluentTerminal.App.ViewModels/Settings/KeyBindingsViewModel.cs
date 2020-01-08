@@ -42,11 +42,11 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();
 
-        public async Task ShowAddKeyBindingDialog()
+        public async Task ShowAddKeyBindingDialogAsync()
         {
             var newKeyBinding = new KeyBindingViewModel(new KeyBinding { Command = Command }, _dialogService, this);
 
-            if (await newKeyBinding.Edit().ConfigureAwait(true))
+            if (await newKeyBinding.EditAsync())
             {
                 Add(newKeyBinding.Model);
             }

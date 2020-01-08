@@ -166,7 +166,7 @@ namespace FluentTerminal.App.Views
             if (item is TerminalViewModel model)
             {
                 await model.TrayProcessCommunicationService.PauseTerminalOutputAsync(model.Terminal.Id, true);
-                e.Data.Properties.Add(Constants.TerminalViewModelStateId, await model.Serialize());
+                e.Data.Properties.Add(Constants.TerminalViewModelStateId, await model.SerializeAsync());
             }
         }
 

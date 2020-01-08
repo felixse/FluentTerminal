@@ -81,7 +81,7 @@ namespace FluentTerminal.SystemTray
 
 #if !STORE
                     // ReSharper disable once AssignmentIsFullyDiscarded
-                    _ = Task.Factory.StartNew(() => container.Resolve<IUpdateService>().CheckForUpdate());
+                    _ = Task.Factory.StartNew(() => container.Resolve<IUpdateService>().CheckForUpdateAsync());
 #endif
                     var settingsService = container.Resolve<ISettingsService>();
 

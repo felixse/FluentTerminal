@@ -40,7 +40,7 @@ namespace FluentTerminal.App.ViewModels
             public ShellProfile ShellProfile { get; set; }
         }
 
-        public async Task<string> Serialize()
+        public async Task<string> SerializeAsync()
         {
             TerminalState state = new TerminalState
             {
@@ -51,7 +51,7 @@ namespace FluentTerminal.App.ViewModels
                 TabTheme = TabTheme,
                 ShowSearchPanel = ShowSearchPanel,
                 SearchText = SearchText,
-                XtermBufferState = await SerializeXtermState(),
+                XtermBufferState = await SerializeXtermStateAsync(),
                 TerminalId = Terminal.Id,
                 ShellProfile = ShellProfile
             };
@@ -120,7 +120,7 @@ namespace FluentTerminal.App.ViewModels
             TabThemes = new ObservableCollection<TabTheme>(SettingsService.GetTabThemes());
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
 
-            CloseCommand = new AsyncCommand(CloseTab, CanExecuteCommand);
+            CloseCommand = new AsyncCommand(TryCloseAsync, CanExecuteCommand);
             CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs, CanExecuteCommand);
             CloseRightTabsCommand = new RelayCommand(CloseRightTabs, CanExecuteCommand);
             CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs, CanExecuteCommand);
@@ -128,7 +128,7 @@ namespace FluentTerminal.App.ViewModels
             FindPreviousCommand = new RelayCommand(FindPrevious, CanExecuteCommand);
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme, CanExecuteCommand);
-            EditTitleCommand = new AsyncCommand(EditTitle, CanExecuteCommand);
+            EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
 
             if (!String.IsNullOrEmpty(terminalState))
@@ -350,11 +350,11 @@ namespace FluentTerminal.App.ViewModels
 
         public ITrayProcessCommunicationService TrayProcessCommunicationService { get; }
 
-        public Task Close()
+        public Task CloseAsync()
         {
             MessengerInstance.Unregister(this);
 
-            return Terminal.Close();
+            return Terminal.CloseAsync();
         }
 
         public void CopyText(string text)
@@ -366,7 +366,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public async Task EditTitle()
+        public async Task EditTitleAsync()
         {
             var result = await DialogService.ShowInputDialogAsync(I18N.Translate("EditTitleString"));
             if (result != null)
@@ -406,11 +406,6 @@ namespace FluentTerminal.App.ViewModels
             return Initialized && !_disposalRequested;
         }
 
-        private async Task CloseTab()
-        {
-             await TryClose().ConfigureAwait(false);
-        }
-
         private void CloseLeftTabs()
         {
             CloseLeftTabsRequested?.Invoke(this, EventArgs.Empty);
@@ -433,9 +428,9 @@ namespace FluentTerminal.App.ViewModels
 
         public ITerminalView TerminalView { get; set; }
 
-        public Task<string> SerializeXtermState()
+        private Task<string> SerializeXtermStateAsync()
         {
-            return TerminalView?.SerializeXtermState() ?? Task.FromResult(string.Empty);
+            return TerminalView?.SerializeXtermStateAsync() ?? Task.FromResult(string.Empty);
         }
 
         private void FindPrevious()
@@ -512,29 +507,29 @@ namespace FluentTerminal.App.ViewModels
             {
                 case nameof(Command.Copy):
                     {
-                        var selection = await Terminal.GetSelectedText().ConfigureAwait(true);
+                        var selection = await Terminal.GetSelectedText().ConfigureAwait(false);
                         CopyText(selection);
-                        break;
+                        return;
                     }
                 case nameof(Command.Paste):
                     {
-                        string content = await ClipboardService.GetText().ConfigureAwait(true);
+                        string content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
                         if (content != null)
                         {
                             content = ShellProfile.TranslateLineEndings(content);
                             await TerminalView.PasteAsync(content);
                         }
-                        break;
+                        return;
                     }
                 case nameof(Command.PasteWithoutNewlines):
                     {
-                        string content = await ClipboardService.GetText().ConfigureAwait(true);
+                        string content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
                         if (content != null)
                         {
                             content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
                             await TerminalView.PasteAsync(content);
                         }
-                        break;
+                        return;
                     }
                 case nameof(Command.Search):
                     {
@@ -545,13 +540,14 @@ namespace FluentTerminal.App.ViewModels
                             {
                                 SearchStarted?.Invoke(this, EventArgs.Empty);
                             }
-                        });
-                        break;
+                        }).ConfigureAwait(false);
+                        return;
                     }
                 default:
                     {
-                        await ApplicationView.ExecuteOnUiThreadAsync(() => _keyboardCommandService.SendCommand(e));
-                        break;
+                        await ApplicationView.ExecuteOnUiThreadAsync(() => _keyboardCommandService.SendCommand(e))
+                            .ConfigureAwait(false);
+                        return;
                     }
             }
         }
@@ -579,7 +575,7 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.ExecuteOnUiThreadAsync(() => ShellTitle = e);
         }
 
-        private async Task TryClose()
+        private async Task TryCloseAsync()
         {
             if (ShellProfile?.Tag is ISessionSuccessTracker tracker)
             {
@@ -588,7 +584,10 @@ namespace FluentTerminal.App.ViewModels
 
             if (ApplicationSettings.ConfirmClosingTabs)
             {
-                var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), String.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                        string.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK,
+                        DialogButton.Cancel)
+                    .ConfigureAwait(false);
 
                 if (result == DialogButton.Cancel)
                 {
@@ -596,7 +595,7 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
 
-            await Close().ConfigureAwait(true);
+            await CloseAsync().ConfigureAwait(false);
         }
     }
 }

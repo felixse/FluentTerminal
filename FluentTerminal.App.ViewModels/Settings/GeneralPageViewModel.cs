@@ -39,8 +39,8 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
-            BrowseLogDirectoryCommand = new AsyncCommand(BrowseLogDirectory);
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaultsAsync);
+            BrowseLogDirectoryCommand = new AsyncCommand(BrowseLogDirectoryAsync);
         }
 
         public IEnumerable<string> Languages => _applicationLanguageService.Languages;
@@ -63,7 +63,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public async Task OnNavigatedToAsync()
         {
-            var startupTaskStatus = await _startupTaskService.GetStatus();
+            var startupTaskStatus = await _startupTaskService.GetStatusAsync();
             SetStartupTaskPropertiesForStatus(startupTaskStatus);
         }
 
@@ -389,9 +389,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        private async Task RestoreDefaults()
+        private async Task RestoreDefaultsAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmRestoreGeneralSettings"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {
@@ -456,19 +457,19 @@ namespace FluentTerminal.App.ViewModels.Settings
             StartupTaskStatus status;
             if (enabled)
             {
-                status = await _startupTaskService.EnableStartupTask();
+                status = await _startupTaskService.EnableStartupTaskAsync();
             }
             else
             {
-                await _startupTaskService.DisableStartupTask();
-                status = await _startupTaskService.GetStatus();
+                await _startupTaskService.DisableStartupTaskAsync();
+                status = await _startupTaskService.GetStatusAsync();
             }
             SetStartupTaskPropertiesForStatus(status);
         }
 
-        private async Task BrowseLogDirectory()
+        private async Task BrowseLogDirectoryAsync()
         {
-            var folder = await _fileSystemService.BrowseForDirectory();
+            var folder = await _fileSystemService.BrowseForDirectoryAsync();
 
             if (folder != null)
             {

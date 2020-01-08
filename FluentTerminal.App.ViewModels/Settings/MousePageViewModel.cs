@@ -22,7 +22,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaultsAsync().ConfigureAwait(false));
         }
 
         public bool CopyOnSelect
@@ -105,9 +105,10 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         public RelayCommand RestoreDefaultsCommand { get; }
 
-        private async Task RestoreDefaults()
+        private async Task RestoreDefaultsAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreMouseSettings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmRestoreMouseSettings"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {

@@ -93,13 +93,13 @@ namespace FluentTerminal.App.ViewModels
             BackgroundThemeFile = Model.BackgroundImage;
 
             SetActiveCommand = new RelayCommand(SetActive);
-            DeleteCommand = new RelayCommand(async () => await Delete().ConfigureAwait(false), NotPreInstalled);
+            DeleteCommand = new RelayCommand(async () => await DeleteAsync().ConfigureAwait(false), NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
-            CancelEditCommand = new RelayCommand(async () => await CancelEdit().ConfigureAwait(false));
-            SaveChangesCommand = new RelayCommand(async () => await SaveChanges().ConfigureAwait(false));
+            CancelEditCommand = new RelayCommand(async () => await CancelEditAsync().ConfigureAwait(false));
+            SaveChangesCommand = new RelayCommand(async () => await SaveChangesAsync().ConfigureAwait(false));
             ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
-            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImage(), NotPreInstalled);
-            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImage(), NotPreInstalled);
+            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImageAsync(), NotPreInstalled);
+            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImageAsync(), NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -294,7 +294,7 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand DeleteBackgroundImageCommand { get; }
 
-        public async Task SaveChanges()
+        private async Task SaveChangesAsync()
         {
             Model.Name = Name;
             Model.Author = Author;
@@ -330,7 +330,7 @@ namespace FluentTerminal.App.ViewModels
                     $"{Model.BackgroundImage?.Name}{Model.BackgroundImage?.FileType}");
             }
 
-            BackgroundThemeFile = await SaveBackgroundImage();
+            BackgroundThemeFile = await SaveBackgroundImageAsync();
 
             Model.BackgroundImage = BackgroundThemeFile;
 
@@ -340,11 +340,11 @@ namespace FluentTerminal.App.ViewModels
             _isNew = false;
         }
 
-        private async Task CancelEdit()
+        private async Task CancelEditAsync()
         {
             if (_isNew)
             {
-                await Delete();
+                await DeleteAsync();
             }
             else
             {
@@ -433,22 +433,24 @@ namespace FluentTerminal.App.ViewModels
             return !Model.PreInstalled;
         }
 
-        private async Task Delete()
+        private async Task DeleteAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmDeleteTheme"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {
-                await DeleteBackgroundImageIfExists();
+                await DeleteBackgroundImageIfExistsAsync();
                 await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync();
 
                 Deleted?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private async Task DeleteBackgroundImage()
+        private async Task DeleteBackgroundImageAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmDeleteBackgroundImage"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {
@@ -472,10 +474,10 @@ namespace FluentTerminal.App.ViewModels
             var encodedImage = _imageFileSystemService.EncodeImage(BackgroundThemeFile);
             var exportedTheme = new ExportedTerminalTheme(Model, encodedImage);
             var content = JsonConvert.SerializeObject(exportedTheme, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new TerminalThemeContractResolver() });
-            return _fileSystemService.SaveTextFile(Name, "Fluent Terminal Theme", ".flutecolors", content);
+            return _fileSystemService.SaveTextFileAsync(Name, "Fluent Terminal Theme", ".flutecolors", content);
         }
 
-        private async Task<ImageFile> SaveBackgroundImage()
+        private async Task<ImageFile> SaveBackgroundImageAsync()
         {
             if (BackgroundThemeFile == null)
             {
@@ -487,27 +489,27 @@ namespace FluentTerminal.App.ViewModels
                 return BackgroundThemeFile;
             }
 
-            var importedBackgroundThemeFile = 
-                await _fileSystemService.SaveImageInRoaming(BackgroundThemeFile);
+            var importedBackgroundThemeFile =
+                await _fileSystemService.SaveImageInRoamingAsync(BackgroundThemeFile).ConfigureAwait(false);
 
-            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync();
+            await _imageFileSystemService.RemoveTemporaryBackgroundThemeImageAsync().ConfigureAwait(false);
 
             return importedBackgroundThemeFile;
         }
 
-        private async Task ChooseBackgroundImage()
+        private async Task ChooseBackgroundImageAsync()
         {
-            var choosenImage = await _imageFileSystemService.ImportTemporaryImageFileAsync(new[] { ".jpeg", ".png", ".jpg" });
+            var chosenImage = await _imageFileSystemService.ImportTemporaryImageFileAsync(new[] { ".jpeg", ".png", ".jpg" });
 
-            if(choosenImage == null)
+            if(chosenImage == null)
             {
                 return;
             }
 
-            BackgroundThemeFile = choosenImage;
+            BackgroundThemeFile = chosenImage;
         }
 
-        private async Task DeleteBackgroundImageIfExists()
+        private async Task DeleteBackgroundImageIfExistsAsync()
         {
             if (BackgroundThemeFile != null)
             {

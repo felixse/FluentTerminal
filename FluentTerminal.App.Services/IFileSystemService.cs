@@ -6,12 +6,12 @@ namespace FluentTerminal.App.Services
 {
     public interface IFileSystemService
     {
-        Task<File> OpenFile(IEnumerable<string> fileTypes);
+        Task<File> OpenFileAsync(IEnumerable<string> fileTypes);
 
-        Task<string> BrowseForDirectory();
+        Task<string> BrowseForDirectoryAsync();
 
-        Task SaveTextFile(string name, string fileTypeDescription, string fileType, string content);
+        Task SaveTextFileAsync(string name, string fileTypeDescription, string fileType, string content);
 
-        Task<ImageFile> SaveImageInRoaming(ImageFile imageFile);
+        Task<ImageFile> SaveImageInRoamingAsync(ImageFile imageFile);
     }
 }

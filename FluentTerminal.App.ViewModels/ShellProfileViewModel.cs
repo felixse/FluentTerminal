@@ -60,14 +60,14 @@ namespace FluentTerminal.App.ViewModels
                 shellProfile);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
-            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaults);
+            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaultsAsync);
         }
 
         #endregion Constrcutor
 
         #region Methods
 
-        private async Task RestoreDefaults()
+        private async Task RestoreDefaultsAsync()
         {
             if (InEditMode || !ProfileVm.PreInstalled)
             {
@@ -75,7 +75,7 @@ namespace FluentTerminal.App.ViewModels
             }
 
             var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+                I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {

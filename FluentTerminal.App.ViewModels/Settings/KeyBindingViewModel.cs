@@ -17,8 +17,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             Model = keyBinding;
             Parent = parent;
             _dialogService = dialogService;
-            EditCommand = new AsyncCommand(Edit);
-            DeleteCommand = new AsyncCommand(Delete);
+            EditCommand = new AsyncCommand(EditAsync);
+            DeleteCommand = new AsyncCommand(DeleteAsync);
         }
 
         public event EventHandler Deleted;
@@ -97,9 +97,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public async Task<bool> Edit()
+        public async Task<bool> EditAsync()
         {
-            var keyBinding = await _dialogService.ShowCreateKeyBindingDialog().ConfigureAwait(true);
+            var keyBinding = await _dialogService.ShowCreateKeyBindingDialog();
 
             if (keyBinding != null)
             {
@@ -117,9 +117,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             return false;
         }
 
-        private async Task Delete()
+        private async Task DeleteAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmDeleteKeybindings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmDeleteKeybindings"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {

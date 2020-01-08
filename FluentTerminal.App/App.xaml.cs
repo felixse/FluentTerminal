@@ -672,7 +672,7 @@ namespace FluentTerminal.App
             Logger.Instance.Debug("App.xaml.cs on tab tear off");
 
             var newViewModel = await CreateNewTerminalWindowAsync();
-            await newViewModel.AddTabAsync(await model.Serialize(), 0);
+            await newViewModel.AddTabAsync(await model.SerializeAsync(), 0);
         }
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)

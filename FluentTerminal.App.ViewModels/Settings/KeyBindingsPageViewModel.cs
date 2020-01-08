@@ -23,8 +23,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             _settingsService = settingsService;
             _dialogService = dialogService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaults().ConfigureAwait(false));
-            AddCommand = new RelayCommand<string>(async command => await Add(command).ConfigureAwait(false));
+            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaultsAsync().ConfigureAwait(false));
+            AddCommand = new RelayCommand<string>(async command => await AddAsync(command).ConfigureAwait(false));
 
             Initialize(_settingsService.GetCommandKeyBindings());
         }
@@ -33,10 +33,9 @@ namespace FluentTerminal.App.ViewModels.Settings
         public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
         public RelayCommand RestoreDefaultsCommand { get; }
 
-        private async Task Add(string command)
+        private Task AddAsync(string command)
         {
-            var keyBinding = KeyBindings.FirstOrDefault(k => k.Command == command);
-            await keyBinding?.ShowAddKeyBindingDialog();
+            return KeyBindings.First(k => k.Command == command).ShowAddKeyBindingDialogAsync();
         }
 
         private void ClearKeyBindings()
@@ -72,9 +71,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             _trayProcessCommunicationService.UpdateToggleWindowKeyBindingsAsync();
         }
 
-        private async Task RestoreDefaults()
+        private async Task RestoreDefaultsAsync()
         {
-            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmRestoreKeybindings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
+            var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                I18N.Translate("ConfirmRestoreKeybindings"), DialogButton.OK, DialogButton.Cancel);
 
             if (result == DialogButton.OK)
             {
