@@ -51,7 +51,7 @@ namespace FluentTerminal.App.ViewModels
                 TabTheme = TabTheme,
                 ShowSearchPanel = ShowSearchPanel,
                 SearchText = SearchText,
-                XtermBufferState = await SerializeXtermStateAsync(),
+                XtermBufferState = await SerializeXtermStateAsync().ConfigureAwait(false),
                 TerminalId = Terminal.Id,
                 ShellProfile = ShellProfile
             };
@@ -366,9 +366,12 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        // Requires UI thread
         public async Task EditTitleAsync()
         {
-            var result = await DialogService.ShowInputDialogAsync(I18N.Translate("EditTitleString"));
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            var result = await DialogService.ShowInputDialogAsync(I18N.Translate("EditTitleString"))
+                .ConfigureAwait(true);
             if (result != null)
             {
                 if (string.IsNullOrWhiteSpace(result))
@@ -517,7 +520,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.TranslateLineEndings(content);
-                            await TerminalView.PasteAsync(content);
+                            await TerminalView.PasteAsync(content).ConfigureAwait(false);
                         }
                         return;
                     }
@@ -527,7 +530,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
-                            await TerminalView.PasteAsync(content);
+                            await TerminalView.PasteAsync(content).ConfigureAwait(false);
                         }
                         return;
                     }
@@ -582,20 +585,13 @@ namespace FluentTerminal.App.ViewModels
                 tracker.SetInvalid();
             }
 
-            if (ApplicationSettings.ConfirmClosingTabs)
-            {
-                var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+            if (!ApplicationSettings.ConfirmClosingTabs || await DialogService
+                    .ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
                         string.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK,
-                        DialogButton.Cancel)
-                    .ConfigureAwait(false);
-
-                if (result == DialogButton.Cancel)
-                {
-                    return;
-                }
+                        DialogButton.Cancel).ConfigureAwait(false) == DialogButton.OK)
+            {
+                await CloseAsync().ConfigureAwait(false);
             }
-
-            await CloseAsync().ConfigureAwait(false);
         }
     }
 }

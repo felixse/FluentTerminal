@@ -166,9 +166,11 @@ namespace FluentTerminal.App.ViewModels.Profiles
             MoshPortTo = sshProfile.MoshPortTo;
         }
 
+        // Requires UI thread
         private async Task BrowseForIdentityFileAsync()
         {
-            var file = await _fileSystemService.OpenFileAsync(new[] { "*" });
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            var file = await _fileSystemService.OpenFileAsync(new[] { "*" }).ConfigureAwait(true);
             if (file != null)
             {
                 IdentityFile = file.Path;
@@ -283,7 +285,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 result |= SshConnectionInfoValidationResult.SshPortZeroOrNegative;
             }
 
-            if (!await CheckIdentityFileExistsAsync())
+            if (!await CheckIdentityFileExistsAsync().ConfigureAwait(false))
             {
                 result |= SshConnectionInfoValidationResult.IdentityFileDoesNotExist;
             }
@@ -306,6 +308,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             return result;
         }
 
+        // Requires UI thread
         private async Task<bool> CheckIdentityFileExistsAsync()
         {
             var identityFile = _identityFile;
@@ -325,7 +328,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }
             else
             {
-                var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync();
+                // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+                var sshConfigDir = await _trayProcessCommunicationService.GetSshConfigDirAsync().ConfigureAwait(true);
 
                 if (string.IsNullOrEmpty(sshConfigDir))
                 {
@@ -335,7 +339,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
                 fullPath = Path.Combine(sshConfigDir, identityFile);
             }
 
-            if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath))
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            if (await _trayProcessCommunicationService.CheckFileExistsAsync(fullPath).ConfigureAwait(true))
             {
                 _validatedIdentityFile = identityFile;
 

@@ -226,10 +226,13 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        // Requires UI thread
         private async Task RestoreDefaultsAsync()
         {
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
             var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmRestoreTerminalOptions"), DialogButton.OK, DialogButton.Cancel);
+                    I18N.Translate("ConfirmRestoreTerminalOptions"), DialogButton.OK, DialogButton.Cancel)
+                .ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

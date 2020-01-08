@@ -21,6 +21,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             DeleteCommand = new AsyncCommand(DeleteAsync);
         }
 
+        // Needs to be triggered from the UI thread
         public event EventHandler Deleted;
 
         public event EventHandler Edited;
@@ -97,9 +98,11 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        // Requires UI thread
         public async Task<bool> EditAsync()
         {
-            var keyBinding = await _dialogService.ShowCreateKeyBindingDialog();
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            var keyBinding = await _dialogService.ShowCreateKeyBindingDialog().ConfigureAwait(true);
 
             if (keyBinding != null)
             {
@@ -117,10 +120,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             return false;
         }
 
+        // Requires UI thread
         private async Task DeleteAsync()
         {
+            // ConfigureAwait(true) because we need to trigger Deleted event in the calling (UI) thread.
             var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmDeleteKeybindings"), DialogButton.OK, DialogButton.Cancel);
+                I18N.Translate("ConfirmDeleteKeybindings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

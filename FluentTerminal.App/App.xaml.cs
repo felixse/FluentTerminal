@@ -608,7 +608,7 @@ namespace FluentTerminal.App
                 Window.Current.Activate();
 
                 windowId = ApplicationView.GetForCurrentView().Id;
-            });
+            }).ConfigureAwait(false);
 
             if (viewModel is SettingsViewModel settingsViewModel)
             {
@@ -677,9 +677,9 @@ namespace FluentTerminal.App
 
         private async void OnNewWindowRequested(object sender, NewWindowRequestedEventArgs e)
         {
-            var viewModel = await CreateNewTerminalWindowAsync();
+            var viewModel = await CreateNewTerminalWindowAsync().ConfigureAwait(false);
 
-            await viewModel.AddTabAsync(e.Profile);
+            await viewModel.AddTabAsync(e.Profile).ConfigureAwait(false);
         }
 
         private void OnSettingsClosed(object sender, EventArgs e)

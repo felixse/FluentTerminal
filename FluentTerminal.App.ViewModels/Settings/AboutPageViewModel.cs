@@ -63,9 +63,11 @@ namespace FluentTerminal.App.ViewModels.Settings
 
         private async Task CheckForUpdateAsync(bool notifyNoUpdate)
         {
-            var version = await _updateService.GetLatestVersionAsync();
-            await _applicationView.ExecuteOnUiThreadAsync(() => LatestVersion = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
-            await _updateService.CheckForUpdateAsync(notifyNoUpdate);
+            var version = await _updateService.GetLatestVersionAsync().ConfigureAwait(false);
+            await _applicationView.ExecuteOnUiThreadAsync(() =>
+                    LatestVersion = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}")
+                .ConfigureAwait(false);
+            await _updateService.CheckForUpdateAsync(notifyNoUpdate).ConfigureAwait(false);
         }
     }
 }

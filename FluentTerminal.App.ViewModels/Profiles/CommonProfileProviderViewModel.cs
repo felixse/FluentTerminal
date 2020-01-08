@@ -90,7 +90,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         protected override async Task CopyToProfileAsync(ShellProfile profile)
         {
-            await base.CopyToProfileAsync(profile);
+            await base.CopyToProfileAsync(profile).ConfigureAwait(false);
 
             profile.Location = _location;
             profile.Arguments = _arguments;
@@ -123,8 +123,10 @@ namespace FluentTerminal.App.ViewModels.Profiles
                    !Model.Arguments.NullableEqualTo(_arguments);
         }
 
+        // Requires UI thread
         private async Task BrowseForCustomShell()
         {
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
             var file = await _fileSystemService.OpenFileAsync(new[] { ".exe" }).ConfigureAwait(true);
             if (file != null)
             {
@@ -132,8 +134,10 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }
         }
 
+        // Requires UI thread
         private async Task BrowseForWorkingDirectory()
         {
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
             var directory = await _fileSystemService.BrowseForDirectoryAsync().ConfigureAwait(true);
             if (directory != null)
             {

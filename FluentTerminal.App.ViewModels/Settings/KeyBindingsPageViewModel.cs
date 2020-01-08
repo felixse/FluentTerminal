@@ -38,6 +38,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             return KeyBindings.First(k => k.Command == command).ShowAddKeyBindingDialogAsync();
         }
 
+        // Requires UI thread
         private void ClearKeyBindings()
         {
             foreach (var keyBinding in KeyBindings)
@@ -48,6 +49,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             KeyBindings.Clear();
         }
 
+        // Requires UI thread
         private void Initialize(IDictionary<string, ICollection<KeyBinding>> keyBindings)
         {
             ClearKeyBindings();
@@ -71,10 +73,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             _trayProcessCommunicationService.UpdateToggleWindowKeyBindingsAsync();
         }
 
+        // Requires UI thread
         private async Task RestoreDefaultsAsync()
         {
+            // ConfigureAwait(true) because we need to execute Initialize in the calling (UI) thread.
             var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmRestoreKeybindings"), DialogButton.OK, DialogButton.Cancel);
+                I18N.Translate("ConfirmRestoreKeybindings"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {

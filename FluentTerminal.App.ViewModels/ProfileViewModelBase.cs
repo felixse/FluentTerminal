@@ -62,6 +62,7 @@ namespace FluentTerminal.App.ViewModels
 
         #region Events
 
+        // Needs to be triggered from UI thread
         public event EventHandler Deleted;
 
         #endregion Events
@@ -112,6 +113,7 @@ namespace FluentTerminal.App.ViewModels
 
         #region Methods
 
+        // Requires UI thread
         // Loads view model properties from the input shellProfile
         protected void Initialize(ShellProfile shellProfile)
         {
@@ -133,10 +135,12 @@ namespace FluentTerminal.App.ViewModels
                 || !(_environmentVariablesBeforeEdit?.SequenceEqual(EnvironmentVariables.ToDictionary(x => x.Name, x => x.Value)) ?? false);
         }
 
+        // Requires UI thread
         private async Task DeleteAsync()
         {
+            // ConfigureAwait(true) because we need to trigger Deleted event from the calling (UI) thread.
             var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel);
+                I18N.Translate("ConfirmDeleteProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
@@ -161,57 +165,64 @@ namespace FluentTerminal.App.ViewModels
             InEditMode = true;
         }
 
+        // Requires UI thread
         private async Task CancelEditAsync()
         {
             if (IsNew)
             {
-                await DeleteAsync();
-            }
-            else
-            {
-                if (HasChanges())
-                {
-                    var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                            I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel);
-
-                    if (result == DialogButton.OK)
-                    {
-                        // Cancelled, so rollback
-                        await ProfileVm.RejectChangesAsync();
-
-                        KeyBindings.Editable = false;
-                        InEditMode = false;
-                    }
-                }
-                else
-                {
-                    KeyBindings.Editable = false;
-                    InEditMode = false;
-                }
-            }
-        }
-
-        private async Task SaveChangesAsync()
-        {
-            var error = await ProfileVm.AcceptChangesAsync();
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), error, DialogButton.OK);
+                await DeleteAsync().ConfigureAwait(false);
 
                 return;
             }
 
-            if (EnvironmentVariables.Select(x => x.Name).Any(x => string.IsNullOrWhiteSpace(x)))
+            if (!HasChanges())
             {
-                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), I18N.Translate("EmptyEnvironmentVariableName"), DialogButton.OK);
+                KeyBindings.Editable = false;
+                InEditMode = false;
+
+                return;
+            }
+
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards
+            if (await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                        I18N.Translate("ConfirmDiscardChanges"), DialogButton.OK, DialogButton.Cancel)
+                    .ConfigureAwait(true) == DialogButton.OK)
+            {
+                // Cancelled, so rollback
+                // ConfigureAwait(true) because we're setting some view-model properties afterwards
+                await ProfileVm.RejectChangesAsync().ConfigureAwait(true);
+
+                KeyBindings.Editable = false;
+                InEditMode = false;
+            }
+        }
+
+        // Requires UI thread
+        private async Task SaveChangesAsync()
+        {
+            // ConfigureAwait(true) because we're setting some view-model properties afterwards.
+            var error = await ProfileVm.AcceptChangesAsync().ConfigureAwait(true);
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), error, DialogButton.OK)
+                    .ConfigureAwait(false);
+
+                return;
+            }
+
+            if (EnvironmentVariables.Select(x => x.Name).Any(string.IsNullOrWhiteSpace))
+            {
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"),
+                    I18N.Translate("EmptyEnvironmentVariableName"), DialogButton.OK).ConfigureAwait(false);
 
                 return;
             }
 
             if (EnvironmentVariables.Select(x => x.Name).Distinct().Count() != EnvironmentVariables.Count)
             {
-                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"), I18N.Translate("DuplicateEnvironmentVariable"), DialogButton.OK);
+                await DialogService.ShowMessageDialogAsync(I18N.Translate("InvalidInput"),
+                    I18N.Translate("DuplicateEnvironmentVariable"), DialogButton.OK).ConfigureAwait(false);
 
                 return;
             }
@@ -237,7 +248,7 @@ namespace FluentTerminal.App.ViewModels
             IsNew = false;
         }
 
-        public Task AddKeyboardShortcut()
+        private Task AddKeyboardShortcut()
         {
             return KeyBindings.ShowAddKeyBindingDialogAsync();
         }

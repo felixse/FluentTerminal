@@ -303,23 +303,23 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task AddSelectedProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowProfileSelectionDialogAsync();
+            var profile = await _dialogService.ShowProfileSelectionDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddSshProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync();
+            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddQuickLaunchProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowCustomCommandDialogAsync();
+            var profile = await _dialogService.ShowCustomCommandDialogAsync().ConfigureAwait(false);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         public Task AddProfileByGuidAsync(Guid profileId) =>
@@ -329,7 +329,7 @@ namespace FluentTerminal.App.ViewModels
         {
             var profile = _settingsService.GetShellProfile(profileId) ?? _settingsService.GetSshProfile(profileId);
 
-            await AddProfileAsync(profile, location);
+            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         // For serialization
@@ -437,12 +437,13 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                for (int i = Terminals.Count - 1; i > Terminals.IndexOf(terminal); --i)
+                var toRemove = Terminals.Skip(Terminals.IndexOf(terminal) + 1).ToList();
+
+                await Task.WhenAll(toRemove.Select(t =>
                 {
-                    var terminalToRemove = Terminals[i];
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    await terminalToRemove.CloseCommand.ExecuteAsync();
-                }
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
@@ -450,12 +451,13 @@ namespace FluentTerminal.App.ViewModels
         {
             if (sender is TerminalViewModel terminal)
             {
-                for(var i = Terminals.IndexOf(terminal) - 1; i >= 0; --i)
+                var toRemove = Terminals.Take(Terminals.IndexOf(terminal)).ToList();
+
+                await Task.WhenAll(toRemove.Select(t =>
                 {
-                    var terminalToRemove = Terminals[i];
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminalToRemove.Terminal.Id);
-                    await terminalToRemove.CloseCommand.ExecuteAsync();
-                }
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
+                    return t.CloseCommand.ExecuteAsync();
+                })).ConfigureAwait(false);
             }
         }
 
@@ -508,11 +510,12 @@ namespace FluentTerminal.App.ViewModels
         {
             if (_applicationSettings.ConfirmClosingWindows)
             {
-                var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"), I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
+                var result = await _dialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
+                    I18N.Translate("ConfirmCloseWindow"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(false);
 
                 if (result == DialogButton.OK)
                 {
-                    await CloseAllTerminalsAsync();
+                    await CloseAllTerminalsAsync().ConfigureAwait(false);
                 }
                 else
                 {
@@ -521,7 +524,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await CloseAllTerminalsAsync();
+                await CloseAllTerminalsAsync().ConfigureAwait(false);
             }
         }
 

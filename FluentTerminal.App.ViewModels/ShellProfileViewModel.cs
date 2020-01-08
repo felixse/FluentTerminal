@@ -67,6 +67,7 @@ namespace FluentTerminal.App.ViewModels
 
         #region Methods
 
+        // Requires UI thread
         private async Task RestoreDefaultsAsync()
         {
             if (InEditMode || !ProfileVm.PreInstalled)
@@ -74,8 +75,9 @@ namespace FluentTerminal.App.ViewModels
                 throw new InvalidOperationException();
             }
 
+            // ConfigureAwait(true) because we need to execute Initialize method in the calling (UI) thread.
             var result = await DialogService.ShowMessageDialogAsync(I18N.Translate("PleaseConfirm"),
-                I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel);
+                I18N.Translate("ConfirmRestoreProfile"), DialogButton.OK, DialogButton.Cancel).ConfigureAwait(true);
 
             if (result == DialogButton.OK)
             {
