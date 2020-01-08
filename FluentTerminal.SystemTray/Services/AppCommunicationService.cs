@@ -94,49 +94,49 @@ namespace FluentTerminal.SystemTray.Services
             {
                 case MessageIdentifiers.WriteDataMessage:
                     HandleWriteDataMessage(args);
-                    break;
+                    return;
                 case MessageIdentifiers.CreateTerminalRequest:
-                    await HandleCreateTerminalRequest(args);
-                    break;
+                    await HandleCreateTerminalRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.ResizeTerminalRequest:
                     HandleResizeTerminalRequest(args);
-                    break;
+                    return;
                 case MessageIdentifiers.SetToggleWindowKeyBindingsRequest:
                     HandleSetToggleWindowKeyBindingsRequest(args);
-                    break;
+                    return;
                 case MessageIdentifiers.TerminalExitedRequest:
                     HandleTerminalExitedRequest(args);
-                    break;
+                    return;
                 case MessageIdentifiers.GetUserNameRequest:
-                    await HandleGetUserNameRequest(args);
-                    break;
+                    await HandleGetUserNameRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.SaveTextFileRequest:
-                    await HandleSaveTextFileRequest(args);
-                    break;
+                    await HandleSaveTextFileRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.GetSshConfigFolderRequest:
-                    await HandleGetSshConfigFolderRequest(args);
-                    break;
+                    await HandleGetSshConfigFolderRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.CheckFileExistsRequest:
-                    await HandleCheckFileExistsRequest(args);
-                    break;
+                    await HandleCheckFileExistsRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.MuteTerminalRequest:
                     HandleMuteTerminalRequest(args);
-                    break;
+                    return;
                 case MessageIdentifiers.UpdateSettingsRequest:
                     HandleUpdateSettingsRequest(args);
-                    break;
+                    return;
                 case MessageIdentifiers.GetCommandPathRequest:
-                    await GetCommandPathRequestHandler(args);
-                    break;
+                    await GetCommandPathRequestHandlerAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.PauseTerminalOutputRequest:
-                    await HandlePauseTerminalOutputRequest(args);
-                    break;
+                    await HandlePauseTerminalOutputRequestAsync(args).ConfigureAwait(false);
+                    return;
                 case MessageIdentifiers.QuitApplicationRequest:
                     HandleQuitApplicationRequest();
-                    break;
+                    return;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
-                    break;
+                    return;
             }
         }
 
@@ -152,7 +152,7 @@ namespace FluentTerminal.SystemTray.Services
             _terminalsManager.Write(terminalId, content);
         }
 
-        private async Task HandleCreateTerminalRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandleCreateTerminalRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
@@ -183,7 +183,7 @@ namespace FluentTerminal.SystemTray.Services
             _terminalsManager.CloseTerminal(request.TerminalId);
         }
 
-        private async Task HandleGetUserNameRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandleGetUserNameRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var response = new StringValueResponse { Success = !string.IsNullOrEmpty(Environment.UserName), Value = Environment.UserName };
@@ -191,7 +191,7 @@ namespace FluentTerminal.SystemTray.Services
             deferral.Complete();
         }
 
-        private async Task HandleSaveTextFileRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandleSaveTextFileRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
@@ -214,7 +214,7 @@ namespace FluentTerminal.SystemTray.Services
             deferral.Complete();
         }
 
-        private async Task HandleGetSshConfigFolderRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandleGetSshConfigFolderRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
@@ -263,7 +263,7 @@ namespace FluentTerminal.SystemTray.Services
             _settingsService.NotifyApplicationSettingsChanged(request.Settings);
         }
         
-        private async Task HandlePauseTerminalOutputRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandlePauseTerminalOutputRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
@@ -275,7 +275,7 @@ namespace FluentTerminal.SystemTray.Services
             deferral.Complete();
         }
 
-        private async Task HandleCheckFileExistsRequest(AppServiceRequestReceivedEventArgs args)
+        private async Task HandleCheckFileExistsRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
@@ -302,7 +302,7 @@ namespace FluentTerminal.SystemTray.Services
             deferral.Complete();
         }
 
-        private async Task GetCommandPathRequestHandler(AppServiceRequestReceivedEventArgs args)
+        private async Task GetCommandPathRequestHandlerAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
             var messageContent = (string)args.Request.Message[MessageKeys.Content];
