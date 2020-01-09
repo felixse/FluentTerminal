@@ -597,6 +597,7 @@ namespace FluentTerminal.App
             var windowId = 0;
             TViewModel viewModel = default;
             var newView = CoreApplication.CreateNewView();
+            // ConfigureAwait(true) because ApplicationViewSwitcher.TryShowAsStandaloneAsync requires the same thread as CoreApplication.CreateNewView
             await newView.Dispatcher.ExecuteAsync(() =>
             {
                 viewModel = _container.Resolve<TViewModel>();
@@ -608,7 +609,7 @@ namespace FluentTerminal.App
                 Window.Current.Activate();
 
                 windowId = ApplicationView.GetForCurrentView().Id;
-            }).ConfigureAwait(false);
+            }).ConfigureAwait(true);
 
             if (viewModel is SettingsViewModel settingsViewModel)
             {
