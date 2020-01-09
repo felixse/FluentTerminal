@@ -86,7 +86,8 @@ namespace FluentTerminal.App.Adapters
 
             if (CloseRequested is { } closeRequestedHandler)
             {
-                await closeRequestedHandler(this, args);
+                // ConfigureAwait(true) because SystemNavigationManagerPreview.GetForCurrentView().CloseRequested requires the calling (UI) thread
+                await closeRequestedHandler(this, args).ConfigureAwait(true);
             }
 
             e.Handled = args.Cancelled;
