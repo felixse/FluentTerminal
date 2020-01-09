@@ -19,7 +19,7 @@ namespace FluentTerminal.App.Services.Implementation
 
         public async Task CheckForUpdateAsync(bool notifyNoUpdate = false)
         {
-            var latest = await GetLatestVersionAsync();
+            var latest = await GetLatestVersionAsync().ConfigureAwait(false);
             if (latest > GetCurrentVersion())
             {
                 _notificationService.ShowNotification("Update available",
@@ -42,7 +42,7 @@ namespace FluentTerminal.App.Services.Implementation
             var restClient = new RestClient(apiEndpoint);
             var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
 
-            var restResponse = await restClient.ExecuteTaskAsync(restRequest);
+            var restResponse = await restClient.ExecuteTaskAsync(restRequest).ConfigureAwait(false);
             if (restResponse.IsSuccessful)
             {
                 dynamic restResponseData = JsonConvert.DeserializeObject(restResponse.Content);

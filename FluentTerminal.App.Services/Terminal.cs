@@ -14,6 +14,7 @@ namespace FluentTerminal.App.Services
         private bool _closingFromUi;
         private bool _exited;
         private readonly bool _requireShellProcessStart;
+        private string _fallbackTitle;
 
         public Terminal(ITrayProcessCommunicationService trayProcessCommunicationService, byte? terminalId = null)
         {
@@ -68,8 +69,6 @@ namespace FluentTerminal.App.Services
         /// </summary>
         public event EventHandler<string> TitleChanged;
 
-        public string FallbackTitle { get; private set; }
-
         public byte Id { get; }
 
         /// <summary>
@@ -115,9 +114,9 @@ namespace FluentTerminal.App.Services
         /// <summary>
         /// To be called by view
         /// </summary>
-        public async Task SetSize(TerminalSize size)
+        public async Task SetSizeAsync(TerminalSize size)
         {
-            await _trayProcessCommunicationService.ResizeTerminalAsync(Id, size);
+            await _trayProcessCommunicationService.ResizeTerminalAsync(Id, size).ConfigureAwait(false);
             SizeChanged?.Invoke(this, size);
         }
 
@@ -128,7 +127,7 @@ namespace FluentTerminal.App.Services
         {
             if (string.IsNullOrWhiteSpace(title))
             {
-                title = FallbackTitle;
+                title = _fallbackTitle;
             }
             TitleChanged?.Invoke(this, title);
         }
@@ -136,7 +135,7 @@ namespace FluentTerminal.App.Services
         /// <summary>
         /// To be called by view when ready
         /// </summary>
-        public async Task<TerminalResponse> StartShellProcess(ShellProfile shellProfile, TerminalSize size, SessionType sessionType, string termState)
+        public async Task<TerminalResponse> StartShellProcessAsync(ShellProfile shellProfile, TerminalSize size, SessionType sessionType, string termState)
         {
             if (!_requireShellProcessStart && !string.IsNullOrEmpty(termState))
             {
@@ -147,12 +146,13 @@ namespace FluentTerminal.App.Services
 
             if (_requireShellProcessStart)
             {
-                var response = await _trayProcessCommunicationService.CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(true);
+                var response = await _trayProcessCommunicationService
+                    .CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(false);
 
                 if (response.Success)
                 {
-                    FallbackTitle = response.ShellExecutableName;
-                    SetTitle(FallbackTitle);
+                    _fallbackTitle = response.ShellExecutableName;
+                    SetTitle(_fallbackTitle);
                 }
                 return response;
             }
