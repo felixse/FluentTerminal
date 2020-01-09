@@ -112,7 +112,7 @@ namespace FluentTerminal.App.Views
                 }
                 else
                 {
-                    await ViewModel.Terminal.SetSize(_requestedSize).ConfigureAwait(false);
+                    await ViewModel.Terminal.SetSizeAsync(_requestedSize).ConfigureAwait(false);
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace FluentTerminal.App.Views
                 }
             }
 
-            var response = await ViewModel.Terminal.StartShellProcess(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(false);
+            var response = await ViewModel.Terminal.StartShellProcessAsync(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(false);
             if (!response.Success)
             {
                 await Dispatcher.ExecuteAsync(async () =>
