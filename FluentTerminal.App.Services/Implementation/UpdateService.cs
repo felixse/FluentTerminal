@@ -42,7 +42,7 @@ namespace FluentTerminal.App.Services.Implementation
             var restClient = new RestClient(apiEndpoint);
             var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
 
-            var restResponse = await restClient.ExecuteTaskAsync(restRequest).ConfigureAwait(false);
+            var restResponse = await restClient.ExecuteAsync(restRequest).ConfigureAwait(false);
             if (restResponse.IsSuccessful)
             {
                 dynamic restResponseData = JsonConvert.DeserializeObject(restResponse.Content);

@@ -78,7 +78,7 @@ namespace FluentTerminal.SystemTray
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
