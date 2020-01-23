@@ -372,7 +372,7 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        void IxtermEventListener.OnSelectionChanged(string selection)
+        async void IxtermEventListener.OnSelectionChanged(string selection)
         {
             if (_terminalClosed)
             {
@@ -381,9 +381,8 @@ namespace FluentTerminal.App.Views
 
             if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
             {
-                ViewModel.CopyText(selection);
-                // ReSharper disable once AssignmentIsFullyDiscarded
-                _ = ExecuteScriptAsync("term.clearSelection()");
+                await ViewModel.CopyTextAsync(selection).ConfigureAwait(false);
+                await ExecuteScriptAsync("term.clearSelection()").ConfigureAwait(false);
             }
         }
 

@@ -357,13 +357,17 @@ namespace FluentTerminal.App.ViewModels
             return Terminal.CloseAsync();
         }
 
-        public void CopyText(string text)
+        public Task CopyTextAsync(string text)
         {
-            ClipboardService.SetText(text);
-            if (_terminalOptions.ShowTextCopied)
+            return ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                ApplicationView.ExecuteOnUiThreadAsync(() => Overlay.Show(I18N.Translate("TextCopied")));
-            }
+                ClipboardService.SetText(text);
+
+                if (_terminalOptions.ShowTextCopied)
+                {
+                    Overlay.Show(I18N.Translate("TextCopied"));
+                }
+            });
         }
 
         // Requires UI thread
@@ -511,7 +515,7 @@ namespace FluentTerminal.App.ViewModels
                 case nameof(Command.Copy):
                     {
                         var selection = await Terminal.GetSelectedText().ConfigureAwait(false);
-                        CopyText(selection);
+                        await CopyTextAsync(selection).ConfigureAwait(false);
                         return;
                     }
                 case nameof(Command.Paste):
