@@ -146,7 +146,7 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Decoração nas abas inativas</value>
+    <value>Cor em abas inativas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Exibir título de aba personalizada na janela também</value>
+    <value>Exibir título de aba personalizada na barra de titulo</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
@@ -230,11 +230,12 @@
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Exibir na bandeja</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>Exibir em segundo plano</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Exibir abas</value>
+    <value>Exibir abas em</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
@@ -378,7 +379,7 @@
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Família da fonte</value>
+    <value>Fonte</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
@@ -964,63 +965,69 @@
     <value>Caractere separador de palavras</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Recente</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Abrir novas abas no perfil padrão.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Abrir novas sessões SSH ou Mosh em nova aba.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Abrir caixa de &quot;Inicialização Rápida&quot; e iniciar sessão em nova aba</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Abrir janela de configurações.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Informações básicas do aplicativo.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
-  </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
+    <value>Sessões abertas recentemente.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Iniciar novas sessões do terminal baseadas no perfil padrão.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Conexão Remota...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Abrir uma caixa de diálogo para iniciar um novo terminal SSH ou Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Inicialização Rápida</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Abrir caixa de &quot;Inicialização Rápida&quot; para iniciar uma nova sessão de terminal</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Nova Janela</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Nova Aba</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Iniciar uma sessão em uma nova aba</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Iniciar uma sessão em uma nova janela.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Tipo de menu do aplicativo</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Plano, concordando com configuração para &quot;Abrir novos terminais como&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Nova Aba&quot;/&quot;Nova Janela&quot; em cascata</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Fechar Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Habilitado pela política</value>
   </data>
 </root>

@@ -119,8 +119,7 @@
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
     <value>О программе</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
     <value>Фон</value>
@@ -132,8 +131,7 @@ Fuzzy</comment>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>Подтверждать закрытие окон</value>
@@ -966,55 +964,52 @@ Fuzzy</comment>
     <value>Символы разделителя слов</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Недавние</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Открыть профиль &apos;по умолчанию&apos; в новой вкладке.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Открыть новую SSH или Mosh сессию в новой вкладке.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Открыть окно Быстрого запуска и запустить сессию в новой вкладке.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Открыть окно настроек.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Базовая информация о приложении.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
-  </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
+    <value>Недавно открытые сессии.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Запуск новой сессии с профилем &apos;по умолчанию&apos;.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Удалённое подключение...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Открыть окно для запуска новой SSH или Mosh сессии.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Быстрый запуск...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Открыть окно Быстрого запуска для запуска новой сессии.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Новое окно</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Новая вкладка</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Запуск сессии в новой вкладке.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Запуск сессии в новом окне.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
     <value>Application menu type</value>
@@ -1023,6 +1018,16 @@ Fuzzy</comment>
     <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>Открывать новые окна и вкладки каскадом.</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Выйти из Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Включено политикой.</value>
+    <comment>There should be something explaining by what &quot;policy&quot; this was enabled? (e.g. &quot;local policy&quot; or smth.)</comment>
   </data>
 </root>

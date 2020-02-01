@@ -996,63 +996,69 @@ Fuzzy</comment>
     <value>Worttrennende Zeichen</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Zuletzt verwendet</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Erstellt einen neuen Tab mit dem Standard-Profil.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Öffnet eine neue SSH- oder Mosh-Verbinding in einem neuen Tab.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Öffnet den Quick Launch-Dialog und startet die Sitzung in einem neuen Tab.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Öffnet das Einstellungen-Fenster.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Allgemeine Information zur App.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
-  </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
+    <value>Zuletzt verwendete Sitzungen.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Erstellt eine neue Sitzung mit dem Standard-Profil.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Verbinden...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Öffnet einen Dialog zum Erstellen einer neuen SSH- oder Mosh-Verbindung.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
     <value>Quick Launch...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Öffnet einen Quick Launch-Dialog zum Erstellen einer neuen Sitzung.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Neues Fenster</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Neuer Tab</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Erstellt eine Sitzung in einem neuen Tab.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Erstellt eine Sitzung in einem neuen Fenster.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Menü-Stil</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Flach, folgt der &quot;Neue Terminals öffnen als...&quot; Einstellung.</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>In &quot;Neuer Tab&quot;, &quot;Neues Fenster&quot; unterteilt.</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Fluent Terminal beenden</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Durch Windows-Gruppenrichtlinie aktiviert.</value>
   </data>
 </root>

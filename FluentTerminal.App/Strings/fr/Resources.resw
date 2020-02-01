@@ -1048,9 +1048,6 @@ Fuzzy</comment>
   <data name="Recent_Description" xml:space="preserve">
     <value>Recently opened sessions.</value>
   </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
-  </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
     <value>Starts new terminal session based on the default profile.</value>
   </data>
@@ -1086,5 +1083,14 @@ Fuzzy</comment>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Quit Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Enabled by policy.</value>
   </data>
 </root>

@@ -1,6 +1,6 @@
 Push-Location (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
 
-$api_token = "😉";
+$api_token = "4e9bc169a3ef996122f4202665cef35d";
 $projectId = "258717";
 
 function DownloadLanguageFile($language)

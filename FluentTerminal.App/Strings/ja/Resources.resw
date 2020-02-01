@@ -973,7 +973,7 @@
     <value>新しいタブで新規SSH/Moshセッションを開く</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>&quot;クイックローンチ&quot;ダイアログを開き、新しいタブでセッションを開始</value>
+    <value>&quot;クイック起動&quot;ダイアログを開き、新しいタブでセッションを開始</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
     <value>設定ウィンドウを開く</value>
@@ -984,11 +984,8 @@
   <data name="Recent_Description" xml:space="preserve">
     <value>最近開いたセッション</value>
   </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
-  </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>デフォルトプロファイルで新規ターミナルセッションを開始</value>
+    <value>デフォルトプロファイルで新しいターミナルセッションを開始</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
     <value>リモート接続...</value>
@@ -997,30 +994,39 @@
     <value>新しいSSH/Moshターミナルセッションを起動するためのダイアログを開く</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>クイック起動</value>
+    <value>クイック起動...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>新しいターミナルセッションを開始するため&quot;クイックローンチ&quot;を開く</value>
+    <value>新しいターミナルセッションを開始するため&quot;クイック起動&quot;を開く</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>新規ウィンドウ</value>
+    <value>新しいウィンドウ</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>新規タブ</value>
+    <value>新しいタブ</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>新規タブでセッションを起動</value>
+    <value>新しいタブでセッションを起動</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>新規ウィンドウでセッションを起動</value>
+    <value>新しいウィンドウでセッションを起動</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>アプリケーションメニューの形式</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>&quot;新しいターミナルの開き方&quot;の設定に従いフラットにする</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;新しいタブ&quot;／&quot;新しいウィンドウ&quot;を重ねて表示</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Fluent Terminalの終了</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>ポリシーによる許可</value>
   </data>
 </root>

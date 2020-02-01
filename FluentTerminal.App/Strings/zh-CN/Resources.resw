@@ -984,9 +984,6 @@
   <data name="Recent_Description" xml:space="preserve">
     <value>最近打开的会话。</value>
   </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>默认配置</value>
-  </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
     <value>基于默认配置开启新的终端会话。</value>
   </data>
@@ -1003,16 +1000,16 @@
     <value>打开“快速启动”对话框并开启终端会话。</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>新窗口</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>新标签页</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>在新标签页中打开会话</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>在新窗口中打开会话</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
     <value>Application menu type</value>
@@ -1022,5 +1019,14 @@
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Quit Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Enabled by policy.</value>
   </data>
 </root>

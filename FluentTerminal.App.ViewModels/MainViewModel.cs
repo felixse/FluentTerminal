@@ -732,8 +732,7 @@ namespace FluentTerminal.App.ViewModels
             if (_defaultProfile?.Name is string defaultProfileName)
             {
                 var defaultProfileItem = new MenuItemViewModel(
-                    string.Format(I18N.TranslateWithFallback("MenuItem_DefaultProfile_Text", "{0}"),
-                        defaultProfileName), tab ? _newDefaultTabCommand : _newDefaultWindowCommand,
+                    defaultProfileName, tab ? _newDefaultTabCommand : _newDefaultWindowCommand,
                     I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
                         "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
 

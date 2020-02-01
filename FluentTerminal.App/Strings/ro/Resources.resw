@@ -949,7 +949,7 @@
     <value>Înapoi</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Introduceți termenul de căutare</value>
+    <value>Introduceți fraza de căutare</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>Căutare</value>
@@ -967,60 +967,66 @@
     <value>Recent</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Deschide profilul implicit într-o nouă filă.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Deschide o nouă sesiune SSH sau Mosh într-o nouă filă.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Deschide dialogul „Lansare rapidă” și începe sesiunea într-o nouă filă.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Deschide fereastra de setări.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Informații de bază despre aplicație.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
-  </data>
-  <data name="MenuItem_DefaultProfile_Text" xml:space="preserve">
-    <value>{0}</value>
+    <value>Sesiuni deschise recent.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Începe o nouă sesiune de terminal bazată pe profilul implicit.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Conectare la distanță ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Deschide un dialog pentru lansarea unei noi sesiuni de terminale SSH sau Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Lansare rapidă...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Deschide un dialog „Lansare rapidă” pentru a începe o nouă sesiune de terminal.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Fereastră nouă</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Filă nouă</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Lansează o sesiune într-o filă nouă.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Lansează o sesiune într-o fereastră nouă.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Tip meniu aplicație</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Plat, respectând setarea „Deschidere terminale noi ca”</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>„Filă nouă”/„Fereastră nouă” în cascadă</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Închidere</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Închideţi Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Activat de politică.</value>
   </data>
 </root>
