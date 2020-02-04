@@ -186,7 +186,7 @@ namespace FluentTerminal.SystemTray.Services
         private async Task HandleGetUserNameRequestAsync(AppServiceRequestReceivedEventArgs args)
         {
             var deferral = args.GetDeferral();
-            var response = new StringValueResponse { Success = !string.IsNullOrEmpty(Environment.UserName), Value = Environment.UserName };
+            var response = new StringValueResponse { Success = !string.IsNullOrEmpty(Environment.UserName), Value = Environment.UserName.Split('\\').Last() };
             await args.Request.SendResponseAsync(CreateMessage(response));
             deferral.Complete();
         }
