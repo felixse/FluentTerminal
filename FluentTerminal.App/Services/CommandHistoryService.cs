@@ -340,6 +340,10 @@ namespace FluentTerminal.App.Services
 
                 history.Add(existing);
             }
+            else if (existing.ShellProfile != null)
+            {
+                existing.ShellProfile = profile;
+            }
 
             existing.LastExecution = DateTime.UtcNow;
             existing.ExecutionCount++;
