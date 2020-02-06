@@ -33,10 +33,10 @@ namespace FluentTerminal.App.Dialogs
         private IAsyncOperation<ContentDialogResult> _showDialogOperation;
         private ContentDialogResult _dialogResult = ContentDialogResult.None;
 
-        private ExecutedCommand _lastChosenCommand;
+        private CommandItemViewModel _lastChosenCommand;
 
         // TODO: The following field is for hacking strange behavior that deletes command text after Tab selection. Consider finding a better fix.
-        private string _tabSelectedCommand;
+        private CommandItemViewModel _tabSelectedCommand;
 
         public CommandProfileProviderViewModel ViewModel { get; private set; }
 
@@ -134,16 +134,18 @@ namespace FluentTerminal.App.Dialogs
                 ViewModel.SetFilter(sender.Text.Trim());
             }
             // TODO: Else branch added for Tab-selection hack mentioned above.
-            else if (!string.IsNullOrEmpty(_tabSelectedCommand))
+            else if (_tabSelectedCommand != null)
             {
-                ViewModel.Command = _tabSelectedCommand;
+                ViewModel.Command = _tabSelectedCommand.ExecutedCommand.Value;
+                CommandSelected(_tabSelectedCommand);
+
                 _tabSelectedCommand = null;
             }
         }
 
         private void CommandTextBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            _lastChosenCommand = (args.SelectedItem as CommandItemViewModel)?.ExecutedCommand;
+            _lastChosenCommand = args.SelectedItem as CommandItemViewModel;
         }
 
         private void CommandTextBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -152,29 +154,49 @@ namespace FluentTerminal.App.Dialogs
 
             if (args.ChosenSuggestion is CommandItemViewModel commandItem)
             {
-                var executedCommand = ViewModel.Commands.FirstOrDefault(c =>
-                    c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value,
-                        StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
+                CommandSelected(commandItem);
+            }
+        }
 
-                if (executedCommand != null)
-                {
-                    ViewModel.SetProfile(executedCommand.ShellProfile.Clone());
-                }
+        private void CommandSelected(CommandItemViewModel commandItem)
+        {
+            var executedCommand = ViewModel.Commands.FirstOrDefault(c =>
+                c.ExecutedCommand.Value.Equals(commandItem.ExecutedCommand.Value,
+                    StringComparison.OrdinalIgnoreCase))?.ExecutedCommand;
+
+            if (executedCommand != null)
+            {
+                ViewModel.SetProfile(executedCommand.ShellProfile.Clone());
             }
         }
 
         private void CommandTextBox_OnPreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-            var command = _lastChosenCommand;
+            switch (e.Key)
+            {
+                case VirtualKey.Delete:
 
-            if (e.Key == VirtualKey.Delete && !ViewModel.IsProfileCommand(command))
-            {
-                ViewModel.RemoveCommand(command);
-                e.Handled = true;
-            }
-            else
-            {
-                e.Handled = false;
+                    if (_lastChosenCommand?.ExecutedCommand is { } command)
+                    {
+                        if (!ViewModel.IsProfileCommand(command))
+                        {
+                            ViewModel.RemoveCommand(command);
+                        }
+
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        e.Handled = false;
+                    }
+
+                    return;
+
+                default:
+
+                    e.Handled = false;
+
+                    return;
             }
         }
 
@@ -220,20 +242,20 @@ namespace FluentTerminal.App.Dialogs
 
         private void CommandTextBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            _tabSelectedCommand = null;
+
             if (e.Key == VirtualKey.Tab)
             {
+                _tabSelectedCommand = _lastChosenCommand;
+
                 if (_lastChosenCommand != null)
                 {
-                    ViewModel.Command = _lastChosenCommand.Value;
-                    _tabSelectedCommand = _lastChosenCommand.Value;
+                    ViewModel.Command = _lastChosenCommand.ExecutedCommand.Value;
+                    CommandSelected(_lastChosenCommand);
                 }
+            }
 
-                e.Handled = false;
-            }
-            else
-            {
-                _tabSelectedCommand = null;
-            }
+            e.Handled = false;
         }
 
         public Task<ShellProfile> GetCustomCommandAsync(ShellProfile input = null)
