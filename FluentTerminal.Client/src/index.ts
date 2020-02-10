@@ -2,7 +2,7 @@ import { Terminal, ITerminalOptions, ILinkMatcherOptions, FontWeight } from 'xte
 import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
-import { SerializeAddon } from "./xterm-addon-serialize/src/SerializeAddon";
+import { SerializeAddon } from "xterm-addon-serialize";
 
 
 
