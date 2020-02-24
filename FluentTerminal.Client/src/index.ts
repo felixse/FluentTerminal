@@ -3,6 +3,7 @@ import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from 'xterm-addon-search';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { SerializeAddon } from "xterm-addon-serialize";
+import { Unicode11Addon } from "xterm-addon-unicode11";
 
 
 
@@ -28,6 +29,7 @@ let fitAddon: FitAddon;
 let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
+let unicode11Addon: Unicode11Addon;
 
 const terminalContainer = document.getElementById('terminal-container');
 
@@ -129,6 +131,8 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(serializeAddon);
   webLinksAddon = new WebLinksAddon((_, u) => window.open(u), linkMatcherOptions);
   term.loadAddon(webLinksAddon);
+  unicode11Addon = new Unicode11Addon();
+  term.loadAddon(unicode11Addon);
 
   window.term = term;
 
