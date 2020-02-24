@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace FluentTerminal.App.Views
 {
+    // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class TabBar : UserControl
     {
         public static readonly DependencyProperty ItemsSourceProperty =
@@ -31,9 +32,11 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
             _scrollableWidthChangedToken = ScrollViewer.RegisterPropertyChangedCallback(ScrollViewer.ScrollableWidthProperty, OnScrollableWidthChanged);
-            ListView.SelectionChanged += OnListViewSelectionChanged;
-            ScrollLeftButton.Tapped += OnScrollLeftButtonTapped;
-            ScrollRightButton.Tapped += OnScrollRightButtonTapped;
+        }
+
+        private void OnListViewSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetScrollButtonsEnabledState();
         }
 
         public void DisposalPrepare()
@@ -48,9 +51,6 @@ namespace FluentTerminal.App.Views
             Bindings.StopTracking();
 
             ScrollViewer.UnregisterPropertyChangedCallback(ScrollViewer.ScrollableWidthProperty, _scrollableWidthChangedToken);
-            ListView.SelectionChanged -= OnListViewSelectionChanged;
-            ScrollLeftButton.Tapped -= OnScrollLeftButtonTapped;
-            ScrollRightButton.Tapped -= OnScrollRightButtonTapped;
         }
 
         public RelayCommand AddCommand
@@ -71,37 +71,23 @@ namespace FluentTerminal.App.Views
             set { SetValue(SelectedItemProperty, value); }
         }
 
-        private void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void OnListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = ListView.SelectedItem;
-            if (item != null)
+            if (!(ListView.SelectedItem is { } item)) return;
+
+            var container = ListView.ContainerFromItem(item);
+
+            while (container == null)
             {
-                var container = ListView.ContainerFromItem(item);
+                // We need to ConfigureAwait(true) because the UI thread is needed below.
+                await Task.Delay(30).ConfigureAwait(true);
 
-                if (container != null)
-                {
-                    ((UIElement)container).StartBringIntoView();
-                    SetScrollButtonsEnabledState();
-                }
-                else
-                {
-                    Task.Run(async () =>
-                    {
-                        do
-                        {
-                            await Task.Delay(50);
-                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => container = ListView.ContainerFromItem(item));
-                        }
-                        while (container == null);
-
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                        {
-                            ((UIElement)container).StartBringIntoView();
-                            SetScrollButtonsEnabledState();
-                        });
-                    });
-                }
+                container = ListView.ContainerFromItem(item);
             }
+
+            ((UIElement)container).StartBringIntoView();
+
+            SetScrollButtonsEnabledState();
         }
 
         private void OnScrollableWidthChanged(DependencyObject sender, DependencyProperty property)
@@ -151,8 +137,11 @@ namespace FluentTerminal.App.Views
         {
             Logger.Instance.Debug($"ListView_DragEnter.");
             e.AcceptedOperation = DataPackageOperation.Move;
-            e.DragUIOverride.IsGlyphVisible = false;
-            e.DragUIOverride.Caption = I18N.Translate("DropTabHere");
+            if (e.DragUIOverride is { } dragUiOverride)
+            {
+                dragUiOverride.IsGlyphVisible = false;
+                dragUiOverride.Caption = I18N.Translate("DropTabHere");
+            }
         }
 
         private async void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
