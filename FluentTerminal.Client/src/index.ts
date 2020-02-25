@@ -133,6 +133,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   term.loadAddon(webLinksAddon);
   unicode11Addon = new Unicode11Addon();
   term.loadAddon(unicode11Addon);
+  term.unicode.activeVersion = '11';
 
   window.term = term;
 
