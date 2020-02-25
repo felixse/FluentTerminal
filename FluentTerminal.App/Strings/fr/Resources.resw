@@ -1093,4 +1093,7 @@ Fuzzy</comment>
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>Enabled by policy.</value>
   </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Background image</value>
+  </data>
 </root>

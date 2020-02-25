@@ -1029,4 +1029,7 @@
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>ポリシーによる許可</value>
   </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Background image</value>
+  </data>
 </root>

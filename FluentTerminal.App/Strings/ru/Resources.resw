@@ -1030,4 +1030,7 @@
     <value>Включено политикой.</value>
     <comment>There should be something explaining by what &quot;policy&quot; this was enabled? (e.g. &quot;local policy&quot; or smth.)</comment>
   </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Background image</value>
+  </data>
 </root>

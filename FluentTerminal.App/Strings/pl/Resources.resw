@@ -155,7 +155,8 @@
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
     <value>Pokaż</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>Zmień tytuł</value>
@@ -1028,5 +1029,8 @@
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>Enabled by policy.</value>
+  </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Background image</value>
   </data>
 </root>
