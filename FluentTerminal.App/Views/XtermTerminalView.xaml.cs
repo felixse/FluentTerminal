@@ -553,14 +553,14 @@ namespace FluentTerminal.App.Views
             Logger.Instance.Error(error);
         }
 
-        public void OnInput(string text)
+        public void OnInput(byte[] data)
         {
             if (_terminalClosed)
             {
                 return;
             }
 
-            ViewModel.Terminal.Write(Encoding.UTF8.GetBytes(text));
+            ViewModel.Terminal.Write(data);
         }
 
         public void Dispose()

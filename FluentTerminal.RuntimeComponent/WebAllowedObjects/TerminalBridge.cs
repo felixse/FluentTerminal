@@ -1,6 +1,8 @@
 ﻿using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using System;
+using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
@@ -26,7 +28,12 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 
         public void InputReceived(string message)
         {
-            _terminalEventListener?.OnInput(message);
+            _terminalEventListener?.OnInput(Encoding.UTF8.GetBytes(message));
+        }
+
+        public void BinaryReceived(string binary)
+        {
+            _terminalEventListener?.OnInput(Encoding.UTF8.GetBytes(binary));
         }
 
         public void Initialized()

@@ -9,7 +9,7 @@ import { Unicode11Addon } from "xterm-addon-unicode11";
 
 interface ExtendedWindow extends Window {
   keyBindings: any[];
-  term: any;
+  term: Terminal;
   terminalBridge: any;
 
   createTerminal(options: any, theme: any, keyBindings: any): void;
@@ -24,7 +24,7 @@ interface ExtendedWindow extends Window {
 
 declare var window: ExtendedWindow;
 
-let term: any;
+let term: Terminal;
 let fitAddon: FitAddon;
 let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
@@ -106,7 +106,7 @@ window.createTerminal = (options, theme, keyBindings) => {
     }
   }
   
-  function findInMouseRow(str: string, mouseY: number): {col: Number, row: Number} | undefined {
+  function findInMouseRow(str: string, mouseY: number): {col: number, row: number} | undefined {
     const lineHeight: number = Math.round(window.innerHeight / window.term.rows) - 1;
     const mouseRow: number = mouseY / lineHeight;
     let col: number, row: number = (mouseRow === Math.ceil(mouseRow) ? mouseRow : Math.floor(mouseRow)) - 1;
@@ -143,6 +143,10 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   term.onData(data => {
     window.terminalBridge.inputReceived(data);
+  });
+
+  term.onBinary(binary => {
+    window.terminalBridge.binaryReceived(binary);
   });
 
   term.onResize(({ cols, rows }) => {

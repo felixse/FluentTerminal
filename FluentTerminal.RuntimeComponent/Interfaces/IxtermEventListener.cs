@@ -1,5 +1,6 @@
 ﻿using FluentTerminal.RuntimeComponent.Enums;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace FluentTerminal.RuntimeComponent.Interfaces
 {
@@ -17,7 +18,7 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
 
         void OnError(string error);
 
-        void OnInput(string text);
+        void OnInput([ReadOnlyArray]byte[] data);
 
         void OnInitialized();
 
