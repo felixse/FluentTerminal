@@ -202,24 +202,24 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
-        public Task FindNextAsync(string searchText)
+        public Task FindNextAsync(SearchRequest request)
         {
             if (_terminalClosed)
             {
                 return Task.CompletedTask;
             }
 
-            return ExecuteScriptAsync($"findNext('{searchText}')");
+            return ExecuteScriptAsync($"findNext('{request.Term}', {request.MatchCase.ToString().ToLower()}, {request.WholeWord.ToString().ToLower()}, {request.Regex.ToString().ToLower()})");
         }
 
-        public Task FindPreviousAsync(string searchText)
+        public Task FindPreviousAsync(SearchRequest request)
         {
             if (_terminalClosed)
             {
                 return Task.CompletedTask;
             }
 
-            return ExecuteScriptAsync($"findPrevious('{searchText}')");
+            return ExecuteScriptAsync($"findPrevious('{request.Term}', {request.MatchCase.ToString().ToLower()}, {request.WholeWord.ToString().ToLower()}, {request.Regex.ToString().ToLower()})");
         }
 
         public Task FocusTerminalAsync()
@@ -470,6 +470,7 @@ namespace FluentTerminal.App.Views
                 var scriptTask = await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}))
                     .ConfigureAwait(false);
 
+                
                 return await scriptTask;
             }
             catch (Exception e)

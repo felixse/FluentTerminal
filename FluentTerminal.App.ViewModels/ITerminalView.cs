@@ -11,8 +11,8 @@ namespace FluentTerminal.App.ViewModels
         Task ChangeOptionsAsync(TerminalOptions options);
         Task InitializeAsync(TerminalViewModel viewModel);
         void DisposalPrepare();
-        Task FindNextAsync(string searchText);
-        Task FindPreviousAsync(string searchText);
+        Task FindNextAsync(SearchRequest request);
+        Task FindPreviousAsync(SearchRequest request);
         Task FocusTerminalAsync();
         Task<string> SerializeXtermStateAsync();
         Task PasteAsync(string text);

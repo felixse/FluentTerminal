@@ -5,8 +5,6 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { SerializeAddon } from "xterm-addon-serialize";
 import { Unicode11Addon } from "xterm-addon-unicode11";
 
-
-
 interface ExtendedWindow extends Window {
   keyBindings: any[];
   term: Terminal;
@@ -17,8 +15,8 @@ interface ExtendedWindow extends Window {
   changeTheme(theme: any): void;
   changeOptions(options: any): void;
   changeKeyBindings(keyBindings: any): void;
-  findNext(content: string): void;
-  findPrevious(content: string): void;
+  findNext(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
+  findPrevious(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
   serializeTerminal() : void;
 }
 
@@ -257,12 +255,12 @@ window.changeKeyBindings = (keyBindings) => {
   window["keyBindings"] = keyBindings;
 }
 
-window.findNext = (content: string) => {
-  searchAddon.findNext(content);
+window.findNext = (content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean) => {
+  searchAddon.findNext(content, { caseSensitive: caseSensitive, wholeWord: wholeWord, regex: regex });
 }
 
-window.findPrevious = (content: string) => {
-  searchAddon.findPrevious(content);
+window.findPrevious = (content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean) => {
+  searchAddon.findPrevious(content, { caseSensitive: caseSensitive, wholeWord: wholeWord, regex: regex });
 }
 
 document.oncontextmenu = function () {

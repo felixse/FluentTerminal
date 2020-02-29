@@ -35,6 +35,9 @@ namespace FluentTerminal.App.ViewModels
             public TabTheme TabTheme { get; set; }
             public bool ShowSearchPanel { get; set; }
             public string SearchText { get; set; }
+            public bool SearchMatchCase { get; set; }
+            public bool SearchWholeWord { get; set; }
+            public bool SearchWithRegex { get; set; }
             public string XtermBufferState { get; set; }
             public byte TerminalId { get; set; }
             public ShellProfile ShellProfile { get; set; }
@@ -51,6 +54,9 @@ namespace FluentTerminal.App.ViewModels
                 TabTheme = TabTheme,
                 ShowSearchPanel = ShowSearchPanel,
                 SearchText = SearchText,
+                SearchMatchCase = SearchMatchCase,
+                SearchWholeWord = SearchWholeWord,
+                SearchWithRegex = SearchWithRegex,
                 XtermBufferState = await SerializeXtermStateAsync().ConfigureAwait(false),
                 TerminalId = Terminal.Id,
                 ShellProfile = ShellProfile
@@ -71,6 +77,9 @@ namespace FluentTerminal.App.ViewModels
                 TabTheme = state.TabTheme;
                 ShowSearchPanel = state.ShowSearchPanel;
                 SearchText = state.SearchText;
+                SearchMatchCase = state.SearchMatchCase;
+                SearchWholeWord = state.SearchWholeWord;
+                SearchWithRegex = state.SearchWithRegex;
                 XtermBufferState = state.XtermBufferState;
                 _terminalId = state.TerminalId;
                 ShellProfile = state.ShellProfile;
@@ -86,6 +95,9 @@ namespace FluentTerminal.App.ViewModels
         private bool _hasExitedWithError;
         private string _searchText;
         private bool _showSearchPanel;
+        private bool _searchMatchCase;
+        private bool _searchWholeWord;
+        private bool _searchWithRegex;
         private TabTheme _tabTheme;
         private TerminalTheme _terminalTheme;
         private TerminalOptions _terminalOptions;
@@ -131,7 +143,7 @@ namespace FluentTerminal.App.ViewModels
             EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
 
-            if (!String.IsNullOrEmpty(terminalState))
+            if (!string.IsNullOrEmpty(terminalState))
             {
                 Restore(terminalState);
             }
@@ -159,8 +171,8 @@ namespace FluentTerminal.App.ViewModels
 
         public event EventHandler Activated;
         public event EventHandler Closed;
-        public event EventHandler<string> FindNextRequested;
-        public event EventHandler<string> FindPreviousRequested;
+        public event EventHandler<SearchRequest> FindNextRequested;
+        public event EventHandler<SearchRequest> FindPreviousRequested;
         public event EventHandler SearchStarted;
         public event EventHandler<TerminalTheme> ThemeChanged;
         public event EventHandler CloseLeftTabsRequested;
@@ -267,6 +279,24 @@ namespace FluentTerminal.App.ViewModels
         {
             get => _searchText;
             set => Set(ref _searchText, value);
+        }
+
+        public bool SearchMatchCase
+        {
+            get => _searchMatchCase;
+            set => Set(ref _searchMatchCase, value);
+        }
+
+        public bool SearchWholeWord
+        {
+            get => _searchWholeWord;
+            set => Set(ref _searchWholeWord, value);
+        }
+
+        public bool SearchWithRegex
+        {
+            get => _searchWithRegex;
+            set => Set(ref _searchWithRegex, value);
         }
 
         public RelayCommand<string> SelectTabThemeCommand { get; }
@@ -430,7 +460,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void FindNext()
         {
-            FindNextRequested?.Invoke(this, SearchText);
+            FindNextRequested?.Invoke(this, new SearchRequest { MatchCase = SearchMatchCase, Regex = SearchWithRegex, Term = SearchText, WholeWord = SearchWholeWord });
         }
 
         public ITerminalView TerminalView { get; set; }
@@ -442,7 +472,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void FindPrevious()
         {
-            FindPreviousRequested?.Invoke(this, SearchText);
+            FindPreviousRequested?.Invoke(this, new SearchRequest { MatchCase = SearchMatchCase, Regex = SearchWithRegex, Term = SearchText, WholeWord = SearchWholeWord });
         }
 
         private void DuplicateTab()
