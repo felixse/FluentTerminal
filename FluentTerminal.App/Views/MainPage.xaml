@@ -9,6 +9,9 @@
     KeyDown="MainPage_OnKeyDown"
     RequestedTheme="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
     mc:Ignorable="d">
+    <Page.Background>
+        <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+    </Page.Background>
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
         <converters:AppMenuViewModelToFlyoutMenuConverter x:Key="AppMenuViewModelToFlyoutMenuConverter" />
