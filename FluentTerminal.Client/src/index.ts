@@ -175,6 +175,21 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   window.onmouseup = (e) => defaultOnMouseUpHandler(e);
 
+  window.onkeydown = (e) => {
+    // Disable WebView zooming to prevent crash on too small font size
+    if ((e.ctrlKey && (e.keyCode === 189 || e.keyCode === 187)) ||
+        (e.ctrlKey && (e.key === "Add" || e.key === "Subtract"))) {
+      e.preventDefault();
+    }
+  }
+
+  window.addEventListener("wheel", function(event){
+    // Disable WebView zooming to prevent crash on too small font size
+    if(event.ctrlKey){
+      event.preventDefault();
+    }
+  });
+
   term.attachCustomKeyEventHandler(function (e) {
     if (e.type != "keydown") {
       return true;
