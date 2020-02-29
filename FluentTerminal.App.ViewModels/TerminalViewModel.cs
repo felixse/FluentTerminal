@@ -228,7 +228,12 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
+                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.Search), () => ShowSearchPanel = !ShowSearchPanel);
                         HasNewOutput = false;
+                    }
+                    else
+                    {
+                        _keyboardCommandService.DeregisterCommandHandler(nameof(Command.Search));
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
