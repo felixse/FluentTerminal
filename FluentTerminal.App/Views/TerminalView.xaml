@@ -39,13 +39,11 @@
                     x:Uid="SearchTextBox"
                     Width="200"
                     Margin="6,0,6,0"
+                    Background="Transparent"
                     BorderThickness="0"
-                    FocusVisualPrimaryThickness="0"
-                    FocusVisualSecondaryThickness="0"
                     KeyUp="OnSearchTextBoxKeyUp"
                     PlaceholderText="Enter search term"
-                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    UseSystemFocusVisuals="False" />
+                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleButton Background="Transparent" IsChecked="{x:Bind ViewModel.SearchMatchCase, Mode=TwoWay}">
                     <Viewbox Width="16" Height="16">
