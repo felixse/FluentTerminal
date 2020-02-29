@@ -68,6 +68,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool UseAcrylicBackground
+        {
+            get => _terminalOptions.UseAcrylicBackground;
+            set
+            {
+                if (_terminalOptions.UseAcrylicBackground != value)
+                {
+                    _terminalOptions.UseAcrylicBackground = value;
+                    _settingsService.SaveTerminalOptions(_terminalOptions);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public string FontFamily
         {
             get => _terminalOptions.FontFamily;

@@ -6,16 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:FluentTerminal.App.Views"
+    KeyDown="MainPage_OnKeyDown"
     RequestedTheme="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay, Converter={StaticResource BackgroundToApplicationThemeConverter}}"
-    mc:Ignorable="d"
-    KeyDown="MainPage_OnKeyDown">
+    mc:Ignorable="d">
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
-        <converters:AppMenuViewModelToFlyoutMenuConverter x:Key="AppMenuViewModelToFlyoutMenuConverter"/>
+        <converters:AppMenuViewModelToFlyoutMenuConverter x:Key="AppMenuViewModelToFlyoutMenuConverter" />
     </Page.Resources>
     <Grid x:Name="Root">
         <Grid.Background>
             <AcrylicBrush
+                AlwaysUseFallback="{x:Bind ViewModel.UseAcrylicBackground, Mode=OneWay, Converter={StaticResource NegateConverter}}"
                 BackgroundSource="HostBackdrop"
                 FallbackColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
                 TintColor="{x:Bind ViewModel.SelectedTerminal.TerminalTheme.Colors.Background, Mode=OneWay}"
@@ -36,8 +37,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource TitleBarButtonStyle}"
-                    Flyout="{x:Bind ViewModel.MenuViewModel, Mode=OneWay, Converter={StaticResource AppMenuViewModelToFlyoutMenuConverter}}">
+            <Button Flyout="{x:Bind ViewModel.MenuViewModel, Mode=OneWay, Converter={StaticResource AppMenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Content>
                     <Viewbox Width="16" Height="16">
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />

@@ -30,7 +30,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly ICommandHistoryService _commandHistoryService;
         private readonly IAcceleratorKeyValidator _acceleratorKeyValidator;
         private ApplicationSettings _applicationSettings;
-        private string _background;
+        private bool _useAcrylicBackground;
         private double _backgroundOpacity;
         private TerminalViewModel _selectedTerminal;
         private TabsPosition _tabsPosition;
@@ -41,7 +41,6 @@ namespace FluentTerminal.App.ViewModels
             IApplicationView applicationView, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAcceleratorKeyValidator acceleratorKeyValidator)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
-            MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
             MessengerInstance.Register<ShellProfileAddedMessage>(this, OnShellProfileAdded);
             MessengerInstance.Register<ShellProfileDeletedMessage>(this, OnShellProfileDeleted);
             MessengerInstance.Register<ShellProfileChangedMessage>(this, OnShellProfileChanged);
@@ -104,7 +103,7 @@ namespace FluentTerminal.App.ViewModels
 
             var currentTheme = _settingsService.GetCurrentTheme();
             var options = _settingsService.GetTerminalOptions();
-            Background = currentTheme.Colors.Background;
+            UseAcrylicBackground = options.UseAcrylicBackground;
             BackgroundOpacity = options.BackgroundOpacity;
             _applicationSettings = _settingsService.GetApplicationSettings();
             TabsPosition = _applicationSettings.TabsPosition;
@@ -245,10 +244,10 @@ namespace FluentTerminal.App.ViewModels
             get => TabsPosition == TabsPosition.Bottom;
         }
 
-        public string Background
+        public bool UseAcrylicBackground
         {
-            get => _background;
-            set => Set(ref _background, value);
+            get => _useAcrylicBackground;
+            set => Set(ref _useAcrylicBackground, value);
         }
 
         public double BackgroundOpacity
@@ -528,16 +527,6 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
-        {
-            var currentTheme = _settingsService.GetTheme(message.ThemeId);
-
-            ApplicationView.ExecuteOnUiThreadAsync(() =>
-            {
-                Background = currentTheme.Colors.Background;
-            }, CoreDispatcherPriority.Low);
-        }
-
         private void OnTerminalClosed(object sender, EventArgs e)
         {
             if (!(sender is TerminalViewModel terminal))
@@ -576,6 +565,7 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
                 BackgroundOpacity = message.TerminalOptions.BackgroundOpacity;
+                UseAcrylicBackground = message.TerminalOptions.UseAcrylicBackground;
             }, CoreDispatcherPriority.Low);
         }
 

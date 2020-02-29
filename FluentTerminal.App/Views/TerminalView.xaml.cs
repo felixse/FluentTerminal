@@ -9,6 +9,7 @@ using FluentTerminal.Models;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using FluentTerminal.App.Utilities;
+using Windows.UI;
 
 namespace FluentTerminal.App.Views
 {
@@ -127,13 +128,7 @@ namespace FluentTerminal.App.Views
             }
             else
             {
-                backgroundBrush = new AcrylicBrush
-                {
-                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-                    FallbackColor = color.FromString(),
-                    TintColor = color.FromString(),
-                    TintOpacity = ViewModel.BackgroundOpacity
-                };
+                backgroundBrush = new SolidColorBrush(Colors.Transparent);
             }
 
             TerminalContainer.Background = backgroundBrush;

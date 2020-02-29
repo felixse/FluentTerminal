@@ -414,7 +414,8 @@ namespace FluentTerminal.App.Services.Implementation
                 BackgroundOpacity = 0.8,
                 Padding = 12,
                 ScrollBackLimit = 1000,
-                WordSeparator = " ()[]{}:;|│!&*<>@&quot;&squo;"
+                WordSeparator = " ()[]{}:;|│!&*<>@&quot;&squo;",
+                UseAcrylicBackground = true
             };
         }
 

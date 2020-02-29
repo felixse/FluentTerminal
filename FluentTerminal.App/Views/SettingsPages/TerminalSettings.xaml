@@ -22,11 +22,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
+                x:Uid="Terminal"
                 Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                x:Uid="Terminal"
                 Text="Terminal" />
             <CommandBar
                 Grid.Column="1"
@@ -35,18 +35,18 @@
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
+                    x:Uid="Restore"
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
-                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
         <ScrollViewer Grid.Row="2">
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ComboBox
+                    x:Uid="FontFamily"
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
-                    x:Uid="FontFamily"
                     Header="Font family"
                     ItemsSource="{x:Bind ViewModel.Fonts}"
                     SelectedValue="{x:Bind ViewModel.FontFamily, Mode=TwoWay}"
@@ -59,18 +59,18 @@
                 </ComboBox>
 
                 <ComboBox
+                    x:Uid="FontSize"
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
-                    x:Uid="FontSize"
                     Header="Font size"
                     ItemsSource="{x:Bind ViewModel.Sizes}"
                     SelectedValue="{x:Bind ViewModel.FontSize, Mode=TwoWay}" />
 
                 <Slider
+                    x:Uid="FontWeight"
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
-                    x:Uid="FontWeight"
                     Header="Font Weight"
                     Maximum="900"
                     Minimum="100"
@@ -78,21 +78,10 @@
                     Value="{x:Bind ViewModel.FontWeight, Mode=TwoWay}" />
 
                 <Slider
-                    Width="200"
-                    Margin="{StaticResource ItemMargin}"
-                    HorizontalAlignment="Left"
-                    x:Uid="BackgroundOpacity"
-                    Header="Background opacity"
-                    Maximum="1"
-                    Minimum="0"
-                    StepFrequency="0.01"
-                    Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
-
-                <Slider
-                    Width="200"
-                    Margin="{StaticResource ItemMargin}"
-                    HorizontalAlignment="Left"
                     x:Uid="Padding"
+                    Width="200"
+                    Margin="{StaticResource ItemMargin}"
+                    HorizontalAlignment="Left"
                     Header="Padding"
                     Maximum="64"
                     Minimum="0"
@@ -100,23 +89,44 @@
                     ThumbToolTipValueConverter="{StaticResource ToolTipValueToPixelConverter}"
                     Value="{x:Bind ViewModel.Padding, Mode=TwoWay}" />
 
-                <TextBox
+                <ToggleSwitch
+                    x:Uid="AcrylicBackground"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Use acrylic background"
+                    IsOn="{x:Bind ViewModel.UseAcrylicBackground, Mode=TwoWay}" />
+
+                <Slider
+                    x:Uid="BackgroundOpacity"
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
+                    Header="Background opacity"
+                    IsEnabled="{x:Bind ViewModel.UseAcrylicBackground, Mode=OneWay}"
+                    Maximum="1"
+                    Minimum="0"
+                    StepFrequency="0.01"
+                    Value="{x:Bind ViewModel.BackgroundOpacity, Mode=TwoWay}" />
+
+                <TextBox
                     x:Uid="ScrollbackLimit"
+                    Width="200"
+                    Margin="{StaticResource ItemMargin}"
+                    HorizontalAlignment="Left"
                     Header="Scrollback limit"
                     KeyDown="ScrollBackTextBoxOnKeyDown"
                     Text="{x:Bind ViewModel.ScrollBackLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
-                    Margin="{StaticResource ItemMargin}"
                     x:Uid="BlinkingCursor"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Blinking cursor"
                     IsOn="{x:Bind ViewModel.CursorBlink, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" x:Uid="CursorStyle" Text="Cursor style" />
+                    <TextBlock
+                        x:Uid="CursorStyle"
+                        Margin="0,0,0,8"
+                        Text="Cursor style" />
                     <RadioButton
                         x:Uid="CursorBlock"
                         Content="Block"
@@ -135,7 +145,10 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" x:Uid="ScrollbarStyle" Text="Scrollbar style" />
+                    <TextBlock
+                        x:Uid="ScrollbarStyle"
+                        Margin="0,0,0,8"
+                        Text="Scrollbar style" />
                     <RadioButton
                         x:Uid="ScrollBarHidden"
                         Content="Hidden"
@@ -154,16 +167,16 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    Margin="{StaticResource ItemMargin}"
                     x:Uid="CopiedNotification"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Text copied notification"
                     IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
 
                 <TextBox
+                    x:Uid="WordSeparator"
                     Width="200"
                     Margin="{StaticResource ItemMargin}"
                     HorizontalAlignment="Left"
-                    x:Uid="WordSeparator"
                     Header="Select-by-word characters"
                     Text="{x:Bind ViewModel.WordSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
