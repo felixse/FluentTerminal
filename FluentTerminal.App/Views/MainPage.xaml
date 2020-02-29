@@ -43,7 +43,7 @@
             <Button Flyout="{x:Bind ViewModel.MenuViewModel, Mode=OneWay, Converter={StaticResource AppMenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Content>
                     <Viewbox Width="16" Height="16">
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" />
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE700;" />
                     </Viewbox>
                 </Button.Content>
             </Button>

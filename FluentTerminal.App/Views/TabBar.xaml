@@ -33,7 +33,7 @@
             Tapped="OnScrollLeftButtonTapped">
             <RepeatButton.Content>
                 <Viewbox Width="12" Height="12">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76B;" />
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE76B;" />
                 </Viewbox>
             </RepeatButton.Content>
         </RepeatButton>
@@ -87,7 +87,7 @@
                                                 IsChecked="{x:Bind TabTheme, Mode=OneWay, Converter={StaticResource TabThemeSelectedConverter}, ConverterParameter=0}"
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.None}">
                                                 <ToggleMenuFlyoutItem.Icon>
-                                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF126;" />
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF126;" />
                                                 </ToggleMenuFlyoutItem.Icon>
                                             </ToggleMenuFlyoutItem>
                                             <ToggleMenuFlyoutItem
@@ -97,7 +97,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Red}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#E81123"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -109,7 +109,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Green}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#10893E"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -121,7 +121,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Blue}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#0078D7"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -133,7 +133,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Purple}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#881798"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -145,7 +145,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Orange}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#FF8C00"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -157,7 +157,7 @@
                                                 Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=TabTheme.Teal}">
                                                 <ToggleMenuFlyoutItem.Icon>
                                                     <FontIcon
-                                                        FontFamily="Segoe MDL2 Assets"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                         Foreground="#00B7C3"
                                                         Glyph="&#xF127;" />
                                                 </ToggleMenuFlyoutItem.Icon>
@@ -196,7 +196,7 @@
                                         Height="12"
                                         VerticalAlignment="Center"
                                         ToolTipService.ToolTip="Exited with error">
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE814;" />
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE814;" />
                                     </Viewbox>
                                 </Grid>
                                 <TextBlock
@@ -228,7 +228,7 @@
                                             Height="12"
                                             VerticalAlignment="Center"
                                             ToolTipService.ToolTip="New output">
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA38;" />
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEA38;" />
                                         </Viewbox>
                                     </Grid>
                                 </Grid>
@@ -365,7 +365,7 @@
             Tapped="OnScrollRightButtonTapped">
             <RepeatButton.Content>
                 <Viewbox Width="12" Height="12">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76C;" />
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE76C;" />
                 </Viewbox>
             </RepeatButton.Content>
         </RepeatButton>

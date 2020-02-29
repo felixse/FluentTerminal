@@ -33,8 +33,8 @@
                     Tag="general">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="e"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE713;"
                             ToolTipService.ToolTip="General" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
@@ -44,8 +44,8 @@
                     Tag="terminal">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="d"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE771;"
                             ToolTipService.ToolTip="Terminal" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
@@ -55,8 +55,8 @@
                     Tag="profiles">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="a"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE756;"
                             ToolTipService.ToolTip="Shell" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
@@ -66,8 +66,8 @@
                     Tag="sshprofiles">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="a"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE774;"
                             ToolTipService.ToolTip="Shell" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
@@ -77,8 +77,8 @@
                     Tag="keyBindings">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="b"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE765;"
                             ToolTipService.ToolTip="Keybindings" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
@@ -88,9 +88,9 @@
                     Tag="mouse">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="g"
-                            ToolTipService.ToolTip="Keybindings" />
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE962;"
+                            ToolTipService.ToolTip="Mouse" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
                 <controls:NavigationViewItem
@@ -99,8 +99,8 @@
                     Tag="themes">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="/Assets/settingsicons.ttf#settingsicons"
-                            Glyph="c"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE790;"
                             ToolTipService.ToolTip="Themes" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>

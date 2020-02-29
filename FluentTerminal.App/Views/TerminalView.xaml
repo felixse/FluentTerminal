@@ -32,7 +32,7 @@
                     Width="16"
                     Height="16"
                     Margin="6,0,0,0">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF78B;" />
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF78B;" />
                 </Viewbox>
                 <TextBox
                     Name="SearchTextBox"
@@ -74,7 +74,7 @@
                     ToolTipService.ToolTip="Find previous">
                     <Button.Content>
                         <Viewbox Width="16" Height="16">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE971;" />
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE971;" />
                         </Viewbox>
                     </Button.Content>
                 </Button>
@@ -86,7 +86,7 @@
                     ToolTipService.ToolTip="Find next">
                     <Button.Content>
                         <Viewbox Width="16" Height="16">
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE972;" />
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE972;" />
                         </Viewbox>
                     </Button.Content>
                 </Button>
