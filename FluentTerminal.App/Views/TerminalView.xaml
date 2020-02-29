@@ -25,7 +25,7 @@
             Color="Black">
             <StackPanel
                 Padding="6"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                 CornerRadius="4"
                 Orientation="Horizontal">
                 <Viewbox
