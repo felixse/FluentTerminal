@@ -41,6 +41,7 @@
             <converters:ColorResourceKeyFallbackConverter x:Key="ColorResourceKeyFallbackConverter" />
             <converters:TrueToBoldConverter x:Key="TrueToBoldConverter" />
             <converters:I18NConverter x:Key="I18NConverter" />
+            <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

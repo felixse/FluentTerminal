@@ -140,7 +140,7 @@ namespace FluentTerminal.App.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().TryResizeView(new Size { Width = 800, Height = 600 });
+            ApplicationView.GetForCurrentView().TryResizeView(new Size { Width = 1024, Height = 768 });
         }
     }
 }

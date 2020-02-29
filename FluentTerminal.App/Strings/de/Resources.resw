@@ -1064,4 +1064,17 @@ Fuzzy</comment>
   <data name="BackgroundImage.Content" xml:space="preserve">
     <value>Hintergrundbild</value>
   </data>
+  <data name="AcrylicBackground.Header" xml:space="preserve">
+    <value>Hintergrund mit Acryl-Effekt</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Sind Sie sicher dass Sie dieses Hintergrundbild löschen möchten?</value>
+  </data>
+  <data name="Colors.Text" xml:space="preserve">
+    <value>Farben</value>
+  </data>
+  <data name="BrightColors.Text" xml:space="preserve">
+    <value>Helle Farben</value>
+  </data>
 </root>

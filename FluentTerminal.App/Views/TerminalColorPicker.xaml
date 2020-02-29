@@ -5,29 +5,39 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Margin="0,0,6,0"
     d:DesignHeight="24"
     d:DesignWidth="24"
     mc:Ignorable="d">
-    <Button
-        x:Name="Root"
-        Background="{x:Bind ButtonBackground, Mode=OneWay}"
-        IsEnabled="{x:Bind EnableEditing, Mode=OneWay}"
-        Style="{StaticResource ColorPreviewButtonStyle}"
-        ToolTipService.ToolTip="{x:Bind ColorName}">
-        <Button.Flyout>
-            <Flyout>
-                <StackPanel>
-                    <TextBlock
-                        Margin="0,0,0,6"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{x:Bind ColorName}" />
-                    <controls:ColorPicker
-                        x:Name="colorPicker"
-                        ColorChanged="ColorPicker_ColorChanged"
-                        IsAlphaEnabled="{x:Bind IsAlphaEnabled, Mode=OneWay}"
-                        IsColorChannelTextInputVisible="False" />
-                </StackPanel>
-            </Flyout>
-        </Button.Flyout>
-    </Button>
+    <StackPanel Orientation="Horizontal" ToolTipService.ToolTip="{x:Bind ColorName}">
+        <Button
+            x:Name="Root"
+            Width="24"
+            Height="24"
+            Background="{x:Bind ButtonBackground, Mode=OneWay}"
+            IsEnabled="{x:Bind EnableEditing, Mode=OneWay}"
+            Style="{StaticResource ColorPreviewButtonStyle}">
+            <Button.Flyout>
+                <Flyout>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,0,0,6"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{x:Bind ColorName}" />
+                        <controls:ColorPicker
+                            x:Name="colorPicker"
+                            ColorChanged="ColorPicker_ColorChanged"
+                            IsAlphaEnabled="{x:Bind IsAlphaEnabled, Mode=OneWay}"
+                            IsColorChannelTextInputVisible="False" />
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <TextBlock
+            Margin="6,0,0,0"
+            VerticalAlignment="Center"
+            Text="{x:Bind ColorName}"
+            Visibility="{x:Bind ShowName, Converter={StaticResource TrueToVisibleConverter}}" />
+    </StackPanel>
+
 </UserControl>

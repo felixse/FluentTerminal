@@ -1,11 +1,13 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -93,13 +95,13 @@ namespace FluentTerminal.App.ViewModels
             BackgroundThemeFile = Model.BackgroundImage;
 
             SetActiveCommand = new RelayCommand(SetActive);
-            DeleteCommand = new RelayCommand(async () => await DeleteAsync().ConfigureAwait(false), NotPreInstalled);
+            DeleteCommand = new AsyncCommand(DeleteAsync, NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
-            CancelEditCommand = new RelayCommand(async () => await CancelEditAsync().ConfigureAwait(false));
-            SaveChangesCommand = new RelayCommand(async () => await SaveChangesAsync().ConfigureAwait(false));
-            ExportCommand = new RelayCommand(async () => await Export().ConfigureAwait(false), NotPreInstalled);
-            ChooseBackgroundImageCommand = new RelayCommand(async () => await ChooseBackgroundImageAsync(), NotPreInstalled);
-            DeleteBackgroundImageCommand = new RelayCommand(async () => await DeleteBackgroundImageAsync(), NotPreInstalled);
+            CancelEditCommand = new AsyncCommand(CancelEditAsync);
+            SaveChangesCommand = new AsyncCommand(SaveChangesAsync);
+            ExportCommand = new AsyncCommand(Export, NotPreInstalled);
+            ChooseBackgroundImageCommand = new AsyncCommand(ChooseBackgroundImageAsync, NotPreInstalled);
+            DeleteBackgroundImageCommand = new AsyncCommand(DeleteBackgroundImageAsync, NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -190,7 +192,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _brightYellow, value);
         }
 
-        public RelayCommand CancelEditCommand { get; }
+        public ICommand CancelEditCommand { get; }
 
         public string Cursor
         {
@@ -210,9 +212,9 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _cyan, value);
         }
 
-        public RelayCommand DeleteCommand { get; }
-        public RelayCommand EditCommand { get; }
-        public RelayCommand ExportCommand { get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand EditCommand { get; }
+        public ICommand ExportCommand { get; }
 
         public string Foreground
         {
@@ -258,7 +260,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _red, value);
         }
 
-        public RelayCommand SaveChangesCommand { get; }
+        public ICommand SaveChangesCommand { get; }
 
         public string Selection
         {
@@ -266,7 +268,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _selection, value);
         }
 
-        public RelayCommand SetActiveCommand { get; }
+        public ICommand SetActiveCommand { get; }
 
         public string White
         {
@@ -290,9 +292,9 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public RelayCommand ChooseBackgroundImageCommand { get; }
+        public ICommand ChooseBackgroundImageCommand { get; }
 
-        public RelayCommand DeleteBackgroundImageCommand { get; }
+        public ICommand DeleteBackgroundImageCommand { get; }
 
         // Requires UI thread
         private async Task SaveChangesAsync()

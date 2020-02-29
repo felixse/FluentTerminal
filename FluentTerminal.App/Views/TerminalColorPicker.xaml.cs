@@ -16,6 +16,9 @@ namespace FluentTerminal.App.Views
         public static readonly DependencyProperty EnableEditingProperty =
             DependencyProperty.Register(nameof(EnableEditing), typeof(bool), typeof(TerminalColorPicker), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty ShowNameProperty =
+            DependencyProperty.Register(nameof(ShowName), typeof(bool), typeof(TerminalColorPicker), new PropertyMetadata(false));
+
         public static readonly DependencyProperty IsAlphaEnabledProperty =
                     DependencyProperty.Register(nameof(IsAlphaEnabled), typeof(bool), typeof(TerminalColorPicker), new PropertyMetadata(false));
 
@@ -52,6 +55,12 @@ namespace FluentTerminal.App.Views
         {
             get { return (bool)GetValue(EnableEditingProperty); }
             set { SetValue(EnableEditingProperty, value); }
+        }
+
+        public bool ShowName
+        {
+            get { return (bool)GetValue(ShowNameProperty); }
+            set { SetValue(ShowNameProperty, value); }
         }
 
         public bool IsAlphaEnabled

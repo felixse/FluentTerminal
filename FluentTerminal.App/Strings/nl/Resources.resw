@@ -1098,4 +1098,16 @@ Fuzzy</comment>
   <data name="BackgroundImage.Content" xml:space="preserve">
     <value>Background image</value>
   </data>
+  <data name="AcrylicBackground.Header" xml:space="preserve">
+    <value>Use acrylic background</value>
+  </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Are you sure you want to delete this background image?</value>
+  </data>
+  <data name="Colors.Text" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="BrightColors.Text" xml:space="preserve">
+    <value>Bright colors</value>
+  </data>
 </root>
