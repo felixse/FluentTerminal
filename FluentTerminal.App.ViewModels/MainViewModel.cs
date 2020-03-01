@@ -628,7 +628,7 @@ namespace FluentTerminal.App.ViewModels
 
         private const int RecentItemsMaxCount = 10;
 
-        private AppMenuViewModel _menuViewModel;
+        private MenuViewModel _menuViewModel;
 
         private readonly RelayCommand _newDefaultTabCommand;
         private readonly RelayCommand _newDefaultWindowCommand;
@@ -640,7 +640,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly RelayCommand _aboutCommand;
         private readonly ICommand _quitCommand;
 
-        public AppMenuViewModel MenuViewModel
+        public MenuViewModel AppMenuViewModel
         {
             get => _menuViewModel;
             private set => Set(ref _menuViewModel, value);
@@ -648,7 +648,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
-            var appMenuViewModel = new AppMenuViewModel();
+            var appMenuViewModel = new MenuViewModel();
 
             if (_applicationSettings.TabWindowCascadingAppMenu)
             {
@@ -711,7 +711,7 @@ namespace FluentTerminal.App.ViewModels
 
             if (!appMenuViewModel.EquivalentTo(_menuViewModel))
             {
-                MenuViewModel = appMenuViewModel;
+                AppMenuViewModel = appMenuViewModel;
             }
         }
 

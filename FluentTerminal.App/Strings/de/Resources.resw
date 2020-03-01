@@ -1077,4 +1077,7 @@ Fuzzy</comment>
   <data name="BrightColors.Text" xml:space="preserve">
     <value>Helle Farben</value>
   </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Link kopieren</value>
+  </data>
 </root>

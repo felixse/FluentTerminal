@@ -14,7 +14,6 @@
     </Page.Background>
     <Page.Resources>
         <converters:TerminalViewModelToViewConverter x:Key="TerminalViewModelToViewConverter" />
-        <converters:AppMenuViewModelToFlyoutMenuConverter x:Key="AppMenuViewModelToFlyoutMenuConverter" />
     </Page.Resources>
     <Grid x:Name="Root">
         <Grid.Background>
@@ -40,7 +39,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Flyout="{x:Bind ViewModel.MenuViewModel, Mode=OneWay, Converter={StaticResource AppMenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
+            <Button Flyout="{x:Bind ViewModel.AppMenuViewModel, Mode=OneWay, Converter={StaticResource MenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Content>
                     <Viewbox Width="16" Height="16">
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE700;" />

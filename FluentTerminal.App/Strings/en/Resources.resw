@@ -1111,4 +1111,7 @@ Fuzzy</comment>
   <data name="BrightColors.Text" xml:space="preserve">
     <value>Bright colors</value>
   </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
 </root>

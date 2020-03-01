@@ -107,7 +107,7 @@
     <Compile Include="CommandLineArguments\RunVerb.cs" />
     <Compile Include="CommandLineArguments\SettingsVerb.cs" />
     <Compile Include="CommandLineArguments\Target.cs" />
-    <Compile Include="Converters\AppMenuViewModelToFlyoutMenuConverter.cs" />
+    <Compile Include="Converters\MenuViewModelToFlyoutMenuConverter.cs" />
     <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
     <Compile Include="Converters\BooleanNegationConverter.cs" />
     <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />

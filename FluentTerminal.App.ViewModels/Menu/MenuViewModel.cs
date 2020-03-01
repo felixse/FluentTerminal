@@ -5,11 +5,11 @@ using GalaSoft.MvvmLight;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class AppMenuViewModel : ViewModelBase
+    public class MenuViewModel : ViewModelBase
     {
         public ObservableCollection<MenuItemViewModelBase> Items { get; }
 
-        public AppMenuViewModel(IEnumerable<MenuItemViewModelBase> items = null)
+        public MenuViewModel(IEnumerable<MenuItemViewModelBase> items = null)
         {
             if (items == null)
             {
@@ -25,7 +25,7 @@ namespace FluentTerminal.App.ViewModels.Menu
             }
         }
 
-        public bool EquivalentTo(AppMenuViewModel other)
+        public bool EquivalentTo(MenuViewModel other)
         {
             if (ReferenceEquals(this, other)) return true;
 

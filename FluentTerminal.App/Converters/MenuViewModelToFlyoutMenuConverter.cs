@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FluentTerminal.App.Converters
 {
-    public class AppMenuViewModelToFlyoutMenuConverter : IValueConverter
+    public class MenuViewModelToFlyoutMenuConverter : IValueConverter
     {
         private static readonly MenuItemViewModelBaseToMenuFlayoutItemBaseConverter ItemConverter =
             new MenuItemViewModelBaseToMenuFlayoutItemBaseConverter();
@@ -18,10 +18,10 @@ namespace FluentTerminal.App.Converters
                 return null;
             }
 
-            if (!(value is AppMenuViewModel appMenuViewModel))
+            if (!(value is MenuViewModel menuViewModel))
             {
                 throw new ArgumentException(
-                    $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(AppMenuViewModel)} expected.");
+                    $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(MenuViewModel)} expected.");
             }
 
             var menuFlyout = new MenuFlyout
@@ -29,7 +29,7 @@ namespace FluentTerminal.App.Converters
                 Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft
             };
 
-            foreach (var menuItemViewModelBase in appMenuViewModel.Items)
+            foreach (var menuItemViewModelBase in menuViewModel.Items)
             {
                 menuFlyout.Items?.Add((MenuFlyoutItemBase) ItemConverter.Convert(menuItemViewModelBase));
             }

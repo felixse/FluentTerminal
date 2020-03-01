@@ -3,11 +3,13 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
+using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
+using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,19 +17,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace FluentTerminal.App.Views
 {
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
-        private readonly MenuFlyoutItem _copyMenuItem;
-        private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
         private TerminalBridge _terminalBridge;
@@ -135,17 +137,6 @@ namespace FluentTerminal.App.Views
             _webView.NavigationStarting += _webView_NavigationStarting;
             _webView.NewWindowRequested += _webView_NewWindowRequested;
 
-            _copyMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Copy") };
-            _copyMenuItem.Click += Copy_Click;
-
-            _pasteMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Paste") };
-            _pasteMenuItem.Click += Paste_Click;
-
-            _webView.ContextFlyout = new MenuFlyout
-            {
-                Items = { _copyMenuItem, _pasteMenuItem }
-            };
-
             _optionsChanged = new DelayedAction<TerminalOptions>(async options =>
             {
                 var serialized = JsonConvert.SerializeObject(options);
@@ -245,6 +236,14 @@ namespace FluentTerminal.App.Views
             ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
             ViewModel.Terminal.Closed += Terminal_Closed;
 
+            _webView.SetBinding(ContextFlyoutProperty, new Binding
+            {
+                Converter = (IValueConverter)Application.Current.Resources["MenuViewModelToFlyoutMenuConverter"],
+                Mode = BindingMode.OneWay,
+                Source = ViewModel,
+                Path = new PropertyPath(nameof(TerminalViewModel.ContextMenu))
+            });
+
             var options = ViewModel.SettingsService.GetTerminalOptions();
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
@@ -341,7 +340,7 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection)
+        void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri)
         {
             if (_terminalClosed)
             {
@@ -352,7 +351,7 @@ namespace FluentTerminal.App.Views
             {
                 if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
                 {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
+                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
                 }
                 else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
                 {
@@ -363,7 +362,7 @@ namespace FluentTerminal.App.Views
             {
                 if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
                 {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
+                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
                 }
                 else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
                 {
@@ -443,11 +442,6 @@ namespace FluentTerminal.App.Views
             _ = Launcher.LaunchUriAsync(args.Uri);
         }
 
-        private void Copy_Click(object sender, RoutedEventArgs e)
-        {
-            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
-        }
-
         private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
@@ -486,15 +480,11 @@ namespace FluentTerminal.App.Views
             return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings).Concat(sshprofiles.SelectMany(x => x.KeyBindings)));
         }
 
-        private void Paste_Click(object sender, RoutedEventArgs e)
+        private void ShowContextMenu(int x, int y, bool terminalHasSelection, string hoveredUri)
         {
-            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-        }
-
-        private void ShowContextMenu(int x, int y, bool terminalHasSelection)
-        {
+            ViewModel.HoveredUri = hoveredUri;
+            ViewModel.HasSelection = terminalHasSelection;
             var flyout = (MenuFlyout)_webView.ContextFlyout;
-            _copyMenuItem.IsEnabled = terminalHasSelection;
             flyout.ShowAt(_webView, new Point(x, y));
         }
 
@@ -515,9 +505,6 @@ namespace FluentTerminal.App.Views
                 _webView?.Navigate(new Uri("about:blank"));
                 Root.Children.Remove(_webView);
                 _webView = null;
-
-                _copyMenuItem.Click -= Copy_Click;
-                _pasteMenuItem.Click -= Paste_Click;
                 
                 if (Window.Current.Content is Frame frame && frame.Content is Page mainPage)
                 {

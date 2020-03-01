@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using FluentTerminal.Models.Messages;
+using System.Windows.Input;
+using FluentTerminal.App.ViewModels.Menu;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -105,6 +107,9 @@ namespace FluentTerminal.App.ViewModels
         private string _shellTitle;
         private bool _hasCustomTitle;
         private byte? _terminalId;
+        private bool _hasSelection;
+        private string _hoveredUri;
+        private MenuViewModel _contextMenu;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
@@ -113,6 +118,7 @@ namespace FluentTerminal.App.ViewModels
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
             MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
+            MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
 
             SettingsService = settingsService;
 
@@ -142,7 +148,10 @@ namespace FluentTerminal.App.ViewModels
             SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme, CanExecuteCommand);
             EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
-
+            CopyCommand = new AsyncCommand(Copy, () => HasSelection);
+            PasteCommand = new AsyncCommand(Paste);
+            CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
+            ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
             if (!string.IsNullOrEmpty(terminalState))
             {
                 Restore(terminalState);
@@ -155,6 +164,14 @@ namespace FluentTerminal.App.ViewModels
             Terminal.TitleChanged += Terminal_TitleChanged;
             Terminal.Exited += Terminal_Exited;
             Terminal.Closed += Terminal_Closed;
+
+            ContextMenu = BuidContextMenu();
+        }
+
+        public MenuViewModel ContextMenu
+        {
+            get => _contextMenu;
+            set => Set(ref _contextMenu, value);
         }
 
         private bool _disposalRequested;
@@ -217,6 +234,14 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand DuplicateTabCommand { get; }
 
+        public ICommand CopyLinkCommand { get; private set; }
+
+        public ICommand CopyCommand { get; private set; }
+
+        public ICommand PasteCommand { get; private set; }
+
+        public ICommand ShowSearchPanelCommand { get; private set; }
+
         public double BackgroundOpacity => _terminalOptions?.BackgroundOpacity ?? 1.0;
 
         public bool IsSelected
@@ -238,6 +263,24 @@ namespace FluentTerminal.App.ViewModels
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
                     RaisePropertyChanged(nameof(ShowCloseButton));
+                }
+            }
+        }
+
+        public bool HasSelection
+        {
+            get => _hasSelection;
+            set => Set(ref _hasSelection, value);
+        }
+
+        public string HoveredUri
+        {
+            get => _hoveredUri;
+            set
+            {
+                if (Set(ref _hoveredUri, value))
+                {
+                    ContextMenu = BuidContextMenu();
                 }
             }
         }
@@ -517,6 +560,11 @@ namespace FluentTerminal.App.ViewModels
             ApplicationView.ExecuteOnUiThreadAsync(() => RaisePropertyChanged(nameof(BackgroundOpacity)), CoreDispatcherPriority.Low);
         }
 
+        private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
+        {
+            ContextMenu = BuidContextMenu();
+        }
+
         private void SelectTabTheme(string id)
         {
             TabTheme = TabThemes.FirstOrDefault(t => t.Id == int.Parse(id));
@@ -549,18 +597,12 @@ namespace FluentTerminal.App.ViewModels
             {
                 case nameof(Command.Copy):
                     {
-                        var selection = await Terminal.GetSelectedText().ConfigureAwait(false);
-                        await CopyTextAsync(selection).ConfigureAwait(false);
+                        await Copy().ConfigureAwait(false);
                         return;
                     }
                 case nameof(Command.Paste):
                     {
-                        string content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
-                        if (content != null)
-                        {
-                            content = ShellProfile.TranslateLineEndings(content);
-                            await TerminalView.PasteAsync(content).ConfigureAwait(false);
-                        }
+                        await Paste().ConfigureAwait(false);
                         return;
                     }
                 case nameof(Command.PasteWithoutNewlines):
@@ -631,6 +673,76 @@ namespace FluentTerminal.App.ViewModels
             {
                 await CloseAsync().ConfigureAwait(false);
             }
+        }
+
+        private async Task Copy()
+        {
+            var selection = await Terminal.GetSelectedText().ConfigureAwait(false);
+            await CopyTextAsync(selection).ConfigureAwait(false);
+        }
+
+        private async Task Paste()
+        {
+            var content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
+            if (content != null)
+            {
+                content = ShellProfile.TranslateLineEndings(content);
+                await TerminalView.PasteAsync(content).ConfigureAwait(false);
+            }
+        }
+
+        private MenuViewModel BuidContextMenu()
+        {
+            var commandKeyBindings = SettingsService.GetCommandKeyBindings();
+
+            void addKeyBindings(MenuItemViewModel menuItem, Command command)
+            {
+                var keyBindings = commandKeyBindings[command.ToString()];
+                if (keyBindings?.Any() == true)
+                {
+                    menuItem.KeyBinding = new MenuItemKeyBindingViewModel(keyBindings.First());
+                }
+            }
+
+            var contextMenu = new MenuViewModel();
+            if (!string.IsNullOrWhiteSpace(HoveredUri))
+            {
+                var copyLink = new MenuItemViewModel(I18N.Translate("CopyLink"), CopyLinkCommand, icon: "\uE71B");
+                contextMenu.Items.Add(copyLink);
+                contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+            }
+
+            var copy = new MenuItemViewModel(I18N.Translate("Command.Copy"), CopyCommand, icon: "\uE8C8");
+            addKeyBindings(copy, Command.Copy);
+            contextMenu.Items.Add(copy);
+
+            var paste = new MenuItemViewModel(I18N.Translate("Command.Paste"), PasteCommand, icon: "\uE77F");
+            addKeyBindings(paste, Command.Paste);
+            contextMenu.Items.Add(paste);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var editTitle = new MenuItemViewModel(I18N.Translate("EditTitle.Text"), EditTitleCommand, icon: "\uE70F");
+            addKeyBindings(editTitle, Command.ChangeTabTitle);
+            contextMenu.Items.Add(editTitle);
+
+            var search = new MenuItemViewModel(I18N.Translate("Search.Text"), ShowSearchPanelCommand, icon: "\uE721");
+            addKeyBindings(search, Command.Search);
+            contextMenu.Items.Add(search);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
+            addKeyBindings(duplicate, Command.DuplicateTab);
+            contextMenu.Items.Add(duplicate);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: "\uE711");
+            addKeyBindings(close, Command.CloseTab);
+            contextMenu.Items.Add(close);
+
+            return contextMenu;
         }
     }
 }
