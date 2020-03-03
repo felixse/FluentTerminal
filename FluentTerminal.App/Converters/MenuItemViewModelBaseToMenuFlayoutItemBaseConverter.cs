@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.App.Views;
+using Microsoft.UI.Xaml.Controls;
 
 // ReSharper disable LocalizableElement
 
@@ -32,6 +33,16 @@ namespace FluentTerminal.App.Converters
             if (viewModel is MenuItemViewModel regular)
             {
                 return GetRegularItem(regular);
+            }
+
+            if (viewModel is ToggleMenuItemViewModel toggle)
+            {
+                return GetToggleItem(toggle);
+            }
+
+            if (viewModel is RadioMenuItemViewModel radio)
+            {
+                return GetRadioItem(radio);
             }
 
             // Won't happen ever, but still...
@@ -121,6 +132,85 @@ namespace FluentTerminal.App.Converters
                 Source = viewModel,
                 Path = new PropertyPath(nameof(ExpandableMenuItemViewModel.SubItems)),
                 Mode = BindingMode.OneWay
+            });
+
+            return item;
+        }
+
+        private static ToggleMenuFlyoutItem GetToggleItem(ToggleMenuItemViewModel viewModel)
+        {
+            var item = new ToggleMenuFlyoutItem();
+
+            item.SetBinding(MenuFlyoutItem.TextProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Text)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(ToolTipService.ToolTipProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Description)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(MenuFlyoutItem.IconProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Icon)),
+                Converter = IconConverter,
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(ToggleMenuFlyoutItem.IsCheckedProperty, new Binding
+            {
+                Source = viewModel.BindingSource,
+                Path = new PropertyPath(viewModel.BindingPath),
+                Mode = BindingMode.TwoWay
+            });
+
+            return item;
+        }
+
+        private static RadioMenuFlyoutItem GetRadioItem(RadioMenuItemViewModel viewModel)
+        {
+            var item = new RadioMenuFlyoutItem();
+
+            item.SetBinding(MenuFlyoutItem.TextProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Text)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(ToolTipService.ToolTipProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Description)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(MenuFlyoutItem.IconProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(MenuItemViewModelBase.Icon)),
+                Converter = IconConverter,
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(RadioMenuFlyoutItem.GroupNameProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(nameof(RadioMenuItemViewModel.GroupName)),
+                Mode = BindingMode.OneWay
+            });
+
+            item.SetBinding(RadioMenuFlyoutItem.IsCheckedProperty, new Binding
+            {
+                Source = viewModel.BindingSource,
+                Path = new PropertyPath(viewModel.BindingPath),
+                Mode = BindingMode.TwoWay
             });
 
             return item;

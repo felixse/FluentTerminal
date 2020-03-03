@@ -9,7 +9,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public ObservableCollection<MenuItemViewModelBase> SubItems { get; }
 
         public ExpandableMenuItemViewModel(string text, IEnumerable<MenuItemViewModelBase> subItems = null,
-            string description = null, object icon = null) : base(text, description, icon)
+            string description = null, Mdl2Icon icon = null) : base(text, description, icon)
         {
             if (subItems == null)
             {

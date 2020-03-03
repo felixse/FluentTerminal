@@ -1,4 +1,4 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models.Enums;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -12,8 +12,9 @@ namespace FluentTerminal.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is TabTheme theme && Enum.TryParse<TabThemeKey>((string)parameter, true, out TabThemeKey tabThemeKey))
+            if (value is TabThemeViewModel viewModel && Enum.TryParse<TabThemeKey>((string)parameter, true, out TabThemeKey tabThemeKey))
             {
+                var theme = viewModel.Theme;
                 switch (tabThemeKey)
                 {
                     case TabThemeKey.Background:

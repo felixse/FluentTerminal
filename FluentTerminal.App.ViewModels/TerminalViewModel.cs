@@ -15,6 +15,9 @@ using Windows.UI.Core;
 using FluentTerminal.Models.Messages;
 using System.Windows.Input;
 using FluentTerminal.App.ViewModels.Menu;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml;
+using System.Collections.Generic;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -34,7 +37,7 @@ namespace FluentTerminal.App.ViewModels
             public string ShellTitle { get; set; }
             public string TabTitle { get; set; }
             public TerminalTheme TerminalTheme { get; set; }
-            public TabTheme TabTheme { get; set; }
+            public int TabThemeId { get; set; }
             public bool ShowSearchPanel { get; set; }
             public string SearchText { get; set; }
             public bool SearchMatchCase { get; set; }
@@ -53,7 +56,7 @@ namespace FluentTerminal.App.ViewModels
                 ShellTitle = ShellTitle,
                 TabTitle = TabTitle,
                 TerminalTheme = TerminalTheme,
-                TabTheme = TabTheme,
+                TabThemeId = TabTheme.Theme.Id,
                 ShowSearchPanel = ShowSearchPanel,
                 SearchText = SearchText,
                 SearchMatchCase = SearchMatchCase,
@@ -76,7 +79,7 @@ namespace FluentTerminal.App.ViewModels
                 ShellTitle = state.ShellTitle;
                 TabTitle = state.TabTitle;
                 TerminalTheme = state.TerminalTheme;
-                TabTheme = state.TabTheme;
+                TabTheme = TabThemes.FirstOrDefault(t => t.Theme.Id == state.TabThemeId);
                 ShowSearchPanel = state.ShowSearchPanel;
                 SearchText = state.SearchText;
                 SearchMatchCase = state.SearchMatchCase;
@@ -85,6 +88,8 @@ namespace FluentTerminal.App.ViewModels
                 XtermBufferState = state.XtermBufferState;
                 _terminalId = state.TerminalId;
                 ShellProfile = state.ShellProfile;
+
+                TabTheme.IsSelected = true;
             }
         }
 
@@ -100,7 +105,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _searchMatchCase;
         private bool _searchWholeWord;
         private bool _searchWithRegex;
-        private TabTheme _tabTheme;
+        private TabThemeViewModel _tabTheme;
         private TerminalTheme _terminalTheme;
         private TerminalOptions _terminalOptions;
         private string _tabTitle;
@@ -110,6 +115,7 @@ namespace FluentTerminal.App.ViewModels
         private bool _hasSelection;
         private string _hoveredUri;
         private MenuViewModel _contextMenu;
+        private MenuViewModel _tabContextMenu;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
@@ -135,9 +141,7 @@ namespace FluentTerminal.App.ViewModels
             ShellProfile = shellProfile;
             TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? SettingsService.GetCurrentTheme() : SettingsService.GetTheme(shellProfile.TerminalThemeId);
 
-            TabThemes = new ObservableCollection<TabTheme>(SettingsService.GetTabThemes());
-            TabTheme = TabThemes.FirstOrDefault(t => t.Id == ShellProfile.TabThemeId);
-
+            TabThemes = new ObservableCollection<TabThemeViewModel>(SettingsService.GetTabThemes().Select(theme => new TabThemeViewModel(theme, this)));
             CloseCommand = new AsyncCommand(TryCloseAsync, CanExecuteCommand);
             CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs, CanExecuteCommand);
             CloseRightTabsCommand = new RelayCommand(CloseRightTabs, CanExecuteCommand);
@@ -145,16 +149,21 @@ namespace FluentTerminal.App.ViewModels
             FindNextCommand = new RelayCommand(FindNext, CanExecuteCommand);
             FindPreviousCommand = new RelayCommand(FindPrevious, CanExecuteCommand);
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
-            SelectTabThemeCommand = new RelayCommand<string>(SelectTabTheme, CanExecuteCommand);
             EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
             CopyCommand = new AsyncCommand(Copy, () => HasSelection);
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
             ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
+
             if (!string.IsNullOrEmpty(terminalState))
             {
                 Restore(terminalState);
+            }
+            else
+            {
+                var defaultTabTheme = TabThemes.FirstOrDefault(t => t.Theme.Id == ShellProfile.TabThemeId);
+                defaultTabTheme.IsSelected = true;
             }
 
             Terminal = new Terminal(TrayProcessCommunicationService, _terminalId);
@@ -166,12 +175,19 @@ namespace FluentTerminal.App.ViewModels
             Terminal.Closed += Terminal_Closed;
 
             ContextMenu = BuidContextMenu();
+            TabContextMenu = BuildTabContextMenu();
         }
 
         public MenuViewModel ContextMenu
         {
             get => _contextMenu;
             set => Set(ref _contextMenu, value);
+        }
+
+        public MenuViewModel TabContextMenu
+        {
+            get => _tabContextMenu;
+            set => Set(ref _tabContextMenu, value);
         }
 
         private bool _disposalRequested;
@@ -206,7 +222,7 @@ namespace FluentTerminal.App.ViewModels
             // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
             // (if we're set to underline inactive tabs, use the null theme).
             get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
-                _tabTheme :
+                _tabTheme?.Theme :
                 SettingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
         }
 
@@ -303,7 +319,7 @@ namespace FluentTerminal.App.ViewModels
         }
 
         public bool IsUnderlined => (IsSelected && ApplicationSettings.UnderlineSelectedTab) ||
-            (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Color != null);
+            (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Underlined && TabTheme.Theme.Color != null);
 
         public bool HasNewOutput
         {
@@ -347,8 +363,6 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _searchWithRegex, value);
         }
 
-        public RelayCommand<string> SelectTabThemeCommand { get; }
-
         public ISettingsService SettingsService { get; }
 
         public ShellProfile ShellProfile { get; private set; }
@@ -359,7 +373,7 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
-        public TabTheme TabTheme
+        public TabThemeViewModel TabTheme
         {
             get => _tabTheme;
             set
@@ -370,7 +384,7 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        public ObservableCollection<TabTheme> TabThemes { get; }
+        public ObservableCollection<TabThemeViewModel> TabThemes { get; }
 
         public Terminal Terminal { get; private set; }
 
@@ -562,12 +576,21 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
         {
-            ContextMenu = BuidContextMenu();
-        }
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
+            {
+                var contextMenu = BuidContextMenu();
+                if (!contextMenu.EquivalentTo(ContextMenu))
+                {
+                    ContextMenu = contextMenu;
+                }
 
-        private void SelectTabTheme(string id)
-        {
-            TabTheme = TabThemes.FirstOrDefault(t => t.Id == int.Parse(id));
+                var tabContextMenu = BuildTabContextMenu();
+                if (!tabContextMenu.EquivalentTo(TabContextMenu))
+                {
+                    TabContextMenu = tabContextMenu;
+                }
+
+            }, CoreDispatcherPriority.Low, true);
         }
 
         private void Terminal_Exited(object sender, int exitCode)
@@ -694,55 +717,104 @@ namespace FluentTerminal.App.ViewModels
         private MenuViewModel BuidContextMenu()
         {
             var commandKeyBindings = SettingsService.GetCommandKeyBindings();
-
-            void addKeyBindings(MenuItemViewModel menuItem, Command command)
-            {
-                var keyBindings = commandKeyBindings[command.ToString()];
-                if (keyBindings?.Any() == true)
-                {
-                    menuItem.KeyBinding = new MenuItemKeyBindingViewModel(keyBindings.First());
-                }
-            }
-
             var contextMenu = new MenuViewModel();
+
             if (!string.IsNullOrWhiteSpace(HoveredUri))
             {
-                var copyLink = new MenuItemViewModel(I18N.Translate("CopyLink"), CopyLinkCommand, icon: "\uE71B");
+                var copyLink = new MenuItemViewModel(I18N.Translate("CopyLink"), CopyLinkCommand, icon: Mdl2Icon.Link());
                 contextMenu.Items.Add(copyLink);
                 contextMenu.Items.Add(new SeparatorMenuItemViewModel());
             }
 
-            var copy = new MenuItemViewModel(I18N.Translate("Command.Copy"), CopyCommand, icon: "\uE8C8");
-            addKeyBindings(copy, Command.Copy);
+            var copy = new MenuItemViewModel(I18N.Translate("Command.Copy"), CopyCommand, icon: Mdl2Icon.Copy());
+            AddKeyBindings(copy, Command.Copy, commandKeyBindings);
             contextMenu.Items.Add(copy);
 
-            var paste = new MenuItemViewModel(I18N.Translate("Command.Paste"), PasteCommand, icon: "\uE77F");
-            addKeyBindings(paste, Command.Paste);
+            var paste = new MenuItemViewModel(I18N.Translate("Command.Paste"), PasteCommand, icon: Mdl2Icon.Paste());
+            AddKeyBindings(paste, Command.Paste, commandKeyBindings);
             contextMenu.Items.Add(paste);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
-            var editTitle = new MenuItemViewModel(I18N.Translate("EditTitle.Text"), EditTitleCommand, icon: "\uE70F");
-            addKeyBindings(editTitle, Command.ChangeTabTitle);
+            var editTitle = new MenuItemViewModel(I18N.Translate("EditTitle.Text"), EditTitleCommand, icon: Mdl2Icon.Edit());
+            AddKeyBindings(editTitle, Command.ChangeTabTitle, commandKeyBindings);
             contextMenu.Items.Add(editTitle);
 
-            var search = new MenuItemViewModel(I18N.Translate("Search.Text"), ShowSearchPanelCommand, icon: "\uE721");
-            addKeyBindings(search, Command.Search);
+            var search = new MenuItemViewModel(I18N.Translate("Search.Text"), ShowSearchPanelCommand, icon: Mdl2Icon.Search());
+            AddKeyBindings(search, Command.Search, commandKeyBindings);
             contextMenu.Items.Add(search);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
             var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
-            addKeyBindings(duplicate, Command.DuplicateTab);
+            AddKeyBindings(duplicate, Command.DuplicateTab, commandKeyBindings);
             contextMenu.Items.Add(duplicate);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
-            var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: "\uE711");
-            addKeyBindings(close, Command.CloseTab);
+            var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: Mdl2Icon.Cancel());
+            AddKeyBindings(close, Command.CloseTab, commandKeyBindings);
             contextMenu.Items.Add(close);
 
             return contextMenu;
+        }
+
+        private MenuViewModel BuildTabContextMenu()
+        {
+            var commandKeyBindings = SettingsService.GetCommandKeyBindings();
+            var contextMenu = new MenuViewModel();
+
+            RadioMenuItemViewModel createTabColorItem(TabThemeViewModel tabTheme)
+            {
+                //todo localise name
+                var icon = tabTheme.Theme.Id == 0 ? Mdl2Icon.PaginationDotOutline10() : Mdl2Icon.PaginationDotSolid10(tabTheme.Theme.Color);
+                return new RadioMenuItemViewModel(I18N.Translate($"TabTheme.{tabTheme.Theme.Name}"),  $"{Terminal.Id}_tabTheme", tabTheme, bindingPath: nameof(TabThemeViewModel.IsSelected) , icon: icon);
+            }
+
+            var tabColor = new ExpandableMenuItemViewModel(I18N.Translate("Color.Text"));
+
+            foreach (var tabTheme in TabThemes)
+            {
+                tabColor.SubItems.Add(createTabColorItem(tabTheme));
+            }
+
+            contextMenu.Items.Add(tabColor);
+
+            var editTitle = new MenuItemViewModel(I18N.Translate("EditTitle.Text"), EditTitleCommand, icon: Mdl2Icon.Edit());
+            AddKeyBindings(editTitle, Command.ChangeTabTitle, commandKeyBindings);
+            contextMenu.Items.Add(editTitle);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
+            AddKeyBindings(duplicate, Command.DuplicateTab, commandKeyBindings);
+            contextMenu.Items.Add(duplicate);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var closeLeft = new MenuItemViewModel(I18N.Translate("CloseLeft.Text"), CloseLeftTabsCommand);
+            contextMenu.Items.Add(closeLeft);
+
+            var closeRight = new MenuItemViewModel(I18N.Translate("CloseRight.Text"), CloseRightTabsCommand);
+            contextMenu.Items.Add(closeRight);
+
+            var closeOther = new MenuItemViewModel(I18N.Translate("CloseOther.Text"), CloseOtherTabsCommand);
+            contextMenu.Items.Add(closeOther);
+
+            var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: Mdl2Icon.Cancel());
+            AddKeyBindings(close, Command.CloseTab, commandKeyBindings);
+            contextMenu.Items.Add(close);
+
+            return contextMenu;
+        }
+
+        private void AddKeyBindings(MenuItemViewModel menuItem, Command command, IDictionary<string, ICollection<KeyBinding>> commandKeyBindings)
+        {
+            var keyBindings = commandKeyBindings[command.ToString()];
+            if (keyBindings?.Any() == true)
+            {
+                menuItem.KeyBinding = new MenuItemKeyBindingViewModel(keyBindings.First());
+            }
         }
     }
 }
