@@ -4,6 +4,6 @@
     {
         public byte Identifier => (byte) MessageIdentifiers.CreateTerminalResponse;
 
-        public string ShellExecutableName { get; set; }
+        public string Name { get; set; }
     }
 }
