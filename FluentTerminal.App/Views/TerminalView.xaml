@@ -2,6 +2,9 @@
     x:Class="FluentTerminal.App.Views.TerminalView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:actions="using:FluentTerminal.App.Actions"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -41,25 +44,42 @@
                     Margin="6,0,6,0"
                     Background="Transparent"
                     BorderThickness="0"
+                    IsTabStop="True"
                     KeyUp="OnSearchTextBoxKeyUp"
                     PlaceholderText="Enter search term"
-                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <Interactivity:Interaction.Behaviors>
+                        <Core:DataTriggerBehavior Binding="{x:Bind ViewModel.ShowSearchPanel, Mode=OneWay}" Value="true">
+                            <actions:FocusAction />
+                        </Core:DataTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </TextBox>
 
-                <ToggleButton Background="Transparent" IsChecked="{x:Bind ViewModel.SearchMatchCase, Mode=TwoWay}">
+                <ToggleButton
+                    x:Uid="SearchCaseSensitive"
+                    Background="Transparent"
+                    IsChecked="{x:Bind ViewModel.SearchMatchCase, Mode=TwoWay}"
+                    ToolTipService.ToolTip="Case sensitive">
                     <Viewbox Width="16" Height="16">
                         <TextBlock Text="Aa" />
                     </Viewbox>
                 </ToggleButton>
                 <ToggleButton
+                    x:Uid="SearchWholeWord"
                     Margin="2,0,2,0"
                     Background="Transparent"
-                    IsChecked="{x:Bind ViewModel.SearchWholeWord, Mode=TwoWay}">
+                    IsChecked="{x:Bind ViewModel.SearchWholeWord, Mode=TwoWay}"
+                    ToolTipService.ToolTip="Whole word">
                     <Viewbox Width="16" Height="16">
                         <TextBlock Text="Ab" TextDecorations="Underline" />
                     </Viewbox>
                 </ToggleButton>
 
-                <ToggleButton Background="Transparent" IsChecked="{x:Bind ViewModel.SearchWithRegex, Mode=TwoWay}">
+                <ToggleButton
+                    x:Uid="SearchWithRegex"
+                    Background="Transparent"
+                    IsChecked="{x:Bind ViewModel.SearchWithRegex, Mode=TwoWay}"
+                    ToolTipService.ToolTip="Regex">
                     <Viewbox Width="16" Height="16">
                         <TextBlock Text=".*" />
                     </Viewbox>

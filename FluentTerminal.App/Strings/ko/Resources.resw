@@ -1056,4 +1056,13 @@ Fuzzy</comment>
   <data name="CopyLink" xml:space="preserve">
     <value>Copy link</value>
   </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Whole word</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
 </root>

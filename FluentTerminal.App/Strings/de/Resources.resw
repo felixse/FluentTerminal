@@ -1080,4 +1080,13 @@ Fuzzy</comment>
   <data name="CopyLink" xml:space="preserve">
     <value>Link kopieren</value>
   </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ganzes Wort</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Groß-/Kleinschreibung beachten</value>
+  </data>
 </root>
