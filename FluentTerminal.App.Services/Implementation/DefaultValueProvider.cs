@@ -126,18 +126,6 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case Command.ConfigurableNewTab:
-                    return new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = nameof(Command.ConfigurableNewTab),
-                        Ctrl = true,
-                        Alt = true,
-                        Key = (int)ExtendedVirtualKey.T
-                    }
-                };
-
                 case Command.NewSshTab:
                     return new List<KeyBinding>
                     {
@@ -169,8 +157,8 @@ namespace FluentTerminal.App.Services.Implementation
                         {
                             Command = nameof(Command.NewCustomCommandTab),
                             Ctrl = true,
-                            Shift = true,
-                            Key = (int)ExtendedVirtualKey.Q
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.T
                         }
                     };
 
@@ -182,7 +170,7 @@ namespace FluentTerminal.App.Services.Implementation
                             Command = nameof(Command.NewCustomCommandWindow),
                             Ctrl = true,
                             Alt = true,
-                            Key = (int)ExtendedVirtualKey.Q
+                            Key = (int)ExtendedVirtualKey.N
                         }
                     };
                     
@@ -218,18 +206,6 @@ namespace FluentTerminal.App.Services.Implementation
                         Command = nameof(Command.NewWindow),
                         Ctrl = true,
                         Shift = true,
-                        Key = (int)ExtendedVirtualKey.N
-                    }
-                };
-
-                case Command.ConfigurableNewWindow:
-                    return new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = nameof(Command.ConfigurableNewWindow),
-                        Ctrl = true,
-                        Alt = true,
                         Key = (int)ExtendedVirtualKey.N
                     }
                 };

@@ -68,9 +68,6 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewCustomCommandTab), async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Tab));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewCustomCommandWindow), async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Window));
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddSelectedProfileAsync(NewTerminalLocation.Tab));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), async () => await AddSelectedProfileAsync(NewTerminalLocation.Window));
-
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitleAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTabAsync(SelectedTerminal.ShellProfile.Clone()));
@@ -298,13 +295,6 @@ namespace FluentTerminal.App.ViewModels
             var profile = _settingsService.GetDefaultShellProfile();
 
             return AddProfileAsync(profile, location);
-        }
-
-        private async Task AddSelectedProfileAsync(NewTerminalLocation location)
-        {
-            var profile = await _dialogService.ShowProfileSelectionDialogAsync().ConfigureAwait(false);
-
-            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddSshProfileAsync(NewTerminalLocation location)

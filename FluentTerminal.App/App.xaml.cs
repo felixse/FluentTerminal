@@ -100,7 +100,6 @@ namespace FluentTerminal.App
             builder.RegisterType<FileSystemService>().As<IFileSystemService>().SingleInstance();
             builder.RegisterType<ImageFileSystemService>().As<IImageFileSystemService>().SingleInstance();
             builder.RegisterType<SystemFontService>().As<ISystemFontService>().SingleInstance();
-            builder.RegisterType<ShellProfileSelectionDialog>().As<IShellProfileSelectionDialog>().InstancePerDependency();
             builder.RegisterType<CreateKeyBindingDialog>().As<ICreateKeyBindingDialog>().InstancePerDependency();
             builder.RegisterType<InputDialog>().As<IInputDialog>().InstancePerDependency();
             builder.RegisterType<AboutDialog>().As<IAboutDialog>().InstancePerDependency();

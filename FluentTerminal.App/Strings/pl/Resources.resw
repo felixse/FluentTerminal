@@ -638,14 +638,6 @@ Fuzzy</comment>
     <value>Zamknij kartę</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Konfigurowalna nowa karta</value>
-    <comment>Command</comment>
-  </data>
-  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Konfigurowalne nowe okno</value>
-    <comment>Command</comment>
-  </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Skróty klawiszowe</value>
     <comment>KeyBindingSettings.xaml</comment>
@@ -685,14 +677,6 @@ Fuzzy</comment>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Zaznacz wszysto</value>
     <comment>Command</comment>
-  </data>
-  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
-  </data>
-  <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Wybierz profil</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>Pokaż ustawienia</value>

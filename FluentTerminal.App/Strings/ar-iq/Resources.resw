@@ -637,14 +637,6 @@
     <value>إغلاق علامة التبويب</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>علامة تبويب جديدة قابلة للتكوين</value>
-    <comment>Command</comment>
-  </data>
-  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>نافذة جديدة شكلي</value>
-    <comment>Command</comment>
-  </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>كيبيندينغس</value>
     <comment>KeyBindingSettings.xaml</comment>
@@ -684,14 +676,6 @@
   <data name="Command.SelectAll" xml:space="preserve">
     <value>اختر الكل</value>
     <comment>Command</comment>
-  </data>
-  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>بداية</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
-  </data>
-  <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>اختر صفحة شخصية</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>إعدادات العرض</value>

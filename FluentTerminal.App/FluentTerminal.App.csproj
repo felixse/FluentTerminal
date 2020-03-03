@@ -145,9 +145,6 @@
     <Compile Include="Dialogs\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ShellProfileSelectionDialog.xaml.cs">
-      <DependentUpon>ShellProfileSelectionDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
       <DependentUpon>SshInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -267,10 +264,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\InputDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ShellProfileSelectionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
