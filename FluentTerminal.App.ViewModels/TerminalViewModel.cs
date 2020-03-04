@@ -455,7 +455,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 ClipboardService.SetText(text);
 
-                if (_terminalOptions.ShowTextCopied)
+                if (ApplicationSettings.ShowTextCopied)
                 {
                     Overlay.Show(I18N.Translate("TextCopied"));
                 }

@@ -166,12 +166,6 @@
                         IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
-                <ToggleSwitch
-                    x:Uid="CopiedNotification"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Text copied notification"
-                    IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
-
                 <TextBox
                     x:Uid="WordSeparator"
                     Width="200"
