@@ -147,7 +147,7 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   window.onkeydown = (e) => {
     // Disable WebView zooming to prevent crash on too small font size
-    if ((e.ctrlKey && (e.keyCode === 189 || e.keyCode === 187)) ||
+    if ((e.ctrlKey && !e.altKey && (e.keyCode === 189 || e.keyCode === 187)) ||
         (e.ctrlKey && (e.key === "Add" || e.key === "Subtract"))) {
       e.preventDefault();
     }
