@@ -634,7 +634,7 @@ namespace FluentTerminal.App.ViewModels
                         if (content != null)
                         {
                             content = ShellProfile.NewlinePattern.Replace(content, string.Empty);
-                            await TerminalView.PasteAsync(content).ConfigureAwait(false);
+                            TerminalView.Paste(content);
                         }
                         return;
                     }
@@ -710,7 +710,7 @@ namespace FluentTerminal.App.ViewModels
             if (content != null)
             {
                 content = ShellProfile.TranslateLineEndings(content);
-                await TerminalView.PasteAsync(content).ConfigureAwait(false);
+                TerminalView.Paste(content);
             }
         }
 

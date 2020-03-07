@@ -105,6 +105,10 @@ window.createTerminal = (options, theme, keyBindings) => {
     term.writeUtf8(data);
   });
 
+  window.terminalBridge.onpaste = (text => {
+    term.paste(text);
+  });
+
   term.onData(data => {
     window.terminalBridge.inputReceived(data);
   });

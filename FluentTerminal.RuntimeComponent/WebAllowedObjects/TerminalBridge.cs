@@ -15,15 +15,22 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
         public TerminalBridge(IxtermEventListener terminalEventListener)
         {
             _terminalEventListener = terminalEventListener;
-            _terminalEventListener.OnOutput += _terminalEventListener_OnOutput;
+            _terminalEventListener.OnOutput += OnOutput;
+            _terminalEventListener.OnPaste += OnPaste;
         }
 
-        private void _terminalEventListener_OnOutput(object sender, object e)
+        private void OnPaste(object sender, string e)
+        {
+            Task.Factory.StartNew(() => Paste?.Invoke(this, e));
+        }
+
+        private void OnOutput(object sender, object e)
         {
             Task.Factory.StartNew(() => Output?.Invoke(this, e));
         }
 
         public event EventHandler<object> Output;
+        public event EventHandler<string> Paste;
 
         public void InputReceived(string message)
         {
@@ -42,7 +49,8 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 
         public void DisposalPrepare()
         {
-            _terminalEventListener.OnOutput -= _terminalEventListener_OnOutput;
+            _terminalEventListener.OnOutput -= OnOutput;
+            _terminalEventListener.OnPaste -= OnPaste;
             _terminalEventListener = null;
         }
 

@@ -15,6 +15,6 @@ namespace FluentTerminal.App.ViewModels
         Task FindPreviousAsync(SearchRequest request);
         Task FocusTerminalAsync();
         Task<string> SerializeXtermStateAsync();
-        Task PasteAsync(string text);
+        void Paste(string text);
     }
 }

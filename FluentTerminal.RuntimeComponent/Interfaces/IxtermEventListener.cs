@@ -23,5 +23,6 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
         void OnInitialized();
 
         event EventHandler<object> OnOutput;
+        event EventHandler<string> OnPaste;
     }
 }

@@ -1,23 +1,18 @@
 ﻿using FluentTerminal.App.Converters;
 using FluentTerminal.App.Services;
-using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
-using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using FluentTerminal.RuntimeComponent.WebAllowedObjects;
-using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -122,6 +117,7 @@ namespace FluentTerminal.App.Views
         #endregion Resize handling
 
         public event EventHandler<object> OnOutput;
+        public event EventHandler<string> OnPaste;
 
         public XtermTerminalView()
         {
@@ -556,7 +552,6 @@ namespace FluentTerminal.App.Views
             _outputBlockedBuffer?.Dispose();
         }
 
-        public Task PasteAsync(string text) => ExecuteScriptAsync(
-                $"window.term.paste('{text.Replace(@"\", @"\\").Replace("'", @"\'").Replace("\n", @"\n").Replace("\r", @"\r")}')");
+        public void Paste(string text) => OnPaste?.Invoke(this, text);
     }
 }
