@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using FluentTerminal.Models.Enums;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -30,7 +29,6 @@ namespace FluentTerminal.Models
             WorkingDirectory = other.WorkingDirectory;
             TabThemeId = other.TabThemeId;
             TerminalThemeId = other.TerminalThemeId;
-            LineEndingTranslation = other.LineEndingTranslation;
             UseConPty = other.UseConPty;
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
@@ -42,7 +40,6 @@ namespace FluentTerminal.Models
         public string Location { get; set; }
         public string WorkingDirectory { get; set; }
         public int TabThemeId { get; set; }
-        public LineEndingStyle LineEndingTranslation { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
         public bool UseConPty { get; set; }
 
@@ -53,22 +50,6 @@ namespace FluentTerminal.Models
         /// </summary>
         [JsonIgnore]
         public object Tag { get; set; }
-
-        public string TranslateLineEndings(string content)
-        {
-            switch (LineEndingTranslation)
-            {
-                case LineEndingStyle.ToCR:
-                    return NewlinePattern.Replace(content, "\r");
-                case LineEndingStyle.ToCRLF:
-                    return NewlinePattern.Replace(content, "\r\n");
-                case LineEndingStyle.ToLF:
-                    return NewlinePattern.Replace(content, "\n");
-                case LineEndingStyle.DoNotModify:
-                default:
-                    return content;
-            }
-        }
 
         public Guid TerminalThemeId { get; set; }
         public ICollection<KeyBinding> KeyBindings { get; set; } = new List<KeyBinding>();
@@ -93,7 +74,6 @@ namespace FluentTerminal.Models
                    && other.WorkingDirectory.NullableEqualTo(WorkingDirectory)
                    && other.TabThemeId.Equals(TabThemeId)
                    && other.TerminalThemeId.Equals(TerminalThemeId)
-                   && other.LineEndingTranslation == LineEndingTranslation
                    && other.UseConPty == UseConPty
                    && other.KeyBindings.SequenceEqual(KeyBindings);
         }

@@ -7,7 +7,6 @@ using System.Web;
 using Windows.UI.Core;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models;
-using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Messages;
 using GalaSoft.MvvmLight;
 
@@ -19,13 +18,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
     /// </summary>
     public abstract class ProfileProviderViewModelBase : ViewModelBase
     {
-        #region Static
-
-        private static readonly LineEndingStyle[] LineEndingStylesArray =
-            Enum.GetValues(typeof(LineEndingStyle)).Cast<LineEndingStyle>().ToArray();
-
-        #endregion Static
-
         #region Fields
 
         protected readonly ISettingsService SettingsService;
@@ -67,17 +59,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public ObservableCollection<TabTheme> TabThemes { get; }
 
         public ObservableCollection<TerminalTheme> TerminalThemes { get; }
-
-        public ObservableCollection<LineEndingStyle> LineEndingStyles { get; } =
-            new ObservableCollection<LineEndingStyle>(LineEndingStylesArray);
-
-        private LineEndingStyle _lineEndingTranslation;
-
-        public LineEndingStyle LineEndingTranslation
-        {
-            get => _lineEndingTranslation;
-            set => Set(ref _lineEndingTranslation, value);
-        }
 
         private TabTheme _selectedTabTheme;
 
@@ -233,7 +214,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         private void Initialize(ShellProfile profile)
         {
-            LineEndingTranslation = profile.LineEndingTranslation;
             UseConPty = profile.UseConPty;
             TerminalThemeId = profile.TerminalThemeId;
             TabThemeId = profile.TabThemeId;
@@ -246,7 +226,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         protected virtual Task CopyToProfileAsync(ShellProfile profile)
         {
-            profile.LineEndingTranslation = _lineEndingTranslation;
             profile.UseConPty = _useConPty;
             profile.TerminalThemeId = _terminalThemeId;
             profile.TabThemeId = _tabThemeId;
@@ -264,8 +243,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         /// </summary>
         public virtual bool HasChanges()
         {
-            return Model.LineEndingTranslation != _lineEndingTranslation ||
-                   Model.UseConPty != _useConPty ||
+            return Model.UseConPty != _useConPty ||
                    !Model.TerminalThemeId.Equals(_terminalThemeId) ||
                    Model.TabThemeId != _tabThemeId;
         }
@@ -301,7 +279,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
         #region Links/shortcuts related
 
         private const string UseConPtyQueryStringName = "conpty";
-        private const string LineEndingQueryStringName = "lineending";
         private const string TerminalThemeIdQueryStringName = "theme";
         private const string TabThemeIdQueryStringName = "tab";
 
@@ -342,7 +319,7 @@ URL={0}
         public string GetBaseQueryString()
         {
             var queryString =
-                $"{UseConPtyQueryStringName}={_useConPty}&{LineEndingQueryStringName}={_lineEndingTranslation}";
+                $"{UseConPtyQueryStringName}={_useConPty}";
 
             if (_tabThemeId != TabThemes.First().Id)
             {
@@ -370,14 +347,6 @@ URL={0}
             if (!string.IsNullOrEmpty(keyValue?.Item2) && bool.TryParse(keyValue.Item2?.ToLower(), out bool useConPty))
             {
                 UseConPty = useConPty;
-            }
-
-            keyValue = queryStringParams.FirstOrDefault(t =>
-                LineEndingQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
-
-            if (!string.IsNullOrEmpty(keyValue?.Item2) && Enum.TryParse(keyValue.Item2, true, out LineEndingStyle lineEndingTranslation))
-            {
-                LineEndingTranslation = lineEndingTranslation;
             }
 
             keyValue = queryStringParams.FirstOrDefault(t =>

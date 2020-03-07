@@ -709,7 +709,6 @@ namespace FluentTerminal.App.ViewModels
             var content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
             if (content != null)
             {
-                content = ShellProfile.TranslateLineEndings(content);
                 TerminalView.Paste(content);
             }
         }

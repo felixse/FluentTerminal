@@ -414,7 +414,6 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8), // Windows 10 1903+
                     EnvironmentVariables = new Dictionary<string, string>
                     {
@@ -442,7 +441,6 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
                     EnvironmentVariables = new Dictionary<string, string>
                     {
@@ -470,7 +468,6 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.ToLF,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
                     EnvironmentVariables = new Dictionary<string, string>
                     {

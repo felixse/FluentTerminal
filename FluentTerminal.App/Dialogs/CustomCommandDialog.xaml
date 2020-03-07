@@ -14,8 +14,8 @@
                                      IsDesignTimeCreatable=False}"
     DefaultButton="Primary"
     PrimaryButtonClick="OnPrimaryButtonClick"
-    SecondaryButtonClick="OnSecondaryButtonClick"
     PrimaryButtonText="Button1"
+    SecondaryButtonClick="OnSecondaryButtonClick"
     SecondaryButtonText="Button2"
     mc:Ignorable="d">
     <ContentDialog.Resources>
@@ -46,9 +46,12 @@
             <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:CommandItemViewModel">
                     <Grid HorizontalAlignment="Stretch">
-                        <ContentControl HorizontalAlignment="Stretch" Content="{x:Bind RichTextBlock, Mode=OneWay}"/>
-                        <!--I've had to create a transparent overlay over RichTextBox in order to make mouse selection work. Weird but true.-->
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
+                        <ContentControl HorizontalAlignment="Stretch" Content="{x:Bind RichTextBlock, Mode=OneWay}" />
+                        <!--  I've had to create a transparent overlay over RichTextBox in order to make mouse selection work. Weird but true.  -->
+                        <Grid
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent" />
                     </Grid>
                 </DataTemplate>
             </AutoSuggestBox.ItemTemplate>
@@ -76,42 +79,18 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <!--  Row  -->
                 <TextBlock
-                    x:Uid="LineEndingModeOnPaste"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="0,8,8,0"
-                    VerticalAlignment="Center"
-                    Text="Line ending on paste:" />
-                <ComboBox
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    ItemsSource="{x:Bind ViewModel.LineEndingStyles}"
-                    SelectedItem="{x:Bind ViewModel.LineEndingTranslation, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="enums:LineEndingStyle">
-                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-                <!--  Row  -->
-                <TextBlock
                     x:Uid="SshInfoDialog_TabColor"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,8,0"
                     VerticalAlignment="Center"
                     Text="Tab color:" />
                 <ComboBox
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
@@ -122,13 +101,13 @@
                 <!--  Row  -->
                 <TextBlock
                     x:Uid="Theme"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,8,8,0"
                     VerticalAlignment="Center"
                     Text="Theme:" />
                 <ComboBox
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Stretch"
@@ -138,7 +117,7 @@
 
                 <!--  Row  -->
                 <CheckBox
-                    Grid.Row="3"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="0,8,0,0"

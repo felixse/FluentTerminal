@@ -299,19 +299,6 @@
                                     <views:EnvironmentVariablesView EnvironmentVariables="{x:Bind EnvironmentVariables, Mode=OneWay}" />
                                 </StackPanel>
 
-                                <ComboBox
-                                    x:Uid="LineEndingMode"
-                                    Margin="{StaticResource ItemMargin}"
-                                    VerticalAlignment="Center"
-                                    ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
-                                    SelectedItem="{Binding ProfileVm.LineEndingTranslation, Mode=TwoWay}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate x:DataType="enums:LineEndingStyle">
-                                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-
                                 <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock
                                         x:Uid="KeyboardShortcut1"
@@ -497,19 +484,6 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </controls:HeaderedContentControl>
-
-                                <controls:HeaderedContentControl
-                                    x:Uid="LineEndingMode"
-                                    Margin="{StaticResource ItemMargin}"
-                                    HorizontalContentAlignment="Stretch"
-                                    DataContext="{Binding ProfileVm}"
-                                    Header="Line ending translation mode">
-                                    <ContentControl
-                                        Content="{Binding LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
-                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                                        FontSize="18"
-                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl

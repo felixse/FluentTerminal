@@ -1,5 +1,4 @@
-﻿using FluentTerminal.Models.Enums;
-using System.Linq;
+﻿using System.Linq;
 using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.Models
@@ -36,7 +35,6 @@ namespace FluentTerminal.Models
 
         public SshProfile()
         {
-            LineEndingTranslation = LineEndingStyle.ToLF;
             UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7); // Windows 10 1809+
         }
 
@@ -59,7 +57,6 @@ namespace FluentTerminal.Models
             MoshPortTo = other.MoshPortTo;
             TerminalThemeId = other.TerminalThemeId;
             TabThemeId = other.TabThemeId;
-            LineEndingTranslation = other.LineEndingTranslation;
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
 
