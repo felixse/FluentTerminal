@@ -18,11 +18,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
-                Margin="0,10,0,0"
+                x:Uid="Mouse"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                x:Uid="Mouse"
                 Text="Mouse" />
             <CommandBar
                 Grid.Column="1"
@@ -31,22 +30,25 @@
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
+                    x:Uid="Restore"
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     Icon="Undo"
-                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>
         <ScrollViewer Grid.Row="2">
             <StackPanel Margin="{StaticResource ContainerMargin}">
                 <ToggleSwitch
-                    Margin="{StaticResource ItemMargin}"
                     x:Uid="CopyOnSelect"
+                    Margin="{StaticResource ItemMargin}"
                     Header="Copy on select"
                     IsOn="{x:Bind ViewModel.CopyOnSelect, Mode=TwoWay}" />
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" x:Uid="MiddleButtonAction"  Text="Middle button action" />
+                    <TextBlock
+                        x:Uid="MiddleButtonAction"
+                        Margin="0,0,0,8"
+                        Text="Middle button action" />
                     <RadioButton
                         x:Uid="MouseNothing"
                         Content="Nothing"
@@ -65,7 +67,10 @@
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
-                    <TextBlock Margin="0,0,0,8" x:Uid="RightButtonAction" Text="Right button action" />
+                    <TextBlock
+                        x:Uid="RightButtonAction"
+                        Margin="0,0,0,8"
+                        Text="Right button action" />
                     <RadioButton
                         x:Uid="MouseNothing"
                         Content="Nothing"
