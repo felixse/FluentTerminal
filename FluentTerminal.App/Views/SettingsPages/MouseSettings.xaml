@@ -64,6 +64,11 @@
                         Content="Paste"
                         GroupName="MiddleButton"
                         IsChecked="{x:Bind ViewModel.MouseMiddleClickPasteIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        x:Uid="MouseCopySelectionOrPaste"
+                        Content="Copy selection or paste"
+                        GroupName="MiddleButton"
+                        IsChecked="{x:Bind ViewModel.MouseMiddleClickCopySelectionOrPasteIsSelected, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Margin="{StaticResource ItemMargin}">
@@ -86,6 +91,11 @@
                         Content="Paste"
                         GroupName="RightButton"
                         IsChecked="{x:Bind ViewModel.MouseRightClickPasteIsSelected, Mode=TwoWay}" />
+                    <RadioButton
+                        x:Uid="MouseCopySelectionOrPaste"
+                        Content="Copy selection or paste"
+                        GroupName="RightButton"
+                        IsChecked="{x:Bind ViewModel.MouseRightClickCopySelectionOrPasteIsSelected, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

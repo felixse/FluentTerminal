@@ -1102,4 +1102,7 @@ Fuzzy</comment>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
     <value>Case sensitive</value>
   </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Copy selection or paste</value>
+  </data>
 </root>

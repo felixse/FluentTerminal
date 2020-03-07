@@ -1073,4 +1073,7 @@ Fuzzy</comment>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
     <value>Groß-/Kleinschreibung beachten</value>
   </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Auswahl kopieren oder Einfügen</value>
+  </data>
 </root>

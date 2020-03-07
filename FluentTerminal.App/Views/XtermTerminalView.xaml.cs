@@ -343,24 +343,33 @@ namespace FluentTerminal.App.Views
                 return;
             }
 
-            if (mouseButton == MouseButton.Middle)
+            var action = MouseAction.None;
+
+            switch (mouseButton)
             {
-                if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
-                {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
-                }
-                else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
-                {
-                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-                }
+                case MouseButton.Middle:
+                    action = ViewModel.ApplicationSettings.MouseMiddleClickAction;
+                    break;
+                case MouseButton.Right:
+                    action = ViewModel.ApplicationSettings.MouseRightClickAction;
+                    break;
             }
-            else if (mouseButton == MouseButton.Right)
+
+            if (action == MouseAction.ContextMenu)
             {
-                if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
+                Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
+            }
+            else if (action == MouseAction.Paste)
+            {
+                ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
+            }
+            else if (action == MouseAction.CopySelectionOrPaste)
+            {
+                if (hasSelection)
                 {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
+                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
                 }
-                else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
+                else
                 {
                     ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
                 }

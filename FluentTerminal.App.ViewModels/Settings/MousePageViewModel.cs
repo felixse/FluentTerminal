@@ -71,6 +71,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             set { if (value) MouseRightClickAction = MouseAction.Paste; }
         }
 
+        public bool MouseRightClickCopySelectionOrPasteIsSelected
+        {
+            get => MouseRightClickAction == MouseAction.CopySelectionOrPaste;
+            set { if (value) MouseRightClickAction = MouseAction.CopySelectionOrPaste; }
+        }
+
         public MouseAction MouseMiddleClickAction
         {
             get => _applicationSettings.MouseMiddleClickAction;
@@ -101,6 +107,12 @@ namespace FluentTerminal.App.ViewModels.Settings
         {
             get => MouseMiddleClickAction == MouseAction.Paste;
             set { if (value) MouseMiddleClickAction = MouseAction.Paste; }
+        }
+
+        public bool MouseMiddleClickCopySelectionOrPasteIsSelected
+        {
+            get => MouseMiddleClickAction == MouseAction.CopySelectionOrPaste;
+            set { if (value) MouseMiddleClickAction = MouseAction.CopySelectionOrPaste; }
         }
 
         public RelayCommand RestoreDefaultsCommand { get; }
