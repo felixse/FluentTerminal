@@ -714,7 +714,7 @@ namespace FluentTerminal.App.ViewModels
                 var defaultProfileItem = new MenuItemViewModel(
                     defaultProfileName, tab ? _newDefaultTabCommand : _newDefaultWindowCommand,
                     I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
-                        "Starts new terminal session based on the default profile."), icon: Mdl2Icon.Add());
+                        "Starts new terminal session based on the default profile."), icon: Mdl2Icon.FavoriteStar());
 
                 var defaultProfileCommand = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
 
@@ -737,7 +737,7 @@ namespace FluentTerminal.App.ViewModels
                 tab ? _newRemoteTabCommand : _newRemoteWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_Remote_Description",
                     "Opens a dialog for launching a new SSH or Mosh terminal session."),
-                icon: Mdl2Icon.Add());
+                icon: Mdl2Icon.Globe());
 
             var command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
 
@@ -759,7 +759,7 @@ namespace FluentTerminal.App.ViewModels
                 tab ? _newQuickLaunchTabCommand : _newQuickLaunchWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
                     "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
-                icon: Mdl2Icon.Add());
+                icon: Mdl2Icon.Play());
 
             command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
 

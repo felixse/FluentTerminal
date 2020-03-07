@@ -40,5 +40,11 @@ namespace FluentTerminal.App.ViewModels.Menu
         public static Mdl2Icon Settings(string color = null) => new Mdl2Icon("\uE713", color);
 
         public static Mdl2Icon Info(string color = null) => new Mdl2Icon("\uE946", color);
+
+        public static Mdl2Icon FavoriteStar(string color = null) => new Mdl2Icon("\uE734", color);
+
+        public static Mdl2Icon Globe(string color = null) => new Mdl2Icon("\uE774", color);
+
+        public static Mdl2Icon Play(string color = null) => new Mdl2Icon("\uE768", color);
     }
 }
