@@ -24,10 +24,7 @@ namespace FluentTerminal.App.Converters
                     $"Invalid {nameof(value)} argument type: {value.GetType()}. {typeof(MenuViewModel)} expected.");
             }
 
-            var menuFlyout = new MenuFlyout
-            {
-                Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft
-            };
+            var menuFlyout = new MenuFlyout();
 
             foreach (var menuItemViewModelBase in menuViewModel.Items)
             {
