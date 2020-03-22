@@ -16,6 +16,7 @@ namespace FluentTerminal.SystemTray
 
         private readonly Stream _stream;
         private readonly Action<byte[]> _callback;
+        private readonly bool _enableBuffer;
 
         private bool _disposed;
         private bool _paused;
@@ -28,10 +29,11 @@ namespace FluentTerminal.SystemTray
         private int _nearReadingsCount;
         private Task _sendingTask;
 
-        internal BufferedReader(Stream stream, Action<byte[]> callback)
+        internal BufferedReader(Stream stream, Action<byte[]> callback, bool enableBuffer)
         {
             _stream = stream;
             _callback = callback;
+            _enableBuffer = enableBuffer;
 
             // ReSharper disable once AssignmentIsFullyDiscarded
             _ = Task.Factory.StartNew(ReadingLoop, TaskCreationOptions.LongRunning);
@@ -85,6 +87,18 @@ namespace FluentTerminal.SystemTray
                     // Expected to happen only when terminal is closed.
                     // Probably not recoverable, but we'll wait anyway 'till disposed.
                     await Task.Delay(50).ConfigureAwait(false);
+
+                    continue;
+                }
+
+                if (!_enableBuffer)
+                {
+                    // Buffering disabled. Just send.
+
+                    _buffer = currentBuffer;
+                    _bufferIndex = read;
+
+                    SendBuffer();
 
                     continue;
                 }

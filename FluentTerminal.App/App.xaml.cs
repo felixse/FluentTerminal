@@ -424,6 +424,11 @@ namespace FluentTerminal.App
                     WorkingDirectory = runVerb.Directory
                 };
 
+                if (!string.IsNullOrEmpty(runVerb.Buffer) && bool.TryParse(runVerb.Buffer, out var useBuffer))
+                {
+                    profile.UseBuffer = useBuffer;
+                }
+
                 if (!string.IsNullOrWhiteSpace(runVerb.Theme))
                 {
                     var theme = _settingsService.GetThemes().FirstOrDefault(x => x.Name.Equals(runVerb.Theme, StringComparison.CurrentCultureIgnoreCase));

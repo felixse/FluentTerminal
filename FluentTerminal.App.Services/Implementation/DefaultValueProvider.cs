@@ -415,6 +415,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8), // Windows 10 1903+
+                    UseBuffer = false,
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"
@@ -442,6 +443,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
+                    UseBuffer = true,
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"
@@ -469,6 +471,7 @@ namespace FluentTerminal.App.Services.Implementation
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
+                    UseBuffer = true, //TODO: Set to false if the buffer causes issues with WSL.
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"

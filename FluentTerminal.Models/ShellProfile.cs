@@ -30,6 +30,7 @@ namespace FluentTerminal.Models
             TabThemeId = other.TabThemeId;
             TerminalThemeId = other.TerminalThemeId;
             UseConPty = other.UseConPty;
+            UseBuffer = other.UseBuffer;
             KeyBindings = other.KeyBindings.Select(x => new KeyBinding(x)).ToList();
         }
 
@@ -42,6 +43,7 @@ namespace FluentTerminal.Models
         public int TabThemeId { get; set; }
         public Dictionary<string, string> EnvironmentVariables { get; set; } = new Dictionary<string, string>();
         public bool UseConPty { get; set; }
+        public bool UseBuffer { get; set; } = true;
 
         public int MigrationVersion { get; set; } = CurrentMigrationVersion;
 
@@ -75,6 +77,7 @@ namespace FluentTerminal.Models
                    && other.TabThemeId.Equals(TabThemeId)
                    && other.TerminalThemeId.Equals(TerminalThemeId)
                    && other.UseConPty == UseConPty
+                   && other.UseBuffer == UseBuffer
                    && other.KeyBindings.SequenceEqual(KeyBindings);
         }
 
