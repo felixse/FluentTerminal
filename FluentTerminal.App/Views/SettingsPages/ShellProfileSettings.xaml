@@ -250,6 +250,7 @@
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
                                 <ToggleSwitch
+                                    Visibility="{x:Bind ProfileVm.UseConPty, Converter={StaticResource TrueToVisibleConverter}, Mode=OneWay}"
                                     x:Uid="UseBuffer"
                                     Margin="{StaticResource ItemMargin}"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}"

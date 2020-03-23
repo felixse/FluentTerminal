@@ -127,6 +127,7 @@
 
                 <!--  Row  -->
                 <CheckBox
+                    IsEnabled="{x:Bind ViewModel.UseConPty, Mode=OneWay}"
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"

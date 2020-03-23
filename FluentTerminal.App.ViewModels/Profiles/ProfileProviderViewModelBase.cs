@@ -151,15 +151,22 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public bool UseConPty
         {
             get => _useConPty;
-            set => Set(ref _useConPty, value);
+            set
+            {
+                if (Set(ref _useConPty, value)) RaisePropertyChanged(nameof(UseBuffer));
+            }
         }
 
         private bool _useBuffer;
 
+        // If UseConPty is false, getter will return true no matter the actual value set, and any attempt to set the value will be ignored.
         public bool UseBuffer
         {
-            get => _useBuffer;
-            set => Set(ref _useBuffer, value);
+            get => !_useConPty || _useBuffer;
+            set
+            {
+                if (_useConPty) Set(ref _useBuffer, value);
+            }
         }
 
         #endregion Properties
@@ -236,7 +243,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         protected virtual Task CopyToProfileAsync(ShellProfile profile)
         {
             profile.UseConPty = _useConPty;
-            profile.UseBuffer = _useBuffer;
+            profile.UseBuffer = UseBuffer;
             profile.TerminalThemeId = _terminalThemeId;
             profile.TabThemeId = _tabThemeId;
             return Task.CompletedTask;
@@ -254,7 +261,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public virtual bool HasChanges()
         {
             return Model.UseConPty != _useConPty ||
-                   Model.UseBuffer != _useBuffer ||
+                   Model.UseBuffer != UseBuffer ||
                    !Model.TerminalThemeId.Equals(_terminalThemeId) ||
                    Model.TabThemeId != _tabThemeId;
         }
@@ -330,7 +337,7 @@ URL={0}
 
         public string GetBaseQueryString()
         {
-            var queryString = $"{UseConPtyQueryStringName}={_useConPty}&{UseBufferQueryStringName}={_useBuffer}";
+            var queryString = $"{UseConPtyQueryStringName}={_useConPty}&{UseBufferQueryStringName}={UseBuffer}";
 
             if (_tabThemeId != TabThemes.First().Id)
             {
