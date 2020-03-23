@@ -249,6 +249,13 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
+                                <ToggleSwitch
+                                    x:Uid="UseBuffer"
+                                    Margin="{StaticResource ItemMargin}"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}"
+                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                    IsOn="{x:Bind ProfileVm.UseBuffer, Mode=TwoWay}" />
+
                                 <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock
                                         x:Uid="EnvironmentVariables"
@@ -338,6 +345,18 @@
                                     <ContentControl
                                         Margin="0,6,0,0"
                                         Content="{x:Bind ProfileVm.UseConPty, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
+                                </controls:HeaderedContentControl>
+
+                                <controls:HeaderedContentControl
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}">
+                                    <ContentControl
+                                        Margin="0,6,0,0"
+                                        Content="{x:Bind ProfileVm.UseBuffer, Mode=OneWay}"
                                         ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
                                         FontSize="18"
                                         FontWeight="Light" />

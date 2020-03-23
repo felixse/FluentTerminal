@@ -18,9 +18,12 @@ namespace FluentTerminal.SystemTray.Services.WinPty
         private TerminalsManager _terminalsManager;
         private Process _shellProcess;
         private BufferedReader _reader;
+        private bool _enableBuffer;
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            _enableBuffer = request.Profile.UseBuffer;
+
             Id = request.Id;
             _terminalsManager = terminalsManager;
 
@@ -82,7 +85,8 @@ namespace FluentTerminal.SystemTray.Services.WinPty
                 winpty_error_free(errorHandle);
             }
 
-            _reader = new BufferedReader(_stdout, bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes));
+            _reader = new BufferedReader(_stdout, bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes),
+                _enableBuffer);
         }
 
         private void _shellProcess_Exited(object sender, EventArgs e)

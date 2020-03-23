@@ -154,6 +154,14 @@ namespace FluentTerminal.App.ViewModels.Profiles
             set => Set(ref _useConPty, value);
         }
 
+        private bool _useBuffer;
+
+        public bool UseBuffer
+        {
+            get => _useBuffer;
+            set => Set(ref _useBuffer, value);
+        }
+
         #endregion Properties
 
         #region Constructor
@@ -215,6 +223,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         private void Initialize(ShellProfile profile)
         {
             UseConPty = profile.UseConPty;
+            UseBuffer = profile.UseBuffer;
             TerminalThemeId = profile.TerminalThemeId;
             TabThemeId = profile.TabThemeId;
         }
@@ -227,6 +236,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         protected virtual Task CopyToProfileAsync(ShellProfile profile)
         {
             profile.UseConPty = _useConPty;
+            profile.UseBuffer = _useBuffer;
             profile.TerminalThemeId = _terminalThemeId;
             profile.TabThemeId = _tabThemeId;
             return Task.CompletedTask;
@@ -244,6 +254,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public virtual bool HasChanges()
         {
             return Model.UseConPty != _useConPty ||
+                   Model.UseBuffer != _useBuffer ||
                    !Model.TerminalThemeId.Equals(_terminalThemeId) ||
                    Model.TabThemeId != _tabThemeId;
         }
@@ -279,6 +290,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         #region Links/shortcuts related
 
         private const string UseConPtyQueryStringName = "conpty";
+        private const string UseBufferQueryStringName = "buffer";
         private const string TerminalThemeIdQueryStringName = "theme";
         private const string TabThemeIdQueryStringName = "tab";
 
@@ -318,8 +330,7 @@ URL={0}
 
         public string GetBaseQueryString()
         {
-            var queryString =
-                $"{UseConPtyQueryStringName}={_useConPty}";
+            var queryString = $"{UseConPtyQueryStringName}={_useConPty}&{UseBufferQueryStringName}={_useBuffer}";
 
             if (_tabThemeId != TabThemes.First().Id)
             {
@@ -347,6 +358,14 @@ URL={0}
             if (!string.IsNullOrEmpty(keyValue?.Item2) && bool.TryParse(keyValue.Item2?.ToLower(), out bool useConPty))
             {
                 UseConPty = useConPty;
+            }
+
+            keyValue = queryStringParams.FirstOrDefault(t =>
+                UseBufferQueryStringName.Equals(t.Item1, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrEmpty(keyValue?.Item2) && bool.TryParse(keyValue.Item2?.ToLower(), out bool useBuffer))
+            {
+                UseConPty = useBuffer;
             }
 
             keyValue = queryStringParams.FirstOrDefault(t =>
