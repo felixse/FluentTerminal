@@ -996,51 +996,54 @@
     <value>在新窗口中打开会话</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>应用菜单类型</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>扁平，荣耀的“打开新的终端”设置</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>“新标签”/“新窗口”级联菜单</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
     <value>退出</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>退出 Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>根据策略启用。</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>背景图片</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>使用亚克力背景</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>确定要删除该背景图片吗？</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>颜色</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>亮色</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>复制链接</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Regex</value>
+    <value>正则匹配</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>全字匹配</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>大小写敏感</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>复制或粘贴选中区域</value>
+  </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Use buffer</value>
   </data>
 </root>

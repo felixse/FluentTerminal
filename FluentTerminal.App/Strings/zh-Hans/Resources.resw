@@ -118,944 +118,902 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>À propos</value>
+    <value>关于</value>
     <comment>MainPage.xaml
 Fuzzy</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Fond</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>背景色</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Bleu</value>
+    <value>蓝色</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Fermer</value>
+    <value>关闭</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer la fenêtre</value>
+    <value>在关闭窗口之前询问</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer les onglets</value>
+    <value>在关闭标签页之前询问</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Couleur</value>
-    <comment>TabBar.xaml</comment>
+    <value>标签颜色</value>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Couleur des onglets inactifs</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>非活动选项卡上的颜色</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Copier</value>
+    <value>复制</value>
     <comment>XtermTerminalView.xaml.cs
 Fuzzy</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Afficher le titre de l&apos;onglet personnalisé également dans la barre de titre</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>在标题栏显示自定义标题</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Éditer le titre</value>
-    <comment>TabBar.xaml</comment>
+    <value>修改标题</value>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Général</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>常规</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Vert</value>
+    <value>绿色</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Afficher l&apos;indicateur de nouvelle sortie sur les onglets en arrière-plan</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>非活动选项卡输出提示</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Redémarrage de l&apos;application requis pour appliquer le réglage</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>下次启动生效</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Nouvel onglet</value>
-    <comment>MainPage.xaml</comment>
+    <value>新标签页</value>
+    <comment>MainPage.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Aucun</value>
+    <value>无</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Onglets</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>新的标签页</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Fenêtres</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>新的窗口</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Ouvrir de nouveaux terminaux en tant que</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>打开新的终端</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Orange</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>橙色</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Coller</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>粘贴</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Violet</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>紫色</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rouge</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>红色</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Réinitialiser</value>
+    <value>恢复默认</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Exécuter au démarrage</value>
+    <value>开机自启</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Réglages</value>
+    <value>设置</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Réglages</value>
+    <value>设置</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Afficher dans la barre d&apos;état système</value>
+    <value>在系统托盘中显示</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Afficher les onglets sur</value>
+    <value>标签栏位置</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Sarcelle</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>青色</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Bas</value>
+    <value>底部</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Haut</value>
+    <value>顶部</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>下划线</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Souligner l&apos;onglet sélectionné</value>
+    <value>当前标签栏下划线</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>A propos</value>
+    <value>关于</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Général</value>
+    <value>常规</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>快捷键</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Souris</value>
+    <value>鼠标</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiles</value>
+    <value>配置文件</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
+    <value>终端</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Thèmes</value>
+    <value>主题</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Ajouter</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>添加</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Arguments</value>
+    <value>参数</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Opacité du fond</value>
+    <value>背景不透明度</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Clignotement du curseur</value>
+    <value>光标闪烁</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Texte en gras</value>
+    <value>粗体</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Annuler</value>
+    <value>取消</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Vérification des mises à jour ...</value>
+    <value>正在检查更新 ...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Vérifier les mises à jour</value>
+    <value>检查更新</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Cliquez sur une couleur pour éditer</value>
+    <value>单击要编辑的颜色</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Cloner</value>
+    <value>复制</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Palette de couleurs</value>
+    <value>调色板</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Notification de copie de texte</value>
+    <value>文本复制提示</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Copier sur sélectionner</value>
+    <value>自动复制选中的文本</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>新建</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Version actuelle</value>
+    <value>当前版本</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Barre</value>
+    <value>垂直</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Bloc</value>
+    <value>块状</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Style de curseur</value>
+    <value>光标样式</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>下划线</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>删除</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Ne pas modifier les fins de ligne</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>不改变</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Editer</value>
+    <value>编辑</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exporter</value>
+    <value>导出</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Famille de polices</value>
+    <value>字体</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Taille de police</value>
+    <value>字体大小</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importer</value>
+    <value>导入</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>快捷键</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>快捷键</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Dernière version</value>
+    <value>最新版本</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Licence</value>
+    <value>许可</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne</value>
+    <value>行结束标志转换</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne sur coller:</value>
+    <value>粘贴时转换行结束标识符</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton du milieu</value>
+    <value>鼠标中键动作</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Souris</value>
+    <value>鼠标</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Menu contextuel</value>
+    <value>打开弹出式菜单</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Rien</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>没做什么</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Coller</value>
+    <value>粘贴剪切板内容</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>新建</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Padding</value>
+    <value>内边距</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>名称</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiles</value>
+    <value>终端配置</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Thème</value>
+    <value>主题</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Notes de version</value>
+    <value>发行说明</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton droit</value>
+    <value>鼠标右键动作</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Sauvgarder</value>
+    <value>保存</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Limite de défilement</value>
+    <value>滚动限制</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Masquage automatique</value>
+    <value>自动隐藏</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Masqué</value>
+    <value>隐藏</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Style de barre de défilement</value>
+    <value>滚动条样式</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Visible</value>
+    <value>显示</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Définir actif</value>
+    <value>应用</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Définir par defaut</value>
+    <value>设为默认</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Emplacement exécutable du shell</value>
+    <value>可执行程序位置</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Couleur d&apos;onglet</value>
+    <value>标签栏颜色</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>终端</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Thème:</value>
+    <value>主题</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Auteur</value>
+    <value>作者</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>主题名</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>转换行结尾为 CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR+LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>转换行结尾为 CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>转换行结尾为 LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Directeur de travail</value>
+    <value>工作目录</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir fermer &quot;{0}&quot; onglets?</value>
+    <value>你确定要关闭第{0}个标签页吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Are you sure you want to close this window?</value>
+    <value>你确定要关闭这个窗口吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Are you sure you want to delete this keybinding?</value>
+    <value>你确定要删除此快捷键绑定吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce thème?</value>
+    <value>你确定呢要删除此主题吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir annuler toutes les modifications?</value>
+    <value>你确定要放弃所有更改吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres généraux?</value>
+    <value>你确定要还原常规设置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les raccourcis clavier par défaut?</value>
+    <value>你确定要还原默认的快捷键绑定吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres de la souris?</value>
+    <value>你确定要还原鼠标设置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer ce profil?</value>
+    <value>你确定要还原此配置吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les options du terminal par défaut?</value>
+    <value>你确定要还原默认终端选项吗？</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Désactivé par politique.</value>
+    <value>已被组策略禁止。</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Désactivé par l&apos;utilisateur. Veuillez le réactiver dans l&apos;onglet Démarrage du Gestionnaire des Tâches.</value>
+    <value>已被用户禁用。请在任务管理器的“启动”选项卡中重新激活它。</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Editer le titre</value>
+    <value>编辑标题</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Erreur</value>
+    <value>错误</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>L&apos;opération ne peut pas être terminée en raison de l&apos;erreur suivante:</value>
+    <value>由于以下错误，操作无法完成：</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>L&apos;importation du thème a échouer</value>
+    <value>导入主题失败</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Aucun analyseur approprié trouvé</value>
+    <value>解析失败</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Veuillez confirmer</value>
+    <value>请确认</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annuler</value>
+    <value>取消</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Entrez votre raccourcis maintenant</value>
+    <value>请键入要绑定的快捷键</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>确定</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Réinitialiser</value>
-    <comment>Fuzzy</comment>
+    <value>重置</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Texte copier</value>
+    <value>已复制</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Ajouter</value>
+    <value>添加</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Changer le titre de l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>修改标签页标题</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>清屏</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Fermer l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>关闭标签页</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>快捷键</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>删除</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Editer</value>
+    <value>编辑</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Nouvel onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>新建标签页</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>新建窗口</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Onglet suivant</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>下一标签页</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Coller sans nouvelles lignes</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>粘贴（不换行）</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Onglet précédent</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>上一标签页</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Chercher</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>搜索</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Selectionner tout</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>全选</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Afficher les paramètres</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>显示设置</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Passer au Terminal 1</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #1</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Passer au Terminal 2</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #2</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Passer au Terminal 3</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #3</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Passer au Terminal 4</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #4</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Passer au Terminal 5</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #5</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Passer au Terminal 6</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #6</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Passer au Terminal 7</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #7</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Passer au Terminal 8</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #8</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Passer au Terminal 9</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换到终端 #9</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Basculer en plein écran</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换全屏</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Basculer la fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>切换窗口</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Nouvel onglet distant</value>
-    <comment>Fuzzy</comment>
+    <value>新建远程标签页</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Nouvel SSH onglet</value>
-    <comment>Fuzzy</comment>
+    <value>新建 SSH 标签页</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informations</value>
+    <value>SSH 信息</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>用户名</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>hôte</value>
+    <value>主机</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>port</value>
+    <value>端口</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Chemin du fichier d&apos;identité</value>
-    <comment>Fuzzy</comment>
+    <value>SSH 认证文件路径</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Naviguer</value>
+    <value>浏览</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Utilisez Mosh</value>
+    <value>使用 Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Avancé</value>
+    <value>高级</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Ports Mosh:</value>
+    <value>Mosh 端口</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Enregistrer le raccourci</value>
-    <comment>Fuzzy</comment>
+    <value>保存快捷键</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>L&apos;application doit redémarrer pour que cette modification soit prise en compte.</value>
+    <value>应用需要重启才能使更改生效</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Entrée invalide</value>
-    <comment>Fuzzy</comment>
+    <value>非法输入</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Le port ne peut pas être 0.</value>
-    <comment>Fuzzy</comment>
+    <value>端口不能为 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Utilisateur et hôte sont des champs obligatoires.</value>
-    <comment>Fuzzy</comment>
+    <value>用户名和主机是必填字段</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Le nom d&apos;utilisateur ne peut pas être vide.</value>
+    <value>用户名不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>L&apos;hôte ne peut être vide.</value>
-    <comment>Fuzzy</comment>
+    <value>主机不能为空</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port SSH doit être supérieur à zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>SSH 端口需大于 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port Mosh ne peut être zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>Mosh 端口不能为 0</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>La plage de ports Mosh n&apos;est pas valide.</value>
+    <value>Mosh 端口范围无效</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Oui</value>
+    <value>是</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Non</value>
+    <value>否</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>语言</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Aucun</value>
+    <value>无</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nouvelle sortie</value>
+    <value>新输出</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sortie avec erreur</value>
+    <value>进程退出错误</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce profil?</value>
+    <value>你确定要删除这个配置文件吗？</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre SSH</value>
+    <value>新的 SSH 窗口</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>Profils SSH</value>
-    <comment>Fuzzy</comment>
+    <value>SSH 配置文件</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Couleur d&apos;onglet:</value>
-    <comment>Fuzzy</comment>
+    <value>标签页颜色</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Utilisez ConPty</value>
-    <comment>Fuzzy</comment>
+    <value>使用 ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Nom d&apos;utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>用户名</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Du port</value>
-    <comment>Fuzzy</comment>
+    <value>从端口</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>au portt</value>
-    <comment>Fuzzy</comment>
+    <value>到端口</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Gamme de ports Mosh</value>
+    <value>MOSH 端口范围</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authentifier</value>
+    <value>认证</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Les paramètres ont été exportés dans le fichier</value>
+    <value>设置已导出至文件</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Les paramètres ont été importés du fichier</value>
+    <value>已经从文件导入设置</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Le fichier d&apos;identification n&apos;existe pas</value>
+    <value>身份认证文件不存在</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Utilisez le nom d&apos;utilisateur Windows lors de l&apos;ouverture d&apos;URL SSH qui don&apos;t spécifier un</value>
+    <value>当 SSH 地址未指定用户名时使用 Windows 用户名</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Mosh par défaut pour les connexions SSH</value>
+    <value>SSH 连接默认使用 Mosh</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Couper les lignes copiées</value>
+    <value>复制内容右侧空格清空</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Utiliser SSH rapide par défaut</value>
+    <value>默认使用 quick SSH</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Commande non valide.</value>
+    <value>无效命令</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>L&apos;emplacement ne peut pas être vide.</value>
+    <value>地址不能为空</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mutter les bips du terminal</value>
+    <value>关闭终端声音</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez une commande (e.g. &apos;ssh username@host&apos;)</value>
+    <value>SSH 命令（如：ssh username@host）</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Commande</value>
+    <value>命令</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Commande non supportée:</value>
+    <value>不支持的命令</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Les arguments de commande sont manquants.</value>
+    <value>缺少命令参数</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Démarrage rapide</value>
-    <comment>Fuzzy</comment>
+    <value>快速启动</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Nouvel onglet de lancement rapide</value>
+    <value>新建快速启动标签页</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre de lancement rapide</value>
+    <value>新建快速启动窗口</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Nouvel onglet rapide</value>
+    <value>新建快速标签页</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Fichier non trouvé:</value>
+    <value>文件未找到</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Lien invalide.</value>
+    <value>无效的链接</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>删除此标签</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Fermer les onglets à gauche</value>
+    <value>关闭左侧标签</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Fermer les autres onglets</value>
+    <value>关闭其它标签</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Fermer les onglets à droite</value>
+    <value>关闭右侧标签</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Onglet dupliquer</value>
-    <comment>Fuzzy</comment>
+    <value>复制选项卡</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Dupliquer</value>
+    <value>复制</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Impossible de définir deux variables d’environnement portant le même nom.</value>
+    <value>无法定义具有相同名称的两个环境变量</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Impossible de définir une variable d&apos;environnement sans nom.</value>
+    <value>无法定义没有名称的环境变量</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Variables d&apos;environnement</value>
+    <value>环境变量</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fermer le panneau de recherche</value>
+    <value>关闭搜索框</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le suivant</value>
+    <value>搜索下一个</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le précédent</value>
+    <value>搜索上一个</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez le terme de recherche</value>
+    <value>输入搜索内容</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Chercher</value>
+    <value>搜索</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Sortie imprimable seulement</value>
+    <value>只输出可打印内容</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Journal de sortie pour le débogage</value>
+    <value>记录 Debug 日志</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Caractères séparateurs de mots</value>
+    <value>单词分隔符</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Récent</value>
+    <value>Recent</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Ouvrir le profile par défaut dans un nouvel onglet.</value>
+    <value>Opens default profile in a new tab.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Ouvrir une session SSH ou Msh dans un nouvel onglet.</value>
+    <value>Opens a new SSH or Mosh session in a new tab.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Ouvrir le dialogue &quot;Lancement rapide&quot; et commencer une session dans un nouvel onglet.</value>
+    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Ouvrir les paramètres.</value>
+    <value>Opens settings window.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Informations sur l&apos;application.</value>
+    <value>Basic info about the app.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Session récentes.</value>
+    <value>Recently opened sessions.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Commencer une nouvelle session du profil par défaut.</value>
+    <value>Starts new terminal session based on the default profile.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Connexion distante...</value>
+    <value>Remote Connect...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue pour une nouvelle session SSH ou Mosh.</value>
+    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Lancement rapide...</value>
+    <value>Quick Launch...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue &quot;Lancement rapide&quot; pour un nouvelle session.</value>
+    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Nouvelle fenêtre.</value>
+    <value>New Window</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Nouvel onglet.</value>
+    <value>New Tab</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Lancer une session dans un nouvel onglet.</value>
+    <value>Launches a session in a new tab.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Lancer une session dans une nouvelle fenêtre.</value>
+    <value>Launches a session in a new window.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
     <value>Application menu type</value>
@@ -1064,46 +1022,46 @@ Fuzzy</comment>
     <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Nouvel onglet&quot; / &quot;Nouvelle fenêtre&quot; en cascade.</value>
+    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quitter.</value>
+    <value>Quit</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quitter Fluent Terminal</value>
+    <value>Quit Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Autorisé par la politique.</value>
+    <value>Enabled by policy.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Image de fond</value>
+    <value>Background image</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Utilise un fond acrylique.</value>
+    <value>Use acrylic background</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Êtes vous sûr de vouloir supprimer cette image de fond ?</value>
+    <value>Are you sure you want to delete this background image?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Couleurs</value>
+    <value>Colors</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Couleurs claires</value>
+    <value>Bright colors</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copier le lien</value>
+    <value>Copy link</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Expression régulière</value>
+    <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mot entier</value>
+    <value>Whole word</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sensible à la casse.</value>
+    <value>Case sensitive</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copier la sélection ou coller</value>
+    <value>Copy selection or paste</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
     <value>Use buffer</value>

@@ -1055,4 +1055,7 @@ Fuzzy</comment>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
     <value>Copy selection or paste</value>
   </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Use buffer</value>
+  </data>
 </root>

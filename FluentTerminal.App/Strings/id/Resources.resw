@@ -118,176 +118,163 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>À propos</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>Tentang</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Fond</value>
+    <value>Latar Belakang</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Bleu</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Birut</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Fermer</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Tutup</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer la fenêtre</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Tanyakan sebelum menutup windows</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer les onglets</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Tanyakan sebelum menutup tabs</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Couleur</value>
+    <value>Warna</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Couleur des onglets inactifs</value>
+    <value>Warna pada tabs tidak aktif</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Copier</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Menggandakan</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Afficher le titre de l&apos;onglet personnalisé également dans la barre de titre</value>
+    <value>Tampilkan judul tab modifikasi pada judul bar</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Éditer le titre</value>
+    <value>Edit Judul</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Général</value>
+    <value>Umum</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Vert</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Hijau</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Afficher l&apos;indicateur de nouvelle sortie sur les onglets en arrière-plan</value>
+    <value>Tampilkan indikator keluaran baru pada latar belakang tabs</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Redémarrage de l&apos;application requis pour appliquer le réglage</value>
+    <value>Nyalakan ulang untuk menerapkan pengaturan</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Nouvel onglet</value>
+    <value>Buka tab baru</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Aucun</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Tidak ada</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Onglets</value>
+    <value>Kumpulan tab</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Fenêtres</value>
+    <value>Jendela</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Ouvrir de nouveaux terminaux en tant que</value>
+    <value>Buka terminal baru sebagai</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
     <value>Orange</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Coller</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Tempel</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Violet</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Purple</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rouge</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Merah</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Réinitialiser</value>
+    <value>Kembalikan ke Default</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Exécuter au démarrage</value>
+    <value>Jalankan pada startup</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Réglages</value>
+    <value>Pengaturan</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Réglages</value>
+    <value>Pengaturan</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Afficher dans la barre d&apos;état système</value>
+    <value>Tampilkan pada tray sistem</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Afficher les onglets sur</value>
+    <value>Tampilkan tab pada</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Sarcelle</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Teal</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Bas</value>
+    <value>Bawah</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Haut</value>
+    <value>Atas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>Garisbawahi</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Souligner l&apos;onglet sélectionné</value>
+    <value>Garisbawahi tab terpilih</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>A propos</value>
+    <value>Tentang</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Général</value>
+    <value>Umum</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>Keybindings</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Souris</value>
+    <value>Mouse</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profil</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
@@ -295,162 +282,159 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Thèmes</value>
+    <value>Tema</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Ajouter</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Tambahkan</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Argumen</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Opacité du fond</value>
+    <value>Transparansi Latar Belakang</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Clignotement du curseur</value>
+    <value>Blinking cursor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Texte en gras</value>
+    <value>Teks Tebal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Batal</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Vérification des mises à jour ...</value>
+    <value>Mengecek pembaruan</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Vérifier les mises à jour</value>
+    <value>Cek pembaruan</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Cliquez sur une couleur pour éditer</value>
+    <value>Klik pada warna untuk mengedit</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Cloner</value>
+    <value>Kloning</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Palette de couleurs</value>
+    <value>Palet warna</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Notification de copie de texte</value>
+    <value>Text notifikasi di salin</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Copier sur sélectionner</value>
+    <value>Gandakan yang terpilih</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Buat baru</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Version actuelle</value>
+    <value>Versi sekarang</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Barre</value>
+    <value>Bar</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Bloc</value>
+    <value>Blok</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Style de curseur</value>
+    <value>Desain cursor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>Garis bawah</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Hapus</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Ne pas modifier les fins de ligne</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Jangan modifikasi baris terakhir</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Editer</value>
+    <value>Sunting</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exporter</value>
+    <value>Export</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Famille de polices</value>
+    <value>Keluarga font</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Taille de police</value>
+    <value>Ukuran font</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importer</value>
+    <value>Import</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>Pintasan keyboard</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>Pitnasan Keyboard</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Dernière version</value>
+    <value>Versi terakhir</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Licence</value>
+    <value>Lisensi</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne</value>
+    <value>Line ending translation mode</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne sur coller:</value>
+    <value>Line ending translation mode on paste:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton du milieu</value>
+    <value>Aksi tombol tengah</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Souris</value>
+    <value>Mouse</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Menu contextuel</value>
+    <value>Konteks Menu</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Rien</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>Tidak ada</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Coller</value>
+    <value>Tempel</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Buat baru</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
@@ -458,106 +442,103 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>Nama</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profil</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Thème</value>
+    <value>Tema</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Notes de version</value>
+    <value>Catatan rilis</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton droit</value>
+    <value>Aksi tombol kanan</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Sauvgarder</value>
+    <value>Simpan</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Limite de défilement</value>
+    <value>Scrollback limit</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Masquage automatique</value>
+    <value>Otomatis sembunyikan</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Masqué</value>
+    <value>Sembunyikan</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Style de barre de défilement</value>
+    <value>Scrollbar style</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Visible</value>
+    <value>Tampilkan</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Définir actif</value>
+    <value>Atur Aktif</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Définir par defaut</value>
+    <value>Atur ke default</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Emplacement exécutable du shell</value>
+    <value>Shell executable location</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Couleur d&apos;onglet</value>
+    <value>Warna tab</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Teminal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Thème:</value>
+    <value>Tema</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Author</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>Nama</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Convert line endings to CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR+LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Convert line endings to CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Convert line endings to LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Directeur de travail</value>
+    <value>Direktori kerja</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir fermer &quot;{0}&quot; onglets?</value>
+    <value>Apakah anda yakin untuk menutup tab &quot;{0}&quot; ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Are you sure you want to close this window?</value>
+    <value>Apakah anda yakin untuk menutup window ini ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
@@ -565,545 +546,502 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce thème?</value>
+    <value>Apakah anda yakin untuk menghapus tema ini ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir annuler toutes les modifications?</value>
+    <value>Apakah anda yakin untuk membatalkan seluruh perubahan ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres généraux?</value>
+    <value>Apakah anda yakin untuk mengembalikan pengaturan umum ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les raccourcis clavier par défaut?</value>
+    <value>Are you sure you want to restore the default keybindings?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres de la souris?</value>
+    <value>Apakah anda yakin untuk mengembalikan pengaturan mouse ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer ce profil?</value>
+    <value>Apakah anda yakin untuk mengembalikan profil ini ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les options du terminal par défaut?</value>
+    <value>Apakah anda yakin untuk mengembalikan pengaturan terminal ke default ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Désactivé par politique.</value>
+    <value>Matikan melalui policy</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Désactivé par l&apos;utilisateur. Veuillez le réactiver dans l&apos;onglet Démarrage du Gestionnaire des Tâches.</value>
+    <value>Matikan melalui pengguna. Silahkan aktifkan kembali tab startup pada Task Manager</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Editer le titre</value>
+    <value>Edit judul</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Erreur</value>
+    <value>Eror</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>L&apos;opération ne peut pas être terminée en raison de l&apos;erreur suivante:</value>
+    <value>Operasi gagal diselesaikan dengan error:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>L&apos;importation du thème a échouer</value>
+    <value>Import tema gagal</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Aucun analyseur approprié trouvé</value>
+    <value>Tidak ada parser yang cocok</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Veuillez confirmer</value>
+    <value>Mohon konfirmasi</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Batal</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Entrez votre raccourcis maintenant</value>
+    <value>Masukkan keybinding sekaran</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Réinitialiser</value>
-    <comment>Fuzzy</comment>
+    <value>Reset</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Texte copier</value>
+    <value>Teks dicopy</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Ajouter</value>
+    <value>Tambahkan</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Changer le titre de l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti judul tab</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Bersihkan</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Fermer l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tutup tab</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>Keybinding</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>Hapus</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Editer</value>
+    <value>Edit</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Nouvel onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tab baru</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Window baru</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Onglet suivant</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tab selanjutnya</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Coller sans nouvelles lignes</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tempelkan tanpa baris baru</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Onglet précédent</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tab sebelumnya</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Chercher</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Cari</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Selectionner tout</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Pilih semua</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Afficher les paramètres</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Tampilkan pengaturan</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Passer au Terminal 1</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 1</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Passer au Terminal 2</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 2</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Passer au Terminal 3</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 3</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Passer au Terminal 4</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 4</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Passer au Terminal 5</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 5</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Passer au Terminal 6</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 6</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Passer au Terminal 7</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 7</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Passer au Terminal 8</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 8</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Passer au Terminal 9</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ganti ke terminal 9</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Basculer en plein écran</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Beralih ke Layar penuh</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Basculer la fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Beralih ke Window</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Nouvel onglet distant</value>
-    <comment>Fuzzy</comment>
+    <value>Tab kendali baru</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Nouvel SSH onglet</value>
-    <comment>Fuzzy</comment>
+    <value>Tab SSH baru</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informations</value>
+    <value>Informasi SSH</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>pengguna</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>hôte</value>
+    <value>host</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>port</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Chemin du fichier d&apos;identité</value>
-    <comment>Fuzzy</comment>
+    <value>Identifikasi lokasi file</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Naviguer</value>
+    <value>Temukan</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Utilisez Mosh</value>
+    <value>Gunakan mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Avancé</value>
+    <value>Lanjutan</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Ports Mosh:</value>
+    <value>ports Mosh</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Enregistrer le raccourci</value>
-    <comment>Fuzzy</comment>
+    <value>Simpan pintasan</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>L&apos;application doit redémarrer pour que cette modification soit prise en compte.</value>
+    <value>Aplikasi perlu di restart untuk menerapkan perubahan</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Entrée invalide</value>
-    <comment>Fuzzy</comment>
+    <value>Input tidak valid</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Le port ne peut pas être 0.</value>
-    <comment>Fuzzy</comment>
+    <value>Port tidak boleh 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Utilisateur et hôte sont des champs obligatoires.</value>
-    <comment>Fuzzy</comment>
+    <value>User and host are mandatory fields.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Le nom d&apos;utilisateur ne peut pas être vide.</value>
+    <value>Username tidak boleh kosong</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>L&apos;hôte ne peut être vide.</value>
-    <comment>Fuzzy</comment>
+    <value>Host tidak boleh kosong</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port SSH doit être supérieur à zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>Port SSH harus lebih besar dari nol</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port Mosh ne peut être zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>Port mosh tidak boleh nol</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>La plage de ports Mosh n&apos;est pas valide.</value>
+    <value>Rentang port Mosh tidak valid</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Oui</value>
+    <value>Ya</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Non</value>
+    <value>Tidak</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>Bahasa</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Aucun</value>
+    <value>Tidak ada</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nouvelle sortie</value>
+    <value>Output baru</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sortie avec erreur</value>
+    <value>Keluar dengan eror</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce profil?</value>
+    <value>Apakah anda yakin akan menghapus profil ini ?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre SSH</value>
+    <value>Window SSH baru</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>Profils SSH</value>
-    <comment>Fuzzy</comment>
+    <value>Profil SSH</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Couleur d&apos;onglet:</value>
-    <comment>Fuzzy</comment>
+    <value>Warna tab</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Utilisez ConPty</value>
-    <comment>Fuzzy</comment>
+    <value>Gunakan ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Nom d&apos;utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>Username</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Du port</value>
-    <comment>Fuzzy</comment>
+    <value>Dari port</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>au portt</value>
-    <comment>Fuzzy</comment>
+    <value>Ke port</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Gamme de ports Mosh</value>
+    <value>Rentang port Mosh</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authentifier</value>
+    <value>Authenticate</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Les paramètres ont été exportés dans le fichier</value>
+    <value>Pengaturan file yang di export</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Les paramètres ont été importés du fichier</value>
+    <value>Pengaturan file yang di import</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Le fichier d&apos;identification n&apos;existe pas</value>
+    <value>Identifikasi file tidak ditemukan</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Utilisez le nom d&apos;utilisateur Windows lors de l&apos;ouverture d&apos;URL SSH qui don&apos;t spécifier un</value>
+    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Mosh par défaut pour les connexions SSH</value>
+    <value>Standar Mosh untuk koneksi SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Couper les lignes copiées</value>
+    <value>Right trim copied lines</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Utiliser SSH rapide par défaut</value>
+    <value>Gunakan SSH cepat berdasarkan standart</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Commande non valide.</value>
+    <value>Perintah tidak valid</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>L&apos;emplacement ne peut pas être vide.</value>
+    <value>Lokasi tidak boleh kosong</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mutter les bips du terminal</value>
+    <value>Heningkan bunyi bip terminal</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez une commande (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Masukkan perintah (contoh &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Commande</value>
+    <value>Perintah</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Commande non supportée:</value>
+    <value>Perintah tidak didukung</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Les arguments de commande sont manquants.</value>
+    <value>Argumen perintah tidak ditemukan</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Démarrage rapide</value>
-    <comment>Fuzzy</comment>
+    <value>Peluncuran cepat</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Nouvel onglet de lancement rapide</value>
+    <value>Tab baru peluncur cepat</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre de lancement rapide</value>
+    <value>Windows baru peluncur cepat</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Nouvel onglet rapide</value>
+    <value>Tab baru cepat</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Fichier non trouvé:</value>
+    <value>File tidak ditemukan</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Lien invalide.</value>
+    <value>Tautan tidak valid</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Pindahkan ke sini</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Fermer les onglets à gauche</value>
+    <value>Tutup tab di sebelah kiri</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Fermer les autres onglets</value>
+    <value>Tutup tab lainnya</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Fermer les onglets à droite</value>
+    <value>Tutup tab di sebelah kanan</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Onglet dupliquer</value>
-    <comment>Fuzzy</comment>
+    <value>Gandakan tab</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Dupliquer</value>
+    <value>Gandakan</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Impossible de définir deux variables d’environnement portant le même nom.</value>
+    <value>Tidak dapat mendefinisikan dua variabel environtment dengan nama yang sama</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Impossible de définir une variable d&apos;environnement sans nom.</value>
+    <value>Tidak dapat mendefinisikan variabel environtment tanpa nama</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Variables d&apos;environnement</value>
+    <value>Variabel environtment</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fermer le panneau de recherche</value>
+    <value>Tutup panel pencarian</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le suivant</value>
+    <value>Temukan selanjutnya</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le précédent</value>
+    <value>Temukan sebelumnya</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez le terme de recherche</value>
+    <value>Masukkan istilah pencarian</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Chercher</value>
+    <value>Cari</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Sortie imprimable seulement</value>
+    <value>Hanya keluaran yang bisa dicetak</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Journal de sortie pour le débogage</value>
+    <value>Keluaran Log untuk debugging</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Caractères séparateurs de mots</value>
+    <value>Karakter pemisah kata</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Récent</value>
+    <value>Belakangan ini</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Ouvrir le profile par défaut dans un nouvel onglet.</value>
+    <value>Buka profil default pada tab baru</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Ouvrir une session SSH ou Msh dans un nouvel onglet.</value>
+    <value>Buka SSH baru atau sesi MOSH di tab baru</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Ouvrir le dialogue &quot;Lancement rapide&quot; et commencer une session dans un nouvel onglet.</value>
+    <value>Buka dialog &quot;Peluncur Cepat&quot; dan jalankan sesi pada tab baru</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Ouvrir les paramètres.</value>
+    <value>Buka pengaturan window</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Informations sur l&apos;application.</value>
+    <value>Informasi dasar tentang aplikasi</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Session récentes.</value>
+    <value>Sesi terbuka belakangan ini</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Commencer une nouvelle session du profil par défaut.</value>
+    <value>Jalankan terminal baru berdasarkan sesi pada profil default</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Connexion distante...</value>
+    <value>Menghubungkan pengendali...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue pour une nouvelle session SSH ou Mosh.</value>
+    <value>Buka dialog untuk menjalankan SSH baru atau sesi terminal Mosh</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Lancement rapide...</value>
+    <value>Peluncur cepat</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue &quot;Lancement rapide&quot; pour un nouvelle session.</value>
+    <value>Buka dialog &quot;Peluncur cepat&quot; untuk memulai sesi pada terminal baru</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Nouvelle fenêtre.</value>
+    <value>Window baru</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Nouvel onglet.</value>
+    <value>Tab baru</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Lancer une session dans un nouvel onglet.</value>
+    <value>Jalankan sesi pada tab baru</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Lancer une session dans une nouvelle fenêtre.</value>
+    <value>Jalankan sesi pada window baru</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Tipe menu aplikasi</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
     <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Nouvel onglet&quot; / &quot;Nouvelle fenêtre&quot; en cascade.</value>
+    <value>Mengurutkan &quot;Tab baru&quot;  / &quot;Window baru&quot;</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quitter.</value>
+    <value>Tutup</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quitter Fluent Terminal</value>
+    <value>Tutup Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Autorisé par la politique.</value>
+    <value>Hidupkan berdasarkan policy</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Image de fond</value>
+    <value>Gambar latar belakang</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Utilise un fond acrylique.</value>
+    <value>Gunakan latar belakang akrilik</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Êtes vous sûr de vouloir supprimer cette image de fond ?</value>
+    <value>Apakah anda yakin akan menghapus gambar latar belakang ini ?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Couleurs</value>
+    <value>Warna</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Couleurs claires</value>
+    <value>Kecerahan warna</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copier le lien</value>
+    <value>Tautan di salin</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Expression régulière</value>
+    <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mot entier</value>
+    <value>Keseluruhan kata</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sensible à la casse.</value>
+    <value>Hal-hal sensitif</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copier la sélection ou coller</value>
+    <value>Salin yang terpilih atau tempel</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
     <value>Use buffer</value>
