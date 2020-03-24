@@ -151,6 +151,7 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
             EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
+            ReconnectTabCommand = new AsyncCommand(ReconnectTabAsync, () => CanExecuteCommand() && HasExitedWithError);
             CopyCommand = new AsyncCommand(Copy, () => HasSelection);
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
@@ -249,6 +250,8 @@ namespace FluentTerminal.App.ViewModels
         public RelayCommand FindPreviousCommand { get; }
 
         public RelayCommand DuplicateTabCommand { get; }
+
+        public AsyncCommand ReconnectTabCommand { get; }
 
         public ICommand CopyLinkCommand { get; private set; }
 
@@ -542,6 +545,12 @@ namespace FluentTerminal.App.ViewModels
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
         }
 
+        public async Task ReconnectTabAsync()
+        {
+            HasExitedWithError = false;
+            await TerminalView?.ReconnectAsync();
+        }
+
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
         {
             ApplicationSettings = message.ApplicationSettings;
@@ -751,6 +760,12 @@ namespace FluentTerminal.App.ViewModels
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
+            var reconnect = new MenuItemViewModel(I18N.Translate("Command.ReconnectTab"), ReconnectTabCommand);
+            AddKeyBindings(reconnect, Command.ReconnectTab, commandKeyBindings);
+            contextMenu.Items.Add(reconnect);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
             var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: Mdl2Icon.Cancel());
             AddKeyBindings(close, Command.CloseTab, commandKeyBindings);
             contextMenu.Items.Add(close);
@@ -788,6 +803,12 @@ namespace FluentTerminal.App.ViewModels
             var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
             AddKeyBindings(duplicate, Command.DuplicateTab, commandKeyBindings);
             contextMenu.Items.Add(duplicate);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var reconnect = new MenuItemViewModel(I18N.Translate("Command.ReconnectTab"), ReconnectTabCommand);
+            AddKeyBindings(reconnect, Command.ReconnectTab, commandKeyBindings);
+            contextMenu.Items.Add(reconnect);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 

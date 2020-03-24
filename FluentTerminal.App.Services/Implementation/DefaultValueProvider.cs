@@ -115,6 +115,18 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.ReconnectTab:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ReconnectTab),
+                        Ctrl = true,
+                        Alt = true,
+                        Key = (int)ExtendedVirtualKey.R
+                    }
+                };
+
                 case Command.NewTab:
                     return new List<KeyBinding>
                 {

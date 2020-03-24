@@ -10,6 +10,7 @@ namespace FluentTerminal.App.ViewModels
         Task ChangeKeyBindingsAsync();
         Task ChangeOptionsAsync(TerminalOptions options);
         Task InitializeAsync(TerminalViewModel viewModel);
+        Task ReconnectAsync();
         void DisposalPrepare();
         Task FindNextAsync(SearchRequest request);
         Task FindPreviousAsync(SearchRequest request);

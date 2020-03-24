@@ -24,6 +24,12 @@ namespace FluentTerminal.App.Services
             _requireShellProcessStart = !terminalId.HasValue;
         }
 
+        public void Reconnect()
+        {
+            _exited = false;
+            _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
+        }
+
         private void OnTerminalExited(object sender, TerminalExitStatus status)
         {
             if (status.TerminalId != Id)
