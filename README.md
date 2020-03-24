@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="fluent terminal logo" src="./Icons/Icon.png" width="100px" />
+  <img alt="fluent terminal logo" src="./Icons/Icon_no_margin.png" width="100px" />
   <h1 align="center">Fluent Terminal</h1>
 </p>
 
