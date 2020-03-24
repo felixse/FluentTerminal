@@ -63,9 +63,9 @@ namespace FluentTerminal.SystemTray.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Square44x44Logo_scale_100 {
+        internal static System.Drawing.Icon Icon_mono_dark {
             get {
-                object obj = ResourceManager.GetObject("Square44x44Logo_scale_100", resourceCulture);
+                object obj = ResourceManager.GetObject("Icon_mono_dark", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace FluentTerminal.SystemTray.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Square44x44Logo_scale_100_altform_lightunplated {
+        internal static System.Drawing.Icon Icon_mono_light {
             get {
-                object obj = ResourceManager.GetObject("Square44x44Logo_scale_100_altform_lightunplated", resourceCulture);
+                object obj = ResourceManager.GetObject("Icon_mono_light", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
