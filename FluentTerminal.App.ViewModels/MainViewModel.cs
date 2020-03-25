@@ -299,14 +299,14 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task AddSshProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync().ConfigureAwait(false);
+            var profile = await _dialogService.ShowSshConnectionInfoDialogAsync().ConfigureAwait(true);
 
             await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddQuickLaunchProfileAsync(NewTerminalLocation location)
         {
-            var profile = await _dialogService.ShowCustomCommandDialogAsync().ConfigureAwait(false);
+            var profile = await _dialogService.ShowCustomCommandDialogAsync().ConfigureAwait(true);
 
             await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
