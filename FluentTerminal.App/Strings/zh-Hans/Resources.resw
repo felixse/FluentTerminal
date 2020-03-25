@@ -1064,6 +1064,6 @@ Fuzzy</comment>
     <value>Copy selection or paste</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use buffer</value>
+    <value>Use smart buffer</value>
   </data>
 </root>

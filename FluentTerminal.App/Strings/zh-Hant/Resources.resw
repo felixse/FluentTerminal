@@ -1044,6 +1044,6 @@
     <value>复制或粘贴选中区域</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use buffer</value>
+    <value>Use smart buffer</value>
   </data>
 </root>
