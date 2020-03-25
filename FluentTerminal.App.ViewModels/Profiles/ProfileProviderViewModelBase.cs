@@ -111,13 +111,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
                 if (theme == null)
                 {
-                    // How to handle attempt to setting null theme?
-                    // 1) Throw an exception:
-                    //throw new ArgumentNullException();
-                    // 2) Ignore the attempt:
-                    //return;
-                    // 3) Use default theme (probably the best):
-                    theme = TerminalThemes.First();
+                    return;
                 }
                 else if (!TerminalThemes.Contains(theme))
                 {
