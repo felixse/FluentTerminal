@@ -7,8 +7,6 @@
         PreviousTab,
         NewTab,
         NewWindow,
-        ConfigurableNewTab,
-        ConfigurableNewWindow,
         NewSshTab,
         NewSshWindow,
         NewCustomCommandTab, 

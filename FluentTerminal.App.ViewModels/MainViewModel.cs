@@ -68,9 +68,6 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewCustomCommandTab), async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Tab));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewCustomCommandWindow), async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Window));
 
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewTab), async () => await AddSelectedProfileAsync(NewTerminalLocation.Tab));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ConfigurableNewWindow), async () => await AddSelectedProfileAsync(NewTerminalLocation.Window));
-
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitleAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTabAsync(SelectedTerminal.ShellProfile.Clone()));
@@ -298,13 +295,6 @@ namespace FluentTerminal.App.ViewModels
             var profile = _settingsService.GetDefaultShellProfile();
 
             return AddProfileAsync(profile, location);
-        }
-
-        private async Task AddSelectedProfileAsync(NewTerminalLocation location)
-        {
-            var profile = await _dialogService.ShowProfileSelectionDialogAsync().ConfigureAwait(true);
-
-            await AddProfileAsync(profile, location).ConfigureAwait(false);
         }
 
         private async Task AddSshProfileAsync(NewTerminalLocation location)
@@ -628,7 +618,7 @@ namespace FluentTerminal.App.ViewModels
 
         private const int RecentItemsMaxCount = 10;
 
-        private AppMenuViewModel _menuViewModel;
+        private MenuViewModel _menuViewModel;
 
         private readonly RelayCommand _newDefaultTabCommand;
         private readonly RelayCommand _newDefaultWindowCommand;
@@ -640,7 +630,7 @@ namespace FluentTerminal.App.ViewModels
         private readonly RelayCommand _aboutCommand;
         private readonly ICommand _quitCommand;
 
-        public AppMenuViewModel MenuViewModel
+        public MenuViewModel AppMenuViewModel
         {
             get => _menuViewModel;
             private set => Set(ref _menuViewModel, value);
@@ -648,14 +638,14 @@ namespace FluentTerminal.App.ViewModels
 
         private void CreateMenuViewModel()
         {
-            var appMenuViewModel = new AppMenuViewModel();
+            var appMenuViewModel = new MenuViewModel();
 
             if (_applicationSettings.TabWindowCascadingAppMenu)
             {
                 var tabItem = new ExpandableMenuItemViewModel(
                     I18N.TranslateWithFallback("MenuItem_NewTab_Text", "New Tab"),
                     description: I18N.TranslateWithFallback("MenuItem_NewTab_Text", "Launches a session in a new tab."),
-                    icon: 57609 /*(int) Symbol.Add*/);
+                    icon: Mdl2Icon.Add());
 
                 FillCoreItems(tabItem.SubItems, NewTerminalLocation.Tab);
 
@@ -664,7 +654,7 @@ namespace FluentTerminal.App.ViewModels
                 var windowItem = new ExpandableMenuItemViewModel(
                     I18N.TranslateWithFallback("MenuItem_NewWindow_Text", "New Window"),
                     description: I18N.TranslateWithFallback("MenuItem_NewWindow_Description", "Launches a session in a new window."),
-                    icon: "\uE78B" /*Segoe MDL2 Assets Glyph property*/);
+                    icon: Mdl2Icon.NewWindow());
 
                 FillCoreItems(windowItem.SubItems, NewTerminalLocation.Window);
 
@@ -677,13 +667,13 @@ namespace FluentTerminal.App.ViewModels
 
             appMenuViewModel.Items.Add(new ExpandableMenuItemViewModel(I18N.TranslateWithFallback("Recent.Text", "Recent"),
                 GetRecentMenuItems(), I18N.TranslateWithFallback("Recent_Description", "Recently opened sessions."),
-                icon: "\uF738" /*Segoe MDL2 Assets Glyph property*/));
+                icon: Mdl2Icon.History()));
 
             appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
 
             var settingsItem = new MenuItemViewModel(I18N.TranslateWithFallback("Settings.Text", "Settings"),
                 _settingsCommand, I18N.TranslateWithFallback("Settings_Description", "Opens settings window."),
-                icon: 57621 /*(int) Symbol.Setting*/);
+                icon: Mdl2Icon.Settings());
 
             if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out var keyBindings) &&
                 keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
@@ -700,18 +690,18 @@ namespace FluentTerminal.App.ViewModels
 
             appMenuViewModel.Items.Add(new MenuItemViewModel(I18N.TranslateWithFallback("AboutDialog.Title", "About"), _aboutCommand,
                 I18N.TranslateWithFallback("About_Description", "Basic info about the app."),
-                icon: "\uE946" /*Segoe MDL2 Assets Glyph property*/));
+                icon: Mdl2Icon.Info()));
 
             appMenuViewModel.Items.Add(new SeparatorMenuItemViewModel());
 
             var quitItem = new MenuItemViewModel(I18N.TranslateWithFallback("Quit.Text", "Quit"), _quitCommand,
                 I18N.TranslateWithFallback("Quit.Description", "Quit Fluent Terminal"),
-                icon: (int)Windows.UI.Xaml.Controls.Symbol.Cancel);
+                icon: Mdl2Icon.Cancel());
             appMenuViewModel.Items.Add(quitItem);
 
             if (!appMenuViewModel.EquivalentTo(_menuViewModel))
             {
-                MenuViewModel = appMenuViewModel;
+                AppMenuViewModel = appMenuViewModel;
             }
         }
 
@@ -724,7 +714,7 @@ namespace FluentTerminal.App.ViewModels
                 var defaultProfileItem = new MenuItemViewModel(
                     defaultProfileName, tab ? _newDefaultTabCommand : _newDefaultWindowCommand,
                     I18N.TranslateWithFallback("MenuItem_DefaultProfile_Description",
-                        "Starts new terminal session based on the default profile."), icon: 57609 /*(int) Symbol.Add*/);
+                        "Starts new terminal session based on the default profile."), icon: Mdl2Icon.FavoriteStar());
 
                 var defaultProfileCommand = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
 
@@ -747,7 +737,7 @@ namespace FluentTerminal.App.ViewModels
                 tab ? _newRemoteTabCommand : _newRemoteWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_Remote_Description",
                     "Opens a dialog for launching a new SSH or Mosh terminal session."),
-                icon: 57609 /*(int) Symbol.Add*/);
+                icon: Mdl2Icon.Globe());
 
             var command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
 
@@ -769,7 +759,7 @@ namespace FluentTerminal.App.ViewModels
                 tab ? _newQuickLaunchTabCommand : _newQuickLaunchWindowCommand,
                 I18N.TranslateWithFallback("MenuItem_QuickLaunch_Description",
                     "Opens a \"Quick Launch\" dialog for starting a new terminal session."),
-                icon: 57609 /*(int) Symbol.Add*/);
+                icon: Mdl2Icon.Play());
 
             command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
 

@@ -167,38 +167,14 @@
 
                     <!--  Row  -->
                     <TextBlock
-                        x:Uid="LineEndingModeOnPaste"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="0,8,8,0"
-                        VerticalAlignment="Center"
-                        Text="Line ending on paste:" />
-                    <ComboBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="3"
-                        Margin="0,8,0,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        ItemsSource="{x:Bind ViewModel.LineEndingStyles}"
-                        SelectedItem="{x:Bind ViewModel.LineEndingTranslation, Mode=TwoWay}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="enums:LineEndingStyle">
-                                <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                    <!--  Row  -->
-                    <TextBlock
                         x:Uid="SshInfoDialog_TabColor"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,8,8,0"
                         VerticalAlignment="Center"
                         Text="Tab color:" />
                     <ComboBox
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="3"
                         Margin="0,8,0,0"
@@ -210,13 +186,13 @@
                     <!--  Row  -->
                     <TextBlock
                         x:Uid="Theme"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="0"
                         Margin="0,8,8,0"
                         VerticalAlignment="Center"
                         Text="Theme:" />
                     <ComboBox
-                        Grid.Row="3"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Grid.ColumnSpan="3"
                         Margin="0,8,0,0"
@@ -227,12 +203,21 @@
 
                     <!--  Row  -->
                     <CheckBox
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="4"
                         Margin="0,8,0,0"
                         Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                         IsChecked="{x:Bind ViewModel.UseConPty, Mode=TwoWay}" />
+
+                    <!--  Row  -->
+                    <CheckBox
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        Margin="0,8,0,0"
+                        Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}"
+                        IsChecked="{x:Bind ViewModel.UseBuffer, Mode=TwoWay}" />
 
                 </Grid>
             </controls:Expander>

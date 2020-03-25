@@ -1,7 +1,6 @@
 ﻿using FluentTerminal.RuntimeComponent.Enums;
 using FluentTerminal.RuntimeComponent.Interfaces;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
@@ -16,15 +15,22 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
         public TerminalBridge(IxtermEventListener terminalEventListener)
         {
             _terminalEventListener = terminalEventListener;
-            _terminalEventListener.OnOutput += _terminalEventListener_OnOutput;
+            _terminalEventListener.OnOutput += OnOutput;
+            _terminalEventListener.OnPaste += OnPaste;
         }
 
-        private void _terminalEventListener_OnOutput(object sender, object e)
+        private void OnPaste(object sender, string e)
+        {
+            Task.Factory.StartNew(() => Paste?.Invoke(this, e));
+        }
+
+        private void OnOutput(object sender, object e)
         {
             Task.Factory.StartNew(() => Output?.Invoke(this, e));
         }
 
         public event EventHandler<object> Output;
+        public event EventHandler<string> Paste;
 
         public void InputReceived(string message)
         {
@@ -43,7 +49,8 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
 
         public void DisposalPrepare()
         {
-            _terminalEventListener.OnOutput -= _terminalEventListener_OnOutput;
+            _terminalEventListener.OnOutput -= OnOutput;
+            _terminalEventListener.OnPaste -= OnPaste;
             _terminalEventListener = null;
         }
 
@@ -62,14 +69,14 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
             _terminalEventListener?.OnKeyboardCommand(command);
         }
 
-        public void NotifyRightClick(int x, int y, bool hasSelection)
+        public void NotifyRightClick(int x, int y, bool hasSelection, string hoveredUri)
         {
-            _terminalEventListener?.OnMouseClick(MouseButton.Right, x, y, hasSelection);
+            _terminalEventListener?.OnMouseClick(MouseButton.Right, x, y, hasSelection, hoveredUri);
         }
 
-        public void NotifyMiddleClick(int x, int y, bool hasSelection)
+        public void NotifyMiddleClick(int x, int y, bool hasSelection, string hoveredUri)
         {
-            _terminalEventListener?.OnMouseClick(MouseButton.Middle, x, y, hasSelection);
+            _terminalEventListener?.OnMouseClick(MouseButton.Middle, x, y, hasSelection, hoveredUri);
         }
 
         public void NotifySelectionChanged(string selection)

@@ -8,7 +8,6 @@ using GalaSoft.MvvmLight.Messaging;
 using FluentTerminal.Models;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using FluentTerminal.App.Utilities;
 using Windows.UI;
 
 namespace FluentTerminal.App.Views
@@ -66,12 +65,12 @@ namespace FluentTerminal.App.Views
             _terminalView?.FocusTerminalAsync();
         }
 
-        private void OnFindNextRequested(object sender, string e)
+        private void OnFindNextRequested(object sender, SearchRequest e)
         {
             _terminalView.FindNextAsync(e);
         }
 
-        private void OnFindPreviousRequested(object sender, string e)
+        private void OnFindPreviousRequested(object sender, SearchRequest e)
         {
             _terminalView.FindPreviousAsync(e);
         }
@@ -99,7 +98,7 @@ namespace FluentTerminal.App.Views
             }
             else if (e.Key == VirtualKey.Enter)
             {
-                ViewModel.FindNextCommand.Execute(null);
+                ViewModel.FindPreviousCommand.Execute(null);
             }
         }
 

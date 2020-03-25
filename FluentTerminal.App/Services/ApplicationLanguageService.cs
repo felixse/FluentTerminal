@@ -10,6 +10,7 @@ namespace FluentTerminal.App.Services
         private readonly Dictionary<string, string> _languages = new Dictionary<string, string>
         {
             [""] = "System default",
+            ["ar"] = "العربية",
             ["ar-IQ"] = "اللهجة العراقية",
             ["az"] = "azərbaycan dili",
             ["de"] = "Deutsch",
@@ -18,6 +19,7 @@ namespace FluentTerminal.App.Services
             ["fr"] = "Français",
             ["he"] = "עברית",
             ["hi"] = "हिन्दुस्तानी",
+            ["id"] = "Bahasa Indonesia",
             ["it"] = "Italiano",
             ["ja"] = "日本語",
             ["ko"] = "한국어",
@@ -27,7 +29,8 @@ namespace FluentTerminal.App.Services
             ["ro"] = "Română",
             ["ru"] = "Pусский",
             ["uk"] = "Українська",
-            ["zh-Hans-CN"] = "Chinese (Traditional)"
+            ["zh-Hans"] = "繁體中文",
+            ["zh-Hant"] = "简体中文"
         };
 
         public IEnumerable<string> Languages => _languages.Values;
@@ -44,6 +47,10 @@ namespace FluentTerminal.App.Services
 
         public string GetCurrentLanguage()
         {
+            if (!_languages.ContainsKey(ApplicationLanguages.PrimaryLanguageOverride))
+            {
+                ApplicationLanguages.PrimaryLanguageOverride = "en";
+            }
             return _languages[ApplicationLanguages.PrimaryLanguageOverride];
         }
     }

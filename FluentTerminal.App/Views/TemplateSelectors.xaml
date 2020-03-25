@@ -11,7 +11,7 @@
                 <StackPanel Orientation="Horizontal">
                     <FontIcon
                             Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
                             Glyph="&#xF126;" />
                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                 </StackPanel>
@@ -22,7 +22,7 @@
                 <StackPanel Orientation="Horizontal">
                     <FontIcon
                             Margin="0,0,6,0"
-                            FontFamily="Segoe MDL2 Assets"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
                             Foreground="{x:Bind Color}"
                             Glyph="&#xF127;" />
                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />

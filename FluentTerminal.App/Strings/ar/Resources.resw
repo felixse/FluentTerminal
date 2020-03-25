@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialog.Title" xml:space="preserve">
+    <value>من نحن</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="Background.Content" xml:space="preserve">
+    <value>خلفية</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Blue" xml:space="preserve">
+    <value>أزرق</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ConfirmWindowClosing.Header" xml:space="preserve">
+    <value>السؤال قبل إغلاق النافذة</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ConfirmTabClosing.Header" xml:space="preserve">
+    <value>السؤال قبل إغلاق اللسان</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Color.Text" xml:space="preserve">
+    <value>لون</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ColorInactiveTabs.Text" xml:space="preserve">
+    <value>اللون على اللسان الغير نشط</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Command.Copy" xml:space="preserve">
+    <value>نسخ</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="CustomTitle.Header" xml:space="preserve">
+    <value>إظهار عنوان اللسان الخاص أيضا على شريط العنوان</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="EditTitle.Text" xml:space="preserve">
+    <value>تغير العنوان</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>عام</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Green" xml:space="preserve">
+    <value>أخضر</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.Header" xml:space="preserve">
+    <value>إظهار مؤشر الإخراج الجديد في علامات تبويب الخلفية</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="NeedRelaunch.Text" xml:space="preserve">
+    <value>يجب إعاد التشعيل حتى يتم تطبيق الإعدادات</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NewTab.Text" xml:space="preserve">
+    <value>لسان جديد</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="TabTheme.None" xml:space="preserve">
+    <value>لا شيء</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ONTA_Tabs.Content" xml:space="preserve">
+    <value>االسنة</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="ONTA_Windows.Content" xml:space="preserve">
+    <value>نوافذ</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
+    <value>فتح منفذ الأوامر كـ</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Orange" xml:space="preserve">
+    <value>برتقالي</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Command.Paste" xml:space="preserve">
+    <value>لصق</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="TabTheme.Purple" xml:space="preserve">
+    <value>بنفسجي</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TabTheme.Red" xml:space="preserve">
+    <value>احمر</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Restore.Label" xml:space="preserve">
+    <value>إستعادة الأفتراضي</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.Header" xml:space="preserve">
+    <value>تشغيل عند تشغيل الجهاز</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>إعدادات</value>
+    <comment>SettingsPage.xaml.cs</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>إعدادات</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="SystemTray.Header" xml:space="preserve">
+    <value>إظهار في علبة النظام</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="TabsPostion.Text" xml:space="preserve">
+    <value>أظهر نوافذ التبويب على</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Teal" xml:space="preserve">
+    <value>أزرق مخضر</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TP_Bottom.Content" xml:space="preserve">
+    <value>قاع</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TP_Top.Content" xml:space="preserve">
+    <value>القمة</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Underline.Content" xml:space="preserve">
+    <value>تسطير</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.Header" xml:space="preserve">
+    <value>سطر التبويب المختار</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting_About.Content" xml:space="preserve">
+    <value>عن</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_General.Content" xml:space="preserve">
+    <value>عام</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Keybindings.Content" xml:space="preserve">
+    <value>ارتباط المفاتيح</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Mouse.Content" xml:space="preserve">
+    <value>فأرة</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Profiles.Content" xml:space="preserve">
+    <value>ملف شخصي</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Terminal.Content" xml:space="preserve">
+    <value>منفذ أوامر</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Themes.Content" xml:space="preserve">
+    <value>مواضيع</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>أضف</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Arguments.Header" xml:space="preserve">
+    <value>شروط</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="BackgroundOpacity.Header" xml:space="preserve">
+    <value>شفافية الخلفية</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.Header" xml:space="preserve">
+    <value>مؤشر رماش</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.Header" xml:space="preserve">
+    <value>نص عريض</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>إلغاء</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CheckingUpdates.Text" xml:space="preserve">
+    <value>التحقق من التحديثات...</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CheckUpdates.Label" xml:space="preserve">
+    <value>التحقق من التحديثات</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="ClickColorEdit.Text" xml:space="preserve">
+    <value>إضغط على اللون لتغيًرة</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CloneAppBarButton.Label" xml:space="preserve">
+    <value>استنساخ</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ColorPalette.Text" xml:space="preserve">
+    <value>لوحة الألوان</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.Header" xml:space="preserve">
+    <value>إشعار نسخ النص</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.Header" xml:space="preserve">
+    <value>نسخ عند الإختيار</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CreateProfile.Text" xml:space="preserve">
+    <value>إنشاء جديد</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CurrentVersion.Text" xml:space="preserve">
+    <value>الإصدار الحالي</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CursorBar.Content" xml:space="preserve">
+    <value>شريط</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorBlock.Content" xml:space="preserve">
+    <value>منع</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorStyle.Text" xml:space="preserve">
+    <value>نمط المؤشر</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorUnderline.Content" xml:space="preserve">
+    <value>تطير</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="DeleteAppBarButton.Label" xml:space="preserve">
+    <value>حذف</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
+    <value>لا تعدل نهاية السطر</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="EditAppBarButton.Label" xml:space="preserve">
+    <value>تحرير</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ExportAppBarButton.Label" xml:space="preserve">
+    <value>إخراج</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="FontFamily.Header" xml:space="preserve">
+    <value>عائلة الخط</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="FontSize.Header" xml:space="preserve">
+    <value>حجم الخط</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ImportTheme.Text" xml:space="preserve">
+    <value>إدراج</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut.Header" xml:space="preserve">
+    <value>إختصارات لوحة المفاتيح</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut1.Text" xml:space="preserve">
+    <value>إختصارات لوحة المفاتيح</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LatestVersion.Text" xml:space="preserve">
+    <value>الإصدار الأخير</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="License.Text" xml:space="preserve">
+    <value>رخصة</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="LineEndingMode.Header" xml:space="preserve">
+    <value>نمط ترجمة نهاية السطر</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
+    <value>نمط ترجمة نهاية السطر عند اللصق:</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="MiddleButtonAction.Text" xml:space="preserve">
+    <value>أمر الزر الاوسط</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="Mouse.Text" xml:space="preserve">
+    <value>فأرة</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseContextMenu.Content" xml:space="preserve">
+    <value>قائمة السياق</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseNothing.Content" xml:space="preserve">
+    <value>لا شيء</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MousePaste.Content" xml:space="preserve">
+    <value>لصق</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="NewTheme.Text" xml:space="preserve">
+    <value>إنشاء جديد</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="Padding.Header" xml:space="preserve">
+    <value>تبطين</value>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="ProfileName.Header" xml:space="preserve">
+    <value>الأسم</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>ملفات شخصية</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ProfileTheme.Header" xml:space="preserve">
+    <value>موضوع</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ReleaseNotes.Text" xml:space="preserve">
+    <value>مذكرة الإصدار</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="RightButtonAction.Text" xml:space="preserve">
+    <value>أمر الزر الأيمن</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>حفظ</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ScrollbackLimit.Header" xml:space="preserve">
+    <value>حد التمرير الى الخلف</value>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="ScrollBarAuto.Content" xml:space="preserve">
+    <value>إخفاء الي</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarHidden.Content" xml:space="preserve">
+    <value>مخفي</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollbarStyle.Text" xml:space="preserve">
+    <value>نمط شريط التمرير</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarVisible.Content" xml:space="preserve">
+    <value>مرئي</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="SetActiveAppBarButton.Label" xml:space="preserve">
+    <value>تفعيل النشاط</value>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
+  </data>
+  <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
+    <value>وضع كإفتراضي</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ShellLocation.Header" xml:space="preserve">
+    <value>موقع Shell القابل للتنفيذ</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="TabColor.Header" xml:space="preserve">
+    <value>لون التبويب</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Terminal.Text" xml:space="preserve">
+    <value>منفذ الأوامر</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>موضوع:</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeAuthor.Header" xml:space="preserve">
+    <value>الناشر</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeName.Header" xml:space="preserve">
+    <value>اسم</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCR" xml:space="preserve">
+    <value>تغير نهاية السطور الى CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
+    <value>تغير نهاية السطور الى CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToLF" xml:space="preserve">
+    <value>تغير نهاية السطور الى LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="WorkingDir.Header" xml:space="preserve">
+    <value>مكان العمل</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ConfirmCloseTab" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إغلاق التبويب &quot;{0}&quot; ؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmCloseWindow" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إغلاق هذه النافذة؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteKeybindings" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد حذف إرتباط المفتاح هذا؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteTheme" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد حذف هذا الموضوع؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDiscardChanges" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد تجاهل جميع التغيرات؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إستعادة الأعدادات العامة؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreKeybindings" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إستعادة إرتباط المففاتيح الإفتراضي؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إستعادة أعدادات الفأرة؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreProfile" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إستعادة هذا الملف الشخصي؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
+    <value>هل أنت متأكد انك تريد إستعادة خيارات منفذ الأوامر الأفتراضية؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByPolicy" xml:space="preserve">
+    <value>تعطلت من السياسة</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByUser" xml:space="preserve">
+    <value>تعطلت من مستخدم. يرجى إعادة تفعيلها من تبويب بدأ التشغيل من مدير المهام؟</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="EditTitleString" xml:space="preserve">
+    <value>تحرير العنوان</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ErrorString1" xml:space="preserve">
+    <value>لا يمكن استكمال العملية بسبب الخطأ الاتي:</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ImportThemeFailed" xml:space="preserve">
+    <value>فشل إضافة موضوع</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="NoSuitableParserFound" xml:space="preserve">
+    <value>لم يتم إيجاد محلل مناسب</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="PleaseConfirm" xml:space="preserve">
+    <value>الرجاء التأكيد</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="KeybindingDialogTitle.Text" xml:space="preserve">
+    <value>أدخل أرتباط مفتاحك الأن</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>تم</value>
+    <comment>formal &quot; حسنا &quot;
+Fuzzy</comment>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>إسترداد</value>
+    <comment>إعادة تعيين
+Fuzzy</comment>
+  </data>
+  <data name="TextCopied" xml:space="preserve">
+    <value>نُسخ النص</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>أضف</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Command.ChangeTabTitle" xml:space="preserve">
+    <value>تغيير عنوان لسان</value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Command.Clear" xml:space="preserve">
+    <value>أخلي</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.CloseTab" xml:space="preserve">
+    <value>أغلق اللسان</value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Keybindings.Text" xml:space="preserve">
+    <value>أرتباط المفاتيح</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Delete.Content" xml:space="preserve">
+    <value>حذف</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
+    <value>تغيير</value>
+    <comment>KeyBindingsView.xaml
+Fuzzy</comment>
+  </data>
+  <data name="Command.NewTab" xml:space="preserve">
+    <value>لسان جديد</value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Command.NewWindow" xml:space="preserve">
+    <value>نافذة جديدة</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.NextTab" xml:space="preserve">
+    <value>لسان التالي </value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Command.PasteWithoutNewlines" xml:space="preserve">
+    <value>لصق من دون سطر جديد</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.PreviousTab" xml:space="preserve">
+    <value>لسان السابق</value>
+    <comment>Command
+Fuzzy</comment>
+  </data>
+  <data name="Command.Search" xml:space="preserve">
+    <value>بحث</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SelectAll" xml:space="preserve">
+    <value>تحديد الكل</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ShowSettings" xml:space="preserve">
+    <value>أظهر الإعدادات</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm1" xml:space="preserve">
+    <value>إنتقال الى المنفذ 1</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm2" xml:space="preserve">
+    <value>إنتقال الى المنفذ 2</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm3" xml:space="preserve">
+    <value>إنتقال الى المنفذ 3</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm4" xml:space="preserve">
+    <value>إنتقال الى المنفذ 4</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm5" xml:space="preserve">
+    <value>إنتقال الى المنفذ 5</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm6" xml:space="preserve">
+    <value>إنتقال الى المنفذ 6</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm7" xml:space="preserve">
+    <value>إنتقال الى المنفذ 7</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm8" xml:space="preserve">
+    <value>إنتقال الى المنفذ 8</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm9" xml:space="preserve">
+    <value>إنتقال الى المنفذ 9</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleFullScreen" xml:space="preserve">
+    <value>تبديل الى ملء الشاشة</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleWindow" xml:space="preserve">
+    <value>تبديل النافذة</value>
+    <comment>Command</comment>
+  </data>
+  <data name="NewSshTab.Text" xml:space="preserve">
+    <value>لسان متحكم جديد</value>
+  </data>
+  <data name="Command.NewSshTab" xml:space="preserve">
+    <value>لسان SSH جديد</value>
+  </data>
+  <data name="SshInfoDialog.Title" xml:space="preserve">
+    <value>عن SSH </value>
+  </data>
+  <data name="UserTextBox.PlaceholderText" xml:space="preserve">
+    <value>مستخدم</value>
+  </data>
+  <data name="HostTextBox.PlaceholderText" xml:space="preserve">
+    <value>مضيف</value>
+  </data>
+  <data name="PortTextBox.PlaceholderText" xml:space="preserve">
+    <value>مدخل</value>
+  </data>
+  <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
+    <value>مسار ملف الهوية</value>
+    <comment>مسار ملف التعريف
+Fuzzy</comment>
+  </data>
+  <data name="BrowseButton.Content" xml:space="preserve">
+    <value>تصفح</value>
+  </data>
+  <data name="UseMoshCheckBox.Content" xml:space="preserve">
+    <value>استخدم Mosh</value>
+  </data>
+  <data name="AdvancedExpander.Header" xml:space="preserve">
+    <value>متقدم</value>
+  </data>
+  <data name="MoshPorts.Text" xml:space="preserve">
+    <value>مدخل Mosh :</value>
+  </data>
+  <data name="SaveShortcutButton.Content" xml:space="preserve">
+    <value>حفظ الإختصار</value>
+  </data>
+  <data name="NeedsToRestart.Text" xml:space="preserve">
+    <value>يجب أعادة تشغيل التطبيق حتى يتم تطبيق التغيرات.</value>
+    <comment>يجب إعادة تشغيل البرنامج حتى يتم تطبيق التغيرات.</comment>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>إدخال غير مسموح</value>
+    <comment>خطأ في الإدخال</comment>
+  </data>
+  <data name="PortCannotBeZero" xml:space="preserve">
+    <value>لا يمكن للمدخل ان يكون 0.</value>
+  </data>
+  <data name="UserAndHostMandatory" xml:space="preserve">
+    <value>إن المسخدم و المضيف خانات إلزامية.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
+    <value>لا يمكن لإسم المستخدم أن يكون فارعً.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
+    <value>لا يمكن للمضيف أن يكون فارغً.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
+    <value>مدخل SSH يجب أن يكون أكبر من صفر.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
+    <value>لا يمكن لمدخل Mosh أن يكون صفر.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
+    <value>نطاق مدخل Mosh غير صالح.</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>نعم</value>
+    <comment>أجل
+بلا</comment>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>لا شيء</value>
+  </data>
+  <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>مخرج جديد</value>
+  </data>
+  <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
+    <value>أخرج مع خطأ</value>
+  </data>
+  <data name="ConfirmDeleteProfile" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف الملف الشخصي هذا؟</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>نافذة SSH جديدة</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>ملف SSH شخصي</value>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>لون اللسان:</value>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>أستخدم ConPty</value>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>من مدخل</value>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>الى مدخل</value>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>نطاق مدخل Mosh</value>
+  </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>شهادة وثوق</value>
+    <comment>شهادة
+مصادقة
+شهادة مصادقة
+Fuzzy</comment>
+  </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>أخرجت الإعدادات الى ملف</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>أدرجت الأعدادات من ملف</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
+    <value>ملف الهوية غير موجود</value>
+  </data>
+  <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
+    <value>استخدم اسم المستخدم الخاص بـ Windows عند فتح SSH URLs التي لا تتطلب التحديد مخصص</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="UseMoshByDefault.Header" xml:space="preserve">
+    <value>وضع Mosh افتراضيا لإتصالات SSH</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="RTrimCopiedLines.Header" xml:space="preserve">
+    <value>حق تلقيم السطور المنسوخة</value>
+  </data>
+  <data name="QuickSshDefault.Header" xml:space="preserve">
+    <value>استخدم اتصال SSH سريع إفتراضيا</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>أمر خاطئ</value>
+    <comment>أمر غير صحيح
+Fuzzy</comment>
+  </data>
+  <data name="LocationCantBeEmpty" xml:space="preserve">
+    <value>لا يمكن للموقع ان يكون فارغ.</value>
+  </data>
+  <data name="MuteTerminalBeeps.Header" xml:space="preserve">
+    <value>اكتم اصوات المنفذ</value>
+  </data>
+  <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
+    <value>أدخل أمر كـ (مثال. &apos;ssh username@host&apos;)</value>
+  </data>
+  <data name="CommandLine.Header" xml:space="preserve">
+    <value>أمر</value>
+  </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>أمر غير مدعوم</value>
+    <comment>أمر غير موجود</comment>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>شروط الامر مفقودة</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>تشغيل سريع</value>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>لسان تشغيل سريع جديد</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>نافذة تشغيل سريع جديدة</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>لسان سريع جديد</value>
+    <comment>by now you should know that in Arabic لسان and تبويب  means tab, but تبويب is more close to the meaning not لسان. Just for the length of the lines i use لسان instead of تبويب</comment>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>الملف غير موجود:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>رابط غير صحيح.</value>
+    <comment>خطأ في الرابط</comment>
+  </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>إسقط اللسان هنا</value>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>أغلق الالسنة على الميسرة</value>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>أغلق الالسنة الاخرى</value>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>أغلق الالسنة على الميمنة</value>
+  </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>كرر التبويب</value>
+    <comment>أستنسخ التبويب</comment>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>كرر</value>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>لا يمكن تعريف متغيرين بيئيين بنفس الاسم.</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>لا يمكن تعريف مغير بيئي بلا اسم.</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>متغيرات بيئية</value>
+  </data>
+  <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
+    <value>أغلق لوحة البحث</value>
+  </data>
+  <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
+    <value>جد التالي</value>
+  </data>
+  <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
+    <value>جد السابق</value>
+  </data>
+  <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>أدخل شرط بحث</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>ابحث</value>
+  </data>
+  <data name="PrintableOutputOnly.Content" xml:space="preserve">
+    <value>نواتج قابلة للطباعة فقط</value>
+  </data>
+  <data name="EnableLogging.Header" xml:space="preserve">
+    <value>نواتج السجل للتصحيح</value>
+  </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>أحرف فواصل الكلمة</value>
+  </data>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>حديثة</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>يقم بفتح ملف الشخصي الافتراضي في لسان جديد.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>يقم بفتح فصل SSH او Mosh جديد في لسان جديد.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>يقم بفتح حوار &quot;تشغيل سريع&quot; و إبدأ الفصل في لسان جديد.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>أفتح نافذة الخيارات.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>معلومات بسيطة عن البرنامج.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>فصول فتحت حديثًا.</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>يبدأ فصل منفذ جديد بناءً على الملف الشخصي الافتراضي.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>الإتصال عن بعد...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>يقم بفتح حوار لتشغيل فصل  منفذ أوامر SSH او Mosh جديد.</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>تشغيل سريع...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>يقم بفتح حوار &quot;تشغيل سريع&quot; لبدأ فصل منفذ اوامر جديد.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>نافذة جديدة</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>لسان جديد</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>يقم بتشغيل فصل في لسان جديد.</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>يقم بتشغيل فصل في نافذة جديدة.</value>
+  </data>
+  <data name="AppMenuType.Text" xml:space="preserve">
+    <value>نوع قائمة التطبيق</value>
+    <comment>نوع قائمة البرنامج
+Fuzzy</comment>
+  </data>
+  <data name="AppMenuType_Flat.Content" xml:space="preserve">
+    <value>تنفيذ سطحي لإعداد &quot;أفتح منفذ جديد كـ&quot;</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="AppMenuType_Cascading.Content" xml:space="preserve">
+    <value>&quot;لسان جديد&quot; / &quot;نافذة جديدة&quot; متتالبة</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>أخرج</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>أخرج من منفذ الاوامر فلوينت</value>
+    <comment>or if you want to translate the fluent word:
+أخرج من منفذ الأوامر السلس
+of if you wan it in it&apos;s English form:
+Type &quot;أخرج من منفذ الأوامر &quot; then type the name in the end.</comment>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>خولت من السياسة.</value>
+  </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>الصورة الخلفية</value>
+  </data>
+  <data name="AcrylicBackground.Header" xml:space="preserve">
+    <value>استخدام خلفية الاكريليك</value>
+  </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف الصورة الخلفية هذه؟</value>
+  </data>
+  <data name="Colors.Text" xml:space="preserve">
+    <value>الوان</value>
+  </data>
+  <data name="BrightColors.Text" xml:space="preserve">
+    <value>الوان فاتحة</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>نسح الرابط</value>
+  </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+    <comment>I think leave it as is is good rather than translate it, because it&apos;s a name so it will not harm.</comment>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>كلمة كاملة</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>حساسية لطريقة الكتابة</value>
+  </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Copy selection or paste</value>
+  </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Use buffer</value>
+  </data>
+</root>

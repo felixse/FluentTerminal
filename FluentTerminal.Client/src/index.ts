@@ -5,20 +5,19 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { SerializeAddon } from "xterm-addon-serialize";
 import { Unicode11Addon } from "xterm-addon-unicode11";
 
-
-
 interface ExtendedWindow extends Window {
   keyBindings: any[];
   term: Terminal;
   terminalBridge: any;
+  hoveredUri: string;
 
   createTerminal(options: any, theme: any, keyBindings: any): void;
   connectToWebSocket(url: string): void;
   changeTheme(theme: any): void;
   changeOptions(options: any): void;
   changeKeyBindings(keyBindings: any): void;
-  findNext(content: string): void;
-  findPrevious(content: string): void;
+  findNext(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
+  findPrevious(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
   serializeTerminal() : void;
 }
 
@@ -56,6 +55,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   theme = JSON.parse(theme);
 
   window.keyBindings = JSON.parse(keyBindings);
+  window.hoveredUri = "";
 
   options = JSON.parse(options);
 
@@ -79,49 +79,13 @@ window.createTerminal = (options, theme, keyBindings) => {
   term = new Terminal(terminalOptions);
 
   const linkMatcherOptions: ILinkMatcherOptions = {
-    leaveCallback: () => window.onmouseup = (e) => defaultOnMouseUpHandler(e),
-    willLinkActivate: (event: MouseEvent, uri: string) => {
-      window.onmouseup = (e) => linkHoverOnMouseUpHandler(event, uri);
-      return true;
+    leaveCallback: () => {
+      window.hoveredUri = "";
+    },
+    tooltipCallback: (event: MouseEvent, uri: string) => {
+      window.hoveredUri = uri;
     }
   };
-
-  function defaultOnMouseUpHandler(e: MouseEvent): void {
-    if (e.button == 1) {
-      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
-    } else if (e.button == 2) {
-      window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
-    }
-  }
-  
-  function linkHoverOnMouseUpHandler(e: MouseEvent, u: string): void {
-    if (e.button == 1) {
-      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection());
-    } else if (e.button == 2) {
-      let pos = findInMouseRow(u, e.clientY);
-      if(pos !== undefined) {
-        term.select(pos.col, pos.row, u.length);
-        window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection());
-      }
-    }
-  }
-  
-  function findInMouseRow(str: string, mouseY: number): {col: number, row: number} | undefined {
-    const lineHeight: number = Math.round(window.innerHeight / window.term.rows) - 1;
-    const mouseRow: number = mouseY / lineHeight;
-    let col: number, row: number = (mouseRow === Math.ceil(mouseRow) ? mouseRow : Math.floor(mouseRow)) - 1;
-    let line = window.term.buffer.getLine(row);
-
-    if(line === undefined) return;
-    
-    col = line.translateToString().indexOf(str);
-    if (col === -1) return;
-    
-    return {
-      col: col, 
-      row: row
-    };
-  }
 
   searchAddon = new SearchAddon();
   term.loadAddon(searchAddon);
@@ -139,6 +103,10 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   window.terminalBridge.onoutput = (data => {
     term.writeUtf8(data);
+  });
+
+  window.terminalBridge.onpaste = (text => {
+    term.paste(text);
   });
 
   term.onData(data => {
@@ -173,7 +141,28 @@ window.createTerminal = (options, theme, keyBindings) => {
     resizeTimeout = setTimeout(() => fitAddon.fit(), 500);
   }
 
-  window.onmouseup = (e) => defaultOnMouseUpHandler(e);
+  window.onmouseup = (e) => {
+    if (e.button == 1) {
+      window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection(), window.hoveredUri);
+    } else if (e.button == 2) {
+      window.terminalBridge.notifyRightClick(e.clientX, e.clientY, term.hasSelection(), window.hoveredUri);
+    }
+  }
+
+  window.onkeydown = (e) => {
+    // Disable WebView zooming to prevent crash on too small font size
+    if ((e.ctrlKey && !e.altKey && (e.keyCode === 189 || e.keyCode === 187)) ||
+        (e.ctrlKey && (e.key === "Add" || e.key === "Subtract"))) {
+      e.preventDefault();
+    }
+  }
+
+  window.addEventListener("wheel", function(event){
+    // Disable WebView zooming to prevent crash on too small font size
+    if(event.ctrlKey){
+      event.preventDefault();
+    }
+  });
 
   term.attachCustomKeyEventHandler(function (e) {
     if (e.type != "keydown") {
@@ -257,12 +246,12 @@ window.changeKeyBindings = (keyBindings) => {
   window["keyBindings"] = keyBindings;
 }
 
-window.findNext = (content: string) => {
-  searchAddon.findNext(content);
+window.findNext = (content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean) => {
+  searchAddon.findNext(content, { caseSensitive: caseSensitive, wholeWord: wholeWord, regex: regex });
 }
 
-window.findPrevious = (content: string) => {
-  searchAddon.findPrevious(content);
+window.findPrevious = (content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean) => {
+  searchAddon.findPrevious(content, { caseSensitive: caseSensitive, wholeWord: wholeWord, regex: regex });
 }
 
 document.oncontextmenu = function () {

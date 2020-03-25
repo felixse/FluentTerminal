@@ -391,6 +391,20 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
+        public bool ShowTextCopied
+        {
+            get => _applicationSettings.ShowTextCopied;
+            set
+            {
+                if (_applicationSettings.ShowTextCopied != value)
+                {
+                    _applicationSettings.ShowTextCopied = value;
+                    _settingsService.SaveApplicationSettings(_applicationSettings);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         // Requires UI thread
         private async Task RestoreDefaultsAsync()
         {
@@ -418,6 +432,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 PrintableOutputOnly = defaults.PrintableOutputOnly;
                 LogDirectoryPath = defaults.LogDirectoryPath;
                 UseConPty = defaults.UseConPty;
+                ShowTextCopied = defaults.ShowTextCopied;
             }
         }
 

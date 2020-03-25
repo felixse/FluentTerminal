@@ -42,7 +42,8 @@ namespace FluentTerminal.App.Services.Implementation
                 EnableLogging = false,
                 PrintableOutputOnly = true,
                 LogDirectoryPath = logDirectoryPath,
-                UseConPty = true
+                UseConPty = true,
+                ShowTextCopied = false
             };
         }
 
@@ -126,18 +127,6 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
-                case Command.ConfigurableNewTab:
-                    return new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = nameof(Command.ConfigurableNewTab),
-                        Ctrl = true,
-                        Alt = true,
-                        Key = (int)ExtendedVirtualKey.T
-                    }
-                };
-
                 case Command.NewSshTab:
                     return new List<KeyBinding>
                     {
@@ -169,8 +158,8 @@ namespace FluentTerminal.App.Services.Implementation
                         {
                             Command = nameof(Command.NewCustomCommandTab),
                             Ctrl = true,
-                            Shift = true,
-                            Key = (int)ExtendedVirtualKey.Q
+                            Alt = true,
+                            Key = (int)ExtendedVirtualKey.T
                         }
                     };
 
@@ -182,7 +171,7 @@ namespace FluentTerminal.App.Services.Implementation
                             Command = nameof(Command.NewCustomCommandWindow),
                             Ctrl = true,
                             Alt = true,
-                            Key = (int)ExtendedVirtualKey.Q
+                            Key = (int)ExtendedVirtualKey.N
                         }
                     };
                     
@@ -218,18 +207,6 @@ namespace FluentTerminal.App.Services.Implementation
                         Command = nameof(Command.NewWindow),
                         Ctrl = true,
                         Shift = true,
-                        Key = (int)ExtendedVirtualKey.N
-                    }
-                };
-
-                case Command.ConfigurableNewWindow:
-                    return new List<KeyBinding>
-                {
-                    new KeyBinding
-                    {
-                        Command = nameof(Command.ConfigurableNewWindow),
-                        Ctrl = true,
-                        Alt = true,
                         Key = (int)ExtendedVirtualKey.N
                     }
                 };
@@ -437,8 +414,8 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8), // Windows 10 1903+
+                    UseBuffer = false,
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"
@@ -465,8 +442,8 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\Windows\System32\cmd.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.DoNotModify,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
+                    UseBuffer = true,
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"
@@ -493,8 +470,8 @@ namespace FluentTerminal.App.Services.Implementation
                     Location = @"C:\windows\system32\wsl.exe",
                     PreInstalled = true,
                     WorkingDirectory = string.Empty,
-                    LineEndingTranslation = LineEndingStyle.ToLF,
                     UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7), // Windows 10 1809+
+                    UseBuffer = true, //TODO: Set to false if the buffer causes issues with WSL.
                     EnvironmentVariables = new Dictionary<string, string>
                     {
                         ["TERM"] = "xterm-256color"

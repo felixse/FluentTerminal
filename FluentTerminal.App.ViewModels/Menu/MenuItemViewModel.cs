@@ -21,7 +21,7 @@ namespace FluentTerminal.App.ViewModels.Menu
 
         #region Constructors
 
-        public MenuItemViewModel(string text, ICommand command, string description = null, object icon = null,
+        public MenuItemViewModel(string text, ICommand command, string description = null, Mdl2Icon icon = null,
             MenuItemKeyBindingViewModel keyBinding = null) : base(text, description, icon)
         {
             _keyBinding = keyBinding;

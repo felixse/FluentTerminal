@@ -1,6 +1,5 @@
 ﻿using FluentTerminal.App.Converters;
 using FluentTerminal.App.Services;
-using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
@@ -13,21 +12,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace FluentTerminal.App.Views
 {
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
     {
-        private readonly MenuFlyoutItem _copyMenuItem;
-        private readonly MenuFlyoutItem _pasteMenuItem;
         private WebView _webView;
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
         private TerminalBridge _terminalBridge;
@@ -120,6 +117,7 @@ namespace FluentTerminal.App.Views
         #endregion Resize handling
 
         public event EventHandler<object> OnOutput;
+        public event EventHandler<string> OnPaste;
 
         public XtermTerminalView()
         {
@@ -134,17 +132,6 @@ namespace FluentTerminal.App.Views
             _webView.NavigationCompleted += _webView_NavigationCompleted;
             _webView.NavigationStarting += _webView_NavigationStarting;
             _webView.NewWindowRequested += _webView_NewWindowRequested;
-
-            _copyMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Copy") };
-            _copyMenuItem.Click += Copy_Click;
-
-            _pasteMenuItem = new MenuFlyoutItem { Text = I18N.Translate("Command.Paste") };
-            _pasteMenuItem.Click += Paste_Click;
-
-            _webView.ContextFlyout = new MenuFlyout
-            {
-                Items = { _copyMenuItem, _pasteMenuItem }
-            };
 
             _optionsChanged = new DelayedAction<TerminalOptions>(async options =>
             {
@@ -202,24 +189,24 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync(@"serializeTerminal()");
         }
 
-        public Task FindNextAsync(string searchText)
+        public Task FindNextAsync(SearchRequest request)
         {
             if (_terminalClosed)
             {
                 return Task.CompletedTask;
             }
 
-            return ExecuteScriptAsync($"findNext('{searchText}')");
+            return ExecuteScriptAsync($"findNext('{request.Term}', {request.MatchCase.ToString().ToLower()}, {request.WholeWord.ToString().ToLower()}, {request.Regex.ToString().ToLower()})");
         }
 
-        public Task FindPreviousAsync(string searchText)
+        public Task FindPreviousAsync(SearchRequest request)
         {
             if (_terminalClosed)
             {
                 return Task.CompletedTask;
             }
 
-            return ExecuteScriptAsync($"findPrevious('{searchText}')");
+            return ExecuteScriptAsync($"findPrevious('{request.Term}', {request.MatchCase.ToString().ToLower()}, {request.WholeWord.ToString().ToLower()}, {request.Regex.ToString().ToLower()})");
         }
 
         public Task FocusTerminalAsync()
@@ -244,6 +231,14 @@ namespace FluentTerminal.App.Views
             ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;
             ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
             ViewModel.Terminal.Closed += Terminal_Closed;
+
+            _webView.SetBinding(ContextFlyoutProperty, new Binding
+            {
+                Converter = (IValueConverter)Application.Current.Resources["MenuViewModelToFlyoutMenuConverter"],
+                Mode = BindingMode.OneWay,
+                Source = ViewModel,
+                Path = new PropertyPath(nameof(TerminalViewModel.ContextMenu))
+            });
 
             var options = ViewModel.SettingsService.GetTerminalOptions();
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
@@ -341,31 +336,40 @@ namespace FluentTerminal.App.Views
             }
         }
 
-        void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection)
+        void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri)
         {
             if (_terminalClosed)
             {
                 return;
             }
 
-            if (mouseButton == MouseButton.Middle)
+            var action = MouseAction.None;
+
+            switch (mouseButton)
             {
-                if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.ContextMenu)
-                {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
-                }
-                else if (ViewModel.ApplicationSettings.MouseMiddleClickAction == MouseAction.Paste)
-                {
-                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-                }
+                case MouseButton.Middle:
+                    action = ViewModel.ApplicationSettings.MouseMiddleClickAction;
+                    break;
+                case MouseButton.Right:
+                    action = ViewModel.ApplicationSettings.MouseRightClickAction;
+                    break;
             }
-            else if (mouseButton == MouseButton.Right)
+
+            if (action == MouseAction.ContextMenu)
             {
-                if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.ContextMenu)
+                Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
+            }
+            else if (action == MouseAction.Paste)
+            {
+                ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
+            }
+            else if (action == MouseAction.CopySelectionOrPaste)
+            {
+                if (hasSelection)
                 {
-                    Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection), enforceNewSchedule: true);
+                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
                 }
-                else if (ViewModel.ApplicationSettings.MouseRightClickAction == MouseAction.Paste)
+                else
                 {
                     ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
                 }
@@ -443,11 +447,6 @@ namespace FluentTerminal.App.Views
             _ = Launcher.LaunchUriAsync(args.Uri);
         }
 
-        private void Copy_Click(object sender, RoutedEventArgs e)
-        {
-            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
-        }
-
         private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
             var serializedOptions = JsonConvert.SerializeObject(options);
@@ -470,6 +469,7 @@ namespace FluentTerminal.App.Views
                 var scriptTask = await Dispatcher.ExecuteAsync(() => _webView.InvokeScriptAsync("eval", new[] {script}))
                     .ConfigureAwait(false);
 
+                
                 return await scriptTask;
             }
             catch (Exception e)
@@ -485,15 +485,11 @@ namespace FluentTerminal.App.Views
             return commandKeyBindings.Values.SelectMany(k => k).Concat(profiles.SelectMany(x => x.KeyBindings).Concat(sshprofiles.SelectMany(x => x.KeyBindings)));
         }
 
-        private void Paste_Click(object sender, RoutedEventArgs e)
+        private void ShowContextMenu(int x, int y, bool terminalHasSelection, string hoveredUri)
         {
-            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-        }
-
-        private void ShowContextMenu(int x, int y, bool terminalHasSelection)
-        {
+            ViewModel.HoveredUri = hoveredUri;
+            ViewModel.HasSelection = terminalHasSelection;
             var flyout = (MenuFlyout)_webView.ContextFlyout;
-            _copyMenuItem.IsEnabled = terminalHasSelection;
             flyout.ShowAt(_webView, new Point(x, y));
         }
 
@@ -514,9 +510,6 @@ namespace FluentTerminal.App.Views
                 _webView?.Navigate(new Uri("about:blank"));
                 Root.Children.Remove(_webView);
                 _webView = null;
-
-                _copyMenuItem.Click -= Copy_Click;
-                _pasteMenuItem.Click -= Paste_Click;
                 
                 if (Window.Current.Content is Frame frame && frame.Content is Page mainPage)
                 {
@@ -568,7 +561,6 @@ namespace FluentTerminal.App.Views
             _outputBlockedBuffer?.Dispose();
         }
 
-        public Task PasteAsync(string text) => ExecuteScriptAsync(
-                $"window.term.paste('{text.Replace(@"\", @"\\").Replace("'", @"\'").Replace("\n", @"\n").Replace("\r", @"\r")}')");
+        public void Paste(string text) => OnPaste?.Invoke(this, text);
     }
 }

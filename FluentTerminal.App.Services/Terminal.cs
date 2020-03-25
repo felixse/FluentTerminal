@@ -151,7 +151,7 @@ namespace FluentTerminal.App.Services
 
                 if (response.Success)
                 {
-                    _fallbackTitle = response.ShellExecutableName;
+                    _fallbackTitle = response.Name;
                     SetTitle(_fallbackTitle);
                 }
                 return response;

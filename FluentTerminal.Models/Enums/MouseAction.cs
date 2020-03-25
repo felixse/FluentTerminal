@@ -4,6 +4,7 @@
     {
         None,
         ContextMenu,
-        Paste
+        Paste,
+        CopySelectionOrPaste
     }
 }

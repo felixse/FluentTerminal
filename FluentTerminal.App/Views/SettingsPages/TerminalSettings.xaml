@@ -23,7 +23,6 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="Terminal"
-                Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
@@ -165,12 +164,6 @@
                         GroupName="ScrollBar"
                         IsChecked="{x:Bind ViewModel.VisibleIsSelected, Mode=TwoWay}" />
                 </StackPanel>
-
-                <ToggleSwitch
-                    x:Uid="CopiedNotification"
-                    Margin="{StaticResource ItemMargin}"
-                    Header="Text copied notification"
-                    IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
 
                 <TextBox
                     x:Uid="WordSeparator"

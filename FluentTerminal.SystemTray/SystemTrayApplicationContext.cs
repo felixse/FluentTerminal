@@ -26,11 +26,11 @@ namespace FluentTerminal.SystemTray
 
             if (SystemUsesLightTheme())
             {
-                _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100_altform_lightunplated;
+                _notifyIcon.Icon = Properties.Resources.Icon_mono_light;
             }
             else
             {
-                _notifyIcon.Icon = Properties.Resources.Square44x44Logo_scale_100;
+                _notifyIcon.Icon = Properties.Resources.Icon_mono_dark;
             }
 
             _notifyIcon.ContextMenu = new ContextMenu(new MenuItem[] { openMenuItem, newWindowItem, settingsMenuItem, exitMenuItem });

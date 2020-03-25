@@ -7,7 +7,6 @@ namespace FluentTerminal.App.Services.Implementation
 {
     public class DialogService : IDialogService
     {
-        private readonly Func<IShellProfileSelectionDialog> _shellProfileSelectionDialogFactory;
         private readonly Func<IMessageDialog> _messageDialogFactory;
         private readonly Func<ICreateKeyBindingDialog> _createKeyBindingDialogFactory;
         private readonly Func<IInputDialog> _inputDialogFactory;
@@ -15,13 +14,11 @@ namespace FluentTerminal.App.Services.Implementation
         private readonly Func<ICustomCommandDialog> _customCommandDialogFactory;
         private readonly Func<IAboutDialog> _aboutDialogFactory;
 
-        public DialogService(Func<IShellProfileSelectionDialog> shellProfileSelectionDialogFactory,
-            Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory,
+        public DialogService(Func<IMessageDialog> messageDialogFactory, Func<ICreateKeyBindingDialog> createKeyBindingDialogFactory,
             Func<IInputDialog> inputDialogFactory, Func<ISshConnectionInfoDialog> sshConnectionInfoDialogFactory,
             Func<ICustomCommandDialog> customCommandDialogFactory,
             Func<IAboutDialog> aboutDialogFactory)
         {
-            _shellProfileSelectionDialogFactory = shellProfileSelectionDialogFactory;
             _messageDialogFactory = messageDialogFactory;
             _createKeyBindingDialogFactory = createKeyBindingDialogFactory;
             _inputDialogFactory = inputDialogFactory;
@@ -72,13 +69,6 @@ namespace FluentTerminal.App.Services.Implementation
             dialog.SetTitle(title);
 
             return dialog.GetInput();
-        }
-
-        public Task<ShellProfile> ShowProfileSelectionDialogAsync()
-        {
-            var dialog = _shellProfileSelectionDialogFactory();
-
-            return dialog.SelectProfileAsync();
         }
 
         public Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null) =>

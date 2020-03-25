@@ -2,9 +2,9 @@
     x:Class="FluentTerminal.App.Views.SettingsPages.GeneralSettings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:FluentTerminal.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:FluentTerminal.App.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -24,7 +24,6 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="General"
-                Margin="0,10,0,0"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
@@ -179,6 +178,12 @@
                     IsOn="{x:Bind ViewModel.ShowNewOutputIndicator, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="CopiedNotification"
+                    Margin="{StaticResource ItemMargin}"
+                    Header="Text copied notification"
+                    IsOn="{x:Bind ViewModel.ShowTextCopied, Mode=TwoWay}" />
+
+                <ToggleSwitch
                     x:Uid="UseMoshByDefault"
                     Margin="{StaticResource ItemMargin}"
                     Header="Default to Mosh for SSH connections"
@@ -210,19 +215,20 @@
                     <CheckBox
                         x:Uid="PrintableOutputOnly"
                         Content="Printable output only"
-                        IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"
-                        IsChecked="{x:Bind ViewModel.PrintableOutputOnly, Mode=TwoWay}" />
+                        IsChecked="{x:Bind ViewModel.PrintableOutputOnly, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}" />
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBox
                             x:Uid="LogDirectoryPath"
-                            Text="{x:Bind ViewModel.LogDirectoryPath, Mode=TwoWay}"
+                            MinWidth="250"
+                            MaxWidth="250"
                             IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"
-                            MaxWidth="250" MinWidth="250" />
+                            Text="{x:Bind ViewModel.LogDirectoryPath, Mode=TwoWay}" />
                         <Button
                             x:Uid="BrowseButton"
                             Command="{x:Bind ViewModel.BrowseLogDirectoryCommand}"
                             Content="Browse"
-                            IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}"/>
+                            IsEnabled="{x:Bind ViewModel.EnableLogging, Mode=OneWay}" />
                     </StackPanel>
                 </StackPanel>
 

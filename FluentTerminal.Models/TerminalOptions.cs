@@ -26,8 +26,6 @@ namespace FluentTerminal.Models
 
         public uint ScrollBackLimit { get; set; }
 
-        public bool ShowTextCopied { get; set; }
-
         public string WordSeparator { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.ViewModels;
+using FluentTerminal.Models;
 using System;
 using Windows.UI.Xaml.Data;
 
@@ -8,9 +9,9 @@ namespace FluentTerminal.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is TabTheme theme && parameter is string idString && int.TryParse(idString, out var id))
+            if (value is TerminalViewModel terminal && parameter is string idString && int.TryParse(idString, out var id))
             {
-                return theme.Id == id;
+                return terminal.TabTheme.Theme.Id == id;
             }
             return null;
         }

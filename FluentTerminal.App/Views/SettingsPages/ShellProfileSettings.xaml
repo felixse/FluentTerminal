@@ -249,18 +249,12 @@
                                     IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
                                     IsOn="{x:Bind ProfileVm.UseConPty, Mode=TwoWay}" />
 
-                                <ComboBox
-                                    x:Uid="LineEndingMode"
+                                <ToggleSwitch
+                                    x:Uid="UseBuffer"
                                     Margin="{StaticResource ItemMargin}"
-                                    VerticalAlignment="Center"
-                                    ItemsSource="{x:Bind ProfileVm.LineEndingStyles}"
-                                    SelectedItem="{Binding ProfileVm.LineEndingTranslation, Mode=TwoWay}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate x:DataType="enums:LineEndingStyle">
-                                            <TextBlock Text="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}"
+                                    IsEnabled="{x:Bind InEditMode, Mode=OneWay}"
+                                    IsOn="{x:Bind ProfileVm.UseBuffer, Mode=TwoWay}" />
 
                                 <StackPanel Margin="{StaticResource ItemMargin}">
                                     <TextBlock
@@ -359,6 +353,18 @@
                                 <controls:HeaderedContentControl
                                     Margin="{StaticResource ItemMargin}"
                                     HorizontalContentAlignment="Stretch"
+                                    Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}">
+                                    <ContentControl
+                                        Margin="0,6,0,0"
+                                        Content="{x:Bind ProfileVm.UseBuffer, Mode=OneWay}"
+                                        ContentTemplateSelector="{StaticResource UseConPtyTemplateSelector}"
+                                        FontSize="18"
+                                        FontWeight="Light" />
+                                </controls:HeaderedContentControl>
+
+                                <controls:HeaderedContentControl
+                                    Margin="{StaticResource ItemMargin}"
+                                    HorizontalContentAlignment="Stretch"
                                     Header="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=EnvironmentVariables.Text}">
                                     <ItemsControl Margin="0,6,0,0" ItemsSource="{x:Bind EnvironmentVariables}">
                                         <ItemsControl.ItemTemplate>
@@ -378,18 +384,6 @@
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
-                                </controls:HeaderedContentControl>
-
-                                <controls:HeaderedContentControl
-                                    x:Uid="LineEndingMode"
-                                    Margin="{StaticResource ItemMargin}"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="Line ending translation mode">
-                                    <ContentControl
-                                        Content="{x:Bind ProfileVm.LineEndingTranslation, Mode=OneWay, Converter={StaticResource I18NConverter}, ConverterParameter=LineEndingStyle}"
-                                        ContentTemplateSelector="{StaticResource TerminalThemeTemplateSelector}"
-                                        FontSize="18"
-                                        FontWeight="Light" />
                                 </controls:HeaderedContentControl>
 
                                 <controls:HeaderedContentControl

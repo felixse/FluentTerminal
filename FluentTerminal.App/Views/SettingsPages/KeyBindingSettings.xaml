@@ -19,11 +19,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
-                Margin="0,10,0,0"
+                x:Uid="Keybindings"
                 VerticalAlignment="Center"
                 FontSize="28"
                 Style="{StaticResource TitleTextBlockStyle}"
-                x:Uid="Keybindings"
                 Text="Keybindings" />
             <CommandBar
                 Grid.Column="1"
@@ -31,16 +30,19 @@
                 VerticalAlignment="Top"
                 Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
-                <AppBarButton x:Uid="AddAppBarButton" Icon="Add" Label="Add">
+                <AppBarButton
+                    x:Uid="AddAppBarButton"
+                    Icon="Add"
+                    Label="Add">
                     <AppBarButton.Flyout>
                         <MenuFlyout x:Name="AddCommandMenu" />
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
+                    x:Uid="Restore"
                     Command="{x:Bind ViewModel.RestoreDefaultsCommand}"
                     CommandParameter="keyBindings"
                     Icon="Undo"
-                    x:Uid="Restore"
                     Label="Restore Defaults" />
             </CommandBar>
         </Grid>

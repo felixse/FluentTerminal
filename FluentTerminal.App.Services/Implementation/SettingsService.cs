@@ -130,7 +130,6 @@ namespace FluentTerminal.App.Services.Implementation
                     existingProfile.Arguments = profile.Arguments;
                     existingProfile.TabThemeId = profile.TabThemeId;
                     existingProfile.TerminalThemeId = profile.TerminalThemeId;
-                    existingProfile.LineEndingTranslation = profile.LineEndingTranslation;
                     existingProfile.KeyBindings = profile.KeyBindings;
                     SaveShellProfile(profile, isNew);
                     continue;

@@ -649,14 +649,6 @@ Fuzzy</comment>
     <value>Tab schließen</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Konfigurierbarer neuer Tab</value>
-    <comment>Command</comment>
-  </data>
-  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Konfigurierbares neues Fenster</value>
-    <comment>Command</comment>
-  </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Tastaturkürzel</value>
     <comment>KeyBindingSettings.xaml</comment>
@@ -698,14 +690,6 @@ Fuzzy</comment>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Alles auswählen</value>
     <comment>Command</comment>
-  </data>
-  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
-  </data>
-  <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Profil auswählen</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>Einstellungen öffnen</value>
@@ -1076,5 +1060,23 @@ Fuzzy</comment>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
     <value>Helle Farben</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Link kopieren</value>
+  </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ganzes Wort</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Groß-/Kleinschreibung beachten</value>
+  </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Auswahl kopieren oder Einfügen</value>
+  </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Use buffer</value>
   </data>
 </root>

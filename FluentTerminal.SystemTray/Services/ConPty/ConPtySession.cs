@@ -12,6 +12,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         private Terminal _terminal;
 
         private BufferedReader _reader;
+        private bool _enableBuffer;
 
         public byte Id { get; private set; }
 
@@ -33,6 +34,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
+            _enableBuffer = request.Profile.UseBuffer;
+
+            _reader?.Dispose();
+            _reader = null;
+
             Id = request.Id;
             _terminalsManager = terminalsManager;
 
@@ -71,7 +77,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             if (_reader == null)
             {
                 _reader = new BufferedReader(_terminal.ConsoleOutStream,
-                    bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes));
+                    bytes => _terminalsManager.DisplayTerminalOutput(Id, bytes), _enableBuffer);
             }
         }
 

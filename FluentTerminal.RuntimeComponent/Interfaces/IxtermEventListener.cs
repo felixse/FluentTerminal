@@ -12,7 +12,7 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
 
         void OnKeyboardCommand(string command);
 
-        void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection);
+        void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri);
 
         void OnSelectionChanged(string selection);
 
@@ -23,5 +23,6 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
         void OnInitialized();
 
         event EventHandler<object> OnOutput;
+        event EventHandler<string> OnPaste;
     }
 }

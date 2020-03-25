@@ -58,7 +58,7 @@
                     Command="{x:Bind ViewModel.SelectedTheme.ExportCommand, Mode=OneWay}"
                     Label="Export">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEE71;" />
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE71;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton

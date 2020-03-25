@@ -14,9 +14,8 @@ namespace FluentTerminal.App.Services
     {
         Task<DialogButton> ShowMessageDialogAsync(string title, string content, params DialogButton[] buttons);
 
-        Task<ShellProfile> ShowProfileSelectionDialogAsync();
-
         Task<KeyBinding> ShowCreateKeyBindingDialog();
+
         Task<string> ShowInputDialogAsync(string title);
 
         Task<SshProfile> ShowSshConnectionInfoDialogAsync(SshProfile input = null);

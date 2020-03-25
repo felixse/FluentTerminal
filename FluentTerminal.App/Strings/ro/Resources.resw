@@ -637,14 +637,6 @@
     <value>Închideți fila</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.ConfigurableNewTab" xml:space="preserve">
-    <value>Filă nouă configurabilă</value>
-    <comment>Command</comment>
-  </data>
-  <data name="Command.ConfigurableNewWindow" xml:space="preserve">
-    <value>Fereastră nouă configurabilă</value>
-    <comment>Command</comment>
-  </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Legături de taste</value>
     <comment>KeyBindingSettings.xaml</comment>
@@ -684,14 +676,6 @@
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Selectează tot</value>
     <comment>Command</comment>
-  </data>
-  <data name="SelectProfileUI.PrimaryButtonText" xml:space="preserve">
-    <value>Start</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
-  </data>
-  <data name="SelectProfileUI.Title" xml:space="preserve">
-    <value>Selectați profilul</value>
-    <comment>ShellProfileSelectionDialog.xaml</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>Afișare setări</value>
@@ -1043,5 +1027,23 @@
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
     <value>Bright colors</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Whole word</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Copy selection or paste</value>
+  </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Use buffer</value>
   </data>
 </root>
