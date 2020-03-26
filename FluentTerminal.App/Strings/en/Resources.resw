@@ -1114,4 +1114,12 @@ Fuzzy</comment>
   <data name="UseBuffer" xml:space="preserve">
     <value>Use smart buffer</value>
   </data>
+  <data name="CloseSession.Text" xml:space="preserve">
+    <value>Close Tab</value>
+    <comment>TerminalView.xaml</comment>
+  </data>
+  <data name="ReconnectSession.Text" xml:space="preserve">
+    <value>Reconnect Tab Session</value>
+    <comment>TerminalView.xaml</comment>
+  </data>
 </root>

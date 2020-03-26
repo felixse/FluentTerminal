@@ -339,6 +339,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     HasNewOutput = false;
                 }
+                ReconnectTabCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -760,12 +761,6 @@ namespace FluentTerminal.App.ViewModels
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
-            var reconnect = new MenuItemViewModel(I18N.Translate("Command.ReconnectTab"), ReconnectTabCommand);
-            AddKeyBindings(reconnect, Command.ReconnectTab, commandKeyBindings);
-            contextMenu.Items.Add(reconnect);
-
-            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
-
             var close = new MenuItemViewModel(I18N.Translate("Close"), CloseCommand, icon: Mdl2Icon.Cancel());
             AddKeyBindings(close, Command.CloseTab, commandKeyBindings);
             contextMenu.Items.Add(close);
@@ -803,12 +798,6 @@ namespace FluentTerminal.App.ViewModels
             var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
             AddKeyBindings(duplicate, Command.DuplicateTab, commandKeyBindings);
             contextMenu.Items.Add(duplicate);
-
-            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
-
-            var reconnect = new MenuItemViewModel(I18N.Translate("Command.ReconnectTab"), ReconnectTabCommand);
-            AddKeyBindings(reconnect, Command.ReconnectTab, commandKeyBindings);
-            contextMenu.Items.Add(reconnect);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
