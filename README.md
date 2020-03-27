@@ -28,34 +28,34 @@ A Terminal Emulator based on UWP and web technologies.
 
 ## Screenshots
 
-![Terminal window](Screenshots/terminal.jpg)
-![Settings window](Screenshots/settings.jpg)
+![Terminal window](Screenshots/terminal.png)
+![Settings window](Screenshots/settings.png)
 
 ## Languages
-- English
-- German
-- Spanish
-- French
-- Simplified Chinese
-- Hindi
-- Italian
+- Arabic
+- Arabic (Iraq)
+- Azerbaijani
+- Chinese (Simplified)
+- Chinese (Traditional)
 - Dutch
+- English
+- French
+- German
+- Hebrew
+- Hindi
+- Indonesian
+- Italian
+- Japanese
+- Korean
 - Polish
 - Portuguese (Brazilian)
 - Romanian
-- Russians
-- Hebrew
+- Russian
+- Spanish
+- Ukrainian
+
 
 Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with existing translations or add a new language
-
-
-
-## Up Next
-
-- ~~Launch shell profile with a custom defined keybinding~~
-- Copy & Paste options
-- Improved tabs
-- Split screen support
 
 ## How to install (as an end-user)
 
@@ -78,27 +78,10 @@ Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with
  scoop install fluent-terminal-np
  ```
 
-### Bundled install script
+### Manual
 
 - Download and extract the latest [release](https://github.com/felixse/FluentTerminal/releases).
-- If not already present, download [`Install.ps1`](Install.ps1) to the extracted directory.
-- Right-click on `Install.ps1`, and choose "Run with Powershell".
-- The installer script will walk you through the rest of the process.
-
-### Manual install
-
-- Download the latest [release](https://github.com/felixse/FluentTerminal/releases)
-- [Enable sideloading apps](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store)
-  - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
-- Install the *.cer file into `Local Machine` -> `Trusted Root Certification Authorities`
-  - This will require administrator elevation. If you installed the certificate and did not have to elevate, you likely installed it into an incorrect certificate store.
-
-![Right-Click then choose Install Certificate](Screenshots/right-click_install-certificate.png)
-
-![Install Certificate into Local Machine](Screenshots/install-certificate_local-machine.png)
-
-- double click the *.appxbundle
-- **Optional:** Install Context menu integration from [here](https://github.com/felixse/FluentTerminal/tree/master/Explorer%20Context%20Menu%20Integration)
+- Double click the *.appxbundle file.
 
 ## How to set up a development environment
 Please refer to [this Wiki page](https://github.com/felixse/FluentTerminal/wiki/How-to-set-up-a-development-environment)
