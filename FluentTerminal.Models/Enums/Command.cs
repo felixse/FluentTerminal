@@ -30,6 +30,7 @@
         SwitchToTerm7,
         SwitchToTerm8,
         SwitchToTerm9,
-        DuplicateTab
+        DuplicateTab,
+        ReconnectTab
     }
 }

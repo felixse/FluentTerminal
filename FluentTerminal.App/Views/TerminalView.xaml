@@ -124,5 +124,34 @@
                 </Button>
             </StackPanel>
         </controls:DropShadowPanel>
+
+        <controls:DropShadowPanel
+            Margin="12"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            ShadowOpacity="0.5"
+            Visibility="{x:Bind ViewModel.HasExitedWithError, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}"
+            Color="Black">
+            <StackPanel
+                Padding="6"
+                CornerRadius="4"
+                Orientation="Horizontal">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+                </StackPanel.Background>
+                <TextBlock
+                    x:Uid="SessionDisconnected"
+                    Margin="6,0,24,0"
+                    VerticalAlignment="Center"
+                    Text="Session disconnected" />
+                <Button
+                    x:Uid="RestartSession"
+                    Margin="0,0,6,0"
+                    Command="{x:Bind ViewModel.ReconnectTabCommand, Mode=OneWay}"
+                    Content="Restart"
+                    IsEnabled="{x:Bind ViewModel.HasExitedWithError, Mode=OneWay}" />
+                <Button Command="{x:Bind ViewModel.CloseCommand, Mode=OneWay}" Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Close}" />
+            </StackPanel>
+        </controls:DropShadowPanel>
     </Grid>
 </UserControl>

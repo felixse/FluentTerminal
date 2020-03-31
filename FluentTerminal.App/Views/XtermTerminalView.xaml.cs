@@ -224,7 +224,18 @@ namespace FluentTerminal.App.Views
 
             return Task.CompletedTask;
         }
-        
+
+        public async Task ReconnectAsync()
+        {
+            // Fill full screen with new output to not allow erasing of available output on start of new shell
+            Terminal_OutputReceived(this, System.Text.Encoding.UTF8.GetBytes(new String('\n', _requestedSize.Rows + 1)));
+
+            if (true == await StartShellProcessAsync(_requestedSize).ConfigureAwait(false))
+            {
+                ViewModel.Terminal.Reconnect();
+            }
+        }
+
         public async Task InitializeAsync(TerminalViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -255,12 +266,6 @@ namespace FluentTerminal.App.Views
             // Waiting for IxtermEventListener.OnInitialized() call to happen
             await _tcsConnected.Task;
 
-            var sessionType =
-                ViewModel.ShellProfile.UseConPty &&
-                ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
-                    ? SessionType.ConPty
-                    : SessionType.WinPty;
-
             lock (_resizeLock)
             {
                 // Check to see if some resizing has happened meanwhile
@@ -274,14 +279,8 @@ namespace FluentTerminal.App.Views
                 }
             }
 
-            var response = await ViewModel.Terminal.StartShellProcessAsync(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(false);
-            if (!response.Success)
+            if (false == await StartShellProcessAsync(size).ConfigureAwait(false))
             {
-                await Dispatcher.ExecuteAsync(async () =>
-                        await ViewModel.DialogService.ShowMessageDialogAsync("Error", response.Error, DialogButton.OK))
-                    .ConfigureAwait(false);
-
-                ViewModel.Terminal.ReportLauchFailed();
                 return;
             }
 
@@ -562,5 +561,25 @@ namespace FluentTerminal.App.Views
         }
 
         public void Paste(string text) => OnPaste?.Invoke(this, text);
+
+        private async Task<bool> StartShellProcessAsync(TerminalSize size)
+        {
+            var sessionType = ViewModel.ShellProfile.UseConPty &&
+                ViewModel.ApplicationView.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
+                    ? SessionType.ConPty
+                    : SessionType.WinPty;
+
+            var response = await ViewModel.Terminal.StartShellProcessAsync(ViewModel.ShellProfile, size, sessionType, ViewModel.XtermBufferState).ConfigureAwait(false);
+            if (!response.Success)
+            {
+                await Dispatcher.ExecuteAsync(async () =>
+                        await ViewModel.DialogService.ShowMessageDialogAsync("Error", response.Error, DialogButton.OK))
+                    .ConfigureAwait(false);
+
+                ViewModel.Terminal.ReportLauchFailed();
+                return false;
+            }
+            return true;
+        }
     }
 }

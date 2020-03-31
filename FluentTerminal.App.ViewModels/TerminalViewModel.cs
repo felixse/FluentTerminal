@@ -151,6 +151,7 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
             EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
+            ReconnectTabCommand = new AsyncCommand(ReconnectTabAsync, () => CanExecuteCommand() && HasExitedWithError);
             CopyCommand = new AsyncCommand(Copy, () => HasSelection);
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
@@ -250,6 +251,8 @@ namespace FluentTerminal.App.ViewModels
 
         public RelayCommand DuplicateTabCommand { get; }
 
+        public AsyncCommand ReconnectTabCommand { get; }
+
         public ICommand CopyLinkCommand { get; private set; }
 
         public ICommand CopyCommand { get; private set; }
@@ -336,6 +339,7 @@ namespace FluentTerminal.App.ViewModels
                 {
                     HasNewOutput = false;
                 }
+                ReconnectTabCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -540,6 +544,12 @@ namespace FluentTerminal.App.ViewModels
         private void DuplicateTab()
         {
             DuplicateTabRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public async Task ReconnectTabAsync()
+        {
+            HasExitedWithError = false;
+            await TerminalView?.ReconnectAsync();
         }
 
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)

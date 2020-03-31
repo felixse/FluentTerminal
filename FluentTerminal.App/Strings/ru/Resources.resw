@@ -1047,4 +1047,10 @@
   <data name="UseBuffer" xml:space="preserve">
     <value>Use smart buffer</value>
   </data>
+  <data name="RestartSession.Content" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SessionDisconnected.Text" xml:space="preserve">
+    <value>Session disconnected.</value>
+  </data>
 </root>

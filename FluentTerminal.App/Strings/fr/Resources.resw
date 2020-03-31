@@ -1061,7 +1061,7 @@ Fuzzy</comment>
     <value>Application menu type</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Plat, honorant le paramètre &quot;Ouvrir de nouveaux terminaux comme&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>&quot;Nouvel onglet&quot; / &quot;Nouvelle fenêtre&quot; en cascade.</value>
@@ -1107,5 +1107,11 @@ Fuzzy</comment>
   </data>
   <data name="UseBuffer" xml:space="preserve">
     <value>Use smart buffer</value>
+  </data>
+  <data name="RestartSession.Content" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SessionDisconnected.Text" xml:space="preserve">
+    <value>Session disconnected.</value>
   </data>
 </root>
