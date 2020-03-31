@@ -542,7 +542,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
+    <value>¿Estás seguro que quieres cerrar la pestaña &quot;{0}&quot;?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -831,240 +831,246 @@ Fuzzy</comment>
     <value>¿Quieres eliminar este perfil?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>New SSH window</value>
+    <value>Nueva ventana SSH</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH Profiles</value>
+    <value>Perfiles SSH</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Tab color:</value>
+    <value>Color de pestaña:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Use ConPty</value>
+    <value>Usar ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Username</value>
+    <value>Nombre de usuario</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>From port</value>
+    <value>Puerto desde</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>to port</value>
+    <value>a puerto</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh port range</value>
+    <value>Rango de puertos Mosh</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authenticate</value>
+    <value>Autenticar</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Settings were exported to file</value>
+    <value>Opciones exportadas a archivo</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Settings were imported from file</value>
+    <value>Opciones importadas desde archivo</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Identify file does not exist</value>
+    <value>No existe el archivo de identidad</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
+    <value>Usar nombre de Windows al abrir urls SSH que no especifican uno</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Default to Mosh for SSH connections</value>
+    <value>Mosh para conexiones SSH por defecto</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Right trim copied lines</value>
+    <value>Recortar a la derecha las líneas copiadas</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Use quick SSH by default</value>
+    <value>Usar SSH rápido por defecto</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command.</value>
+    <value>Comando inválido.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Location cannot be empty.</value>
+    <value>La ubicación no puede estar vacía.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mute terminal beeps</value>
+    <value>Silenciar sonidos de terminal</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Introduce un comando (p.e. &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Command</value>
+    <value>Comando</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Unsupported command:</value>
+    <value>Comando no soportado:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Command arguments are missing.</value>
+    <value>Faltan argumentos del comando.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Quick Launch</value>
+    <value>Lanzamiento rápido</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>New quick launch tab</value>
+    <value>Nueva pestaña de inicio rápido</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>New quick launch window</value>
+    <value>Lanzar nueva ventana rápida</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>New quick tab</value>
+    <value>Nueva pestaña rápida</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>File not found:</value>
+    <value>Archivo no encontrado:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Invalid link.</value>
+    <value>Enlace inválido.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Suelta la pestaña aquí</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Cerrar pestañas a la izquierda</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>Cerrar el resto de pestañas</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>Cerrar pestañas a la derecha</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplicar pestaña</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplicate</value>
+    <value>Duplicar</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Cannot define two environment variables with the same name.</value>
+    <value>No puedes asignar dos variables de entorno con el mismo nombre.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Cannot define an environment variable without a name.</value>
+    <value>No puedes definir una variable de entorno sin nombre.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Environment variables</value>
+    <value>Variables de entorno</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close search panel</value>
+    <value>Cerrar panel de búsqueda</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find next</value>
+    <value>Buscar siguiente</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find previous</value>
+    <value>Buscar anterior</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter search term</value>
+    <value>Ingrese el término de búsqueda</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Search</value>
+    <value>Buscar</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Printable output only</value>
+    <value>Solamente salida imprimible</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Log output for debugging</value>
+    <value>Registar salida para debugeo</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Word separator characters</value>
+    <value>Caracteres separadores de palabras</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Reciente</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Abre el perfil predeterminado en una nueva pestaña.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Abre una nueva sesión SSH o Mosh en una nueva pestaña.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Abre el cuadro de diálogo &quot;Inicio rápido&quot; e inicia la sesión en una pestaña nueva.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Abrir ventana de opciones.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Información básica sobre la app.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>Sesiones abiertas recientemente.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Inicia una nueva sesión de terminal basada en el perfil predeterminado.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Conexión remota...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Abre un cuadro de diálogo para iniciar una nueva sesión de terminal SSH o Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Comida rápida...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Abre un cuadro de diálogo &quot;Inicio rápido&quot; para iniciar una nueva sesión de terminal.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Nueva ventana</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Nueva pestaña</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Inicia una sesión en una nueva pestaña.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Lanzar nueva sesión en una nueva ventana.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Tipo de menú de la aplicación</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Plano, honrando la configuración &quot;Abrir nuevos terminales como&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Nueva pestaña&quot; / &quot;Nueva ventana&quot; en cascada</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>Salir</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>Salir de Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>Habilitado por la política.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>Imagen de fondo</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>Usar fondo acrílico</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>¿Estás seguro de querer borrar esta imagen de fondo?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>Colores</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>Colores brillantes</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Copiar enlace</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
     <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Toda la palabra</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>Distingue mayúsculas y minúsculas</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Copiar selección o pegar</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Usar búfer inteligente</value>
+  </data>
+  <data name="RestartSession.Content" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SessionDisconnected.Text" xml:space="preserve">
+    <value>Session disconnected.</value>
   </data>
 </root>

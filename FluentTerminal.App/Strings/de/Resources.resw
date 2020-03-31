@@ -1079,4 +1079,10 @@ Fuzzy</comment>
   <data name="UseBuffer" xml:space="preserve">
     <value>Smart Buffer verwenden</value>
   </data>
+  <data name="RestartSession.Content" xml:space="preserve">
+    <value>Neu starten</value>
+  </data>
+  <data name="SessionDisconnected.Text" xml:space="preserve">
+    <value>Sitzung wurde getrennt.</value>
+  </data>
 </root>
