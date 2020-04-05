@@ -199,8 +199,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }
 
             return _sshPort == SshProfile.DefaultSshPort
-                ? $"-i '{_identityFile}'"
-                : $"-p {_sshPort:#####} -i '{_identityFile}'";
+                ? $"-i \"{_identityFile}\""
+                : $"-p {_sshPort:#####} -i \"{_identityFile}\"";
         }
 
         protected override void LoadFromProfile(ShellProfile profile)
