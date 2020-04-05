@@ -116,6 +116,7 @@ namespace FluentTerminal.App.ViewModels
         private string _hoveredUri;
         private MenuViewModel _contextMenu;
         private MenuViewModel _tabContextMenu;
+        private readonly TabThemeViewModel _transparentTabThemeViewModel;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
@@ -166,6 +167,8 @@ namespace FluentTerminal.App.ViewModels
                 var defaultTabTheme = TabThemes.FirstOrDefault(t => t.Theme.Id == ShellProfile.TabThemeId);
                 defaultTabTheme.IsSelected = true;
             }
+
+            _transparentTabThemeViewModel = TabThemes.FirstOrDefault(t => t.Theme.Id == 0);
 
             Terminal = new Terminal(TrayProcessCommunicationService, _terminalId);
             Terminal.KeyboardCommandReceived += Terminal_KeyboardCommandReceived;
@@ -218,13 +221,13 @@ namespace FluentTerminal.App.ViewModels
 
         public IApplicationView ApplicationView { get; }
 
-        public TabTheme BackgroundTabTheme
+        public TabThemeViewModel BackgroundTabTheme
         {
             // The effective background theme depends on whether it is selected (use the theme), or if it is inactive
             // (if we're set to underline inactive tabs, use the null theme).
             get => IsSelected || (!IsSelected && ApplicationSettings.InactiveTabColorMode == InactiveTabColorMode.Background) ?
-                _tabTheme?.Theme :
-                SettingsService.GetTabThemes().FirstOrDefault(t => t.Color == null);
+                TabTheme :
+                _transparentTabThemeViewModel;
         }
 
         public IClipboardService ClipboardService { get; }
