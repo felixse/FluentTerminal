@@ -110,7 +110,6 @@ namespace FluentTerminal.App
             builder.RegisterType<StartupTaskService>().As<IStartupTaskService>().SingleInstance();
             builder.RegisterType<ApplicationLanguageService>().As<IApplicationLanguageService>().SingleInstance();
             builder.RegisterType<ShellProfileMigrationService>().As<IShellProfileMigrationService>().SingleInstance();
-            builder.RegisterType<AcceleratorKeyValidator>().As<IAcceleratorKeyValidator>().SingleInstance();
 
             _container = builder.Build();
 

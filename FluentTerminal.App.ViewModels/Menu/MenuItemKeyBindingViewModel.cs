@@ -1,12 +1,15 @@
-﻿using FluentTerminal.Models;
+﻿using FluentTerminal.App.Services.Utilities;
+using FluentTerminal.Models;
+using FluentTerminal.Models.Enums;
 using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
+using Windows.System;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
     public class MenuItemKeyBindingViewModel : ViewModelBase
     {
-        #region Properties
-
         private int _key;
 
         public int Key
@@ -80,9 +83,21 @@ namespace FluentTerminal.App.ViewModels.Menu
             }
         }
 
-        #endregion Properties
+        public bool IsExtendedVirtualKey => !Enum.IsDefined(typeof(VirtualKey), Key);
 
-        #region Constructors
+        public string GetOverrideText()
+        {
+            var segments = new List<string>();
+
+            if (Ctrl) segments.Add("Ctrl");
+            if (Alt) segments.Add("Alt");
+            if (Windows) segments.Add("Windows");
+            if (Shift) segments.Add("Shift");
+
+            segments.Add(EnumHelper.GetEnumDescription((ExtendedVirtualKey)Key));
+
+            return string.Join("+", segments);
+        }
 
         public MenuItemKeyBindingViewModel(int key = 0, bool ctrl = false, bool alt = false, bool shift = false,
             bool windows = false)
@@ -101,9 +116,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         {
         }
 
-        #endregion Constructors
 
-        #region Methods
 
         private void SetKeyModifiers()
         {
@@ -142,6 +155,5 @@ namespace FluentTerminal.App.ViewModels.Menu
             return _key == other._key && _keyModifiers == other._keyModifiers;
         }
 
-        #endregion Methods
     }
 }

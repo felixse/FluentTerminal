@@ -16,8 +16,6 @@ namespace FluentTerminal.App.Dialogs
     // ReSharper disable once RedundantExtendsListEntry
     public sealed partial class CreateKeyBindingDialog : ContentDialog, ICreateKeyBindingDialog, INotifyPropertyChanged
     {
-        private readonly IAcceleratorKeyValidator _acceleratorKeyValidator;
-
         private bool _ctrl;
         private bool _shift;
         private bool _alt;
@@ -53,17 +51,12 @@ namespace FluentTerminal.App.Dialogs
             get => _key;
             set
             {
-                // We're ignoring invalid keys.
-                if (_acceleratorKeyValidator.Valid(value))
-                {
-                    Set(ref _key, value);
-                }
+                Set(ref _key, value);
             }
         }
 
-        public CreateKeyBindingDialog(IAcceleratorKeyValidator acceleratorKeyValidator)
+        public CreateKeyBindingDialog()
         {
-            _acceleratorKeyValidator = acceleratorKeyValidator;
             InitializeComponent();
             ResetCommand = new RelayCommand(Reset);
             PreviewKeyDown += RegisterKeyBindingDialog_PreviewKeyDown;

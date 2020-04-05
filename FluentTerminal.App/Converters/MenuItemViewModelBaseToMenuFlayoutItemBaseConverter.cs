@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.App.Views;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
 
 // ReSharper disable LocalizableElement
 
@@ -90,12 +91,22 @@ namespace FluentTerminal.App.Converters
 
             if (viewModel.KeyBinding != null)
             {
-                item.KeyboardAccelerators?.Add(new KeyboardAccelerator
+                if (viewModel.KeyBinding.IsExtendedVirtualKey)
                 {
-                    Key = (VirtualKey) viewModel.KeyBinding.Key,
-                    Modifiers = (VirtualKeyModifiers) viewModel.KeyBinding.KeyModifiers,
-                    IsEnabled = true
-                });
+                    if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
+                    {
+                        item.KeyboardAcceleratorTextOverride = viewModel.KeyBinding.GetOverrideText();
+                    }
+                }
+                else
+                {
+                    item.KeyboardAccelerators?.Add(new KeyboardAccelerator
+                    {
+                        Key = (VirtualKey)viewModel.KeyBinding.Key,
+                        Modifiers = (VirtualKeyModifiers)viewModel.KeyBinding.KeyModifiers,
+                        IsEnabled = true
+                    });
+                }
             }
 
             return item;

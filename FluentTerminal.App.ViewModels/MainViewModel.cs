@@ -28,7 +28,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _commandHistoryService;
-        private readonly IAcceleratorKeyValidator _acceleratorKeyValidator;
         private ApplicationSettings _applicationSettings;
         private bool _useAcrylicBackground;
         private double _backgroundOpacity;
@@ -38,7 +37,7 @@ namespace FluentTerminal.App.ViewModels
         private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
-            IApplicationView applicationView, IClipboardService clipboardService, ICommandHistoryService commandHistoryService, IAcceleratorKeyValidator acceleratorKeyValidator)
+            IApplicationView applicationView, IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
         {
             MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
             MessengerInstance.Register<ShellProfileAddedMessage>(this, OnShellProfileAdded);
@@ -57,7 +56,6 @@ namespace FluentTerminal.App.ViewModels
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
             _commandHistoryService = commandHistoryService;
-            _acceleratorKeyValidator = acceleratorKeyValidator;
 
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewTab), async () => await AddDefaultProfileAsync(NewTerminalLocation.Tab));
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.NewWindow), async () => await AddDefaultProfileAsync(NewTerminalLocation.Window));
@@ -677,8 +675,7 @@ namespace FluentTerminal.App.ViewModels
                 icon: Mdl2Icon.Settings());
 
             if (_keyBindings.TryGetValue(nameof(Command.ShowSettings), out var keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding &&
-                _acceleratorKeyValidator.Valid(settingsKeyBinding.Key))
+                keyBindings.FirstOrDefault() is KeyBinding settingsKeyBinding)
             {
                 LoadKeyBindingsFromModel(settingsItem, settingsKeyBinding);
             }
@@ -720,8 +717,7 @@ namespace FluentTerminal.App.ViewModels
                 var defaultProfileCommand = tab ? nameof(Command.NewTab) : nameof(Command.NewWindow);
 
                 if (_keyBindings.TryGetValue(defaultProfileCommand, out var kbs) &&
-                    kbs.FirstOrDefault() is KeyBinding tabKeyBindings &&
-                    _acceleratorKeyValidator.Valid(tabKeyBindings.Key))
+                    kbs.FirstOrDefault() is KeyBinding tabKeyBindings)
                 {
                     LoadKeyBindingsFromModel(defaultProfileItem, tabKeyBindings);
                 }
@@ -743,8 +739,7 @@ namespace FluentTerminal.App.ViewModels
             var command = tab ? nameof(Command.NewSshTab) : nameof(Command.NewSshWindow);
 
             if (_keyBindings.TryGetValue(command, out var keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(remoteTabKeyBinding.Key))
+                keyBindings.FirstOrDefault() is KeyBinding remoteTabKeyBinding)
             {
                 LoadKeyBindingsFromModel(remoteConnectItem, remoteTabKeyBinding);
             }
@@ -765,8 +760,7 @@ namespace FluentTerminal.App.ViewModels
             command = tab ? nameof(Command.NewCustomCommandTab) : nameof(Command.NewCustomCommandWindow);
 
             if (_keyBindings.TryGetValue(command, out keyBindings) &&
-                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding &&
-                _acceleratorKeyValidator.Valid(quickTabKeyBinding.Key))
+                keyBindings.FirstOrDefault() is KeyBinding quickTabKeyBinding)
             {
                 LoadKeyBindingsFromModel(quickLaunchItem, quickTabKeyBinding);
             }
@@ -795,13 +789,6 @@ namespace FluentTerminal.App.ViewModels
 
         private void LoadKeyBindingsFromModel(MenuItemViewModel menuItemViewModel, KeyBinding keyBinding)
         {
-            if (!_acceleratorKeyValidator.Valid(keyBinding.Key))
-            {
-                menuItemViewModel.KeyBinding = null;
-
-                return;
-            }
-
             if (menuItemViewModel.KeyBinding == null)
             {
                 menuItemViewModel.KeyBinding = new MenuItemKeyBindingViewModel(keyBinding);
