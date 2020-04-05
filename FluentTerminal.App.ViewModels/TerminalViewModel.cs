@@ -780,7 +780,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 //todo localise name
                 var icon = tabTheme.Theme.Id == 0 ? Mdl2Icon.PaginationDotOutline10() : Mdl2Icon.PaginationDotSolid10(tabTheme.Theme.Color);
-                return new RadioMenuItemViewModel(I18N.Translate($"TabTheme.{tabTheme.Theme.Name}"),  $"{Terminal.Id}_tabTheme", tabTheme, bindingPath: nameof(TabThemeViewModel.IsSelected) , icon: icon);
+                return new RadioMenuItemViewModel(I18N.Translate($"{tabTheme.Theme.Name}"),  $"{Terminal.Id}_tabTheme", tabTheme, bindingPath: nameof(TabThemeViewModel.IsSelected) , icon: icon);
             }
 
             var tabColor = new ExpandableMenuItemViewModel(I18N.Translate("Color.Text"));
