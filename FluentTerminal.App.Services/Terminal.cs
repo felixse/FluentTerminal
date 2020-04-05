@@ -77,6 +77,8 @@ namespace FluentTerminal.App.Services
 
         public byte Id { get; }
 
+        public ShellProfile Profile { get; private set; }
+
         /// <summary>
         /// To be called by either view or viewmodel
         /// </summary>
@@ -143,6 +145,8 @@ namespace FluentTerminal.App.Services
         /// </summary>
         public async Task<TerminalResponse> StartShellProcessAsync(ShellProfile shellProfile, TerminalSize size, SessionType sessionType, string termState)
         {
+            Profile = shellProfile;
+
             if (!_requireShellProcessStart && !string.IsNullOrEmpty(termState))
             {
                 OutputReceived?.Invoke(this, Encoding.UTF8.GetBytes(termState));

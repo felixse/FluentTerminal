@@ -692,6 +692,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_TitleChanged(object sender, string e)
         {
+            if (e == Terminal.Profile.Location) return;
             ApplicationView.ExecuteOnUiThreadAsync(() => ShellTitle = e);
         }
 
