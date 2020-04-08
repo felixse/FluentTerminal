@@ -68,8 +68,6 @@ Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with
 - From an elevated/admin shell, execute `choco install fluent-terminal`
 
 ### Scoop package manager installation
-- [Enable sideloading apps](https://www.windowscentral.com/how-enable-windows-10-sideload-apps-outside-store)
-  - Alternatively, [enable developer mode](https://docs.microsoft.com/en-US/windows/uwp/get-started/enable-your-device-for-development) if you plan to do UWP app development. **For most users that do not intend to do UWP app development, developer mode will not be necessary.**
 - Install Scoop
 - Install 7zip and git (to add buckets): `scoop install 7zip git`
 - From an elevated/admin shell, execute
