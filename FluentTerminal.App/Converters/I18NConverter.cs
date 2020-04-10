@@ -20,6 +20,10 @@ namespace FluentTerminal.App.Converters
             {
                 return Translate($"{enumType}.{enumValue}");
             }
+            else if (value is string stringValue)
+            {
+                return Translate(stringValue);
+            }
             else if (parameter is string resource)
             {
                 return Translate(resource);
