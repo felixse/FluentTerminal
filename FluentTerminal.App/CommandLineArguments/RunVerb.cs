@@ -14,8 +14,8 @@ namespace FluentTerminal.App.CommandLineArguments
         [Option("theme")]
         public string Theme { get; set; }
 
-        [Option("buffer")]
-        public string Buffer { get; set; }
+        [Option("smart-buffer")]
+        public bool? SmartBuffer { get; set; }
 
         [Option("target")]
         public Target Target { get; set; }

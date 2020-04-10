@@ -134,6 +134,9 @@ namespace FluentTerminal.SystemTray.Services
                 case MessageIdentifiers.QuitApplicationRequest:
                     HandleQuitApplicationRequest();
                     return;
+                case MessageIdentifiers.ReadTextFileRequest:
+                    await HandleReadTextFileRequestAsync(args).ConfigureAwait(false);
+                    return;
                 default:
                     Logger.Instance.Error("Received unknown message type: {messageType}", messageType);
                     return;
@@ -202,6 +205,31 @@ namespace FluentTerminal.SystemTray.Services
             {
                 Utilities.SaveFile(request.Path, request.Content);
                 response.Success = true;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Error = e.Message;
+            }
+
+            await args.Request.SendResponseAsync(CreateMessage(response));
+
+            deferral.Complete();
+        }
+
+        private async Task HandleReadTextFileRequestAsync(AppServiceRequestReceivedEventArgs args)
+        {
+            var deferreal = args.GetDeferral();
+            var deferral = args.GetDeferral();
+            var messageContent = (string)args.Request.Message[MessageKeys.Content];
+            var request = JsonConvert.DeserializeObject<ReadTextFileRequest>(messageContent);
+            var response = new StringValueResponse();
+
+            try
+            {
+                var content = Utilities.ReadFile(request.Path);
+                response.Success = true;
+                response.Value = content;
             }
             catch (Exception e)
             {

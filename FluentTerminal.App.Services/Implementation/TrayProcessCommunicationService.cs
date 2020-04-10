@@ -84,6 +84,18 @@ namespace FluentTerminal.App.Services.Implementation
             }
         }
 
+        public async Task<string> ReadTextFileAsync(string path)
+        {
+            var response = await GetResponseAsync<StringValueResponse>(new ReadTextFileRequest { Path = path }).ConfigureAwait(false);
+
+            if (!response.Success)
+            {
+                throw new ReadTextFileException(string.IsNullOrWhiteSpace(response.Error) ? "Failed to read the file." : response.Error);
+            }
+
+            return response.Value;
+        }
+
         public async Task<string> GetSshConfigDirAsync()
         {
             if (!string.IsNullOrEmpty(_sshConfigDir))

@@ -71,7 +71,7 @@ namespace FluentTerminal.App.Services.Implementation
                 config.Themes.Add(theme);
             }
 
-            foreach (var profile in GetShellProfiles().Where(x => !x.PreInstalled))
+            foreach (var profile in GetShellProfiles())
             {
                 config.Profiles.Add(profile);
             }
@@ -117,21 +117,18 @@ namespace FluentTerminal.App.Services.Implementation
                 SaveTheme(theme, existingTheme != null);
             }
 
-            // Can't create pre-installed profiles
-            foreach (var profile in config.Profiles.Where(x => !x.PreInstalled))
+            foreach (var profile in config.Profiles)
             {
                 var existingProfile = GetShellProfile(profile.Id);
-                var isNew = existingProfile.EqualTo(default);
+                var isNew = existingProfile == default;
 
-                // You can only edit certain parts of preinstalled profiles
                 if (!isNew && existingProfile.PreInstalled)
                 {
-                    existingProfile.WorkingDirectory = profile.WorkingDirectory;
-                    existingProfile.Arguments = profile.Arguments;
-                    existingProfile.TabThemeId = profile.TabThemeId;
-                    existingProfile.TerminalThemeId = profile.TerminalThemeId;
-                    existingProfile.KeyBindings = profile.KeyBindings;
-                    SaveShellProfile(profile, isNew);
+                    // those cannot be edited
+                    profile.Name = existingProfile.Name;
+                    profile.Location = existingProfile.Location;
+
+                    SaveShellProfile(profile, false);
                     continue;
                 }
                 SaveShellProfile(profile, isNew);
@@ -140,7 +137,7 @@ namespace FluentTerminal.App.Services.Implementation
             foreach (var profile in config.SshProfiles)
             {
                 var existingProfile = GetSshProfile(profile.Id);
-                var isNew = existingProfile.EqualTo(default(SshProfile));
+                var isNew = existingProfile == default;
 
                 SaveSshProfile(profile, isNew);
             }

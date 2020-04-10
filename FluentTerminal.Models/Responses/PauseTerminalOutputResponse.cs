@@ -1,7 +1,7 @@
 ﻿namespace FluentTerminal.Models.Responses
 {
-    public class PauseTerminalOutputResponse : TerminalResponse, IMessage
+    public class PauseTerminalOutputResponse : TerminalResponse
     {
-        public byte Identifier => (byte) MessageIdentifiers.PauseTerminalOutputResponse;
+        public override byte Identifier => (byte) MessageIdentifiers.PauseTerminalOutputResponse;
     }
 }

@@ -6,8 +6,8 @@ namespace FluentTerminal.App.CommandLineArguments
     public class SettingsVerb
     {
         [Option('i', "import",
-                HelpText = "Import settings.")]
-        public bool Import { get; set; }
+                HelpText = "Import settings from specified file.")]
+        public string Import { get; set; }
 
         [Option('e', "export",
                 HelpText = "Export settings.")]

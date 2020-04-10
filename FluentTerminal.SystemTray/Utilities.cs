@@ -536,6 +536,11 @@ namespace FluentTerminal.SystemTray
             }
         }
 
+        internal static string ReadFile(string path)
+        {
+            return File.ReadAllText(path);
+        }
+
         private static bool? MuteProcess(int id, bool mute, bool force = false)
         {
             bool? isAudioSessionMuted = VolumeControl.GetAudioSessionMute(id);
