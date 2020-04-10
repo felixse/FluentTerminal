@@ -29,6 +29,7 @@ let searchAddon: SearchAddon;
 let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
 let unicode11Addon: Unicode11Addon;
+let altGrPressed = false;
 
 const terminalContainer = document.getElementById('terminal-container');
 
@@ -165,9 +166,16 @@ window.createTerminal = (options, theme, keyBindings) => {
   });
 
   term.attachCustomKeyEventHandler(function (e) {
-    if (e.type != "keydown") {
+    if (e.altKey && e.type === "keydown" && e.location === 2) {
+        altGrPressed = true;
+    } else if (e.altKey && e.type === "keyup" && e.key === "Control") {
+      altGrPressed = false
+    }
+
+    if (e.type != "keydown" || altGrPressed) {
       return true;
     }
+
     for (var i = 0; i < window.keyBindings.length; i++) {
       var keyBinding = window.keyBindings[i];
       if (keyBinding.ctrl == e.ctrlKey
