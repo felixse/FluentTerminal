@@ -175,6 +175,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
             if (disposeManaged)
             {
+                ConsoleOutStream.Dispose();
                 _consoleInputWriter?.Dispose();
                 _process?.Dispose();
                 _pseudoConsole?.Dispose();

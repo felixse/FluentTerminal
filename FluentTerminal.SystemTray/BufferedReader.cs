@@ -53,6 +53,9 @@ namespace FluentTerminal.SystemTray
         {
             while (true)
             {
+                // Allow CPU to jump between TerminalSessions' ReadingLoop Tasks 
+                await Task.Delay(1).ConfigureAwait(false);
+
                 bool paused;
 
                 lock (_lock)
