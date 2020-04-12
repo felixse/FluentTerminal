@@ -22,6 +22,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Close()
         {
+            _terminal?.ConsoleOutStream?.Close();
             _reader?.Dispose();
 
             ConnectionClosed?.Invoke(this, _terminal.ExitCode);
@@ -91,6 +92,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             _reader?.SetPaused(value);
         }
 
+        ~ConPtySession()
+        {
+            Dispose(false);
+        }
+
         #region IDisposable Support
 
         private bool _disposed;
@@ -113,6 +119,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
         public void Dispose()
         {
             _terminal.Exited -= _terminal_Exited;
+            _terminal.OutputReady -= _terminal_OutputReady;
             Dispose(true);
         }
 
