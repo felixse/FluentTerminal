@@ -5,22 +5,22 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "xcopy /y /s node_modules\\xterm\\css\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && cd node_modules/xterm && yarn && yarn package && cd ../.. && npx webpack --config webpack.config.js"
+    "build": "xcopy /y /s node_modules\\xterm\\css\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
   },
   "author": "FS Apps",
   "license": "GPL-3.0",
   "devDependencies": {
-    "ts-loader": "^6.0.2",
-    "typescript": "^3.5.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "xterm": "felixse/xterm.js#fix-edge-selection-color",
+    "xterm": "^4.5.0",
     "xterm-addon-fit": "^0.3.0",
-    "xterm-addon-search": "^0.5.0",
-    "xterm-addon-serialize": "^0.1.2",
+    "xterm-addon-search": "^0.6.0",
+    "xterm-addon-serialize": "^0.2.0",
     "xterm-addon-unicode11": "^0.1.1",
-    "xterm-addon-web-links": "^0.2.1"
+    "xterm-addon-web-links": "^0.3.0"
   }
 }
