@@ -35,7 +35,7 @@
                     Width="16"
                     Height="16"
                     Margin="6,0,0,0">
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF78B;" />
+                    <SymbolIcon Symbol="Find" />
                 </Viewbox>
                 <TextBox
                     Name="SearchTextBox"
