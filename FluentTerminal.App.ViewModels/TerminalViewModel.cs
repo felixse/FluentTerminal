@@ -46,6 +46,7 @@ namespace FluentTerminal.App.ViewModels
             public string XtermBufferState { get; set; }
             public byte TerminalId { get; set; }
             public ShellProfile ShellProfile { get; set; }
+            public int FontSize { get; set; }
         }
 
         public async Task<string> SerializeAsync()
@@ -64,7 +65,8 @@ namespace FluentTerminal.App.ViewModels
                 SearchWithRegex = SearchWithRegex,
                 XtermBufferState = await SerializeXtermStateAsync().ConfigureAwait(false),
                 TerminalId = Terminal.Id,
-                ShellProfile = ShellProfile
+                ShellProfile = ShellProfile,
+                FontSize = FontSize
             };
 
             return JsonConvert.SerializeObject(state);
@@ -88,7 +90,7 @@ namespace FluentTerminal.App.ViewModels
                 XtermBufferState = state.XtermBufferState;
                 _terminalId = state.TerminalId;
                 ShellProfile = state.ShellProfile;
-
+                FontSize = state.FontSize;
                 TabTheme.IsSelected = true;
             }
         }
@@ -117,6 +119,7 @@ namespace FluentTerminal.App.ViewModels
         private MenuViewModel _contextMenu;
         private MenuViewModel _tabContextMenu;
         private readonly TabThemeViewModel _transparentTabThemeViewModel;
+        private int _fontSize;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
@@ -157,6 +160,10 @@ namespace FluentTerminal.App.ViewModels
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
             ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
+            IncreaseFontSizeCommand = new AsyncCommand(IncreaseFontSize, CanExecuteCommand);
+            DecreaseFontSizeCommand = new AsyncCommand(DecreaseFontSize, () => CanExecuteCommand() && FontSize > 1);
+
+            FontSize = _terminalOptions.FontSize;
 
             if (!string.IsNullOrEmpty(terminalState))
             {
@@ -263,6 +270,11 @@ namespace FluentTerminal.App.ViewModels
         public ICommand PasteCommand { get; private set; }
 
         public ICommand ShowSearchPanelCommand { get; private set; }
+
+        public ICommand IncreaseFontSizeCommand { get; private set; }
+
+        public ICommand DecreaseFontSizeCommand { get; private set; }
+
 
         public double BackgroundOpacity => _terminalOptions?.BackgroundOpacity ?? 1.0;
 
@@ -444,6 +456,15 @@ namespace FluentTerminal.App.ViewModels
                 {
                     TabTitle = value;
                 }
+            }
+        }
+
+        public int FontSize
+        {
+            get => _fontSize;
+            set
+            {
+                _fontSize = value > 0 ? value : 1;
             }
         }
 
@@ -663,6 +684,17 @@ namespace FluentTerminal.App.ViewModels
                         }).ConfigureAwait(false);
                         return;
                     }
+                case nameof(Command.IncreaseFontSize):
+                    {
+                        await IncreaseFontSize().ConfigureAwait(false);
+                        return;
+                    }
+                case nameof(Command.DecreaseFontSize):
+                    {
+                        if (FontSize > 1)
+                            await DecreaseFontSize().ConfigureAwait(false);
+                        return;
+                    }
                 default:
                     {
                         await ApplicationView.ExecuteOnUiThreadAsync(() => _keyboardCommandService.SendCommand(e))
@@ -725,6 +757,18 @@ namespace FluentTerminal.App.ViewModels
             {
                 TerminalView.Paste(content);
             }
+        }
+
+        private Task IncreaseFontSize()
+        {
+            FontSize++;
+            return Task.CompletedTask;
+        }
+
+        private Task DecreaseFontSize()
+        {
+            FontSize--;
+            return Task.CompletedTask;
         }
 
         private MenuViewModel BuidContextMenu()

@@ -31,6 +31,8 @@
         SwitchToTerm8,
         SwitchToTerm9,
         DuplicateTab,
-        ReconnectTab
+        ReconnectTab,
+        IncreaseFontSize,
+        DecreaseFontSize
     }
 }

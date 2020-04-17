@@ -33,6 +33,11 @@ let altGrPressed = false;
 
 const terminalContainer = document.getElementById('terminal-container');
 
+function setFontSize(fontSize) {
+  if (fontSize > 0)
+    term.setOption('fontSize', fontSize);
+}
+
 function replaceAll(searchString, replaceString, str) {
   return str.split(searchString).join(replaceString);
 }
