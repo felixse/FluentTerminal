@@ -1059,9 +1059,9 @@ Fuzzy</comment>
     <value>Usa smart buffer</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Riavvia</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Sessione terminata.</value>
   </data>
 </root>

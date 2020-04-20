@@ -24,7 +24,8 @@ function DownloadLanguageFile($language, $directory)
 }
 
 DownloadLanguageFile "en"
-DownloadLanguageFile "zh-CN" "zh-Hant"
+DownloadLanguageFile "zh-TW" "zh-Hant"
+DownloadLanguageFile "zh-Hans"
 DownloadLanguageFile "de"
 DownloadLanguageFile "es"
 DownloadLanguageFile "fr"
@@ -43,4 +44,6 @@ DownloadLanguageFile "ko"
 DownloadLanguageFile "az"
 DownloadLanguageFile "ar"
 DownloadLanguageFile "id"
-DownloadLanguageFile "zh-Hans"
+DownloadLanguageFile "fa"
+DownloadLanguageFile "tr"
+DownloadLanguageFile "hu"

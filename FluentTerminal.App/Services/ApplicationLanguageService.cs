@@ -16,9 +16,11 @@ namespace FluentTerminal.App.Services
             ["de"] = "Deutsch",
             ["en"] = "English",
             ["es"] = "Español",
+            ["fa"] = "فارسی",
             ["fr"] = "Français",
             ["he"] = "עברית",
             ["hi"] = "हिन्दुस्तानी",
+            ["hu"] = "magyar",
             ["id"] = "Bahasa Indonesia",
             ["it"] = "Italiano",
             ["ja"] = "日本語",
@@ -28,9 +30,10 @@ namespace FluentTerminal.App.Services
             ["pt-BR"] = "Português-Brasil",
             ["ro"] = "Română",
             ["ru"] = "Pусский",
+            ["tr"] = "Türkçe",
             ["uk"] = "Українська",
-            ["zh-Hans"] = "繁體中文",
-            ["zh-Hant"] = "简体中文"
+            ["zh-Hans"] = "简体中文",
+            ["zh-Hant"] = "繁體中文"
         };
 
         public IEnumerable<string> Languages => _languages.Values;

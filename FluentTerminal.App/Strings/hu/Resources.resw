@@ -118,339 +118,334 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>À propos</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>Alkalmazásról</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Fond</value>
+    <value>Háttérkép</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Bleu</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Kék</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Fermer</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Bezárás</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer la fenêtre</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Ablakok bezárásának megerősítése</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Demander avant de fermer les onglets</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Fülek bezárásának megerősítése</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Couleur</value>
+    <value>Szín</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Couleur des onglets inactifs</value>
+    <value>Az interaktív lapok színe</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Copier</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Másolás</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Afficher le titre de l&apos;onglet personnalisé également dans la barre de titre</value>
+    <value>Fül címének mutatása az ablak címeként</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Éditer le titre</value>
+    <value>Cím szerkesztése</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Général</value>
+    <value>Általános</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Vert</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Zöld</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Afficher l&apos;indicateur de nouvelle sortie sur les onglets en arrière-plan</value>
+    <value>Esemény jelzése az inaktív füleken</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Redémarrage de l&apos;application requis pour appliquer le réglage</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>Újraindítás szükséges a beállítás alkalmazásához</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>Nouvel onglet</value>
+    <value>Új lap</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Aucun</value>
+    <value>Semmi</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Onglets</value>
+    <value>Lapok</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Fenêtres</value>
+    <value>Ablakok</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Ouvrir de nouveaux terminaux en tant que</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>Megnyitás új terminálként</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Orange</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Narancssárga</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Coller</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Beillesztés</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Violet</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Lila</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Rouge</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Piros</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Réinitialiser</value>
+    <value>Alapértelmezés visszaállítása</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Exécuter au démarrage</value>
+    <value>Automatikus futtatás a számítógép indulásakor</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Réglages</value>
+    <value>Beállítások</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Réglages</value>
+    <value>Beállítás</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Afficher dans la barre d&apos;état système</value>
+    <value>Megjelenítés a tálcán</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Afficher les onglets sur</value>
+    <value>Fülek mutatása</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Sarcelle</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Zöldeskék</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Bas</value>
+    <value>Lent</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Haut</value>
+    <value>Fent</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>Aláhúzás</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Souligner l&apos;onglet sélectionné</value>
+    <value>Kiválasztott fül aláhúzása</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>A propos</value>
+    <value>Alkalmazásról</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Général</value>
+    <value>Általános</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>Billentyűparancsok</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Souris</value>
+    <value>Egér</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiles</value>
-    <comment>SettingsPage.xaml</comment>
+    <value>Profilok</value>
+    <comment>SettingsPage.xaml
+Fuzzy</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
-    <comment>SettingsPage.xaml</comment>
+    <value>Parancssor</value>
+    <comment>SettingsPage.xaml
+Fuzzy</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Thèmes</value>
+    <value>Témák</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Ajouter</value>
+    <value>Hozzáadás</value>
     <comment>ShellProfileSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Paraméterek</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Opacité du fond</value>
-    <comment>TerminalSettings.xaml</comment>
+    <value>Háttér átlátszatlansága</value>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Clignotement du curseur</value>
+    <value>Villogó kurzor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Texte en gras</value>
+    <value>Félkövér szöveg</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Mégse</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Vérification des mises à jour ...</value>
+    <value>Frissítések keresése folyamatban</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Vérifier les mises à jour</value>
+    <value>Frissítéesk keresése</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Cliquez sur une couleur pour éditer</value>
+    <value>Kattintson egy színre a szerkesztéshez</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Cloner</value>
+    <value>Másolás</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Palette de couleurs</value>
+    <value>Színpaletta</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Notification de copie de texte</value>
+    <value>Értesítés szöveg kimásolásakor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Copier sur sélectionner</value>
+    <value>Kijelöléskor másolás</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Új</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Version actuelle</value>
+    <value>Jelenlegi verzió</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Barre</value>
+    <value>Bar</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Bloc</value>
+    <value>Blokk</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Style de curseur</value>
-    <comment>TerminalSettings.xaml</comment>
+    <value>Kurzor stílus</value>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Souligner</value>
+    <value>Aláhúzott</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Törlés</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Ne pas modifier les fins de ligne</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>A sorvégek ne változzanak</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Editer</value>
+    <value>Szerkesztés</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Exporter</value>
+    <value>Exportálás</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Famille de polices</value>
+    <value>Betűtipus</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Taille de police</value>
+    <value>Betűméret</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>Importer</value>
-    <comment>ThemeSettings.xaml</comment>
+    <value>Betöltés</value>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>Billentyűparancs</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Raccourci clavier</value>
+    <value>Billentyűparancs</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Dernière version</value>
+    <value>Legújabb verzió</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Licence</value>
-    <comment>About.xaml</comment>
+    <value>Licensz</value>
+    <comment>About.xaml
+Fuzzy</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne</value>
+    <value>Line ending translation mode</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne sur coller:</value>
+    <value>Line ending translation mode on paste:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton du milieu</value>
+    <value>Középső egérgomb eseménye</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Souris</value>
+    <value>Egér</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Menu contextuel</value>
+    <value>Context menu</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Rien</value>
+    <value>Semmi</value>
     <comment>MouseSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Coller</value>
+    <value>Beillesztés</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Új</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
@@ -458,660 +453,628 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>Név</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profilok</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Thème</value>
+    <value>Téma</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Notes de version</value>
+    <value>Kiadási megjegyzések</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton droit</value>
+    <value>Jobb egérgomb eseménye</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Sauvgarder</value>
+    <value>Mentés</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Limite de défilement</value>
+    <value>Scrollback limit</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Masquage automatique</value>
+    <value>Automatikus elrejtés</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Masqué</value>
+    <value>Rejtett</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Style de barre de défilement</value>
+    <value>Görgetősáv stílusa</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Visible</value>
+    <value>Látható</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Définir actif</value>
+    <value>Aktívvá tétel</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Définir par defaut</value>
+    <value>Alapértelmezetté tétel</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Emplacement exécutable du shell</value>
+    <value>Shell executable location</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Couleur d&apos;onglet</value>
+    <value>Lap szín</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Terminál</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Thème:</value>
+    <value>Téma:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Szerző</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Nom</value>
+    <value>Név</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Sorvégek konvertálása CR-re</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en CR+LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Sorvégek konvertálása CR+LF-re</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Convertir les fins de ligne en LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Sorvégek konvertálása LF-re</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Directeur de travail</value>
+    <value>Munkakönyvtár</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir fermer &quot;{0}&quot; onglets?</value>
+    <value>Biztosan bezárja a &quot;{0}&quot; fület?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Are you sure you want to close this window?</value>
+    <value>Biztosan bezárja ezt az ablakot?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Are you sure you want to delete this keybinding?</value>
+    <value>Biztosan törli ezt a billentyűparancsot?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce thème?</value>
-    <comment>ViewModel</comment>
+    <value>Biztosan el akarja ezt a témát távolítani?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir annuler toutes les modifications?</value>
-    <comment>ViewModel</comment>
+    <value>Biztosan vissza akarja dobni az összes változtatásokat?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres généraux?</value>
-    <comment>ViewModel</comment>
+    <value>Biztosan vissza akarja állítani az általános beállításokat?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les raccourcis clavier par défaut?</value>
+    <value>Biztosan visszaállítja az alapértelmezett billentyűparancsokat?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres de la souris?</value>
-    <comment>ViewModel</comment>
+    <value>Biztosan vissza akarja állítani az egér beállításait?</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer ce profil?</value>
+    <value>Biztosan vissza akarja állítani ezt a profilt?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les options du terminal par défaut?</value>
+    <value>Biztosan visszaállítja az alapértelmezett terminal beállításokat?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Désactivé par politique.</value>
+    <value>Policy által tiltva</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Désactivé par l&apos;utilisateur. Veuillez le réactiver dans l&apos;onglet Démarrage du Gestionnaire des Tâches.</value>
+    <value>Disabled by user. Please reactivate it in the Startup tab of the Task Manager.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Editer le titre</value>
+    <value>Cím szerkesztése</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Erreur</value>
+    <value>Hiba</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>L&apos;opération ne peut pas être terminée en raison de l&apos;erreur suivante:</value>
+    <value>Az alábbi hiba miatt a művelet nem végrehajtható:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>L&apos;importation du thème a échouer</value>
-    <comment>ViewModel</comment>
+    <value>A téma betöltése nem sikerült</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Aucun analyseur approprié trouvé</value>
+    <value>Nincs megfelelő értelmező</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Veuillez confirmer</value>
+    <value>Kérem jóváhagyni</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annuler</value>
+    <value>Mégse</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Entrez votre raccourcis maintenant</value>
+    <value>Billentyűparancs megadása</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Réinitialiser</value>
-    <comment>Fuzzy</comment>
+    <value>Visszaállítás</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Texte copier</value>
-    <comment>ViewModel</comment>
+    <value>A szöveg kimásolva</value>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Ajouter</value>
+    <value>Hozzáadás</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Changer le titre de l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>A lap címének módosítása</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Törlés</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Fermer l&apos;onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>A lap bezárása</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Raccourcis clavier</value>
+    <value>Billentyűparancsok</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Effacer</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>Törlés</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Editer</value>
+    <value>Szerkesztés</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Nouvel onglet</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Új lap</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Új ablak</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Onglet suivant</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Következő lap</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Coller sans nouvelles lignes</value>
+    <value>Beillesztés új sor nélkül</value>
     <comment>Command
 Fuzzy</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Onglet précédent</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Előző lap</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Chercher</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Keresés</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Selectionner tout</value>
+    <value>Összes kijelölése</value>
     <comment>Command
 Fuzzy</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Afficher les paramètres</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Beállítások megjelenítése</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Passer au Terminal 1</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás az 1. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Passer au Terminal 2</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 2. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Passer au Terminal 3</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 3. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Passer au Terminal 4</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 4. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Passer au Terminal 5</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás az 5. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Passer au Terminal 6</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 6. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Passer au Terminal 7</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 7. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Passer au Terminal 8</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 8. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Passer au Terminal 9</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Váltás a 9. terminálra</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Basculer en plein écran</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Teljes képernyőre váltás</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Basculer la fenêtre</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Toggle window</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Nouvel onglet distant</value>
-    <comment>Fuzzy</comment>
+    <value>Új távoli SSH kapcsolat</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Nouvel SSH onglet</value>
-    <comment>Fuzzy</comment>
+    <value>Új SSH fül</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informations</value>
+    <value>SSH infó</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>felhasználó</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>hôte</value>
+    <value>szerver</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>port</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Chemin du fichier d&apos;identité</value>
-    <comment>Fuzzy</comment>
+    <value>Az azonosító file útvonala</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Naviguer</value>
+    <value>Keresés</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Utilisez Mosh</value>
+    <value>Mosh használata</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Avancé</value>
+    <value>Haladó</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Ports Mosh:</value>
+    <value>Mosh portok:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Enregistrer le raccourci</value>
-    <comment>Fuzzy</comment>
+    <value>Parancsikon mentése</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>L&apos;application doit redémarrer pour que cette modification soit prise en compte.</value>
+    <value>A változáshoz újra kell indítani az alkalmazást.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Entrée invalide</value>
-    <comment>Fuzzy</comment>
+    <value>Hibás adat</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Le port ne peut pas être 0.</value>
-    <comment>Fuzzy</comment>
+    <value>A port nem lehet 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Utilisateur et hôte sont des champs obligatoires.</value>
-    <comment>Fuzzy</comment>
+    <value>Kötelező megadni felhasználónevet és jelszót</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Le nom d&apos;utilisateur ne peut pas être vide.</value>
+    <value>A felhasználónév nem lehet üres.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>L&apos;hôte ne peut être vide.</value>
-    <comment>Fuzzy</comment>
+    <value>A szervernév nem lehet üres.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port SSH doit être supérieur à zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>Az SSH port legyen nagyobb nullánál</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Le port Mosh ne peut être zéro.</value>
-    <comment>Fuzzy</comment>
+    <value>A Mosh port legyen nagyobb nullánál</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>La plage de ports Mosh n&apos;est pas valide.</value>
+    <value>A Mosh port tartomány hibás.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Oui</value>
+    <value>Igen</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Non</value>
+    <value>Nem</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>Nyelv</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Aucun</value>
+    <value>Semmi</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nouvelle sortie</value>
+    <value>Új output</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sortie avec erreur</value>
+    <value>Hibával megállt</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce profil?</value>
+    <value>Biztosan törölni szeretnéd ezt a profilt?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre SSH</value>
+    <value>Új SSH ablak</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>Profils SSH</value>
-    <comment>Fuzzy</comment>
+    <value>SSH profilok</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Couleur d&apos;onglet:</value>
-    <comment>Fuzzy</comment>
+    <value>A lap színe</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Utilisez ConPty</value>
-    <comment>Fuzzy</comment>
+    <value>ConPty használata</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Nom d&apos;utilisateur</value>
-    <comment>Fuzzy</comment>
+    <value>Felhasználónév</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Du port</value>
-    <comment>Fuzzy</comment>
+    <value>Forrás portja</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>au portt</value>
-    <comment>Fuzzy</comment>
+    <value>Célpont portja</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Gamme de ports Mosh</value>
+    <value>Mosh port tartomány
+</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authentifier</value>
+    <value>Hitelesítés</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Les paramètres ont été exportés dans le fichier</value>
+    <value>A beállítások mentésre kerültek ebbe a file-ba</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Les paramètres ont été importés du fichier</value>
+    <value>A beállítások visszatöltésre kerültek innen</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Le fichier d&apos;identification n&apos;existe pas</value>
+    <value>Identify file does not exist</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Utilisez le nom d&apos;utilisateur Windows lors de l&apos;ouverture d&apos;URL SSH qui don&apos;t spécifier un</value>
+    <value>Windows felhasználónév használata olyan SSH kapcsolatokhoz, ahol nincs megadva felhasználónév</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Mosh par défaut pour les connexions SSH</value>
+    <value>Az SSH kapcsolatok Mosh-sal nyíljanak meg</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Couper les lignes copiées</value>
+    <value>Másolásnál a sorok végén lévő szóköz levágása</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Utiliser SSH rapide par défaut</value>
+    <value>Use quick SSH by default</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Commande non valide.</value>
+    <value>Hibás parancs.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>L&apos;emplacement ne peut pas être vide.</value>
+    <value>A parancs nem lehet üres</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mutter les bips du terminal</value>
+    <value>A terminal hangjának elnémítása</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez une commande (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Parancs megadása (pl. ssh felhasználó@szervernév)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Commande</value>
+    <value>Parancs</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Commande non supportée:</value>
+    <value>Nem támogatott parancs:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Les arguments de commande sont manquants.</value>
+    <value>Nem lettek megadva paraméterek a parancsnak.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Démarrage rapide</value>
-    <comment>Fuzzy</comment>
+    <value>Gyorsindító</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Nouvel onglet de lancement rapide</value>
+    <value>Új &quot;Gyorsindító&quot; fül</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre de lancement rapide</value>
+    <value>Új &quot;Gyorsindító&quot; ablak</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Nouvel onglet rapide</value>
+    <value>New quick tab</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Fichier non trouvé:</value>
+    <value>A fájl nem található</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Lien invalide.</value>
+    <value>Hibás link.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Fül ledobása ide</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Fermer les onglets à gauche</value>
+    <value>Balra lévő fülek bezárása</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Fermer les autres onglets</value>
+    <value>Többi fül bezárása</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Fermer les onglets à droite</value>
+    <value>Jobbra lévő fülek bezárása</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Onglet dupliquer</value>
-    <comment>Fuzzy</comment>
+    <value>Fül megduplázása</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Dupliquer</value>
+    <value>Megduplázás</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Impossible de définir deux variables d’environnement portant le même nom.</value>
+    <value>Nem lehet definiálni két környezeti vátozót ugyanazzal a névvel.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Impossible de définir une variable d&apos;environnement sans nom.</value>
+    <value>Nem lehet definiálni egy környezeti változót név nélkül.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Variables d&apos;environnement</value>
+    <value>Környezeti változók</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fermer le panneau de recherche</value>
+    <value>Kereső panel bezárása</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le suivant</value>
+    <value>Következő keresése</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le précédent</value>
+    <value>Előző keresése</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez le terme de recherche</value>
+    <value>Keresett kifejezés</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Chercher</value>
+    <value>Keresés</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Sortie imprimable seulement</value>
+    <value>Csak a nyomtatható kimenet</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Journal de sortie pour le débogage</value>
+    <value>Hibakereső naplózás</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Caractères séparateurs de mots</value>
+    <value>Szóelválasztó karakterek</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Récent</value>
+    <value>Előző</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Ouvrir le profile par défaut dans un nouvel onglet.</value>
+    <value>Az alapértelmezett profil megnyitása új fülön</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Ouvrir une session SSH ou Msh dans un nouvel onglet.</value>
+    <value>Új SSH vagy Mosh kapcsolat nyitása új fülön</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Ouvrir le dialogue &quot;Lancement rapide&quot; et commencer une session dans un nouvel onglet.</value>
+    <value>&quot;Gyorsindító&quot; panel megjelenítése és a kapcsolat megnyitása új fülön</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Ouvrir les paramètres.</value>
+    <value>Beállítások megnyitása</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Informations sur l&apos;application.</value>
+    <value>Információ az alkalmazásról</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Session récentes.</value>
+    <value>Legutóbb megnyitott kapcsolatok</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Commencer une nouvelle session du profil par défaut.</value>
+    <value>Új kapcsolat nyitása az alapértelmezett profillal</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Connexion distante...</value>
+    <value>Távoli kapcsolat</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue pour une nouvelle session SSH ou Mosh.</value>
+    <value>Új SSH vagy Mosh kapcsolatot megnyitó panel megjelenítése</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Lancement rapide...</value>
+    <value>Gyorsindító</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue &quot;Lancement rapide&quot; pour un nouvelle session.</value>
+    <value>&quot;Gyorsindító&quot; panel megjelenítése új kapcsolat megnyitásához</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Nouvelle fenêtre.</value>
+    <value>Új ablak</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Nouvel onglet.</value>
+    <value>Új lap</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Lancer une session dans un nouvel onglet.</value>
+    <value>Kapcsolat indítása új lapon</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Lancer une session dans une nouvelle fenêtre.</value>
+    <value>Kapcsolat indítása új ablakban</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Type de menu d&apos;application</value>
+    <value>Alkalmazás mentü típusa</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Plat, honorant le paramètre &quot;Ouvrir de nouveaux terminaux comme&quot;</value>
+    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Nouvel onglet&quot; / &quot;Nouvelle fenêtre&quot; en cascade.</value>
+    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quitter.</value>
+    <value>Kilépés</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quitter Fluent Terminal</value>
+    <value>Kilépés a Fluent Terminalból</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Autorisé par la politique.</value>
+    <value>Pol</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Image de fond</value>
+    <value>Háttérkép</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Utilise un fond acrylique.</value>
+    <value>Áttetsző háttér használata</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Êtes vous sûr de vouloir supprimer cette image de fond ?</value>
+    <value>Biztosan törölni szeretnéd ezt a háttérképet?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Couleurs</value>
+    <value>Színek</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Couleurs claires</value>
+    <value>Fényes színek</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copier le lien</value>
+    <value>Link másolása</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Expression régulière</value>
+    <value>Reguláris kifejezés</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mot entier</value>
+    <value>Egész szóra</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sensible à la casse.</value>
+    <value>Kis/nagybetű érzékeny</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copier la sélection ou coller</value>
+    <value>Kijelölés másolása vagy beillesztése</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Utiliser un tampon rapide</value>
+    <value>Smart buffer használata</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Redémarrer</value>
+    <value>Kapcsolat újraindítása</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Restart</value>
+    <value>Kapcsolat bontva</value>
   </data>
 </root>
