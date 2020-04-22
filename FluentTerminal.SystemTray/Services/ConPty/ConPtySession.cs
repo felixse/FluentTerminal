@@ -22,7 +22,6 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Close()
         {
-            _terminal?.ConsoleOutStream?.Close();
             _reader?.Dispose();
 
             ConnectionClosed?.Invoke(this, _terminal.ExitCode);

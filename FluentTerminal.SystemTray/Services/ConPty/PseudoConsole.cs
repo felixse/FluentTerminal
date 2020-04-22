@@ -42,10 +42,19 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             ResizePseudoConsole(Handle, new COORD { X = (short)width, Y = (short)height });
         }
 
+        private bool alreadyDisposed = false;
+
         public void Dispose()
         {
+            if (alreadyDisposed)
+            {
+                return;
+            }
+
             ClosePseudoConsole(Handle);
             GC.SuppressFinalize(this);
+
+            alreadyDisposed = true;
         }
     }
 }
