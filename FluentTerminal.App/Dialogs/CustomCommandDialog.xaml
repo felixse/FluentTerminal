@@ -79,7 +79,6 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <!--  Row  -->
@@ -124,16 +123,6 @@
                     Margin="0,8,0,0"
                     Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseConPty}"
                     IsChecked="{x:Bind ViewModel.UseConPty, Mode=TwoWay}" />
-
-                <!--  Row  -->
-                <CheckBox
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="0,8,0,0"
-                    Content="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=UseBuffer}"
-                    IsChecked="{x:Bind ViewModel.UseBuffer, Mode=TwoWay}" />
-
             </Grid>
         </controls:Expander>
 
