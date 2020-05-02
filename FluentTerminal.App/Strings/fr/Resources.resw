@@ -123,7 +123,7 @@
 Fuzzy</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Fond</value>
+    <value>Arrière-plan</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
@@ -177,11 +177,11 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Afficher l&apos;indicateur de nouvelle sortie sur les onglets en arrière-plan</value>
+    <value>Afficher l&apos;indicateur de nouvelle sortie sur les onglets inactifs</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Redémarrage de l&apos;application requis pour appliquer le réglage</value>
+    <value>Relancez l&apos;application pour appliquer ce réglage</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
@@ -202,7 +202,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Ouvrir de nouveaux terminaux en tant que</value>
+    <value>Ouvrir les nouveaux terminaux en tant que</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
@@ -246,7 +246,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Afficher les onglets sur</value>
+    <value>Disposition des onglets</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
@@ -255,11 +255,11 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Bas</value>
+    <value>En bas</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Haut</value>
+    <value>En haut</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
@@ -267,11 +267,11 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Souligner l&apos;onglet sélectionné</value>
+    <value>Souligner l&apos;onglet actif</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>A propos</value>
+    <value>À propos</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
@@ -287,7 +287,7 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profils</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
@@ -308,15 +308,15 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Opacité du fond</value>
+    <value>Opacité de l&apos;arrière-plan</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Clignotement du curseur</value>
+    <value>Curseur clignotant</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Texte en gras</value>
+    <value>Texte gras</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
@@ -324,7 +324,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Vérification des mises à jour ...</value>
+    <value>Vérification des mises à jour...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
@@ -332,7 +332,7 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Cliquez sur une couleur pour éditer</value>
+    <value>Cliquez sur une couleur pour l&apos;éditer</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
@@ -348,11 +348,11 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Copier sur sélectionner</value>
+    <value>Copie automatique</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Créer un profil</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
@@ -385,7 +385,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Editer</value>
+    <value>Éditer</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
@@ -393,7 +393,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Famille de polices</value>
+    <value>Famille de police</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
@@ -421,15 +421,15 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne</value>
+    <value>Conversion de fin de ligne</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Mode de traduction de fin de ligne sur coller:</value>
+    <value>Conversion de fin des lignes collées:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Action du bouton du milieu</value>
+    <value>Action du bouton central</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
@@ -450,11 +450,11 @@ Fuzzy</comment>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Créer un nouveau</value>
+    <value>Créer un thème</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Padding</value>
+    <value>Bords</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
@@ -462,7 +462,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profils</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
@@ -478,7 +478,7 @@ Fuzzy</comment>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Sauvgarder</value>
+    <value>Sauvegarder</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
@@ -486,15 +486,15 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Masquage automatique</value>
+    <value>Masquer automatiquement</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Masqué</value>
+    <value>Masquée</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Style de barre de défilement</value>
+    <value>Barre de défilement</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
@@ -502,7 +502,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Définir actif</value>
+    <value>Définir comme actif</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
@@ -510,11 +510,11 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Emplacement exécutable du shell</value>
+    <value>Emplacement de l&apos;exécutable du shell</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Couleur d&apos;onglet</value>
+    <value>Couleur de l&apos;onglet</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
@@ -549,51 +549,51 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Directeur de travail</value>
+    <value>Dossier de départ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir fermer &quot;{0}&quot; onglets?</value>
+    <value>Etes-vous sûr de vouloir fermer &quot;{0}&quot; onglets ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Are you sure you want to close this window?</value>
+    <value>Voulez-vous fermer cette fenêtre ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Are you sure you want to delete this keybinding?</value>
+    <value>Voulez-vous supprimer ce raccourci ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce thème?</value>
+    <value>Voulez-vous supprimer ce thème ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir annuler toutes les modifications?</value>
+    <value>Voulez-vous annuler toutes les modifications ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres généraux?</value>
+    <value>Voulez-vous restaurer les paramètres généraux ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les raccourcis clavier par défaut?</value>
+    <value>Voulez-vous restaurer les raccourcis clavier par défaut ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les paramètres de la souris?</value>
+    <value>Voulez-vous restaurer les paramètres de la souris ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer ce profil?</value>
+    <value>Voulez-vous restaurer ce profil ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir restaurer les options du terminal par défaut?</value>
+    <value>Voulez-vous restaurer les options du terminal par défaut ?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Désactivé par politique.</value>
+    <value>Désactivé par Stratégie de Goupe.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
@@ -601,7 +601,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Editer le titre</value>
+    <value>Éditer le titre</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
@@ -613,7 +613,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>L&apos;importation du thème a échouer</value>
+    <value>L&apos;importation du thème a échoué</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
@@ -628,7 +628,7 @@ Fuzzy</comment>
     <value>Annuler</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Entrez votre raccourcis maintenant</value>
+    <value>Entrez votre raccourci maintenant</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -638,7 +638,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Texte copier</value>
+    <value>Texte copié</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
@@ -670,7 +670,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Editer</value>
+    <value>Éditer</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
@@ -699,12 +699,12 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Chercher</value>
+    <value>Recherche</value>
     <comment>Command
 Fuzzy</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Selectionner tout</value>
+    <value>Sélectionner tout</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -759,12 +759,12 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Basculer en plein écran</value>
+    <value>Plein écran</value>
     <comment>Command
 Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Basculer la fenêtre</value>
+    <value>Afficher/Masquer la fenêtre</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -773,11 +773,11 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Nouvel SSH onglet</value>
+    <value>Nouvel onglet SSH</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Informations</value>
+    <value>Informations SSH</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>utilisateur</value>
@@ -797,7 +797,7 @@ Fuzzy</comment>
     <value>Naviguer</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Utilisez Mosh</value>
+    <value>Utiliser Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>Avancé</value>
@@ -825,7 +825,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Le nom d&apos;utilisateur ne peut pas être vide.</value>
+    <value>Le nom d&apos;utilisateur ne peut être vide.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>L&apos;hôte ne peut être vide.</value>
@@ -849,7 +849,7 @@ Fuzzy</comment>
     <value>Non</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>Langage</value>
   </data>
   <data name="None.Text" xml:space="preserve">
     <value>Aucun</value>
@@ -861,7 +861,7 @@ Fuzzy</comment>
     <value>Sortie avec erreur</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer ce profil?</value>
+    <value>Voulez-vous supprimer ce profil ?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Nouvelle fenêtre SSH</value>
@@ -875,7 +875,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Utilisez ConPty</value>
+    <value>Utiliser ConPty</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Username.Header" xml:space="preserve">
@@ -887,7 +887,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>au portt</value>
+    <value>au port</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
@@ -906,28 +906,28 @@ Fuzzy</comment>
     <value>Le fichier d&apos;identification n&apos;existe pas</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Utilisez le nom d&apos;utilisateur Windows lors de l&apos;ouverture d&apos;URL SSH qui don&apos;t spécifier un</value>
+    <value>Utiliser le nom d&apos;utilisateur Windows pour les connexions SSH qui n&apos;en spécifient aucun</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>Mosh par défaut pour les connexions SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Couper les lignes copiées</value>
+    <value>Rogner les lignes copiées</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
     <value>Utiliser SSH rapide par défaut</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Commande non valide.</value>
+    <value>Commande invalide.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>L&apos;emplacement ne peut pas être vide.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mutter les bips du terminal</value>
+    <value>Désactiver les bips du terminal</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Entrez une commande (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Entrez une commande (ex: &apos;ssh username@host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Commande</value>
@@ -936,17 +936,17 @@ Fuzzy</comment>
     <value>Commande non supportée:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Les arguments de commande sont manquants.</value>
+    <value>Les arguments de la commande sont manquants.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Démarrage rapide</value>
+    <value>Lancement rapide</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Nouvel onglet de lancement rapide</value>
+    <value>Lancement rapide (onglet)</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Nouvelle fenêtre de lancement rapide</value>
+    <value>Lancement rapide (fenêtre)</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>Nouvel onglet rapide</value>
@@ -958,7 +958,7 @@ Fuzzy</comment>
     <value>Lien invalide.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
+    <value>Déposez l&apos;onglet ici</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>Fermer les onglets à gauche</value>
@@ -970,7 +970,7 @@ Fuzzy</comment>
     <value>Fermer les onglets à droite</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Onglet dupliquer</value>
+    <value>Dupliquer l&apos;onglet</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
@@ -989,16 +989,16 @@ Fuzzy</comment>
     <value>Fermer le panneau de recherche</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le suivant</value>
+    <value>Résultat suivant</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Trouver le précédent</value>
+    <value>Résultat précédent</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>Entrez le terme de recherche</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Chercher</value>
+    <value>Recherche</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>Sortie imprimable seulement</value>
@@ -1010,79 +1010,80 @@ Fuzzy</comment>
     <value>Caractères séparateurs de mots</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Récent</value>
+    <value>Récents</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Ouvrir le profile par défaut dans un nouvel onglet.</value>
+    <value>Ouvre le profil par défaut dans un nouvel onglet.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Ouvrir une session SSH ou Msh dans un nouvel onglet.</value>
+    <value>Ouvre une session SSH ou Mosh dans un nouvel onglet.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Ouvrir le dialogue &quot;Lancement rapide&quot; et commencer une session dans un nouvel onglet.</value>
+    <value>Ouvre le dialogue &quot;Lancement rapide&quot; et démarre une session dans un nouvel onglet.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Ouvrir les paramètres.</value>
+    <value>Ouvre les paramètres.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
     <value>Informations sur l&apos;application.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Session récentes.</value>
+    <value>Sessions récentes.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Commencer une nouvelle session du profil par défaut.</value>
+    <value>Démarre une nouvelle session de terminal du profil par défaut.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Connexion distante...</value>
+    <value>Connexion à distance...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue pour une nouvelle session SSH ou Mosh.</value>
+    <value>Ouvre un dialogue permettant de lancer une nouvelle session SSH ou Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
     <value>Lancement rapide...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Ouvrir un dialogue &quot;Lancement rapide&quot; pour un nouvelle session.</value>
+    <value>Ouvrir un dialogue &quot;Lancement rapide&quot; pour une nouvelle session de terminal.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Nouvelle fenêtre.</value>
+    <value>Nouvelle fenêtre</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Nouvel onglet.</value>
+    <value>Nouvel onglet</value>
+    <comment>@William Why adding dots everywhere? These are not sentences</comment>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Lancer une session dans un nouvel onglet.</value>
+    <value>Lance une session dans un nouvel onglet.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Lancer une session dans une nouvelle fenêtre.</value>
+    <value>Lance une session dans une nouvelle fenêtre.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Type de menu d&apos;application</value>
+    <value>Style du menu d&apos;application</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Plat, honorant le paramètre &quot;Ouvrir de nouveaux terminaux comme&quot;</value>
+    <value>Plat, honorant le paramètre &quot;Ouvrir les nouveaux terminaux en tant que&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>&quot;Nouvel onglet&quot; / &quot;Nouvelle fenêtre&quot; en cascade.</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quitter.</value>
+    <value>Quitter</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
     <value>Quitter Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Autorisé par la politique.</value>
+    <value>Autorisé par Stratégie de Goupe.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Image de fond</value>
+    <value>Image d&apos;arrière-plan</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Utilise un fond acrylique.</value>
+    <value>Arrière-plan transparent</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Êtes vous sûr de vouloir supprimer cette image de fond ?</value>
+    <value>Voulez-vous supprimer cet arrière-plan ?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
     <value>Couleurs</value>
@@ -1100,18 +1101,18 @@ Fuzzy</comment>
     <value>Mot entier</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sensible à la casse.</value>
+    <value>Sensible à la casse</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
     <value>Copier la sélection ou coller</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Utiliser un tampon rapide</value>
+    <value>Utiliser le buffer intelligent</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
     <value>Redémarrer</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Restart</value>
+    <value>Session déconnectée.</value>
   </data>
 </root>
