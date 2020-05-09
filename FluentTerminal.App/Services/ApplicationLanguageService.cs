@@ -20,6 +20,7 @@ namespace FluentTerminal.App.Services
             ["fr"] = "Français",
             ["he"] = "עברית",
             ["hi"] = "हिन्दुस्तानी",
+            ["hr"] = "Hrvatski",
             ["hu"] = "magyar",
             ["id"] = "Bahasa Indonesia",
             ["it"] = "Italiano",

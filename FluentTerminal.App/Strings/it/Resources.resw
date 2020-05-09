@@ -255,8 +255,7 @@
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
     <value>Sottolinea la scheda attiva</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
     <value>Informazioni su</value>
@@ -578,8 +577,7 @@ Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>Disattivato da policy</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>Disattivato dall&apos;utente. Riattiva Fluent Terminal nella scheda Avvio del Task Manager</value>
@@ -863,7 +861,6 @@ Fuzzy</comment>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
     <value>Usa Quick SSH come impostazione predefinita</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
     <value>Comando non valido</value>
