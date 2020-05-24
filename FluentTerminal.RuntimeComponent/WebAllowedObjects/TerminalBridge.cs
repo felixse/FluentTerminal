@@ -17,6 +17,7 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
             _terminalEventListener = terminalEventListener;
             _terminalEventListener.OnOutput += OnOutput;
             _terminalEventListener.OnPaste += OnPaste;
+            _terminalEventListener.OnSessionRestart += OnSessionRestart;
         }
 
         private void OnPaste(object sender, string e)
@@ -29,8 +30,14 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
             Task.Factory.StartNew(() => Output?.Invoke(this, e));
         }
 
+        private void OnSessionRestart(object sender, string e)
+        {
+            Task.Factory.StartNew(() => SessionRestart?.Invoke(this, e));
+        }
+
         public event EventHandler<object> Output;
         public event EventHandler<string> Paste;
+        public event EventHandler<string> SessionRestart;
 
         public void InputReceived(string message)
         {
