@@ -30,6 +30,7 @@ let serializeAddon: SerializeAddon;
 let webLinksAddon: WebLinksAddon;
 let unicode11Addon: Unicode11Addon;
 let altGrPressed = false;
+let filterOutOpenSSHOutput = false;
 
 const terminalContainer = document.getElementById('terminal-container');
 
@@ -102,7 +103,46 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   window.term = term;
 
+  function stringToUint8Array(param: string) {
+    var str = unescape(encodeURIComponent(param));
+    var charList = str.split('');
+    var output = [];
+    for (var i = 0; i < charList.length; i++) {
+      output.push(charList[i].charCodeAt(0));
+    }
+    return new Uint8Array(output);
+  }
+
+  function uint8ArrayToString(param: Uint8Array) {
+    var encodedString = String.fromCharCode.apply(null, param);
+    return decodeURIComponent(escape(encodedString));
+  }
+
+  window.terminalBridge.onsessionrestart = ((param: string) => {
+    if (filterOutOpenSSHOutput == false) {
+      filterOutOpenSSHOutput = true;
+    }
+  });
+
   window.terminalBridge.onoutput = (data => {
+    if (filterOutOpenSSHOutput == true) {
+      var str = uint8ArrayToString(data);
+      var sessionStarted = str.search(/(\x1b\[H\x1b\[\?25h)|(\x1b\[2;1H\x1b\]0;OpenSSH SSH client)/u);
+
+      if (sessionStarted != -1) {
+        filterOutOpenSSHOutput = false;
+      }
+
+      // Filter out new line characters following by cursor movement CSIs X and C
+      str = replaceAll(/\n\x1b\[\d*X\x1b\[\d*C/u, "", str);
+      // Filter out J (clear screen) CSIs and H (set cursor position) CSIs
+      str = replaceAll(/\x1b\[\d*J/u, "", str);
+      // Filter out H (set cursor position) CSIs
+      str = replaceAll(/\x1b\[\d*;?\d*H/u, "", str);
+
+      data = stringToUint8Array(str);
+    }
+
     term.writeUtf8(data);
   });
 
