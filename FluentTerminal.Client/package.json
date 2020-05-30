@@ -11,12 +11,12 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "ts-loader": "^6.2.2",
-    "typescript": "^3.8.3",
-    "webpack": "^4.42.1",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "xterm": "^4.5.0",
+    "xterm": "^4.6.0",
     "xterm-addon-fit": "^0.3.0",
     "xterm-addon-search": "^0.6.0",
     "xterm-addon-serialize": "^0.2.0",
