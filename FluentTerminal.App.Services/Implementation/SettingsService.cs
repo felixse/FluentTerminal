@@ -63,7 +63,8 @@ namespace FluentTerminal.App.Services.Implementation
                 TerminalOptions = GetTerminalOptions(),
                 Themes = new List<TerminalTheme>(),
                 Profiles = new List<ShellProfile>(),
-                SshProfiles = new List<SshProfile>()
+                SshProfiles = new List<SshProfile>(),
+                DefaultSettings = GetDefaultSettings(),
             };
 
             foreach (var theme in GetThemes().Where(x => !x.PreInstalled))
@@ -84,6 +85,15 @@ namespace FluentTerminal.App.Services.Implementation
             return JsonConvert.SerializeObject(config, PreserveDictionaryKeyCaseContractResolver.SerializerSettings);
         }
 
+        private Dictionary<string, string> GetDefaultSettings()
+        {
+            return new Dictionary<string, string>
+            {
+                [DefaultShellProfileKey] = GetDefaultShellProfileId().ToString(),
+                [CurrentThemeKey] = GetCurrentThemeId().ToString(),
+            };
+        }
+
         public void ImportSettings(string serializedSettings)
         {
             var config = new
@@ -93,7 +103,8 @@ namespace FluentTerminal.App.Services.Implementation
                 Themes = new List<TerminalTheme>(),
                 Profiles = new List<ShellProfile>(),
                 SshProfiles = new List<SshProfile>(),
-                TerminalOptions = GetTerminalOptions()
+                TerminalOptions = GetTerminalOptions(),
+                DefaultSettings = new Dictionary<string, string>(),
             };
 
             JsonConvert.PopulateObject(serializedSettings, config);
@@ -143,6 +154,16 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             SaveTerminalOptions(config.TerminalOptions);
+
+            if (config.DefaultSettings.ContainsKey(DefaultShellProfileKey))
+            {
+                SaveDefaultShellProfileId(new Guid(config.DefaultSettings[DefaultShellProfileKey]));
+            }
+
+            if (config.DefaultSettings.ContainsKey(CurrentThemeKey))
+            {
+                SaveCurrentThemeId(new Guid(config.DefaultSettings[CurrentThemeKey]));
+            }
         }
 
         public void DeleteShellProfile(Guid id)
