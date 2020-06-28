@@ -12,7 +12,8 @@
 
 A Terminal Emulator based on UWP and web technologies.
 
-<a href='//www.microsoft.com/store/apps/9p2krlmfxf9t?cid=storebadge&ocid=badge'><img src='store-badge.png' alt='Get it from Microsoft' style='width: 284px; height: 104px;'/></a>
+
+<a href='//www.microsoft.com/store/apps/9p2krlmfxf9t?cid=storebadge&ocid=badge'><img src='store-badge.png' alt='Get it from Microsoft' width="284px" height="104px" /></a>
 
 ## Features
 
