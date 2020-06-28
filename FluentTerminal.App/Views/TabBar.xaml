@@ -118,7 +118,7 @@
                                         HorizontalAlignment="Center"
                                         Command="{x:Bind CloseCommand}"
                                         Style="{StaticResource TitleBarButtonStyle}"
-                                        ToolTipService.ToolTip="Close"
+                                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource I18NConverter}, ConverterParameter=Close}"
                                         Visibility="{x:Bind ShowCloseButton, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}">
                                         <Viewbox Width="12" Height="12">
                                             <SymbolIcon Symbol="Cancel" />
