@@ -9,9 +9,22 @@ namespace FluentTerminal.App.Actions
         public object Execute(object sender, object parameter)
         {
             var control = TargetObject ?? sender as Control;
-            control?.Focus(FocusState.Programmatic);
+            if (control != null)
+            {
+                if (!control.IsLoaded)
+                    control.Loaded += Control_Loaded;
+                else
+                    control.Focus(FocusState.Programmatic);
+            }
 
             return null;
+        }
+
+        private void Control_Loaded(object sender, RoutedEventArgs e)
+        {
+            Control control = sender as Control;
+            control.Focus(FocusState.Programmatic);
+            control.Loaded -= Control_Loaded; // won't be needed anymore. Remove reference just in case
         }
 
         public Control TargetObject
