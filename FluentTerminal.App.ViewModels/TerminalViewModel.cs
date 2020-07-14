@@ -388,6 +388,9 @@ namespace FluentTerminal.App.ViewModels
                 Set(ref _tabTheme, value);
                 RaisePropertyChanged(nameof(IsUnderlined));
                 RaisePropertyChanged(nameof(BackgroundTabTheme));
+
+                // necessary to update this constantly so that duplicated tabs will also carry over the color
+                ShellProfile.TabThemeId = value.Theme.Id;
             }
         }
 
@@ -432,6 +435,7 @@ namespace FluentTerminal.App.ViewModels
                 }
 
                 Set(ref _tabTitle, title);
+                ShellProfile.Name = title;
             }
         }
 
