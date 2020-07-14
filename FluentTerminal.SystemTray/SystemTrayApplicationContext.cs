@@ -39,6 +39,7 @@ namespace FluentTerminal.SystemTray
 
         private void Exit(object sender, EventArgs e)
         {
+            _notifyIcon.Dispose(); // cleans up the tray icon
             Application.Exit();
         }
 
