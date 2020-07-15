@@ -22,7 +22,6 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Close()
         {
-            _terminal?.ConsoleOutStream?.Close();
             _reader?.Dispose();
 
             ConnectionClosed?.Invoke(this, _terminal.ExitCode);
@@ -35,7 +34,7 @@ namespace FluentTerminal.SystemTray.Services.ConPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
-            _enableBuffer = request.Profile.UseBuffer;
+            _enableBuffer = false; // request.Profile.UseBuffer;
 
             _reader?.Dispose();
             _reader = null;

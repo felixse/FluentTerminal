@@ -22,7 +22,7 @@ namespace FluentTerminal.SystemTray.Services.WinPty
 
         public void Start(CreateTerminalRequest request, TerminalsManager terminalsManager)
         {
-            _enableBuffer = request.Profile.UseBuffer;
+            _enableBuffer = false; // request.Profile.UseBuffer;
 
             Id = request.Id;
             _terminalsManager = terminalsManager;

@@ -176,9 +176,11 @@ namespace FluentTerminal.SystemTray.Services.ConPty
             if (disposeManaged)
             {
                 ConsoleOutStream.Dispose();
+                // Dispose pseudo console before _consoleInputWriter to avoid
+                // hanging on call of ClosePseudoConsole
+                _pseudoConsole?.Dispose();
                 _consoleInputWriter?.Dispose();
                 _process?.Dispose();
-                _pseudoConsole?.Dispose();
                 _outputPipe?.Dispose();
                 _inputPipe?.Dispose();
             }
