@@ -233,9 +233,13 @@ namespace FluentTerminal.App.Dialogs
                         else
                         {
                             await new MessageDialog(error, I18N.Translate("InvalidInput")).ShowAsync();
+                            SetupFocus(); // needed to apply focus back to the textbox instead of the terminal in the background.
                         }
                     }
 
+                    return;
+                case VirtualKey.Escape:
+                    Hide();
                     return;
             }
         }
