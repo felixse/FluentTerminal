@@ -74,7 +74,7 @@ namespace FluentTerminal.App.ViewModels
             // Add all of the commands for switching to a tab of a given ID, if there's one open there
             for (int i = 0; i < 9; i++)
             {
-                var switchCmd = Command.SwitchToTerm1 + i;
+                var switchCmd = Command.SwitchToTerm1 + i; 
                 int tabNumber = i;
                 // ReSharper disable once InconsistentNaming
                 void handler() => SelectTabNumber(tabNumber);

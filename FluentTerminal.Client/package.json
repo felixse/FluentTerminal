@@ -16,7 +16,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "xterm": "^4.7.0",
+    "xterm": "^4.8.1",
     "xterm-addon-fit": "^0.4.0",
     "xterm-addon-search": "^0.7.0",
     "xterm-addon-serialize": "^0.3.0",

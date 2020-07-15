@@ -28,6 +28,7 @@ namespace FluentTerminal.App.Views
             ViewModel.ThemeChanged += OnThemeChanged;
             ViewModel.FindNextRequested += OnFindNextRequested;
             ViewModel.FindPreviousRequested += OnFindPreviousRequested;
+            ViewModel.FontSizeChanged += OnFontSizeChanged;
             InitializeComponent();
             _terminalView = new XtermTerminalView();
             TerminalContainer.Children.Add((UIElement)_terminalView);
@@ -54,6 +55,7 @@ namespace FluentTerminal.App.Views
             ViewModel.ThemeChanged -= OnThemeChanged;
             ViewModel.FindNextRequested -= OnFindNextRequested;
             ViewModel.FindPreviousRequested -= OnFindPreviousRequested;
+            ViewModel.FontSizeChanged -= OnFontSizeChanged;
 
             ViewModel = null;
         }
@@ -107,10 +109,14 @@ namespace FluentTerminal.App.Views
             await _terminalView.ChangeThemeAsync(e);
             SetGridBackgroundTheme(e);
         }
-               
+
+        private async void OnFontSizeChanged(object sender, int e)
+        {
+            await _terminalView.ChangeFontSize(e);
+        }
+
         private void SetGridBackgroundTheme(TerminalTheme terminalTheme)
         {
-            var color = terminalTheme.Colors.Background;
             var imageFile = terminalTheme.BackgroundImage;
 
             Brush backgroundBrush;

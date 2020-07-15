@@ -170,7 +170,7 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Show new output indicator on background tabs</value>
+    <value>Aktif olmayan pencerelerde yeni çıktı olursa beni bilgilendir</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
@@ -239,7 +239,7 @@
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Teal</value>
+    <value>Cam Göbeği</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
@@ -407,11 +407,11 @@
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Line ending translation mode</value>
+    <value>Satır sonu çeviri modu</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Line ending translation mode on paste:</value>
+    <value>Yapıştırıldığında satır sonu çeviri modu:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
@@ -467,7 +467,7 @@
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Scrollback limit</value>
+    <value>Geri kaydırma sınırı</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
@@ -483,11 +483,11 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Visible</value>
+    <value>Görünür</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Set Active</value>
+    <value>Aktifleştir</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
@@ -495,7 +495,7 @@
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Shell executable location</value>
+    <value>Çalıştırılabilir shell konumu</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
@@ -1052,5 +1052,14 @@
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
     <value>Oturum bağlantısı kesildi.</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

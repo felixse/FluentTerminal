@@ -46,6 +46,7 @@ namespace FluentTerminal.App.ViewModels
             public string XtermBufferState { get; set; }
             public byte TerminalId { get; set; }
             public ShellProfile ShellProfile { get; set; }
+            public int FontSize { get; set; }
         }
 
         public async Task<string> SerializeAsync()
@@ -64,7 +65,8 @@ namespace FluentTerminal.App.ViewModels
                 SearchWithRegex = SearchWithRegex,
                 XtermBufferState = await SerializeXtermStateAsync().ConfigureAwait(false),
                 TerminalId = Terminal.Id,
-                ShellProfile = ShellProfile
+                ShellProfile = ShellProfile,
+                FontSize = FontSize
             };
 
             return JsonConvert.SerializeObject(state);
@@ -88,7 +90,7 @@ namespace FluentTerminal.App.ViewModels
                 XtermBufferState = state.XtermBufferState;
                 _terminalId = state.TerminalId;
                 ShellProfile = state.ShellProfile;
-
+                FontSize = state.FontSize;
                 TabTheme.IsSelected = true;
             }
         }
@@ -117,6 +119,7 @@ namespace FluentTerminal.App.ViewModels
         private MenuViewModel _contextMenu;
         private MenuViewModel _tabContextMenu;
         private readonly TabThemeViewModel _transparentTabThemeViewModel;
+        private int _fontSize;
 
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
@@ -157,6 +160,8 @@ namespace FluentTerminal.App.ViewModels
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
             ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
+
+            FontSize = _terminalOptions.FontSize;
 
             if (!string.IsNullOrEmpty(terminalState))
             {
@@ -216,6 +221,7 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler CloseRightTabsRequested;
         public event EventHandler CloseOtherTabsRequested;
         public event EventHandler DuplicateTabRequested;
+        public event EventHandler<int> FontSizeChanged;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -451,6 +457,15 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
+        public int FontSize
+        {
+            get => _fontSize;
+            set
+            {
+                _fontSize = value > 0 ? value : 1;
+            }
+        }
+
         public ITrayProcessCommunicationService TrayProcessCommunicationService { get; }
 
         public Task CloseAsync()
@@ -665,6 +680,28 @@ namespace FluentTerminal.App.ViewModels
                                 SearchStarted?.Invoke(this, EventArgs.Empty);
                             }
                         }).ConfigureAwait(false);
+                        return;
+                    }
+                case nameof(Command.IncreaseFontSize):
+                    {
+                        FontSize++;
+                        FontSizeChanged?.Invoke(this, FontSize);
+                        return;
+                    }
+                case nameof(Command.DecreaseFontSize):
+                    {
+                        if (FontSize > 2)
+                        {
+                            FontSize--;
+                            FontSizeChanged?.Invoke(this, FontSize);
+                        }
+
+                        return;
+                    }
+                case nameof(Command.ResetFontSize):
+                    {
+                        FontSize = _terminalOptions.FontSize;
+                        FontSizeChanged?.Invoke(this, FontSize);
                         return;
                     }
                 default:

@@ -1064,12 +1064,21 @@ Fuzzy</comment>
     <value>复制或者粘贴选中的文本</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>使用智能缓冲</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>重启</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>会话已断开</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

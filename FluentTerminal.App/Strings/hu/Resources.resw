@@ -353,7 +353,7 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Bar</value>
+    <value>Sáv</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
@@ -909,7 +909,7 @@ Fuzzy</comment>
     <value>Új &quot;Gyorsindító&quot; ablak</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>New quick tab</value>
+    <value>Új gyors fül</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>A fájl nem található</value>
@@ -1026,7 +1026,7 @@ Fuzzy</comment>
     <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Új fül&quot; / &quot;Új ablak&quot;</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
     <value>Kilépés</value>
@@ -1076,5 +1076,14 @@ Fuzzy</comment>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
     <value>Kapcsolat bontva</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

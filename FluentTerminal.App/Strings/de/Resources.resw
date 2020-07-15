@@ -1085,4 +1085,13 @@ Fuzzy</comment>
   <data name="SessionDisconnected.Text" xml:space="preserve">
     <value>Sitzung wurde getrennt.</value>
   </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Schriftgröße vergrößern</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Schriftgröße verkleinern</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Schriftgröße zurücksetzen</value>
+  </data>
 </root>

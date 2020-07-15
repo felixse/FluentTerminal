@@ -180,6 +180,16 @@ namespace FluentTerminal.App.Views
             return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
+        public Task ChangeFontSize(int fontSize)
+        {
+            if (_terminalClosed)
+            {
+                return Task.CompletedTask;
+            }
+
+            return ExecuteScriptAsync($"setFontSize({fontSize})");
+        }
+
         public Task<string> SerializeXtermStateAsync()
         {
             if (_terminalClosed)
