@@ -154,9 +154,8 @@
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Pokaż</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Pokaż niestandardowe tytuły kart także w pasku tytułu</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>Zmień tytuł</value>
@@ -772,13 +771,13 @@ Fuzzy</comment>
     <value>Port nie może być 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Użytkownik i IP są niezbędne</value>
+    <value>Użytkownik i adres hosta są niezbędne</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Nazwa użytkownika nie może być pusta</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>IP nie może być puste</value>
+    <value>Adres hosta nie może być pusty</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>Port SSH musi być większy od 0</value>
@@ -949,108 +948,117 @@ Fuzzy</comment>
     <value>Znaki seperujące słowa</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Ostatnie</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Otwórz domyślny profil w nowej karcie.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Otwórz nową sesję SSH lub Mosh w nowej karcie.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Otwiera okno dialogowe &quot;Szybkie uruchomienie&quot;  i rozpoczyna sesję w nowej karcie.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Otwórz okno ustawień.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Podstawowe informacje o aplikacji.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>Niedawno otwarte sesje.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Rozpoczyna nowa sesję terminala bazującą na domyślnym profilu.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Połącz zdalnie...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Otwiera okno dialogowe do rozpoczynania nowej sesji terminala SSH lub Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Szybkie uruchomienie...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Otwiera okno dialogowe &quot;Szybkie uruchomienie&quot; aby rozpocząć nową sesje terminala.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Nowe okno</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Nowa Karta</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Otwiera sesję w nowej karcie.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Otwiera sesję w nowym oknie.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Typ menu aplikacji</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Płaskie, przestrzegające ustawienia &quot;Otwórz nowe terminale jako&quot;.</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Nowa karta&quot; / &quot;Nowe okno&quot; kaskadowo</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>Zakończ</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>Wyjdź z Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>Włączone przez polityke.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>Obraz tła</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>Użyj akrylowego tła</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>Czy na pewno chcesz usunąć ten obraz tła?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>Kolory</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>Jasne kolory</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Skopiuj łącze</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
     <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Całe słowo</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>Uwzględnij wielkość liter</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Skopiuj zaznaczenie lub wklej</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Użyj inteligentnego buforowania</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Uruchom ponownie</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Sesja rozłączona</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

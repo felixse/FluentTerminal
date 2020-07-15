@@ -19,6 +19,7 @@ interface ExtendedWindow extends Window {
   findNext(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
   findPrevious(content: string, caseSensitive: boolean, wholeWord: boolean, regex: boolean): void;
   serializeTerminal() : void;
+  setFontSize(fontSize: number): void;
 }
 
 declare var window: ExtendedWindow;
@@ -34,11 +35,6 @@ let filterOutOpenSSHOutput = false;
 
 const terminalContainer = document.getElementById('terminal-container');
 
-function setFontSize(fontSize) {
-  if (fontSize > 0)
-    term.setOption('fontSize', fontSize);
-}
-
 function replaceAll(searchString, replaceString, str) {
   return str.split(searchString).join(replaceString);
 }
@@ -47,6 +43,13 @@ function DecodeSpecialChars(data: string) {
   data = replaceAll("&quot;", "\"", data);
   data = replaceAll("&squo;", "'", data);
   return replaceAll("&bsol;", "\\", data);
+}
+
+window.setFontSize = (fontSize: number) => {
+  if (fontSize > 0) {
+    term.setOption('fontSize', fontSize);
+    fitAddon.fit();
+  }
 }
 
 window.serializeTerminal = () => {
@@ -181,7 +184,7 @@ window.createTerminal = (options, theme, keyBindings) => {
 
   setPadding(options.padding);
 
-  let resizeTimeout: any;
+  let resizeTimeout: number;
   window.onresize = function () {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => fitAddon.fit(), 500);
@@ -241,7 +244,6 @@ window.createTerminal = (options, theme, keyBindings) => {
             term.selectAll();
             return false;
           }
-
 
           e.preventDefault();
           window.terminalBridge.invokeCommand(keyBinding.command);

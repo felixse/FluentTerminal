@@ -6,6 +6,7 @@ namespace FluentTerminal.App.ViewModels
 {
     public interface ITerminalView : IDisposable
     {
+        Task ChangeFontSize(int fontSize);
         Task ChangeThemeAsync(TerminalTheme theme);
         Task ChangeKeyBindingsAsync();
         Task ChangeOptionsAsync(TerminalOptions options);

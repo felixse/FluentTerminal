@@ -33,6 +33,7 @@
         DuplicateTab,
         ReconnectTab,
         IncreaseFontSize,
-        DecreaseFontSize
+        DecreaseFontSize,
+        ResetFontSize
     }
 }

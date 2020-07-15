@@ -182,7 +182,7 @@
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>Ничего</value>
+    <value>Нет</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
@@ -362,7 +362,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Удали</value>
+    <value>Удалить</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
@@ -442,7 +442,7 @@
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Назване</value>
+    <value>Название</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
@@ -542,11 +542,11 @@
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Вы действительно хотите удалить горячую клавишу?</value>
+    <value>Вы действительно хотите удалить эту горячую клавишу?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Вы действительно хотите удалить тему?</value>
+    <value>Вы действительно хотите удалить эту тему?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
@@ -771,7 +771,7 @@
     <value>Порт не может быть 0.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Пользователь и хост обязательные поля</value>
+    <value>Пользователь и хост обязательные поля.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Пользователь не может быть пустым.</value>
@@ -786,7 +786,7 @@
     <value>Порт Mosh не может быть равен нулю.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Диапозон портов Mosh недействителен.</value>
+    <value>Диапазон Mosh портов недействителен.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
     <value>Да</value>
@@ -825,19 +825,19 @@
     <value>Пользователь</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>C порта</value>
+    <value>От порта</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
     <value>До порта</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Диапозон Mosh портов</value>
+    <value>Диапазон Mosh портов</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
     <value>Аутентификация</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Настройки сохранены в файл</value>
+    <value>Настройки экспортированы в файл</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>Настройки импортированы из файла</value>
@@ -1021,7 +1021,7 @@
     <value>Использовать акриловый фон</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Удалить это фоновое изображение?</value>
+    <value>Вы действительно хотите удалить это фоновое изображение?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
     <value>Цвета</value>
@@ -1045,12 +1045,21 @@
     <value>Скопировать выделение или вставить</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Использовать буфер</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Перезапустить</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Соединение разорвано.</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

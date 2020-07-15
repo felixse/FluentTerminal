@@ -160,8 +160,6 @@ namespace FluentTerminal.App.ViewModels
             PasteCommand = new AsyncCommand(Paste);
             CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
             ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
-            IncreaseFontSizeCommand = new AsyncCommand(IncreaseFontSize, CanExecuteCommand);
-            DecreaseFontSizeCommand = new AsyncCommand(DecreaseFontSize, () => CanExecuteCommand() && FontSize > 1);
 
             FontSize = _terminalOptions.FontSize;
 
@@ -223,6 +221,7 @@ namespace FluentTerminal.App.ViewModels
         public event EventHandler CloseRightTabsRequested;
         public event EventHandler CloseOtherTabsRequested;
         public event EventHandler DuplicateTabRequested;
+        public event EventHandler<int> FontSizeChanged;
 
         public ApplicationSettings ApplicationSettings { get; private set; }
 
@@ -270,11 +269,6 @@ namespace FluentTerminal.App.ViewModels
         public ICommand PasteCommand { get; private set; }
 
         public ICommand ShowSearchPanelCommand { get; private set; }
-
-        public ICommand IncreaseFontSizeCommand { get; private set; }
-
-        public ICommand DecreaseFontSizeCommand { get; private set; }
-
 
         public double BackgroundOpacity => _terminalOptions?.BackgroundOpacity ?? 1.0;
 
@@ -690,13 +684,24 @@ namespace FluentTerminal.App.ViewModels
                     }
                 case nameof(Command.IncreaseFontSize):
                     {
-                        await IncreaseFontSize().ConfigureAwait(false);
+                        FontSize++;
+                        FontSizeChanged?.Invoke(this, FontSize);
                         return;
                     }
                 case nameof(Command.DecreaseFontSize):
                     {
-                        if (FontSize > 1)
-                            await DecreaseFontSize().ConfigureAwait(false);
+                        if (FontSize > 2)
+                        {
+                            FontSize--;
+                            FontSizeChanged?.Invoke(this, FontSize);
+                        }
+
+                        return;
+                    }
+                case nameof(Command.ResetFontSize):
+                    {
+                        FontSize = _terminalOptions.FontSize;
+                        FontSizeChanged?.Invoke(this, FontSize);
                         return;
                     }
                 default:
@@ -761,18 +766,6 @@ namespace FluentTerminal.App.ViewModels
             {
                 TerminalView.Paste(content);
             }
-        }
-
-        private Task IncreaseFontSize()
-        {
-            FontSize++;
-            return Task.CompletedTask;
-        }
-
-        private Task DecreaseFontSize()
-        {
-            FontSize--;
-            return Task.CompletedTask;
         }
 
         private MenuViewModel BuidContextMenu()

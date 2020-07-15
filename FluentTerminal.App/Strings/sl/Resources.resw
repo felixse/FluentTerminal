@@ -518,15 +518,15 @@
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Pretvori konce vrstic v CR</value>
+    <value>Pretvori zaključke vrstic v CR</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Pretvori konce vrstic v CR+LF</value>
+    <value>Pretvori zaključke vrstic v CR+LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Pretvori konce vrstic v LF</value>
+    <value>Pretvori zaključke vrstic v LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
@@ -534,7 +534,7 @@
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Ste prepričani da želite zapreti jeziček &quot;{0}&quot;?</value>
+    <value>Ste prepričani da želite zapreti zavihek &quot;{0}&quot;?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
@@ -1051,5 +1051,14 @@
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
     <value>Seja je prekinjena.</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Reset font size</value>
   </data>
 </root>

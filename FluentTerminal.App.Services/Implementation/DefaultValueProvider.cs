@@ -342,6 +342,16 @@ namespace FluentTerminal.App.Services.Implementation
                             Key = (int)ExtendedVirtualKey.Minus
                         }
                     };
+                case Command.ResetFontSize:
+                    return new List<KeyBinding>
+                    {
+                        new KeyBinding
+                        {
+                            Command = nameof(Command.ResetFontSize),
+                            Ctrl = true,
+                            Key = (int)ExtendedVirtualKey.Number0
+                        }
+                    };
                 default:
                     throw new InvalidOperationException($"Default keybindings for Command '{command}' are missing");
             }
