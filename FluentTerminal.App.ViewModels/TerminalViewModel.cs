@@ -386,6 +386,8 @@ namespace FluentTerminal.App.ViewModels
             set => Set(ref _showSearchPanel, value);
         }
 
+        public bool SearchHasFocus { get; set; }
+
         public TabThemeViewModel TabTheme
         {
             get => _tabTheme;
@@ -761,10 +763,15 @@ namespace FluentTerminal.App.ViewModels
 
         private async Task Paste()
         {
-            var content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
-            if (content != null)
+            // prevent from pasting something into the terminal window when the actual command is executed
+            // while being in the search box
+            if (!SearchHasFocus)
             {
-                TerminalView.Paste(content);
+                var content = await ClipboardService.GetTextAsync().ConfigureAwait(false);
+                if (content != null)
+                {
+                    TerminalView.Paste(content);
+                }
             }
         }
 

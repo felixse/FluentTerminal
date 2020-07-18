@@ -138,5 +138,15 @@ namespace FluentTerminal.App.Views
 
             TerminalContainer.Background = backgroundBrush;
         }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SearchHasFocus = true;
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SearchHasFocus = false;
+        }
     }
 }

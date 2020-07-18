@@ -47,7 +47,9 @@
                     IsTabStop="True"
                     KeyUp="OnSearchTextBoxKeyUp"
                     PlaceholderText="Enter search term"
-                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    GotFocus="SearchTextBox_GotFocus"
+                    LostFocus="SearchTextBox_LostFocus">
                     <Interactivity:Interaction.Behaviors>
                         <Core:DataTriggerBehavior Binding="{x:Bind ViewModel.ShowSearchPanel, Mode=OneWay}" Value="true">
                             <actions:FocusAction />
