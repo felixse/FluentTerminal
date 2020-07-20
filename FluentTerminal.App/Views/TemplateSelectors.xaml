@@ -13,7 +13,7 @@
                         Margin="0,0,6,0"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         Glyph="&#xF126;" />
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay, Converter={StaticResource I18NConverter}}" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneTime, Converter={StaticResource I18NConverter}}" />
                 </StackPanel>
             </DataTemplate>
         </views:TabThemeTemplateSelector.DefaultTemplate>
@@ -25,7 +25,7 @@
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         Foreground="{x:Bind Color}"
                         Glyph="&#xF127;" />
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay, Converter={StaticResource I18NConverter}}" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneTime, Converter={StaticResource I18NConverter}}" />
                 </StackPanel>
             </DataTemplate>
         </views:TabThemeTemplateSelector.ColoredTemplate>
