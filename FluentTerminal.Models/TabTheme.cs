@@ -1,7 +1,14 @@
-﻿namespace FluentTerminal.Models
+﻿using System.ComponentModel;
+
+namespace FluentTerminal.Models
 {
-    public class TabTheme
+    public class TabTheme : INotifyPropertyChanged
     {
+        // warning disabled as the PropertyChanged is actually unnecessary here but caused a binding warning
+#pragma warning disable CS0067 // The event 'TabTheme.PropertyChanged' is never used FluentTerminal.Models
+        public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore CS0067 // The event 'TabTheme.PropertyChanged' is never used FluentTerminal.Models
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }

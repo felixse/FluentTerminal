@@ -276,11 +276,11 @@
                                     Style="{StaticResource SubtitleTextBlockStyle}"
                                     Text="{x:Bind Name, Mode=OneWay}" />
 
-                                <controls:HeaderedTextBlock
+                                <controls:HeaderedContentControl
                                     x:Uid="ShellLocation"
                                     Margin="{StaticResource ItemMargin}"
                                     Header="Shell executable location"
-                                    Text="{x:Bind ProfileVm.Location, Mode=OneWay}" />
+                                    Content="{x:Bind ProfileVm.Location, Mode=OneWay}" />
 
                                 <controls:HeaderedContentControl
                                     x:Uid="WorkingDir"

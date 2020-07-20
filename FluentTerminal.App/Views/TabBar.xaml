@@ -88,7 +88,7 @@
                                     RelativePanel.AlignRightWithPanel="True"
                                     Visibility="{x:Bind IsUnderlined, Mode=OneWay, Converter={StaticResource TrueToVisibleConverter}}" />
                                 <Grid
-                                    x:Name="HasExitedWithError"
+                                    x:Name="HasExitedWithErrorGrid"
                                     Height="32"
                                     Margin="6,0,0,0"
                                     RelativePanel.AlignLeftWithPanel="True"
@@ -105,7 +105,7 @@
                                 <TextBlock
                                     Margin="12,8,6,0"
                                     RelativePanel.LeftOf="CloseButton"
-                                    RelativePanel.RightOf="HasExitedWithError"
+                                    RelativePanel.RightOf="HasExitedWithErrorGrid"
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{x:Bind TabTitle, Mode=OneWay, Converter={StaticResource TextMiddleEllipsisConverter}}"
                                     TextWrapping="NoWrap" />
