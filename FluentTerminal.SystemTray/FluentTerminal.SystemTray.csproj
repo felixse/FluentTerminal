@@ -95,7 +95,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Store|x64'">
     <OutputPath>bin\x64\Store\</OutputPath>
-    <DefineConstants>TRACE;X64</DefineConstants>
+    <DefineConstants>TRACE;X64;STORE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
