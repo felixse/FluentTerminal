@@ -17,7 +17,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-	<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -237,10 +237,12 @@
     <Content Include="Client\index.html" />
     <Content Include="Client\style.css" />
     <Content Include="Client\xterm.css" />
+    <PRIResource Include="Strings\eo\Resources.resw" />
     <PRIResource Include="Strings\ru\Resources.resw" />
     <PRIResource Include="Strings\fr\Resources.resw" />
     <PRIResource Include="Strings\es\Resources.resw" />
     <PRIResource Include="Strings\de\Resources.resw" />
+    <PRIResource Include="Strings\ug-Arab\Resources.resw" />
     <PRIResource Include="Strings\zh-Hant\Resources.resw" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
@@ -426,9 +428,6 @@
     <PRIResource Include="Strings\he\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\az\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\ja\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +460,10 @@
   <ItemGroup>
     <PRIResource Include="Strings\sl\Resources.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\az-Latn\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

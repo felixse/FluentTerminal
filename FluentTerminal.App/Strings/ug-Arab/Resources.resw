@@ -118,948 +118,949 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>Hakkında</value>
+    <value>ھەققىدە</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Arkaplan</value>
+    <value>تەگ</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Mavi</value>
+    <value>كۆك</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Kapat</value>
+    <value>تاقاش</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Pencereleri kapatmadan önce sor</value>
+    <value>كۆزنەكنى تاقاشتىن بۇرۇن جەزىملەشتۈرۈش</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Sekmeleri kaptmadan önce sor</value>
+    <value>بەتكۈچنى تاقاشتىن بۇرۇن جەزىملەشتۈرۈش</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Renk</value>
+    <value>رەڭ</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Aktif olmayan sekme rengi</value>
+    <value>سۈكۈتتىكى بەتكۈچ رەڭگى</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Kopyala</value>
+    <value>كۆچۈرۈش</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Özel sekme başlığını başlık çubuğunda da göster</value>
+    <value>ماۋزۇ ئىستونىدا خاسلاشتۇرۇلغان بەتكۈچ ماۋزۇسىنىمۇ كۆرسىتىش</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Başlığı Düzenle</value>
+    <value>ماۋزۇنى تەھرىرلەش</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>Genel</value>
+    <value>ئاساسلىق</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Yeşil</value>
+    <value>يېشىل</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Aktif olmayan pencerelerde yeni çıktı olursa beni bilgilendir</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Ayarları uygulamak için yeniden başlatma gereklidir</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="NewTab.Text" xml:space="preserve">
-    <value>Yeni sekme</value>
-    <comment>MainPage.xaml</comment>
-  </data>
-  <data name="TabTheme.None" xml:space="preserve">
-    <value>Hiçbiri</value>
-    <comment>TabBar.xaml</comment>
-  </data>
-  <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Sekmeler</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Pencereler</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Yeni terminalleri şu şekilde aç:</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Turuncu</value>
-    <comment>TabBar.xaml</comment>
-  </data>
-  <data name="Command.Paste" xml:space="preserve">
-    <value>Yapıştır</value>
-    <comment>XtermTerminalView.xaml.cs</comment>
-  </data>
-  <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Mor</value>
-    <comment>TabBar.xaml</comment>
-  </data>
-  <data name="TabTheme.Red" xml:space="preserve">
-    <value>Kırmızı</value>
-    <comment>TabBar.xaml</comment>
-  </data>
-  <data name="Restore.Label" xml:space="preserve">
-    <value>Varsayılana Ayarla</value>
-    <comment>GeneralSettings.xaml</comment>
-  </data>
-  <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Başlangıçta çalıştır
+    <value>تەگلىك بەتكۈچىدە يېڭى چىقىرىش كۆرسەتكۈچىنى كۆرسىتىڭ
 </value>
     <comment>GeneralSettings.xaml</comment>
   </data>
+  <data name="NeedRelaunch.Text" xml:space="preserve">
+    <value>تەڭشەشنى ئىلتىماس قىلىش تەلەپ قىلىنىدۇ</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NewTab.Text" xml:space="preserve">
+    <value>يېڭى بەتكۈچ</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="TabTheme.None" xml:space="preserve">
+    <value>يوق</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ONTA_Tabs.Content" xml:space="preserve">
+    <value>بەتكۈچلەر</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ONTA_Windows.Content" xml:space="preserve">
+    <value>كۆزنەكلەر</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
+    <value>يېڭى تېرمىنال ئېچىش نىشانى</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Orange" xml:space="preserve">
+    <value>ئاپېلسىن رەڭ</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Command.Paste" xml:space="preserve">
+    <value>چاپلاش</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="TabTheme.Purple" xml:space="preserve">
+    <value>بىنەپشە</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TabTheme.Red" xml:space="preserve">
+    <value>قىزىل</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Restore.Label" xml:space="preserve">
+    <value>سۈكۈتنىكى ھالەتكە قايتۇرۇش</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.Header" xml:space="preserve">
+    <value>سېستىما قوزغالغاندا قوزغىتىش</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
   <data name="Setting" xml:space="preserve">
-    <value>Ayarlar</value>
+    <value>تەڭشەك</value>
     <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Ayarlar</value>
+    <value>تەڭشەك</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Sistem tepsisinde göster</value>
+    <value>سىستېما تەخسىدە كۆرسىتىڭ</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Üzerindeki sekmeleri göster</value>
+    <value>بەتكۈچنى كۆرسەت</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Teal</value>
+    <value>تېئال</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Alt</value>
+    <value>ئاستى</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Üst</value>
+    <value>ئۈستى</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Alt Çizgi</value>
+    <value>ئاستى سىزىق</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Seçili sekmenin altını çiz</value>
+    <value>تاللانغان بەتكۈچتە ئاستى سىزىق كۆرسىتىش</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>Hakkında</value>
+    <value>ھەققىدە</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>Genel</value>
+    <value>ئاساسلىق</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Kısa yollar</value>
+    <value>تېز كۇنۇپكا</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Mouse</value>
+    <value>مائۇس</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiller</value>
+    <value>ئارخىپلار</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>Terminal</value>
+    <value>تېرمىنال</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Temalar</value>
+    <value>ئۇسلۇبلار</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Ekle</value>
+    <value>قوشۇش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Argümanlar</value>
+    <value>پارامېتىرلار</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Arkaplan saydamlığı</value>
+    <value>تەگ سۈزۈكلىكى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Yanıp sönen imleç</value>
+    <value>چاقنايدىغان نۇر بەلگە</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Bold yazı</value>
+    <value>توم خەت</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>İptal</value>
+    <value>بىكار قىلىش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Güncellemeler kontrol ediliyor...</value>
+    <value>يېڭىلاشنى تەكشۈرىۋاتىدۇ</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Güncellemeleri kontrol et</value>
+    <value>يېڭىلاشنى تەكشۈرۈش</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Rengi düzenlemek için tıkla</value>
+    <value>بىر رەڭنى چىكىىپ تەھرىرلەشنى باشلاڭ</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Klonla</value>
+    <value>كۆپەيتىش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Renk paleti</value>
+    <value>رەڭ تاختىسى</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Yazı kopyalandı bildirimi</value>
+    <value>تېكىست كۆچۈرۈلگەنلىك ئۇقتۇرۇشى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Seçileni kopyala</value>
+    <value>تاللانغاندا كۈچۈرۈش</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Yeni oluştur</value>
+    <value>يىڭىنى قۇرۇش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Mevcut versiyon</value>
+    <value>نۆۋەتتىكى نەشرى</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>Çizgi</value>
+    <value>ئىستون</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Kalın çizgi</value>
+    <value>كاتەكچە</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>İmleç stili</value>
+    <value>نۇر بەلگە ئۇسلۇبى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Alt Çizgi</value>
+    <value>ئاستى سىزىق</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Sil</value>
+    <value>ئۆچۈرۈش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Satır sonlarını değiştirme</value>
+    <value>قۇر ئاخىرىنى ئۆزگەرتمەڭ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Düzenle</value>
+    <value>تەھرىرلەش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Dışa aktar</value>
+    <value>ئېكسپورت</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Font ailesi</value>
+    <value>خەت نۇسقىسى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Font Boyutu</value>
+    <value>خەت چوڭلۇقى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>İçe Aktar</value>
+    <value>ئىمپورىت</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Klavye kısayolları</value>
+    <value>كۇنۇپكا تاختىسى تېزلەتمىسى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Klavye kısayolları</value>
+    <value>كۇنۇپكا تاختىسى تېزلەتمە كۇنۇپكىلىرى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Son veriyon</value>
+    <value>ئەڭ يېڭى نەشرى</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>Lisans</value>
+    <value>ئىجازەتنامە</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Satır sonu çeviri modu</value>
+    <value>قۇر ئاخىرلاشقان ئۆزگەرمە ھالىتى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Yapıştırıldığında satır sonu çeviri modu:</value>
+    <value>چاپلاشنىڭ قۇر ئاخىرلىشىش شەكلى:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Orta tuş eylemi</value>
+    <value>ئوتتۇرا كۇنۇپكا ھەرىكىتى</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Mouse</value>
+    <value>مائۇس</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Sağ tık menü</value>
+    <value>مەزمۇن تىزىملىكى</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Hiçbir şey</value>
+    <value>ھېچنېمە</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Yapıştır</value>
+    <value>چاپلاش</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Yeni oluştur</value>
+    <value>يېڭىنى قۇرۇش</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>Padding</value>
+    <value>ئىچكى ئارىلىق</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>İsim</value>
+    <value>ئىسىم</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiller</value>
+    <value>ئارخىپلار</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Tema</value>
+    <value>ئۇسلۇب</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Sürüm notları</value>
+    <value>نەشىر خاتىرىلىرى</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Sağ tuş eylemi</value>
+    <value>ئوڭ كۇنۇپكا ھەرىكىتى</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Kaydet</value>
+    <value>ساقلاش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Geri kaydırma sınırı</value>
+    <value>ئايلاندۇرۇپ قايتىش چېكى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Otomatik gizleme</value>
+    <value>ئاپتوماتىك يوشۇرۇلىدىغان</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Gizli</value>
+    <value>يۇشۇرۇنغان</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Kaydırma çubuğu stili</value>
+    <value>ئايلانما بالداق ئۇسلۇبى</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Görünür</value>
+    <value>كۈرۈندىغان</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Aktifleştir</value>
+    <value>قوزغىتىش</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Varsayılana ayarla</value>
+    <value>سۈكۈتتىكى ھالەتكە قايتۇرۇش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Çalıştırılabilir shell konumu</value>
+    <value>ئىجرا بۇلىدىغان شېل پروگرمما ئورنى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Sekme rengi</value>
+    <value>بەتكۈش رەڭگى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>Terminal</value>
+    <value>تېرمىنال</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Tema:</value>
+    <value>ئوسلۇب</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Yazar</value>
+    <value>ئاپتور</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Ad</value>
+    <value>ئىسمى</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Satır sonlarını CR&apos;ye dönüştürme</value>
+    <value>قۇر ئاخىرىنى CR غا ئايلاندۇرۇش</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Satır sonlarını CR + LF&apos;ye dönüştürme</value>
+    <value>قۇر ئاخىرىنى CR + LF غا ئۆزگەرتىڭ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Satır sonlarını LF&apos;ye dönüştür</value>
+    <value>قۇر ئاخىرىنى LF غا ئۆزگەرتىڭ</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Çalışma dizini</value>
+    <value>خىزمەت مۇندەرىجىسى</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>&quot;{0}&quot; sekmesini kapatmak istediğinizden emin misiniz?</value>
+    <value>«{0}» بەتكۈچىنى تاقاشنى خالامسىز؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Bu pencereyi kapatmak istediğinizden emin misiniz?</value>
+    <value>بۇ كۆزنەكنى تاقاشنى خالامسىز؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Bu tuş takımını silmek istediğinizden emin misiniz?</value>
+    <value>بۇ تېزلەتمە كۇنۇپكا باغلانمىسىنى ئۆچۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Bu temayı silmek istediğinizden emin misiniz?</value>
+    <value>بۇ ئۇسلۇبنى ئۆچۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Tüm değişiklikleri silmek istediğinizden emin misiniz?</value>
+    <value>بارلىق ئۆزگىرىشلەرنى تاشلىماقچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Genel ayarları geri yüklemek istediğinizden emin misiniz?</value>
+    <value>ئاساسلىق تەڭشەكلەرنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Varsayılan tuş bağlantılarını geri yüklemek istediğinizden emin misiniz?</value>
+    <value>سۈكۈتتىكى كۇنۇپكىلارنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Fare ayarlarını geri yüklemek istediğinizden emin misiniz?</value>
+    <value>مائۇسنىڭ تەڭشىكىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Bu profili geri yüklemek istediğinizden emin misiniz?</value>
+    <value>بۇ ئارخىپىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Varsayılan terminal seçeneklerini geri yüklemek istediğinizden emin misiniz?</value>
+    <value>سۈكۈتتىكى تېرمىنال تاللانمىلىرىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Politika tarafından devre dışı bırakıldı.</value>
+    <value>سىياسەت تەرىپىدىن چەكلەنگەن.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Kullanıcı tarafından devre dışı bırakıldı. Lütfen Görev Yöneticisi&apos;nin Başlangıç sekmesinde yeniden etkinleştirin.</value>
+    <value>ئىشلەتكۈچى تەرىپىدىن چەكلەنگەن. ۋەزىپە باشقۇرغۇچىنىڭ باشلاش بەتكۈچىدە ئۇنى قايتا قوزغىتىڭ.</value>
     <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Başlığı Düzenle</value>
+    <value>ماۋزۇنى تەھرىرلەش</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Hata</value>
+    <value>خاتالىق</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>Aşağıdaki hata nedeniyle işlem tamamlanamıyor:</value>
+    <value>تۆۋەندىكى خاتالىق سەۋەبىدىن مەشغۇلات تاماملانمايدۇ:</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>Tema içe aktarılamadı</value>
+    <value>ئۇسلۇب ئەكىرىش مەغلۇپ بولدى</value>
     <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>Uygun ayrıştırıcı bulunamadı</value>
+    <value>ماس كېلىدىغان تەھلىلچى تېپىلمىدى</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Lütfen onaylayın</value>
+    <value>جەزملەشتۈرۈڭ</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>İptal</value>
+    <value>بىكار قىلىش</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Tuş bağlantınızı şimdi girin</value>
+    <value>ھازىر كۇنۇپكا باغلانمىڭىزنى كىرگۈزۈڭ</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>Tamam</value>
+    <value>ماقۇل</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Sıfırla</value>
+    <value>ئەسلىگە قايتۇرۇش</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Metin kopyalandı</value>
+    <value>تېكىست كۆچۈرۈلدى</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Ekle</value>
+    <value>قوشۇش</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Sekme başlığını değiştir</value>
+    <value>بەتكۈچ نامىنى ئۆزگەرتىڭ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Temizle</value>
+    <value>تازىلاش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Sekmeyi kapat</value>
+    <value>بەتكۈچنى تاقاش</value>
     <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Keybindings</value>
+    <value>كونۇپكا باغلانمىلىرى</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Sil</value>
+    <value>ئۆچۈرۈش</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Düzenle</value>
+    <value>تەھرىر</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Yeni Sekme</value>
+    <value>يېڭى بەتكۈچ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Yeni Pencere</value>
+    <value>يېڭى كۆزنەك</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Sonraki sekme</value>
+    <value>كېيىنكى بەتكۈچ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Yeni satır olmadan yapıştırma</value>
+    <value>قۇر ئاتلىماي چاپلاش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Önceki sekme</value>
+    <value>ئالدىنقى بەتكۈچ</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Arama</value>
+    <value>ئىزدەش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Tümünü Seç</value>
+    <value>ھەممىنى تاللاش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Ayarları göster</value>
+    <value>تەڭشەكلەرنى كۆرسىتىش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Terminal 1&apos;e geçin</value>
+    <value>1-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Terminal 2&apos;ye geç</value>
+    <value>2-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Terminal 3&apos;e geç</value>
+    <value>3-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Terminal 4&apos;e geç</value>
+    <value>4-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Terminal 5&apos;e geç</value>
+    <value>5-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Terminal 6&apos;ya geç</value>
+    <value>6-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Terminal 7&apos;ye geç</value>
+    <value>7-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Terminal 8&apos;e geç</value>
+    <value>8-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Terminal 9&apos;a geç</value>
+    <value>9-تېرمىنالغا ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Tam ekrana geç</value>
+    <value>پۈتۈن ئېكران ھالىتىنى ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Pencereyi aç / kapat</value>
+    <value>كۆزنەكنى ئالماشتۇرۇش</value>
     <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Yeni uzak (remote) sekmesi</value>
+    <value>يىڭى يىراق بەتكۈچ</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>Yeni SSH sekmesi</value>
+    <value>يىڭى SSH بەتكۈچ</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Bilgisi</value>
+    <value>SSH ئۇچۇرى</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>kullanıcı</value>
+    <value>ئابونىت</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>evsahibi</value>
+    <value>مۇلازىمىتىر</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>Liman</value>
+    <value>ئېغىز</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Kimlik dosyası yolu</value>
+    <value>كىملىك ھۆججەت ئورنى</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Araştır</value>
+    <value>توركۆرگۈ</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Mosh Kullan</value>
+    <value>Mosh ئىشلىتىش</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>ileri</value>
+    <value>ئىچكىرىلىگەن</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh limanları:</value>
+    <value>Mosh ئېغىرلىرى</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Kısayolu Kaydet</value>
+    <value>تېزلەتمە ساقلاش</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Bu değişikliğin geçerli olması için uygulamanın yeniden başlatılması gerekiyor.</value>
+    <value>بۇ ئۆزگەرتىشنىڭ كۈچكە ئىگە بولۇشى ئۈچۈن قايتا قوزغىتىش كېرەك.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Geçersiz Giriş</value>
+    <value>ئىناۋەتسىز كىرگۈزۈش</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Bağlantı noktası 0 olamaz.</value>
+    <value>ئېغىز 0 بولالمايدۇ.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Kullanıcı ve ana bilgisayar zorunlu alanlardır.</value>
+    <value>ئابونىت ۋە مۇلازىمىتىر چوقۇم تەمىنلىنىدىغان ئۇچۇرلار</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Kullanıcı adı boş bırakılamaz.</value>
+    <value>ئابونىت ئىسمى قۇرۇق بولمايدۇ.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Ana makine boş olamaz.</value>
+    <value>مۇلازىمىتىر قورۇق بولسا بولمايدۇ</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH bağlantı noktası sıfırdan büyük olmalıdır.</value>
+    <value>SSH ئېغىزى نۆلدىن چوڭ بولۇشى كېرەك.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh limanı sıfır olamaz.</value>
+    <value>Mosh ئېغىزى نۆل بولالمايدۇ.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh bağlantı noktası aralığı geçersiz.</value>
+    <value>Mosh ئېغىزى دائىرىسى ئىناۋەتسىز</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Evet</value>
+    <value>ھەئە</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>Hayır</value>
+    <value>ياق</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Dil</value>
+    <value>تىل</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>Yok</value>
+    <value>يوق</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Yeni çıktı</value>
+    <value>يىڭى چىقىرىش</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hatadan çıkıldı</value>
+    <value>خاتالىق بىلەن چېكىندى</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Bu profili silmek istediğinizden emin misiniz?</value>
+    <value>بۇ ئارخىپنى ئۆچۈرمەكچىمۇ؟</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>Yeni SSH penceresi</value>
+    <value>يېڭى SSH كۆزنىكى</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH Profilleri</value>
+    <value>SSH ئارخىپى</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Sekme rengi:</value>
+    <value>بەتكۈچ رەڭگى:
+</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>ConPty kullanın</value>
+    <value>ConPty نى ئىشلىتىش</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Kullanıcı adı</value>
+    <value>ئىشلەتكۈچى ئىسمى</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Limandan</value>
+    <value>ئېغىزدىن</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>limana</value>
+    <value>ئېغىزغا</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh liman aralığı</value>
+    <value>Mosh ئېغىز دائىرىسى</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>kimlik doğrulaması</value>
+    <value>دەلىللەش</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Ayarlar dosyaya aktarıldı</value>
+    <value>تەڭشەكلەر ھۆججەتكە چىقىرىلدى</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Ayarlar dosyadan içe aktarıldı</value>
+    <value>تەڭشەكلەر ھۆججەتتىن كىرگۈزۈلدى</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Dosya tanımlama yok</value>
+    <value>پەرقلەندۈرۈش ھۆججىتى مەۋجۇت ئەمەس</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Birini belirtmeyen SSH URL&apos;lerini açarken Windows kullanıcı adını kullanın</value>
+    <value>SSH ئادىرىسىنى نى ئاچقاندا ۋىندوۋىس ئىشلەتكۈچى نامىنى ئىشلىتىش</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>SSH bağlantıları için varsayılan olarak Mosh</value>
+    <value>SSH ئۇلىنىشى ئۈچۈن Mosh غا سۈكۈتتىكى ھالەت</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Kopyalanan satırları sağ kırpma</value>
+    <value>كۆچۈرۈلگەن قۇرنىڭ ئوڭدىكى قۇرۇق بەلگىلىرىنى ئۆچۈرۈش</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Varsayılan olarak hızlı SSH kullan</value>
+    <value>سۈكۈتتىكى تېز SSH نى ئىشلىتىش</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Geçersiz komut.</value>
+    <value>ئىناۋەتسىز بۇيرۇق.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Konum boş bırakılamaz.</value>
+    <value>ئورنى بوش بولمايدۇ.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Terminal bip seslerini kapatma</value>
+    <value>تېرمىنال ئەسكەرتمە ئاۋازىنى تاقاش</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Bir komut girin (örn. &apos;Ssh kullanıcı adı @ host&apos;)</value>
+    <value>بۇيرۇق كىرگۈزۈڭ (مەسىلەن: ssh ئىشلەتكۈچى ئىسمى @ host &apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>komuta</value>
+    <value>بۇيرۇق</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Desteklenmeyen komut:</value>
+    <value>قوللىمايدىغان بۇيرۇق:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Komut bağımsız değişkenleri eksik.</value>
+    <value>بۇيرۇق ئۇچۇرلىرى كەم.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Hızlı Başlatma</value>
+    <value>تېز قوزغىتىش</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>Yeni hızlı başlatma sekmesi</value>
+    <value>يېڭى تېز قوزغىتىش بەتكۈچى</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>Yeni hızlı başlatma penceresi</value>
+    <value>يېڭى تېز قوزغىتىش كۆزنىكى</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>Yeni hızlı sekme</value>
+    <value>يېڭى تېز بەتكۈچ</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Dosya bulunamadı:</value>
+    <value>ھۆججەت تېپىلمىدى:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Geçersiz link.</value>
+    <value>ئىناۋەتسىز ئۇلانما.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Sekmeyi buraya bırakın</value>
+    <value>بەتكۈچنى بۇ يەرگە تاشلاڭ</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Soldaki sekmeleri kapat</value>
+    <value>سول تەرەپتىكى بەتكۈچلەرنى تاقاش</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Diğer sekmeleri kapat</value>
+    <value>باشقا بەتكۈچلەرنى تاقاش</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Sağdaki sekmeleri kapat</value>
+    <value>ئوڭ تەرەپتىكى بەتكۈچلەرنى تاقاش</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Yinelenen sekme</value>
+    <value>بەتكۈچنى كۈپەيتىش</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Çiftleme</value>
+    <value>كۆپەيتىش</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Aynı ada sahip iki ortam değişkeni tanımlanamıyor.</value>
+    <value>ئوخشاش ئىسىمدىكى ئىككى مۇھىت ئۆزگەرگۈچى مىقدارنى بەلگىلىيەلمەيدۇ.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Adsız bir ortam değişkeni tanımlanamıyor.</value>
+    <value>ئىسىمسىز مۇھىت ئۆزگەرگۈچى مىقدارنى بەلگىلىيەلمەيدۇ.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Ortam Değişkenleri</value>
+    <value>مۇھىت ئۆزگەرگۈچى مىقدار</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Arama panelini kapat</value>
+    <value>ئىزدەش تاختىسىنى تاقاش</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sonraki Bul</value>
+    <value>كېيىنكىسىنى تېپىش</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Öncekini bul</value>
+    <value>ئالدىنقىسىنى تېپىش</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Arama terimini gir</value>
+    <value>ئىزدەش ئاتالغۇسىنى كىرگۈزۈش</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Arama</value>
+    <value>ئىزدەش</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Yalnızca yazdırılabilir çıktı</value>
+    <value>پەقەت بېسىپ چىقىرىشقىلا بولىدۇ</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Hata ayıklama için günlük çıktısı</value>
+    <value>ھەل قىلىش ئۈچۈن خاتىرە چىقىرىش</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Kelime ayırıcı karakterler</value>
+    <value>سۆز ئايرىش ھەرپلىرى</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Son</value>
+    <value>يېقىنقى</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Varsayılan profili yeni bir sekmede açar.</value>
+    <value>يېڭى بەتكۈچتە سۈكۈتتىكى ئارخىپنى ئاچىدۇ.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Yeni bir sekmede yeni bir SSH veya Mosh oturumu açar.</value>
+    <value>يېڭى بەتكۈچتە يېڭى SSH ياكى Mosh ئۇلانمىسى ئاچىدۇ.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>&quot;Hızlı Başlatma&quot; iletişim kutusunu açar ve oturumu yeni bir sekmede başlatır.</value>
+    <value>«تېز قوزغىتىش» سۆزلىشىش رامكىسىنى ئاچىدۇ ۋە يېڭى بەتكۈچتە ئۇلانمىسىنى باشلايدۇ.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Ayarlar penceresini açar.</value>
+    <value>تەڭشەك كۆزنىكىنى ئاچىدۇ.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Uygulama hakkında temel bilgiler.</value>
+    <value>ئەپ ھەققىدىكى ئاساسلىق ئۇچۇرلار.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Yakın zamanda açılan oturumlar.</value>
+    <value>يېقىندا ئېچىلغان ئۇلانمىلار .</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Varsayılan profile göre yeni terminal oturumu başlatır.</value>
+    <value>سۈكۈتتىكى ئارخىپقا ئاساسەن يېڭى تېرمىنال ئۇلانمىسى باشلىنىدۇ.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Uzaktan Bağlantı ...</value>
+    <value>يىراقتىن ئۇلىنىش ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Yeni bir SSH veya Mosh terminal oturumu başlatmak için bir iletişim kutusu açar.</value>
+    <value>يېڭى SSH ياكى Mosh تېرمىنال ئۇلانمىسى قوزغىتىش ئۈچۈن دىئالوگ ئاچىدۇ.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Hızlı Başlat ...</value>
+    <value>تېز قوزغىتىش ...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Yeni bir terminal oturumu başlatmak için bir &quot;Hızlı Başlatma&quot; iletişim kutusu açar.</value>
+    <value>يېڭى تېرمىنال ئۇلانما باشلاش ئۈچۈن «تېز قوزغىتىش» سۆزلىشىش رامكىسىنى ئاچىدۇ.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Yeni Pencere</value>
+    <value>يېڭى كۆزنەك</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Yeni Sekme</value>
+    <value>يېڭى بەتكۈچ</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Yeni bir sekmede bir oturum başlatır.</value>
+    <value>يېڭى بەتكۈچتە ئۇلانما ئېچىش</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Bir oturumu yeni bir pencerede başlatır.</value>
+    <value>يېڭى كۆزنەكتە ئۇلانما ئاچىش.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Uygulama menü türü</value>
+    <value>ئەپ تىزىملىك تىپى</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Düz, onurlandırma &quot;Yeni terminalleri farklı aç&quot; ayarı</value>
+    <value>تەكشى ،ھۆرمەت «يېڭى تېرمىنالنى ئېچىش» تەڭشىكى</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Yeni Sekme&quot; / &quot;Yeni Pencere&quot; basamaklı</value>
+    <value>«يېڭى بەتكۈچ» / «يېڭى كۆزنەك» مايىللىقى</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>çıkmak</value>
+    <value>چېكىنىش</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Akıcı Terminalden Çık</value>
+    <value>راۋان تېرمىنالدىن چېكىنىش</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Politika tarafından etkinleştirildi.</value>
+    <value>سىياسەت ئارقىلىق قوزغىتىلدى.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Arka plan görüntüsü</value>
+    <value>تەگلىك رەسىمى</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Akrilik arka plan kullanın</value>
+    <value>ئاكرىل تەگلىكىنى ئىشلىتىڭ</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Bu arka plan resmini silmek istediğinizden emin misiniz?</value>
+    <value>بۇ تەگلىك رەسىمنى ئۆچۈرمەكچىمۇ؟</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Renkler</value>
+    <value>رەڭلەر</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Parlak renkler</value>
+    <value>ئوچۇق رەڭلەر</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Bağlantıyı kopyala</value>
+    <value>ئۇلانمىنى كۆچۈرۈش</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Regex</value>
+    <value>تەھلىللىمە</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tüm dünya</value>
+    <value>پۈتۈن سۆز</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Büyük/Küçük harfe duyarlı</value>
+    <value>يېزىلىشقا سەزگۈر</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Seçimi kopyala veya yapıştır</value>
+    <value>تاللانمىنى كۆچۈرۈش ياكى چاپلاش</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Akıllı arabellek kullan</value>
+    <value>ئەقلىي ئىقتىدارلىق بۇففېر ئىشلىتىڭ</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Yeniden başlat</value>
+    <value>قايتا قوزغىتىش</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Oturum bağlantısı kesildi.</value>
+    <value>ئۇلانما ئۈزۈلۈپ قالدى.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Yazı tipi boyutunu büyüt</value>
+    <value>Increase font size</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Yazı tipi boyutunu küçült</value>
+    <value>Decrease font size</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Yazı tipi boyutu ayarını sıfırla</value>
+    <value>Reset font size</value>
   </data>
 </root>

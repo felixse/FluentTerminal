@@ -1053,12 +1053,12 @@
     <value>Sesja rozłączona</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Zwiększ rozmiar czcionki</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Zmniejsz rozmiar czcionki</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Zresetuj rozmiar czcionki</value>
   </data>
 </root>
