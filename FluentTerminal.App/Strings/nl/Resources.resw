@@ -582,7 +582,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Weet je zeker dat je de muis instellingen will terug zetten naar de standaard instellingen?</value>
+    <value>Weet je zeker dat je de muis instellingen wilt terug zetten naar de standaard instellingen?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
