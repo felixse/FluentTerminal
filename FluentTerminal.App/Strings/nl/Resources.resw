@@ -1051,7 +1051,7 @@ Fuzzy</comment>
     <value>Nieuw Venster</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Niew Tab</value>
+    <value>Nieuwe Tab</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
     <value>Start een sessie in een nieuw tab</value>
