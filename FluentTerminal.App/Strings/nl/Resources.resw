@@ -553,7 +553,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Weet je het zeker dat je tab &quot;{0}&quot; wilt sluiten?</value>
+    <value>Weet je zeker dat je tab &quot;{0}&quot; wilt sluiten?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
