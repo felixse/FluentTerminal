@@ -1039,7 +1039,7 @@ Fuzzy</comment>
     <value>Extern verbinden...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opent een dialoog voor het starten van een nieuwe SSH of Mosh Terminal sessieOpens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Opent een dialoog voor het starten van een nieuwe SSH of Mosh Terminal sessie.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
     <value>Snel Laden...</value>
