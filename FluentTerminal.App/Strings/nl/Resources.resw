@@ -590,7 +590,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Weet je zeker dat je de standaard terminal instellingen wil herstellen?</value>
+    <value>Weet je zeker dat je de standaard terminal instellingen wilt herstellen?</value>
     <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
