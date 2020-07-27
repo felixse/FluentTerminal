@@ -1066,7 +1066,7 @@ Fuzzy</comment>
     <value>Plat, naar de &quot;Open nieuwe terminals als&quot; instelling</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Nieuw Tab&quot; / &quot;New Vesnter&quot; trapsgewijs</value>
+    <value>&quot;Nieuw Tab&quot; / &quot;Nieuw Venster&quot; trapsgewijs</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
     <value>Stop</value>
