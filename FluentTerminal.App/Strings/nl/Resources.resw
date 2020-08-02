@@ -770,7 +770,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Nieuwe extern tab</value>
+    <value>Nieuwe externe tab</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
