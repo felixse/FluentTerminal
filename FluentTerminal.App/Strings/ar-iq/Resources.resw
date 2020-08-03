@@ -673,6 +673,10 @@
     <value>بحث</value>
     <comment>Command</comment>
   </data>
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>اختر الكل</value>
     <comment>Command</comment>

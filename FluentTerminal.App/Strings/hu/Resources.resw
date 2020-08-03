@@ -691,6 +691,10 @@ Fuzzy</comment>
     <value>Keresés</value>
     <comment>Command</comment>
   </data>
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Összes kijelölése</value>
     <comment>Command

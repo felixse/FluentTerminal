@@ -94,11 +94,7 @@ namespace FluentTerminal.App.Views
 
         private void OnSearchTextBoxKeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Escape)
-            {
-                ViewModel.CloseSearchPanelCommand.Execute(null);
-            }
-            else if (e.Key == VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter)
             {
                 ViewModel.FindPreviousCommand.Execute(null);
             }
@@ -141,12 +137,14 @@ namespace FluentTerminal.App.Views
 
         private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            ViewModel.SearchHasFocus = true;
+            if (ViewModel != null)
+                ViewModel.SearchHasFocus = true;
         }
 
         private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ViewModel.SearchHasFocus = false;
+            if (ViewModel != null)
+                ViewModel.SearchHasFocus = false;
         }
     }
 }

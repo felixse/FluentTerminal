@@ -677,6 +677,10 @@ Fuzzy</comment>
     <value>찾기</value>
     <comment>Command</comment>
   </data>
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>모두 선택</value>
     <comment>Command</comment>

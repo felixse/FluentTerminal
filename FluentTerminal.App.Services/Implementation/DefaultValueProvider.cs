@@ -283,6 +283,16 @@ namespace FluentTerminal.App.Services.Implementation
                     }
                 };
 
+                case Command.CloseSearch:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.CloseSearch),
+                        Key = (int)ExtendedVirtualKey.Escape
+                    }
+                };
+
                 case Command.ToggleFullScreen:
                     return new List<KeyBinding>
                 {
