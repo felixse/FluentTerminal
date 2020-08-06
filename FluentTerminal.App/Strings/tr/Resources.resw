@@ -912,6 +912,10 @@
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>Yinelenen sekme</value>
   </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
+    <comment>Command</comment>
+  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>Çiftleme</value>
   </data>

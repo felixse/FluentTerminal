@@ -911,6 +911,10 @@
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>डुप्लीकेट टैब</value>
   </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
+    <comment>Command</comment>
+  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>प्रतिलिपि</value>
   </data>
