@@ -683,7 +683,11 @@ Fuzzy</comment>
     <value>Buscar</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.SelectAll" xml:space="preserve">
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
+	<data name="Command.SelectAll" xml:space="preserve">
     <value>Seleccionar todo</value>
     <comment>Command</comment>
   </data>

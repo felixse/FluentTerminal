@@ -18,6 +18,7 @@ using FluentTerminal.App.ViewModels.Menu;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -281,12 +282,14 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
-                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.Search), () => ShowSearchPanel = !ShowSearchPanel);
+                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.Search), () => ShowSearchPanel = true);
+                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseSearch), () => CloseSearchPanel());
                         HasNewOutput = false;
                     }
                     else
                     {
                         _keyboardCommandService.DeregisterCommandHandler(nameof(Command.Search));
+                        _keyboardCommandService.DeregisterCommandHandler(nameof(Command.CloseSearch));
                     }
                     RaisePropertyChanged(nameof(IsUnderlined));
                     RaisePropertyChanged(nameof(BackgroundTabTheme));
@@ -676,11 +679,16 @@ namespace FluentTerminal.App.ViewModels
                     {
                         await ApplicationView.ExecuteOnUiThreadAsync(() =>
                         {
-                            ShowSearchPanel = !ShowSearchPanel;
-                            if (ShowSearchPanel)
-                            {
-                                SearchStarted?.Invoke(this, EventArgs.Empty);
-                            }
+                            ShowSearchPanel = true;
+                            SearchStarted?.Invoke(this, EventArgs.Empty);
+                        }).ConfigureAwait(false);
+                        return;
+                    }
+                case nameof(Command.CloseSearch):
+                    {
+                        await ApplicationView.ExecuteOnUiThreadAsync(() =>
+                        {
+                            CloseSearchPanel();
                         }).ConfigureAwait(false);
                         return;
                     }

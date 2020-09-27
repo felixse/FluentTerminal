@@ -673,7 +673,15 @@
     <value>Пошук</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.SelectAll" xml:space="preserve">
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
+	<data name="Command.SelectAll" xml:space="preserve">
     <value>Виділити все</value>
     <comment>Command</comment>
   </data>

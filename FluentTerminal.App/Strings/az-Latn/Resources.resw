@@ -673,6 +673,10 @@
     <value>Axtarış</value>
     <comment>Command</comment>
   </data>
+  <data name="Command.CloseSearch" xml:space="preserve">
+    <value>Close search</value>
+    <comment>Command</comment>
+  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Hamısını seç</value>
     <comment>Command</comment>

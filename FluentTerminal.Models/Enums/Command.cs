@@ -18,6 +18,7 @@
         Paste,
         PasteWithoutNewlines,
         Search,
+        CloseSearch,
         ToggleFullScreen,
         SelectAll,
         Clear,
