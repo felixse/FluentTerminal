@@ -176,11 +176,15 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.DeregisterCommandHandler(message.ProfileId.ToString());
 
             UpdateDefaultShellProfile();
+
+            CreateMenuViewModel();
         }
 
         private void OnShellProfileChanged(ShellProfileChangedMessage message)
         {
             UpdateDefaultShellProfile();
+
+            CreateMenuViewModel();
         }
 
         private void OnShellProfileAdded(ShellProfileAddedMessage message)
@@ -189,6 +193,8 @@ namespace FluentTerminal.App.ViewModels
                 async () => await AddProfileByGuidAsync(message.ShellProfile.Id));
 
             UpdateDefaultShellProfile();
+
+            CreateMenuViewModel();
         }
 
         private void OnDefaultShellProfileChanged(DefaultShellProfileChangedMessage message)
@@ -776,6 +782,13 @@ namespace FluentTerminal.App.ViewModels
             }
 
             items.Add(quickLaunchItem);
+
+            items.Add(new SeparatorMenuItemViewModel());
+
+            foreach (var profile in _settingsService.GetShellProfiles().Concat(_settingsService.GetSshProfiles()).OrderBy(x => x.Name))
+            {
+                items.Add(new MenuItemViewModel(profile.Name, new AsyncCommand(() => AddProfileAsync(profile, location))));
+            }
         }
 
         private ObservableCollection<MenuItemViewModel> GetRecentMenuItems() =>
