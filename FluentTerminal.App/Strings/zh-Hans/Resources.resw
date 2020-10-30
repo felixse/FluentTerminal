@@ -243,7 +243,8 @@ Fuzzy</comment>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>设置</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>设置</value>
@@ -403,15 +404,18 @@ Fuzzy</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>字体大小</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>导入</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>快捷键</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>快捷键</value>
@@ -435,7 +439,8 @@ Fuzzy</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
     <value>鼠标中键动作</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>鼠标</value>
@@ -459,7 +464,8 @@ Fuzzy</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>内边距</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
     <value>名称</value>
@@ -471,7 +477,8 @@ Fuzzy</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>主题</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>发行说明</value>
@@ -487,7 +494,8 @@ Fuzzy</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
     <value>滚动限制</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
     <value>自动隐藏</value>
@@ -499,7 +507,8 @@ Fuzzy</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>滚动条样式</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>显示</value>
@@ -551,59 +560,73 @@ Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>工作目录</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>你确定要关闭第{0}个标签页吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>你确定要关闭这个窗口吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>你确定要删除此快捷键绑定吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>你确定呢要删除此主题吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>你确定要放弃所有更改吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>你确定要还原常规设置吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>你确定要还原默认的快捷键绑定吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>你确定要还原鼠标设置吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>你确定要还原此配置吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>你确定要还原默认终端选项吗？</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>已被组策略禁止。</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>已被用户禁用。请在任务管理器的“启动”选项卡中重新激活它。</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>编辑标题</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>错误</value>
@@ -611,11 +634,13 @@ Fuzzy</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>由于以下错误，操作无法完成：</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>导入主题失败</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>解析失败</value>
@@ -630,9 +655,11 @@ Fuzzy</comment>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>请键入要绑定的快捷键</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>重置</value>
@@ -647,7 +674,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>修改标签页标题</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
     <value>清屏</value>
@@ -659,7 +687,8 @@ Fuzzy</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>快捷键</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>删除</value>
@@ -675,7 +704,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>新建窗口</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>下一标签页</value>
@@ -693,17 +723,14 @@ Fuzzy</comment>
     <value>搜索</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>全选</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>显示设置</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>切换到终端 #1</value>
@@ -743,14 +770,17 @@ Fuzzy</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>切换全屏</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>切换窗口</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>新建远程标签页</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>新建 SSH 标签页</value>
@@ -766,6 +796,7 @@ Fuzzy</comment>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>端口</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>SSH 认证文件路径</value>
@@ -778,24 +809,28 @@ Fuzzy</comment>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>高级</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>Mosh 端口</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>保存快捷键</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>应用需要重启才能使更改生效</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>非法输入</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>端口不能为 0</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>用户名和主机是必填字段</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>用户名不能为空</value>
@@ -805,6 +840,7 @@ Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH 端口需大于 0</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh 端口不能为 0</value>
@@ -826,15 +862,18 @@ Fuzzy</comment>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>新输出</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>进程退出错误</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>你确定要删除这个配置文件吗？</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>新的 SSH 窗口</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH 配置文件</value>
@@ -865,9 +904,11 @@ Fuzzy</comment>
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>已经从文件导入设置</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>身份认证文件不存在</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
     <value>当 SSH 地址未指定用户名时使用 Windows 用户名</value>
@@ -886,6 +927,7 @@ Fuzzy</comment>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>地址不能为空</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>关闭终端声音</value>
@@ -895,6 +937,7 @@ Fuzzy</comment>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>命令</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>不支持的命令</value>
@@ -910,6 +953,7 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>新建快速启动窗口</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>新建快速标签页</value>
@@ -922,6 +966,7 @@ Fuzzy</comment>
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>删除此标签</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>关闭左侧标签</value>
@@ -935,24 +980,24 @@ Fuzzy</comment>
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>复制选项卡</value>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>复制</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>无法定义具有相同名称的两个环境变量</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>无法定义没有名称的环境变量</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>环境变量</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>关闭搜索框</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索下一个</value>
@@ -962,15 +1007,19 @@ Fuzzy</comment>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>输入搜索内容</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>搜索</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>只输出可打印内容</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>记录 Debug 日志</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>单词分隔符</value>
@@ -1088,5 +1137,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
     <value>Reset font size</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
   </data>
 </root>

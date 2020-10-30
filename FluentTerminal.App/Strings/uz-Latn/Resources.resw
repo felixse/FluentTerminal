@@ -118,184 +118,163 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>About</value>
-    <comment>MainPage.xaml
-Fuzzy</comment>
+    <value>Dastur haqida</value>
+    <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>Background</value>
+    <value>Orqa fon</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>Blue</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Ko&apos;k</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Yopish</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>Ask before closing windows</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Oynani yopishdan avval tasdiq so&apos;rash</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Ask before closing tabs</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Bo&apos;limni yopishdan avval tasdiq so&apos;rash</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>Color</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Rang</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Color on inactive tabs</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Nofaol bo&apos;limlardagi rang</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>Copy</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Nusxa ko&apos;chirish</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Show custom tab title also in titlebar</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Foydalanuvchi yorlig&apos;i sarlavhasini sarlavha panelida ham ko&apos;rsatish</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Edit Title</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Sarlavhani tahrirlash</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>General</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Umumiy</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>Green</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Yashil</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Show new output indicator on background tabs</value>
+    <value>Fondagi bo&apos;limlarda yangi chiqish indikatorini ko&apos;rsatish</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Relaunch required to apply setting</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Sozlamani saqlash uchun dasturni qayta ishga tush kerak</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>New tab</value>
+    <value>Yangi bo&apos;lim</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>None</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Yo&apos;q</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>Tabs</value>
+    <value>Bo&apos;limlar</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>Windows</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Oynalar</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>Open new terminals as</value>
+    <value>Yangi terminallarni ochish holati</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>Orange</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>To&apos;q sariq</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>Paste</value>
-    <comment>XtermTerminalView.xaml.cs
-Fuzzy</comment>
+    <value>Qo&apos;shish</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>Purple</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Siyohrang</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>Red</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Qizil</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>Birlamchi sozlamalarni tiklash</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Run on startup</value>
+    <value>Kompyuter ishga tushganda dasturni ham ishga tushirish</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>Settings</value>
-    <comment>SettingsPage.xaml.cs
-Fuzzy</comment>
+    <value>Sozlamalar</value>
+    <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Sozlamalar</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>Show in system tray</value>
+    <value>Tizim treyida ko‘rsatish</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Show tabs on</value>
+    <value>Bo&apos;limlarni ko&apos;rsatish joyi</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>Teal</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Firuza rang</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Pastda</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Top</value>
+    <value>Yuqorida</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Underline</value>
+    <value>Tagiga chizish</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>Underline selected tab</value>
+    <value>Belgilangan bo&apos;limlarni belgilash</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>About</value>
+    <value>Dastur haqida</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>General</value>
+    <value>Umumiy sozlamalar</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Keybindings</value>
+    <value>Klavish qisqartmalari</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Mouse</value>
+    <value>Sichqoncha</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profillar</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
@@ -303,68 +282,67 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>Themes</value>
+    <value>Mavzular</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>Add</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Qo&apos;shing</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Dalillar</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>Background opacity</value>
+    <value>Fon shaffofligi</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>Blinking cursor</value>
+    <value>Miltillovchi kursor</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Bold text</value>
+    <value>Qalin matn</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Bekor qilish</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>Checking for updates...</value>
+    <value>Yangilanishlar tekshirilmoqda ...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>Check for updates</value>
+    <value>Yangilanishlarni tekshiring</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>Click on a color to edit</value>
+    <value>Tahrirlash uchun rangni bosing</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Clone</value>
+    <value>Klon</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>Color palette</value>
+    <value>Ranglar palitrasi</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>Text copied notification</value>
+    <value>Matndan nusxa olingan xabarnoma</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>Copy on select</value>
+    <value>Tanlangandan nusxa oling</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>Create new</value>
+    <value>Yangisini yarating</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>Current version</value>
+    <value>Joriy versiya</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
@@ -372,165 +350,155 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>Block</value>
+    <value>Bloklash</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Cursor style</value>
+    <value>Kursor uslubi</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Underline</value>
+    <value>Pastga chizish</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>Delete</value>
+    <value>Yo&apos;q qilish</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>Do not modify line endings</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Chiziq uchlarini o&apos;zgartirmang</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>Edit</value>
+    <value>Tahrirlash</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>Export</value>
+    <value>Eksport qilish</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>Font family</value>
+    <value>Shrift turkumi</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Font size</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Shrift hajmi</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>Import</value>
-    <comment>ThemeSettings.xaml
-Fuzzy</comment>
+    <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>Keyboard shortcut</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Klaviatura yorlig&apos;i</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Klaviatura yorlig&apos;i</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Latest version</value>
+    <value>So&apos;nggi versiya</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>License</value>
+    <value>Litsenziya</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Line ending translation mode</value>
+    <value>Tarjima rejimi bilan tugaydigan satr</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Line ending translation mode on paste:</value>
+    <value>Joylashtirish tugagan tarjima rejimi:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Middle button action</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>O&apos;rta tugmacha harakati</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Mouse</value>
+    <value>Sichqoncha</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>Context menu</value>
+    <value>Kontekst menyusi</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>Nothing</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>Hech narsa</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>Paste</value>
+    <value>Yopish</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>Create new</value>
+    <value>Yangisini yarating</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>Padding</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>Ism</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>Profiles</value>
+    <value>Profillar</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>Theme</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Mavzu</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>Release notes</value>
+    <value>Qaydlarni chiqaring</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Right button action</value>
+    <value>O&apos;ng tugmacha harakati</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>Save</value>
+    <value>Saqlash</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>Scrollback limit</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Scrollback cheklovi</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>Auto hiding</value>
+    <value>Avtomatik yashirish</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>Hidden</value>
+    <value>Yashirin</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Scrollbar style</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Scrollbar uslubi</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>Visible</value>
+    <value>Ko&apos;rinadi</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>Set Active</value>
+    <value>Faol sozlash</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>Set Default</value>
+    <value>Birlamchi sozlash</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Shell executable location</value>
+    <value>Shell bajariladigan joy</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>Tab color</value>
+    <value>Tab rangi</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
@@ -538,647 +506,562 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>Theme:</value>
+    <value>Mavzu:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Author</value>
+    <value>Muallif</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>Name</value>
+    <value>Ism</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Convert line endings to CR</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Chiziq sonlarini CR ga o&apos;zgartiring</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Convert line endings to CR+LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Chiziq uchlarini CR + LF ga o&apos;zgartiring</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Convert line endings to LF</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>LF uchlarini LF ga aylantirish</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>Working directory</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Ishchi katalog</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>Are you sure you want to close &quot;{0}&quot; tab?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham &quot;{0}&quot; ichki oynasini yopmoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>Are you sure you want to close this window?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham bu oynani yopmoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>Are you sure you want to delete this keybinding?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham ushbu tugmachani yo&apos;q qilmoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>Are you sure you want to delete this theme?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham ushbu mavzuni yo&apos;q qilmoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>Are you sure you want to discard all changes?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham barcha o‘zgarishlarni bekor qilmoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>Are you sure you want to restore the general settings?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham umumiy sozlamalarni tiklamoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>Are you sure you want to restore the default keybindings?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham standart tugmachalarni tiklamoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>Are you sure you want to restore the mouse settings?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Sichqoncha sozlamalarini tiklamoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>Are you sure you want to restore this profile?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham ushbu profilni qayta tiklamoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>Are you sure you want to restore the default terminal options?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Haqiqatan ham terminal terminal parametrlarini tiklamoqchimisiz?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Disabled by policy.</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Siyosat tomonidan o‘chirilgan.</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>Disabled by user. Please reactivate it in the Startup tab of the Task Manager.</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Foydalanuvchi tomonidan o&apos;chirilgan. Iltimos, uni Vazifa menejerining &quot;Ishga tushirish&quot; yorlig&apos;ida qayta yoqing.</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Edit Title</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Sarlavhani tahrirlash</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Xato</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>The operation cannot be completed due to the following error:</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Quyidagi xato tufayli operatsiyani yakunlab bo&apos;lmaydi:</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>Import theme failed</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Mavzuni import qilib bo‘lmadi</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>No suitable parser found</value>
+    <value>Kerakli tahlil qiluvchi topilmadi</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>Please confirm</value>
+    <value>Iltimos, tasdiqlang</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Bekor qilish</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>Enter your keybinding now</value>
-    <comment>Fuzzy</comment>
+    <value>Endi tugmachangizni kiriting</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>Reset</value>
-    <comment>Fuzzy</comment>
+    <value>Qayta o&apos;rnatish</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>Text copied</value>
+    <value>Matn nusxa olindi</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>Add</value>
+    <value>Qo&apos;shing</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>Change tab title</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Yorliq sarlavhasini o&apos;zgartirish</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>Clear</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Aniq</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>Close tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Yorliqni yopish</value>
+    <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Keybindings</value>
-    <comment>KeyBindingSettings.xaml
-Fuzzy</comment>
+    <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>Delete</value>
-    <comment>KeyBindingsView.xaml
-Fuzzy</comment>
+    <value>Yo&apos;q qilish</value>
+    <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>Edit</value>
+    <value>Tahrirlash</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>New tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Yangi tab</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>New window</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Yangi oyna</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>Next tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Keyingi yorliq</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>Paste without newlines</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Yangi chiziqlarsiz joylashtiring</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Oldingi tab</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Search</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Qidirmoq</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Select all</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Hammasini belgilash</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>Show settings</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Sozlamalarni ko&apos;rsatish</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>Switch to Terminal 1</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>1-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>Switch to Terminal 2</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>2-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>Switch to Terminal 3</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>3-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>Switch to Terminal 4</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>4-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>Switch to Terminal 5</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>5-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>Switch to Terminal 6</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>6-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>Switch to Terminal 7</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>7-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>Switch to Terminal 8</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>8-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>Switch to Terminal 9</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>9-terminalga o&apos;ting</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>Toggle Fullscreen</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>To&apos;liq ekranga o&apos;tish</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Toggle window</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Oynani almashtirish</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>New remote tab</value>
-    <comment>Fuzzy</comment>
+    <value>Yangi masofaviy tab</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>New SSH tab</value>
-    <comment>Fuzzy</comment>
+    <value>Yangi SSH yorlig&apos;i</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Info</value>
+    <value>SSH haqida ma&apos;lumot</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>user</value>
-    <comment>Fuzzy</comment>
+    <value>foydalanuvchi</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>host</value>
+    <value>mezbon</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>port</value>
-    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>Identity file path</value>
-    <comment>Fuzzy</comment>
+    <value>Identifikatsiya faylining yo&apos;li</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
+    <value>Ko&apos;rish</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Use Mosh</value>
+    <value>Mosh-dan foydalaning</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>Advanced</value>
-    <comment>Fuzzy</comment>
+    <value>Ilg&apos;or</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh ports:</value>
+    <value>Mosh portlari:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Save Shortcut</value>
-    <comment>Fuzzy</comment>
+    <value>Yorliqni saqlash</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>Application needs to restart for this change to take effect.</value>
+    <value>Ushbu o&apos;zgartirish kuchga kirishi uchun dasturni qayta ishga tushirish kerak.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Invalid Input</value>
-    <comment>Fuzzy</comment>
+    <value>Noto‘g‘ri kiritish</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>Port cannot be 0.</value>
-    <comment>Fuzzy</comment>
+    <value>Port 0 bo&apos;lmasligi kerak.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>User and host are mandatory fields.</value>
-    <comment>Fuzzy</comment>
+    <value>Foydalanuvchi va xost majburiy maydonlardir.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Username cannot be empty.</value>
+    <value>Foydalanuvchi nomi bo‘sh bo‘lishi mumkin emas.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>Host cannot be empty.</value>
-    <comment>Fuzzy</comment>
+    <value>Xost bo‘sh bo‘lishi mumkin emas.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH port has to be greater than zero.</value>
-    <comment>Fuzzy</comment>
+    <value>SSH porti noldan katta bo&apos;lishi kerak.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh port cannot be zero.</value>
-    <comment>Fuzzy</comment>
+    <value>Mosh porti nolga teng bo&apos;lmaydi.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh port range is invalid.</value>
+    <value>Mosh porti oralig&apos;i noto‘g‘ri.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>Yes</value>
+    <value>Ha</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>No</value>
+    <value>Yo&apos;q</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+    <value>Til</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>None</value>
+    <value>Yo&apos;q</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>New output</value>
-    <comment>Fuzzy</comment>
+    <value>Yangi chiqish</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Exited with error</value>
+    <value>Xatolik bilan chiqarildi</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>Are you sure you want to delete this profile?</value>
-    <comment>Fuzzy</comment>
+    <value>Haqiqatan ham ushbu profilni yo&apos;q qilmoqchimisiz?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>New SSH window</value>
-    <comment>Fuzzy</comment>
+    <value>Yangi SSH oynasi</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH Profiles</value>
-    <comment>Fuzzy</comment>
+    <value>SSH profillari</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>Tab color:</value>
-    <comment>Fuzzy</comment>
+    <value>Tab rangi:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Use ConPty</value>
-    <comment>Fuzzy</comment>
+    <value>ConPty-dan foydalaning</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Username</value>
-    <comment>Fuzzy</comment>
+    <value>Foydalanuvchi ismi</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>From port</value>
-    <comment>Fuzzy</comment>
+    <value>Portdan</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>to port</value>
-    <comment>Fuzzy</comment>
+    <value>portga</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh port range</value>
+    <value>Mosh port oralig&apos;i</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Authenticate</value>
+    <value>Haqiqiylikni tekshirish</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>Settings were exported to file</value>
+    <value>Sozlamalar faylga eksport qilindi</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>Settings were imported from file</value>
-    <comment>Fuzzy</comment>
+    <value>Sozlamalar fayldan import qilindi</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Identify file does not exist</value>
-    <comment>Fuzzy</comment>
+    <value>Identifikatsiya fayli mavjud emas</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Use Windows username when opening SSH URLs that don&apos;t specify one</value>
+    <value>Bittasini ko&apos;rsatmaydigan SSH URL-larini ochishda Windows foydalanuvchi nomidan foydalaning</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Default to Mosh for SSH connections</value>
+    <value>SSH ulanishlari uchun standart Mosh</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Right trim copied lines</value>
+    <value>O&apos;ng trim nusxalangan chiziqlar</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>Use quick SSH by default</value>
+    <value>SSH-dan tezkor foydalaning</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command.</value>
+    <value>Noto‘g‘ri buyruq.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>Location cannot be empty.</value>
-    <comment>Fuzzy</comment>
+    <value>Joylashuv bo‘sh bo‘lishi mumkin emas.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Mute terminal beeps</value>
+    <value>Terminal ovozini o&apos;chirish</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter a command (e.g. &apos;ssh username@host&apos;)</value>
+    <value>Buyruqni kiriting (masalan, &quot;ssh username @ host&quot;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>Command</value>
-    <comment>Fuzzy</comment>
+    <value>Buyruq</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>Unsupported command:</value>
+    <value>Qo&apos;llab-quvvatlanmaydigan buyruq:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Command arguments are missing.</value>
+    <value>Buyruq dalillari yo&apos;q.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Quick Launch</value>
-    <comment>Fuzzy</comment>
+    <value>Tez ishga tushirish</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>New quick launch tab</value>
+    <value>Yangi tezkor yorliq</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>New quick launch window</value>
-    <comment>Fuzzy</comment>
+    <value>Yangi tezkor ishga tushirish oynasi</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>New quick tab</value>
+    <value>Yangi tezkor yorliq</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>File not found:</value>
+    <value>Fayl topilmadi:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>Invalid link.</value>
+    <value>Noto‘g‘ri havola.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>Drop tab here</value>
-    <comment>Fuzzy</comment>
+    <value>Yorliqni bu yerga tashlang</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Yorliqlarni chap tomonga yoping</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>Boshqa ichki oynalarni yoping</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>Yorliqlarni o&apos;ng tomonga yoping</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Yorliqni nusxalash</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Duplicate</value>
+    <value>Dublikat</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>Cannot define two environment variables with the same name.</value>
-    <comment>Fuzzy</comment>
+    <value>Xuddi shu nomli ikkita atrof-muhit o&apos;zgaruvchisini aniqlab bo&apos;lmaydi.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>Cannot define an environment variable without a name.</value>
-    <comment>Fuzzy</comment>
+    <value>Atrof muhit o&apos;zgaruvchisini nomisiz aniqlab bo&apos;lmaydi.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Environment variables</value>
-    <comment>Fuzzy</comment>
+    <value>Atrof muhitning o&apos;zgaruvchilari</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close search panel</value>
-    <comment>Fuzzy</comment>
+    <value>Qidiruv panelini yoping</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find next</value>
+    <value>Keyingisini toping</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Find previous</value>
+    <value>Avvalgisini toping</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter search term</value>
-    <comment>Fuzzy</comment>
+    <value>Qidiruv so&apos;zini kiriting</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Search</value>
-    <comment>Fuzzy</comment>
+    <value>Qidirmoq</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>Printable output only</value>
-    <comment>Fuzzy</comment>
+    <value>Faqatgina chop etilishi mumkin</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Log output for debugging</value>
-    <comment>Fuzzy</comment>
+    <value>Nosozliklarni tuzatish uchun jurnal chiqishi</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>Word separator characters</value>
-    <comment>Fuzzy</comment>
+    <value>So‘zni ajratuvchi belgilar</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Yaqinda</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Yangi ichki oynada standart profilni ochadi.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Yangi yorliqda yangi SSH yoki Mosh sessiyasini ochadi.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>&quot;Tez ishga tushirish&quot; muloqot oynasini ochadi va yangi tabda sessiyani boshlaydi.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Sozlamalar oynasini ochadi.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Ilova haqida asosiy ma&apos;lumotlar.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>Yaqinda ochilgan sessiyalar.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Standart profil asosida yangi terminal sessiyasini boshlaydi.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Masofadan ulanish ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>SSH yoki Mosh-ning yangi sessiyasini boshlash uchun dialogni ochadi.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Tez ishga tushirish ...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Yangi terminal sessiyasini boshlash uchun &quot;Tez ishga tushirish&quot; muloqot oynasini ochadi.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Yangi oyna</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Yangi tab</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Seansni yangi tabda ochadi.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Seansni yangi oynada ochadi.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Ilova menyusi turi</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>&quot;Yangi terminallarni ochish&quot; sozlamasini sharaflagan holda tekis</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Yangi tab&quot; / &quot;Yangi oyna&quot; kaskadli</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>Chiqing</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>Ravon terminaldan chiqish</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>Siyosat tomonidan yoqilgan.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>Fon rasmi</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
-    <comment>Fuzzy</comment>
+    <value>Akril fondan foydalaning</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>Haqiqatan ham ushbu fon rasmini yo&apos;q qilmoqchimisiz?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>Ranglar</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>Yorqin ranglar</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Havolani nusxalash</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
     <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Butun so&apos;z</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>Katta-kichik harfni farqlash</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Nusxalash yoki joylashtirish</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Aqlli buferdan foydalaning</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Qayta ishga tushirish</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Seans uzildi.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Shriftning o&apos;lchamini kattalashtiring</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Shriftning o&apos;lchamini kamaytirish</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Shriftning o&apos;lchamini tiklash</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Qayta ulanish yorlig&apos;i</value>
   </data>
 </root>

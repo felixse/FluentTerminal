@@ -135,7 +135,8 @@
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>창을 닫기 전에 물어보기</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>탭을 닫기 전에 물어보기</value>
@@ -147,7 +148,8 @@
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
     <value>비활성 탭 색상</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>복사</value>
@@ -160,7 +162,8 @@ Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>제목 편집</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
     <value>일반</value>
@@ -177,7 +180,8 @@ Fuzzy</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
     <value>프로그램을 다시 시작하여 설정 적용</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
     <value>새 탭</value>
@@ -193,7 +197,8 @@ Fuzzy</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
     <value>창</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
     <value>새 터미널을 다음으로 열기</value>
@@ -226,7 +231,8 @@ Fuzzy</comment>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>설정</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>설정</value>
@@ -387,15 +393,18 @@ Fuzzy</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>글꼴 크기</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>가져오기</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>키보드 단축키</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>키보드 단축키</value>
@@ -419,7 +428,8 @@ Fuzzy</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
     <value>가운데 버튼 동작</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>마우스</value>
@@ -443,7 +453,8 @@ Fuzzy</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>여백</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
     <value>이름</value>
@@ -455,7 +466,8 @@ Fuzzy</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>테마</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>릴리즈 노트</value>
@@ -471,7 +483,8 @@ Fuzzy</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
     <value>스크롤 백 제한</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
     <value>자동 숨김</value>
@@ -483,7 +496,8 @@ Fuzzy</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>스크롤 바 모양</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>보이게</value>
@@ -535,59 +549,73 @@ Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>작업 디렉터리</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>정말 &quot;{0}&quot; 탭을 닫으시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>정말 이 창을 닫으시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>정말 이 키 설정을 삭제하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>정말 이 테마를 삭제하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>정말 모든 변경 사항을 취소하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>정말 기본 설정으로 복원하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>정말 키 설정을 기본값으로 복원하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>정말 마우스 설정을 복원하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>정말 이 프로필을 복원하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>정말 터미널 기본 설정을 복원하시겠습니까?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>정책에 의해 비활성화되었습니다.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>사용자에 의해 비활성화되었습니다. 작업 관리자의 시작 탭에서 다시 활성화해 주세요.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>제목 편집</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>오류</value>
@@ -595,11 +623,13 @@ Fuzzy</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>다음 오류로 인해 작업을 완료할 수 없음:</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>테마 가져오기 실패</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>적절한 파서를 찾지 못함</value>
@@ -614,9 +644,11 @@ Fuzzy</comment>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>지금 설정할 키를 입력하세요.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>확인</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>초기화</value>
@@ -631,7 +663,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>탭 제목 변경</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
     <value>모두지움</value>
@@ -643,7 +676,8 @@ Fuzzy</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>키 설정</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>삭제</value>
@@ -659,7 +693,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>새 창</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>다음 탭</value>
@@ -677,17 +712,14 @@ Fuzzy</comment>
     <value>찾기</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>모두 선택</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>설정 표시</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>터미널 1로 전환</value>
@@ -727,14 +759,17 @@ Fuzzy</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>전체 화면 전환</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>창 전환</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>새 원격 탭</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>새 SSH 탭</value>
@@ -750,6 +785,7 @@ Fuzzy</comment>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>포트</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>아이덴티티 파일 경로</value>
@@ -763,24 +799,28 @@ Fuzzy</comment>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>고급</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>Mosh 포트:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>바로 가기 저장</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>변경 사항을 적용하려면 앱을 다시 시작해야 합니다.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>잘못된 입력</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>포트는 0으로 설정할 수 없습니다.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>사용자 및 호스트는 반드시 입력해야 합니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>사용자 이름은 비워둘 수 없습니다.</value>
@@ -790,6 +830,7 @@ Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH 포트는 0보다 큰 값으로 설정해야 합니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh 포트는 0으로 설정할 수 없습니다.</value>
@@ -811,15 +852,18 @@ Fuzzy</comment>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>새 출력</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>오류로 인해 종료됨</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>정말 이 프로필을 삭제하시겠습니까?</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>새 SSH 창</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH 프로필</value>
@@ -850,6 +894,7 @@ Fuzzy</comment>
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>설정을 파일에서 불러왔습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>아이덴티티 파일이 존재하지 않음</value>
@@ -883,6 +928,7 @@ Fuzzy</comment>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>명령어</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>지원되지 않는 명령어:</value>
@@ -898,6 +944,7 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>새 빠른 실행 창</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>새 빠른 창</value>
@@ -910,6 +957,7 @@ Fuzzy</comment>
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>여기에 탭 끌어다 놓기</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>좌측 탭 닫기</value>
@@ -923,24 +971,24 @@ Fuzzy</comment>
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>탭 복제</value>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
-	<data name="Duplicate.Text" xml:space="preserve">
+  <data name="Duplicate.Text" xml:space="preserve">
     <value>복제</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>같은 이름을 가진 환경 변수를 두개씩 정의할 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>이름이 없는 환경 변수를 정의할 수 없습니다.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>환경 변수</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>검색 패널 닫기</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>다음 찾기</value>
@@ -950,9 +998,11 @@ Fuzzy</comment>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>검색 단어 입력</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>검색</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>표시 가능한 출력만 기록</value>
@@ -960,6 +1010,7 @@ Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>출력을 로그에 기록 (디버깅용)</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>띄어쓰기 문자</value>
@@ -1077,5 +1128,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
     <value>Reset font size</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
   </data>
 </root>

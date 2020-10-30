@@ -135,7 +135,8 @@
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>السؤال قبل إغلاق النافذة</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>السؤال قبل إغلاق اللسان</value>
@@ -147,7 +148,8 @@
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
     <value>اللون على اللسان الغير نشط</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>نسخ</value>
@@ -155,11 +157,13 @@
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
     <value>إظهار عنوان اللسان الخاص أيضا على شريط العنوان</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>تغير العنوان</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
     <value>عام</value>
@@ -176,7 +180,8 @@ Fuzzy</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
     <value>يجب إعاد التشعيل حتى يتم تطبيق الإعدادات</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
     <value>لسان جديد</value>
@@ -193,7 +198,8 @@ Fuzzy</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
     <value>نوافذ</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
     <value>فتح منفذ الأوامر كـ</value>
@@ -225,7 +231,8 @@ Fuzzy</comment>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>إعدادات</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>إعدادات</value>
@@ -386,15 +393,18 @@ Fuzzy</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>حجم الخط</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>إدراج</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>إختصارات لوحة المفاتيح</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>إختصارات لوحة المفاتيح</value>
@@ -418,7 +428,8 @@ Fuzzy</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
     <value>أمر الزر الاوسط</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>فأرة</value>
@@ -455,7 +466,8 @@ Fuzzy</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>موضوع</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>مذكرة الإصدار</value>
@@ -484,7 +496,8 @@ Fuzzy</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>نمط شريط التمرير</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>مرئي</value>
@@ -537,59 +550,73 @@ Fuzzy</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>مكان العمل</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إغلاق التبويب &quot;{0}&quot; ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إغلاق هذه النافذة؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>هل أنت متأكد انك تريد حذف إرتباط المفتاح هذا؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>هل أنت متأكد انك تريد حذف هذا الموضوع؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>هل أنت متأكد انك تريد تجاهل جميع التغيرات؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إستعادة الأعدادات العامة؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إستعادة إرتباط المففاتيح الإفتراضي؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إستعادة أعدادات الفأرة؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إستعادة هذا الملف الشخصي؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>هل أنت متأكد انك تريد إستعادة خيارات منفذ الأوامر الأفتراضية؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>تعطلت من السياسة</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>تعطلت من مستخدم. يرجى إعادة تفعيلها من تبويب بدأ التشغيل من مدير المهام؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>تحرير العنوان</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>خطأ</value>
@@ -597,11 +624,13 @@ Fuzzy</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>لا يمكن استكمال العملية بسبب الخطأ الاتي:</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>فشل إضافة موضوع</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>لم يتم إيجاد محلل مناسب</value>
@@ -616,6 +645,7 @@ Fuzzy</comment>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>أدخل أرتباط مفتاحك الأن</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>تم</value>
@@ -651,7 +681,8 @@ Fuzzy</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>أرتباط المفاتيح</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>حذف</value>
@@ -669,7 +700,8 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>نافذة جديدة</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>لسان التالي </value>
@@ -689,17 +721,14 @@ Fuzzy</comment>
     <value>بحث</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>تحديد الكل</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>أظهر الإعدادات</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>إنتقال الى المنفذ 1</value>
@@ -739,14 +768,17 @@ Fuzzy</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>تبديل الى ملء الشاشة</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>تبديل النافذة</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>لسان متحكم جديد</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>لسان SSH جديد</value>
@@ -762,6 +794,7 @@ Fuzzy</comment>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>مدخل</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>مسار ملف الهوية</value>
@@ -776,12 +809,14 @@ Fuzzy</comment>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>متقدم</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>مدخل Mosh :</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>حفظ الإختصار</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>يجب أعادة تشغيل التطبيق حتى يتم تطبيق التغيرات.</value>
@@ -789,13 +824,15 @@ Fuzzy</comment>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>إدخال غير مسموح</value>
-    <comment>خطأ في الإدخال</comment>
+    <comment>خطأ في الإدخال
+Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>لا يمكن للمدخل ان يكون 0.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>إن المسخدم و المضيف خانات إلزامية.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>لا يمكن لإسم المستخدم أن يكون فارعً.</value>
@@ -805,6 +842,7 @@ Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>مدخل SSH يجب أن يكون أكبر من صفر.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>لا يمكن لمدخل Mosh أن يكون صفر.</value>
@@ -828,15 +866,18 @@ Fuzzy</comment>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>مخرج جديد</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>أخرج مع خطأ</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد حذف الملف الشخصي هذا؟</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>نافذة SSH جديدة</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>ملف SSH شخصي</value>
@@ -871,9 +912,11 @@ Fuzzy</comment>
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>أدرجت الأعدادات من ملف</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>ملف الهوية غير موجود</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
     <value>استخدم اسم المستخدم الخاص بـ Windows عند فتح SSH URLs التي لا تتطلب التحديد مخصص</value>
@@ -897,6 +940,7 @@ Fuzzy</comment>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>لا يمكن للموقع ان يكون فارغ.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>اكتم اصوات المنفذ</value>
@@ -906,6 +950,7 @@ Fuzzy</comment>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>أمر</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>أمر غير مدعوم</value>
@@ -922,6 +967,7 @@ Fuzzy</comment>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>نافذة تشغيل سريع جديدة</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>لسان سريع جديد</value>
@@ -936,6 +982,7 @@ Fuzzy</comment>
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>إسقط اللسان هنا</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>أغلق الالسنة على الميسرة</value>
@@ -950,24 +997,24 @@ Fuzzy</comment>
     <value>كرر التبويب</value>
     <comment>أستنسخ التبويب</comment>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
-	<data name="Duplicate.Text" xml:space="preserve">
+  <data name="Duplicate.Text" xml:space="preserve">
     <value>كرر</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>لا يمكن تعريف متغيرين بيئيين بنفس الاسم.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>لا يمكن تعريف مغير بيئي بلا اسم.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>متغيرات بيئية</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>أغلق لوحة البحث</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>جد التالي</value>
@@ -977,15 +1024,19 @@ Fuzzy</comment>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>أدخل شرط بحث</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>ابحث</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>نواتج قابلة للطباعة فقط</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>نواتج السجل للتصحيح</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>أحرف فواصل الكلمة</value>
@@ -1111,5 +1162,8 @@ Type &quot;أخرج من منفذ الأوامر &quot; then type the name in th
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
     <value>Reset font size</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
   </data>
 </root>

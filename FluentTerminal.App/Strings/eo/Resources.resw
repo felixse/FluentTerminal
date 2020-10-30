@@ -135,7 +135,8 @@
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>Konfirmi antaŭ ol fermi fenestron</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>Konfirmi antaŭ ol fermi langeton</value>
@@ -147,19 +148,22 @@
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
     <value>Koloro por malaktivaj langetoj</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>Kopii</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>Montri laŭmendan langet-titolon ankaŭ sur titola breto</value>
-    <comment>GeneralSettings.xaml</comment>
+    <value>Montri tajloritan langet-titolon ankaŭ sur titola breto</value>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>Redakti Titolon</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
     <value>Ĝenerale</value>
@@ -175,7 +179,8 @@
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
     <value>Re-lanĉo necesa por apliki agordon</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
     <value>Nova langeto</value>
@@ -191,7 +196,8 @@
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
     <value>Fenestro</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
     <value>Malfermi novajn terminalojn kiel</value>
@@ -223,7 +229,8 @@
   </data>
   <data name="Setting" xml:space="preserve">
     <value>Agordoj</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>Agordoj</value>
@@ -234,7 +241,7 @@
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>Montri langetojn sur</value>
+    <value>Montri langetojn</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
@@ -242,11 +249,11 @@
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>Malsupro</value>
+    <value>Malsupre</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>Supro</value>
+    <value>Supre</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
@@ -383,15 +390,18 @@
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>Tipara grando</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>Importi</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>Fulmoklavo</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>Fulmoklavo</value>
@@ -414,8 +424,9 @@
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Mezbutona ago</value>
-    <comment>MouseSettings.xaml</comment>
+    <value>Ago por meza musbutono</value>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>Muso</value>
@@ -439,7 +450,8 @@
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>Ŝtopado</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
     <value>Nomo</value>
@@ -451,14 +463,15 @@
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>Etosoj</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>Liveraj notoj</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Dekstr-butona ago</value>
+    <value>Ago por dekstra musbutono</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
@@ -467,7 +480,8 @@
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
     <value>Limo por antaŭrulumado</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
     <value>Aŭtomate kaŝi</value>
@@ -479,7 +493,8 @@
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>Rulumskala etoso</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>Videbla</value>
@@ -531,59 +546,73 @@
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>Kuranta dosierujo</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>Ĉu vi vere volas fermi langeton &quot;{0}&quot;?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>Ĉu vi vere volas fermi ĉi tiun fenestron?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>Ĉu vi vere volas forviŝi ĉi tiun klavkombinon?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>Ĉu vi vere volas forviŝi ĉi tiun etoson?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>Ĉu vi vere volas forĵeti ĉiujn ŝanĝojn?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>Ĉu vi vere volas restaŭri ĝeneralajn agordojn?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>Ĉu vi vere volas restaŭrajn implicajn klavkombinojn?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>Ĉu vi vere volas restaŭri agordojn de muso?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>Ĉu vi vere volas restaŭri ĉi tiun profilon?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>Ĉu vi vere volas restaŭri implicajn opciojn por terminalo?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>Malebligita de sistem-regularo.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>Malebliglita de uzanto. Reaktivigu ĝin ĉe langeto &quot;Memlanĉo&quot; de Taskadministrilo.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>Redakti Titolon</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Eraro</value>
@@ -591,11 +620,13 @@
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>Operacio ne kompletiĝis pro sekva eraro:</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>La importado de etoso malsukcesis</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>Ne troviĝas taŭga sintaksa analizilo</value>
@@ -610,9 +641,11 @@
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>Enigu vian klavkombinon nun</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>Bone</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>Restarigi</value>
@@ -627,7 +660,8 @@
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>Ŝanĝi titolon de langeto</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
     <value>Malplenigi</value>
@@ -639,7 +673,8 @@
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Klavkombinoj</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>Forviŝi</value>
@@ -655,7 +690,8 @@
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>Nova fenestro</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>Sekva langeto</value>
@@ -666,24 +702,21 @@
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>Antaŭa</value>
+    <value>Antaŭa langeto</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
     <value>Serĉi</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
-	<data name="Command.SelectAll" xml:space="preserve">
+  <data name="Command.SelectAll" xml:space="preserve">
     <value>Elekti ĉiujn</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>Montri agordojn</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>Ŝanĝi al Terminalo 1</value>
@@ -723,14 +756,17 @@
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>Baskuligi plenekranan reĝimon</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>Baskuligi fenestron</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>Nova fora langeto</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Nova langeto por SSH</value>
@@ -746,6 +782,7 @@
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>porda numero</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Identeca dosierindiko</value>
@@ -754,28 +791,32 @@
     <value>Foliumi</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Uzi na Mosh</value>
+    <value>Uzi Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>Altnivele</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>Pordoj de Mosh:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Konservi ŝparvojon</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Ĉi aplikaĵo postulas restartigon, por ke ĉi tiu ŝango efektiviĝu.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Nevalida enigo</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>Pordo ne rajtas esti 0.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>Uzanto kaj ĉefkomputilo estas devigaj kampoj.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Uzantnomo ne rajtas esti malplena</value>
@@ -785,6 +826,7 @@
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>Pordo de SSH devas esti pli granda ol nulo.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Pordo de Mosh ne rajtas esti nulo.</value>
@@ -806,15 +848,18 @@
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nova eligo</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>Eliris kun eraro</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>Ĉu vi vere volas forviŝi ĉi tiun profilon?</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Nova fenestro por SSH</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>Profiloj de SSH</value>
@@ -823,7 +868,7 @@
     <value>Langeta koloro:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>Uzi na ConPty</value>
+    <value>Uzi ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
     <value>Uzantnomo</value>
@@ -845,15 +890,17 @@
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>Importiĝis agordoj el dosiero</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>Identeca dosiero ne ekzistas</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Uzi uzantnomon de Windows kiam malfermiĝas URL-j de SSH, kiuj ne indikas tian</value>
+    <value>Uzi uzantnomon de Windows kiam malfermiĝas URL-j de SSH, kiuj ne indikas unu tian</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>Implice uzi na Mosh por konektoj SSH</value>
+    <value>Implice uzi Mosh por konektoj SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
     <value>Stuci dekstre de kopiitaj linioj</value>
@@ -866,6 +913,7 @@
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>Loko ne rajtas esti malplena.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Silentigi pepojn de terminalo</value>
@@ -875,6 +923,7 @@
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>Komando</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>Nesubtenata komando:</value>
@@ -883,13 +932,14 @@
     <value>Mankas argumentoj de komando.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Rapida Lanĉo</value>
+    <value>Rapida lanĉo</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
     <value>Nova rapidlanĉa langeto</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>Nova rapidlanĉa fenestro</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>Nova rapida langeto</value>
@@ -902,6 +952,7 @@
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>Demetu langeton ĉi tien</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>Fermi langetojn maldekstre</value>
@@ -915,24 +966,24 @@
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>Duobligi langeton</value>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>Duobligi</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>Ne eblas difini du medivariablojn samnomajn.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>Ne eblas difini medivariablon sennoman.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>Medivariabloj</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>Fermi serĉpanelon</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>Trovi sekvan</value>
@@ -942,15 +993,19 @@
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>Enigi serĉvorton</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>Serĉi</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>Nur presebla eligo</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>Protokoli eligon por sencimigo</value>
+    <value>Protokola eligo por sencimigo</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Vort-apartigaj signoj</value>
@@ -965,13 +1020,13 @@
     <value>Malfermas novan seancon de SSH aŭ Mosh je nova langeto.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Malfermas dialogon &quot;Rapida Lanĉo&quot; kaj lanĉas seancon je nova langeto.</value>
+    <value>Malfermas dialogon &quot;Rapida lanĉo&quot; kaj lanĉas seancon je nova langeto.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Malfermas agordan fenestron.</value>
+    <value>Malfermas agordaran fenestron.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Bazaj informoj pri ĉi aplikaĵo.</value>
+    <value>Simplaj informoj pri ĉi tiu aplikaĵo.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
     <value>Laste malfermitaj seancoj.</value>
@@ -980,22 +1035,22 @@
     <value>Lanĉas novan terminalan seancon bazitan sur implicita profilo.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Defora Konekto...</value>
+    <value>Defora konekto...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Malfermas dialogon por lanĉi novan terminal-seancon de SSH aŭ Mosh.</value>
+    <value>Malfermas dialogon por lanĉi novan terminalan seancon de SSH aŭ Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Rapida Lanĉo...</value>
+    <value>Rapida lanĉo...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Malfermas dialogon de &quot;Rapida Lanĉo&quot; por lanĉi novan terminal-seancon.</value>
+    <value>Malfermas dialogon de &quot;Rapida lanĉo&quot; por lanĉi novan terminalan seancon.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Nova Fenestro</value>
+    <value>Nova fenestro</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Nova Langeto</value>
+    <value>Nova langeto</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
     <value>Lanĉas novan seancon je nova langeto.</value>
@@ -1010,13 +1065,13 @@
     <value>Plata, laŭ agordo &quot;Malfermi novajn terminalojn kiel&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;Nova langeto&quot; / &quot;Nova Fenestro&quot; parte sinkovrantaj</value>
+    <value>&quot;Nova langeto&quot; / &quot;Nova fenestro&quot; parte sinkovrantaj</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
     <value>Forlasi</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Forlasi na Fluent Terminal</value>
+    <value>Forlasi Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>Ebligita de sistem-regularo.</value>
@@ -1061,12 +1116,15 @@
     <value>Seanco malkonektiĝis.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Pligrandigi tiparan grandon</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Malpligrandigi tiparan grandon</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Restarigi norman tipar-grandon</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Rekonekti langeton</value>
   </data>
 </root>

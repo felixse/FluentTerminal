@@ -135,7 +135,8 @@
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>Pencereleri kapatmadan önce sor</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>Sekmeleri kaptmadan önce sor</value>
@@ -147,7 +148,8 @@
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
     <value>Aktif olmayan sekme rengi</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>Kopyala</value>
@@ -155,11 +157,13 @@
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
     <value>Özel sekme başlığını başlık çubuğunda da göster</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>Başlığı Düzenle</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
     <value>Genel</value>
@@ -175,7 +179,8 @@
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
     <value>Ayarları uygulamak için yeniden başlatma gereklidir</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
     <value>Yeni sekme</value>
@@ -191,7 +196,8 @@
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
     <value>Pencereler</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
     <value>Yeni terminalleri şu şekilde aç:</value>
@@ -224,7 +230,8 @@
   </data>
   <data name="Setting" xml:space="preserve">
     <value>Ayarlar</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>Ayarlar</value>
@@ -384,15 +391,18 @@
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>Font Boyutu</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>İçe Aktar</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>Klavye kısayolları</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>Klavye kısayolları</value>
@@ -416,7 +426,8 @@
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
     <value>Orta tuş eylemi</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>Mouse</value>
@@ -440,7 +451,8 @@
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>Padding</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
     <value>İsim</value>
@@ -452,7 +464,8 @@
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>Tema</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>Sürüm notları</value>
@@ -468,7 +481,8 @@
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
     <value>Geri kaydırma sınırı</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
     <value>Otomatik gizleme</value>
@@ -480,7 +494,8 @@
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>Kaydırma çubuğu stili</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>Görünür</value>
@@ -511,7 +526,7 @@
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Yazar</value>
+    <value>Tema Sahibi</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
@@ -532,59 +547,73 @@
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>Çalışma dizini</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>&quot;{0}&quot; sekmesini kapatmak istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>Bu pencereyi kapatmak istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>Bu tuş takımını silmek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>Bu temayı silmek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>Tüm değişiklikleri silmek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>Genel ayarları geri yüklemek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>Varsayılan tuş bağlantılarını geri yüklemek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>Fare ayarlarını geri yüklemek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>Bu profili geri yüklemek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>Varsayılan terminal seçeneklerini geri yüklemek istediğinizden emin misiniz?</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>Politika tarafından devre dışı bırakıldı.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>Kullanıcı tarafından devre dışı bırakıldı. Lütfen Görev Yöneticisi&apos;nin Başlangıç sekmesinde yeniden etkinleştirin.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>Başlığı Düzenle</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Hata</value>
@@ -592,11 +621,13 @@
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>Aşağıdaki hata nedeniyle işlem tamamlanamıyor:</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>Tema içe aktarılamadı</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>Uygun ayrıştırıcı bulunamadı</value>
@@ -611,9 +642,11 @@
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>Tuş bağlantınızı şimdi girin</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>Tamam</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>Sıfırla</value>
@@ -628,7 +661,8 @@
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>Sekme başlığını değiştir</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
     <value>Temizle</value>
@@ -640,7 +674,8 @@
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>Keybindings</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>Sil</value>
@@ -656,7 +691,8 @@
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>Yeni Pencere</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>Sonraki sekme</value>
@@ -674,17 +710,14 @@
     <value>Arama</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>Tümünü Seç</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>Ayarları göster</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>Terminal 1&apos;e geçin</value>
@@ -724,14 +757,17 @@
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>Tam ekrana geç</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>Pencereyi aç / kapat</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>Yeni uzak (remote) sekmesi</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Yeni SSH sekmesi</value>
@@ -747,6 +783,7 @@
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>Liman</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>Kimlik dosyası yolu</value>
@@ -759,24 +796,28 @@
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>ileri</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>Mosh limanları:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>Kısayolu Kaydet</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Bu değişikliğin geçerli olması için uygulamanın yeniden başlatılması gerekiyor.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>Geçersiz Giriş</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>Bağlantı noktası 0 olamaz.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>Kullanıcı ve ana bilgisayar zorunlu alanlardır.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>Kullanıcı adı boş bırakılamaz.</value>
@@ -786,6 +827,7 @@
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH bağlantı noktası sıfırdan büyük olmalıdır.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh limanı sıfır olamaz.</value>
@@ -807,15 +849,18 @@
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>Yeni çıktı</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>Hatadan çıkıldı</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>Bu profili silmek istediğinizden emin misiniz?</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>Yeni SSH penceresi</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH Profilleri</value>
@@ -846,9 +891,11 @@
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>Ayarlar dosyadan içe aktarıldı</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>Dosya tanımlama yok</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
     <value>Birini belirtmeyen SSH URL&apos;lerini açarken Windows kullanıcı adını kullanın</value>
@@ -867,6 +914,7 @@
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>Konum boş bırakılamaz.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>Terminal bip seslerini kapatma</value>
@@ -876,6 +924,7 @@
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>komuta</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>Desteklenmeyen komut:</value>
@@ -891,6 +940,7 @@
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>Yeni hızlı başlatma penceresi</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>Yeni hızlı sekme</value>
@@ -903,6 +953,7 @@
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>Sekmeyi buraya bırakın</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>Soldaki sekmeleri kapat</value>
@@ -916,24 +967,24 @@
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>Yinelenen sekme</value>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>Çiftleme</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>Aynı ada sahip iki ortam değişkeni tanımlanamıyor.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>Adsız bir ortam değişkeni tanımlanamıyor.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>Ortam Değişkenleri</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>Arama panelini kapat</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sonraki Bul</value>
@@ -943,15 +994,19 @@
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>Arama terimini gir</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>Arama</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>Yalnızca yazdırılabilir çıktı</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>Hata ayıklama için günlük çıktısı</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>Kelime ayırıcı karakterler</value>
@@ -1069,5 +1124,8 @@
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
     <value>Yazı tipi boyutu ayarını sıfırla</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Sekmeye yeniden bağlan</value>
   </data>
 </root>

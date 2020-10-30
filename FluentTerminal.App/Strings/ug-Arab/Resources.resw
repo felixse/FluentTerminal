@@ -135,7 +135,8 @@
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
     <value>كۆزنەكنى تاقاشتىن بۇرۇن جەزىملەشتۈرۈش</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
     <value>بەتكۈچنى تاقاشتىن بۇرۇن جەزىملەشتۈرۈش</value>
@@ -147,7 +148,8 @@
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
     <value>سۈكۈتتىكى بەتكۈچ رەڭگى</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>كۆچۈرۈش</value>
@@ -155,11 +157,13 @@
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
     <value>ماۋزۇ ئىستونىدا خاسلاشتۇرۇلغان بەتكۈچ ماۋزۇسىنىمۇ كۆرسىتىش</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
     <value>ماۋزۇنى تەھرىرلەش</value>
-    <comment>TabBar.xaml</comment>
+    <comment>TabBar.xaml
+Fuzzy</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
     <value>ئاساسلىق</value>
@@ -176,7 +180,8 @@
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
     <value>تەڭشەشنى ئىلتىماس قىلىش تەلەپ قىلىنىدۇ</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
     <value>يېڭى بەتكۈچ</value>
@@ -192,7 +197,8 @@
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
     <value>كۆزنەكلەر</value>
-    <comment>GeneralSettings.xaml</comment>
+    <comment>GeneralSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
     <value>يېڭى تېرمىنال ئېچىش نىشانى</value>
@@ -224,7 +230,8 @@
   </data>
   <data name="Setting" xml:space="preserve">
     <value>تەڭشەك</value>
-    <comment>SettingsPage.xaml.cs</comment>
+    <comment>SettingsPage.xaml.cs
+Fuzzy</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
     <value>تەڭشەك</value>
@@ -384,15 +391,18 @@
   </data>
   <data name="FontSize.Header" xml:space="preserve">
     <value>خەت چوڭلۇقى</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
     <value>ئىمپورىت</value>
-    <comment>ThemeSettings.xaml</comment>
+    <comment>ThemeSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
     <value>كۇنۇپكا تاختىسى تېزلەتمىسى</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
     <value>كۇنۇپكا تاختىسى تېزلەتمە كۇنۇپكىلىرى</value>
@@ -416,7 +426,8 @@
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
     <value>ئوتتۇرا كۇنۇپكا ھەرىكىتى</value>
-    <comment>MouseSettings.xaml</comment>
+    <comment>MouseSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
     <value>مائۇس</value>
@@ -440,7 +451,8 @@
   </data>
   <data name="Padding.Header" xml:space="preserve">
     <value>ئىچكى ئارىلىق</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
     <value>ئىسىم</value>
@@ -452,7 +464,8 @@
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
     <value>ئۇسلۇب</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
     <value>نەشىر خاتىرىلىرى</value>
@@ -468,7 +481,8 @@
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
     <value>ئايلاندۇرۇپ قايتىش چېكى</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
     <value>ئاپتوماتىك يوشۇرۇلىدىغان</value>
@@ -480,7 +494,8 @@
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
     <value>ئايلانما بالداق ئۇسلۇبى</value>
-    <comment>TerminalSettings.xaml</comment>
+    <comment>TerminalSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
     <value>كۈرۈندىغان</value>
@@ -532,59 +547,73 @@
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
     <value>خىزمەت مۇندەرىجىسى</value>
-    <comment>ShellProfileSettings.xaml</comment>
+    <comment>ShellProfileSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
     <value>«{0}» بەتكۈچىنى تاقاشنى خالامسىز؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
     <value>بۇ كۆزنەكنى تاقاشنى خالامسىز؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
     <value>بۇ تېزلەتمە كۇنۇپكا باغلانمىسىنى ئۆچۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
     <value>بۇ ئۇسلۇبنى ئۆچۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
     <value>بارلىق ئۆزگىرىشلەرنى تاشلىماقچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
     <value>ئاساسلىق تەڭشەكلەرنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
     <value>سۈكۈتتىكى كۇنۇپكىلارنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
     <value>مائۇسنىڭ تەڭشىكىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
     <value>بۇ ئارخىپىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
     <value>سۈكۈتتىكى تېرمىنال تاللانمىلىرىنى ئەسلىگە كەلتۈرمەكچىمۇ؟</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
     <value>سىياسەت تەرىپىدىن چەكلەنگەن.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
     <value>ئىشلەتكۈچى تەرىپىدىن چەكلەنگەن. ۋەزىپە باشقۇرغۇچىنىڭ باشلاش بەتكۈچىدە ئۇنى قايتا قوزغىتىڭ.</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
     <value>ماۋزۇنى تەھرىرلەش</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="Error" xml:space="preserve">
     <value>خاتالىق</value>
@@ -592,11 +621,13 @@
   </data>
   <data name="ErrorString1" xml:space="preserve">
     <value>تۆۋەندىكى خاتالىق سەۋەبىدىن مەشغۇلات تاماملانمايدۇ:</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
     <value>ئۇسلۇب ئەكىرىش مەغلۇپ بولدى</value>
-    <comment>ViewModel</comment>
+    <comment>ViewModel
+Fuzzy</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
     <value>ماس كېلىدىغان تەھلىلچى تېپىلمىدى</value>
@@ -611,9 +642,11 @@
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
     <value>ھازىر كۇنۇپكا باغلانمىڭىزنى كىرگۈزۈڭ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="OK" xml:space="preserve">
     <value>ماقۇل</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
     <value>ئەسلىگە قايتۇرۇش</value>
@@ -628,7 +661,8 @@
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
     <value>بەتكۈچ نامىنى ئۆزگەرتىڭ</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
     <value>تازىلاش</value>
@@ -640,7 +674,8 @@
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
     <value>كونۇپكا باغلانمىلىرى</value>
-    <comment>KeyBindingSettings.xaml</comment>
+    <comment>KeyBindingSettings.xaml
+Fuzzy</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
     <value>ئۆچۈرۈش</value>
@@ -656,7 +691,8 @@
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
     <value>يېڭى كۆزنەك</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
     <value>كېيىنكى بەتكۈچ</value>
@@ -674,17 +710,14 @@
     <value>ئىزدەش</value>
     <comment>Command</comment>
   </data>
-  <data name="Command.CloseSearch" xml:space="preserve">
-    <value>Close search</value>
-    <comment>Command</comment>
-  </data>
   <data name="Command.SelectAll" xml:space="preserve">
     <value>ھەممىنى تاللاش</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
     <value>تەڭشەكلەرنى كۆرسىتىش</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
     <value>1-تېرمىنالغا ئالماشتۇرۇش</value>
@@ -724,14 +757,17 @@
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
     <value>پۈتۈن ئېكران ھالىتىنى ئالماشتۇرۇش</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
     <value>كۆزنەكنى ئالماشتۇرۇش</value>
-    <comment>Command</comment>
+    <comment>Command
+Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
     <value>يىڭى يىراق بەتكۈچ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>يىڭى SSH بەتكۈچ</value>
@@ -747,6 +783,7 @@
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
     <value>ئېغىز</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
     <value>كىملىك ھۆججەت ئورنى</value>
@@ -759,24 +796,28 @@
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
     <value>ئىچكىرىلىگەن</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
     <value>Mosh ئېغىرلىرى</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>تېزلەتمە ساقلاش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>بۇ ئۆزگەرتىشنىڭ كۈچكە ئىگە بولۇشى ئۈچۈن قايتا قوزغىتىش كېرەك.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>ئىناۋەتسىز كىرگۈزۈش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
     <value>ئېغىز 0 بولالمايدۇ.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>ئابونىت ۋە مۇلازىمىتىر چوقۇم تەمىنلىنىدىغان ئۇچۇرلار</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
     <value>ئابونىت ئىسمى قۇرۇق بولمايدۇ.</value>
@@ -786,6 +827,7 @@
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
     <value>SSH ئېغىزى نۆلدىن چوڭ بولۇشى كېرەك.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
     <value>Mosh ئېغىزى نۆل بولالمايدۇ.</value>
@@ -807,15 +849,18 @@
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
     <value>يىڭى چىقىرىش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
     <value>خاتالىق بىلەن چېكىندى</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
     <value>بۇ ئارخىپنى ئۆچۈرمەكچىمۇ؟</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
     <value>يېڭى SSH كۆزنىكى</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
     <value>SSH ئارخىپى</value>
@@ -847,9 +892,11 @@
   </data>
   <data name="SettingsImported" xml:space="preserve">
     <value>تەڭشەكلەر ھۆججەتتىن كىرگۈزۈلدى</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
     <value>پەرقلەندۈرۈش ھۆججىتى مەۋجۇت ئەمەس</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
     <value>SSH ئادىرىسىنى نى ئاچقاندا ۋىندوۋىس ئىشلەتكۈچى نامىنى ئىشلىتىش</value>
@@ -868,6 +915,7 @@
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
     <value>ئورنى بوش بولمايدۇ.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
     <value>تېرمىنال ئەسكەرتمە ئاۋازىنى تاقاش</value>
@@ -877,6 +925,7 @@
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
     <value>بۇيرۇق</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>قوللىمايدىغان بۇيرۇق:</value>
@@ -892,6 +941,7 @@
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
     <value>يېڭى تېز قوزغىتىش كۆزنىكى</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
     <value>يېڭى تېز بەتكۈچ</value>
@@ -904,6 +954,7 @@
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>بەتكۈچنى بۇ يەرگە تاشلاڭ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
     <value>سول تەرەپتىكى بەتكۈچلەرنى تاقاش</value>
@@ -917,24 +968,24 @@
   <data name="Command.DuplicateTab" xml:space="preserve">
     <value>بەتكۈچنى كۈپەيتىش</value>
   </data>
-  <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
-    <comment>Command</comment>
-  </data>
   <data name="Duplicate.Text" xml:space="preserve">
     <value>كۆپەيتىش</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>ئوخشاش ئىسىمدىكى ئىككى مۇھىت ئۆزگەرگۈچى مىقدارنى بەلگىلىيەلمەيدۇ.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
     <value>ئىسىمسىز مۇھىت ئۆزگەرگۈچى مىقدارنى بەلگىلىيەلمەيدۇ.</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
     <value>مۇھىت ئۆزگەرگۈچى مىقدار</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
     <value>ئىزدەش تاختىسىنى تاقاش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
     <value>كېيىنكىسىنى تېپىش</value>
@@ -944,15 +995,19 @@
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
     <value>ئىزدەش ئاتالغۇسىنى كىرگۈزۈش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
     <value>ئىزدەش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
     <value>پەقەت بېسىپ چىقىرىشقىلا بولىدۇ</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
     <value>ھەل قىلىش ئۈچۈن خاتىرە چىقىرىش</value>
+    <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>سۆز ئايرىش ھەرپلىرى</value>
@@ -1070,5 +1125,8 @@
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
     <value>Reset font size</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Reconnect tab</value>
   </data>
 </root>
