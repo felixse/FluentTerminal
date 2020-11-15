@@ -90,6 +90,7 @@ namespace FluentTerminal.App.Views
         private void OnSearchStarted(object sender, EventArgs e)
         {
             SearchTextBox.Focus(FocusState.Programmatic);
+            SearchTextBox.SelectAll();
         }
 
         private void OnSearchTextBoxKeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
