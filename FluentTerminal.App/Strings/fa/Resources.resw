@@ -1116,15 +1116,15 @@ Fuzzy</comment>
     <value>نشست قطع شده است.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>افزایش اندازه‌ی قلم</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>کاهش اندازه‌ی قلم</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>تنظیم مجدد اندازه‌ی قلم</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>اتصال مجدد زبانه</value>
   </data>
 </root>
