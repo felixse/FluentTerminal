@@ -244,6 +244,9 @@ window.createTerminal = (options, theme, keyBindings) => {
             term.selectAll();
             return false;
           }
+          if (keyBinding.command == 'CloseSearch') {
+            return true;
+          }
 
           e.preventDefault();
           window.terminalBridge.invokeCommand(keyBinding.command);
