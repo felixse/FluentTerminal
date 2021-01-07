@@ -39,6 +39,7 @@ A Terminal Emulator based on UWP and web technologies.
 - Arabic
 - Arabic (Iraq)
 - Azerbaijani
+- Bosnian
 - Chinese (Simplified)
 - Chinese (Traditional)
 - Dutch
