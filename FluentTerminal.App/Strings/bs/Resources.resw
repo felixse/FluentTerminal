@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutDialog.Title" xml:space="preserve">
+    <value>O</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="Background.Content" xml:space="preserve">
+    <value>Pozadina</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Blue" xml:space="preserve">
+    <value>Plava</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zatvori</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ConfirmWindowClosing.Header" xml:space="preserve">
+    <value>Pitaj pitaj zatvaranja prozora</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ConfirmTabClosing.Header" xml:space="preserve">
+    <value>Pitaj pitaj zatvaranja kartica</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Color.Text" xml:space="preserve">
+    <value>Boja</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ColorInactiveTabs.Text" xml:space="preserve">
+    <value>Boja neaktivnih kartica</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Command.Copy" xml:space="preserve">
+    <value>Kopiraj</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="CustomTitle.Header" xml:space="preserve">
+    <value>Prikaži naziv kartice i u nazivnoj traci</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="EditTitle.Text" xml:space="preserve">
+    <value>Izmijeni naslov</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="General.Text" xml:space="preserve">
+    <value>Opće</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Green" xml:space="preserve">
+    <value>Zelena</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="IndicatorOutput.Header" xml:space="preserve">
+    <value>Prikaži novi indikator izlaza u pozadinskim karticama</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NeedRelaunch.Text" xml:space="preserve">
+    <value>Potrebno ponovo pokrenuti kako bi se postavke aktivirale</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="NewTab.Text" xml:space="preserve">
+    <value>Nova kartica</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="TabTheme.None" xml:space="preserve">
+    <value>Nijedna</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="ONTA_Tabs.Content" xml:space="preserve">
+    <value>Kartice</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="ONTA_Windows.Content" xml:space="preserve">
+    <value>Windows</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="OpenNewTerminalAs.Text" xml:space="preserve">
+    <value>Otvori novi terminal</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Orange" xml:space="preserve">
+    <value>Narandžasta</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Command.Paste" xml:space="preserve">
+    <value>Zalijepi</value>
+    <comment>XtermTerminalView.xaml.cs</comment>
+  </data>
+  <data name="TabTheme.Purple" xml:space="preserve">
+    <value>Ljubičasta</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TabTheme.Red" xml:space="preserve">
+    <value>Crvena</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="Restore.Label" xml:space="preserve">
+    <value>Vrati standardne vrijednosti</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="RunOnStartup.Header" xml:space="preserve">
+    <value>Otvori pri pokretanju sistema</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>Postavke</value>
+    <comment>SettingsPage.xaml.cs</comment>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Postavke</value>
+    <comment>MainPage.xaml</comment>
+  </data>
+  <data name="SystemTray.Header" xml:space="preserve">
+    <value>Prikaži u sistemskoj traci</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabsPostion.Text" xml:space="preserve">
+    <value>Kartice prikaži na</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TabTheme.Teal" xml:space="preserve">
+    <value>Morska</value>
+    <comment>TabBar.xaml</comment>
+  </data>
+  <data name="TP_Bottom.Content" xml:space="preserve">
+    <value>Dno</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="TP_Top.Content" xml:space="preserve">
+    <value>Vrh</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Underline.Content" xml:space="preserve">
+    <value>Podvučeno</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="UnderlineTab.Header" xml:space="preserve">
+    <value>Podvuci selektiranu karticu</value>
+    <comment>GeneralSettings.xaml</comment>
+  </data>
+  <data name="Setting_About.Content" xml:space="preserve">
+    <value>O</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_General.Content" xml:space="preserve">
+    <value>Opće</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Keybindings.Content" xml:space="preserve">
+    <value>Kratice na tastaturi</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Mouse.Content" xml:space="preserve">
+    <value>Miš</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Profiles.Content" xml:space="preserve">
+    <value>Profili</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Terminal.Content" xml:space="preserve">
+    <value>Terminal</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Setting_Themes.Content" xml:space="preserve">
+    <value>Teme</value>
+    <comment>SettingsPage.xaml</comment>
+  </data>
+  <data name="Add.Content" xml:space="preserve">
+    <value>Dodaj</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Arguments.Header" xml:space="preserve">
+    <value>Argumenti</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="BackgroundOpacity.Header" xml:space="preserve">
+    <value>Providnost pozadine</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BlinkingCursor.Header" xml:space="preserve">
+    <value>Svjetlucajući kursor</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="BoldText.Header" xml:space="preserve">
+    <value>Podebljani tekst</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>Zatvori</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CheckingUpdates.Text" xml:space="preserve">
+    <value>Tražim nove verzije...</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CheckUpdates.Label" xml:space="preserve">
+    <value>Tražim nove verzije</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="ClickColorEdit.Text" xml:space="preserve">
+    <value>Kliknite na boju kako biste je promijenili</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CloneAppBarButton.Label" xml:space="preserve">
+    <value>Kloniraj</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ColorPalette.Text" xml:space="preserve">
+    <value>Paleta boja</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="CopiedNotification.Header" xml:space="preserve">
+    <value>Obavijest o kopiranom tekstu</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CopyOnSelect.Header" xml:space="preserve">
+    <value>Kopiraj po selektiranju</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="CreateProfile.Text" xml:space="preserve">
+    <value>Kreiraj novi</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="CurrentVersion.Text" xml:space="preserve">
+    <value>Aktualna verzija</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="CursorBar.Content" xml:space="preserve">
+    <value>Traka</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorBlock.Content" xml:space="preserve">
+    <value>Blokiraj</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorStyle.Text" xml:space="preserve">
+    <value>Stil kursora</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="CursorUnderline.Content" xml:space="preserve">
+    <value>Podvuci</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="DeleteAppBarButton.Label" xml:space="preserve">
+    <value>Obriši</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
+    <value>Ne mijenjaj završetke redova (line endings)</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="EditAppBarButton.Label" xml:space="preserve">
+    <value>Izmijeni</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ExportAppBarButton.Label" xml:space="preserve">
+    <value>Eksportiraj</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="FontFamily.Header" xml:space="preserve">
+    <value>Porodica fontova</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="FontSize.Header" xml:space="preserve">
+    <value>Veličina fonta</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ImportTheme.Text" xml:space="preserve">
+    <value>Importiraj</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut.Header" xml:space="preserve">
+    <value>Kratica na tastaturi</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="KeyboardShortcut1.Text" xml:space="preserve">
+    <value>Kratica na tastaturi</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LatestVersion.Text" xml:space="preserve">
+    <value>Posljednja verzija</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="License.Text" xml:space="preserve">
+    <value>Licenca</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="LineEndingMode.Header" xml:space="preserve">
+    <value>Način prevođenja završetaka redova</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
+    <value>Način prevođenja završetaka redova pri zaljepljivanju</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="MiddleButtonAction.Text" xml:space="preserve">
+    <value>Akcija srednje tipke na mišu</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="Mouse.Text" xml:space="preserve">
+    <value>Miš</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseContextMenu.Content" xml:space="preserve">
+    <value>Meni konteksta</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MouseNothing.Content" xml:space="preserve">
+    <value>Ništa</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="MousePaste.Content" xml:space="preserve">
+    <value>Zalijepi</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="NewTheme.Text" xml:space="preserve">
+    <value>Kreiraj novi</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="Padding.Header" xml:space="preserve">
+    <value>Uvučeno</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ProfileName.Header" xml:space="preserve">
+    <value>Naziv</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Profiles.Text" xml:space="preserve">
+    <value>Profili</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ProfileTheme.Header" xml:space="preserve">
+    <value>Teme</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ReleaseNotes.Text" xml:space="preserve">
+    <value>Zabilješke o verziji</value>
+    <comment>About.xaml</comment>
+  </data>
+  <data name="RightButtonAction.Text" xml:space="preserve">
+    <value>Akcija desnog klika</value>
+    <comment>MouseSettings.xaml</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>Spasi</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ScrollbackLimit.Header" xml:space="preserve">
+    <value>Limit scrollbacka</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarAuto.Content" xml:space="preserve">
+    <value>Automatsko prikrivanje</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarHidden.Content" xml:space="preserve">
+    <value>Skriven</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollbarStyle.Text" xml:space="preserve">
+    <value>Stil scrollbara</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="ScrollBarVisible.Content" xml:space="preserve">
+    <value>Vidljiv</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="SetActiveAppBarButton.Label" xml:space="preserve">
+    <value>Postavi za aktivno</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
+    <value>Postavi za standardno</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ShellLocation.Header" xml:space="preserve">
+    <value>Lokacija izvršne datoteke Shella</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="TabColor.Header" xml:space="preserve">
+    <value>Boja kartice</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="Terminal.Text" xml:space="preserve">
+    <value>Terminal</value>
+    <comment>TerminalSettings.xaml</comment>
+  </data>
+  <data name="Theme.Text" xml:space="preserve">
+    <value>Tema:</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeAuthor.Header" xml:space="preserve">
+    <value>Autor</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="ThemeName.Header" xml:space="preserve">
+    <value>Naziv</value>
+    <comment>ThemeSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCR" xml:space="preserve">
+    <value>Pretvori završetke redova u CR</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
+    <value>Pretvori završetke redova u CR+LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="LineEndingStyle.ToLF" xml:space="preserve">
+    <value>Pretvori završetke redova u LF</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="WorkingDir.Header" xml:space="preserve">
+    <value>Radni direktorij</value>
+    <comment>ShellProfileSettings.xaml</comment>
+  </data>
+  <data name="ConfirmCloseTab" xml:space="preserve">
+    <value>Jeste li sigurni da želite zatvoriti &quot;{0}&quot; karticu?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmCloseWindow" xml:space="preserve">
+    <value>Jeste li sigurni da želite zatvoriti ovaj prozor?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteKeybindings" xml:space="preserve">
+    <value>Jeste li sigurni da želite obrisati obu kraticu na tastaturi?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDeleteTheme" xml:space="preserve">
+    <value>Jeste li sigurni da želite obrisati ovu temu?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmDiscardChanges" xml:space="preserve">
+    <value>Jeste li sigurni da želite poništiti sve izmjene?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
+    <value>Jeste li sigurni da želite ponovo vratiti opće postavke?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreKeybindings" xml:space="preserve">
+    <value>Jeste li sigurni da želite ponovo vratiti standardne kratice na tasturi?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
+    <value>Jeste li sigurni da želite ponovo vratit postavke za miš?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreProfile" xml:space="preserve">
+    <value>Jeste li sigurni da želite ponovo aktivirati ovaj profil?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
+    <value>Jeste li sigurni da želite vratiti standardne opcije za terminal?</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByPolicy" xml:space="preserve">
+    <value>Onemogućeno.</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="DisabledByUser" xml:space="preserve">
+    <value>Onemogućeno od strane korisnika. Molimo ponovo aktivirajte na početnoj kartici Task Managera.</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="EditTitleString" xml:space="preserve">
+    <value>Izmijeni naslov. </value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Greška</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ErrorString1" xml:space="preserve">
+    <value>Operacija ne može biti izvršena radi sljedeće greške:</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="ImportThemeFailed" xml:space="preserve">
+    <value>Nije uspjelo importiranje teme</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="NoSuitableParserFound" xml:space="preserve">
+    <value>Odgovarajući parser nije pronađen</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="PleaseConfirm" xml:space="preserve">
+    <value>Potvrdite</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Otkaži</value>
+  </data>
+  <data name="KeybindingDialogTitle.Text" xml:space="preserve">
+    <value>Unesite kraticu na tastaturi</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ResetBtn.Content" xml:space="preserve">
+    <value>Ponovo pokreni</value>
+  </data>
+  <data name="TextCopied" xml:space="preserve">
+    <value>Tekst kopiran</value>
+    <comment>ViewModel</comment>
+  </data>
+  <data name="AddAppBarButton.Label" xml:space="preserve">
+    <value>Dodajte</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Command.ChangeTabTitle" xml:space="preserve">
+    <value>Izmijeni naziv kartice</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.Clear" xml:space="preserve">
+    <value>Počisti</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.CloseTab" xml:space="preserve">
+    <value>Zatvori karticu</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Keybindings.Text" xml:space="preserve">
+    <value>Kratice na tastaturi</value>
+    <comment>KeyBindingSettings.xaml</comment>
+  </data>
+  <data name="Delete.Content" xml:space="preserve">
+    <value>Obriši</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
+    <value>Izmijeni</value>
+    <comment>KeyBindingsView.xaml</comment>
+  </data>
+  <data name="Command.NewTab" xml:space="preserve">
+    <value>Nova kartica</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.NewWindow" xml:space="preserve">
+    <value>Novi prozor</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.NextTab" xml:space="preserve">
+    <value>Sljedeća kartica</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.PasteWithoutNewlines" xml:space="preserve">
+    <value>Zalijepi bez novih redova</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.PreviousTab" xml:space="preserve">
+    <value>Prethodna kartica</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.Search" xml:space="preserve">
+    <value>Pretraga</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SelectAll" xml:space="preserve">
+    <value>Označi sve</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ShowSettings" xml:space="preserve">
+    <value>Prikaži postavke</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm1" xml:space="preserve">
+    <value>Prebaci se na 1. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm2" xml:space="preserve">
+    <value>Prebaci se na 2. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm3" xml:space="preserve">
+    <value>Prebaci se na 3. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm4" xml:space="preserve">
+    <value>Prebaci se na 4. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm5" xml:space="preserve">
+    <value>Prebaci se na 5. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm6" xml:space="preserve">
+    <value>Prebaci se na 6. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm7" xml:space="preserve">
+    <value>Prebaci se na 7. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm8" xml:space="preserve">
+    <value>Prebaci se na 8. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.SwitchToTerm9" xml:space="preserve">
+    <value>Prebaci se na 9. terminal</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleFullScreen" xml:space="preserve">
+    <value>Pokreni prikaz preko cijelog ekrana</value>
+    <comment>Command</comment>
+  </data>
+  <data name="Command.ToggleWindow" xml:space="preserve">
+    <value>Pokreni prikaz u prozoru</value>
+    <comment>Command</comment>
+  </data>
+  <data name="NewSshTab.Text" xml:space="preserve">
+    <value>Nova kartica na daljinu</value>
+  </data>
+  <data name="Command.NewSshTab" xml:space="preserve">
+    <value>Nova SSH kartica</value>
+  </data>
+  <data name="SshInfoDialog.Title" xml:space="preserve">
+    <value>SSH Info</value>
+  </data>
+  <data name="UserTextBox.PlaceholderText" xml:space="preserve">
+    <value>korisnik</value>
+  </data>
+  <data name="HostTextBox.PlaceholderText" xml:space="preserve">
+    <value>host</value>
+  </data>
+  <data name="PortTextBox.PlaceholderText" xml:space="preserve">
+    <value>port</value>
+  </data>
+  <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
+    <value>Putanja do datoteke identiteta</value>
+  </data>
+  <data name="BrowseButton.Content" xml:space="preserve">
+    <value>Pretraži</value>
+  </data>
+  <data name="UseMoshCheckBox.Content" xml:space="preserve">
+    <value>Koristi Mosh</value>
+  </data>
+  <data name="AdvancedExpander.Header" xml:space="preserve">
+    <value>Napredno</value>
+  </data>
+  <data name="MoshPorts.Text" xml:space="preserve">
+    <value>Mosh portovi:</value>
+  </data>
+  <data name="SaveShortcutButton.Content" xml:space="preserve">
+    <value>Spasi kraticu</value>
+  </data>
+  <data name="NeedsToRestart.Text" xml:space="preserve">
+    <value>Aplikacija se mora iznova pokrenuti kako bi se izmjene aktivirale.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Neispravan unos</value>
+  </data>
+  <data name="PortCannotBeZero" xml:space="preserve">
+    <value>Port ne može biti 0.</value>
+  </data>
+  <data name="UserAndHostMandatory" xml:space="preserve">
+    <value>Korisnik i host su obavezna polja.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
+    <value>Korisničko ime ne može biti prazno.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
+    <value>Host ne može biti prazan.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
+    <value>SSH Port mora biti veći od 0.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
+    <value>Mosh port ne može biti 0.</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
+    <value>Opseg Mosh porta je neispravan.</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>Jezik</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>Nijedan</value>
+  </data>
+  <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Novi izlaz</value>
+  </data>
+  <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Završeno s greškom</value>
+  </data>
+  <data name="ConfirmDeleteProfile" xml:space="preserve">
+    <value>Jeste li sigurni da želite obrisati ovaj profil?</value>
+  </data>
+  <data name="Command.NewSshWindow" xml:space="preserve">
+    <value>Novi SSH prozor</value>
+  </data>
+  <data name="Setting_SShProfiles.Content" xml:space="preserve">
+    <value>SSH profili</value>
+  </data>
+  <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
+    <value>Boja kartice:</value>
+  </data>
+  <data name="UseConPty" xml:space="preserve">
+    <value>Koristi ConPty</value>
+  </data>
+  <data name="Username.Header" xml:space="preserve">
+    <value>Korisničko ime</value>
+  </data>
+  <data name="MoshPortFrom.Header" xml:space="preserve">
+    <value>Od broja porta</value>
+  </data>
+  <data name="MoshPortTo.Header" xml:space="preserve">
+    <value>Do broja porta</value>
+  </data>
+  <data name="MoshPortRange.Text" xml:space="preserve">
+    <value>Opseg brojeva Mosh porta</value>
+  </data>
+  <data name="Authenticate" xml:space="preserve">
+    <value>Autentificiraj</value>
+  </data>
+  <data name="SettingsExported" xml:space="preserve">
+    <value>Postavke su eksportirane u datoteku</value>
+  </data>
+  <data name="SettingsImported" xml:space="preserve">
+    <value>Postavke su importirane iz datoteke</value>
+  </data>
+  <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
+    <value>Datoteka identiteta ne postoji</value>
+  </data>
+  <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
+    <value>Koristi Windows korisničko ime pri otvaranju SSH URLova za koje nije specificirano</value>
+  </data>
+  <data name="UseMoshByDefault.Header" xml:space="preserve">
+    <value>Mosh je standard za SSH veze</value>
+  </data>
+  <data name="RTrimCopiedLines.Header" xml:space="preserve">
+    <value>Izbriši prazne znakove zdesna u kopiranim linijama</value>
+  </data>
+  <data name="QuickSshDefault.Header" xml:space="preserve">
+    <value>Koristi brzi SSH</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Neispravna naredba.</value>
+  </data>
+  <data name="LocationCantBeEmpty" xml:space="preserve">
+    <value>Lokacija ne može biti prazna.</value>
+  </data>
+  <data name="MuteTerminalBeeps.Header" xml:space="preserve">
+    <value>Utišaj zvukove terminala.</value>
+  </data>
+  <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
+    <value>Unesite naredbu  (e.g. &apos;ssh username@host&apos;)</value>
+  </data>
+  <data name="CommandLine.Header" xml:space="preserve">
+    <value>Naredba</value>
+  </data>
+  <data name="UnsupportedCommand" xml:space="preserve">
+    <value>Nepodržana naredba:</value>
+  </data>
+  <data name="CommandArgumentsMandatory" xml:space="preserve">
+    <value>Nedostaju argumenti za naredbu.</value>
+  </data>
+  <data name="QuickCommandDialog.Title" xml:space="preserve">
+    <value>Brzo pokretanje</value>
+  </data>
+  <data name="Command.NewCustomCommandTab" xml:space="preserve">
+    <value>Nova kartica u brzom pokretanju</value>
+  </data>
+  <data name="Command.NewCustomCommandWindow" xml:space="preserve">
+    <value>Novi prozor u brzom pokretanju</value>
+  </data>
+  <data name="NewQuickTab.Text" xml:space="preserve">
+    <value>Nova brza kartica.</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>Nije pronađena datoteka:</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Neispravan link.</value>
+  </data>
+  <data name="DropTabHere" xml:space="preserve">
+    <value>Postavi karticu ovdje.</value>
+  </data>
+  <data name="CloseLeft.Text" xml:space="preserve">
+    <value>Zatvori kartice slijeva</value>
+  </data>
+  <data name="CloseOther.Text" xml:space="preserve">
+    <value>Zatvori ostale kartice</value>
+  </data>
+  <data name="CloseRight.Text" xml:space="preserve">
+    <value>Zatvori kartice zdesna</value>
+  </data>
+  <data name="Command.DuplicateTab" xml:space="preserve">
+    <value>Dupliciraj karticu</value>
+  </data>
+  <data name="Duplicate.Text" xml:space="preserve">
+    <value>Dupliciraj</value>
+  </data>
+  <data name="DuplicateEnvironmentVariable" xml:space="preserve">
+    <value>Dvije varijable okruženja ne smiju imati identičan naziv.</value>
+  </data>
+  <data name="EmptyEnvironmentVariableName" xml:space="preserve">
+    <value>Varijabla okruženja mora imati naziv.</value>
+  </data>
+  <data name="EnvironmentVariables.Text" xml:space="preserve">
+    <value>Varijable okruženja</value>
+  </data>
+  <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Zatvori panel za pretragu</value>
+  </data>
+  <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pronađi sljedeći</value>
+  </data>
+  <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pronađi prethodni</value>
+  </data>
+  <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
+    <value>Unesite pojam za pretragu</value>
+  </data>
+  <data name="Search.Text" xml:space="preserve">
+    <value>Pretraži</value>
+  </data>
+  <data name="PrintableOutputOnly.Content" xml:space="preserve">
+    <value>Samo izlaz koji se može printati</value>
+  </data>
+  <data name="EnableLogging.Header" xml:space="preserve">
+    <value>Prikaži izlaz za debugiranje</value>
+  </data>
+  <data name="WordSeparator.Header" xml:space="preserve">
+    <value>Znakovi za razmake između riječi</value>
+  </data>
+  <data name="Recent.Text" xml:space="preserve">
+    <value>Nedavno</value>
+  </data>
+  <data name="NewTab_Description" xml:space="preserve">
+    <value>Otvara standardni profil u novoj kartici.</value>
+  </data>
+  <data name="NewSshTab_Description" xml:space="preserve">
+    <value>Pokreće novu SSH ili Mosh sesiju u novoj kartici.</value>
+  </data>
+  <data name="NewQuickTab_Description" xml:space="preserve">
+    <value>Otvara dijalog za brzo pokretanje i pokreće sesiju u novoj kartici.</value>
+  </data>
+  <data name="Settings_Description" xml:space="preserve">
+    <value>Otvara prozor za postavke.</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Osnovne informacije o aplikacije.</value>
+  </data>
+  <data name="Recent_Description" xml:space="preserve">
+    <value>Nedavno pokrenute sesije.</value>
+  </data>
+  <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
+    <value>Pokreni novu terminal sesiju baziranu na standardnom profilu.</value>
+  </data>
+  <data name="MenuItem_Remote_Text" xml:space="preserve">
+    <value>Veza na daljinu...</value>
+  </data>
+  <data name="MenuItem_Remote_Description" xml:space="preserve">
+    <value>Pokreće novi dijalog za pokretanje novi SSH ili Mosh terminalne sesije</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
+    <value>Brzo pokretanje...</value>
+  </data>
+  <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
+    <value>Pokreće dijalog za brzo pokretanje nove terminalne sesije</value>
+  </data>
+  <data name="MenuItem_NewWindow_Text" xml:space="preserve">
+    <value>Novi prozor</value>
+  </data>
+  <data name="MenuItem_NewTab_Text" xml:space="preserve">
+    <value>Nova kartica</value>
+  </data>
+  <data name="MenuItem_NewTab_Description" xml:space="preserve">
+    <value>Pokreće sesiju u novoj kartici</value>
+  </data>
+  <data name="MenuItem_NewWindow_Description" xml:space="preserve">
+    <value>Pokreće sesiju u novom prozoru</value>
+  </data>
+  <data name="AppMenuType.Text" xml:space="preserve">
+    <value>Tip menija aplikacije</value>
+  </data>
+  <data name="AppMenuType_Flat.Content" xml:space="preserve">
+    <value>Ravan, poštujući &quot;Otvori novi terminal kao&quot; postavku</value>
+  </data>
+  <data name="AppMenuType_Cascading.Content" xml:space="preserve">
+    <value>&quot;Nova kartica&quot; / &quot;Novi prozor&quot; jedan ispred drugog</value>
+  </data>
+  <data name="Quit.Text" xml:space="preserve">
+    <value>Zatvori</value>
+  </data>
+  <data name="Quit.Description" xml:space="preserve">
+    <value>Zatvori Fluent Terminal</value>
+  </data>
+  <data name="EnabledByPolicy" xml:space="preserve">
+    <value>Omogućeno.</value>
+  </data>
+  <data name="BackgroundImage.Content" xml:space="preserve">
+    <value>Pozadinska slika</value>
+  </data>
+  <data name="AcrylicBackground.Header" xml:space="preserve">
+    <value>Koristi akrilnu pozadinu</value>
+  </data>
+  <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
+    <value>Jeste li sigurni da želite obrisati ovu pozadinsku sliku?</value>
+  </data>
+  <data name="Colors.Text" xml:space="preserve">
+    <value>Boje</value>
+  </data>
+  <data name="BrightColors.Text" xml:space="preserve">
+    <value>Svijetle boje</value>
+  </data>
+  <data name="CopyLink" xml:space="preserve">
+    <value>Kopiraj link</value>
+  </data>
+  <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Regex</value>
+  </data>
+  <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Čitavu riječ</value>
+  </data>
+  <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Osjetljiv na velika i mala slova</value>
+  </data>
+  <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
+    <value>Kopiraj selektirano ili zalijepi</value>
+  </data>
+  <data name="UseBuffer" xml:space="preserve">
+    <value>Koristi pametni buffer</value>
+  </data>
+  <data name="RestartSession.Content" xml:space="preserve">
+    <value>Ponovo pokreni</value>
+  </data>
+  <data name="SessionDisconnected.Text" xml:space="preserve">
+    <value>Sesija odspojena.</value>
+  </data>
+  <data name="Command.IncreaseFontSize" xml:space="preserve">
+    <value>Uvečaj font</value>
+  </data>
+  <data name="Command.DecreaseFontSize" xml:space="preserve">
+    <value>Umanji font</value>
+  </data>
+  <data name="Command.ResetFontSize" xml:space="preserve">
+    <value>Vrati standardnu veličinu fonta</value>
+  </data>
+  <data name="Command.ReconnectTab" xml:space="preserve">
+    <value>Poveži ponovo karticu</value>
+  </data>
+</root>
