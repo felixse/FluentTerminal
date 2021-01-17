@@ -13,6 +13,7 @@ namespace FluentTerminal.App.Services
             ["ar"] = "العربية",
             ["ar-IQ"] = "اللهجة العراقية",
             ["az-Latn"] = "azərbaycan dili",
+            ["bs"] = "bosanski",
             ["de"] = "Deutsch",
             ["en"] = "English",
             ["eo"] = "Esperanto",
