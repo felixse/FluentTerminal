@@ -140,7 +140,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Windows">
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.16299.0\Facade\Windows.WinMD</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Windows.Foundation.FoundationContract">
