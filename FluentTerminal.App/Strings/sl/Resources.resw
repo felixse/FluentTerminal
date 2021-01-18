@@ -992,7 +992,7 @@ Fuzzy</comment>
     <value>Najdi prejšnjega</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Vstavi iskano frazo</value>
+    <value>Vnesi iskani pojem</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">

@@ -1125,6 +1125,6 @@ Fuzzy</comment>
     <value>Zresetuj rozmiar czcionki</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Przełącz zakładke</value>
   </data>
 </root>

@@ -1116,15 +1116,15 @@ Fuzzy</comment>
     <value>Sesija je prekinuta.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Povećajte veličinu fonta</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Smanji veličinu fonta</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Poništi veličinu fonta</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Ponovno spojite karticu</value>
   </data>
 </root>
