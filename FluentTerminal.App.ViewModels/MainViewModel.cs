@@ -177,14 +177,14 @@ namespace FluentTerminal.App.ViewModels
 
             UpdateDefaultShellProfile();
 
-            CreateMenuViewModel();
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
         private void OnShellProfileChanged(ShellProfileChangedMessage message)
         {
             UpdateDefaultShellProfile();
 
-            CreateMenuViewModel();
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
         private void OnShellProfileAdded(ShellProfileAddedMessage message)
@@ -194,7 +194,7 @@ namespace FluentTerminal.App.ViewModels
 
             UpdateDefaultShellProfile();
 
-            CreateMenuViewModel();
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
         private void OnDefaultShellProfileChanged(DefaultShellProfileChangedMessage message)
