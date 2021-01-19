@@ -8,7 +8,7 @@
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   IgnorableNamespaces="uap rescap desktop">
 
-  <Identity Name="53621FSApps.FluentTerminal" Publisher="CN=BDC72197-B634-438A-B863-16DCB7D90C85" Version="0.7.4.0" />
+  <Identity Name="53621FSApps.FluentTerminal" Publisher="CN=BDC72197-B634-438A-B863-16DCB7D90C85" Version="0.7.5.0" />
 
   <Properties>
     <DisplayName>Fluent Terminal</DisplayName>
