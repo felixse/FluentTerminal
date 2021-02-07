@@ -147,7 +147,7 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Aktif olmayan sekme rengi</value>
+    <value>Deaktif sekme rengi</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
@@ -174,7 +174,7 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>Aktif olmayan pencerelerde yeni çıktı olursa beni bilgilendir</value>
+    <value>Deaktif pencerelerde yeni çıktı olduğunda bilgilendir</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
@@ -277,7 +277,7 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>Mouse</value>
+    <value>Fare</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
@@ -309,7 +309,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>Bold yazı</value>
+    <value>Kalın yazı</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
@@ -408,7 +408,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Son versiyon</value>
+    <value>Güncel versiyon</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
@@ -429,7 +429,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>Mouse</value>
+    <value>Fare</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
@@ -454,7 +454,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>İsim</value>
+    <value>Ad</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
@@ -492,7 +492,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Kaydırma çubuğu stili</value>
+    <value>Scrollbar stili</value>
     <comment>TerminalSettings.xaml
 Fuzzy</comment>
   </data>
@@ -672,7 +672,7 @@ Fuzzy</comment>
     <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>Keybindings</value>
+    <value>Tuş atamaları</value>
     <comment>KeyBindingSettings.xaml
 Fuzzy</comment>
   </data>
@@ -706,7 +706,7 @@ Fuzzy</comment>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>Arama</value>
+    <value>Ara</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
@@ -916,7 +916,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>Terminal bip seslerini kapatma</value>
+    <value>Terminal bip seslerini kapat</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
     <value>Bir komut girin (örn. &apos;ssh kullanıcı adı @ host&apos;)</value>
@@ -992,11 +992,11 @@ Fuzzy</comment>
     <value>Öncekini bul</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>Arama terimini gir</value>
+    <value>Aranacak terimi yazınız</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>Arama</value>
+    <value>Ara</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
@@ -1071,19 +1071,19 @@ Fuzzy</comment>
     <value>Çıkış</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Fluent terminalden çık</value>
+    <value>Akıcı terminalden çık</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>Yetki ilkesi tarafından etkinleştirildi.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Arka plan resmi</value>
+    <value>Arkaplan resmi</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Akrilik arka plan kullan</value>
+    <value>Akrilik arkaplan kullan</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Bu arka plan resmini silmek istediğinizden emin misiniz?</value>
+    <value>Bu arkaplan resmini silmek istediğinizden emin misiniz?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
     <value>Renkler</value>
