@@ -33,7 +33,7 @@
     Each data row contains a name, and value. The row also contains a 
     type or mimetype. Type corresponds to a .NET class that support 
     text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+    Classes that don&apos;t support this are serialized and stored with the 
     mimetype set.
     
     The mimetype is used for serialized objects, and tells the 
@@ -139,7 +139,7 @@
 Fuzzy</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>Sekmeleri kaptmadan önce sor</value>
+    <value>Sekmeleri kapatmadan önce sor</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
@@ -161,7 +161,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>Başlığı Düzenle</value>
+    <value>Başlığı düzenle</value>
     <comment>TabBar.xaml
 Fuzzy</comment>
   </data>
@@ -220,12 +220,11 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>Varsayılana Ayarla</value>
+    <value>Varsayılana ayarla</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Başlangıçta çalıştır
-</value>
+    <value>Başlangıçta çalıştır</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
@@ -258,7 +257,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>Alt Çizgi</value>
+    <value>Alt çizgi</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
@@ -274,7 +273,7 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>Kısa yollar</value>
+    <value>Kısayollar</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
@@ -366,7 +365,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Alt Çizgi</value>
+    <value>Alt çizgi</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
@@ -390,12 +389,12 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>Font Boyutu</value>
+    <value>Font boyutu</value>
     <comment>TerminalSettings.xaml
 Fuzzy</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>İçe Aktar</value>
+    <value>İçe aktar</value>
     <comment>ThemeSettings.xaml
 Fuzzy</comment>
   </data>
@@ -409,7 +408,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>Son veriyon</value>
+    <value>Son versiyon</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
@@ -526,7 +525,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>Tema Sahibi</value>
+    <value>Tema sahibi</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
@@ -534,15 +533,15 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>Satır sonlarını CR&apos;ye dönüştürme</value>
+    <value>Satır sonlarını CR&apos;ye dönüştür (\r)</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>Satır sonlarını CR + LF&apos;ye dönüştürme</value>
+    <value>Satır sonlarını CR + LF&apos;ye dönüştür (\r\n)</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>Satır sonlarını LF&apos;ye dönüştür</value>
+    <value>Satır sonlarını LF&apos;ye dönüştür (\n)</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
@@ -601,7 +600,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>Politika tarafından devre dışı bırakıldı.</value>
+    <value>Yetki ilkesi tarafından devre dışı bırakıldı.</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -611,7 +610,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>Başlığı Düzenle</value>
+    <value>Başlığı düzenle</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -686,11 +685,11 @@ Fuzzy</comment>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>Yeni Sekme</value>
+    <value>Yeni sekme</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>Yeni Pencere</value>
+    <value>Yeni pencere</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -711,7 +710,7 @@ Fuzzy</comment>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>Tümünü Seç</value>
+    <value>Tümünü seç</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
@@ -766,14 +765,14 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>Yeni uzak (remote) sekmesi</value>
+    <value>Yeni uzaktan bağlantı sekmesi</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
     <value>Yeni SSH sekmesi</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH Bilgisi</value>
+    <value>SSH bilgisi</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
     <value>kullanıcı</value>
@@ -792,24 +791,24 @@ Fuzzy</comment>
     <value>Araştır</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Mosh Kullan</value>
+    <value>Mosh kullan</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>ileri</value>
+    <value>Gelişmiş</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh limanları:</value>
+    <value>Mosh portları:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>Kısayolu Kaydet</value>
+    <value>Kısayolu kaydet</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
     <value>Bu değişikliğin geçerli olması için uygulamanın yeniden başlatılması gerekiyor.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>Geçersiz Giriş</value>
+    <value>Geçersiz giriş</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
@@ -830,7 +829,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh limanı sıfır olamaz.</value>
+    <value>Mosh portu sıfır olamaz.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
     <value>Mosh bağlantı noktası aralığı geçersiz.</value>
@@ -863,28 +862,28 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH Profilleri</value>
+    <value>SSH profilleri</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
     <value>Sekme rengi:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>ConPty kullanın</value>
+    <value>ConPty kullan</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
     <value>Kullanıcı adı</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>Limandan</value>
+    <value>Mosh portundan</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>limana</value>
+    <value>Mosh portuna</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh liman aralığı</value>
+    <value>Mosh port aralığı</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>kimlik doğrulaması</value>
+    <value>Kimlik doğrulaması</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
     <value>Ayarlar dosyaya aktarıldı</value>
@@ -894,17 +893,17 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>Dosya tanımlama yok</value>
+    <value>Kimlik dosyası yok</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>Birini belirtmeyen SSH URL&apos;lerini açarken Windows kullanıcı adını kullanın</value>
+    <value>SSH URL&apos;lerini açarken Windows kullanıcı adını kullanın</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>SSH bağlantıları için varsayılan olarak Mosh</value>
+    <value>SSH bağlantıları için varsayılan olarak Mosh kullan</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>Kopyalanan satırları sağ kırpma</value>
+    <value>Kopyalanan satırları sonundaki boşlukları kırp</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
     <value>Varsayılan olarak hızlı SSH kullan</value>
@@ -920,20 +919,20 @@ Fuzzy</comment>
     <value>Terminal bip seslerini kapatma</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>Bir komut girin (örn. &apos;Ssh kullanıcı adı @ host&apos;)</value>
+    <value>Bir komut girin (örn. &apos;ssh kullanıcı adı @ host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>komuta</value>
+    <value>Komut satırı</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
     <value>Desteklenmeyen komut:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Komut bağımsız değişkenleri eksik.</value>
+    <value>Komut argümanları eksik.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>Hızlı Başlatma</value>
+    <value>Hızlı başlatma</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
     <value>Yeni hızlı başlatma sekmesi</value>
@@ -968,7 +967,7 @@ Fuzzy</comment>
     <value>Yinelenen sekme</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>Çiftleme</value>
+    <value>Yinele</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
     <value>Aynı ada sahip iki ortam değişkeni tanımlanamıyor.</value>
@@ -979,7 +978,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>Ortam Değişkenleri</value>
+    <value>Ortam değişkenleri</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
@@ -987,7 +986,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sonraki Bul</value>
+    <value>Sonraki bul</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
     <value>Öncekini bul</value>
@@ -1036,22 +1035,22 @@ Fuzzy</comment>
     <value>Varsayılan profile göre yeni terminal oturumu başlatır.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Uzaktan Bağlantı ...</value>
+    <value>Uzaktan bağlantı ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
     <value>Yeni bir SSH veya Mosh terminal oturumu başlatmak için bir iletişim kutusu açar.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Hızlı Başlat ...</value>
+    <value>Hızlı başlat ...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
     <value>Yeni bir terminal oturumu başlatmak için bir &quot;Hızlı Başlatma&quot; iletişim kutusu açar.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>Yeni Pencere</value>
+    <value>Yeni pencere</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>Yeni Sekme</value>
+    <value>Yeni sekme</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
     <value>Yeni bir sekmede bir oturum başlatır.</value>
@@ -1069,19 +1068,19 @@ Fuzzy</comment>
     <value>&quot;Yeni Sekme&quot; / &quot;Yeni Pencere&quot; basamaklı</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>çıkmak</value>
+    <value>Çıkış</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Akıcı Terminalden Çık</value>
+    <value>Fluent terminalden çık</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Politika tarafından etkinleştirildi.</value>
+    <value>Yetki ilkesi tarafından etkinleştirildi.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Arka plan görüntüsü</value>
+    <value>Arka plan resmi</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Akrilik arka plan kullanın</value>
+    <value>Akrilik arka plan kullan</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
     <value>Bu arka plan resmini silmek istediğinizden emin misiniz?</value>
@@ -1096,10 +1095,10 @@ Fuzzy</comment>
     <value>Bağlantıyı kopyala</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Regex</value>
+    <value>Regular Expressions - Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tüm dünya</value>
+    <value>Bütün kelime</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
     <value>Büyük/Küçük harfe duyarlı</value>
@@ -1117,7 +1116,7 @@ Fuzzy</comment>
     <value>Oturum bağlantısı kesildi.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Yazı tipi boyutunu büyüt</value>
+    <value>Yazı tipi boyutunu büyült</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
     <value>Yazı tipi boyutunu küçült</value>
