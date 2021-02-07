@@ -1014,13 +1014,13 @@ Fuzzy</comment>
     <value>Son</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Varsayılan profili yeni bir sekmede açar.</value>
+    <value>Varsayılan profili yeni sekmede açar.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Yeni bir sekmede yeni bir SSH veya Mosh oturumu açar.</value>
+    <value>Yeni sekmede yeni bir SSH veya Mosh oturumu açar.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>&quot;Hızlı Başlatma&quot; iletişim kutusunu açar ve oturumu yeni bir sekmede başlatır.</value>
+    <value>&quot;Hızlı Başlatma&quot; iletişim kutusunu açar ve oturumu yeni sekmede başlatır.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
     <value>Ayarlar penceresini açar.</value>
@@ -1038,13 +1038,13 @@ Fuzzy</comment>
     <value>Uzaktan bağlantı ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Yeni bir SSH veya Mosh terminal oturumu başlatmak için bir iletişim kutusu açar.</value>
+    <value>Yeni SSH veya Mosh terminal oturumu başlatmak için bir iletişim kutusu açar.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
     <value>Hızlı başlat ...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Yeni bir terminal oturumu başlatmak için bir &quot;Hızlı Başlatma&quot; iletişim kutusu açar.</value>
+    <value>Yeni terminal oturumu başlatmak için bir &quot;Hızlı Başlatma&quot; iletişim kutusu açar.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
     <value>Yeni pencere</value>
@@ -1053,10 +1053,10 @@ Fuzzy</comment>
     <value>Yeni sekme</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Yeni bir sekmede bir oturum başlatır.</value>
+    <value>Yeni sekmede bir oturum başlatır.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Bir oturumu yeni bir pencerede başlatır.</value>
+    <value>Oturumu yeni pencerede başlatır.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
     <value>Uygulama menü türü</value>
@@ -1071,7 +1071,7 @@ Fuzzy</comment>
     <value>Çıkış</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Akıcı terminalden çık</value>
+    <value>Fluent terminalden çık</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
     <value>Yetki ilkesi tarafından etkinleştirildi.</value>
