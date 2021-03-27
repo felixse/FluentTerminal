@@ -18,6 +18,9 @@ jobs:
 
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Clean
+      run: dotnet clean FluentTerminal.sln --configuration Debug && dotnet nuget locals all --clear
     
     - name: MSBuild
       run: msbuild FluentTerminal.sln -t:build -p:Configuration=Debug -p:Platform=x64 -m -restore
