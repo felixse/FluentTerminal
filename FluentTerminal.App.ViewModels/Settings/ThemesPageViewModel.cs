@@ -1,18 +1,20 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.Models.Messages;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class ThemesPageViewModel : ViewModelBase
+    public class ThemesPageViewModel : ObservableObject,
+        IRecipient<TerminalOptionsChangedMessage>
     {
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
@@ -42,10 +44,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             _imageFileSystemService = imageFileSystemService;
 
             CreateThemeCommand = new RelayCommand(CreateTheme);
-            ImportThemeCommand = new AsyncCommand(ImportThemeAsync);
+            ImportThemeCommand = new AsyncRelayCommand(ImportThemeAsync);
             CloneCommand = new RelayCommand<ThemeViewModel>(CloneTheme);
-
-            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
 
             BackgroundOpacity = _settingsService.GetTerminalOptions().BackgroundOpacity;
 
@@ -66,14 +66,14 @@ namespace FluentTerminal.App.ViewModels.Settings
             SelectedTheme = Themes.First(t => t.IsActive);
         }
 
-        public RelayCommand CreateThemeCommand { get; }
-        public IAsyncCommand ImportThemeCommand { get; }
-        public RelayCommand<ThemeViewModel> CloneCommand { get; set; }
+        public ICommand CreateThemeCommand { get; }
+        public ICommand ImportThemeCommand { get; }
+        public ICommand CloneCommand { get; set; }
 
         public double BackgroundOpacity
         {
             get => _backgroundOpacity;
-            set => Set(ref _backgroundOpacity, value);
+            set => SetProperty(ref _backgroundOpacity, value);
         }
 
         public ThemeViewModel SelectedTheme
@@ -87,7 +87,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                     _selectedTheme.BackgroundImageChanged -= OnSelectedThemeBackgroundImageChanged;
                 }
 
-                Set(ref _selectedTheme, value);
+                SetProperty(ref _selectedTheme, value);
                 SelectedThemeChanged?.Invoke(this, _selectedTheme);
 
                 if (value != null)
@@ -218,7 +218,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        public void Receive(TerminalOptionsChangedMessage message)
         {
             BackgroundOpacity = message.TerminalOptions.BackgroundOpacity;
         }

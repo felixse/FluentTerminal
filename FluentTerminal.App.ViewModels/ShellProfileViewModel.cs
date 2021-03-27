@@ -1,12 +1,12 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentTerminal.App.ViewModels.Profiles;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
@@ -28,7 +28,7 @@ namespace FluentTerminal.App.ViewModels
         public bool IsDefault
         {
             get => _isDefault;
-            set => Set(ref _isDefault, value);
+            set => SetProperty(ref _isDefault, value);
         }
 
         #endregion Properties
@@ -41,9 +41,9 @@ namespace FluentTerminal.App.ViewModels
 
         #region Commands
 
-        public RelayCommand SetDefaultCommand { get; }
+        public ICommand SetDefaultCommand { get; }
 
-        public IAsyncCommand RestoreDefaultsCommand { get; }
+        public ICommand RestoreDefaultsCommand { get; }
 
         #endregion Commands
 
@@ -60,7 +60,7 @@ namespace FluentTerminal.App.ViewModels
                 shellProfile);
 
             SetDefaultCommand = new RelayCommand(SetDefault);
-            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaultsAsync);
+            RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
         }
 
         #endregion Constrcutor

@@ -16,7 +16,8 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using FluentTerminal.App.ViewModels;
-using FluentTerminal.App.ViewModels.Infrastructure;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,7 +41,7 @@ namespace FluentTerminal.App.Dialogs
 
         public CommandProfileProviderViewModel ViewModel { get; private set; }
 
-        public IAsyncCommand SaveLinkCommand { get; }
+        public ICommand SaveLinkCommand { get; }
 
         public CustomCommandDialog(ISettingsService settingsService, IApplicationView applicationView,
             ITrayProcessCommunicationService trayProcessCommunicationService, ICommandHistoryService historyService)
@@ -52,7 +53,7 @@ namespace FluentTerminal.App.Dialogs
 
             InitializeComponent();
 
-            SaveLinkCommand = new AsyncCommand(SaveLink);
+            SaveLinkCommand = new AsyncRelayCommand(SaveLink);
 
             PrimaryButtonText = I18N.Translate("OK");
             SecondaryButtonText = I18N.Translate("Cancel");

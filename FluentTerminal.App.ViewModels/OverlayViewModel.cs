@@ -1,10 +1,10 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.UI.Xaml;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class OverlayViewModel : ViewModelBase
+    public class OverlayViewModel : ObservableObject
     {
         private readonly DispatcherTimer _overlayTimer;
         private bool _showOverlay;
@@ -19,13 +19,13 @@ namespace FluentTerminal.App.ViewModels
         public bool ShowOverlay
         {
             get => _showOverlay;
-            set => Set(ref _showOverlay, value);
+            set => SetProperty(ref _showOverlay, value);
         }
 
         public string OverlayContent
         {
             get => _overlayContent;
-            set => Set(ref _overlayContent, value);
+            set => SetProperty(ref _overlayContent, value);
         }
 
         public void Show(string message)

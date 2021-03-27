@@ -2,13 +2,14 @@
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class MousePageViewModel : ViewModelBase
+    public class MousePageViewModel : ObservableObject
     {
         private readonly ISettingsService _settingsService;
         private readonly IDialogService _dialogService;
@@ -22,7 +23,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _defaultValueProvider = defaultValueProvider;
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaultsAsync().ConfigureAwait(false));
+            RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
         }
 
         public bool CopyOnSelect
@@ -34,7 +35,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.CopyOnSelect = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -48,7 +49,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.MouseRightClickAction = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -86,7 +87,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.MouseMiddleClickAction = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -115,7 +116,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             set { if (value) MouseMiddleClickAction = MouseAction.CopySelectionOrPaste; }
         }
 
-        public RelayCommand RestoreDefaultsCommand { get; }
+        public ICommand RestoreDefaultsCommand { get; }
 
         // Requires UI thread
         private async Task RestoreDefaultsAsync()

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
     /// <summary>
     /// Base class for all profile view models. Implements logic for saving, editing, resetting, etc.
     /// </summary>
-    public abstract class ProfileViewModelBase<T> : ViewModelBase where T : ProfileProviderViewModelBase
+    public abstract class ProfileViewModelBase<T> : ObservableObject where T : ProfileProviderViewModelBase
     {
         #region Fields
 
@@ -41,7 +41,7 @@ namespace FluentTerminal.App.ViewModels
         public bool InEditMode
         {
             get => _inEditMode;
-            set => Set(ref _inEditMode, value);
+            set => SetProperty(ref _inEditMode, value);
         }
 
         private string _name;
@@ -49,7 +49,7 @@ namespace FluentTerminal.App.ViewModels
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public KeyBindingsViewModel KeyBindings { get; }
@@ -69,15 +69,15 @@ namespace FluentTerminal.App.ViewModels
 
         #region Commands
 
-        public IAsyncCommand CancelEditCommand { get; }
+        public ICommand CancelEditCommand { get; }
 
-        public IAsyncCommand DeleteCommand { get; }
+        public ICommand DeleteCommand { get; }
 
-        public RelayCommand EditCommand { get; }
+        public ICommand EditCommand { get; }
 
-        public IAsyncCommand SaveChangesCommand { get; }
+        public ICommand SaveChangesCommand { get; }
 
-        public IAsyncCommand AddKeyboardShortcutCommand { get; }
+        public ICommand AddKeyboardShortcutCommand { get; }
 
         #endregion Commands
 
@@ -102,11 +102,11 @@ namespace FluentTerminal.App.ViewModels
 
             Initialize(shellProfile);
 
-            DeleteCommand = new AsyncCommand(DeleteAsync, CanDelete);
+            DeleteCommand = new AsyncRelayCommand(DeleteAsync, CanDelete);
             EditCommand = new RelayCommand(Edit);
-            CancelEditCommand = new AsyncCommand(CancelEditAsync);
-            SaveChangesCommand = new AsyncCommand(SaveChangesAsync);
-            AddKeyboardShortcutCommand = new AsyncCommand(AddKeyboardShortcut);
+            CancelEditCommand = new AsyncRelayCommand(CancelEditAsync);
+            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
+            AddKeyboardShortcutCommand = new AsyncRelayCommand(AddKeyboardShortcutAsync);
         }
 
         #endregion Constructor
@@ -248,7 +248,7 @@ namespace FluentTerminal.App.ViewModels
             IsNew = false;
         }
 
-        private Task AddKeyboardShortcut()
+        private Task AddKeyboardShortcutAsync()
         {
             return KeyBindings.ShowAddKeyBindingDialogAsync();
         }

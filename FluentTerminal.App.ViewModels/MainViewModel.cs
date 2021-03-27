@@ -3,7 +3,6 @@ using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,13 +13,22 @@ using System.Threading.Tasks;
 using Windows.UI.Core;
 using FluentTerminal.App.ViewModels.Menu;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Command;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ObservableObject,
+        IRecipient<ApplicationSettingsChangedMessage>,
+        IRecipient<ShellProfileAddedMessage>,
+        IRecipient<ShellProfileDeletedMessage>,
+        IRecipient<ShellProfileChangedMessage>,
+        IRecipient<DefaultShellProfileChangedMessage>,
+        IRecipient<TerminalOptionsChangedMessage>,
+        IRecipient<CommandHistoryChangedMessage>,
+        IRecipient<KeyBindingsChangedMessage>
     {
         private readonly IClipboardService _clipboardService;
         private readonly IDialogService _dialogService;
@@ -39,15 +47,6 @@ namespace FluentTerminal.App.ViewModels
         public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
             IApplicationView applicationView, IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
         {
-            MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
-            MessengerInstance.Register<ShellProfileAddedMessage>(this, OnShellProfileAdded);
-            MessengerInstance.Register<ShellProfileDeletedMessage>(this, OnShellProfileDeleted);
-            MessengerInstance.Register<ShellProfileChangedMessage>(this, OnShellProfileChanged);
-            MessengerInstance.Register<DefaultShellProfileChangedMessage>(this, OnDefaultShellProfileChanged);
-            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
-            MessengerInstance.Register<CommandHistoryChangedMessage>(this, OnCommandHistoryChanged);
-            MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingChanged);
-
             _settingsService = settingsService;
 
             _trayProcessCommunicationService = trayProcessCommunicationService;
@@ -69,7 +68,7 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ChangeTabTitle), async () => await SelectedTerminal.EditTitleAsync());
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseTab), CloseCurrentTab);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.DuplicateTab), async () => await AddTabAsync(SelectedTerminal.ShellProfile.Clone()));
-            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ReconnectTab), async () => { if (SelectedTerminal.ReconnectTabCommand.CanExecute()) await SelectedTerminal.ReconnectTabAsync(); });
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ReconnectTab), async () => { if (SelectedTerminal.ReconnectTabCommand.CanExecute(null)) await SelectedTerminal.ReconnectTabAsync(); });
 
             // empty command handlers for copy and paste so that the main window does not execute these when copy keyboard shortcut is used in a popup search panel 
             // in such a case an exception would be thrown if no handlers are available so these empty ones mitigate that. Also there is no need for these on the main window anyway
@@ -126,8 +125,8 @@ namespace FluentTerminal.App.ViewModels
             _newQuickLaunchWindowCommand = new RelayCommand(async () => await AddQuickLaunchProfileAsync(NewTerminalLocation.Window));
 
             _settingsCommand = new RelayCommand(ShowSettings);
-            _aboutCommand = new RelayCommand(async () => await _dialogService.ShowAboutDialogAsync());
-            _quitCommand = new AsyncCommand(() => _trayProcessCommunicationService.QuitApplicationAsync());
+            _aboutCommand = new AsyncRelayCommand(_dialogService.ShowAboutDialogAsync);
+            _quitCommand = new AsyncRelayCommand(_trayProcessCommunicationService.QuitApplicationAsync);
 
             _defaultProfile = _settingsService.GetDefaultShellProfile();
 
@@ -156,7 +155,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void OnClosed(object sender, EventArgs e)
         {
-            MessengerInstance.Unregister(this);
+            //MessengerInstance.Unregister(this); todo do we still need this?
 
             ApplicationView.CloseRequested -= OnCloseRequest;
             ApplicationView.Closed -= OnClosed;
@@ -171,41 +170,10 @@ namespace FluentTerminal.App.ViewModels
             Closed?.Invoke(this, e);
         }
 
-        private void OnShellProfileDeleted(ShellProfileDeletedMessage message)
-        {
-            _keyboardCommandService.DeregisterCommandHandler(message.ProfileId.ToString());
-
-            UpdateDefaultShellProfile();
-
-            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
-        }
-
-        private void OnShellProfileChanged(ShellProfileChangedMessage message)
-        {
-            UpdateDefaultShellProfile();
-
-            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
-        }
-
-        private void OnShellProfileAdded(ShellProfileAddedMessage message)
-        {
-            _keyboardCommandService.RegisterCommandHandler(message.ShellProfile.Id.ToString(),
-                async () => await AddProfileByGuidAsync(message.ShellProfile.Id));
-
-            UpdateDefaultShellProfile();
-
-            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
-        }
-
-        private void OnDefaultShellProfileChanged(DefaultShellProfileChangedMessage message)
-        {
-            UpdateDefaultShellProfile();
-        }
-
         private void OnTerminalsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(ShowTabsOnTop));
-            RaisePropertyChanged(nameof(ShowTabsOnBottom));
+            OnPropertyChanged(nameof(ShowTabsOnTop));
+            OnPropertyChanged(nameof(ShowTabsOnBottom));
         }
 
         public event EventHandler Closed;
@@ -228,14 +196,14 @@ namespace FluentTerminal.App.ViewModels
             ActivatedMv?.Invoke(this, EventArgs.Empty);
         }
 
-        public RelayCommand AddDefaultTabCommand { get; private set; }
+        public ICommand AddDefaultTabCommand { get; private set; }
 
         public string WindowTitle
         {
             get => _windowTitle;
             set
             {
-                if (Set(ref _windowTitle, value))
+                if (SetProperty(ref _windowTitle, value))
                 {
                     ApplicationView.Title = value;
                 }
@@ -255,13 +223,13 @@ namespace FluentTerminal.App.ViewModels
         public bool UseAcrylicBackground
         {
             get => _useAcrylicBackground;
-            set => Set(ref _useAcrylicBackground, value);
+            set => SetProperty(ref _useAcrylicBackground, value);
         }
 
         public double BackgroundOpacity
         {
             get => _backgroundOpacity;
-            set => Set(ref _backgroundOpacity, value);
+            set => SetProperty(ref _backgroundOpacity, value);
         }
 
         public TerminalViewModel SelectedTerminal
@@ -271,7 +239,7 @@ namespace FluentTerminal.App.ViewModels
             {
                 var oldValue = _selectedTerminal;
 
-                if (Set(ref _selectedTerminal, value))
+                if (SetProperty(ref _selectedTerminal, value))
                 {
                     if (oldValue != null)
                     {
@@ -292,7 +260,7 @@ namespace FluentTerminal.App.ViewModels
         public TabsPosition TabsPosition
         {
             get => _tabsPosition;
-            set => Set(ref _tabsPosition, value);
+            set => SetProperty(ref _tabsPosition, value);
         }
 
         public ObservableCollection<TerminalViewModel> Terminals { get; } = new ObservableCollection<TerminalViewModel>();
@@ -428,7 +396,7 @@ namespace FluentTerminal.App.ViewModels
                 await Task.WhenAll(Terminals.Where(t => t != terminal).Select(t =>
                 {
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseCommand.ExecuteAsync();
+                    return t.CloseAsync();
                 })).ConfigureAwait(false);
             }
         }
@@ -442,7 +410,7 @@ namespace FluentTerminal.App.ViewModels
                 await Task.WhenAll(toRemove.Select(t =>
                 {
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseCommand.ExecuteAsync();
+                    return t.CloseAsync();
                 })).ConfigureAwait(false);
             }
         }
@@ -456,7 +424,7 @@ namespace FluentTerminal.App.ViewModels
                 await Task.WhenAll(toRemove.Select(t =>
                 {
                     Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseCommand.ExecuteAsync();
+                    return t.CloseAsync();
                 })).ConfigureAwait(false);
             }
         }
@@ -477,33 +445,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void CloseCurrentTab()
         {
-            SelectedTerminal?.CloseCommand.ExecuteAsync();
-        }
-
-        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
-        {
-            var updateMenu = _applicationSettings != null &&
-                             (_applicationSettings.TabWindowCascadingAppMenu !=
-                              message.ApplicationSettings.TabWindowCascadingAppMenu ||
-                              !message.ApplicationSettings.TabWindowCascadingAppMenu &&
-                              _applicationSettings.NewTerminalLocation !=
-                              message.ApplicationSettings.NewTerminalLocation);
-
-            _applicationSettings = message.ApplicationSettings;
-
-            SetWindowTitle(SelectedTerminal);
-
-            ApplicationView.ExecuteOnUiThreadAsync(() =>
-            {
-                TabsPosition = message.ApplicationSettings.TabsPosition;
-                RaisePropertyChanged(nameof(ShowTabsOnTop));
-                RaisePropertyChanged(nameof(ShowTabsOnBottom));
-            });
-
-            if (updateMenu)
-            {
-                ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
-            }
+            SelectedTerminal?.CloseAsync();
         }
 
         private async Task OnCloseRequest(object sender, CancelableEventArgs e)
@@ -561,7 +503,64 @@ namespace FluentTerminal.App.ViewModels
             });
         }
 
-        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        public void Receive(ShellProfileDeletedMessage message)
+        {
+            _keyboardCommandService.DeregisterCommandHandler(message.ProfileId.ToString());
+
+            UpdateDefaultShellProfile();
+
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+        }
+
+        public void Receive(ShellProfileChangedMessage message)
+        {
+            UpdateDefaultShellProfile();
+
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+        }
+
+        public void Receive(ShellProfileAddedMessage message)
+        {
+            _keyboardCommandService.RegisterCommandHandler(message.ShellProfile.Id.ToString(),
+                async () => await AddProfileByGuidAsync(message.ShellProfile.Id));
+
+            UpdateDefaultShellProfile();
+
+            ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+        }
+
+        public void Receive(DefaultShellProfileChangedMessage message)
+        {
+            UpdateDefaultShellProfile();
+        }
+
+        public void Receive(ApplicationSettingsChangedMessage message)
+        {
+            var updateMenu = _applicationSettings != null &&
+                             (_applicationSettings.TabWindowCascadingAppMenu !=
+                              message.ApplicationSettings.TabWindowCascadingAppMenu ||
+                              !message.ApplicationSettings.TabWindowCascadingAppMenu &&
+                              _applicationSettings.NewTerminalLocation !=
+                              message.ApplicationSettings.NewTerminalLocation);
+
+            _applicationSettings = message.ApplicationSettings;
+
+            SetWindowTitle(SelectedTerminal);
+
+            ApplicationView.ExecuteOnUiThreadAsync(() =>
+            {
+                TabsPosition = message.ApplicationSettings.TabsPosition;
+                OnPropertyChanged(nameof(ShowTabsOnTop));
+                OnPropertyChanged(nameof(ShowTabsOnBottom));
+            });
+
+            if (updateMenu)
+            {
+                ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
+            }
+        }
+
+        public void Receive(TerminalOptionsChangedMessage message)
         {
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
@@ -570,14 +569,14 @@ namespace FluentTerminal.App.ViewModels
             }, CoreDispatcherPriority.Low);
         }
 
-        private void OnKeyBindingChanged(KeyBindingsChangedMessage message)
+        public void Receive(KeyBindingsChangedMessage message)
         {
             LoadKeyBindings();
 
             ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
 
-        private void OnCommandHistoryChanged(CommandHistoryChangedMessage message)
+        public void Receive(CommandHistoryChangedMessage message)
         {
             ApplicationView.ExecuteOnUiThreadAsync(CreateMenuViewModel, CoreDispatcherPriority.Low, true);
         }
@@ -631,20 +630,20 @@ namespace FluentTerminal.App.ViewModels
 
         private MenuViewModel _menuViewModel;
 
-        private readonly RelayCommand _newDefaultTabCommand;
-        private readonly RelayCommand _newDefaultWindowCommand;
-        private readonly RelayCommand _newRemoteTabCommand;
-        private readonly RelayCommand _newRemoteWindowCommand;
-        private readonly RelayCommand _newQuickLaunchTabCommand;
-        private readonly RelayCommand _newQuickLaunchWindowCommand;
-        private readonly RelayCommand _settingsCommand;
-        private readonly RelayCommand _aboutCommand;
+        private readonly ICommand _newDefaultTabCommand;
+        private readonly ICommand _newDefaultWindowCommand;
+        private readonly ICommand _newRemoteTabCommand;
+        private readonly ICommand _newRemoteWindowCommand;
+        private readonly ICommand _newQuickLaunchTabCommand;
+        private readonly ICommand _newQuickLaunchWindowCommand;
+        private readonly ICommand _settingsCommand;
+        private readonly ICommand _aboutCommand;
         private readonly ICommand _quitCommand;
 
         public MenuViewModel AppMenuViewModel
         {
             get => _menuViewModel;
-            private set => Set(ref _menuViewModel, value);
+            private set => SetProperty(ref _menuViewModel, value);
         }
 
         private void CreateMenuViewModel()
@@ -787,7 +786,7 @@ namespace FluentTerminal.App.ViewModels
 
             foreach (var profile in _settingsService.GetShellProfiles().Concat(_settingsService.GetSshProfiles()).OrderBy(x => x.Name))
             {
-                items.Add(new MenuItemViewModel(profile.Name, new AsyncCommand(() => AddProfileAsync(profile, location))));
+                items.Add(new MenuItemViewModel(profile.Name, new AsyncRelayCommand(() => AddProfileAsync(profile, location))));
             }
         }
 
@@ -797,8 +796,7 @@ namespace FluentTerminal.App.ViewModels
 
         private MenuItemViewModel CommandToMenuItem(ExecutedCommand command)
         {
-            var itemCommand = new RelayCommand(async () => await AddProfileAsync(command.ShellProfile),
-                keepTargetAlive: true);
+            var itemCommand = new AsyncRelayCommand(() => AddProfileAsync(command.ShellProfile));
             var keyBinding = command.ShellProfile.KeyBindings?.FirstOrDefault() is KeyBinding kb
                 ? new MenuItemKeyBindingViewModel(kb)
                 : null;

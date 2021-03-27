@@ -1,7 +1,6 @@
 ﻿using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Settings;
 using FluentTerminal.Models.Enums;
-using FluentTerminal.Models;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

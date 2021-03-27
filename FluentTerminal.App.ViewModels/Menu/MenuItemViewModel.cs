@@ -12,7 +12,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public MenuItemKeyBindingViewModel KeyBinding
         {
             get => _keyBinding;
-            set => Set(ref _keyBinding, value);
+            set => SetProperty(ref _keyBinding, value);
         }
 
         public ICommand Command { get; }

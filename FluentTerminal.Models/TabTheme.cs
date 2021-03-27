@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace FluentTerminal.Models
+﻿namespace FluentTerminal.Models
 {
     public class TabTheme
     {

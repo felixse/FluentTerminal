@@ -8,7 +8,7 @@ namespace FluentTerminal.Models.Messages
 
         public ApplicationSettingsChangedMessage(ApplicationSettings applicationSettings)
         {
-            ApplicationSettings = applicationSettings ?? throw new ArgumentNullException();
+            ApplicationSettings = applicationSettings ?? throw new ArgumentNullException(nameof(applicationSettings));
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FluentTerminal.App.ViewModels;
-using FluentTerminal.Models;
 using System;
 using Windows.UI.Xaml.Data;
 

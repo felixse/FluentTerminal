@@ -89,7 +89,7 @@ namespace FluentTerminal.App.ViewModels
         public string Command
         {
             get => _command;
-            set => Set(ref _command, value);
+            set => SetProperty(ref _command, value);
         }
 
         private ObservableCollection<CommandItemViewModel> _commands;
@@ -97,7 +97,7 @@ namespace FluentTerminal.App.ViewModels
         public ObservableCollection<CommandItemViewModel> Commands
         {
             get => _commands;
-            private set => Set(ref _commands, value);
+            private set => SetProperty(ref _commands, value);
         }
 
         #endregion Properties

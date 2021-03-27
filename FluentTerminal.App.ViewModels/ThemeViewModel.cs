@@ -1,9 +1,8 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class ThemeViewModel : ViewModelBase
+    public class ThemeViewModel : ObservableObject
     {
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
@@ -95,13 +94,13 @@ namespace FluentTerminal.App.ViewModels
             BackgroundThemeFile = Model.BackgroundImage;
 
             SetActiveCommand = new RelayCommand(SetActive);
-            DeleteCommand = new AsyncCommand(DeleteAsync, NotPreInstalled);
+            DeleteCommand = new AsyncRelayCommand(DeleteAsync, NotPreInstalled);
             EditCommand = new RelayCommand(Edit, NotPreInstalled);
-            CancelEditCommand = new AsyncCommand(CancelEditAsync);
-            SaveChangesCommand = new AsyncCommand(SaveChangesAsync);
-            ExportCommand = new AsyncCommand(Export, NotPreInstalled);
-            ChooseBackgroundImageCommand = new AsyncCommand(ChooseBackgroundImageAsync, NotPreInstalled);
-            DeleteBackgroundImageCommand = new AsyncCommand(DeleteBackgroundImageAsync, NotPreInstalled);
+            CancelEditCommand = new AsyncRelayCommand(CancelEditAsync);
+            SaveChangesCommand = new AsyncRelayCommand(SaveChangesAsync);
+            ExportCommand = new AsyncRelayCommand(Export, NotPreInstalled);
+            ChooseBackgroundImageCommand = new AsyncRelayCommand(ChooseBackgroundImageAsync, NotPreInstalled);
+            DeleteBackgroundImageCommand = new AsyncRelayCommand(DeleteBackgroundImageAsync, NotPreInstalled);
         }
 
         public event EventHandler Activated;
@@ -113,7 +112,7 @@ namespace FluentTerminal.App.ViewModels
         public string Author
         {
             get => _author;
-            set => Set(ref _author, value);
+            set => SetProperty(ref _author, value);
         }
 
         public string Background
@@ -121,7 +120,7 @@ namespace FluentTerminal.App.ViewModels
             get => _background;
             set
             {
-                Set(ref _background, value);
+                SetProperty(ref _background, value);
                 BackgroundChanged?.Invoke(this, value);
             }
         }
@@ -129,67 +128,67 @@ namespace FluentTerminal.App.ViewModels
         public double BackgroundOpacity
         {
             get => _backgroundOpacity;
-            set => Set(ref _backgroundOpacity, value);
+            set => SetProperty(ref _backgroundOpacity, value);
         }
 
         public string Black
         {
             get => _black;
-            set => Set(ref _black, value);
+            set => SetProperty(ref _black, value);
         }
 
         public string Blue
         {
             get => _blue;
-            set => Set(ref _blue, value);
+            set => SetProperty(ref _blue, value);
         }
 
         public string BrightBlack
         {
             get => _brightBlack;
-            set => Set(ref _brightBlack, value);
+            set => SetProperty(ref _brightBlack, value);
         }
 
         public string BrightBlue
         {
             get => _brightBlue;
-            set => Set(ref _brightBlue, value);
+            set => SetProperty(ref _brightBlue, value);
         }
 
         public string BrightCyan
         {
             get => _brightCyan;
-            set => Set(ref _brightCyan, value);
+            set => SetProperty(ref _brightCyan, value);
         }
 
         public string BrightGreen
         {
             get => _brightGreen;
-            set => Set(ref _brightGreen, value);
+            set => SetProperty(ref _brightGreen, value);
         }
 
         public string BrightMagenta
         {
             get => _brightMagenta;
-            set => Set(ref _brightMagenta, value);
+            set => SetProperty(ref _brightMagenta, value);
         }
 
         public string BrightRed
         {
             get => _brightRed;
-            set => Set(ref _brightRed, value);
+            set => SetProperty(ref _brightRed, value);
         }
 
         public string BrightWhite
         {
             get => _brightWhite;
-            set => Set(ref _brightWhite, value);
+            set => SetProperty(ref _brightWhite, value);
         }
 
         public string BrightYellow
         {
             get => _brightYellow;
-            set => Set(ref _brightYellow, value);
+            set => SetProperty(ref _brightYellow, value);
         }
 
         public ICommand CancelEditCommand { get; }
@@ -197,19 +196,19 @@ namespace FluentTerminal.App.ViewModels
         public string Cursor
         {
             get => _cursor;
-            set => Set(ref _cursor, value);
+            set => SetProperty(ref _cursor, value);
         }
 
         public string CursorAccent
         {
             get => _cursorAccent;
-            set => Set(ref _cursorAccent, value);
+            set => SetProperty(ref _cursorAccent, value);
         }
 
         public string Cyan
         {
             get => _cyan;
-            set => Set(ref _cyan, value);
+            set => SetProperty(ref _cyan, value);
         }
 
         public ICommand DeleteCommand { get; }
@@ -219,13 +218,13 @@ namespace FluentTerminal.App.ViewModels
         public string Foreground
         {
             get => _foreground;
-            set => Set(ref _foreground, value);
+            set => SetProperty(ref _foreground, value);
         }
 
         public string Green
         {
             get => _green;
-            set => Set(ref _green, value);
+            set => SetProperty(ref _green, value);
         }
 
         public Guid Id { get; }
@@ -233,31 +232,31 @@ namespace FluentTerminal.App.ViewModels
         public bool InEditMode
         {
             get => _inEditMode;
-            set => Set(ref _inEditMode, value);
+            set => SetProperty(ref _inEditMode, value);
         }
 
         public bool IsActive
         {
             get => _isActive;
-            set => Set(ref _isActive, value);
+            set => SetProperty(ref _isActive, value);
         }
 
         public string Magenta
         {
             get => _magenta;
-            set => Set(ref _magenta, value);
+            set => SetProperty(ref _magenta, value);
         }
 
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public string Red
         {
             get => _red;
-            set => Set(ref _red, value);
+            set => SetProperty(ref _red, value);
         }
 
         public ICommand SaveChangesCommand { get; }
@@ -265,7 +264,7 @@ namespace FluentTerminal.App.ViewModels
         public string Selection
         {
             get => _selection;
-            set => Set(ref _selection, value);
+            set => SetProperty(ref _selection, value);
         }
 
         public ICommand SetActiveCommand { get; }
@@ -273,13 +272,13 @@ namespace FluentTerminal.App.ViewModels
         public string White
         {
             get => _white;
-            set => Set(ref _white, value);
+            set => SetProperty(ref _white, value);
         }
 
         public string Yellow
         {
             get => _yellow;
-            set => Set(ref _yellow, value);
+            set => SetProperty(ref _yellow, value);
         }
 
         public ImageFile BackgroundThemeFile
@@ -287,7 +286,7 @@ namespace FluentTerminal.App.ViewModels
             get => _backgroundThemeFile;
             set
             {
-                Set(ref _backgroundThemeFile, value);
+                SetProperty(ref _backgroundThemeFile, value);
                 BackgroundImageChanged?.Invoke(this, value);
             }
         }

@@ -8,7 +8,8 @@ using Windows.UI.Core;
 using FluentTerminal.App.Services;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.App.ViewModels.Profiles
 {
@@ -16,7 +17,9 @@ namespace FluentTerminal.App.ViewModels.Profiles
     /// Base class for all profile view model classes. It contains properties shared by all other view models
     /// (theme-related properties, line-ending translation, and WinPTY/ConPTY selection).
     /// </summary>
-    public abstract class ProfileProviderViewModelBase : ViewModelBase
+    public abstract class ProfileProviderViewModelBase : ObservableObject,
+        IRecipient<ThemeAddedMessage>,
+        IRecipient<ThemeDeletedMessage>
     {
         #region Fields
 
@@ -78,7 +81,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                     ? value
                     : TabThemes.FirstOrDefault(t => t.Id == value.Id) ?? TabThemes.First();
 
-                if (Set(ref _selectedTabTheme, theme))
+                if (SetProperty(ref _selectedTabTheme, theme))
                 {
                     _tabThemeId = theme.Id;
                 }
@@ -92,7 +95,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             get => _tabThemeId;
             set
             {
-                if (Set(ref _tabThemeId, value))
+                if (SetProperty(ref _tabThemeId, value))
                 {
                     SelectedTabTheme = TabThemes.FirstOrDefault(t => t.Id.Equals(value));
                 }
@@ -119,7 +122,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
                     theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(theme.Id)) ?? TerminalThemes.First();
                 }
 
-                if (Set(ref _selectedTerminalTheme, theme))
+                if (SetProperty(ref _selectedTerminalTheme, theme))
                 {
                     _terminalThemeId = theme.Id;
                 }
@@ -133,7 +136,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             get => _terminalThemeId;
             set
             {
-                if (Set(ref _terminalThemeId, value))
+                if (SetProperty(ref _terminalThemeId, value))
                 {
                     SelectedTerminalTheme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(value));
                 }
@@ -145,7 +148,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public bool UseConPty
         {
             get => _useConPty;
-            set => Set(ref _useConPty, value);
+            set => SetProperty(ref _useConPty, value);
         }
 
         private bool _useBuffer;
@@ -153,7 +156,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public bool UseBuffer
         {
             get => _useBuffer;
-            set => Set(ref _useBuffer, value);
+            set => SetProperty(ref _useBuffer, value);
         }
 
         #endregion Properties
@@ -179,9 +182,6 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             SelectedTerminalTheme = TerminalThemes.First();
 
-            MessengerInstance.Register<ThemeAddedMessage>(this, OnThemeAdded);
-            MessengerInstance.Register<ThemeDeletedMessage>(this, OnThemeDeleted);
-
             Initialize(Model);
         }
 
@@ -189,7 +189,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
         #region Methods
 
-        private void OnThemeDeleted(ThemeDeletedMessage message)
+        public void Receive(ThemeDeletedMessage message)
         {
             var theme = TerminalThemes.FirstOrDefault(t => t.Id.Equals(message.ThemeId));
 
@@ -209,7 +209,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
             }, CoreDispatcherPriority.Low, true);
         }
 
-        private void OnThemeAdded(ThemeAddedMessage message)
+        public void Receive(ThemeAddedMessage message)
         {
             ApplicationView.ExecuteOnUiThreadAsync(() => TerminalThemes.Add(message.Theme), CoreDispatcherPriority.Low);
         }

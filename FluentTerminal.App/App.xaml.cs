@@ -36,7 +36,7 @@ using IContainer = Autofac.IContainer;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.App
 {
@@ -114,7 +114,7 @@ namespace FluentTerminal.App
 
             _container = builder.Build();
 
-            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            WeakReferenceMessenger.Default.Register<App, ApplicationSettingsChangedMessage>(this, (r, m) => r.OnApplicationSettingsChanged(m));
 
             _settingsService = _container.Resolve<ISettingsService>();
             _notificationService = _container.Resolve<INotificationService>();

@@ -1,21 +1,21 @@
 ﻿using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using Windows.System;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class MenuItemKeyBindingViewModel : ViewModelBase
+    public class MenuItemKeyBindingViewModel : ObservableObject
     {
         private int _key;
 
         public int Key
         {
             get => _key;
-            set => Set(ref _key, value);
+            set => SetProperty(ref _key, value);
         }
 
         private int _keyModifiers;
@@ -24,7 +24,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public int KeyModifiers
         {
             get => _keyModifiers;
-            private set => Set(ref _keyModifiers, value);
+            private set => SetProperty(ref _keyModifiers, value);
         }
 
         private bool _ctrl;
@@ -34,7 +34,7 @@ namespace FluentTerminal.App.ViewModels.Menu
             get => _ctrl;
             set
             {
-                if (Set(ref _ctrl, value))
+                if (SetProperty(ref _ctrl, value))
                 {
                     SetKeyModifiers();
                 }
@@ -48,7 +48,7 @@ namespace FluentTerminal.App.ViewModels.Menu
             get => _alt;
             set
             {
-                if (Set(ref _alt, value))
+                if (SetProperty(ref _alt, value))
                 {
                     SetKeyModifiers();
                 }
@@ -62,7 +62,7 @@ namespace FluentTerminal.App.ViewModels.Menu
             get => _shift;
             set
             {
-                if (Set(ref _shift, value))
+                if (SetProperty(ref _shift, value))
                 {
                     SetKeyModifiers();
                 }
@@ -76,7 +76,7 @@ namespace FluentTerminal.App.ViewModels.Menu
             get => _windows;
             set
             {
-                if (Set(ref _windows, value))
+                if (SetProperty(ref _windows, value))
                 {
                     SetKeyModifiers();
                 }

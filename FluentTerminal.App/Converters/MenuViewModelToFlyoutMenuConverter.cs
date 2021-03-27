@@ -3,7 +3,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using FluentTerminal.App.ViewModels.Menu;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.App.Converters
 {

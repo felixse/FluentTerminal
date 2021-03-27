@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.App.Services.Implementation
 {
@@ -169,14 +169,14 @@ namespace FluentTerminal.App.Services.Implementation
         public void DeleteShellProfile(Guid id)
         {
             _shellProfiles.Delete(id.ToString());
-            Messenger.Default.Send(new ShellProfileDeletedMessage(id));
+            WeakReferenceMessenger.Default.Send(new ShellProfileDeletedMessage(id));
         }
 
         public void DeleteSshProfile(Guid id)
         {
             _sshProfiles.Delete(id.ToString());
-            Messenger.Default.Send(new ShellProfileDeletedMessage(id));
-            Messenger.Default.Send(new KeyBindingsChangedMessage());
+            WeakReferenceMessenger.Default.Send(new ShellProfileDeletedMessage(id));
+            WeakReferenceMessenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
 
@@ -193,7 +193,7 @@ namespace FluentTerminal.App.Services.Implementation
                 }
             }
 
-            Messenger.Default.Send(new ThemeDeletedMessage(id));
+            WeakReferenceMessenger.Default.Send(new ThemeDeletedMessage(id));
         }
 
         public ApplicationSettings GetApplicationSettings()
@@ -333,32 +333,32 @@ namespace FluentTerminal.App.Services.Implementation
                 _keyBindings.WriteValueAsJson(command.ToString(), _defaultValueProvider.GetDefaultKeyBindings(command));
             }
 
-            Messenger.Default.Send(new KeyBindingsChangedMessage());
+            WeakReferenceMessenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
         public void SaveApplicationSettings(ApplicationSettings applicationSettings)
         {
             _roamingSettings.WriteValueAsJson(nameof(ApplicationSettings), applicationSettings);
-            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
+            WeakReferenceMessenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
         }
 
         public void NotifyApplicationSettingsChanged(ApplicationSettings applicationSettings)
         {
-            Messenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
+            WeakReferenceMessenger.Default.Send(new ApplicationSettingsChangedMessage(applicationSettings.Clone()));
         }
 
         public void SaveCurrentThemeId(Guid id)
         {
             _roamingSettings.SetValue(CurrentThemeKey, id);
 
-            Messenger.Default.Send(new CurrentThemeChangedMessage(id));
+            WeakReferenceMessenger.Default.Send(new CurrentThemeChangedMessage(id));
         }
 
         public void SaveDefaultShellProfileId(Guid id)
         {
             _localSettings.SetValue(DefaultShellProfileKey, id);
 
-            Messenger.Default.Send(new DefaultShellProfileChangedMessage(id));
+            WeakReferenceMessenger.Default.Send(new DefaultShellProfileChangedMessage(id));
         }
 
         public void SaveKeyBindings(string command, ICollection<KeyBinding> keyBindings)
@@ -369,7 +369,7 @@ namespace FluentTerminal.App.Services.Implementation
             }
 
             _keyBindings.WriteValueAsJson(enumValue.ToString(), keyBindings);
-            Messenger.Default.Send(new KeyBindingsChangedMessage());
+            WeakReferenceMessenger.Default.Send(new KeyBindingsChangedMessage());
         }
 
         public void SaveShellProfile(ShellProfile shellProfile, bool newShell = false)
@@ -377,15 +377,15 @@ namespace FluentTerminal.App.Services.Implementation
             _shellProfiles.WriteValueAsJson(shellProfile.Id.ToString(), shellProfile);
 
             // When saving the shell profile, we also need to update keybindings for everywhere.
-            Messenger.Default.Send(new KeyBindingsChangedMessage());
+            WeakReferenceMessenger.Default.Send(new KeyBindingsChangedMessage());
 
             if (newShell)
             {
-                Messenger.Default.Send(new ShellProfileAddedMessage(shellProfile));
+                WeakReferenceMessenger.Default.Send(new ShellProfileAddedMessage(shellProfile));
             }
             else
             {
-                Messenger.Default.Send(new ShellProfileChangedMessage(shellProfile));
+                WeakReferenceMessenger.Default.Send(new ShellProfileChangedMessage(shellProfile));
             }
         }
 
@@ -394,22 +394,22 @@ namespace FluentTerminal.App.Services.Implementation
             _sshProfiles.WriteValueAsJson(sshProfile.Id.ToString(), sshProfile);
 
             // When saving the shell profile, we also need to update keybindings for everywhere.
-            Messenger.Default.Send(new KeyBindingsChangedMessage());
+            WeakReferenceMessenger.Default.Send(new KeyBindingsChangedMessage());
 
             if (newShell)
             {
-                Messenger.Default.Send(new ShellProfileAddedMessage(sshProfile));
+                WeakReferenceMessenger.Default.Send(new ShellProfileAddedMessage(sshProfile));
             }
             else
             {
-                Messenger.Default.Send(new ShellProfileChangedMessage(sshProfile));
+                WeakReferenceMessenger.Default.Send(new ShellProfileChangedMessage(sshProfile));
             }
         }
 
         public void SaveTerminalOptions(TerminalOptions terminalOptions)
         {
             _roamingSettings.WriteValueAsJson(nameof(TerminalOptions), terminalOptions);
-            Messenger.Default.Send(new TerminalOptionsChangedMessage(terminalOptions));
+            WeakReferenceMessenger.Default.Send(new TerminalOptionsChangedMessage(terminalOptions));
         }
 
         public void SaveTheme(TerminalTheme theme, bool newTheme = false)
@@ -418,12 +418,12 @@ namespace FluentTerminal.App.Services.Implementation
 
             if (theme.Id == GetCurrentThemeId())
             {
-                Messenger.Default.Send(new CurrentThemeChangedMessage(theme.Id));
+                WeakReferenceMessenger.Default.Send(new CurrentThemeChangedMessage(theme.Id));
             }
 
             if (newTheme)
             {
-                Messenger.Default.Send(new ThemeAddedMessage(theme));
+                WeakReferenceMessenger.Default.Send(new ThemeAddedMessage(theme));
             }
         }
     }

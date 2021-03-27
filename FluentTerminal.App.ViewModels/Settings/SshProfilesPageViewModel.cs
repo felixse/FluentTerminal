@@ -1,15 +1,16 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class SshProfilesPageViewModel: ViewModelBase
+    public class SshProfilesPageViewModel: ObservableObject
     {
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
@@ -63,9 +64,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public RelayCommand CreateSshProfileCommand { get; }
+        public ICommand CreateSshProfileCommand { get; }
 
-        public RelayCommand<SshProfileViewModel> CloneCommand { get; }
+        public ICommand CloneCommand { get; }
 
         public void CreateSshProfile()
         {
@@ -112,7 +113,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public SshProfileViewModel SelectedSshProfile
         {
             get => _selectedShellProfile;
-            set => Set(ref _selectedShellProfile, value);
+            set => SetProperty(ref _selectedShellProfile, value);
         }
 
         public ObservableCollection<SshProfileViewModel> SshProfiles { get; } = new ObservableCollection<SshProfileViewModel>();

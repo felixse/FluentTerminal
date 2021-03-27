@@ -1,15 +1,16 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class ProfilesPageViewModel : ViewModelBase
+    public class ProfilesPageViewModel : ObservableObject
     {
         private readonly IDefaultValueProvider _defaultValueProvider;
         private readonly IDialogService _dialogService;
@@ -79,9 +80,9 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public RelayCommand CreateShellProfileCommand { get; }
+        public ICommand CreateShellProfileCommand { get; }
 
-        public RelayCommand<ShellProfileViewModel> CloneCommand { get; }
+        public ICommand CloneCommand { get; }
 
         private void CreateShellProfile()
         {
@@ -122,7 +123,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public ShellProfileViewModel SelectedShellProfile
         {
             get => _selectedShellProfile;
-            set => Set(ref _selectedShellProfile, value);
+            set => SetProperty(ref _selectedShellProfile, value);
         }
 
         public ObservableCollection<ShellProfileViewModel> ShellProfiles { get; } = new ObservableCollection<ShellProfileViewModel>();

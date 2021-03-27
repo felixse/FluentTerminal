@@ -12,7 +12,8 @@ using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Profiles;
 using FluentTerminal.Models;
-using FluentTerminal.App.ViewModels.Infrastructure;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -26,8 +27,8 @@ namespace FluentTerminal.App.Dialogs
 
         public SshConnectViewModel ViewModel { get; private set; }
 
-        public IAsyncCommand BrowseIdentityFileCommand { get; }
-        public IAsyncCommand SaveLinkCommand { get; }
+        public ICommand BrowseIdentityFileCommand { get; }
+        public ICommand SaveLinkCommand { get; }
 
         public SshInfoDialog(ISettingsService settingsService, IApplicationView applicationView,
             IFileSystemService fileSystemService, ITrayProcessCommunicationService trayProcessCommunicationService)
@@ -39,8 +40,8 @@ namespace FluentTerminal.App.Dialogs
 
             InitializeComponent();
 
-            BrowseIdentityFileCommand = new AsyncCommand(BrowseIdentityFile);
-            SaveLinkCommand = new AsyncCommand(SaveLink);
+            BrowseIdentityFileCommand = new AsyncRelayCommand(BrowseIdentityFile);
+            SaveLinkCommand = new AsyncRelayCommand(SaveLink);
 
             PrimaryButtonText = I18N.Translate("OK");
             SecondaryButtonText = I18N.Translate("Cancel");

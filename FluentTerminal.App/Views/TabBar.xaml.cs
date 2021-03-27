@@ -2,11 +2,11 @@
 using FluentTerminal.App.Services.EventArgs;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -21,7 +21,7 @@ namespace FluentTerminal.App.Views
             DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<TerminalViewModel>), typeof(TabBar), new PropertyMetadata(null));
 
         public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register(nameof(AddCommand), typeof(RelayCommand), typeof(TabBar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(AddCommand), typeof(ICommand), typeof(TabBar), new PropertyMetadata(null));
 
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(TabBar), new PropertyMetadata(null));
@@ -53,9 +53,9 @@ namespace FluentTerminal.App.Views
             ScrollViewer.UnregisterPropertyChangedCallback(ScrollViewer.ScrollableWidthProperty, _scrollableWidthChangedToken);
         }
 
-        public RelayCommand AddCommand
+        public ICommand AddCommand
         {
-            get { return (RelayCommand)GetValue(MyPropertyProperty); }
+            get { return (ICommand)GetValue(MyPropertyProperty); }
             set { SetValue(MyPropertyProperty, value); }
         }
 

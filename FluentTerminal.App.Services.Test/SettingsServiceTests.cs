@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using FluentTerminal.App.Services.Implementation;
-using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using Moq;
@@ -11,8 +10,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
 using Xunit;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.App.Services.Test
 {
@@ -167,8 +166,8 @@ namespace FluentTerminal.App.Services.Test
             };
             var currentThemeChangedEventInvoked = false;
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<CurrentThemeChangedMessage>(this,
-                message => currentThemeChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<CurrentThemeChangedMessage>(this,
+                (r, m) => currentThemeChangedEventInvoked = true);
 
             settingsService.SaveCurrentThemeId(currentThemeId);
 
@@ -217,8 +216,8 @@ namespace FluentTerminal.App.Services.Test
                 SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<CurrentThemeChangedMessage>(this,
-                message => currentThemeChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<CurrentThemeChangedMessage>(this,
+                (r, m) => currentThemeChangedEventInvoked = true);
 
             settingsService.SaveTheme(theme);
 
@@ -382,8 +381,8 @@ namespace FluentTerminal.App.Services.Test
                 SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<TerminalOptionsChangedMessage>(this,
-                message => terminalOptionsChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<TerminalOptionsChangedMessage>(this,
+                (r, m) => terminalOptionsChangedEventInvoked = true);
 
             settingsService.SaveTerminalOptions(terminalOptions);
 
@@ -453,8 +452,7 @@ namespace FluentTerminal.App.Services.Test
                 SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this,
-                a => applicationSettingsChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<ApplicationSettingsChangedMessage>(this, (r, m) => applicationSettingsChangedEventInvoked = true);
 
             settingsService.SaveApplicationSettings(applicationSettings);
 
@@ -556,8 +554,8 @@ namespace FluentTerminal.App.Services.Test
                 SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<KeyBindingsChangedMessage>(this,
-                message => keyBindingsChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<KeyBindingsChangedMessage>(this,
+                (r, m) => keyBindingsChangedEventInvoked = true);
 
             settingsService.SaveKeyBindings(command.ToString(), keyBindings);
 
@@ -605,8 +603,8 @@ namespace FluentTerminal.App.Services.Test
                 SshProfiles = Mock.Of<IApplicationDataContainer>()
             };
             var settingsService = new SettingsService(defaultValueProvider, applicationDataContainers);
-            Messenger.Default.Register<KeyBindingsChangedMessage>(this,
-                message => keyBindingsChangedEventInvoked = true);
+            WeakReferenceMessenger.Default.Register<KeyBindingsChangedMessage>(this,
+                (r, m) => keyBindingsChangedEventInvoked = true);
 
             settingsService.ResetKeyBindings();
 

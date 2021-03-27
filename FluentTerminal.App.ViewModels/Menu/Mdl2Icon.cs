@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentTerminal.App.ViewModels.Menu
+﻿namespace FluentTerminal.App.ViewModels.Menu
 {
     public sealed class Mdl2Icon
     {

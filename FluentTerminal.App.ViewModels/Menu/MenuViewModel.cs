@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class MenuViewModel : ViewModelBase
+    public class MenuViewModel : ObservableObject
     {
         public ObservableCollection<MenuItemViewModelBase> Items { get; }
 

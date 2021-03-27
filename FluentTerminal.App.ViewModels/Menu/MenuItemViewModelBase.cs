@@ -1,9 +1,9 @@
 ﻿using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace FluentTerminal.App.ViewModels.Menu
 {
-    public class MenuItemViewModelBase : ViewModelBase
+    public class MenuItemViewModelBase : ObservableObject
     {
         #region Properties
 
@@ -12,7 +12,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public string Text
         {
             get => _text;
-            set => Set(ref _text, value);
+            set => SetProperty(ref _text, value);
         }
 
         private string _description;
@@ -20,7 +20,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public string Description
         {
             get => _description;
-            set => Set(ref _description, value);
+            set => SetProperty(ref _description, value);
         }
 
         private Mdl2Icon _icon;
@@ -28,7 +28,7 @@ namespace FluentTerminal.App.ViewModels.Menu
         public Mdl2Icon Icon
         {
             get => _icon;
-            set => Set(ref _icon, value);
+            set => SetProperty(ref _icon, value);
         }
 
         #endregion Properties

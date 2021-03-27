@@ -6,7 +6,7 @@ using System.Text;
 using FluentTerminal.App.Services.Implementation;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 
 namespace FluentTerminal.App.Services
@@ -153,7 +153,7 @@ namespace FluentTerminal.App.Services
         {
             _historyContainer.WriteValueAsJson(GetHash(executedCommand.Value), executedCommand);
 
-            Messenger.Default.Send(new CommandHistoryChangedMessage());
+            WeakReferenceMessenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace FluentTerminal.App.Services
 
             _historyContainer.Clear();
 
-            Messenger.Default.Send(new CommandHistoryChangedMessage());
+            WeakReferenceMessenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         public void Delete(ExecutedCommand executedCommand)
@@ -366,7 +366,7 @@ namespace FluentTerminal.App.Services
 
             _historyContainer.Delete(GetHash(executedCommand.Value));
 
-            Messenger.Default.Send(new CommandHistoryChangedMessage());
+            WeakReferenceMessenger.Default.Send(new CommandHistoryChangedMessage());
         }
 
         #endregion Methods

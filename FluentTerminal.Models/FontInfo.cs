@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentTerminal.Models
+﻿namespace FluentTerminal.Models
 {
     public class FontInfo
     {

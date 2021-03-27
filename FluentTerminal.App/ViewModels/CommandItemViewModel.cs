@@ -4,11 +4,11 @@ using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class CommandItemViewModel : ViewModelBase
+    public class CommandItemViewModel : ObservableObject
     {
         #region Fields
 
@@ -35,7 +35,7 @@ namespace FluentTerminal.App.ViewModels
         public bool IsMatch
         {
             get => _isMatch;
-            private set => Set(ref _isMatch, value);
+            private set => SetProperty(ref _isMatch, value);
         }
 
         private RichTextBlock _richTextBlock;
@@ -45,7 +45,7 @@ namespace FluentTerminal.App.ViewModels
             get => _richTextBlock;
             private set
             {
-                if (Set(ref _richTextBlock, value))
+                if (SetProperty(ref _richTextBlock, value))
                 {
                     IsMatch = value != null;
                 }

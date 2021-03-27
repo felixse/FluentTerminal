@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

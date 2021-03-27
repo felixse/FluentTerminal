@@ -1,6 +1,6 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class KeyBindingsViewModel : ViewModelBase
+    public class KeyBindingsViewModel : ObservableObject
     {
         private readonly IDialogService _dialogService;
         private bool _editable;
@@ -37,7 +37,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool Editable
         {
             get => _editable;
-            set => Set(ref _editable, value);
+            set => SetProperty(ref _editable, value);
         }
 
         public ObservableCollection<KeyBindingViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingViewModel>();

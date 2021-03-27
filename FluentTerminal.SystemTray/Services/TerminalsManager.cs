@@ -14,7 +14,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.SystemTray.Services
 {
@@ -42,7 +42,7 @@ namespace FluentTerminal.SystemTray.Services
         public TerminalsManager(ISettingsService settingsService)
         {
             _applicationSettings = settingsService.GetApplicationSettings();
-            Messenger.Default.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
+            WeakReferenceMessenger.Default.Register<TerminalsManager, ApplicationSettingsChangedMessage>(this, (r, m) => r.OnApplicationSettingsChanged(m));
         }
 
         private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)

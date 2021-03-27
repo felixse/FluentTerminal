@@ -1,15 +1,16 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class GeneralPageViewModel : ViewModelBase
+    public class GeneralPageViewModel : ObservableObject
     {
         private readonly ApplicationSettings _applicationSettings;
         private readonly IDefaultValueProvider _defaultValueProvider;
@@ -39,8 +40,8 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             _applicationSettings = _settingsService.GetApplicationSettings();
 
-            RestoreDefaultsCommand = new AsyncCommand(RestoreDefaultsAsync);
-            BrowseLogDirectoryCommand = new AsyncCommand(BrowseLogDirectoryAsync);
+            RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
+            BrowseLogDirectoryCommand = new AsyncRelayCommand(BrowseLogDirectoryAsync);
         }
 
         public IEnumerable<string> Languages => _applicationLanguageService.Languages;
@@ -48,7 +49,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool NeedsToRestart
         {
             get => _needsToRestart;
-            set => Set(ref _needsToRestart, value);
+            set => SetProperty(ref _needsToRestart, value);
         }
 
         public string SelectedLanguage
@@ -78,7 +79,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.ShowCustomTitleInTitlebar = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -92,7 +93,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.EnableTrayIcon = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
 
                     // Toggle message telling user to restart the program
                     ShouldRestartForTrayMessage = !ShouldRestartForTrayMessage;
@@ -103,7 +104,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool ShouldRestartForTrayMessage
         {
             get => _shouldRestartForTrayMessage;
-            set => Set(ref _shouldRestartForTrayMessage, value);
+            set => SetProperty(ref _shouldRestartForTrayMessage, value);
         }
 
         public bool ShowNewOutputIndicator
@@ -115,7 +116,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.ShowNewOutputIndicator = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -129,7 +130,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.UseMoshByDefault = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -143,7 +144,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.AutoFallbackToWindowsUsernameInLinks = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -157,7 +158,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.RTrimCopiedLines = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -171,7 +172,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.MuteTerminalBeeps = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
 
                     _trayProcessCommunicationService.MuteTerminalAsync(value);
                 }
@@ -186,7 +187,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.EnableLogging = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -200,7 +201,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.PrintableOutputOnly = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -214,7 +215,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.LogDirectoryPath = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -228,7 +229,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.UseConPty = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -242,7 +243,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public bool CanEnableStartupTask
         {
             get => _canEnableStartupTask;
-            set => Set(ref _canEnableStartupTask, value);
+            set => SetProperty(ref _canEnableStartupTask, value);
         }
 
         public bool ConfirmClosingTabs
@@ -254,7 +255,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.ConfirmClosingTabs = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -268,7 +269,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.ConfirmClosingWindows = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -282,8 +283,8 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.NewTerminalLocation = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(TabIsSelected));
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(TabIsSelected));
                 }
             }
         }
@@ -297,21 +298,21 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.TabWindowCascadingAppMenu = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public IAsyncCommand RestoreDefaultsCommand { get; }
+        public ICommand RestoreDefaultsCommand { get; }
 
-        public IAsyncCommand BrowseLogDirectoryCommand { get; }
+        public ICommand BrowseLogDirectoryCommand { get; }
 
         public bool StartupTaskEnabled
         {
             get => _startupTaskEnabled;
             set
             {
-                if (Set(ref _startupTaskEnabled, value))
+                if (SetProperty(ref _startupTaskEnabled, value))
                 {
                     // ReSharper disable once AssignmentIsFullyDiscarded
                     _ = SetStartupTaskStateAsync(value);
@@ -322,7 +323,7 @@ namespace FluentTerminal.App.ViewModels.Settings
         public string StartupTaskErrorMessage
         {
             get => _startupTaskErrorMessage;
-            set => Set(ref _startupTaskErrorMessage, value);
+            set => SetProperty(ref _startupTaskErrorMessage, value);
         }
 
         public bool TabIsSelected
@@ -340,7 +341,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.TabsPosition = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -360,7 +361,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.UnderlineSelectedTab = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -386,7 +387,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.InactiveTabColorMode = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -400,7 +401,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _applicationSettings.ShowTextCopied = value;
                     _settingsService.SaveApplicationSettings(_applicationSettings);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }

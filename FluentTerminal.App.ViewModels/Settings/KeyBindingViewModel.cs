@@ -1,14 +1,15 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class KeyBindingViewModel : ViewModelBase
+    public class KeyBindingViewModel : ObservableObject
     {
         private readonly IDialogService _dialogService;
 
@@ -17,8 +18,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             Model = keyBinding;
             Parent = parent;
             _dialogService = dialogService;
-            EditCommand = new AsyncCommand(EditAsync);
-            DeleteCommand = new AsyncCommand(DeleteAsync);
+            EditCommand = new AsyncRelayCommand(EditAsync);
+            DeleteCommand = new AsyncRelayCommand(DeleteAsync);
         }
 
         // Needs to be triggered from the UI thread
@@ -36,7 +37,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (Model.Meta != value)
                 {
                     Model.Meta = value;
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -49,7 +50,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (Model.Alt != value)
                 {
                     Model.Alt = value;
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -62,13 +63,13 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (Model.Ctrl != value)
                 {
                     Model.Ctrl = value;
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public IAsyncCommand DeleteCommand { get; }
-        public IAsyncCommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand EditCommand { get; }
 
         public int Key
         {
@@ -78,7 +79,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (Model.Key != value)
                 {
                     Model.Key = value;
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -93,7 +94,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 if (Model.Shift != value)
                 {
                     Model.Shift = value;
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }

@@ -4,24 +4,23 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FluentTerminal.Models.Messages;
-using GalaSoft.MvvmLight.Messaging;
 using FluentTerminal.Models;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace FluentTerminal.App.Views
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class TerminalView : UserControl
+    public sealed partial class TerminalView : UserControl,
+        IRecipient<KeyBindingsChangedMessage>,
+        IRecipient<TerminalOptionsChangedMessage>
     {
         private ITerminalView _terminalView;
 
         public TerminalView(TerminalViewModel viewModel)
         {
-            Messenger.Default.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
-            Messenger.Default.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
-
             ViewModel = viewModel;
             ViewModel.SearchStarted += OnSearchStarted;
             ViewModel.Activated += OnActivated;
@@ -48,7 +47,7 @@ namespace FluentTerminal.App.Views
             _terminalView?.Dispose();
             _terminalView = null;
 
-            Messenger.Default.Unregister(this);
+            // Messenger.Default.Unregister(this); // todo do we need this?
 
             ViewModel.SearchStarted -= OnSearchStarted;
             ViewModel.Activated -= OnActivated;
@@ -77,12 +76,12 @@ namespace FluentTerminal.App.Views
             _terminalView.FindPreviousAsync(e);
         }
 
-        private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
+        public void Receive(KeyBindingsChangedMessage message)
         {
             _terminalView.ChangeKeyBindingsAsync();
         }
 
-        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        public void Receive(TerminalOptionsChangedMessage message)
         {
             _terminalView.ChangeOptionsAsync(message.TerminalOptions);
         }

@@ -1,15 +1,15 @@
 ﻿using FluentTerminal.App.Services.Dialogs;
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using FluentTerminal.App.Services;
 
 namespace FluentTerminal.App.Dialogs
 {
@@ -25,25 +25,25 @@ namespace FluentTerminal.App.Dialogs
         public bool Ctrl
         {
             get => _ctrl;
-            set => Set(ref _ctrl, value);
+            set => SetProperty(ref _ctrl, value);
         }
 
         public bool Shift
         {
             get => _shift;
-            set => Set(ref _shift, value);
+            set => SetProperty(ref _shift, value);
         }
 
         public bool Alt
         {
             get => _alt;
-            set => Set(ref _alt, value);
+            set => SetProperty(ref _alt, value);
         }
 
         public bool Meta
         {
             get => _meta;
-            set => Set(ref _meta, value);
+            set => SetProperty(ref _meta, value);
         }
 
         public int Key
@@ -51,7 +51,7 @@ namespace FluentTerminal.App.Dialogs
             get => _key;
             set
             {
-                Set(ref _key, value);
+                SetProperty(ref _key, value);
             }
         }
 
@@ -66,7 +66,7 @@ namespace FluentTerminal.App.Dialogs
             this.SecondaryButtonText = I18N.Translate("Cancel");
         }
 
-        public RelayCommand ResetCommand { get; }
+        public ICommand ResetCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -125,7 +125,7 @@ namespace FluentTerminal.App.Dialogs
             ResetButton.Visibility = Visibility.Collapsed;
         }
 
-        private void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
+        private void SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
         {
             if (field?.Equals(value) ?? value == null)
             {

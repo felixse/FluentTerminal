@@ -2,17 +2,18 @@
 using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class KeyBindingsPageViewModel : ViewModelBase
+    public class KeyBindingsPageViewModel : ObservableObject
     {
         private readonly IDialogService _dialogService;
         private readonly ISettingsService _settingsService;
@@ -23,15 +24,15 @@ namespace FluentTerminal.App.ViewModels.Settings
             _settingsService = settingsService;
             _dialogService = dialogService;
             _trayProcessCommunicationService = trayProcessCommunicationService;
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaultsAsync().ConfigureAwait(false));
-            AddCommand = new RelayCommand<string>(async command => await AddAsync(command).ConfigureAwait(false));
+            RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
+            AddCommand = new AsyncRelayCommand<string>(AddAsync);
 
             Initialize(_settingsService.GetCommandKeyBindings());
         }
 
-        public RelayCommand<string> AddCommand { get; }
+        public ICommand AddCommand { get; }
         public ObservableCollection<KeyBindingsViewModel> KeyBindings { get; } = new ObservableCollection<KeyBindingsViewModel>();
-        public RelayCommand RestoreDefaultsCommand { get; }
+        public ICommand RestoreDefaultsCommand { get; }
 
         private Task AddAsync(string command)
         {

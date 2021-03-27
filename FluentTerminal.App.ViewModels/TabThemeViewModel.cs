@@ -1,9 +1,9 @@
 ﻿using FluentTerminal.Models;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class TabThemeViewModel : ViewModelBase
+    public class TabThemeViewModel : ObservableObject
     {
         private bool _isSelected;
 
@@ -18,7 +18,7 @@ namespace FluentTerminal.App.ViewModels
             get => _isSelected;
             set
             {
-                if (Set(ref _isSelected, value) && value)
+                if (SetProperty(ref _isSelected, value) && value)
                 {
                     Terminal.TabTheme = this;
                 }

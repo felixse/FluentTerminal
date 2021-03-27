@@ -1,10 +1,7 @@
 ﻿using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -15,14 +12,18 @@ using Windows.UI.Core;
 using FluentTerminal.Models.Messages;
 using System.Windows.Input;
 using FluentTerminal.App.ViewModels.Menu;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class TerminalViewModel : ViewModelBase
+    public class TerminalViewModel : ObservableObject,
+        IRecipient<ApplicationSettingsChangedMessage>,
+        IRecipient<CurrentThemeChangedMessage>,
+        IRecipient<TerminalOptionsChangedMessage>,
+        IRecipient<KeyBindingsChangedMessage>
     {
         #region Static
 
@@ -126,11 +127,6 @@ namespace FluentTerminal.App.ViewModels
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
             IApplicationView applicationView, IClipboardService clipboardService, string terminalState = null)
         {
-            MessengerInstance.Register<ApplicationSettingsChangedMessage>(this, OnApplicationSettingsChanged);
-            MessengerInstance.Register<CurrentThemeChangedMessage>(this, OnCurrentThemeChanged);
-            MessengerInstance.Register<TerminalOptionsChangedMessage>(this, OnTerminalOptionsChanged);
-            MessengerInstance.Register<KeyBindingsChangedMessage>(this, OnKeyBindingsChanged);
-
             SettingsService = settingsService;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
@@ -147,19 +143,19 @@ namespace FluentTerminal.App.ViewModels
             TerminalTheme = shellProfile.TerminalThemeId == Guid.Empty ? SettingsService.GetCurrentTheme() : SettingsService.GetTheme(shellProfile.TerminalThemeId);
 
             TabThemes = new ObservableCollection<TabThemeViewModel>(SettingsService.GetTabThemes().Select(theme => new TabThemeViewModel(theme, this)));
-            CloseCommand = new AsyncCommand(TryCloseAsync, CanExecuteCommand);
+            CloseCommand = new AsyncRelayCommand(TryCloseAsync, CanExecuteCommand);
             CloseLeftTabsCommand = new RelayCommand(CloseLeftTabs, CanExecuteCommand);
             CloseRightTabsCommand = new RelayCommand(CloseRightTabs, CanExecuteCommand);
             CloseOtherTabsCommand = new RelayCommand(CloseOtherTabs, CanExecuteCommand);
             FindNextCommand = new RelayCommand(FindNext, CanExecuteCommand);
             FindPreviousCommand = new RelayCommand(FindPrevious, CanExecuteCommand);
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
-            EditTitleCommand = new AsyncCommand(EditTitleAsync, CanExecuteCommand);
+            EditTitleCommand = new AsyncRelayCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
-            ReconnectTabCommand = new AsyncCommand(ReconnectTabAsync, () => CanExecuteCommand() && HasExitedWithError);
-            CopyCommand = new AsyncCommand(Copy, () => HasSelection);
-            PasteCommand = new AsyncCommand(Paste);
-            CopyLinkCommand = new AsyncCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
+            ReconnectTabCommand = new AsyncRelayCommand(ReconnectTabAsync, () => CanExecuteCommand() && HasExitedWithError);
+            CopyCommand = new AsyncRelayCommand(Copy, () => HasSelection);
+            PasteCommand = new AsyncRelayCommand(Paste);
+            CopyLinkCommand = new AsyncRelayCommand(() => CopyTextAsync(HoveredUri), () => !string.IsNullOrWhiteSpace(HoveredUri));
             ShowSearchPanelCommand = new RelayCommand(() => ShowSearchPanel = true, () => !ShowSearchPanel);
 
             FontSize = _terminalOptions.FontSize;
@@ -191,13 +187,13 @@ namespace FluentTerminal.App.ViewModels
         public MenuViewModel ContextMenu
         {
             get => _contextMenu;
-            set => Set(ref _contextMenu, value);
+            set => SetProperty(ref _contextMenu, value);
         }
 
         public MenuViewModel TabContextMenu
         {
             get => _tabContextMenu;
-            set => Set(ref _tabContextMenu, value);
+            set => SetProperty(ref _tabContextMenu, value);
         }
 
         private bool _disposalRequested;
@@ -241,27 +237,27 @@ namespace FluentTerminal.App.ViewModels
 
         public string XtermBufferState { get; private set; }
 
-        public AsyncCommand CloseCommand { get; private set; }
+        public ICommand CloseCommand { get; private set; }
 
-        public RelayCommand CloseRightTabsCommand { get; }
+        public ICommand CloseRightTabsCommand { get; }
 
-        public RelayCommand CloseLeftTabsCommand { get; }
+        public ICommand CloseLeftTabsCommand { get; }
 
-        public RelayCommand CloseOtherTabsCommand { get; }
+        public ICommand CloseOtherTabsCommand { get; }
 
-        public RelayCommand CloseSearchPanelCommand { get; }
+        public ICommand CloseSearchPanelCommand { get; }
 
         public IDialogService DialogService { get; }
 
-        public IAsyncCommand EditTitleCommand { get; }
+        public ICommand EditTitleCommand { get; }
 
-        public RelayCommand FindNextCommand { get; }
+        public ICommand FindNextCommand { get; }
 
-        public RelayCommand FindPreviousCommand { get; }
+        public ICommand FindPreviousCommand { get; }
 
-        public RelayCommand DuplicateTabCommand { get; }
+        public ICommand DuplicateTabCommand { get; }
 
-        public AsyncCommand ReconnectTabCommand { get; }
+        public AsyncRelayCommand ReconnectTabCommand { get; }
 
         public ICommand CopyLinkCommand { get; private set; }
 
@@ -278,7 +274,7 @@ namespace FluentTerminal.App.ViewModels
             get => _isSelected;
             set
             {
-                if (Set(ref _isSelected, value))
+                if (SetProperty(ref _isSelected, value))
                 {
                     if (IsSelected)
                     {
@@ -291,9 +287,9 @@ namespace FluentTerminal.App.ViewModels
                         _keyboardCommandService.DeregisterCommandHandler(nameof(Command.Search));
                         _keyboardCommandService.DeregisterCommandHandler(nameof(Command.CloseSearch));
                     }
-                    RaisePropertyChanged(nameof(IsUnderlined));
-                    RaisePropertyChanged(nameof(BackgroundTabTheme));
-                    RaisePropertyChanged(nameof(ShowCloseButton));
+                    OnPropertyChanged(nameof(IsUnderlined));
+                    OnPropertyChanged(nameof(BackgroundTabTheme));
+                    OnPropertyChanged(nameof(ShowCloseButton));
                 }
             }
         }
@@ -301,7 +297,7 @@ namespace FluentTerminal.App.ViewModels
         public bool HasSelection
         {
             get => _hasSelection;
-            set => Set(ref _hasSelection, value);
+            set => SetProperty(ref _hasSelection, value);
         }
 
         public string HoveredUri
@@ -309,7 +305,7 @@ namespace FluentTerminal.App.ViewModels
             get => _hoveredUri;
             set
             {
-                if (Set(ref _hoveredUri, value))
+                if (SetProperty(ref _hoveredUri, value))
                 {
                     ContextMenu = BuidContextMenu();
                 }
@@ -321,9 +317,9 @@ namespace FluentTerminal.App.ViewModels
             get => _isHovered;
             set
             {
-                if (Set(ref _isHovered, value))
+                if (SetProperty(ref _isHovered, value))
                 {
-                    RaisePropertyChanged(nameof(ShowCloseButton));
+                    OnPropertyChanged(nameof(ShowCloseButton));
                 }
             }
         }
@@ -339,7 +335,7 @@ namespace FluentTerminal.App.ViewModels
         public bool HasNewOutput
         {
             get => _hasNewOutput;
-            set => Set(ref _hasNewOutput, value);
+            set => SetProperty(ref _hasNewOutput, value);
         }
 
         public bool HasExitedWithError
@@ -347,36 +343,36 @@ namespace FluentTerminal.App.ViewModels
             get => _hasExitedWithError;
             set
             {
-                if (Set(ref _hasExitedWithError, value) && value)
+                if (SetProperty(ref _hasExitedWithError, value) && value)
                 {
                     HasNewOutput = false;
                 }
-                ReconnectTabCommand.RaiseCanExecuteChanged();
+                ReconnectTabCommand.NotifyCanExecuteChanged();
             }
         }
 
         public string SearchText
         {
             get => _searchText;
-            set => Set(ref _searchText, value);
+            set => SetProperty(ref _searchText, value);
         }
 
         public bool SearchMatchCase
         {
             get => _searchMatchCase;
-            set => Set(ref _searchMatchCase, value);
+            set => SetProperty(ref _searchMatchCase, value);
         }
 
         public bool SearchWholeWord
         {
             get => _searchWholeWord;
-            set => Set(ref _searchWholeWord, value);
+            set => SetProperty(ref _searchWholeWord, value);
         }
 
         public bool SearchWithRegex
         {
             get => _searchWithRegex;
-            set => Set(ref _searchWithRegex, value);
+            set => SetProperty(ref _searchWithRegex, value);
         }
 
         public ISettingsService SettingsService { get; }
@@ -386,7 +382,7 @@ namespace FluentTerminal.App.ViewModels
         public bool ShowSearchPanel
         {
             get => _showSearchPanel;
-            set => Set(ref _showSearchPanel, value);
+            set => SetProperty(ref _showSearchPanel, value);
         }
 
         public bool SearchHasFocus { get; set; }
@@ -396,9 +392,9 @@ namespace FluentTerminal.App.ViewModels
             get => _tabTheme;
             set
             {
-                Set(ref _tabTheme, value);
-                RaisePropertyChanged(nameof(IsUnderlined));
-                RaisePropertyChanged(nameof(BackgroundTabTheme));
+                SetProperty(ref _tabTheme, value);
+                OnPropertyChanged(nameof(IsUnderlined));
+                OnPropertyChanged(nameof(BackgroundTabTheme));
 
                 // necessary to update this constantly so that duplicated tabs will also carry over the color
                 ShellProfile.TabThemeId = value.Theme.Id;
@@ -414,7 +410,7 @@ namespace FluentTerminal.App.ViewModels
         public TerminalTheme TerminalTheme
         {
             get => _terminalTheme;
-            set => Set(ref _terminalTheme, value);
+            set => SetProperty(ref _terminalTheme, value);
         }
 
         public bool Initialized { get; set; }
@@ -445,7 +441,7 @@ namespace FluentTerminal.App.ViewModels
                     }
                 }
 
-                Set(ref _tabTitle, title);
+                SetProperty(ref _tabTitle, title);
                 ShellProfile.Name = title;
             }
         }
@@ -455,7 +451,7 @@ namespace FluentTerminal.App.ViewModels
             get => _shellTitle;
             set
             {
-                if (Set(ref _shellTitle, value) && !_hasCustomTitle)
+                if (SetProperty(ref _shellTitle, value) && !_hasCustomTitle)
                 {
                     TabTitle = value;
                 }
@@ -475,7 +471,7 @@ namespace FluentTerminal.App.ViewModels
 
         public Task CloseAsync()
         {
-            MessengerInstance.Unregister(this);
+            //MessengerInstance.Unregister(this); // todo necessary?
 
             return Terminal.CloseAsync();
         }
@@ -579,18 +575,18 @@ namespace FluentTerminal.App.ViewModels
             await TerminalView?.ReconnectAsync();
         }
 
-        private void OnApplicationSettingsChanged(ApplicationSettingsChangedMessage message)
+        public void Receive(ApplicationSettingsChangedMessage message)
         {
             ApplicationSettings = message.ApplicationSettings;
 
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                RaisePropertyChanged(nameof(IsUnderlined));
-                RaisePropertyChanged(nameof(BackgroundTabTheme));
+                OnPropertyChanged(nameof(IsUnderlined));
+                OnPropertyChanged(nameof(BackgroundTabTheme));
             });
         }
 
-        private void OnCurrentThemeChanged(CurrentThemeChangedMessage message)
+        public void Receive(CurrentThemeChangedMessage message)
         {
             // only change theme if not overwritten by profile
             if (ShellProfile.TerminalThemeId == Guid.Empty)
@@ -605,13 +601,13 @@ namespace FluentTerminal.App.ViewModels
             }
         }
 
-        private void OnTerminalOptionsChanged(TerminalOptionsChangedMessage message)
+        public void Receive(TerminalOptionsChangedMessage message)
         {
             _terminalOptions = message.TerminalOptions;
-            ApplicationView.ExecuteOnUiThreadAsync(() => RaisePropertyChanged(nameof(BackgroundOpacity)), CoreDispatcherPriority.Low);
+            ApplicationView.ExecuteOnUiThreadAsync(() => OnPropertyChanged(nameof(BackgroundOpacity)), CoreDispatcherPriority.Low);
         }
 
-        private void OnKeyBindingsChanged(KeyBindingsChangedMessage message)
+        public void Receive(KeyBindingsChangedMessage message)
         {
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {

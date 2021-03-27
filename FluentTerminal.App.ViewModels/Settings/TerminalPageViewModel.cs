@@ -3,15 +3,16 @@ using FluentTerminal.App.Services.Utilities;
 using FluentTerminal.App.ViewModels.Utilities;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class TerminalPageViewModel : ViewModelBase
+    public class TerminalPageViewModel : ObservableObject
     {
         private readonly TerminalOptions _terminalOptions;
         private readonly ISettingsService _settingsService;
@@ -63,7 +64,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.CursorBlink = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -77,7 +78,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.UseAcrylicBackground = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -91,7 +92,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.FontFamily = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -105,7 +106,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.FontWeight = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -119,7 +120,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.BackgroundOpacity = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -133,7 +134,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.Padding = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -153,12 +154,12 @@ namespace FluentTerminal.App.ViewModels.Settings
                     {
                         _terminalOptions.ScrollBackLimit = intValue;
                         _settingsService.SaveTerminalOptions(_terminalOptions);
-                        RaisePropertyChanged();
+                        OnPropertyChanged();
                     }
                 }
                 else
                 {
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -173,7 +174,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.WordSeparator = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -189,14 +190,14 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.FontSize = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public IEnumerable<int> Sizes { get; }
 
-        public RelayCommand RestoreDefaultsCommand { get; }
+        public ICommand RestoreDefaultsCommand { get; }
 
         private CursorStyle CursorStyle
         {
@@ -207,7 +208,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.CursorStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -221,7 +222,7 @@ namespace FluentTerminal.App.ViewModels.Settings
                 {
                     _terminalOptions.ScrollBarStyle = value;
                     _settingsService.SaveTerminalOptions(_terminalOptions);
-                    RaisePropertyChanged();
+                    OnPropertyChanged();
                 }
             }
         }
@@ -255,7 +256,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             _dialogService = dialogService;
             _defaultValueProvider = defaultValueProvider;
 
-            RestoreDefaultsCommand = new RelayCommand(async () => await RestoreDefaultsAsync().ConfigureAwait(false));
+            RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
 
             Fonts = systemFontService.GetSystemFontFamilies().OrderBy(s => s.Name);
             Sizes = Enumerable.Range(2, 72);

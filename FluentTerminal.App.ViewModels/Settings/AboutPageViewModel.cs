@@ -1,11 +1,12 @@
 ﻿using FluentTerminal.App.Services;
-using FluentTerminal.App.ViewModels.Infrastructure;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FluentTerminal.App.ViewModels.Settings
 {
-    public class AboutPageViewModel : ViewModelBase
+    public class AboutPageViewModel : ObservableObject
     {
         private const string BaseUrl = "https://github.com/felixse/FluentTerminal/releases/tag/";
         private readonly IUpdateService _updateService;
@@ -17,10 +18,10 @@ namespace FluentTerminal.App.ViewModels.Settings
             _updateService = updateService;
             _applicationView = applicationView;
 
-            CheckForUpdatesCommand = new AsyncCommand(() => CheckForUpdateAsync(true));
+            CheckForUpdatesCommand = new AsyncRelayCommand(() => CheckForUpdateAsync(true));
         }
 
-        public IAsyncCommand CheckForUpdatesCommand { get; }
+        public ICommand CheckForUpdatesCommand { get; }
 
         public string CurrentVersion
         {
@@ -38,12 +39,12 @@ namespace FluentTerminal.App.ViewModels.Settings
             get => _latestVersion;
             set
             {
-                if (Set(ref _latestVersion, value))
+                if (SetProperty(ref _latestVersion, value))
                 {
-                    RaisePropertyChanged(nameof(LatestVersionFound));
-                    RaisePropertyChanged(nameof(LatestVersionLoading));
-                    RaisePropertyChanged(nameof(LatestVersionNotFound));
-                    RaisePropertyChanged(nameof(LatestVersionReleaseNotesURL));
+                    OnPropertyChanged(nameof(LatestVersionFound));
+                    OnPropertyChanged(nameof(LatestVersionLoading));
+                    OnPropertyChanged(nameof(LatestVersionNotFound));
+                    OnPropertyChanged(nameof(LatestVersionReleaseNotesURL));
                 }
             }
         }

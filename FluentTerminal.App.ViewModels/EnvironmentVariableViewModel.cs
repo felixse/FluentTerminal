@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 
 namespace FluentTerminal.App.ViewModels
 {
-    public class EnvironmentVariableViewModel : ViewModelBase
+    public class EnvironmentVariableViewModel : ObservableObject
     {
         private string _name;
         private string _value;
@@ -13,13 +13,13 @@ namespace FluentTerminal.App.ViewModels
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public string Value
         {
             get => _value;
-            set => Set(ref _value, value);
+            set => SetProperty(ref _value, value);
         }
     }
 }

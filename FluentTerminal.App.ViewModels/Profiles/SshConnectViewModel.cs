@@ -6,10 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Input;
 using FluentTerminal.App.Services;
 using FluentTerminal.App.Services.Utilities;
-using FluentTerminal.App.ViewModels.Infrastructure;
 using FluentTerminal.Models;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace FluentTerminal.App.ViewModels.Profiles
 {
@@ -59,7 +60,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public string Host
         {
             get => _host;
-            set => Set(ref _host, value);
+            set => SetProperty(ref _host, value);
         }
 
         private ushort _sshPort;
@@ -67,7 +68,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public ushort SshPort
         {
             get => _sshPort;
-            set => Set(ref _sshPort, value);
+            set => SetProperty(ref _sshPort, value);
         }
 
         private string _username;
@@ -75,7 +76,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public string Username
         {
             get => _username;
-            set => Set(ref _username, value);
+            set => SetProperty(ref _username, value);
         }
 
         private string _identityFile;
@@ -83,7 +84,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public string IdentityFile
         {
             get => _identityFile;
-            set => Set(ref _identityFile, value);
+            set => SetProperty(ref _identityFile, value);
         }
 
         private bool _useMosh;
@@ -91,7 +92,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public bool UseMosh
         {
             get => _useMosh;
-            set => Set(ref _useMosh, value);
+            set => SetProperty(ref _useMosh, value);
         }
 
         private ushort _moshPortFrom;
@@ -99,7 +100,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public ushort MoshPortFrom
         {
             get => _moshPortFrom;
-            set => Set(ref _moshPortFrom, value);
+            set => SetProperty(ref _moshPortFrom, value);
         }
 
         private ushort _moshPortTo;
@@ -107,14 +108,14 @@ namespace FluentTerminal.App.ViewModels.Profiles
         public ushort MoshPortTo
         {
             get => _moshPortTo;
-            set => Set(ref _moshPortTo, value);
+            set => SetProperty(ref _moshPortTo, value);
         }
 
         #endregion Properties
 
         #region Commands
 
-        public IAsyncCommand BrowseForIdentityFileCommand { get; }
+        public ICommand BrowseForIdentityFileCommand { get; }
 
         #endregion Commands
 
@@ -132,7 +133,7 @@ namespace FluentTerminal.App.ViewModels.Profiles
 
             Initialize((SshProfile)Model);
 
-            BrowseForIdentityFileCommand = new AsyncCommand(BrowseForIdentityFileAsync);
+            BrowseForIdentityFileCommand = new AsyncRelayCommand(BrowseForIdentityFileAsync);
         }
 
         #endregion Constructor
