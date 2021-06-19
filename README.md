@@ -57,6 +57,7 @@ A Terminal Emulator based on UWP and web technologies.
 - Romanian
 - Russian
 - Spanish
+- Turkish
 - Ukrainian
 
 
