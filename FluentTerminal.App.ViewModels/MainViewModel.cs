@@ -131,6 +131,8 @@ namespace FluentTerminal.App.ViewModels
             _defaultProfile = _settingsService.GetDefaultShellProfile();
 
             CreateMenuViewModel();
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         private ShellProfile _defaultProfile;

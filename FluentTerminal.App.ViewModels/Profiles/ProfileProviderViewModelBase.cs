@@ -183,6 +183,8 @@ namespace FluentTerminal.App.ViewModels.Profiles
             SelectedTerminalTheme = TerminalThemes.First();
 
             Initialize(Model);
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         #endregion Constructor

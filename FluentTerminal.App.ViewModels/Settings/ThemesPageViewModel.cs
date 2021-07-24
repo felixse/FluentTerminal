@@ -64,6 +64,8 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
 
             SelectedTheme = Themes.First(t => t.IsActive);
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         public ICommand CreateThemeCommand { get; }

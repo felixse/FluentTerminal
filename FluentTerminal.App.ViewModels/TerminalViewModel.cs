@@ -182,6 +182,8 @@ namespace FluentTerminal.App.ViewModels
 
             ContextMenu = BuidContextMenu();
             TabContextMenu = BuildTabContextMenu();
+
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
         public MenuViewModel ContextMenu
