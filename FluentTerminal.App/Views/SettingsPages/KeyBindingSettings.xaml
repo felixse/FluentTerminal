@@ -28,7 +28,6 @@
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 DefaultLabelPosition="Right">
                 <AppBarButton
                     x:Uid="AddAppBarButton"
