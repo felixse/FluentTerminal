@@ -33,7 +33,7 @@
         <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <Grid
             x:Name="TitleBarContents"
-            Height="{Binding CoreTitleBarHeight, Mode=OneWay}"
+            Height="48"
             Margin="{Binding CoreTitleBarPadding, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

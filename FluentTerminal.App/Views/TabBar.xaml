@@ -45,6 +45,7 @@
             VerticalScrollBarVisibility="Hidden"
             VerticalScrollMode="Disabled">
             <ListView
+                Margin="0"
                 x:Name="ListView"
                 AllowDrop="True"
                 Background="Transparent"
@@ -67,7 +68,10 @@
                             <RelativePanel
                                 Height="32"
                                 Margin="0"
-                                Background="Transparent"
+                                Padding="0"
+                                CornerRadius="4"
+                                BorderThickness="1"
+                                BorderBrush="Red"
                                 ContextFlyout="{x:Bind TabContextMenu, Converter={StaticResource MenuViewModelToFlyoutMenuConverter}, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
 
@@ -110,8 +114,8 @@
                                     Text="{x:Bind TabTitle, Mode=OneWay, Converter={StaticResource TextMiddleEllipsisConverter}}"
                                     TextWrapping="NoWrap" />
                                 <Grid
+                                    Margin="0"
                                     x:Name="CloseButton"
-                                    Width="32"
                                     RelativePanel.AlignRightWithPanel="True">
                                     <Button
                                         Width="32"
@@ -145,6 +149,7 @@
                         <Setter Property="MaxWidth" Value="200" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
                         <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="BackgroundTabTheme" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -154,17 +159,21 @@
                         <Setter Property="TabNavigation" Value="Local" />
                         <Setter Property="IsHoldingEnabled" Value="True" />
                         <Setter Property="AllowDrop" Value="True" />
-                        <Setter Property="UseSystemFocusVisuals" Value="True" />
+                        <Setter Property="UseSystemFocusVisuals" Value="False" />
                         <Setter Property="FocusVisualMargin" Value="0" />
-                        <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
-                        <Setter Property="FocusVisualPrimaryThickness" Value="2" />
-                        <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
-                        <Setter Property="FocusVisualSecondaryThickness" Value="1" />
+                        <!--<Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />-->
+                        <Setter Property="FocusVisualPrimaryThickness" Value="0" />
+                        <!--<Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />-->
+                        <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
                                     <ListViewItemPresenter
                                         x:Name="Root"
+                                        Margin="4 0 4 0"
+                                        Padding="0"
+                                        Height="32"
+                                        CornerRadius="4"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                         CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
@@ -181,9 +190,9 @@
                                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
-                                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                        FocusVisualPrimaryThickness="0"
                                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
-                                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                        FocusVisualSecondaryThickness="0"
                                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                                         PointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundPointerOver}"
                                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
@@ -191,13 +200,14 @@
                                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-                                        RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
+                                        RevealBorderThickness="0"
                                         SelectedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelected}"
                                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
                                         SelectedPointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPointerOver}"
                                         SelectedPressedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPressed}"
-                                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}">
-                                        <VisualStateManager.VisualStateGroups>
+                                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                        PointerOverBackgroundMargin="0">
+                                        <!--<VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal" />
                                                 <VisualState x:Name="Selected" />
@@ -242,7 +252,7 @@
                                                 </VisualState>
                                             </VisualStateGroup>
 
-                                        </VisualStateManager.VisualStateGroups>
+                                        </VisualStateManager.VisualStateGroups>-->
                                     </ListViewItemPresenter>
                                 </ControlTemplate>
                             </Setter.Value>
