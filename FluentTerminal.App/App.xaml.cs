@@ -279,7 +279,8 @@ namespace FluentTerminal.App
                     Id = Guid.Empty,
                     Location = null,
                     Arguments = runVerb.Command,
-                    WorkingDirectory = runVerb.Directory
+                    WorkingDirectory = runVerb.Directory,
+                    UseConPty = _settingsService.GetApplicationSettings().UseConPty
                 };
 
                 if (runVerb.SmartBuffer.HasValue)
