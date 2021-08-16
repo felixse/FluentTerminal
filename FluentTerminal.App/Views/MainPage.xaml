@@ -48,7 +48,8 @@
             </Button>
             <TextBlock
                 Grid.Column="1"
-                Margin="12,8,12,0"
+                Margin="12,0,12,0"
+                VerticalAlignment="Center"
                 IsHitTestVisible="False"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind ViewModel.WindowTitle, Mode=OneWay}"
