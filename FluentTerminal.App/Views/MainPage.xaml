@@ -33,13 +33,13 @@
         <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <Grid
             x:Name="TitleBarContents"
-            Height="{Binding CoreTitleBarHeight, Mode=OneWay}"
+            Height="42"
             Margin="{Binding CoreTitleBarPadding, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Flyout="{x:Bind ViewModel.AppMenuViewModel, Mode=OneWay, Converter={StaticResource MenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
+            <Button Margin="6 0 0 0" Flyout="{x:Bind ViewModel.AppMenuViewModel, Mode=OneWay, Converter={StaticResource MenuViewModelToFlyoutMenuConverter}}" Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Content>
                     <Viewbox Width="16" Height="16">
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE700;" />
@@ -48,7 +48,8 @@
             </Button>
             <TextBlock
                 Grid.Column="1"
-                Margin="12,8,12,0"
+                Margin="12,0,12,0"
+                VerticalAlignment="Center"
                 IsHitTestVisible="False"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind ViewModel.WindowTitle, Mode=OneWay}"
@@ -99,8 +100,10 @@
             Opacity="0.2"
             Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
         <views:TabBar
+            Height="42"
             x:Name="BottomTabBar"
             Grid.Row="2"
+            Margin="0 0 4 0"
             HorizontalAlignment="Left"
             AddCommand="{x:Bind ViewModel.AddDefaultTabCommand}"
             ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"

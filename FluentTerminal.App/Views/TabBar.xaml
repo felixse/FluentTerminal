@@ -15,6 +15,10 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.Resources>
+            <x:Double x:Key="ListViewItemSelectedBorderThemeThickness">0</x:Double>
+            <x:Double x:Key="ListViewItemCompactSelectedBorderThemeThickness">0</x:Double>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -25,7 +29,7 @@
             x:Name="ScrollLeftButton"
             Grid.Column="0"
             Width="24"
-            Padding="0,0,0,0"
+            Padding="0,0,4,0"
             Click="OnScrollLeftButtonTapped"
             Style="{StaticResource TitleBarRepeatButtonStyle}"
             Tapped="OnScrollLeftButtonTapped"
@@ -45,6 +49,7 @@
             VerticalScrollBarVisibility="Hidden"
             VerticalScrollMode="Disabled">
             <ListView
+                Margin="0"
                 x:Name="ListView"
                 AllowDrop="True"
                 Background="Transparent"
@@ -66,7 +71,9 @@
                             Hovered="{x:Bind IsHovered, Mode=TwoWay}">
                             <RelativePanel
                                 Height="32"
-                                Margin="0"
+                                Margin="4 2 4 2"
+                                Padding="0"
+                                CornerRadius="4"
                                 Background="Transparent"
                                 ContextFlyout="{x:Bind TabContextMenu, Converter={StaticResource MenuViewModelToFlyoutMenuConverter}, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind TabTitle, Mode=OneWay}">
@@ -110,8 +117,8 @@
                                     Text="{x:Bind TabTitle, Mode=OneWay, Converter={StaticResource TextMiddleEllipsisConverter}}"
                                     TextWrapping="NoWrap" />
                                 <Grid
+                                    Margin="0"
                                     x:Name="CloseButton"
-                                    Width="32"
                                     RelativePanel.AlignRightWithPanel="True">
                                     <Button
                                         Width="32"
@@ -145,6 +152,7 @@
                         <Setter Property="MaxWidth" Value="200" />
                         <Setter Property="MinHeight" Value="32" />
                         <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
                         <Setter Property="views:TabBarBackgroundBindingHelper.BackgroundBindingPath" Value="BackgroundTabTheme" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -154,17 +162,19 @@
                         <Setter Property="TabNavigation" Value="Local" />
                         <Setter Property="IsHoldingEnabled" Value="True" />
                         <Setter Property="AllowDrop" Value="True" />
-                        <Setter Property="UseSystemFocusVisuals" Value="True" />
+                        <Setter Property="UseSystemFocusVisuals" Value="False" />
                         <Setter Property="FocusVisualMargin" Value="0" />
                         <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
-                        <Setter Property="FocusVisualPrimaryThickness" Value="2" />
+                        <Setter Property="FocusVisualPrimaryThickness" Value="0" />
                         <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
-                        <Setter Property="FocusVisualSecondaryThickness" Value="1" />
+                        <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
                                     <ListViewItemPresenter
                                         x:Name="Root"
+                                        CornerRadius="4"
+                                        Height="36"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                         CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
@@ -181,9 +191,9 @@
                                         FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                                         FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
                                         FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
-                                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                        FocusVisualPrimaryThickness="0"
                                         FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
-                                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                        FocusVisualSecondaryThickness="0"
                                         PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
                                         PointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundPointerOver}"
                                         PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
@@ -191,58 +201,13 @@
                                         ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                         RevealBackground="{ThemeResource ListViewItemRevealBackground}"
                                         RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-                                        RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
+                                        RevealBorderThickness="0"
                                         SelectedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelected}"
                                         SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
                                         SelectedPointerOverBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPointerOver}"
                                         SelectedPressedBackground="{Binding TabTheme, Mode=OneWay, Converter={StaticResource TabColorFallbackConverter}, ConverterParameter=BackgroundSelectedPressed}"
-                                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal" />
-                                                <VisualState x:Name="Selected" />
-
-                                                <VisualState x:Name="PointerOver">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-
-                                                <VisualState x:Name="PointerOverSelected">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                                <VisualState x:Name="PointerOverPressed">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-
-                                                <VisualState x:Name="Pressed">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-
-                                                <VisualState x:Name="PressedSelected">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-
-                                            <VisualStateGroup x:Name="DisabledStates">
-                                                <VisualState x:Name="Enabled" />
-
-                                                <VisualState x:Name="Disabled">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.RevealBorderThickness" Value="0" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-
-                                        </VisualStateManager.VisualStateGroups>
+                                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                        PointerOverBackgroundMargin="0">
                                     </ListViewItemPresenter>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -260,7 +225,7 @@
             x:Name="ScrollRightButton"
             Grid.Column="2"
             Width="24"
-            Padding="0,0,0,0"
+            Padding="4,0,0,0"
             Click="OnScrollRightButtonTapped"
             Style="{StaticResource TitleBarRepeatButtonStyle}"
             Tapped="OnScrollRightButtonTapped"
