@@ -33,7 +33,7 @@
         <Rectangle x:Name="TitleBar" Fill="Transparent" />
         <Grid
             x:Name="TitleBarContents"
-            Height="42"
+            Height="44"
             Margin="{Binding CoreTitleBarPadding, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -70,6 +70,7 @@
                 x:Name="TopTabBar"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
+                Height="44"
                 AddCommand="{x:Bind ViewModel.AddDefaultTabCommand}"
                 ItemsSource="{x:Bind ViewModel.Terminals, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedTerminal, Mode=TwoWay}"
@@ -100,7 +101,7 @@
             Opacity="0.2"
             Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
         <views:TabBar
-            Height="42"
+            Height="44"
             x:Name="BottomTabBar"
             Grid.Row="2"
             Margin="0 0 4 0"
