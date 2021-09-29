@@ -23,18 +23,18 @@ namespace FluentTerminal.App.Services.Test
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Parse_InvalidFileName_ThrowsArgumentNullException(string fileName)
+        public async Task Parse_InvalidFileName_ThrowsArgumentNullException(string fileName)
         {
             var stream = typeof(ITermThemeParserTests).Assembly.GetManifestResourceStream("FluentTerminal.App.Services.Test.TestData.AdventureTime.itermcolors");
             var parser = new ITermThemeParser();
 
             Func<Task<TerminalTheme>> parse = () => parser.Parse(fileName, stream);
 
-            parse.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("fileName");
+            await parse.Should().ThrowAsync<ArgumentNullException>().WithParameterName("fileName");
         }
 
         [Fact]
-        public void Parse_FileStreamIsNull_ThrowsArgumentNullException()
+        public async Task Parse_FileStreamIsNull_ThrowsArgumentNullException()
         {
             var fileName = _fixture.Create<string>();
             Stream stream = null;
@@ -42,11 +42,11 @@ namespace FluentTerminal.App.Services.Test
 
             Func<Task<TerminalTheme>> parse = () => parser.Parse(fileName, stream);
 
-            parse.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("fileContent");
+            await parse.Should().ThrowAsync<ArgumentNullException>().WithParameterName("fileContent");
         }
 
         [Fact]
-        public void Parse_InvalidFileStream_ThrowsException()
+        public async Task Parse_InvalidFileStream_ThrowsException()
         {
             var fileName = _fixture.Create<string>();
             var serialized = _fixture.Create<string>();
@@ -55,7 +55,7 @@ namespace FluentTerminal.App.Services.Test
 
             Func<Task<TerminalTheme>> parse = () => parser.Parse(fileName, stream);
 
-            parse.Should().Throw<Exception>();
+            await parse.Should().ThrowAsync<Exception>();
         }
 
         [Fact]

@@ -31,7 +31,7 @@ namespace FluentTerminal.App.Services.Test
         }
 
         [Fact]
-        public void ShowMessageDialogAsnyc_TitleIsEmpty_ThrowsArgumentNullException()
+        public async Task ShowMessageDialogAsnyc_TitleIsEmpty_ThrowsArgumentNullException()
         {
             var title = string.Empty;
             var content = _fixture.Create<string>();
@@ -40,11 +40,11 @@ namespace FluentTerminal.App.Services.Test
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
-            showMessageDialogAsnyc.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("title");
+            await showMessageDialogAsnyc.Should().ThrowAsync<ArgumentNullException>().WithParameterName("title");
         }
 
         [Fact]
-        public void ShowMessageDialogAsnyc_ContentIsEmpty_ThrowsArgumentNullException()
+        public async Task ShowMessageDialogAsnyc_ContentIsEmpty_ThrowsArgumentNullException()
         {
             var title = _fixture.Create<string>();
             var content = string.Empty;
@@ -53,11 +53,11 @@ namespace FluentTerminal.App.Services.Test
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content, buttons.ElementAt(0), buttons.ElementAt(1));
 
-            showMessageDialogAsnyc.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("content");
+            await showMessageDialogAsnyc.Should().ThrowAsync<ArgumentNullException>().WithParameterName("content");
         }
 
         [Fact]
-        public void ShowMessageDialogAsnyc_NoButtonsPassed_ThrowsArgumentException()
+        public async Task ShowMessageDialogAsnyc_NoButtonsPassed_ThrowsArgumentException()
         {
             var title = _fixture.Create<string>();
             var content = _fixture.Create<string>();
@@ -65,7 +65,7 @@ namespace FluentTerminal.App.Services.Test
 
             Func<Task<DialogButton>> showMessageDialogAsnyc = () => dialogService.ShowMessageDialogAsync(title, content);
 
-            showMessageDialogAsnyc.Should().Throw<ArgumentException>().And.ParamName.Should().Be("buttons");
+            await showMessageDialogAsnyc.Should().ThrowAsync<ArgumentException>().WithParameterName("buttons");
         }
 
         [Fact]
