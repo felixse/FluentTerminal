@@ -1,0 +1,50 @@
+﻿<Application
+    x:Class="FluentTerminal.App.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FluentTerminal.App" xmlns:converters="using:FluentTerminal.App.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="Styles\Custom.xaml" />
+                <!-- Other merged dictionaries here -->
+            </ResourceDictionary.MergedDictionaries>
+            <LinearGradientBrush x:Key="MissingColorSelectionBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="Black" />
+                <GradientStop Offset="1.0" Color="White" />
+            </LinearGradientBrush>
+            <converters:IntToVisibilityConverter
+                x:Key="OneToVisibleConverter"
+                Else="Collapsed"
+                If="1"
+                Then="Visible" />
+            <converters:IntToVisibilityConverter
+                x:Key="OneToCollapsedConverter"
+                Else="Visible"
+                If="1"
+                Then="Collapsed" />
+            <converters:NegateConverter x:Key="NegateConverter" />
+            <converters:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
+            <converters:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
+            <converters:TabColorFallbackConverter x:Key="TabColorFallbackConverter" />
+            <converters:TextMiddleEllipsisConverter x:Key="TextMiddleEllipsisConverter" />
+            <converters:IntToVisibilityConverter
+                x:Key="ZeroToCollapsedConverter"
+                Else="Visible"
+                If="0"
+                Then="Collapsed" />
+            <converters:IntToExtendedVirtualKeyConverter x:Key="IntToExtendedVirtualKeyConverter" />
+            <converters:BackgroundToApplicationThemeConverter x:Key="BackgroundToApplicationThemeConverter" />
+            <converters:StringToColorConverter x:Key="StringToColorConverter" />
+            <converters:EnumValueToVisibiltyConverter x:Key="EnumValueToVisibiltyConverter" />
+            <converters:TabThemeSelectedConverter x:Key="TabThemeSelectedConverter" />
+            <converters:ColorResourceKeyFallbackConverter x:Key="ColorResourceKeyFallbackConverter" />
+            <converters:TrueToBoldConverter x:Key="TrueToBoldConverter" />
+            <converters:I18NConverter x:Key="I18NConverter" />
+            <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
+            <converters:MenuViewModelToFlyoutMenuConverter x:Key="MenuViewModelToFlyoutMenuConverter" />
+            <!-- Other app resources here -->
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

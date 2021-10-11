@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Windows.Foundation.Metadata;
 
 namespace FluentTerminal.Models
 {
@@ -35,7 +34,7 @@ namespace FluentTerminal.Models
 
         public SshProfile()
         {
-            UseConPty = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7); // Windows 10 1809+
+            UseConPty = true; //ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7); // Windows 10 1809+
         }
 
         public bool RequestConPty

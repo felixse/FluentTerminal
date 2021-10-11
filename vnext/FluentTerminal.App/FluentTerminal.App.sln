@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.App", "FluentTerminal.App\FluentTerminal.App.csproj", "{81EA5FE8-0876-4234-8717-27D5C7D35D0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentTerminal.Models", "..\..\FluentTerminal.Models\FluentTerminal.Models.csproj", "{21A6F497-C175-487A-B8A6-F954A47A81ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|arm64 = Debug|arm64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|arm64 = Release|arm64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|ARM.ActiveCfg = Debug|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|arm64.ActiveCfg = Debug|arm64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|arm64.Build.0 = Debug|arm64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|arm64.Deploy.0 = Debug|arm64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x64.ActiveCfg = Debug|x64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x64.Build.0 = Debug|x64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x64.Deploy.0 = Debug|x64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x86.ActiveCfg = Debug|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x86.Build.0 = Debug|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Debug|x86.Deploy.0 = Debug|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|Any CPU.ActiveCfg = Release|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|ARM.ActiveCfg = Release|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|arm64.ActiveCfg = Release|arm64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|arm64.Build.0 = Release|arm64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|x64.ActiveCfg = Release|x64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|x64.Build.0 = Release|x64
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|x86.ActiveCfg = Release|x86
+		{81EA5FE8-0876-4234-8717-27D5C7D35D0B}.Release|x86.Build.0 = Release|x86
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|ARM.Build.0 = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|arm64.Build.0 = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|ARM.ActiveCfg = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|ARM.Build.0 = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|arm64.ActiveCfg = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|arm64.Build.0 = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|x64.Build.0 = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{21A6F497-C175-487A-B8A6-F954A47A81ED}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F84EA986-1F6E-45A3-9650-DD40BDA83DAB}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,84 @@
+﻿<ResourceDictionary
+    x:Class="FluentTerminal.App.Views.TemplateSelectors"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:FluentTerminal.Models"
+    xmlns:settings="using:FluentTerminal.App.ViewModels.Settings"
+    xmlns:views="using:FluentTerminal.App.Views">
+    <views:TabThemeTemplateSelector x:Key="TabThemeTemplateSelector">
+        <views:TabThemeTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="models:TabTheme">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon
+                        Margin="0,0,6,0"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Glyph="&#xF126;" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneTime, Converter={StaticResource I18NConverter}}" />
+                </StackPanel>
+            </DataTemplate>
+        </views:TabThemeTemplateSelector.DefaultTemplate>
+        <views:TabThemeTemplateSelector.ColoredTemplate>
+            <DataTemplate x:DataType="models:TabTheme">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon
+                        Margin="0,0,6,0"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Foreground="{x:Bind Color}"
+                        Glyph="&#xF127;" />
+                    <TextBlock Text="{x:Bind Name, Mode=OneTime, Converter={StaticResource I18NConverter}}" />
+                </StackPanel>
+            </DataTemplate>
+        </views:TabThemeTemplateSelector.ColoredTemplate>
+    </views:TabThemeTemplateSelector>
+    <views:TerminalThemeTemplateSelector x:Key="TerminalThemeTemplateSelector">
+        <views:TerminalThemeTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="models:TerminalTheme">
+                <TextBlock FontStyle="Italic" Text="{x:Bind Name}" />
+            </DataTemplate>
+        </views:TerminalThemeTemplateSelector.DefaultTemplate>
+        <views:TerminalThemeTemplateSelector.ThemeTemplate>
+            <DataTemplate x:DataType="models:TerminalTheme">
+                <TextBlock Text="{x:Bind Name}" />
+            </DataTemplate>
+        </views:TerminalThemeTemplateSelector.ThemeTemplate>
+    </views:TerminalThemeTemplateSelector>
+    <views:TerminalKeybindTemplateSelector x:Key="TerminalKeybindTemplateSelector">
+        <views:TerminalKeybindTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                <TextBlock x:Uid="None" FontStyle="Italic" />
+            </DataTemplate>
+        </views:TerminalKeybindTemplateSelector.DefaultTemplate>
+        <views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+            <DataTemplate x:DataType="settings:KeyBindingsViewModel">
+                <views:KeyBindingsView
+                    Margin="0,6,0,0"
+                    ShowCommandName="False"
+                    ViewModel="{x:Bind}" />
+            </DataTemplate>
+        </views:TerminalKeybindTemplateSelector.KeyBindingsTemplate>
+    </views:TerminalKeybindTemplateSelector>
+    <views:NoValueTemplateSelector x:Key="NoValueTemplateSelector">
+        <views:NoValueTemplateSelector.DefaultTemplate>
+            <DataTemplate x:DataType="x:String">
+                <TextBlock x:Uid="None" FontStyle="Italic" />
+            </DataTemplate>
+        </views:NoValueTemplateSelector.DefaultTemplate>
+        <views:NoValueTemplateSelector.CustomTemplate>
+            <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{x:Bind}" />
+            </DataTemplate>
+        </views:NoValueTemplateSelector.CustomTemplate>
+    </views:NoValueTemplateSelector>
+    <views:BooleanTemplateSelector x:Key="UseConPtyTemplateSelector">
+        <views:BooleanTemplateSelector.TrueTemplate>
+            <DataTemplate x:DataType="x:Boolean">
+                <TextBlock x:Uid="Yes" />
+            </DataTemplate>
+        </views:BooleanTemplateSelector.TrueTemplate>
+        <views:BooleanTemplateSelector.FalseTemplate>
+            <DataTemplate x:DataType="x:Boolean">
+                <TextBlock x:Uid="No" />
+            </DataTemplate>
+        </views:BooleanTemplateSelector.FalseTemplate>
+    </views:BooleanTemplateSelector>
+</ResourceDictionary>

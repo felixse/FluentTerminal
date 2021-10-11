@@ -101,67 +101,19 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Actions\FocusAction.cs" />
-    <Compile Include="Adapters\ApplicationViewAdapter.cs" />
-    <Compile Include="Adapters\AppServiceConnectionAdapter.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Behaviors\MiddleClickBehavior.cs" />
     <Compile Include="CommandLineArguments\NewVerb.cs" />
     <Compile Include="CommandLineArguments\RunVerb.cs" />
     <Compile Include="CommandLineArguments\SettingsVerb.cs" />
     <Compile Include="CommandLineArguments\Target.cs" />
-    <Compile Include="Converters\MenuViewModelToFlyoutMenuConverter.cs" />
-    <Compile Include="Converters\BackgroundToApplicationThemeConverter.cs" />
-    <Compile Include="Converters\BooleanNegationConverter.cs" />
-    <Compile Include="Converters\ColorResourceKeyFallbackConverter.cs" />
-    <Compile Include="Converters\I18NConverter.cs" />
-    <Compile Include="Converters\IconConverter.cs" />
-    <Compile Include="Converters\MenuItemViewModelBaseToMenuFlayoutItemBaseConverter.cs" />
-    <Compile Include="Converters\NullToCollapsedConverter.cs" />
-    <Compile Include="Converters\TabColorFallbackConverter.cs" />
-    <Compile Include="Converters\EnumValueToVisibiltyConverter.cs" />
-    <Compile Include="Converters\FalseToVisibleConverter.cs" />
-    <Compile Include="Converters\IntToExtendedVirtualKeyConverter.cs" />
-    <Compile Include="Converters\IntToVisibilityConverter.cs" />
-    <Compile Include="Converters\NegateConverter.cs" />
-    <Compile Include="Converters\StringToColorConverter.cs" />
-    <Compile Include="Converters\TabThemeSelectedConverter.cs" />
-    <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
-    <Compile Include="Converters\TextMiddleEllipsisConverter.cs" />
-    <Compile Include="Converters\ToolTipValueToPixelConverter.cs" />
-    <Compile Include="Converters\TrueToBoldConverter.cs" />
-    <Compile Include="Converters\TrueToVisibleConverter.cs" />
-    <Compile Include="Adapters\MessageDialogAdapter.cs" />
-    <Compile Include="Dialogs\AboutDialog.xaml.cs">
-      <DependentUpon>AboutDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\CommandHistoryService.cs" />
     <Compile Include="Utilities\DelayedAction.cs" />
     <Compile Include="Utilities\DispatcherExtensions.cs" />
     <Compile Include="Utilities\InteractiveSurface.cs" />
-    <Compile Include="ViewModels\CommandItemViewModel.cs" />
-    <Compile Include="Dialogs\CustomCommandDialog.xaml.cs">
-      <DependentUpon>CustomCommandDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\InputDialog.xaml.cs">
-      <DependentUpon>InputDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\SshInfoDialog.xaml.cs">
-      <DependentUpon>SshInfoDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\ApplicationLanguageService.cs" />
-    <Compile Include="Services\ClipboardService.cs" />
-    <Compile Include="Services\FileSystemService.cs" />
-    <Compile Include="Services\ImageFileSystemService.cs" />
-    <Compile Include="Services\StartupTaskService.cs" />
-    <Compile Include="Services\SystemFontService.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
-    <Compile Include="ViewModels\CommandProfileProviderViewModel.cs" />
-    <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\EnvironmentVariablesView.xaml.cs">
       <DependentUpon>EnvironmentVariablesView.xaml</DependentUpon>
     </Compile>
@@ -172,10 +124,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Dialogs\CreateKeyBindingDialog.xaml.cs">
-      <DependentUpon>CreateKeyBindingDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MenuExtension.cs" />
     <Compile Include="Views\OverlayView.xaml.cs">
       <DependentUpon>OverlayView.xaml</DependentUpon>
     </Compile>
@@ -206,17 +154,12 @@
     <Compile Include="Views\TabBar.xaml.cs">
       <DependentUpon>TabBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TabBarBackgroundBindingHelper.cs" />
     <Compile Include="Views\TemplateSelectors.xaml.cs">
       <DependentUpon>TemplateSelectors.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TerminalKeybindTemplateSelector.cs" />
-    <Compile Include="Views\TabThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalColorPicker.xaml.cs">
       <DependentUpon>TerminalColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NoValueTemplateSelector.cs" />
-    <Compile Include="Views\TerminalThemeTemplateSelector.cs" />
     <Compile Include="Views\TerminalView.xaml.cs">
       <DependentUpon>TerminalView.xaml</DependentUpon>
     </Compile>
@@ -236,10 +179,6 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Client\bundle.js" />
-    <Content Include="Client\index.html" />
-    <Content Include="Client\style.css" />
-    <Content Include="Client\xterm.css" />
     <PRIResource Include="Strings\eo\Resources.resw" />
     <PRIResource Include="Strings\ru\Resources.resw" />
     <PRIResource Include="Strings\fr\Resources.resw" />
@@ -260,22 +199,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Dialogs\AboutDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\CustomCommandDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\InputDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\SshInfoDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\EnvironmentVariablesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -287,15 +210,6 @@
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Custom.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Dialogs\CreateKeyBindingDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OverlayView.xaml">
       <SubType>Designer</SubType>
