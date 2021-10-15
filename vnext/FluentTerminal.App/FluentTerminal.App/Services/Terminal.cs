@@ -1,7 +1,10 @@
 ﻿using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
 using FluentTerminal.Models.Responses;
+using FluentTerminal.SystemTray.Services.ConPty;
+using FluentTerminal.SystemTray.Services.WinPty;
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -156,20 +159,37 @@ namespace FluentTerminal.App.Services
 
             if (_requireShellProcessStart)
             {
-                var response = await _trayProcessCommunicationService
-                    .CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(false);
+                //var response = await _trayProcessCommunicationService
+                //    .CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(false);
 
-                if (response.Success)
-                {
-                    _fallbackTitle = response.Name;
-                    SetTitle(_fallbackTitle);
-                }
-                return response;
+                var session = new ConPtySession();
+                session.OutputReceived += Session_OutputReceived;
+                session.ConnectionClosed += Session_ConnectionClosed;
+
+                session.Start(new Models.Requests.CreateTerminalRequest { Id = Id, Profile = shellProfile, SessionType = SessionType.WinPty, Size = new TerminalSize { Rows = 20, Columns = 80 } });
+
+                return new CreateTerminalResponse { Success = true };
+
+                //if (response.Success)
+                //{
+                //    _fallbackTitle = response.Name;
+                //    SetTitle(_fallbackTitle);
+                //}
+                //return response;
             }
             else
             {
                 return await _trayProcessCommunicationService.PauseTerminalOutputAsync(Id, false);
             }
+        }
+
+        private void Session_ConnectionClosed(object sender, int e)
+        {
+        }
+
+        private void Session_OutputReceived(object sender, TerminalOutput e)
+        {
+            Debug.WriteLine(Encoding.UTF8.GetString(e.Data));
         }
 
         public Task Write(byte[] data)

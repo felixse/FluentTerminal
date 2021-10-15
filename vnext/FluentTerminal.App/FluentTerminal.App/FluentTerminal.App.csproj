@@ -44,15 +44,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonStudio.winpty.NET" Version="0.4.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.6" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="System.Management" Version="5.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

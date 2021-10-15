@@ -295,51 +295,51 @@ namespace FluentTerminal.App.Views
             var theme = ViewModel.TerminalTheme;
 
             // Waiting for WebView.NavigationCompleted event to happen
-            await _tcsNavigationCompleted.Task.ConfigureAwait(false);
+            //await _tcsNavigationCompleted.Task.ConfigureAwait(false);
 
             var size = await CreateXtermViewAsync(options, theme.Colors,
                 FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(false);
 
             // Waiting for IxtermEventListener.OnInitialized() call to happen
-            await _tcsConnected.Task;
+            //await _tcsConnected.Task; // todo this will change
 
-            lock (_resizeLock)
-            {
-                // Check to see if some resizing has happened meanwhile
-                if (_requestedSize != null)
-                {
-                    size = _requestedSize;
-                }
-                else
-                {
-                    _requestedSize = size;
-                }
-            }
+            //lock (_resizeLock)
+            //{
+            //    // Check to see if some resizing has happened meanwhile
+            //    if (_requestedSize != null)
+            //    {
+            //        size = _requestedSize;
+            //    }
+            //    else
+            //    {
+            //        _requestedSize = size;
+            //    }
+            //}
 
             if (false == await StartShellProcessAsync(size).ConfigureAwait(false))
             {
                 return;
             }
 
-            lock (_resizeLock)
-            {
-                // Check to see if some resizing has happened meanwhile
-                if (!size.EquivalentTo(_requestedSize))
-                {
-                    ScheduleResize(_requestedSize, true);
-                }
-                else
-                {
-                    _setSize = size;
-                }
-            }
+            //lock (_resizeLock)
+            //{
+            //    // Check to see if some resizing has happened meanwhile
+            //    if (!size.EquivalentTo(_requestedSize))
+            //    {
+            //        ScheduleResize(_requestedSize, true);
+            //    }
+            //    else
+            //    {
+            //        _setSize = size;
+            //    }
+            //}
 
             if (ViewModel.ShellProfile?.Tag is ISessionSuccessTracker tracker)
             {
                 tracker.SetSuccessfulSessionStart();
             }
 
-            await Dispatcher.ExecuteAsync(() => _webView.Focus(FocusState.Programmatic)).ConfigureAwait(false);
+            //await Dispatcher.ExecuteAsync(() => _webView.Focus(FocusState.Programmatic)).ConfigureAwait(false);
         }
 
         public void DisposalPrepare()
