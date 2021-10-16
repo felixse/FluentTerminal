@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid x:Name="TerminalContainer" />
+        <Grid x:Name="TerminalContainer" Background="Red" />
 
         <views:OverlayView x:Name="MessageOverlay" />
 

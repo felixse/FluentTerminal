@@ -4,7 +4,7 @@ using FluentTerminal.App.Utilities;
 using FluentTerminal.App.ViewModels;
 using FluentTerminal.Models;
 using FluentTerminal.Models.Enums;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +18,12 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using FluentTerminal.Model;
 using FluentTerminal.Model.Enums;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Dahomey.Json;
+using Dahomey.Json.Serialization.Conventions;
+using Dahomey.Json.Attributes;
+using FluentTerminal.App.WebViewMessages;
 
 namespace FluentTerminal.App.Views
 {
@@ -33,6 +39,8 @@ namespace FluentTerminal.App.Views
         // Members related to initialization
         private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
         private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
+
+        private readonly JsonSerializerOptions _options;
 
         #region Resize handling
 
@@ -123,6 +131,18 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
 
+            WebView.DefaultBackgroundColor = Colors.Black; // transparent not supported yet?
+
+            _options = new JsonSerializerOptions().SetupExtensions();
+            _options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            _options.PropertyNameCaseInsensitive = true;
+            _options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            var registry = _options.GetDiscriminatorConventionRegistry();
+            registry.ClearConventions();
+            registry.RegisterConvention(new DefaultDiscriminatorConvention<string>(_options));
+            registry.RegisterType<CreateTerminalMessage>();
+            registry.RegisterType<XtermInitializedMessage>();
+
             //_webView = new WebView2();
             //_webView.CoreWebView2Initialized += _webView_CoreWebView2Initialized;
             //Root.Children.Add(_webView);
@@ -131,19 +151,14 @@ namespace FluentTerminal.App.Views
             //_webView.NavigationStarting += _webView_NavigationStarting;
             //_webView.NewWindowRequested += _webView_NewWindowRequested;
 
-            _optionsChanged = new DelayedAction<TerminalOptions>(async options =>
-            {
-                var serialized = JsonConvert.SerializeObject(options);
-                await ExecuteScriptAsync($"changeOptions('{serialized}')");
-            }, 100);
 
-            
-        }
+            //_optionsChanged = new DelayedAction<TerminalOptions>(async options =>
+            //{
+            //    var serialized = JsonConvert.SerializeObject(options);
+            //    await ExecuteScriptAsync($"changeOptions('{serialized}')");
+            //}, 100);
 
-        private void _webView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
-        {
-            _webView.CoreWebView2.OpenDevToolsWindow();
-            _webView.CoreWebView2.Navigate("ms-appx-web:///Client/index.html");
+
         }
 
         public TerminalViewModel ViewModel { get; private set; }
@@ -158,8 +173,9 @@ namespace FluentTerminal.App.Views
             var keyBindings = ViewModel.SettingsService.GetCommandKeyBindings();
             var profiles = ViewModel.SettingsService.GetShellProfiles();
             var sshprofiles = ViewModel.SettingsService.GetSshProfiles();
-            var serialized = JsonConvert.SerializeObject(FlattenKeyBindings(keyBindings, profiles, sshprofiles));
-            return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
+            //var serialized = JsonConvert.SerializeObject(FlattenKeyBindings(keyBindings, profiles, sshprofiles));
+            //return ExecuteScriptAsync($"changeKeyBindings('{serialized}')");
+            return Task.CompletedTask;
         }
 
         public Task ChangeOptionsAsync(TerminalOptions options)
@@ -179,8 +195,9 @@ namespace FluentTerminal.App.Views
                 return Task.CompletedTask;
             }
 
-            var serialized = JsonConvert.SerializeObject(theme.Colors);
-            return ExecuteScriptAsync($"changeTheme('{serialized}')");
+            return Task.CompletedTask;
+            //var serialized = JsonConvert.SerializeObject(theme.Colors);
+            //return ExecuteScriptAsync($"changeTheme('{serialized}')");
         }
 
         public Task ChangeFontSize(int fontSize)
@@ -272,13 +289,12 @@ namespace FluentTerminal.App.Views
 
             await WebView.EnsureCoreWebView2Async();
             WebView.CoreWebView2.OpenDevToolsWindow();
+            WebView.CoreWebView2.WebMessageReceived += CoreWebView2_WebMessageReceived;
             WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
             "appassets.example", "Client",
             Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
-
+            WebView.NavigationCompleted += WebView_NavigationCompleted;
             WebView.Source = new Uri("https://appassets.example/index.html");
-                                             //WebView.CoreWebView2.Navigate("ms-appx-web:///Client/index.html");
-                //WebView.CoreWebView2.Navigate("https://xtermjs.org/");
 
             //_webView.SetBinding(ContextFlyoutProperty, new Binding
             //{
@@ -295,13 +311,9 @@ namespace FluentTerminal.App.Views
             var theme = ViewModel.TerminalTheme;
 
             // Waiting for WebView.NavigationCompleted event to happen
-            //await _tcsNavigationCompleted.Task.ConfigureAwait(false);
+            await _tcsNavigationCompleted.Task;
 
-            var size = await CreateXtermViewAsync(options, theme.Colors,
-                FlattenKeyBindings(keyBindings, profiles, sshprofiles)).ConfigureAwait(false);
-
-            // Waiting for IxtermEventListener.OnInitialized() call to happen
-            //await _tcsConnected.Task; // todo this will change
+            var size = await CreateXtermViewAsync(options, theme.Colors, FlattenKeyBindings(keyBindings, profiles, sshprofiles));
 
             //lock (_resizeLock)
             //{
@@ -340,6 +352,24 @@ namespace FluentTerminal.App.Views
             }
 
             //await Dispatcher.ExecuteAsync(() => _webView.Focus(FocusState.Programmatic)).ConfigureAwait(false);
+        }
+
+        private void WebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
+        {
+            _tcsNavigationCompleted.SetResult(null);
+        }
+
+        private void CoreWebView2_WebMessageReceived(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
+        {
+
+
+            var message = JsonSerializer.Deserialize<WebViewMessageBase>(args.WebMessageAsJson, _options);
+
+            if (message is XtermInitializedMessage xtermInitializedMessage)
+            {
+                _setSize = xtermInitializedMessage.Size;
+                _tcsConnected.SetResult(null);
+            }
         }
 
         public void DisposalPrepare()
@@ -451,6 +481,7 @@ namespace FluentTerminal.App.Views
 
         void IxtermEventListener.OnInitialized()
         {
+
             _tcsConnected.TrySetResult(null);
         }
 
@@ -483,14 +514,26 @@ namespace FluentTerminal.App.Views
         //    _ = Launcher.LaunchUriAsync(args.Uri);
         //}
 
-        private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
+        
+
+        private async Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
         {
-            var serializedOptions = JsonConvert.SerializeObject(options);
-            var serializedTheme = JsonConvert.SerializeObject(theme);
-            var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
-            return ExecuteScriptAsync(
-                    $"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
-                .ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result));
+            //var serializedOptions = JsonConvert.SerializeObject(options);
+            //var serializedTheme = JsonConvert.SerializeObject(theme);
+            //var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
+
+            var message = System.Text.Json.JsonSerializer.Serialize<WebViewMessageBase>(new CreateTerminalMessage { Options = options, Colors = theme, KeyBindings = keyBindings }, _options);
+
+            WebView.CoreWebView2.Settings.IsWebMessageEnabled = true;
+            WebView.CoreWebView2.PostWebMessageAsJson(message);
+
+            await _tcsConnected.Task;
+
+            return _setSize;
+
+            //return ExecuteScriptAsync(
+            //        $"createTerminal('{serializedOptions}', '{serializedTheme}', '{serializedKeyBindings}')")
+            //    .ContinueWith(t => JsonConvert.DeserializeObject<TerminalSize>(t.Result));
         }
 
         private async Task<string> ExecuteScriptAsync(string script)

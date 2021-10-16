@@ -25,6 +25,9 @@
                 TintOpacity="{x:Bind ViewModel.BackgroundOpacity, Mode=OneWay}"
                 TintTransitionDuration="{x:Bind NoDuration}" />
         </Grid.Background>-->
+        <Grid.Background>
+            <SolidColorBrush Color="black" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -86,7 +89,7 @@
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
-        <Rectangle
+        <!--<Rectangle
             Grid.Row="1"
             Fill="LightGray"
             Opacity="0.01"
@@ -99,7 +102,7 @@
             Drop="TabDropArea_Drop"
             Fill="LightGray"
             Opacity="0.2"
-            Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />
+            Visibility="{x:Bind DraggingHappensFromAnotherWindow, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}" />-->
         <views:TabBar
             Height="44"
             x:Name="BottomTabBar"

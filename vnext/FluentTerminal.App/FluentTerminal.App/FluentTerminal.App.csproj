@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Content Include="Client\bundle.js" />
+    <Content Include="Client\bundle.js.map" />
     <Content Include="Client\index.html" />
     <Content Include="Client\style.css" />
     <Content Include="Client\xterm.css" />
@@ -45,6 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonStudio.winpty.NET" Version="0.4.6" />
+    <PackageReference Include="Dahomey.Json" Version="1.11.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview2" />
