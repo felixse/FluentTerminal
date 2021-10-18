@@ -119,7 +119,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
     <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
@@ -216,10 +215,6 @@
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">
       <Project>{A1AD7385-F92E-46AC-A349-43DC99B1E72D}</Project>
       <Name>FluentTerminal.App.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FluentTerminal.App.ViewModels\FluentTerminal.App.ViewModels.csproj">
-      <Project>{44e8e225-f46c-47ec-9290-ffa08fccf1b5}</Project>
-      <Name>FluentTerminal.App.ViewModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
       <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>

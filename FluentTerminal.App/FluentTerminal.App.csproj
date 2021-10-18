@@ -161,6 +161,45 @@
     <Compile Include="Utilities\ContrastHelper.cs" />
     <Compile Include="Utilities\JumpListHelper.cs" />
     <Compile Include="ViewModels\CommandProfileProviderViewModel.cs" />
+    <Compile Include="ViewModels\DelayedHistorySaver.cs" />
+    <Compile Include="ViewModels\EnvironmentVariableViewModel.cs" />
+    <Compile Include="ViewModels\Infrastructure\IErrorHandler.cs" />
+    <Compile Include="ViewModels\ISessionSuccessTracker.cs" />
+    <Compile Include="ViewModels\ITerminalView.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Menu\ExpandableMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Menu\Mdl2Icon.cs" />
+    <Compile Include="ViewModels\Menu\MenuItemKeyBindingViewModel.cs" />
+    <Compile Include="ViewModels\Menu\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Menu\MenuItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Menu\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Menu\RadioMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Menu\SeparatorMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Menu\ToggleMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\OverlayViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\CommonProfileProviderViewModel.cs" />
+    <Compile Include="ViewModels\Profiles\ProfileProviderViewModelBase.cs" />
+    <Compile Include="ViewModels\Profiles\SshConnectionInfoValidationResult.cs" />
+    <Compile Include="ViewModels\Profiles\SshConnectViewModel.cs" />
+    <Compile Include="ViewModels\ProfileViewModelBase.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\AboutPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\GeneralPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingsPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\KeyBindingViewModel.cs" />
+    <Compile Include="ViewModels\Settings\MousePageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ProfilesPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SshProfilesPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\TerminalPageViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ThemesPageViewModel.cs" />
+    <Compile Include="ViewModels\ShellProfileViewModel.cs" />
+    <Compile Include="ViewModels\SshProfileViewModel.cs" />
+    <Compile Include="ViewModels\TabThemeViewModel.cs" />
+    <Compile Include="ViewModels\TerminalViewModel.cs" />
+    <Compile Include="ViewModels\ThemeViewModel.cs" />
+    <Compile Include="ViewModels\Utilities\TaskUtilities.cs" />
+    <Compile Include="ViewModels\Utilities\WebViewSpecialCharEncoder.cs" />
     <Compile Include="Views\BooleanTemplateSelector.cs" />
     <Compile Include="Views\EnvironmentVariablesView.xaml.cs">
       <DependentUpon>EnvironmentVariablesView.xaml</DependentUpon>
@@ -399,10 +438,6 @@
     <ProjectReference Include="..\FluentTerminal.App.Services\FluentTerminal.App.Services.csproj">
       <Project>{a1ad7385-f92e-46ac-a349-43dc99b1e72d}</Project>
       <Name>FluentTerminal.App.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FluentTerminal.App.ViewModels\FluentTerminal.App.ViewModels.csproj">
-      <Project>{44e8e225-f46c-47ec-9290-ffa08fccf1b5}</Project>
-      <Name>FluentTerminal.App.ViewModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\FluentTerminal.Models\FluentTerminal.Models.csproj">
       <Project>{5EA40453-A0AA-449E-8406-D6EA51D7E70E}</Project>
