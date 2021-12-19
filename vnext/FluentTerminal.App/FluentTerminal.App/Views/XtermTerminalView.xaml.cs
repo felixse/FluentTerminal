@@ -142,6 +142,8 @@ namespace FluentTerminal.App.Views
             registry.RegisterConvention(new DefaultDiscriminatorConvention<string>(_options));
             registry.RegisterType<CreateTerminalMessage>();
             registry.RegisterType<XtermInitializedMessage>();
+            registry.RegisterType<InputReceivedMessage>();
+            registry.RegisterType<WriteOutputMessage>();
 
             //_webView = new WebView2();
             //_webView.CoreWebView2Initialized += _webView_CoreWebView2Initialized;
@@ -369,6 +371,10 @@ namespace FluentTerminal.App.Views
             {
                 _setSize = xtermInitializedMessage.Size;
                 _tcsConnected.SetResult(null);
+            }
+            else if (message is InputReceivedMessage inputReceivedMessage)
+            {
+                ViewModel.Terminal.Write(System.Text.Encoding.UTF8.GetBytes(inputReceivedMessage.Data));
             }
         }
 
@@ -617,7 +623,16 @@ namespace FluentTerminal.App.Views
                 }
             }
 
-            OnOutput?.Invoke(this, e);
+
+            var message = System.Text.Json.JsonSerializer.Serialize<WebViewMessageBase>(new WriteOutputMessage { Data = e }, _options);
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                WebView.CoreWebView2.PostWebMessageAsJson(message);
+            });
+            
+            
+            //OnOutput?.Invoke(this, e);
         }
 
         void IxtermEventListener.OnError(string error)
@@ -659,6 +674,7 @@ namespace FluentTerminal.App.Views
                 ViewModel.Terminal.ReportLauchFailed();
                 return false;
             }
+
             return true;
         }
     }

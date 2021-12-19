@@ -9,6 +9,7 @@ import { SearchAddon } from "xterm-addon-search";
 import { WebLinksAddon } from "xterm-addon-web-links";
 import { SerializeAddon } from "xterm-addon-serialize";
 import { Unicode11Addon } from "xterm-addon-unicode11";
+import { Buffer } from 'buffer';
 
 enum CursorStyle {
   block = "block",
@@ -87,7 +88,13 @@ interface CreateTerminalMessage {
   keyBindings: KeyBinding[];
 }
 
-type IncomingMessage = CreateTerminalMessage;
+interface WriteOutputMessage {
+  $type: "write-output";
+
+  data: string;
+}
+
+type IncomingMessage = CreateTerminalMessage | WriteOutputMessage;
 
 interface WebView {
   addEventListener(
@@ -120,6 +127,9 @@ window.chrome.webview.addEventListener("message", (e) => {
   switch (e.data.$type) {
     case "create-terminal":
       createTerminal(e.data.options, e.data.colors, e.data.keyBindings);
+      break;
+    case "write-output":
+      term.write(Buffer.from(e.data.data, "base64"));
       break;
   }
 });
@@ -196,6 +206,12 @@ function createTerminal(
   };
 
   term = new Terminal(xtermOptions);
+  term.onData((data) => {
+    window.chrome.webview.postMessage({
+      $type: "input-received",
+      data: data
+    });
+  })
 
   console.log("created term");
 

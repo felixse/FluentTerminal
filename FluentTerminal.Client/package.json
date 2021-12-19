@@ -17,6 +17,7 @@
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "xterm": "^4.14.1",
     "xterm-addon-fit": "^0.5.0",
     "xterm-addon-search": "^0.8.0",

@@ -18,6 +18,7 @@ namespace FluentTerminal.App.Services
         private bool _exited;
         private readonly bool _requireShellProcessStart;
         private string _fallbackTitle;
+        private ITerminalSession _session;
 
         public Terminal(ITrayProcessCommunicationService trayProcessCommunicationService, byte? terminalId = null)
         {
@@ -162,11 +163,11 @@ namespace FluentTerminal.App.Services
                 //var response = await _trayProcessCommunicationService
                 //    .CreateTerminalAsync(Id, size, shellProfile, sessionType).ConfigureAwait(false);
 
-                var session = new ConPtySession();
-                session.OutputReceived += Session_OutputReceived;
-                session.ConnectionClosed += Session_ConnectionClosed;
+                _session = new ConPtySession();
+                _session.OutputReceived += Session_OutputReceived;
+                _session.ConnectionClosed += Session_ConnectionClosed;
 
-                session.Start(new Models.Requests.CreateTerminalRequest { Id = Id, Profile = shellProfile, SessionType = SessionType.WinPty, Size = new TerminalSize { Rows = 20, Columns = 80 } });
+                _session.Start(new Models.Requests.CreateTerminalRequest { Id = Id, Profile = shellProfile, SessionType = SessionType.WinPty, Size = new TerminalSize { Rows = 20, Columns = 80 } });
 
                 return new CreateTerminalResponse { Success = true };
 
@@ -190,11 +191,14 @@ namespace FluentTerminal.App.Services
         private void Session_OutputReceived(object sender, TerminalOutput e)
         {
             Debug.WriteLine(Encoding.UTF8.GetString(e.Data));
+            OutputReceived?.Invoke(this, e.Data);
         }
 
         public Task Write(byte[] data)
         {
-            return _trayProcessCommunicationService.WriteAsync(Id, data);
+            _session.Write(data);
+            return Task.CompletedTask;
+            //return _trayProcessCommunicationService.WriteAsync(Id, data);
         }
 
         /// <summary>
