@@ -9,7 +9,7 @@ namespace FluentTerminal.App.Services
     {
         public IEnumerable<FontInfo> GetSystemFontFamilies()
         {
-            return CanvasFontSet.GetSystemFontSet().Fonts.Select(x => new FontInfo { Name = x.FamilyNames.Values.FirstOrDefault(), IsMonospaced = x.IsMonospaced }).Distinct(new FontInfoComparer());
+            return CanvasTextFormat.GetSystemFontFamilies().ToList().Select(x => new FontInfo { Name = x });
         }
 
         private class FontInfoComparer : IEqualityComparer<FontInfo>
