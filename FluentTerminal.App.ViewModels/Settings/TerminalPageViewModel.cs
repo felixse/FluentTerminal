@@ -179,7 +179,7 @@ namespace FluentTerminal.App.ViewModels.Settings
             }
         }
 
-        public IEnumerable<FontInfo> Fonts { get; }
+        public IEnumerable<string> Fonts { get; }
 
         public int FontSize
         {
@@ -258,7 +258,7 @@ namespace FluentTerminal.App.ViewModels.Settings
 
             RestoreDefaultsCommand = new AsyncRelayCommand(RestoreDefaultsAsync);
 
-            Fonts = systemFontService.GetSystemFontFamilies().OrderBy(s => s.Name);
+            Fonts = systemFontService.GetSystemFontFamilies().OrderBy(s => s);
             Sizes = Enumerable.Range(2, 72);
 
             _terminalOptions = _settingsService.GetTerminalOptions();
