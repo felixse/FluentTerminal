@@ -28,7 +28,7 @@ using FluentTerminal.App.WebViewMessages;
 namespace FluentTerminal.App.Views
 {
     // ReSharper disable once RedundantExtendsListEntry
-    public sealed partial class XtermTerminalView : UserControl, IxtermEventListener, ITerminalView
+    public sealed partial class XtermTerminalView : UserControl, ITerminalView
     {
         private WebView2 _webView;
         private readonly DelayedAction<TerminalOptions> _optionsChanged;
@@ -131,7 +131,7 @@ namespace FluentTerminal.App.Views
         {
             InitializeComponent();
 
-            WebView.DefaultBackgroundColor = Colors.Black; // transparent not supported yet?
+            WebView.DefaultBackgroundColor = Colors.DarkBlue; // transparent not supported yet?
 
             _options = new JsonSerializerOptions().SetupExtensions();
             _options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -141,9 +141,10 @@ namespace FluentTerminal.App.Views
             registry.ClearConventions();
             registry.RegisterConvention(new DefaultDiscriminatorConvention<string>(_options));
             registry.RegisterType<CreateTerminalMessage>();
-            registry.RegisterType<XtermInitializedMessage>();
+            registry.RegisterType<TerminalResizedMessage>();
             registry.RegisterType<InputReceivedMessage>();
             registry.RegisterType<WriteOutputMessage>();
+            registry.RegisterType<TitleChangedMessage>();
 
             //_webView = new WebView2();
             //_webView.CoreWebView2Initialized += _webView_CoreWebView2Initialized;
@@ -367,14 +368,22 @@ namespace FluentTerminal.App.Views
 
             var message = JsonSerializer.Deserialize<WebViewMessageBase>(args.WebMessageAsJson, _options);
 
-            if (message is XtermInitializedMessage xtermInitializedMessage)
+            if (message is TerminalResizedMessage terminalResizedMessage)
             {
-                _setSize = xtermInitializedMessage.Size;
-                _tcsConnected.SetResult(null);
+                _setSize = terminalResizedMessage.Size;
+                if (!_tcsConnected.Task.IsCompleted)
+                {
+                    _tcsConnected.SetResult(null);
+                }
+                
             }
             else if (message is InputReceivedMessage inputReceivedMessage)
             {
                 ViewModel.Terminal.Write(System.Text.Encoding.UTF8.GetBytes(inputReceivedMessage.Data));
+            }
+            else if (message is TitleChangedMessage titleChangedMessage)
+            {
+                ViewModel.Terminal.SetTitle(titleChangedMessage.Title);
             }
         }
 
@@ -389,117 +398,107 @@ namespace FluentTerminal.App.Views
             ViewModel = null;
         }
 
-        void IxtermEventListener.OnKeyboardCommand(string command)
-        {
-            if (_terminalClosed)
-            {
-                return;
-            }
+        //void IxtermEventListener.OnKeyboardCommand(string command)
+        //{
+        //    if (_terminalClosed)
+        //    {
+        //        return;
+        //    }
 
-            Logger.Instance.Debug("Received keyboard command: '{command}'", command);
+        //    Logger.Instance.Debug("Received keyboard command: '{command}'", command);
 
-            if (Enum.TryParse(command, true, out Command commandValue))
-            {
-                ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString());
-            }
-            else if (Guid.TryParse(command, out Guid shellProfileId))
-            {
-                ViewModel.Terminal.ProcessKeyboardCommand(shellProfileId.ToString());
-            }
-        }
+        //    if (Enum.TryParse(command, true, out Command commandValue))
+        //    {
+        //        ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString());
+        //    }
+        //    else if (Guid.TryParse(command, out Guid shellProfileId))
+        //    {
+        //        ViewModel.Terminal.ProcessKeyboardCommand(shellProfileId.ToString());
+        //    }
+        //}
 
-        void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri)
-        {
-            if (_terminalClosed)
-            {
-                return;
-            }
+        //void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri)
+        //{
+        //    if (_terminalClosed)
+        //    {
+        //        return;
+        //    }
 
-            var action = MouseAction.None;
+        //    var action = MouseAction.None;
 
-            switch (mouseButton)
-            {
-                case MouseButton.Middle:
-                    action = ViewModel.ApplicationSettings.MouseMiddleClickAction;
-                    break;
-                case MouseButton.Right:
-                    action = ViewModel.ApplicationSettings.MouseRightClickAction;
-                    break;
-            }
+        //    switch (mouseButton)
+        //    {
+        //        case MouseButton.Middle:
+        //            action = ViewModel.ApplicationSettings.MouseMiddleClickAction;
+        //            break;
+        //        case MouseButton.Right:
+        //            action = ViewModel.ApplicationSettings.MouseRightClickAction;
+        //            break;
+        //    }
 
-            if (action == MouseAction.ContextMenu)
-            {
-                Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
-            }
-            else if (action == MouseAction.Paste)
-            {
-                ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-            }
-            else if (action == MouseAction.CopySelectionOrPaste)
-            {
-                if (hasSelection)
-                {
-                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
-                }
-                else
-                {
-                    ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
-                }
-            }
-        }
+        //    if (action == MouseAction.ContextMenu)
+        //    {
+        //        Dispatcher.ExecuteAsync(() => ShowContextMenu(x, y, hasSelection, hoveredUri), enforceNewSchedule: true);
+        //    }
+        //    else if (action == MouseAction.Paste)
+        //    {
+        //        ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
+        //    }
+        //    else if (action == MouseAction.CopySelectionOrPaste)
+        //    {
+        //        if (hasSelection)
+        //        {
+        //            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Copy));
+        //        }
+        //        else
+        //        {
+        //            ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
+        //        }
+        //    }
+        //}
 
-        async void IxtermEventListener.OnSelectionChanged(string selection)
-        {
-            if (_terminalClosed)
-            {
-                return;
-            }
+        //async void IxtermEventListener.OnSelectionChanged(string selection)
+        //{
+        //    if (_terminalClosed)
+        //    {
+        //        return;
+        //    }
 
-            if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
-            {
-                await ViewModel.CopyTextAsync(selection).ConfigureAwait(false);
-                await ExecuteScriptAsync("term.clearSelection()").ConfigureAwait(false);
-            }
-        }
+        //    if (!string.IsNullOrEmpty(selection) && ViewModel.ApplicationSettings.CopyOnSelect && !ViewModel.ShowSearchPanel)
+        //    {
+        //        await ViewModel.CopyTextAsync(selection).ConfigureAwait(false);
+        //        await ExecuteScriptAsync("term.clearSelection()").ConfigureAwait(false);
+        //    }
+        //}
 
-        void IxtermEventListener.OnTerminalResized(int columns, int rows)
-        {
-            if (_terminalClosed)
-            {
-                return;
-            }
+        //void IxtermEventListener.OnTerminalResized(int columns, int rows)
+        //{
+        //    if (_terminalClosed)
+        //    {
+        //        return;
+        //    }
 
-            var size = new TerminalSize { Columns = columns, Rows = rows };
+        //    var size = new TerminalSize { Columns = columns, Rows = rows };
 
-            lock (_resizeLock)
-            {
-                if (_setSize == null)
-                {
-                    // Initialization not finished yet
-                    _requestedSize = size;
-                }
-                else
-                {
-                    ScheduleResize(size, false);
-                }
-            }
-        }
+        //    lock (_resizeLock)
+        //    {
+        //        if (_setSize == null)
+        //        {
+        //            // Initialization not finished yet
+        //            _requestedSize = size;
+        //        }
+        //        else
+        //        {
+        //            ScheduleResize(size, false);
+        //        }
+        //    }
+        //}
 
-        void IxtermEventListener.OnInitialized()
-        {
+        //void IxtermEventListener.OnInitialized()
+        //{
 
-            _tcsConnected.TrySetResult(null);
-        }
-
-        void IxtermEventListener.OnTitleChanged(string title)
-        {
-            if (_terminalClosed)
-            {
-                return;
-            }
-
-            ViewModel.Terminal.SetTitle(title);
-        }
+        //    _tcsConnected.TrySetResult(null);
+        //}
 
         //private void _webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         //{
@@ -635,10 +634,10 @@ namespace FluentTerminal.App.Views
             //OnOutput?.Invoke(this, e);
         }
 
-        void IxtermEventListener.OnError(string error)
-        {
-            Logger.Instance.Error(error);
-        }
+        //void IxtermEventListener.OnError(string error)
+        //{
+        //    Logger.Instance.Error(error);
+        //}
 
         public void OnInput(byte[] data)
         {

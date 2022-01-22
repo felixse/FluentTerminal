@@ -20,10 +20,10 @@ html, body {
     -ms-touch-action: pan-y;
 }
 
-.xterm .xterm-viewport {
+/* .xterm .xterm-viewport {
     background-color: transparent !important;
 }
 
 .terminal {
     background: transparent !important;
-}
+} */

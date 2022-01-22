@@ -33,7 +33,6 @@ namespace FluentTerminal.App.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IKeyboardCommandService _keyboardCommandService;
         private readonly ISettingsService _settingsService;
-        private readonly ITrayProcessCommunicationService _trayProcessCommunicationService;
         private readonly ICommandHistoryService _commandHistoryService;
         private ApplicationSettings _applicationSettings;
         private bool _useAcrylicBackground;
@@ -43,12 +42,11 @@ namespace FluentTerminal.App.ViewModels
         private string _windowTitle;
         private IDictionary<string, ICollection<KeyBinding>> _keyBindings;
 
-        public MainViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
+        public MainViewModel(ISettingsService settingsService, IDialogService dialogService, IKeyboardCommandService keyboardCommandService, 
             IClipboardService clipboardService, ICommandHistoryService commandHistoryService)
         {
             _settingsService = settingsService;
 
-            _trayProcessCommunicationService = trayProcessCommunicationService;
             _dialogService = dialogService;
             _clipboardService = clipboardService;
             _keyboardCommandService = keyboardCommandService;
@@ -124,7 +122,7 @@ namespace FluentTerminal.App.ViewModels
 
             _settingsCommand = new RelayCommand(ShowSettings);
             _aboutCommand = new AsyncRelayCommand(_dialogService.ShowAboutDialogAsync);
-            _quitCommand = new AsyncRelayCommand(_trayProcessCommunicationService.QuitApplicationAsync);
+            _quitCommand = new AsyncRelayCommand(() => Task.CompletedTask); // todo
 
             _defaultProfile = _settingsService.GetDefaultShellProfile();
 
@@ -330,7 +328,7 @@ namespace FluentTerminal.App.ViewModels
         {
             profile.Tag = new DelayedHistorySaver(() => _commandHistoryService.MarkUsed(profile));
 
-            var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
+            var terminal = new TerminalViewModel(_settingsService, _dialogService, _keyboardCommandService,
                 _applicationSettings, profile, _clipboardService, terminalState);
 
             terminal.PropertyChanged += Terminal_PropertyChanged;
@@ -393,47 +391,47 @@ namespace FluentTerminal.App.ViewModels
 
         private async void Terminal_CloseOtherTabsRequested(object sender, EventArgs e)
         {
-            if (sender is TerminalViewModel terminal)
+            if (sender is TerminalViewModel viewModel)
             {
-                await Task.WhenAll(Terminals.Where(t => t != terminal).Select(t =>
+                foreach (var terminal in Terminals.Where(t => t != viewModel))
                 {
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseAsync();
-                })).ConfigureAwait(false);
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
+                    terminal.Close();
+                }
             }
         }
 
-        private async void Terminal_CloseRightTabsRequested(object sender, EventArgs e)
+        private void Terminal_CloseRightTabsRequested(object sender, EventArgs e)
         {
-            if (sender is TerminalViewModel terminal)
+            if (sender is TerminalViewModel viewModel)
             {
-                var toRemove = Terminals.Skip(Terminals.IndexOf(terminal) + 1).ToList();
+                var toRemove = Terminals.Skip(Terminals.IndexOf(viewModel) + 1).ToList();
 
-                await Task.WhenAll(toRemove.Select(t =>
+                foreach (var terminal in toRemove)
                 {
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseAsync();
-                })).ConfigureAwait(false);
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
+                    terminal.Close();
+                }
             }
         }
 
-        private async void Terminal_CloseLeftTabsRequested(object sender, EventArgs e)
+        private void Terminal_CloseLeftTabsRequested(object sender, EventArgs e)
         {
-            if (sender is TerminalViewModel terminal)
+            if (sender is TerminalViewModel viewModel)
             {
-                var toRemove = Terminals.Take(Terminals.IndexOf(terminal)).ToList();
+                var toRemove = Terminals.Take(Terminals.IndexOf(viewModel)).ToList();
 
-                await Task.WhenAll(toRemove.Select(t =>
+                foreach (var terminal in toRemove)
                 {
-                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", t.Terminal.Id);
-                    return t.CloseAsync();
-                })).ConfigureAwait(false);
+                    Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
+                    terminal.Close();
+                }
             }
         }
 
-        private Task CloseAllTerminalsAsync()
+        private void CloseAllTerminals()
         {
-            return Task.WhenAll(Terminals.Select(terminal =>
+            foreach (var terminal in Terminals)
             {
                 terminal.PropertyChanged -= Terminal_PropertyChanged;
                 terminal.Closed -= OnTerminalClosed;
@@ -441,13 +439,13 @@ namespace FluentTerminal.App.ViewModels
                 terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
                 terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
                 terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
-                return terminal.CloseAsync();
-            }));
+                terminal.Close();
+            }
         }
 
         private void CloseCurrentTab()
         {
-            SelectedTerminal?.CloseAsync();
+            SelectedTerminal?.Close();
         }
 
         private async Task OnCloseRequest(object sender, CancelableEventArgs e)
@@ -459,7 +457,7 @@ namespace FluentTerminal.App.ViewModels
 
                 if (result == DialogButton.OK)
                 {
-                    await CloseAllTerminalsAsync().ConfigureAwait(false);
+                    CloseAllTerminals();
                 }
                 else
                 {
@@ -468,7 +466,7 @@ namespace FluentTerminal.App.ViewModels
             }
             else
             {
-                await CloseAllTerminalsAsync().ConfigureAwait(false);
+                CloseAllTerminals();
             }
         }
 

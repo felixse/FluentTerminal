@@ -122,14 +122,12 @@ namespace FluentTerminal.App.ViewModels
         private readonly TabThemeViewModel _transparentTabThemeViewModel;
         private int _fontSize;
 
-        public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
+        public TerminalViewModel(ISettingsService settingsService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile, IClipboardService clipboardService, string terminalState = null)
         {
             SettingsService = settingsService;
 
             _terminalOptions = SettingsService.GetTerminalOptions();
-
-            TrayProcessCommunicationService = trayProcessCommunicationService;
 
             DialogService = dialogService;
             _keyboardCommandService = keyboardCommandService;
@@ -169,7 +167,7 @@ namespace FluentTerminal.App.ViewModels
 
             _transparentTabThemeViewModel = TabThemes.FirstOrDefault(t => t.Theme.Id == 0);
 
-            Terminal = new Terminal(TrayProcessCommunicationService, _terminalId);
+            Terminal = new Terminal(_terminalId);
             Terminal.KeyboardCommandReceived += Terminal_KeyboardCommandReceived;
             Terminal.OutputReceived += Terminal_OutputReceived;
             Terminal.SizeChanged += Terminal_SizeChanged;
@@ -466,11 +464,11 @@ namespace FluentTerminal.App.ViewModels
 
         public ITrayProcessCommunicationService TrayProcessCommunicationService { get; }
 
-        public Task CloseAsync()
+        public void Close()
         {
             //MessengerInstance.Unregister(this); // todo necessary?
 
-            return Terminal.CloseAsync();
+            Terminal.Close();
         }
 
         public Task CopyTextAsync(string text)
@@ -753,7 +751,7 @@ namespace FluentTerminal.App.ViewModels
                         string.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK,
                         DialogButton.Cancel).ConfigureAwait(false) == DialogButton.OK)
             {
-                await CloseAsync().ConfigureAwait(false);
+                Close();
             }
         }
 

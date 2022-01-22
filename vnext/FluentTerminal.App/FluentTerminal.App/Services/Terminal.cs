@@ -20,11 +20,18 @@ namespace FluentTerminal.App.Services
         private string _fallbackTitle;
         private ITerminalSession _session;
 
-        public Terminal(ITrayProcessCommunicationService trayProcessCommunicationService, byte? terminalId = null)
+        private static byte _nextTerminalId = 0;
+
+        public static byte GetNextTerminalId()
         {
-            _trayProcessCommunicationService = trayProcessCommunicationService;
-            _trayProcessCommunicationService.TerminalExited += OnTerminalExited;
-            Id = terminalId ?? trayProcessCommunicationService.GetNextTerminalId();
+            return _nextTerminalId++;
+        }
+
+        public Terminal(byte? terminalId = null)
+        {
+            //_trayProcessCommunicationService = trayProcessCommunicationService;
+            //_trayProcessCommunicationService.TerminalExited += OnTerminalExited;
+            Id = terminalId ?? GetNextTerminalId();
             _requireShellProcessStart = !terminalId.HasValue;
         }
 
@@ -86,16 +93,14 @@ namespace FluentTerminal.App.Services
         /// <summary>
         /// To be called by either view or viewmodel
         /// </summary>
-        public Task CloseAsync()
+        public void Close()
         {
             if (_exited)
             {
                 Closed?.Invoke(this, System.EventArgs.Empty);
-                return Task.CompletedTask;
+                return;
             }
             _closingFromUi = true;
-            _trayProcessCommunicationService.UnsubscribeFromTerminalOutput(Id);
-            return _trayProcessCommunicationService.CloseTerminalAsync(Id);
         }
 
         /// <summary>
@@ -156,8 +161,6 @@ namespace FluentTerminal.App.Services
                 OutputReceived?.Invoke(this, Encoding.UTF8.GetBytes(termState));
             }
 
-            _trayProcessCommunicationService.SubscribeForTerminalOutput(Id, t => OutputReceived?.Invoke(this, t));
-
             if (_requireShellProcessStart)
             {
                 //var response = await _trayProcessCommunicationService
@@ -198,7 +201,6 @@ namespace FluentTerminal.App.Services
         {
             _session.Write(data);
             return Task.CompletedTask;
-            //return _trayProcessCommunicationService.WriteAsync(Id, data);
         }
 
         /// <summary>

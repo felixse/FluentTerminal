@@ -129,7 +129,9 @@ window.chrome.webview.addEventListener("message", (e) => {
       createTerminal(e.data.options, e.data.colors, e.data.keyBindings);
       break;
     case "write-output":
-      term.write(Buffer.from(e.data.data, "base64"));
+      const output = Buffer.from(e.data.data, "base64").toString();
+      console.log("output", output);
+      term.write(output);
       break;
   }
 });
@@ -178,7 +180,7 @@ function createTerminal(
   colors: TerminalColors,
   keyBindings: KeyBinding[]
 ) {
-  console.log("createTerminal entered");
+  console.log("createTerminal entered", options);
 
   while (terminalContainer.children.length) {
     terminalContainer.removeChild(terminalContainer.children[0]);
@@ -203,15 +205,39 @@ function createTerminal(
     theme: colors,
     windowsMode: true,
     wordSeparator: DecodeSpecialChars(options.wordSeparator),
+    
   };
 
   term = new Terminal(xtermOptions);
+
   term.onData((data) => {
+    console.log("input", data);
     window.chrome.webview.postMessage({
       $type: "input-received",
       data: data
     });
   })
+
+  term.onBinary((data) => {
+    console.log("binary", data);
+  })
+
+  term.onResize(size => {
+    window.chrome.webview.postMessage({
+      $type: "terminal-resized",
+      size: {
+        columns: term.cols,
+        rows: term.rows,
+      },
+    });
+  });
+
+    term.onTitleChange((title: string) => {
+      window.chrome.webview.postMessage({
+        $type: "title-changed",
+        title,
+      });
+  });
 
   console.log("created term");
 
@@ -246,7 +272,7 @@ function createTerminal(
   };
 
   window.chrome.webview.postMessage({
-    $type: "xterm-initialized",
+    $type: "terminal-resized",
     size: {
       columns: term.cols,
       rows: term.rows,
@@ -357,21 +383,13 @@ function createTerminal(
 //   //   term.paste(text);
 //   // });
 
-//   term.onData(data => {
-//     window.terminalBridge.inputReceived(data);
-//   });
 
 //   term.onBinary(binary => {
 //     window.terminalBridge.binaryReceived(binary);
 //   });
 
-//   // term.onResize(({ cols, rows }) => {
-//   //   window.terminalBridge.notifySizeChanged(cols, rows);
-//   // });
 
-//   // term.onTitleChange((title: string) => {
-//   //   window.terminalBridge.notifyTitleChanged(title);
-//   // });
+
 
 //   // term.onSelectionChange(() => {
 //   //   window.terminalBridge.notifySelectionChanged(term.getSelection());
