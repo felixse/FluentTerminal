@@ -131,7 +131,6 @@
     <Compile Include="Converters\TerminalViewModelToViewConverter.cs" />
     <Compile Include="Converters\TextMiddleEllipsisConverter.cs" />
     <Compile Include="Converters\ToolTipValueToPixelConverter.cs" />
-    <Compile Include="Converters\TrueToBoldConverter.cs" />
     <Compile Include="Converters\TrueToVisibleConverter.cs" />
     <Compile Include="Adapters\MessageDialogAdapter.cs" />
     <Compile Include="Dialogs\AboutDialog.xaml.cs">
