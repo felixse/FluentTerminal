@@ -40,7 +40,7 @@ namespace FluentTerminal.App.Services.Implementation
         public async Task<Version> GetLatestVersionAsync()
         {
             var restClient = new RestClient(apiEndpoint);
-            var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.GET);
+            var restRequest = new RestRequest("/repos/felixse/fluentterminal/releases", Method.Get);
 
             var restResponse = await restClient.ExecuteAsync(restRequest).ConfigureAwait(false);
             if (restResponse.IsSuccessful)
