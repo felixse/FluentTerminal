@@ -1117,15 +1117,15 @@ Fuzzy</comment>
     <value>Соединение разорвано.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Увеличить размер шрифта</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Уменьшить размер шрифта</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Сбросить размер шрифта</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Вкладка &quot;Повторное подключение&quot;</value>
   </data>
 </root>

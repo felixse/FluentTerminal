@@ -1116,15 +1116,15 @@ Fuzzy</comment>
     <value>Sesiunea a fost deconectată.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Măriți dimensiunea fontului</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Micșorați dimensiunea fontului</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Resetați dimensiunea fontului</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Reconectare filă</value>
   </data>
 </root>

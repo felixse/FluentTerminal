@@ -1011,120 +1011,120 @@ Fuzzy</comment>
     <value>Розділюючі символи</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Останні</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Відкривати профіль за замовчуванням у новій вкладці.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Відкривати нову сесію SSH або Mosh в новій вкладці.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Відкрити діалогове вікно «Швидкий запуск» і розпочати сеанс у новій вкладці.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Відкрити вікно налаштувань.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Основна інформація про програму.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>Останні відкриті сесії.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Запускати новий термінальну сесію на основі профілю за замовчуванням.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Віддалене підключення...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Відкрити діалогове вікно для запуску нового сеансу терміналу SSH або Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Швидкий запуск...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Відкривати діалогове вікно &quot;Швидкий запуск&quot; для початку нової сесії терміналу.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Нове вікно</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Нова вкладка</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Запускає сесію у новій вкладці.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Запускає сесію у новому вікні.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Тип меню програми</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Плоска, з урахуванням налаштування &quot;Відкрити новий термінал як&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Нова вкладка&quot; / &quot;Нове вікно&quot; каскадом</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>Вийт</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>Вийдіть із Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>Увімкнено політикою.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>Фонове зображення</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>Використовувати акриловий фон</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>Ви впевнені, що хочете видалити це фонове зображення?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>Кольори</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>Яскраві кольори</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Копіювати посилання</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Regex</value>
+    <value>Регулярний вираз</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Ціле слово</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>Чутливий регістр</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Скопіювати виділене або вставити</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Використовувати розумний буфер</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Перезавантаження</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Сесія відключена.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Збільшити розмір шрифту</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Зменшити розмір шрифту</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Скинути розмір шрифту</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Перепідключити вкладку</value>
   </data>
 </root>

@@ -365,7 +365,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>Cursor-Darstellung</value>
+    <value>Cursor-Stil</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
@@ -429,7 +429,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Aktion für mittlere Taste</value>
+    <value>Funktion der mittleren Maustaste</value>
     <comment>MouseSettings.xaml
 Fuzzy</comment>
   </data>
@@ -477,7 +477,7 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>Aktion für rechte Taste</value>
+    <value>Funktion der rechten Maustaste</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
@@ -772,7 +772,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>Fenster ein/ausblenden</value>
+    <value>Fenster ein-/ausblenden</value>
     <comment>Command
 Fuzzy</comment>
   </data>
@@ -831,11 +831,11 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>Benutzer und Host sind erfordert.</value>
+    <value>Benutzer und Host sind erforderlich.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>Benutzer darf nicht leer sein.</value>
+    <value>Benutzername darf nicht leer sein.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
     <value>Host darf nicht leer sein.</value>
@@ -892,7 +892,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>Benutzer</value>
+    <value>Benutzername</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
@@ -907,7 +907,7 @@ Fuzzy</comment>
     <value>Mosh-Ports</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>Authentifizieren</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
     <value>Einstellungen wurden exportiert.</value>
@@ -953,7 +953,7 @@ Fuzzy</comment>
     <value>Nicht unterstüzter Befehl:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>Befehlsargument fehlen</value>
+    <value>Befehlsargumente fehlen</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
     <value>Quick Launch</value>
@@ -1050,7 +1050,7 @@ Fuzzy</comment>
     <value>Öffnet das Einstellungen-Fenster.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Allgemeine Information zur App.</value>
+    <value>Allgemeine Informationen zur App.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
     <value>Zuletzt verwendete Sitzungen.</value>
@@ -1150,6 +1150,6 @@ Fuzzy</comment>
     <value>Schriftgröße zurücksetzen</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Tab erneut verbinden</value>
   </data>
 </root>

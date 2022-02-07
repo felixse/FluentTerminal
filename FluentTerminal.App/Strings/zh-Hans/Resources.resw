@@ -1075,7 +1075,7 @@ Fuzzy</comment>
     <value>应用菜单类型</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>扁平，荣耀的“打开新的终端”设置</value>
+    <value>扁平式，跟随&quot;打开新的终端&quot;菜单</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
     <value>“新标签”/“新窗口”级联菜单</value>

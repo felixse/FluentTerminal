@@ -329,7 +329,7 @@ Fuzzy</comment>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>Clone</value>
+    <value>Klonla</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
@@ -365,7 +365,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>Underline</value>
+    <value>Alt-cizgili</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
@@ -416,15 +416,15 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>Line ending translation mode</value>
+    <value>Sətir sonu tərcümə rejimi</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>Line ending translation mode on paste:</value>
+    <value>Yapışdırdıqda sətir sonu tərcümə rejmi:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>Middle button action</value>
+    <value>Orta düymə aktivasiyası</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
@@ -508,7 +508,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>Shell executable location</value>
+    <value>Shell proqramının məkanı</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
@@ -1010,120 +1010,120 @@ Fuzzy</comment>
     <value>Söz ayırıcı simvol</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>Recent</value>
+    <value>Son</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>Opens default profile in a new tab.</value>
+    <value>Defolt profili yeni tabda açır.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>Opens a new SSH or Mosh session in a new tab.</value>
+    <value>Yeni tabda yeni SSH və ya Mosh sessiyasını açır.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>Opens &quot;Quick Launch&quot; dialog and starts session in a new tab.</value>
+    <value>Yeni tabda &quot;Sürətli Başlatma&quot; pəncərəsini açır.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>Opens settings window.</value>
+    <value>Ayarlar pəncərəsini açır.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>Basic info about the app.</value>
+    <value>Proqram haqqında qısa məlumat.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>Recently opened sessions.</value>
+    <value>Son açılmış sessiyalar.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>Starts new terminal session based on the default profile.</value>
+    <value>Defolt profil əsasında yeni termianl sessiyası başladır.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>Remote Connect...</value>
+    <value>Uzaqdan Qoşulma...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>Opens a dialog for launching a new SSH or Mosh terminal session.</value>
+    <value>Yeni SSH və ya Mosh termianl sessiyası başlatmaq üçün dialoq açır.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>Quick Launch...</value>
+    <value>Sürətli Başlatma...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>Opens a &quot;Quick Launch&quot; dialog for starting a new terminal session.</value>
+    <value>Yeni terminal sessiyası başlatmaq üçün &quot;Sürətli Başlatma&quot; pəncərəsini açır.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>New Window</value>
+    <value>Yeni Pəncərə</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>New Tab</value>
+    <value>Yeni Tab</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>Launches a session in a new tab.</value>
+    <value>Yeni sessiyanı yeni tabda başladır.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>Launches a session in a new window.</value>
+    <value>Yeni sessiyanı yeni pəncərədə başladır.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>Application menu type</value>
+    <value>Proqram menyu tipi</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>Flat, honoring &quot;Open new terminals as&quot; setting</value>
+    <value>Düz, &quot;Yeni terminalı ... kimi aç&quot; ayarı</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;New Tab&quot; / &quot;New Window&quot; cascading</value>
+    <value>&quot;Yeni Tab&quot; / &quot;Yeni Pəncərə&quot; kaskadı</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>Çıx</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Quit Fluent Terminal</value>
+    <value>Fluent Termianldan çıx</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>Enabled by policy.</value>
+    <value>Qaydalara görə aktiv edilib.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>Background image</value>
+    <value>Arxa fon şəkili</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>Akrilik arxa fonu istifadə edin</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>Are you sure you want to delete this background image?</value>
+    <value>Bu arxa fon şəkilini silmək istədiyinizə əminsinizmi?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>Colors</value>
+    <value>Rənglər</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>Bright colors</value>
+    <value>Açıq rənglər</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Linki kopyala</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
     <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Bütöv söz</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Case sensitive</value>
+    <value>Hərifə duyarlı</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Secimi kopyala vəya yapışdır</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>Use smart buffer</value>
+    <value>Ağıllı buffer işlət</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>Restart</value>
+    <value>Yenidən başlat</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>Session disconnected.</value>
+    <value>Sessiya ayrıldı.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Şiriftin ölçüsünü artır</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Şiriftin ölçüsünü azalt</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Şirift ölçüsünü sıfırla</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Taba Yenidən Qoşul</value>
   </data>
 </root>

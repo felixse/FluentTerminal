@@ -147,9 +147,8 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>Scegli come colorare le schede inattive</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Colorare le schede inattive</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
     <value>Copia</value>
@@ -178,7 +177,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>Per applicare le impostazioni è necessario riavviare l&apos;app</value>
+    <value>Per adattare le impostazioni è necessario riavviare l&apos;app</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
@@ -493,7 +492,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>Barra di scorrimento</value>
+    <value>Stile della barra di scorrimento</value>
     <comment>TerminalSettings.xaml
 Fuzzy</comment>
   </data>
@@ -1122,15 +1121,15 @@ Fuzzy</comment>
     <value>Sessione terminata.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Aumenta dimensioni del testo</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>Riduci dimensioni del testo</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>Ripristina dimensioni del testo</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>Riconnetti scheda</value>
   </data>
 </root>

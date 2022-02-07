@@ -174,11 +174,11 @@ Fuzzy</comment>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>顯示新的輸出顯示器在分頁背景中</value>
+    <value>顯示新的輸出指示器在分頁背景中</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>重新啟動以更新設定</value>
+    <value>重新啟動以套用設定</value>
     <comment>GeneralSettings.xaml
 Fuzzy</comment>
   </data>
@@ -200,7 +200,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>打開新終端為</value>
+    <value>打開新終端機為</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
@@ -224,7 +224,7 @@ Fuzzy</comment>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>啟動時運行</value>
+    <value>登入時啟動</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
@@ -237,7 +237,7 @@ Fuzzy</comment>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>任務欄中顯示</value>
+    <value>在系統匣中顯示圖示</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
@@ -281,19 +281,19 @@ Fuzzy</comment>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>終端設定</value>
+    <value>終端機設定</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>終端</value>
+    <value>終端機</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>主題</value>
+    <value>佈景</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>添加</value>
+    <value>增加</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
@@ -305,7 +305,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>閃爍光標</value>
+    <value>閃爍游標</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
@@ -317,7 +317,7 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>檢查更新...</value>
+    <value>正在檢查更新...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
@@ -353,15 +353,15 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>光標欄</value>
+    <value>直線段</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>光標區塊</value>
+    <value>方塊</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>光標風格</value>
+    <value>游標樣式</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
@@ -412,7 +412,7 @@ Fuzzy</comment>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>許可</value>
+    <value>使用授權</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
@@ -492,7 +492,7 @@ Fuzzy</comment>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>滾動條風格</value>
+    <value>捲軸樣式</value>
     <comment>TerminalSettings.xaml
 Fuzzy</comment>
   </data>
@@ -517,11 +517,11 @@ Fuzzy</comment>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>終端</value>
+    <value>終端機</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>主題</value>
+    <value>佈景：</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
@@ -565,7 +565,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>確定要刪除此主題嗎?</value>
+    <value>確定要刪除此佈景嗎?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -580,12 +580,12 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>確定恢復默認的組合鍵嗎?</value>
+    <value>確定恢復預設的組合鍵嗎?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>確定要恢復滑鼠設定嗎?</value>
+    <value>確定要復原滑鼠設定嗎?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -595,17 +595,17 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>確定恢復默認終端選項嗎?</value>
+    <value>確定復原預設的終端機選項嗎?</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>已被政策禁止。</value>
+    <value>已被規則禁止。</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>已被使用者禁止。請在工作管理員的&quot;開機&quot;分頁中重新啟動它。</value>
+    <value>已被使用者禁止。請在工作管理員的「開機」分頁中重新啟動它。</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -624,7 +624,7 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>匯入主題失敗</value>
+    <value>匯入佈景失敗</value>
     <comment>ViewModel
 Fuzzy</comment>
   </data>
@@ -655,7 +655,7 @@ Fuzzy</comment>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>添加</value>
+    <value>增加</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
@@ -719,39 +719,39 @@ Fuzzy</comment>
 Fuzzy</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>切換到終端1</value>
+    <value>切換至終端機1</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>切換到終端2</value>
+    <value>切換至終端機2</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>切換到終端3</value>
+    <value>切換至終端機3</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>切換到終端4</value>
+    <value>切換至終端機4</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>切換到終端5</value>
+    <value>切換至終端機5</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>切換到終端6</value>
+    <value>切換至終端機6</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>切換到終端7</value>
+    <value>切換至終端機7</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>切換到終端8</value>
+    <value>切換至終端機8</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>切換到終端9</value>
+    <value>切換至終端機9</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
@@ -781,11 +781,11 @@ Fuzzy</comment>
     <value>主機</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>埠</value>
+    <value>連接埠</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>認證文件路徑</value>
+    <value>認證檔路徑</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
     <value>瀏覽</value>
@@ -798,21 +798,21 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Most ports:</value>
+    <value>Most 連接埠：</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
     <value>儲存快捷鍵</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>重新啟動以更新設置。</value>
+    <value>重新啟動以套用設定。</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
     <value>無效輸入</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>埠無法為 0。</value>
+    <value>埠號無法為 0。</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
     <value>使用者名稱與主機名為必填。</value>
@@ -865,7 +865,7 @@ Fuzzy</comment>
     <value>SSH 設定</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>分頁顏色:</value>
+    <value>分頁顏色：</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
     <value>使用 ConPty</value>
@@ -893,11 +893,11 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>識別檔案不存在</value>
+    <value>認證檔不存在</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>不指定使用者名稱時，使用 Windows 使用者名稱開啟 SHH URLs</value>
+    <value>不指定使用者名稱時，使用 Windows 使用者名稱開啟 SSH URLs</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
     <value>SSH 連接預設使用 Mosh</value>
@@ -909,14 +909,14 @@ Fuzzy</comment>
     <value>預設使用 quick SSH</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>無效指令。</value>
+    <value>無效的指令。</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>地址不可為空。</value>
+    <value>地址不可為空白。</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>關閉終端音效</value>
+    <value>關閉終端機音效</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
     <value>輸入指令 (例: &apos;ssh username@host&apos;)</value>
@@ -926,7 +926,7 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>不支援的指令:</value>
+    <value>不支援的指令：</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
     <value>缺少指令參數。</value>
@@ -945,10 +945,10 @@ Fuzzy</comment>
     <value>新的快速分頁</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>檔案不存在:</value>
+    <value>檔案不存在：</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>無效連結。</value>
+    <value>無效的連結。</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
     <value>刪除此分頁</value>
@@ -1000,18 +1000,18 @@ Fuzzy</comment>
     <comment>Fuzzy</comment>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>只輸出可印出內容</value>
+    <value>只輸出可顯示的內容</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>紀錄輸出以debugging</value>
+    <value>紀錄偵錯用的輸出內容</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
     <value>文字分隔符號</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>最近</value>
+    <value>最近使用</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
     <value>使用預設設定開啟新分頁</value>
@@ -1020,7 +1020,7 @@ Fuzzy</comment>
     <value>在新分頁開啟新 SSH 或 Mosh 對談。</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>開啟&quot;快速啟動&quot;對話框並在新分頁開啟對談。</value>
+    <value>開啟「快速啟動」對話窗並於新分頁開啟對談。</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
     <value>打開設定視窗。</value>
@@ -1044,7 +1044,7 @@ Fuzzy</comment>
     <value>快速啟動...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>打開&quot;快速啟動&quot;對話框以啟動新的終端對談</value>
+    <value>打開「快速啟動」對話框以啟動新的終端對談</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
     <value>新視窗</value>
@@ -1062,10 +1062,10 @@ Fuzzy</comment>
     <value>應用程式目錄類型</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>扁平化，使用 &quot;打開新終端為&quot; 設定</value>
+    <value>扁平化，使用 「打開新終端機為」設定</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;新分頁&quot; / &quot;新視窗&quot;級聯目錄</value>
+    <value>「新分頁」 / 「新視窗」級聯目錄</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
     <value>退出</value>
@@ -1074,7 +1074,7 @@ Fuzzy</comment>
     <value>退出 Fluent Terminal</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>已被政策啟用。</value>
+    <value>已被規則啟用。</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
     <value>背景圖片</value>
@@ -1083,10 +1083,10 @@ Fuzzy</comment>
     <value>使用半透明背景</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>確定刪除此背景圖片?</value>
+    <value>確定刪除此背景圖片？</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>顏色</value>
+    <value>色彩</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
     <value>明亮顏色</value>
@@ -1095,7 +1095,7 @@ Fuzzy</comment>
     <value>複製連結</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
-    <value>正規表示式</value>
+    <value>正則表示式</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
     <value>全字拼寫需相符</value>
@@ -1113,18 +1113,18 @@ Fuzzy</comment>
     <value>重新啟動</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>對談連線結束。</value>
+    <value>連線階段已結束。</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>放大字體大小</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>Decrease font size</value>
+    <value>縮小字體大小</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>Reset font size</value>
+    <value>重設字體大小</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>Reconnect tab</value>
+    <value>重新連線分頁</value>
   </data>
 </root>

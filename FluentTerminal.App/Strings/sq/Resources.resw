@@ -118,1019 +118,950 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutDialog.Title" xml:space="preserve">
-    <value>정보</value>
+    <value>Rreth</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="Background.Content" xml:space="preserve">
-    <value>배경</value>
+    <value>Sfondi</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Blue" xml:space="preserve">
-    <value>파란색</value>
+    <value>Blu</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>닫기</value>
+    <value>Mbylle</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ConfirmWindowClosing.Header" xml:space="preserve">
-    <value>창을 닫기 전에 물어보기</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Pyesni para se të mbyllni dritaret</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ConfirmTabClosing.Header" xml:space="preserve">
-    <value>탭을 닫기 전에 물어보기</value>
+    <value>Pyesni përpara se të mbyllni skedat</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Color.Text" xml:space="preserve">
-    <value>색상</value>
+    <value>Ngjyrë</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ColorInactiveTabs.Text" xml:space="preserve">
-    <value>비활성 탭 색상</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Ngjyra në skedat joaktive</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Command.Copy" xml:space="preserve">
-    <value>복사</value>
+    <value>Kopjoni</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="CustomTitle.Header" xml:space="preserve">
-    <value>사용자 정의 탭 제목을 제목 표시줄에도 표시</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Shfaq titullin e personalizuar të skedës edhe në shiritin e titullit</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="EditTitle.Text" xml:space="preserve">
-    <value>제목 편집</value>
-    <comment>TabBar.xaml
-Fuzzy</comment>
+    <value>Redakto Titullin</value>
+    <comment>TabBar.xaml</comment>
   </data>
   <data name="General.Text" xml:space="preserve">
-    <value>일반</value>
+    <value>Gjeneral</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Green" xml:space="preserve">
-    <value>초록색</value>
+    <value>Jeshile</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="IndicatorOutput.Header" xml:space="preserve">
-    <value>백그라운드 탭에 &apos;새 출력 표시기&apos; 사용</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Trego treguesin e ri të daljes në skedat e sfondit</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NeedRelaunch.Text" xml:space="preserve">
-    <value>프로그램을 다시 시작하여 설정 적용</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Kërkohet rinisja për të aplikuar cilësimin</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="NewTab.Text" xml:space="preserve">
-    <value>새 탭</value>
+    <value>Tab i ri</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="TabTheme.None" xml:space="preserve">
-    <value>없음</value>
+    <value>Asnje</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="ONTA_Tabs.Content" xml:space="preserve">
-    <value>탭</value>
+    <value>Skedat</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="ONTA_Windows.Content" xml:space="preserve">
-    <value>창</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Dritaret</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="OpenNewTerminalAs.Text" xml:space="preserve">
-    <value>새 터미널을 다음으로 열기</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Hapni terminale të reja si</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Orange" xml:space="preserve">
-    <value>주황색</value>
+    <value>Portokalli</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Command.Paste" xml:space="preserve">
-    <value>붙여넣기</value>
+    <value>Ngjit</value>
     <comment>XtermTerminalView.xaml.cs</comment>
   </data>
   <data name="TabTheme.Purple" xml:space="preserve">
-    <value>보라색</value>
+    <value>Vjollcë</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TabTheme.Red" xml:space="preserve">
-    <value>빨간색</value>
+    <value>E kuqe</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="Restore.Label" xml:space="preserve">
-    <value>기본값 복원</value>
+    <value>Rikthe Parazgjedhjet</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="RunOnStartup.Header" xml:space="preserve">
-    <value>Windows 시작 시 실행</value>
+    <value>Vraponi në fillimin</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting" xml:space="preserve">
-    <value>설정</value>
-    <comment>SettingsPage.xaml.cs
-Fuzzy</comment>
+    <value>Cilësimet</value>
+    <comment>SettingsPage.xaml.cs</comment>
   </data>
   <data name="Settings.Text" xml:space="preserve">
-    <value>설정</value>
+    <value>Cilësimet</value>
     <comment>MainPage.xaml</comment>
   </data>
   <data name="SystemTray.Header" xml:space="preserve">
-    <value>알림 영역에 표시</value>
+    <value>Trego në sirtarin e sistemit</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabsPostion.Text" xml:space="preserve">
-    <value>다음 위치에 탭 표시</value>
-    <comment>GeneralSettings.xaml
-Fuzzy</comment>
+    <value>Shfaq skedat e ndezura</value>
+    <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TabTheme.Teal" xml:space="preserve">
-    <value>청록색</value>
+    <value>Luledele</value>
     <comment>TabBar.xaml</comment>
   </data>
   <data name="TP_Bottom.Content" xml:space="preserve">
-    <value>아래</value>
+    <value>Fund</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="TP_Top.Content" xml:space="preserve">
-    <value>위</value>
+    <value>Top</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Underline.Content" xml:space="preserve">
-    <value>밑줄</value>
+    <value>Nënvizo</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="UnderlineTab.Header" xml:space="preserve">
-    <value>선택한 탭에 밑줄</value>
+    <value>Nënvizo skedën e zgjedhur</value>
     <comment>GeneralSettings.xaml</comment>
   </data>
   <data name="Setting_About.Content" xml:space="preserve">
-    <value>정보</value>
+    <value>Rreth</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_General.Content" xml:space="preserve">
-    <value>일반</value>
+    <value>Gjeneral</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Keybindings.Content" xml:space="preserve">
-    <value>키 설정</value>
+    <value>Lidhëse çelësash</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Mouse.Content" xml:space="preserve">
-    <value>마우스</value>
+    <value>Miu</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Profiles.Content" xml:space="preserve">
-    <value>프로필</value>
+    <value>Profilet</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Terminal.Content" xml:space="preserve">
-    <value>터미널</value>
+    <value>Terminal</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Setting_Themes.Content" xml:space="preserve">
-    <value>테마</value>
+    <value>Temat</value>
     <comment>SettingsPage.xaml</comment>
   </data>
   <data name="Add.Content" xml:space="preserve">
-    <value>추가</value>
+    <value>Shto</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Arguments.Header" xml:space="preserve">
-    <value>인수</value>
+    <value>Argumente</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="BackgroundOpacity.Header" xml:space="preserve">
-    <value>배경 투명도</value>
+    <value>Perde e sfondit</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BlinkingCursor.Header" xml:space="preserve">
-    <value>깜빡이는 커서</value>
+    <value>Kurse kursorin</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="BoldText.Header" xml:space="preserve">
-    <value>굵은 글씨</value>
+    <value>Teksti i trashë</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
-    <value>취소</value>
+    <value>Anulo</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>업데이트 확인 중...</value>
+    <value>Po kontrollon për azhurnime ...</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CheckUpdates.Label" xml:space="preserve">
-    <value>업데이트 확인</value>
+    <value>Kontrolloni për azhurnime</value>
     <comment>About.xaml</comment>
   </data>
   <data name="ClickColorEdit.Text" xml:space="preserve">
-    <value>편집할 색상을 선택하세요.</value>
+    <value>Klikoni në një ngjyrë për të ndryshuar</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CloneAppBarButton.Label" xml:space="preserve">
-    <value>복제</value>
+    <value>Kloni</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ColorPalette.Text" xml:space="preserve">
-    <value>색상 팔레트</value>
+    <value>Paleta e ngjyrave</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="CopiedNotification.Header" xml:space="preserve">
-    <value>텍스트 복사 알림</value>
+    <value>Njoftimi i kopjuar me tekst</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CopyOnSelect.Header" xml:space="preserve">
-    <value>선택 시 복사</value>
+    <value>Kopjoni në zgjedh</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="CreateProfile.Text" xml:space="preserve">
-    <value>새로 만들기</value>
+    <value>Krijoni të reja</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="CurrentVersion.Text" xml:space="preserve">
-    <value>현재 버전</value>
+    <value>Versioni aktual</value>
     <comment>About.xaml</comment>
   </data>
   <data name="CursorBar.Content" xml:space="preserve">
-    <value>바</value>
+    <value>Lokal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorBlock.Content" xml:space="preserve">
-    <value>블록</value>
+    <value>Bllokoj</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorStyle.Text" xml:space="preserve">
-    <value>커서 스타일</value>
+    <value>Stili i kursorit</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="CursorUnderline.Content" xml:space="preserve">
-    <value>밑줄</value>
+    <value>Nënvizo</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
-    <value>삭제</value>
+    <value>Fshij</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.DoNotModify" xml:space="preserve">
-    <value>줄 끝 변경 안 함</value>
+    <value>Mos modifiko mbaresat e rreshtit</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="EditAppBarButton.Label" xml:space="preserve">
-    <value>편집</value>
+    <value>Redakto</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ExportAppBarButton.Label" xml:space="preserve">
-    <value>내보내기</value>
+    <value>Eksporto</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="FontFamily.Header" xml:space="preserve">
-    <value>글꼴 패밀리</value>
+    <value>Familja e shkronjave</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="FontSize.Header" xml:space="preserve">
-    <value>글꼴 크기</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Përmasa e germave</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ImportTheme.Text" xml:space="preserve">
-    <value>가져오기</value>
-    <comment>ThemeSettings.xaml
-Fuzzy</comment>
+    <value>Importit</value>
+    <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut.Header" xml:space="preserve">
-    <value>키보드 단축키</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Shkurtorja e tastierës</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="KeyboardShortcut1.Text" xml:space="preserve">
-    <value>키보드 단축키</value>
+    <value>Shkurtorja e tastierës</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LatestVersion.Text" xml:space="preserve">
-    <value>최신 버전</value>
+    <value>Versioni i fundit</value>
     <comment>About.xaml</comment>
   </data>
   <data name="License.Text" xml:space="preserve">
-    <value>라이선스</value>
+    <value>Liçensë</value>
     <comment>About.xaml</comment>
   </data>
   <data name="LineEndingMode.Header" xml:space="preserve">
-    <value>줄 끝 변환 모드</value>
+    <value>Modaliteti i përkthimit që përfundon rreshtin</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingModeOnPaste.Text" xml:space="preserve">
-    <value>붙여넣기 시 줄 끝 변환 모드:</value>
+    <value>Modaliteti i përkthimit që përfundon rreshtin në ngjitje:</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="MiddleButtonAction.Text" xml:space="preserve">
-    <value>가운데 버튼 동작</value>
-    <comment>MouseSettings.xaml
-Fuzzy</comment>
+    <value>Veprimi i butonit të mesëm</value>
+    <comment>MouseSettings.xaml</comment>
   </data>
   <data name="Mouse.Text" xml:space="preserve">
-    <value>마우스</value>
+    <value>Miu</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseContextMenu.Content" xml:space="preserve">
-    <value>오른쪽 클릭 메뉴</value>
+    <value>Menyja e kontekstit</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MouseNothing.Content" xml:space="preserve">
-    <value>없음</value>
+    <value>Asgjë</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="MousePaste.Content" xml:space="preserve">
-    <value>붙여넣기</value>
+    <value>Ngjit</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="NewTheme.Text" xml:space="preserve">
-    <value>새로 만들기</value>
+    <value>Krijoni të reja</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="Padding.Header" xml:space="preserve">
-    <value>여백</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Mbushje</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ProfileName.Header" xml:space="preserve">
-    <value>이름</value>
+    <value>Emrin</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Profiles.Text" xml:space="preserve">
-    <value>프로필</value>
+    <value>Profilet</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ProfileTheme.Header" xml:space="preserve">
-    <value>테마</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Tema</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ReleaseNotes.Text" xml:space="preserve">
-    <value>릴리즈 노트</value>
+    <value>Lëshoni shënime</value>
     <comment>About.xaml</comment>
   </data>
   <data name="RightButtonAction.Text" xml:space="preserve">
-    <value>오른쪽 버튼 동작</value>
+    <value>Veprimi i butonit të djathtë</value>
     <comment>MouseSettings.xaml</comment>
   </data>
   <data name="SaveAppBarButton.Label" xml:space="preserve">
-    <value>저장</value>
+    <value>Ruaj</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ScrollbackLimit.Header" xml:space="preserve">
-    <value>스크롤 백 제한</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Kufiri i kthimit</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarAuto.Content" xml:space="preserve">
-    <value>자동 숨김</value>
+    <value>Fshehja automatike</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarHidden.Content" xml:space="preserve">
-    <value>숨김</value>
+    <value>I fshehur</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollbarStyle.Text" xml:space="preserve">
-    <value>스크롤 바 모양</value>
-    <comment>TerminalSettings.xaml
-Fuzzy</comment>
+    <value>Stili i shiritit lëvizës</value>
+    <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="ScrollBarVisible.Content" xml:space="preserve">
-    <value>보이게</value>
+    <value>E dukshme</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="SetActiveAppBarButton.Label" xml:space="preserve">
-    <value>활성화</value>
+    <value>Vendosni Aktiv</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="SetDefaultAppBarButton.Label" xml:space="preserve">
-    <value>기본값으로 설정</value>
+    <value>Vendos Default</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ShellLocation.Header" xml:space="preserve">
-    <value>셸 실행 파일 경로</value>
+    <value>Vendndodhja e ekzekutueshme e Shellit</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="TabColor.Header" xml:space="preserve">
-    <value>탭 색상</value>
+    <value>Ngjyra e skedës</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="Terminal.Text" xml:space="preserve">
-    <value>터미널</value>
+    <value>Terminal</value>
     <comment>TerminalSettings.xaml</comment>
   </data>
   <data name="Theme.Text" xml:space="preserve">
-    <value>테마:</value>
+    <value>Tema:</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeAuthor.Header" xml:space="preserve">
-    <value>제작자</value>
+    <value>Autor</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="ThemeName.Header" xml:space="preserve">
-    <value>이름</value>
+    <value>Emrin</value>
     <comment>ThemeSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCR" xml:space="preserve">
-    <value>줄 끝을 CR로 변환</value>
+    <value>Shndërroni mbaresat e linjës në CR</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToCRLF" xml:space="preserve">
-    <value>줄 끝을 CR+LF로 변환</value>
+    <value>Shndërroni mbaresat e linjës në CR + LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="LineEndingStyle.ToLF" xml:space="preserve">
-    <value>줄 끝을 LF로 변환</value>
+    <value>Shndërroni mbaresat e linjës në LF</value>
     <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="WorkingDir.Header" xml:space="preserve">
-    <value>작업 디렉터리</value>
-    <comment>ShellProfileSettings.xaml
-Fuzzy</comment>
+    <value>Drejtoria e punës</value>
+    <comment>ShellProfileSettings.xaml</comment>
   </data>
   <data name="ConfirmCloseTab" xml:space="preserve">
-    <value>정말 &quot;{0}&quot; 탭을 닫으시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Je i sigurt që dëshiron të mbyllësh skedën &quot;{0}&quot;?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmCloseWindow" xml:space="preserve">
-    <value>정말 이 창을 닫으시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Je i sigurt që dëshiron ta mbyllësh këtë dritare?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteKeybindings" xml:space="preserve">
-    <value>정말 이 키 설정을 삭제하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Je i sigurt që dëshiron ta fshish këtë lidhëse çelësash?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDeleteTheme" xml:space="preserve">
-    <value>정말 이 테마를 삭제하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Je i sigurt që dëshiron ta fshish këtë temë?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmDiscardChanges" xml:space="preserve">
-    <value>정말 모든 변경 사항을 취소하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Jeni i sigurt që doni të hidhni të gjitha ndryshimet?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreGeneralSettings" xml:space="preserve">
-    <value>정말 기본 설정으로 복원하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>A jeni i sigurt që dëshironi të riktheni cilësimet e përgjithshme?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreKeybindings" xml:space="preserve">
-    <value>정말 키 설정을 기본값으로 복원하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Jeni i sigurt që dëshironi të riktheni lidhjet e paracaktuara të çelësave?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreMouseSettings" xml:space="preserve">
-    <value>정말 마우스 설정을 복원하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>A jeni i sigurt që doni të rivendosni cilësimet e miut?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreProfile" xml:space="preserve">
-    <value>정말 이 프로필을 복원하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Jeni i sigurt që doni ta riktheni këtë profil?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ConfirmRestoreTerminalOptions" xml:space="preserve">
-    <value>정말 터미널 기본 설정을 복원하시겠습니까?</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Jeni i sigurt që dëshironi të riktheni opsionet e paracaktuara të terminalit?</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="DisabledByPolicy" xml:space="preserve">
-    <value>정책에 의해 비활성화되었습니다.</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Paaftësi nga politika.</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="DisabledByUser" xml:space="preserve">
-    <value>사용자에 의해 비활성화되었습니다. 작업 관리자의 시작 탭에서 다시 활성화해 주세요.</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Paaftësi nga përdoruesi. Ju lutemi riaktivizoni atë në skedën Startup të Task Manager.</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="EditTitleString" xml:space="preserve">
-    <value>제목 편집</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Redakto Titullin</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>오류</value>
+    <value>Gabim</value>
     <comment>ViewModel</comment>
   </data>
   <data name="ErrorString1" xml:space="preserve">
-    <value>다음 오류로 인해 작업을 완료할 수 없음:</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Operacioni nuk mund të përfundojë për shkak të gabimit të mëposhtëm:</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="ImportThemeFailed" xml:space="preserve">
-    <value>테마 가져오기 실패</value>
-    <comment>ViewModel
-Fuzzy</comment>
+    <value>Tema e importit dështoi</value>
+    <comment>ViewModel</comment>
   </data>
   <data name="NoSuitableParserFound" xml:space="preserve">
-    <value>적절한 파서를 찾지 못함</value>
+    <value>Nuk u gjet asnjë analizues i përshtatshëm</value>
     <comment>ViewModel</comment>
   </data>
   <data name="PleaseConfirm" xml:space="preserve">
-    <value>확인 필요</value>
+    <value>Ju lutemi konfirmoni</value>
     <comment>ViewModel</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>취소</value>
+    <value>Anulo</value>
   </data>
   <data name="KeybindingDialogTitle.Text" xml:space="preserve">
-    <value>지금 설정할 키를 입력하세요.</value>
-    <comment>Fuzzy</comment>
+    <value>Futni lidhjen tuaj tani</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>확인</value>
-    <comment>Fuzzy</comment>
+    <value>Ne rregull</value>
   </data>
   <data name="ResetBtn.Content" xml:space="preserve">
-    <value>초기화</value>
+    <value>Rivendos</value>
   </data>
   <data name="TextCopied" xml:space="preserve">
-    <value>텍스트 복사됨</value>
+    <value>Teksti u kopjua</value>
     <comment>ViewModel</comment>
   </data>
   <data name="AddAppBarButton.Label" xml:space="preserve">
-    <value>추가</value>
+    <value>Shto</value>
     <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Command.ChangeTabTitle" xml:space="preserve">
-    <value>탭 제목 변경</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ndrysho titullin e skedës</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.Clear" xml:space="preserve">
-    <value>모두지움</value>
+    <value>Qartë</value>
     <comment>Command</comment>
   </data>
   <data name="Command.CloseTab" xml:space="preserve">
-    <value>탭 닫기</value>
+    <value>Mbylle skedën</value>
     <comment>Command</comment>
   </data>
   <data name="Keybindings.Text" xml:space="preserve">
-    <value>키 설정</value>
-    <comment>KeyBindingSettings.xaml
-Fuzzy</comment>
+    <value>Lidhëse çelësash</value>
+    <comment>KeyBindingSettings.xaml</comment>
   </data>
   <data name="Delete.Content" xml:space="preserve">
-    <value>삭제</value>
+    <value>Fshij</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="KeyBindingsViewEdit.Content" xml:space="preserve">
-    <value>편집</value>
+    <value>Redakto</value>
     <comment>KeyBindingsView.xaml</comment>
   </data>
   <data name="Command.NewTab" xml:space="preserve">
-    <value>새 탭</value>
+    <value>Tab i ri</value>
     <comment>Command</comment>
   </data>
   <data name="Command.NewWindow" xml:space="preserve">
-    <value>새 창</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Dritare e re</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.NextTab" xml:space="preserve">
-    <value>다음 탭</value>
+    <value>Skeda tjetër</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PasteWithoutNewlines" xml:space="preserve">
-    <value>줄 바꿈 없이 붙여넣기</value>
+    <value>Ngjit pa linja të reja</value>
     <comment>Command</comment>
   </data>
   <data name="Command.PreviousTab" xml:space="preserve">
-    <value>이전 탭</value>
+    <value>Skeda e mëparshme</value>
     <comment>Command</comment>
   </data>
   <data name="Command.Search" xml:space="preserve">
-    <value>찾기</value>
+    <value>Kërko</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SelectAll" xml:space="preserve">
-    <value>모두 선택</value>
+    <value>Selektoj të gjitha</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ShowSettings" xml:space="preserve">
-    <value>설정 표시</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Shfaq cilësimet</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm1" xml:space="preserve">
-    <value>터미널 1로 전환</value>
+    <value>Kaloni në Terminalin 1</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm2" xml:space="preserve">
-    <value>터미널 2로 전환</value>
+    <value>Kaloni në Terminalin 2</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm3" xml:space="preserve">
-    <value>터미널 3으로 전환</value>
+    <value>Kaloni në Terminalin 3</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm4" xml:space="preserve">
-    <value>터미널 4로 전환</value>
+    <value>Kaloni në Terminalin 4</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm5" xml:space="preserve">
-    <value>터미널 5로 전환</value>
+    <value>Kaloni në Terminalin 5</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm6" xml:space="preserve">
-    <value>터미널 6으로 전환</value>
+    <value>Kaloni në Terminalin 6</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm7" xml:space="preserve">
-    <value>터미널 7로 전환</value>
+    <value>Kaloni në Terminalin 7</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm8" xml:space="preserve">
-    <value>터미널 8로 전환</value>
+    <value>Kaloni në Terminalin 8</value>
     <comment>Command</comment>
   </data>
   <data name="Command.SwitchToTerm9" xml:space="preserve">
-    <value>터미널 9로 전환</value>
+    <value>Kaloni në Terminalin 9</value>
     <comment>Command</comment>
   </data>
   <data name="Command.ToggleFullScreen" xml:space="preserve">
-    <value>전체 화면 전환</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Aktivizo ekranin e plotë</value>
+    <comment>Command</comment>
   </data>
   <data name="Command.ToggleWindow" xml:space="preserve">
-    <value>창 전환</value>
-    <comment>Command
-Fuzzy</comment>
+    <value>Ndërro dritaren</value>
+    <comment>Command</comment>
   </data>
   <data name="NewSshTab.Text" xml:space="preserve">
-    <value>새 원격 탭</value>
-    <comment>Fuzzy</comment>
+    <value>Skedë e re e largët</value>
   </data>
   <data name="Command.NewSshTab" xml:space="preserve">
-    <value>새 SSH 탭</value>
+    <value>Skeda e re SSH</value>
   </data>
   <data name="SshInfoDialog.Title" xml:space="preserve">
-    <value>SSH 정보</value>
+    <value>SSH Info</value>
   </data>
   <data name="UserTextBox.PlaceholderText" xml:space="preserve">
-    <value>사용자</value>
+    <value>përdorues</value>
   </data>
   <data name="HostTextBox.PlaceholderText" xml:space="preserve">
-    <value>호스트</value>
+    <value>mikpritës</value>
   </data>
   <data name="PortTextBox.PlaceholderText" xml:space="preserve">
-    <value>포트</value>
-    <comment>Fuzzy</comment>
+    <value>port</value>
   </data>
   <data name="IdentityFileTextBox.PlaceholderText" xml:space="preserve">
-    <value>아이덴티티 파일 경로</value>
-    <comment>Fuzzy</comment>
+    <value>Rruga e skedarit të identitetit</value>
   </data>
   <data name="BrowseButton.Content" xml:space="preserve">
-    <value>찾아보기</value>
+    <value>Shfletoni</value>
   </data>
   <data name="UseMoshCheckBox.Content" xml:space="preserve">
-    <value>Mosh 사용</value>
+    <value>Përdorni Mosh</value>
   </data>
   <data name="AdvancedExpander.Header" xml:space="preserve">
-    <value>고급</value>
-    <comment>Fuzzy</comment>
+    <value>Avancuar</value>
   </data>
   <data name="MoshPorts.Text" xml:space="preserve">
-    <value>Mosh 포트:</value>
+    <value>Portet Mosh:</value>
   </data>
   <data name="SaveShortcutButton.Content" xml:space="preserve">
-    <value>바로 가기 저장</value>
-    <comment>Fuzzy</comment>
+    <value>Ruaj shkurtoren</value>
   </data>
   <data name="NeedsToRestart.Text" xml:space="preserve">
-    <value>변경 사항을 적용하려면 앱을 다시 시작해야 합니다.</value>
+    <value>Aplikimi duhet të riniset që ky ndryshim të hyjë në fuqi.</value>
   </data>
   <data name="InvalidInput" xml:space="preserve">
-    <value>잘못된 입력</value>
-    <comment>Fuzzy</comment>
+    <value>Input i pavlefshëm</value>
   </data>
   <data name="PortCannotBeZero" xml:space="preserve">
-    <value>포트는 0으로 설정할 수 없습니다.</value>
+    <value>Porti nuk mund të jetë 0.</value>
   </data>
   <data name="UserAndHostMandatory" xml:space="preserve">
-    <value>사용자 및 호스트는 반드시 입력해야 합니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Përdoruesi dhe hosti janë fusha të detyrueshme.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.UsernameEmpty" xml:space="preserve">
-    <value>사용자 이름은 비워둘 수 없습니다.</value>
+    <value>Emri i përdoruesit nuk mund të jetë bosh.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.HostEmpty" xml:space="preserve">
-    <value>호스트는 비워둘 수 없습니다.</value>
+    <value>Pritësi nuk mund të jetë bosh.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.SshPortZeroOrNegative" xml:space="preserve">
-    <value>SSH 포트는 0보다 큰 값으로 설정해야 합니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Porta SSH duhet të jetë më e madhe se zero.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortZeroOrNegative" xml:space="preserve">
-    <value>Mosh 포트는 0으로 설정할 수 없습니다.</value>
+    <value>Porta Mosh nuk mund të jetë zero.</value>
   </data>
   <data name="SshConnectionInfoValidationResult.MoshPortRangeInvalid" xml:space="preserve">
-    <value>Mosh 포트 범위가 잘못되었습니다.</value>
+    <value>Diapazoni i portit Mosh është i pavlefshëm.</value>
   </data>
   <data name="Yes.Text" xml:space="preserve">
-    <value>예</value>
+    <value>po</value>
   </data>
   <data name="No.Text" xml:space="preserve">
-    <value>아니오</value>
+    <value>Jo</value>
   </data>
   <data name="Language.Header" xml:space="preserve">
-    <value>언어</value>
+    <value>Gjuhe</value>
   </data>
   <data name="None.Text" xml:space="preserve">
-    <value>없음</value>
+    <value>Asnje</value>
   </data>
   <data name="NewOutput.ToolTipService.ToolTip" xml:space="preserve">
-    <value>새 출력</value>
-    <comment>Fuzzy</comment>
+    <value>Prodhim i ri</value>
   </data>
   <data name="ExitedWithError.ToolTipService.ToolTip" xml:space="preserve">
-    <value>오류로 인해 종료됨</value>
+    <value>Dalur me gabim</value>
   </data>
   <data name="ConfirmDeleteProfile" xml:space="preserve">
-    <value>정말 이 프로필을 삭제하시겠습니까?</value>
-    <comment>Fuzzy</comment>
+    <value>Je i sigurt që dëshiron ta fshish këtë profil?</value>
   </data>
   <data name="Command.NewSshWindow" xml:space="preserve">
-    <value>새 SSH 창</value>
-    <comment>Fuzzy</comment>
+    <value>Dritare e re SSH</value>
   </data>
   <data name="Setting_SShProfiles.Content" xml:space="preserve">
-    <value>SSH 프로필</value>
+    <value>Profilet e SSH</value>
   </data>
   <data name="SshInfoDialog_TabColor.Text" xml:space="preserve">
-    <value>탭 색상:</value>
+    <value>Ngjyra e skedës:</value>
   </data>
   <data name="UseConPty" xml:space="preserve">
-    <value>ConPty 사용</value>
+    <value>Përdorni ConPty</value>
   </data>
   <data name="Username.Header" xml:space="preserve">
-    <value>사용자 이름</value>
+    <value>Emri i përdoruesit</value>
   </data>
   <data name="MoshPortFrom.Header" xml:space="preserve">
-    <value>발신 포트</value>
+    <value>Nga porti</value>
   </data>
   <data name="MoshPortTo.Header" xml:space="preserve">
-    <value>수신 포트</value>
+    <value>në port</value>
   </data>
   <data name="MoshPortRange.Text" xml:space="preserve">
-    <value>Mosh 포트 범위</value>
+    <value>Diapazoni i portit Mosh</value>
   </data>
   <data name="Authenticate" xml:space="preserve">
-    <value>인증</value>
+    <value>Vërtetoj</value>
   </data>
   <data name="SettingsExported" xml:space="preserve">
-    <value>설정을 파일로 내보냈습니다.</value>
+    <value>Cilësimet u eksportuan për të skeduar</value>
   </data>
   <data name="SettingsImported" xml:space="preserve">
-    <value>설정을 파일에서 불러왔습니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Cilësimet u importuan nga skedari</value>
   </data>
   <data name="SshConnectionInfoValidationResult.IdentityFileDoesNotExist" xml:space="preserve">
-    <value>아이덴티티 파일이 존재하지 않음</value>
-    <comment>Fuzzy</comment>
+    <value>Identifikoni skedarin nuk ekziston</value>
   </data>
   <data name="AutoFallbackToWindowsUsername.Header" xml:space="preserve">
-    <value>사용자 이름이 명시되지 않은 SSH URL을 열 때 Windows 사용자 이름 사용</value>
+    <value>Përdorni emrin e përdoruesit të Windows kur hapni URL-të SSH që nuk specifikojnë një</value>
   </data>
   <data name="UseMoshByDefault.Header" xml:space="preserve">
-    <value>SSH 연결에 기본으로 Mosh 사용</value>
+    <value>Default në Mosh për lidhjet SSH</value>
   </data>
   <data name="RTrimCopiedLines.Header" xml:space="preserve">
-    <value>복사한 줄들의 우측 공백 제거</value>
-    <comment>Fuzzy</comment>
+    <value>Prerjet e djathta të kopjuara</value>
   </data>
   <data name="QuickSshDefault.Header" xml:space="preserve">
-    <value>quick SSH를 기본으로 사용</value>
+    <value>Përdorni SSH të shpejtë si parazgjedhje</value>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>잘못된 명령어입니다.</value>
+    <value>Komandë e pavlefshme.</value>
   </data>
   <data name="LocationCantBeEmpty" xml:space="preserve">
-    <value>경로는 비워둘 수 없습니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Vendndodhja nuk mund të jetë bosh.</value>
   </data>
   <data name="MuteTerminalBeeps.Header" xml:space="preserve">
-    <value>신호음 음소거</value>
+    <value>Bip-bileta terminale të heshtura</value>
   </data>
   <data name="CommandTextBox.PlaceholderText" xml:space="preserve">
-    <value>명령어를 입력하세요 (예: &apos;ssh username@host&apos;)</value>
+    <value>Vendosni një komandë (p.sh. &apos;ssh emrin e përdoruesit @ host&apos;)</value>
   </data>
   <data name="CommandLine.Header" xml:space="preserve">
-    <value>명령어</value>
-    <comment>Fuzzy</comment>
+    <value>Komanda</value>
   </data>
   <data name="UnsupportedCommand" xml:space="preserve">
-    <value>지원되지 않는 명령어:</value>
+    <value>Komanda e pambështetur:</value>
   </data>
   <data name="CommandArgumentsMandatory" xml:space="preserve">
-    <value>명령어 인수가 없습니다.</value>
+    <value>Argumentet e komandës mungojnë.</value>
   </data>
   <data name="QuickCommandDialog.Title" xml:space="preserve">
-    <value>빠른 실행</value>
+    <value>Lëshimi i shpejtë</value>
   </data>
   <data name="Command.NewCustomCommandTab" xml:space="preserve">
-    <value>새 빠른 실행 탭</value>
+    <value>Skedë e re e nisjes së shpejtë</value>
   </data>
   <data name="Command.NewCustomCommandWindow" xml:space="preserve">
-    <value>새 빠른 실행 창</value>
-    <comment>Fuzzy</comment>
+    <value>Dritare e re e lëshimit të shpejtë</value>
   </data>
   <data name="NewQuickTab.Text" xml:space="preserve">
-    <value>새 빠른 창</value>
+    <value>Skedë e re e shpejtë</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>파일을 찾을 수 없음:</value>
+    <value>Dosja nuk u gjet:</value>
   </data>
   <data name="InvalidLink" xml:space="preserve">
-    <value>잘못된 링크입니다.</value>
+    <value>Lidhje e pavlefshme.</value>
   </data>
   <data name="DropTabHere" xml:space="preserve">
-    <value>여기에 탭 끌어다 놓기</value>
-    <comment>Fuzzy</comment>
+    <value>Hidhni skedën këtu</value>
   </data>
   <data name="CloseLeft.Text" xml:space="preserve">
-    <value>좌측 탭 닫기</value>
+    <value>Mbyllni skedat në të majtë</value>
   </data>
   <data name="CloseOther.Text" xml:space="preserve">
-    <value>다른 탭 닫기</value>
+    <value>Mbyllni skedat e tjera</value>
   </data>
   <data name="CloseRight.Text" xml:space="preserve">
-    <value>우측 탭 닫기</value>
+    <value>Mbyllni skedat në të djathtë</value>
   </data>
   <data name="Command.DuplicateTab" xml:space="preserve">
-    <value>탭 복제</value>
+    <value>Skeda e kopjuar</value>
   </data>
   <data name="Duplicate.Text" xml:space="preserve">
-    <value>복제</value>
+    <value>Dublikatë</value>
   </data>
   <data name="DuplicateEnvironmentVariable" xml:space="preserve">
-    <value>같은 이름을 가진 환경 변수를 두개씩 정의할 수 없습니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Nuk mund të përcaktojë dy variabla të mjedisit me të njëjtin emër.</value>
   </data>
   <data name="EmptyEnvironmentVariableName" xml:space="preserve">
-    <value>이름이 없는 환경 변수를 정의할 수 없습니다.</value>
-    <comment>Fuzzy</comment>
+    <value>Nuk mund të përcaktojë një ndryshore të mjedisit pa një emër.</value>
   </data>
   <data name="EnvironmentVariables.Text" xml:space="preserve">
-    <value>환경 변수</value>
-    <comment>Fuzzy</comment>
+    <value>Variablat e mjedisit</value>
   </data>
   <data name="CloseSearchPanel.ToolTipService.ToolTip" xml:space="preserve">
-    <value>검색 패널 닫기</value>
-    <comment>Fuzzy</comment>
+    <value>Mbyll panelin e kërkimit</value>
   </data>
   <data name="FindNext.ToolTipService.ToolTip" xml:space="preserve">
-    <value>다음 찾기</value>
+    <value>Gjeni tjetër</value>
   </data>
   <data name="FindPrevious.ToolTipService.ToolTip" xml:space="preserve">
-    <value>이전 찾기</value>
+    <value>Gjeni të mëparshmen</value>
   </data>
   <data name="SearchTextBox.PlaceholderText" xml:space="preserve">
-    <value>검색 단어 입력</value>
-    <comment>Fuzzy</comment>
+    <value>Vendos termin e kërkimit</value>
   </data>
   <data name="Search.Text" xml:space="preserve">
-    <value>검색</value>
-    <comment>Fuzzy</comment>
+    <value>Kërko</value>
   </data>
   <data name="PrintableOutputOnly.Content" xml:space="preserve">
-    <value>표시 가능한 출력만 기록</value>
-    <comment>Fuzzy</comment>
+    <value>Vetëm prodhimi i printueshëm</value>
   </data>
   <data name="EnableLogging.Header" xml:space="preserve">
-    <value>출력을 로그에 기록 (디버깅용)</value>
-    <comment>Fuzzy</comment>
+    <value>Regjistro prodhimin për korrigjimin e gabimeve</value>
   </data>
   <data name="WordSeparator.Header" xml:space="preserve">
-    <value>띄어쓰기 문자</value>
+    <value>Karakteret ndarëse të fjalëve</value>
   </data>
   <data name="Recent.Text" xml:space="preserve">
-    <value>최근 세션</value>
+    <value>Kohët e fundit</value>
   </data>
   <data name="NewTab_Description" xml:space="preserve">
-    <value>기본 프로필을 새 탭으로 엽니다.</value>
+    <value>Hap profilin e paracaktuar në një skedë të re.</value>
   </data>
   <data name="NewSshTab_Description" xml:space="preserve">
-    <value>새 SSH 또는 Mosh 세션을 새 탭으로 엽니다.</value>
+    <value>Hap një sesion të ri SSH ose Mosh në një skedë të re.</value>
   </data>
   <data name="NewQuickTab_Description" xml:space="preserve">
-    <value>&quot;빠른 실행&quot; 대화 상자를 띄우고 새 탭에서 세션을 시작합니다.</value>
+    <value>Hap dialogun &quot;Nisja e Shpejtë&quot; dhe fillon seancën në një skedë të re.</value>
   </data>
   <data name="Settings_Description" xml:space="preserve">
-    <value>설정 창을 엽니다.</value>
+    <value>Hap dritaren e cilësimeve.</value>
   </data>
   <data name="About_Description" xml:space="preserve">
-    <value>앱의 기본 정보를 봅니다.</value>
+    <value>Informacion bazë për aplikacionin.</value>
   </data>
   <data name="Recent_Description" xml:space="preserve">
-    <value>최근에 열었던 세션들입니다.</value>
+    <value>Seancat e hapura së fundmi.</value>
   </data>
   <data name="MenuItem_DefaultProfile_Description" xml:space="preserve">
-    <value>기본 프로필에 따라 새 터미널 세션을 시작합니다.</value>
+    <value>Fillon sesionin e ri të terminalit bazuar në profilin e paracaktuar.</value>
   </data>
   <data name="MenuItem_Remote_Text" xml:space="preserve">
-    <value>원격 연결...</value>
+    <value>Lidhu në distancë ...</value>
   </data>
   <data name="MenuItem_Remote_Description" xml:space="preserve">
-    <value>새 SSH 또는 Mosh 터미널 세션을 열 대화 상자를 띄웁니다.</value>
+    <value>Hap një dialog për fillimin e një sesioni të ri terminali SSH ose Mosh.</value>
   </data>
   <data name="MenuItem_QuickLaunch_Text" xml:space="preserve">
-    <value>빠른 실행...</value>
+    <value>Nisja e shpejtë ...</value>
   </data>
   <data name="MenuItem_QuickLaunch_Description" xml:space="preserve">
-    <value>새 터미널 세션을 열 &quot;빠른 실행&quot; 대화 상자를 띄웁니다.</value>
+    <value>Hap dialogun &quot;Nisja e Shpejtë&quot; për fillimin e një seance të re terminali.</value>
   </data>
   <data name="MenuItem_NewWindow_Text" xml:space="preserve">
-    <value>새 창</value>
+    <value>Dritare e Re</value>
   </data>
   <data name="MenuItem_NewTab_Text" xml:space="preserve">
-    <value>새 탭</value>
+    <value>Tab i ri</value>
   </data>
   <data name="MenuItem_NewTab_Description" xml:space="preserve">
-    <value>새 탭에서 세션을 엽니다.</value>
+    <value>Nis një sesion në një skedë të re.</value>
   </data>
   <data name="MenuItem_NewWindow_Description" xml:space="preserve">
-    <value>새 창에서 세션을 엽니다.</value>
+    <value>Nis një sesion në një dritare të re.</value>
   </data>
   <data name="AppMenuType.Text" xml:space="preserve">
-    <value>애플리케이션 메뉴 타입</value>
+    <value>Lloji i menusë së aplikacionit</value>
   </data>
   <data name="AppMenuType_Flat.Content" xml:space="preserve">
-    <value>플랫, &quot;새 터미널을 다음으로 열기&quot; 설정을 따름</value>
+    <value>Flat, duke nderuar cilësimin &quot;Hapni terminalet e reja si&quot;</value>
   </data>
   <data name="AppMenuType_Cascading.Content" xml:space="preserve">
-    <value>&quot;새 탭&quot; / &quot;새 창&quot; 메뉴 접기</value>
+    <value>&quot;New Tab&quot; / &quot;New Window&quot; duke u kaskaduar</value>
   </data>
   <data name="Quit.Text" xml:space="preserve">
-    <value>끝내기</value>
+    <value>Lini</value>
   </data>
   <data name="Quit.Description" xml:space="preserve">
-    <value>Fluent Terminal 끝내기</value>
+    <value>Dal terminalin e rrjedhshëm</value>
   </data>
   <data name="EnabledByPolicy" xml:space="preserve">
-    <value>정책에 의해 활성화되었습니다.</value>
+    <value>Aktivizuar nga politika.</value>
   </data>
   <data name="BackgroundImage.Content" xml:space="preserve">
-    <value>배경 이미지</value>
+    <value>Imazhi i sfondit</value>
   </data>
   <data name="AcrylicBackground.Header" xml:space="preserve">
-    <value>Use acrylic background</value>
+    <value>Përdorni sfond akrilik</value>
   </data>
   <data name="ConfirmDeleteBackgroundImage" xml:space="preserve">
-    <value>정말 이 배경 이미지를 삭제하시겠습니까?</value>
+    <value>Je i sigurt që dëshiron ta fshish këtë imazh në sfond?</value>
   </data>
   <data name="Colors.Text" xml:space="preserve">
-    <value>색상</value>
+    <value>Ngjyrat</value>
   </data>
   <data name="BrightColors.Text" xml:space="preserve">
-    <value>밝은 색상</value>
+    <value>Ngjyra të ndritshme</value>
   </data>
   <data name="CopyLink" xml:space="preserve">
-    <value>링크 복사</value>
+    <value>Kopjoni lidhjen</value>
   </data>
   <data name="SearchWithRegex.ToolTipService.ToolTip" xml:space="preserve">
     <value>Regex</value>
   </data>
   <data name="SearchWholeWord.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Whole word</value>
+    <value>Fjala e tërë</value>
   </data>
   <data name="SearchCaseSensitive.ToolTipService.ToolTip" xml:space="preserve">
-    <value>대소문자 구분</value>
+    <value>Të ndjeshme ndaj çështjeve</value>
   </data>
   <data name="MouseCopySelectionOrPaste.Content" xml:space="preserve">
-    <value>Copy selection or paste</value>
+    <value>Kopjoni zgjedhjen ose ngjitni</value>
   </data>
   <data name="UseBuffer" xml:space="preserve">
-    <value>스마트 버퍼 사용</value>
+    <value>Përdorni tampon inteligjent</value>
   </data>
   <data name="RestartSession.Content" xml:space="preserve">
-    <value>재시작</value>
+    <value>Rifillo, fillo përsëri</value>
   </data>
   <data name="SessionDisconnected.Text" xml:space="preserve">
-    <value>세션 연결 끊어짐.</value>
+    <value>Seanca e shkëputur.</value>
   </data>
   <data name="Command.IncreaseFontSize" xml:space="preserve">
-    <value>글자 크기 +</value>
+    <value>Rritni madhësinë e shkronjave</value>
   </data>
   <data name="Command.DecreaseFontSize" xml:space="preserve">
-    <value>글자 크기 -</value>
+    <value>Zvogëlo madhësinë e shkronjave</value>
   </data>
   <data name="Command.ResetFontSize" xml:space="preserve">
-    <value>글자 크기 초기화</value>
+    <value>Rivendosni madhësinë e shkronjave</value>
   </data>
   <data name="Command.ReconnectTab" xml:space="preserve">
-    <value>탭 재연결하기</value>
-    <comment>Fuzzy</comment>
+    <value>Rilidhni skedën</value>
   </data>
 </root>
