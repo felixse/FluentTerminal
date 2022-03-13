@@ -37,6 +37,13 @@ namespace FluentTerminal.Models
             UseConPty = conPtyAvailable;
         }
 
+        /// <summary>
+        /// for Serializer only
+        /// </summary>
+        public SshProfile()
+        {
+        }
+
         public bool RequestConPty
         {
             set
