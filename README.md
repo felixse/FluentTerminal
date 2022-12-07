@@ -36,29 +36,41 @@ A Terminal Emulator based on UWP and web technologies.
 ![Settings window](Screenshots/settings.png)
 
 ## Languages
+- Albanian
 - Arabic
 - Arabic (Iraq)
 - Azerbaijani
 - Bosnian
+- Bulgarian
 - Chinese (Simplified)
 - Chinese (Traditional)
+- Croatian
 - Dutch
 - English
+- Esperanto
 - French
 - German
 - Hebrew
 - Hindi
+- Hungarian
 - Indonesian
 - Italian
 - Japanese
 - Korean
+- Persian
 - Polish
+- Portuguese
 - Portuguese (Brazilian)
 - Romanian
 - Russian
+- Serbian
+- Slovenian
 - Spanish
+- Swedish
 - Turkish
 - Ukrainian
+- Uzbek
+- Vietnamese
 
 
 Sign up to [POEditor](https://poeditor.com/join/project/TfKNIt826z) to help with existing translations or add a new language
