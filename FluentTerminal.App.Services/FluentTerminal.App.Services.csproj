@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="PListNet" Version="3.2.0" />
     <PackageReference Include="RestSharp" Version="107.3.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
