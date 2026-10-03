@@ -35,6 +35,16 @@
         ReconnectTab,
         IncreaseFontSize,
         DecreaseFontSize,
-        ResetFontSize
+        ResetFontSize,
+        SplitPaneVertical,
+        SplitPaneHorizontal,
+        SplitPaneDuplicate,
+        ClosePane,
+        FocusNextPane,
+        FocusPreviousPane,
+        FocusPaneUp,
+        FocusPaneDown,
+        FocusPaneLeft,
+        FocusPaneRight
     }
 }

@@ -362,6 +362,112 @@ namespace FluentTerminal.App.Services.Implementation
                             Key = (int)ExtendedVirtualKey.Number0
                         }
                     };
+                case Command.SplitPaneVertical:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.SplitPaneVertical),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.Plus
+                    }
+                };
+                case Command.SplitPaneHorizontal:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.SplitPaneHorizontal),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.Minus
+                    }
+                };
+                case Command.SplitPaneDuplicate:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.SplitPaneDuplicate),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.D
+                    }
+                };
+                case Command.ClosePane:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.ClosePane),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.W
+                    }
+                };
+                case Command.FocusNextPane:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusNextPane),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.N
+                    }
+                };
+                case Command.FocusPreviousPane:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusPreviousPane),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.P
+                    }
+                };
+                case Command.FocusPaneUp:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusPaneUp),
+                        Alt = true,
+                        Key = (int)ExtendedVirtualKey.Up
+                    }
+                };
+                case Command.FocusPaneDown:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusPaneDown),
+                        Alt = true,
+                        Key = (int)ExtendedVirtualKey.Down
+                    }
+                };
+                case Command.FocusPaneLeft:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusPaneLeft),
+                        Alt = true,
+                        Key = (int)ExtendedVirtualKey.Left
+                    }
+                };
+                case Command.FocusPaneRight:
+                    return new List<KeyBinding>
+                {
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.FocusPaneRight),
+                        Alt = true,
+                        Key = (int)ExtendedVirtualKey.Right
+                    }
+                };
                 default:
                     throw new InvalidOperationException($"Default keybindings for Command '{command}' are missing");
             }
