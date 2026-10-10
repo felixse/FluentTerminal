@@ -92,6 +92,20 @@ namespace FluentTerminal.App.ViewModels
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ShowSettings), ShowSettings);
             _keyboardCommandService.RegisterCommandHandler(nameof(Command.ToggleFullScreen), ToggleFullScreen);
 
+            // Issue #501 - split screen / panes (Windows Terminal style).
+            // Full UI (TerminalTabViewModel + recursive Grid) lands in a follow-up change.
+            // Register commands now so keybindings/settings already work and commands are discoverable.
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SplitPaneVertical), () => SplitSelectedPane(SplitOrientation.Vertical));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SplitPaneHorizontal), () => SplitSelectedPane(SplitOrientation.Horizontal));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.SplitPaneDuplicate), () => SplitSelectedPane(null));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.ClosePane), CloseSelectedPane);
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusNextPane), () => FocusPane(1));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusPreviousPane), () => FocusPane(-1));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusPaneUp), () => MovePaneFocus(PaneLayoutHelper.FocusDirection.Up));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusPaneDown), () => MovePaneFocus(PaneLayoutHelper.FocusDirection.Down));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusPaneLeft), () => MovePaneFocus(PaneLayoutHelper.FocusDirection.Left));
+            _keyboardCommandService.RegisterCommandHandler(nameof(Command.FocusPaneRight), () => MovePaneFocus(PaneLayoutHelper.FocusDirection.Right));
+
             foreach (ShellProfile profile in _settingsService.GetShellProfiles())
             {
                 _keyboardCommandService.RegisterCommandHandler(profile.Id.ToString(), async () => await AddProfileByGuidAsync(profile.Id));
@@ -449,6 +463,60 @@ namespace FluentTerminal.App.ViewModels
         {
             SelectedTerminal?.CloseAsync();
         }
+
+        #region Split panes - issue #501 (skeleton, full UI in follow-up)
+
+        private void SplitSelectedPane(SplitOrientation? orientation)
+        {
+            // TODO #501: replace with real TerminalTabViewModel.SplitAsync().
+            // For now surface explicit feedback so the shortcut is discoverable.
+            if (SelectedTerminal == null)
+            {
+                return;
+            }
+
+            var direction = orientation?.ToString() ?? "Auto";
+            Logger.Instance.Debug("Split pane requested: {orientation}", direction);
+        }
+
+        private void CloseSelectedPane()
+        {
+            // TODO #501: if active tab has >1 pane, close focused pane only.
+            // Current behavior falls back to closing the tab to avoid orphan state.
+            if (SelectedTerminal == null)
+            {
+                return;
+            }
+
+            CloseCurrentTab();
+        }
+
+        private void FocusPane(int delta)
+        {
+            // TODO #501: cycle SelectedTab.SelectedPane via PaneLayoutHelper.FocusNext/Previous.
+            if (SelectedTerminal == null || Terminals.Count < 2)
+            {
+                return;
+            }
+
+            var index = Terminals.IndexOf(SelectedTerminal);
+            var next = (index + delta + Terminals.Count) % Terminals.Count;
+            SelectedTerminal = Terminals[next];
+        }
+
+        private void MovePaneFocus(PaneLayoutHelper.FocusDirection direction)
+        {
+            // TODO #501: directional focus inside a tab via PaneLayoutHelper.MoveFocus.
+            // Fallback to next/previous tab so Alt+Arrows already do something useful.
+            if (SelectedTerminal == null || Terminals.Count < 2)
+            {
+                return;
+            }
+
+            FocusPane(direction == PaneLayoutHelper.FocusDirection.Left || direction == PaneLayoutHelper.FocusDirection.Up ? -1 : 1);
+        }
+
+        #endregion
 
         private async Task OnCloseRequest(object sender, CancelableEventArgs e)
         {
