@@ -118,14 +118,14 @@ namespace FluentTerminal.App.Views
 
             _coreTitleBar = null;
             Bindings.StopTracking();
-            TerminalContainer.Content = null;
+            TerminalContainer.Tab = null;
         }
 
         private void OnWindowActivated(object sender, WindowActivatedEventArgs e)
         {
-            if (e.WindowActivationState != CoreWindowActivationState.Deactivated && TerminalContainer.Content is TerminalView terminal)
+            if (e.WindowActivationState != CoreWindowActivationState.Deactivated && TerminalContainer != null)
             {
-                terminal.ViewModel?.FocusTerminal();
+                TerminalContainer.FocusSelectedPane();
                 ViewModel.FocusWindow();
             }
         }
