@@ -350,19 +350,41 @@ namespace FluentTerminal.App.ViewModels
 
             return ApplicationView.ExecuteOnUiThreadAsync(() =>
             {
-                var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
-                    _applicationSettings, profile, ApplicationView, _clipboardService, terminalState);
+                var terminal = CreateTerminal(profile, terminalState);
 
-                terminal.PropertyChanged += Terminal_PropertyChanged;
-                terminal.Closed += OnTerminalClosed;
-                terminal.CloseLeftTabsRequested += Terminal_CloseLeftTabsRequested;
-                terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
-                terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
-                terminal.DuplicateTabRequested += Terminal_DuplicateTabRequested;
                 Terminals.Insert(Math.Min(position, Terminals.Count), terminal);
 
                 SelectedTerminal = terminal;
             });
+        }
+
+        private TerminalViewModel CreateTerminal(ShellProfile profile, string terminalState = null)
+        {
+            var terminal = new TerminalViewModel(_settingsService, _trayProcessCommunicationService, _dialogService, _keyboardCommandService,
+                _applicationSettings, profile, ApplicationView, _clipboardService, terminalState);
+
+            WireTerminal(terminal);
+            return terminal;
+        }
+
+        private void WireTerminal(TerminalViewModel terminal)
+        {
+            terminal.PropertyChanged += Terminal_PropertyChanged;
+            terminal.Closed += OnTerminalClosed;
+            terminal.CloseLeftTabsRequested += Terminal_CloseLeftTabsRequested;
+            terminal.CloseRightTabsRequested += Terminal_CloseRightTabsRequested;
+            terminal.CloseOtherTabsRequested += Terminal_CloseOtherTabsRequested;
+            terminal.DuplicateTabRequested += Terminal_DuplicateTabRequested;
+        }
+
+        private void UnwireTerminal(TerminalViewModel terminal)
+        {
+            terminal.PropertyChanged -= Terminal_PropertyChanged;
+            terminal.Closed -= OnTerminalClosed;
+            terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
+            terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
+            terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
+            terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
         }
 
         #endregion Launching terminal sessions
@@ -447,14 +469,10 @@ namespace FluentTerminal.App.ViewModels
 
         private Task CloseAllTerminalsAsync()
         {
-            return Task.WhenAll(Terminals.Select(terminal =>
+            var all = Terminals.SelectMany(t => t.GetAllPanes()).ToList();
+            return Task.WhenAll(all.Select(terminal =>
             {
-                terminal.PropertyChanged -= Terminal_PropertyChanged;
-                terminal.Closed -= OnTerminalClosed;
-                terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
-                terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
-                terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
-                terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
+                UnwireTerminal(terminal);
                 return terminal.CloseAsync();
             }));
         }
@@ -464,37 +482,58 @@ namespace FluentTerminal.App.ViewModels
             SelectedTerminal?.CloseAsync();
         }
 
-        #region Split panes - issue #501 (skeleton, full UI in follow-up)
+        #region Split panes - issue #501
 
         private void SplitSelectedPane(SplitOrientation? orientation)
         {
-            // TODO #501: replace with real TerminalTabViewModel.SplitAsync().
-            // For now surface explicit feedback so the shortcut is discoverable.
             if (SelectedTerminal == null)
             {
                 return;
             }
 
-            var direction = orientation?.ToString() ?? "Auto";
-            Logger.Instance.Debug("Split pane requested: {orientation}", direction);
+            // New panes start from the focused pane's profile, like DuplicateTab.
+            var source = SelectedTerminal.FocusedPane ?? SelectedTerminal;
+            var newPane = CreateTerminal(source.ShellProfile.Clone());
+
+            // Duplicate (auto): pick the orientation fitting the tab best.
+            // The VM has no size info, default to side-by-side like Windows Terminal on wide tabs.
+            SelectedTerminal.SplitPaneWith(newPane, orientation ?? SplitOrientation.Vertical);
+            Logger.Instance.Debug("Split pane: {orientation}", orientation?.ToString() ?? "Auto");
         }
 
         private void CloseSelectedPane()
         {
-            // TODO #501: if active tab has >1 pane, close focused pane only.
-            // Current behavior falls back to closing the tab to avoid orphan state.
             if (SelectedTerminal == null)
             {
                 return;
             }
 
-            CloseCurrentTab();
+            if (!SelectedTerminal.HasSplitPanes)
+            {
+                CloseCurrentTab();
+                return;
+            }
+
+            // Closing goes through the tray chain (Closed -> OnTerminalClosed -> ClosePane)
+            // so views are disposed exactly like tab closes. Target the live session.
+            var target = SelectedTerminal.FocusedPane ?? SelectedTerminal;
+            (target.IsClosed ? SelectedTerminal : target).CloseAsync();
         }
 
         private void FocusPane(int delta)
         {
-            // TODO #501: cycle SelectedTab.SelectedPane via PaneLayoutHelper.FocusNext/Previous.
-            if (SelectedTerminal == null || Terminals.Count < 2)
+            if (SelectedTerminal == null)
+            {
+                return;
+            }
+
+            if (SelectedTerminal.HasSplitPanes)
+            {
+                SelectedTerminal.CyclePaneFocus(delta);
+                return;
+            }
+
+            if (Terminals.Count < 2)
             {
                 return;
             }
@@ -506,9 +545,18 @@ namespace FluentTerminal.App.ViewModels
 
         private void MovePaneFocus(PaneLayoutHelper.FocusDirection direction)
         {
-            // TODO #501: directional focus inside a tab via PaneLayoutHelper.MoveFocus.
-            // Fallback to next/previous tab so Alt+Arrows already do something useful.
-            if (SelectedTerminal == null || Terminals.Count < 2)
+            if (SelectedTerminal == null)
+            {
+                return;
+            }
+
+            if (SelectedTerminal.HasSplitPanes)
+            {
+                SelectedTerminal.MovePaneFocus(direction);
+                return;
+            }
+
+            if (Terminals.Count < 2)
             {
                 return;
             }
@@ -549,12 +597,29 @@ namespace FluentTerminal.App.ViewModels
 
             Logger.Instance.Debug("Terminal with Id: {@id} closed.", terminal.Terminal.Id);
 
-            terminal.PropertyChanged -= Terminal_PropertyChanged;
-            terminal.Closed -= OnTerminalClosed;
-            terminal.CloseLeftTabsRequested -= Terminal_CloseLeftTabsRequested;
-            terminal.CloseRightTabsRequested -= Terminal_CloseRightTabsRequested;
-            terminal.CloseOtherTabsRequested -= Terminal_CloseOtherTabsRequested;
-            terminal.DuplicateTabRequested -= Terminal_DuplicateTabRequested;
+            // Split panes close inside their tab; only whole tabs are removed here.
+            if (terminal.IsSplitPane)
+            {
+                var tab = terminal.TabRoot;
+                UnwireTerminal(terminal);
+
+                ApplicationView.ExecuteOnUiThreadAsync(() =>
+                {
+                    if (!Terminals.Contains(tab))
+                    {
+                        return;
+                    }
+                    tab.ClosePane(terminal);
+                    // Last live session gone: close the tab itself.
+                    if (tab.GetAllPanes().All(p => p.IsClosed))
+                    {
+                        tab.CloseAsync();
+                    }
+                });
+                return;
+            }
+
+            UnwireTerminal(terminal);
 
             ApplicationView.ExecuteOnUiThreadAsync(() =>
             {

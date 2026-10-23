@@ -80,12 +80,10 @@
                 TabWindowChanged="TabView_Drop"
                 Visibility="{x:Bind ViewModel.ShowTabsOnTop, Mode=OneWay}" />
         </Grid>
-        <ContentControl
+        <views:TerminalPaneView
             x:Name="TerminalContainer"
             Grid.Row="1"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"
-            Content="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay, Converter={StaticResource TerminalViewModelToViewConverter}}" />
+            Tab="{x:Bind ViewModel.SelectedTerminal, Mode=OneWay}" />
         <Rectangle
             Grid.Row="1"
             Fill="LightGray"
