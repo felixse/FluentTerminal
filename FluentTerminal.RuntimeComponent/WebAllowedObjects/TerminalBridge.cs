@@ -81,6 +81,11 @@ namespace FluentTerminal.RuntimeComponent.WebAllowedObjects
             _terminalEventListener?.OnMouseClick(MouseButton.Right, x, y, hasSelection, hoveredUri);
         }
 
+        public void NotifyPaneFocused()
+        {
+            _terminalEventListener?.OnPaneFocused();
+        }
+
         public void NotifyMiddleClick(int x, int y, bool hasSelection, string hoveredUri)
         {
             _terminalEventListener?.OnMouseClick(MouseButton.Middle, x, y, hasSelection, hoveredUri);

@@ -14,6 +14,8 @@ namespace FluentTerminal.RuntimeComponent.Interfaces
 
         void OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri);
 
+        void OnPaneFocused();
+
         void OnSelectionChanged(string selection);
 
         void OnError(string error);

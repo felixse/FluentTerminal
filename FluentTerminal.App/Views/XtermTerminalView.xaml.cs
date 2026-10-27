@@ -229,11 +229,36 @@ namespace FluentTerminal.App.Views
 
             if (_webView != null)
             {
-                _webView.Focus(FocusState.Programmatic);
+                var focused = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement() as DependencyObject;
+                if (focused == (DependencyObject)_webView)
+                {
+                    // Already keyboard-focused: calling Focus again during an
+                    // island hand-off starts a ~40Hz focus fight between WebViews.
+                    return Task.CompletedTask;
+                }
+
+                // FocusState.Programmatic does not reliably transfer the Win32
+                // keyboard focus to the WebView's HWND island, leaving the
+                // previously focused WebView still receiving keystrokes
+                // (input echoed in several panes at once). Keyboard state does.
+                _webView.Focus(FocusState.Keyboard);
                 return ExecuteScriptAsync("document.focus();");
             }
 
             return Task.CompletedTask;
+        }
+
+        public Task BlurTerminalAsync()
+        {
+            if (_terminalClosed || _webView == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            // Belt and braces for keyboard focus exclusivity between panes:
+            // give up xterm and DOM focus in this WebView even if the HWND
+            // focus hand-off above is refused by the OS.
+            return ExecuteScriptAsync("try { term.blur(); } catch (e) { } if (document.activeElement && document.activeElement.blur) { document.activeElement.blur(); }");
         }
 
         private const string OpenSSH = "OpenSSH";
@@ -326,7 +351,18 @@ namespace FluentTerminal.App.Views
                 tracker.SetSuccessfulSessionStart();
             }
 
-            await Dispatcher.ExecuteAsync(() => _webView.Focus(FocusState.Programmatic)).ConfigureAwait(false);
+            await Dispatcher.ExecuteAsync(() =>
+            {
+                // Focus at initialization is a known trigger of the UWP WebView
+                // focus war (two islands fighting for keyboard focus at ~40Hz,
+                // every pane floods focus events). Only take focus when nothing
+                // else in the window currently holds it.
+                var focused = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement() as DependencyObject;
+                if (focused == null)
+                {
+                    _webView.Focus(FocusState.Keyboard);
+                }
+            }).ConfigureAwait(false);
         }
 
         public void DisposalPrepare()
@@ -397,6 +433,21 @@ namespace FluentTerminal.App.Views
                     ((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
                 }
             }
+        }
+
+        void IxtermEventListener.OnPaneFocused()
+        {
+            if (_terminalClosed)
+            {
+                return;
+            }
+
+            // A click inside the terminal (the WebView eats XAML pointer events)
+            // must move the active-pane highlight. The OS already switches the
+            // keyboard focus to the clicked WebView on its own — only ask for
+            // another Focus() when this view was focused without a click, to
+            // avoid triggering a 40Hz focus fight between WebView islands.
+            Dispatcher.ExecuteAsync(() => ViewModel.TabRoot.FocusPane(ViewModel, focusTerminal: false), enforceNewSchedule: true);
         }
 
         async void IxtermEventListener.OnSelectionChanged(string selection)

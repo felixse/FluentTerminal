@@ -190,6 +190,14 @@ window.createTerminal = (options, theme, keyBindings) => {
     resizeTimeout = setTimeout(() => fitAddon.fit(), 500);
   }
 
+  window.onmousedown = () => {
+    // Pane focus: XAML pointer events do not bubble across the WebView, so the
+    // shell side learns about pane clicks through the bridge. The terminal
+    // reads/writes are only enabled for the focused pane anyway, and programmatic
+    // focusing (FocusTerminal) never raises mousedown, so no feedback loop.
+    window.terminalBridge.notifyPaneFocused();
+  }
+
   window.onmouseup = (e) => {
     if (e.button == 1) {
       window.terminalBridge.notifyMiddleClick(e.clientX, e.clientY, term.hasSelection(), window.hoveredUri);

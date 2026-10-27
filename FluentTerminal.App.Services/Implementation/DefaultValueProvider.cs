@@ -382,6 +382,16 @@ namespace FluentTerminal.App.Services.Implementation
                         Alt = true,
                         Shift = true,
                         Key = (int)ExtendedVirtualKey.Minus
+                    },
+                    // Layout-safe fallback: on French AZERTY (and a few other
+                    // layouts) no key produces VK 189 (the US Minus position);
+                    // the "-" lives on the 6 key, whose position code is 54.
+                    new KeyBinding
+                    {
+                        Command = nameof(Command.SplitPaneHorizontal),
+                        Alt = true,
+                        Shift = true,
+                        Key = (int)ExtendedVirtualKey.Number6
                     }
                 };
                 case Command.SplitPaneDuplicate:

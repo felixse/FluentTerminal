@@ -123,6 +123,16 @@ namespace FluentTerminal.App.ViewModels
         private readonly TabThemeViewModel _transparentTabThemeViewModel;
         private int _fontSize;
 
+        #region Split panes - issue #501 (tab root owns the pane tree)
+
+        private PaneNode _paneRoot;
+        private readonly Dictionary<int, TerminalViewModel> _panesByLeafId = new Dictionary<int, TerminalViewModel>();
+        private int _nextPaneLeafId = 1;
+        private TerminalViewModel _focusedPane;
+        private bool _isPaneFocused;
+
+        #endregion
+
         public TerminalViewModel(ISettingsService settingsService, ITrayProcessCommunicationService trayProcessCommunicationService, IDialogService dialogService,
             IKeyboardCommandService keyboardCommandService, ApplicationSettings applicationSettings, ShellProfile shellProfile,
             IApplicationView applicationView, IClipboardService clipboardService, string terminalState = null)
@@ -152,6 +162,9 @@ namespace FluentTerminal.App.ViewModels
             CloseSearchPanelCommand = new RelayCommand(CloseSearchPanel, CanExecuteCommand);
             EditTitleCommand = new AsyncRelayCommand(EditTitleAsync, CanExecuteCommand);
             DuplicateTabCommand = new RelayCommand(DuplicateTab, CanExecuteCommand);
+            SplitVerticalCommand = new RelayCommand(() => _keyboardCommandService.SendCommand(nameof(Command.SplitPaneVertical)), CanExecuteCommand);
+            SplitHorizontalCommand = new RelayCommand(() => _keyboardCommandService.SendCommand(nameof(Command.SplitPaneHorizontal)), CanExecuteCommand);
+            ClosePaneCommand = new RelayCommand(() => _keyboardCommandService.SendCommand(nameof(Command.ClosePane)), CanExecuteCommand);
             ReconnectTabCommand = new AsyncRelayCommand(ReconnectTabAsync, () => CanExecuteCommand() && HasExitedWithError);
             CopyCommand = new AsyncRelayCommand(Copy, () => HasSelection);
             PasteCommand = new AsyncRelayCommand(Paste);
@@ -199,16 +212,26 @@ namespace FluentTerminal.App.ViewModels
         }
 
         private bool _disposalRequested;
+        private bool _closeNotified;
 
         public void DisposalPrepare()
         {
             _disposalRequested = true;
-            CloseCommand = null;
+            // Keep CloseCommand alive: the tab root remains the tab container even
+            // after its own session died (a survivor pane got promoted), and the
+            // tab header's X button binds this command. Terminal.CloseAsync paths
+            // are replay-safe via CloseAsync() (session gone -> re-raise Closed).
             TerminalView.DisposalPrepare();
             TerminalView = null;
             Terminal = null;
             Overlay = null;
         }
+
+        /// <summary>
+        /// True once <see cref="DisposalPrepare"/> ran: shared hosts (the pane
+        /// view's canvas) drop this pane's visual on their next layout pass.
+        /// </summary>
+        public bool DisposalRequested => _disposalRequested;
 
         public event EventHandler Activated;
         public event EventHandler Closed;
@@ -259,6 +282,12 @@ namespace FluentTerminal.App.ViewModels
 
         public ICommand DuplicateTabCommand { get; }
 
+        public ICommand SplitVerticalCommand { get; }
+
+        public ICommand SplitHorizontalCommand { get; }
+
+        public ICommand ClosePaneCommand { get; }
+
         public AsyncRelayCommand ReconnectTabCommand { get; }
 
         public ICommand CopyLinkCommand { get; private set; }
@@ -280,8 +309,9 @@ namespace FluentTerminal.App.ViewModels
                 {
                     if (IsSelected)
                     {
-                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.Search), () => ShowSearchPanel = true);
-                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseSearch), () => CloseSearchPanel());
+                        // Search follows the focused pane so split panes stay searchable.
+                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.Search), () => FocusedPane.ShowSearchPanel = true);
+                        _keyboardCommandService.RegisterCommandHandler(nameof(Command.CloseSearch), () => FocusedPane.CloseSearchPanel());
                         HasNewOutput = false;
                     }
                     else
@@ -474,7 +504,21 @@ namespace FluentTerminal.App.ViewModels
         public Task CloseAsync()
         {
             //MessengerInstance.Unregister(this); // todo necessary?
-
+            if (Terminal == null || IsClosed)
+            {
+                // The shell session already ended and the view teardown nulled
+                // Terminal (DisposalPrepare): Terminal.CloseAsync would throw, and
+                // its Closed event has already been consumed once anyway
+                // (Terminal_Closed unsubscribes after the first fire). Re-raise the
+                // view-model event once so the tab bookkeeping completes and the
+                // tab stays closable.
+                if (!_closeNotified)
+                {
+                    _closeNotified = true;
+                    Closed?.Invoke(this, EventArgs.Empty);
+                }
+                return Task.CompletedTask;
+            }
             return Terminal.CloseAsync();
         }
 
@@ -531,7 +575,11 @@ namespace FluentTerminal.App.ViewModels
 
         private bool CanExecuteCommand()
         {
-            return Initialized && !_disposalRequested;
+            // A disposed pane must stop reacting, except for closes on the tab
+            // root: it remains the tab container even when its own session died
+            // (a survivor pane got promoted), so the tab header's X button has to
+            // stay functional until the whole tab is removed.
+            return Initialized && (!_disposalRequested || this == TabRoot);
         }
 
         private void CloseLeftTabs()
@@ -640,6 +688,7 @@ namespace FluentTerminal.App.ViewModels
 
         private void Terminal_Closed(object sender, EventArgs e)
         {
+            IsClosed = true;
             Closed?.Invoke(this, EventArgs.Empty);
             Terminal.KeyboardCommandReceived -= Terminal_KeyboardCommandReceived;
             Terminal.OutputReceived -= Terminal_OutputReceived;
@@ -757,6 +806,18 @@ namespace FluentTerminal.App.ViewModels
                         string.Format(I18N.Translate("ConfirmCloseTab"), ShellTitle), DialogButton.OK,
                         DialogButton.Cancel).ConfigureAwait(false) == DialogButton.OK)
             {
+                if (this == TabRoot && HasSplitPanes)
+                {
+                    // The X button closes the whole tab: every pane plus the
+                    // root's own session. The close notifications drive the
+                    // layout collapse and finally the tab removal.
+                    foreach (var pane in GetAllPanes().Where(p => !p.IsClosed).ToList())
+                    {
+                        await pane.CloseAsync().ConfigureAwait(false);
+                    }
+                    return;
+                }
+
                 await CloseAsync().ConfigureAwait(false);
             }
         }
@@ -780,6 +841,363 @@ namespace FluentTerminal.App.ViewModels
                 }
             }
         }
+
+        #region Split panes - issue #501
+
+        public event EventHandler PaneLayoutChanged;
+
+        /// <summary>
+        /// Raised when the focused pane changed: the view only has to refresh the
+        /// focus highlight, no need to rebuild the whole pane tree.
+        /// </summary>
+        public event EventHandler PaneFocusChanged;
+
+        /// <summary>
+        /// Leaf id of this pane inside its tab tree. Tab roots are leaf 0.
+        /// </summary>
+        public int PaneLeafId { get; private set; }
+
+        internal PaneLeafNode LeafNode { get; set; }
+
+        /// <summary>
+        /// True for panes created via split (owned by a tab root).
+        /// </summary>
+        public bool IsSplitPane { get; private set; }
+
+        public TerminalViewModel ParentTab { get; private set; }
+
+        public TerminalViewModel TabRoot => ParentTab ?? this;
+
+        public bool HasSplitPanes => TabRoot._paneRoot != null;
+
+        public PaneNode PaneTreeRoot => TabRoot._paneRoot;
+
+        public TerminalViewModel FocusedPane => TabRoot._focusedPane ?? TabRoot;
+
+        /// <summary>
+        /// True once the underlying shell session ended (Terminal.Closed fired).
+        /// </summary>
+        public bool IsClosed { get; private set; }
+
+        public bool IsPaneFocused
+        {
+            get => _isPaneFocused;
+            private set => SetProperty(ref _isPaneFocused, value);
+        }
+
+        public List<TerminalViewModel> GetAllPanes()
+        {
+            var root = TabRoot;
+            if (root._paneRoot == null)
+            {
+                // Single state: display the live primary (a promoted survivor if the root session died).
+                var primary = root._focusedPane;
+                if (primary == null || primary.IsClosed)
+                {
+                    primary = !root.IsClosed ? root : primary ?? root;
+                }
+                return new List<TerminalViewModel> { primary };
+            }
+
+            var result = new List<TerminalViewModel>();
+            foreach (var leaf in PaneLayoutHelper.GetLeaves(root._paneRoot))
+            {
+                if (leaf.Id == root.PaneLeafId)
+                {
+                    result.Add(root);
+                }
+                else if (root._panesByLeafId.TryGetValue(leaf.Id, out var pane))
+                {
+                    result.Add(pane);
+                }
+            }
+            return result;
+        }
+
+        public TerminalViewModel GetPaneByLeafId(int leafId)
+        {
+            var root = TabRoot;
+            if (leafId == root.PaneLeafId)
+            {
+                return root;
+            }
+            return root._panesByLeafId.TryGetValue(leafId, out var pane) ? pane : null;
+        }
+
+        public Task CloseAllPanesAsync()
+        {
+            var panes = GetAllPanes().Where(p => p != TabRoot).ToList();
+            return Task.WhenAll(panes.Select(p => p.CloseAsync()));
+        }
+
+        /// <summary>
+        /// Attaches <paramref name="newPane"/> next to the focused pane.
+        /// Must be called on the tab root.
+        /// </summary>
+        public void SplitPaneWith(TerminalViewModel newPane, SplitOrientation orientation)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.SplitPaneWith(newPane, orientation);
+                return;
+            }
+            if (newPane == null)
+            {
+                throw new ArgumentNullException(nameof(newPane));
+            }
+
+            var target = _focusedPane ?? this;
+            if (target.TabRoot != this || (target != this && !_panesByLeafId.ContainsKey(target.PaneLeafId)))
+            {
+                target = this;
+            }
+
+            // Never split off a dead session: fall back to the live primary, abort if none.
+            if (target.IsClosed)
+            {
+                target = GetAllPanes().FirstOrDefault(p => !p.IsClosed);
+                if (target == null)
+                {
+                    return;
+                }
+            }
+
+            if (_paneRoot == null)
+            {
+                var rootLeaf = new PaneLeafNode(target.PaneLeafId);
+                target.LeafNode = rootLeaf;
+                if (_panesByLeafId.Count == 0)
+                {
+                    _panesByLeafId[target.PaneLeafId] = target;
+                }
+                _paneRoot = rootLeaf;
+            }
+
+            var leaf = new PaneLeafNode(_nextPaneLeafId++);
+            newPane.PaneLeafId = leaf.Id;
+            newPane.LeafNode = leaf;
+            newPane.ParentTab = this;
+            newPane.IsSplitPane = true;
+            _panesByLeafId[leaf.Id] = newPane;
+
+            _paneRoot = PaneLayoutHelper.Split(_paneRoot, target.LeafNode, leaf, orientation);
+
+            FocusPane(newPane);
+            // The view repaints splits on PaneLayoutChanged (a pure focus change
+            // above no longer triggers a full rebuild).
+            PaneLayoutChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Persists a splitter drag coming from the pane view: clamps the ratio
+        /// so both sides stay visible and raises <see cref="PaneLayoutChanged"/>
+        /// so the view re-applies geometry (no rebuild, positions only).
+        /// </summary>
+        public void UpdateSplitRatio(PaneSplitNode node, double ratio)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.UpdateSplitRatio(node, ratio);
+                return;
+            }
+            if (node == null || _paneRoot == null)
+            {
+                return;
+            }
+            ratio = Math.Max(0.05, Math.Min(0.95, ratio));
+            if (Math.Abs(node.Ratio - ratio) < 0.002)
+            {
+                return;
+            }
+            node.Ratio = ratio;
+            PaneLayoutChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Removes <paramref name="pane"/> from the tab tree (its session is closed by the caller).
+        /// </summary>
+        public void ClosePane(TerminalViewModel pane)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.ClosePane(pane);
+                return;
+            }
+            if (pane == null || pane.TabRoot != this)
+            {
+                return;
+            }
+            if (_paneRoot == null)
+            {
+                // Single state: only stale focus to reset (dead promoted survivor).
+                if (pane == _focusedPane)
+                {
+                    _focusedPane = null;
+                    PaneLayoutChanged?.Invoke(this, EventArgs.Empty);
+                }
+                return;
+            }
+            var leaf = pane.LeafNode;
+            if (leaf == null)
+            {
+                return;
+            }
+
+            // Single remaining pane: the tab close flow owns it.
+            if (PaneLayoutHelper.GetLeaves(_paneRoot).Count <= 1)
+            {
+                return;
+            }
+
+            var next = PaneLayoutHelper.FocusNext(_paneRoot, leaf);
+            _paneRoot = PaneLayoutHelper.Close(_paneRoot, leaf);
+            _panesByLeafId.Remove(leaf.Id);
+            pane.LeafNode = null;
+            pane.ParentTab = null;
+            pane.IsSplitPane = false;
+            pane.IsPaneFocused = false;
+
+            if (_paneRoot is PaneLeafNode single)
+            {
+                // Collapsed back to a single pane: the survivor (possibly not the
+                // tab root) becomes the live primary, keeping its session.
+                var survivor = GetPaneByLeafId(single.Id);
+                _paneRoot = null;
+                _panesByLeafId.Clear();
+                LeafNode = null;
+                IsPaneFocused = false;
+                if (survivor != null && survivor != this)
+                {
+                    // Keep the id mapping (counter stays monotonic: no id reuse, no collision).
+                    _panesByLeafId[survivor.PaneLeafId] = survivor;
+                    survivor.LeafNode = null;
+                    survivor.IsPaneFocused = true;
+                    _focusedPane = survivor;
+                    PaneFocusChanged?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    _focusedPane = null;
+                }
+            }
+            else
+            {
+                _focusedPane = GetPaneByLeafId(next.Id);
+                UpdatePaneFocusFlags();
+            }
+
+            PaneLayoutChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void FocusPane(TerminalViewModel pane)
+        {
+            FocusPane(pane, focusTerminal: true);
+        }
+
+        public void FocusPane(TerminalViewModel pane, bool focusTerminal)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.FocusPane(pane, focusTerminal);
+                return;
+            }
+            if (pane == null || pane.TabRoot != this)
+            {
+                return;
+            }
+            if (_paneRoot == null)
+            {
+                if (focusTerminal)
+                {
+                    pane.FocusTerminal();
+                }
+                return;
+            }
+            if (_focusedPane == pane)
+            {
+                // Already the active pane: a mouse click inside it has already
+                // given the OS keyboard focus, re-programming it can trigger a
+                // focus fight, so don't.
+                if (focusTerminal)
+                {
+                    pane.FocusTerminal();
+                }
+                return;
+            }
+
+            var previous = _focusedPane;
+            _focusedPane = pane;
+            UpdatePaneFocusFlags();
+            // UWP WebViews are HWND islands: focusing the new one is not enough,
+            // the previous one keeps receiving keystrokes and echoes input into
+            // several panes at once. Explicitly give up its terminal focus.
+            if (previous != null && previous != pane && previous.TerminalView != null)
+            {
+                _ = previous.TerminalView.BlurTerminalAsync();
+            }
+            if (focusTerminal)
+            {
+                pane.FocusTerminal();
+            }
+        }
+
+        public void CyclePaneFocus(int delta)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.CyclePaneFocus(delta);
+                return;
+            }
+            if (_paneRoot == null)
+            {
+                return;
+            }
+
+            var ordered = GetAllPanes();
+            var index = ordered.IndexOf(_focusedPane ?? this);
+            if (index < 0)
+            {
+                index = 0;
+            }
+            FocusPane(ordered[(index + delta + ordered.Count) % ordered.Count]);
+        }
+
+        public void MovePaneFocus(PaneLayoutHelper.FocusDirection direction)
+        {
+            if (IsSplitPane)
+            {
+                TabRoot.MovePaneFocus(direction);
+                return;
+            }
+            if (_paneRoot == null)
+            {
+                return;
+            }
+
+            var current = (_focusedPane ?? this).LeafNode;
+            if (current == null)
+            {
+                return;
+            }
+            var next = PaneLayoutHelper.MoveFocus(_paneRoot, current, direction);
+            var pane = GetPaneByLeafId(next.Id);
+            if (pane != null)
+            {
+                FocusPane(pane);
+            }
+        }
+
+        private void UpdatePaneFocusFlags()
+        {
+            IsPaneFocused = _focusedPane == null || _focusedPane == this;
+            foreach (var pane in _panesByLeafId.Values)
+            {
+                pane.IsPaneFocused = pane == _focusedPane;
+            }
+            PaneFocusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
 
         private MenuViewModel BuidContextMenu()
         {
@@ -856,6 +1274,20 @@ namespace FluentTerminal.App.ViewModels
             var duplicate = new MenuItemViewModel(I18N.Translate("Command.DuplicateTab"), DuplicateTabCommand);
             AddKeyBindings(duplicate, Command.DuplicateTab, commandKeyBindings);
             contextMenu.Items.Add(duplicate);
+
+            contextMenu.Items.Add(new SeparatorMenuItemViewModel());
+
+            var splitVertical = new MenuItemViewModel(I18N.TranslateWithFallback("Command.SplitPaneVertical", "Split vertically"), SplitVerticalCommand);
+            AddKeyBindings(splitVertical, Command.SplitPaneVertical, commandKeyBindings);
+            contextMenu.Items.Add(splitVertical);
+
+            var splitHorizontal = new MenuItemViewModel(I18N.TranslateWithFallback("Command.SplitPaneHorizontal", "Split horizontally"), SplitHorizontalCommand);
+            AddKeyBindings(splitHorizontal, Command.SplitPaneHorizontal, commandKeyBindings);
+            contextMenu.Items.Add(splitHorizontal);
+
+            var closePane = new MenuItemViewModel(I18N.TranslateWithFallback("Command.ClosePane", "Close pane"), ClosePaneCommand);
+            AddKeyBindings(closePane, Command.ClosePane, commandKeyBindings);
+            contextMenu.Items.Add(closePane);
 
             contextMenu.Items.Add(new SeparatorMenuItemViewModel());
 
